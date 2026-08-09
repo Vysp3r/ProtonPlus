@@ -313,11 +313,11 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void open_install_directory_button_clicked () {
-            Utils.System.open_uri ("file://%s".printf (game.installdir));
+            Utils.System.open_path (game.installdir);
         }
 
         void open_prefix_directory_button_clicked () {
-            Utils.System.open_uri ("file://%s".printf (game.prefixdir));
+            Utils.System.open_path (game.prefixdir);
         }
 
         void run_custom_executable_button_clicked () {
@@ -356,36 +356,18 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void run_custom_executable (string exe_path) {
-            Models.CompatibilityTool selected_runner = null;
-
-            foreach (var runner in game.launcher.compatibility_tools) {
-                if (runner.internal_title == game.compatibility_tool) {
-                    selected_runner = runner;
-                    break;
-                }
-            }
-
-            if (selected_runner == null && game.launcher is Models.Launchers.Steam) {
-                var steam = game.launcher as Models.Launchers.Steam;
-                foreach (var runner in steam.compatibility_tools) {
-                    if (runner.internal_title == "proton_experimental" || runner.internal_title.contains ("proton")) {
-                        selected_runner = runner;
-                        break;
-                    }
-                }
-            }
-
-            if (selected_runner == null || selected_runner.path == null) {
+            var steam = game.launcher as Models.Launchers.Steam;
+            var proton_path = steam?.resolve_effective_proton_executable (game.compatibility_tool);
+            if (proton_path == null) {
                 var dialog = new Main.ErrorDialog (
                     _("Compatibility Tool Not Found"),
                     _("The compatibility tool required for %s is missing from your system. Please ensure it is correctly installed.").printf (game.name),
                     ""
                 );
-                ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
+                present_error_dialog (dialog);
                 return;
             }
 
-            var proton_path = "%s/proton".printf (selected_runner.path);
             var steam_compat_data_path = game.prefixdir;
             var steam_compat_client_install_path = game.launcher.directory;
 
@@ -396,7 +378,33 @@ namespace ProtonPlus.Widgets.Games {
                 Shell.quote (exe_path)
             );
 
-            Utils.System.run_command.begin ("sh -c " + Shell.quote (inner_command));
+            Utils.System.run_command.begin ("sh -c " + Shell.quote (inner_command), (obj, res) => {
+                var result = Utils.System.run_command.end (res);
+                if (result.exit_status == 0)
+                    return;
+
+                var diagnostic = result.stderr.strip ();
+                if (diagnostic == "")
+                    diagnostic = result.stdout.strip ();
+
+                var details = _("Exit status: %d").printf (result.exit_status);
+                if (diagnostic != "")
+                    details = "%s\n\n%s".printf (details, diagnostic);
+
+                var dialog = new Main.ErrorDialog (
+                    _("Custom Executable Failed"),
+                    _("The custom executable for %s could not be launched.").printf (game.name),
+                    details
+                );
+                present_error_dialog (dialog);
+            });
+        }
+
+        void present_error_dialog (Adw.AlertDialog dialog) {
+            var root = this.get_root () as Gtk.Window;
+            if (root == null)
+                return;
+            ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (!) root);
         }
     }
 }

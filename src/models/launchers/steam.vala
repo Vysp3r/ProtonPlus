@@ -5,8 +5,13 @@ namespace ProtonPlus.Models.Launchers {
         public SteamProfile profile { get; set; }
         public string default_compatibility_tool { get; set; }
         public HashTable<uint, string> compatibility_tool_hashtable;
+        private Games.AwacyGameCatalog awacy_game_catalog;
+        private uint game_library_generation;
 
-        public Steam (Launcher.InstallationTypes installation_type) {
+        public Steam (
+            Launcher.InstallationTypes installation_type,
+            Games.AwacyGameCatalog? awacy_game_catalog = null
+        ) {
             string[] directories = null;
 
             switch (installation_type) {
@@ -31,6 +36,10 @@ namespace ProtonPlus.Models.Launchers {
             base ("Steam", installation_type, "%s/steam.svg".printf (Config.RESOURCE_BASE), directories, FAMILY_ID);
 
             has_library_support = true;
+            profiles = new List<SteamProfile> ();
+            default_compatibility_tool = "";
+            compatibility_tool_hashtable = new HashTable<uint, string> (null, null);
+            this.awacy_game_catalog = awacy_game_catalog ?? Games.AwacyGameCatalog.get_shared ();
         }
 
         public override SteamRestartTarget? get_steam_restart_target () {
@@ -52,6 +61,34 @@ namespace ProtonPlus.Models.Launchers {
             return display_title.down ().contains ("steam linux runtime")
                    || internal_title.down ().contains ("steam_linux_runtime")
                    || internal_title.down ().contains ("steamlinuxruntime");
+        }
+
+        public static CompatibilityToolRuntimeKind get_compatibility_tool_runtime_kind (CompatibilityTool? tool) {
+            if (tool == null)
+                return CompatibilityToolRuntimeKind.UNKNOWN;
+            if (tool.runtime_kind != CompatibilityToolRuntimeKind.UNKNOWN)
+                return tool.runtime_kind;
+            if (tool.internal_title == "Default")
+                return CompatibilityToolRuntimeKind.PROTON;
+            if (is_steam_linux_runtime (tool.display_title, tool.internal_title))
+                return CompatibilityToolRuntimeKind.NATIVE;
+            return CompatibilityToolRuntimeKind.UNKNOWN;
+        }
+
+        public static bool is_game_steam_linux_runtime_compatible (Game game) {
+            var steam_game = game as Games.Steam;
+            return game.is_native || (steam_game != null && ((!) steam_game).is_non_steam);
+        }
+
+        public bool has_explicit_compatibility_tool_mapping (uint appid) {
+            return compatibility_tool_hashtable.contains (appid);
+        }
+
+        public void update_game_compatibility_tool_mapping (uint appid, string compatibility_tool) {
+            if (compatibility_tool == "Default")
+                compatibility_tool_hashtable.remove (appid);
+            else
+                compatibility_tool_hashtable.set (appid, compatibility_tool);
         }
 
         public override List<string> get_tool_directories (Group group) {
@@ -246,12 +283,10 @@ namespace ProtonPlus.Models.Launchers {
         }
 
         public override async bool load_game_library () {
+            var current_generation = ++game_library_generation;
             games = new List<Game> ();
 
             compatibility_tools.clear ();
-
-            var awacy_games = yield Models.Games.Steam.AwacyGame.get_awacy_games ();
-
 
             var proton_regex = /(?i)^Proton\s*\d+(?:\.\d+)*/;
             var name_regex = /\"name\"\s+\"([^\"]+)\"/;
@@ -368,12 +403,6 @@ namespace ProtonPlus.Models.Launchers {
 
                     var game = new Games.Steam (id, current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
 
-                    if (awacy_games.has_key (game.appid)) {
-                        var awacy_game = awacy_games.get (game.appid);
-                        game.awacy_name = awacy_game.name;
-                        game.awacy_status = awacy_game.status;
-                    }
-
                     var compatibility_tool = compatibility_tool_hashtable.get (game.appid);
                     if (compatibility_tool == null)
                     compatibility_tool = "Default";
@@ -425,7 +454,34 @@ namespace ProtonPlus.Models.Launchers {
 
             sort_compatibility_tools ();
 
+            schedule_awacy_enrichment (current_generation);
+
             return true;
+        }
+
+        private void schedule_awacy_enrichment (uint generation) {
+            Idle.add (() => {
+                enrich_games_with_awacy.begin (generation);
+                return Source.REMOVE;
+            });
+        }
+
+        private async void enrich_games_with_awacy (uint generation) {
+            var awacy_games = yield awacy_game_catalog.get_games ();
+            if (generation != game_library_generation)
+                return;
+
+            foreach (var base_game in games) {
+                var game = base_game as Games.Steam;
+                if (game == null || ((!) game).is_non_steam || !awacy_games.has_key (((!) game).appid))
+                    continue;
+
+                var awacy_game = awacy_games.get (((!) game).appid);
+                if (awacy_game == null)
+                    continue;
+                ((!) game).awacy_name = ((!) awacy_game).name;
+                ((!) game).awacy_status = ((!) awacy_game).status;
+            }
         }
 
         private void add_flatpak_extension_tools_to_compatibility_tools () {
@@ -501,6 +557,19 @@ namespace ProtonPlus.Models.Launchers {
                 return null;
 
             return find_compatibility_tool (effective_internal_title);
+        }
+
+        public string? resolve_effective_proton_executable (string selected_internal_title) {
+            var tool = resolve_effective_compatibility_tool (selected_internal_title);
+            if (tool == null || ((!) tool).path.strip () == "")
+                return null;
+
+            var proton_path = Path.build_filename (((!) tool).path, "proton");
+            if (!FileUtils.test (proton_path, FileTest.IS_REGULAR)
+                || !FileUtils.test (proton_path, FileTest.IS_EXECUTABLE))
+                return null;
+
+            return proton_path;
         }
 
         public override void register_compatibility_tool_from_path (string tool_path) {

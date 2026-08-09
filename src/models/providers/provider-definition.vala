@@ -173,7 +173,9 @@ namespace ProtonPlus.Models.Providers {
             string release_name,
             string? tag_name = null
         ) {
+            var release_version = release_name.has_prefix ("v") ? release_name.substring (1) : release_name;
             var rendered = template.replace ("$title", title)
+                                   .replace ("$release_version", release_version)
                                    .replace ("$release_name", release_name);
             if (tag_name == null)
                 return rendered;
@@ -203,6 +205,7 @@ namespace ProtonPlus.Models.Providers {
         private string[] asset_exclusion_values;
         public string url_template { get; private set; }
         public ArchiveInstallRequirement archive_install_requirement { get; private set; }
+        public bool single_archive_releases { get; private set; }
 
         public string[] asset_filters {
             owned get { return copy_strings (asset_filter_values); }
@@ -232,7 +235,8 @@ namespace ProtonPlus.Models.Providers {
             string tag = "",
             bool legacy = false,
             string url_template = "",
-            ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD
+            ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD,
+            bool single_archive_releases = false
         ) {
             this.category = category;
             this.source_type = source_type;
@@ -250,6 +254,7 @@ namespace ProtonPlus.Models.Providers {
             this.legacy = legacy;
             this.url_template = url_template;
             this.archive_install_requirement = archive_install_requirement;
+            this.single_archive_releases = single_archive_releases;
         }
 
         private static VariantDefinition[] copy_variants (VariantDefinition[] values) {

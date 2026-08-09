@@ -280,7 +280,9 @@ namespace ProtonPlus.Services {
         internal void apply_selected_release_variant (Models.Variant variant) {
             selected_variant_id = variant.id;
             selected_variant_name = variant.name;
-            selected_asset = Models.Assets.Asset.from_download_url ((!) variant.download_url);
+            var asset = variant.resolved_asset ();
+            if (asset != null)
+                selected_asset = asset;
             update_install_location (null);
             notify_property ("selected-asset");
             notify_property ("selected-variant-name");

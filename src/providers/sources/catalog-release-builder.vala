@@ -27,24 +27,29 @@ namespace ProtonPlus.Providers.Sources {
             Models.Providers.ProviderDefinition definition,
             string release_name,
             string tag_name,
-            LinkedList<Models.Assets.Asset> assets,
-            string? fallback_download_url = null
+            LinkedList<Models.Assets.Asset> assets
         ) {
             var variants = new LinkedList<Models.Variant> ();
 
             foreach (var definition_variant in definition.get_variants ()) {
                 string? download_url = null;
+                Models.Assets.Asset? selected_asset = null;
                 var expected_name = render_asset_name (definition_variant, definition.title, release_name, tag_name);
 
                 foreach (var asset in assets) {
                     if (variant_matches_asset (expected_name, asset.name)) {
                         download_url = asset.download_url;
+                        selected_asset = asset;
                         break;
                     }
                 }
 
-                if (download_url == null && definition_variant.is_default)
-                    download_url = fallback_download_url;
+                if (download_url == null && definition_variant.is_default &&
+                    definition.single_archive_releases && assets.size == 1) {
+                    selected_asset = assets.first ();
+                    if (selected_asset != null)
+                        download_url = selected_asset.download_url;
+                }
 
                 variants.add (new Models.Variant (
                     definition_variant.id,
@@ -52,7 +57,8 @@ namespace ProtonPlus.Providers.Sources {
                     definition_variant.format,
                     definition_variant.is_default,
                     download_url,
-                    definition_variant.compatibility
+                    definition_variant.compatibility,
+                    selected_asset
                 ));
             }
 
@@ -63,10 +69,6 @@ namespace ProtonPlus.Providers.Sources {
             LinkedList<Models.Assets.Asset> assets,
             LinkedList<Models.Variant> variants
         ) {
-            var first_asset = assets.first ();
-            if (first_asset == null)
-                return null;
-
             foreach (var variant in variants) {
                 if (!variant.is_default || variant.download_url == null || variant.download_url == "")
                     continue;
@@ -77,7 +79,26 @@ namespace ProtonPlus.Providers.Sources {
                 }
             }
 
-            return first_asset;
+            return null;
+        }
+
+        public static bool default_variant_matches_asset (
+            Models.Providers.ProviderDefinition definition,
+            string release_name,
+            string tag_name,
+            Models.Assets.Asset asset
+        ) {
+            foreach (var variant in definition.get_variants ()) {
+                if (!variant.is_default)
+                    continue;
+
+                var expected_name = render_asset_name (
+                    variant, definition.title, release_name, tag_name
+                );
+                return variant_matches_asset (expected_name, asset.name);
+            }
+
+            return false;
         }
 
         public static string render_asset_name (

@@ -3,6 +3,8 @@ namespace AppTests.FilesystemTest {
 
     public void register_tests () {
         Test.add_func ("/filesystem/delete-nested-directory", test_delete_nested_directory);
+        Test.add_func ("/filesystem/delete-root-symlink-preserves-target", test_delete_root_symlink_preserves_target);
+        Test.add_func ("/filesystem/clear-cache-root-symlink-preserves-target", test_clear_cache_root_symlink_preserves_target);
         Test.add_func ("/filesystem/copy-preserves-symlinks", test_copy_preserves_symlinks);
         Test.add_func ("/filesystem/move-conflict-completes", test_move_conflict_completes);
     }
@@ -44,6 +46,20 @@ namespace AppTests.FilesystemTest {
         return copied;
     }
 
+    private bool clear_cache () {
+        var loop = new MainLoop ();
+        bool cleared = false;
+
+        ProtonPlus.Utils.CacheManager.clear_cache.begin ((obj, result) => {
+            assert (obj == null);
+            cleared = ProtonPlus.Utils.CacheManager.clear_cache.end (result);
+            loop.quit ();
+        });
+        loop.run ();
+
+        return cleared;
+    }
+
     private string read_link (string path) {
         try {
             return FileUtils.read_link (path);
@@ -64,6 +80,44 @@ namespace AppTests.FilesystemTest {
 
         assert (delete_directory (root));
         assert (!FileUtils.test (root, FileTest.EXISTS));
+    }
+
+    private void test_delete_root_symlink_preserves_target () {
+        var root = create_temp_directory ();
+        var target = Path.build_filename (root, "target");
+        var link = Path.build_filename (root, "linked-directory");
+        var protected_file = Path.build_filename (target, "keep.txt");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (target));
+        ProtonPlus.Utils.Filesystem.create_file (protected_file, "keep");
+        assert (Posix.symlink (target, link) == 0);
+
+        assert (delete_directory (link));
+        assert (!FileUtils.test (link, FileTest.IS_SYMLINK));
+        assert (FileUtils.test (protected_file, FileTest.IS_REGULAR));
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (protected_file) == "keep");
+
+        assert (delete_directory (root));
+    }
+
+    private void test_clear_cache_root_symlink_preserves_target () {
+        var root = create_temp_directory ();
+        var target = Path.build_filename (root, "target");
+        var cache_link = Path.build_filename (root, "cache");
+        var protected_file = Path.build_filename (target, "keep.txt");
+        var previous_cache_path = ProtonPlus.Globals.CACHE_PATH;
+        assert (ProtonPlus.Utils.Filesystem.create_directory (target));
+        ProtonPlus.Utils.Filesystem.create_file (protected_file, "keep");
+        assert (Posix.symlink (target, cache_link) == 0);
+        ProtonPlus.Globals.CACHE_PATH = cache_link;
+
+        assert (clear_cache ());
+        assert (FileUtils.test (protected_file, FileTest.IS_REGULAR));
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (protected_file) == "keep");
+        assert (FileUtils.test (cache_link, FileTest.IS_DIR));
+        assert (!FileUtils.test (cache_link, FileTest.IS_SYMLINK));
+
+        ProtonPlus.Globals.CACHE_PATH = previous_cache_path;
+        assert (delete_directory (root));
     }
 
     private void test_copy_preserves_symlinks () {

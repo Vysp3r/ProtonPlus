@@ -9,8 +9,14 @@ namespace AppTests.UpdateTransactionTest {
     using ProtonPlus.Services;
 
     private class FailingReleaseSource : Object, ReleaseSource {
+        private ReturnCode code;
+
+        public FailingReleaseSource (ReturnCode code) {
+            this.code = code;
+        }
+
         public async ReleasePageResult fetch_page (ProviderDefinition definition, int requested_page, int limit) {
-            return ReleasePageResult.failure (ReturnCode.REQUEST_FAILED);
+            return ReleasePageResult.failure (code);
         }
     }
 
@@ -74,9 +80,11 @@ namespace AppTests.UpdateTransactionTest {
 
     public void register_tests () {
         Test.add_func ("/update-transaction/migrates-settings-prefix-and-cleans-backup", test_migrates_settings_prefix_and_cleans_backup);
+        Test.add_func ("/update-transaction/settings-collision-replaces-archive-copy", test_settings_collision_replaces_archive_copy);
+        Test.add_func ("/update-transaction/settings-copy-failure-rolls-back-runner", test_settings_copy_failure_rolls_back_runner);
         Test.add_func ("/update-transaction/migrates-settings-symlink", test_migrates_settings_symlink);
         Test.add_func ("/update-transaction/migration-failure-rolls-back-runner", test_migration_failure_rolls_back_runner);
-        Test.add_func ("/update-transaction/github-actions-request-failure-is-propagated", test_github_actions_request_failure_is_propagated);
+        Test.add_func ("/update-transaction/latest-lookup-failures-are-propagated", test_latest_lookup_failures_are_propagated);
         Test.add_func ("/update-transaction/latest-identity-controls-update-detection", test_latest_identity_controls_update_detection);
         Test.add_func ("/update-transaction/latest-restores-installed-variant", test_latest_restores_installed_variant);
         Test.add_func ("/update-transaction/latest-incompatible-restored-variant-is-skipped", test_latest_incompatible_restored_variant_is_skipped);
@@ -114,23 +122,17 @@ namespace AppTests.UpdateTransactionTest {
         return result;
     }
 
-    private ProviderTool failing_runner (
-        string root,
-        SourceType source_type,
-        ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD
-    ) {
+    private ProviderTool failing_runner (string root, ReturnCode code) {
         var launcher = new Launcher ("Fixture", Launcher.InstallationTypes.SYSTEM, "", { root });
         var group = new Group ("Fixture", "", "", launcher);
         var definition = new ProviderDefinition (
-            Category.PROTON, source_type, "fixture-%s".printf (ProviderDefinition.source_id_for (source_type)),
+            Category.PROTON, SourceType.GITHUB, "fixture-failing",
             "Fixture Runner", "", "https://example.test/releases", "https://example.test/source", 1,
             { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }, null, null, "", false,
-            source_type == SourceType.GITHUB_ACTIONS ? "https://example.test/artifacts/{id}/fixture.zip" : "",
-            archive_install_requirement
+            { InstallLayout.template ("default", "$release_name") }
         );
         return new ProviderTool.with_catalog (
-            definition, new FailingReleaseSource (), group, InstallLayout.template ("default", "$release_name")
+            definition, new FailingReleaseSource (code), group, InstallLayout.template ("default", "$release_name")
         );
     }
 
@@ -241,6 +243,48 @@ namespace AppTests.UpdateTransactionTest {
         assert (delete_directory (root));
     }
 
+    private void test_settings_collision_replaces_archive_copy () {
+        var root = create_temp_directory ();
+        var runner_directory = Path.build_filename (root, "runner");
+        var backup_directory = Path.build_filename (root, "backup");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (runner_directory));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (backup_directory));
+        create_file (Path.build_filename (runner_directory, "marker.txt"), "new runner\n");
+        create_file (Path.build_filename (runner_directory, "user_settings.py"), "archive settings\n");
+        create_file (Path.build_filename (backup_directory, "marker.txt"), "old runner\n");
+        create_file (Path.build_filename (backup_directory, "user_settings.py"), "user settings\n");
+
+        assert (finalize_replacement (runner_directory, backup_directory, false) == ReturnCode.RUNNER_UPDATED);
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (runner_directory, "marker.txt")) == "new runner\n");
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (runner_directory, "user_settings.py")) == "user settings\n");
+        assert (!FileUtils.test (backup_directory, FileTest.EXISTS));
+        assert (!FileUtils.test ("%s.failed".printf (backup_directory), FileTest.EXISTS));
+        assert (delete_directory (root));
+    }
+
+    private void test_settings_copy_failure_rolls_back_runner () {
+        var root = create_temp_directory ();
+        var runner_directory = Path.build_filename (root, "runner");
+        var backup_directory = Path.build_filename (root, "backup");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (runner_directory));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (backup_directory));
+        create_file (Path.build_filename (runner_directory, "marker.txt"), "new runner\n");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (
+            Path.build_filename (runner_directory, "user_settings.py")
+        ));
+        create_file (Path.build_filename (backup_directory, "marker.txt"), "old runner\n");
+        create_file (Path.build_filename (backup_directory, "user_settings.py"), "user settings\n");
+
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*Failed to copy*");
+        assert (finalize_replacement (runner_directory, backup_directory, false) == ReturnCode.FILESYSTEM_ERROR);
+        Test.assert_expected_messages ();
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (runner_directory, "marker.txt")) == "old runner\n");
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (runner_directory, "user_settings.py")) == "user settings\n");
+        assert (!FileUtils.test (backup_directory, FileTest.EXISTS));
+        assert (!FileUtils.test ("%s.failed".printf (backup_directory), FileTest.EXISTS));
+        assert (delete_directory (root));
+    }
+
     private void test_migrates_settings_symlink () {
         var root = create_temp_directory ();
         var runner_directory = Path.build_filename (root, "runner");
@@ -286,51 +330,29 @@ namespace AppTests.UpdateTransactionTest {
         assert (delete_directory (root));
     }
 
-    private void test_github_actions_request_failure_is_propagated () {
-        var actions_root = create_temp_directory ();
-        var actions_runner = failing_runner (
-            actions_root, SourceType.GITHUB_ACTIONS, ArchiveInstallRequirement.NESTED_ARCHIVE
-        );
-        var actions_directory = Path.build_filename (actions_root, "Fixture Runner Latest");
-        assert (ProtonPlus.Utils.Filesystem.create_directory (actions_directory));
-        var actions_metadata = new ProtonPlus.Utils.Metadata ();
-        actions_metadata.tag = "installed-actions";
-        assert (actions_metadata.save (actions_directory));
-        assert (update_specific_runner (actions_runner) == ReturnCode.REQUEST_FAILED);
+    private void test_latest_lookup_failures_are_propagated () {
+        ReturnCode[] failures = {
+            ReturnCode.REQUEST_FAILED,
+            ReturnCode.CONNECTION_ISSUE,
+            ReturnCode.CONNECTION_REFUSED,
+            ReturnCode.CONNECTION_UNKNOWN,
+            ReturnCode.API_LIMIT_REACHED,
+            ReturnCode.INVALID_ACCESS_TOKEN,
+            ReturnCode.TLS_HANDSHAKE_ERROR
+        };
 
-        var regular_root = create_temp_directory ();
-        var regular_runner = failing_runner (regular_root, SourceType.GITHUB);
-        var regular_directory = Path.build_filename (regular_root, "Fixture Runner Latest");
-        assert (ProtonPlus.Utils.Filesystem.create_directory (regular_directory));
-        var regular_metadata = new ProtonPlus.Utils.Metadata ();
-        regular_metadata.tag = "installed-regular";
-        assert (regular_metadata.save (regular_directory));
-        assert (update_specific_runner (regular_runner) == ReturnCode.NOTHING_TO_UPDATE);
+        foreach (var failure in failures) {
+            var root = create_temp_directory ();
+            var runner = failing_runner (root, failure);
+            var directory = Path.build_filename (root, "Fixture Runner Latest");
+            assert (ProtonPlus.Utils.Filesystem.create_directory (directory));
+            var metadata = new ProtonPlus.Utils.Metadata ();
+            metadata.tag = "installed-release";
+            assert (metadata.save (directory));
 
-        var standard_actions_root = create_temp_directory ();
-        var standard_actions_runner = failing_runner (standard_actions_root, SourceType.GITHUB_ACTIONS);
-        var standard_actions_directory = Path.build_filename (standard_actions_root, "Fixture Runner Latest");
-        assert (ProtonPlus.Utils.Filesystem.create_directory (standard_actions_directory));
-        var standard_actions_metadata = new ProtonPlus.Utils.Metadata ();
-        standard_actions_metadata.tag = "installed-standard-actions";
-        assert (standard_actions_metadata.save (standard_actions_directory));
-        assert (update_specific_runner (standard_actions_runner) == ReturnCode.NOTHING_TO_UPDATE);
-
-        var nested_regular_root = create_temp_directory ();
-        var nested_regular_runner = failing_runner (
-            nested_regular_root, SourceType.GITHUB, ArchiveInstallRequirement.NESTED_ARCHIVE
-        );
-        var nested_regular_directory = Path.build_filename (nested_regular_root, "Fixture Runner Latest");
-        assert (ProtonPlus.Utils.Filesystem.create_directory (nested_regular_directory));
-        var nested_regular_metadata = new ProtonPlus.Utils.Metadata ();
-        nested_regular_metadata.tag = "installed-nested-regular";
-        assert (nested_regular_metadata.save (nested_regular_directory));
-        assert (update_specific_runner (nested_regular_runner) == ReturnCode.REQUEST_FAILED);
-
-        assert (delete_directory (actions_root));
-        assert (delete_directory (regular_root));
-        assert (delete_directory (standard_actions_root));
-        assert (delete_directory (nested_regular_root));
+            assert (update_specific_runner (runner) == failure);
+            assert (delete_directory (root));
+        }
     }
 
     private void test_latest_identity_controls_update_detection () {

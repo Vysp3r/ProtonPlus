@@ -91,13 +91,16 @@ namespace ProtonPlus.Services {
             return yield select_workflow (job).update (job, this);
         }
 
-        // CLI bulk updates retain this service-level entry point while the
-        // standard workflow owns the discovery and replacement mechanics.
+        // Bulk updates retain this service-level entry point while the
+        // standard workflow owns legacy recovery and replacement mechanics.
         public async ReturnCode update_specific_runner (Models.Tools.ProviderTool runner) {
             runner.group.refresh_installed_state ();
             var found = false;
             var updated = false;
+            var has_legacy_backup = false;
             foreach (var entry in runner.group.get_installed_tool_snapshot ()) {
+                if (is_legacy_latest_backup (entry, runner))
+                    has_legacy_backup = true;
                 if (!is_latest_installation (entry, runner))
                     continue;
                 found = true;
@@ -106,6 +109,13 @@ namespace ProtonPlus.Services {
                     updated = true;
                 else if (code != ReturnCode.NOTHING_TO_UPDATE && code != ReturnCode.INCOMPATIBLE_VARIANT)
                     return code;
+            }
+            if (!found && has_legacy_backup) {
+                var restore_code = yield standard_archive_workflow.restore_legacy_latest_backup (runner);
+                if (restore_code != ReturnCode.RUNNER_INSTALLED)
+                    return restore_code;
+                runner.group.invalidate_installed_state ();
+                return yield standard_archive_workflow.update_specific_runner (runner, this);
             }
             if (!found)
                 return ReturnCode.RUNNER_NOT_INSTALLED;
@@ -155,7 +165,8 @@ namespace ProtonPlus.Services {
                             continue;
                         var has_latest = false;
                         foreach (var entry in entries) {
-                            if (is_latest_installation (entry, runner)) {
+                            if (is_latest_installation (entry, runner) ||
+                                is_legacy_latest_backup (entry, runner)) {
                                 has_latest = true;
                                 break;
                             }
@@ -182,6 +193,22 @@ namespace ProtonPlus.Services {
             var latest = "%s Latest".printf (runner.title);
             if (entry.directory_name != latest && !entry.directory_name.has_prefix ("%s-".printf (latest)))
                 return false;
+            return installation_identity_matches_runner (entry, runner);
+        }
+
+        private bool is_legacy_latest_backup (
+            Models.InstalledToolEntry entry,
+            Models.Tools.ProviderTool runner
+        ) {
+            if (entry.directory_name != "%s Latest Backup".printf (runner.title))
+                return false;
+            return installation_identity_matches_runner (entry, runner);
+        }
+
+        private bool installation_identity_matches_runner (
+            Models.InstalledToolEntry entry,
+            Models.Tools.ProviderTool runner
+        ) {
             if (entry.tool_id != "" && entry.tool_id != runner.id)
                 return false;
             if (entry.provider_id != "" && entry.provider_id != runner.provider_id)
@@ -222,8 +249,28 @@ namespace ProtonPlus.Services {
                 return ReturnCode.INCOMPATIBLE_VARIANT;
             }
 
+            var provider_tool = (Models.Tools.ProviderTool) job.tool;
+            if (!configured_variant_is_compatible (
+                    provider_tool, (!) resolution.variant, Globals.CPU_CAPABILITIES))
+                return ReturnCode.INCOMPATIBLE_VARIANT;
+
             job.apply_selected_release_variant ((!) resolution.variant);
             return ReturnCode.RUNNER_INSTALLED;
+        }
+
+        private bool configured_variant_is_compatible (
+            Models.Tools.ProviderTool tool,
+            Models.Variant release_variant,
+            Models.CpuCapabilities capabilities
+        ) {
+            Models.Variant? matching_name = null;
+            foreach (var configured_variant in tool.variants) {
+                if (configured_variant.id == release_variant.id)
+                    return configured_variant.is_compatible_with (capabilities);
+                if (matching_name == null && configured_variant.name == release_variant.name)
+                    matching_name = configured_variant;
+            }
+            return matching_name == null || ((!) matching_name).is_compatible_with (capabilities);
         }
 
         private async ReturnCode execute_install (

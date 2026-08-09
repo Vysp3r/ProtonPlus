@@ -353,37 +353,36 @@ namespace ProtonPlus.CLI {
         }
 
         private async int uninstall_interactive (Models.Tools.ProviderTool runner) {
-            var installed = get_installed_releases (runner);
-            if (installed.length () == 0) {
+            var installed = get_installed_entries (runner);
+            if (installed.size == 0) {
                 output.warning (_ ("No installed releases found for %s\n"), runner.title);
                 return 0;
             }
 
             output.header (_ ("Installed releases for %s:\n"), runner.title);
-            for (var i = 0; i < installed.length (); i++) {
-                output.info ("%d. %s\n", i + 1, installed.nth_data (i));
+            for (var i = 0; i < installed.size; i++) {
+                output.info ("%d. %s\n", i + 1, installed[i].display_title);
             }
 
-            var index = read_user_selection (_ ("Select release number"), (int) installed.length ());
+            var index = read_user_selection (_ ("Select release number"), installed.size);
             if (index < 0) {
                 return 1;
             }
 
-            var release_name = installed.nth_data (index);
-            return yield uninstall_single_release (runner, release_name);
+            return yield uninstall_single_release (runner, installed[index]);
         }
 
         private async int uninstall_runner_all (Models.Tools.ProviderTool runner) {
-            var installed = get_installed_releases (runner);
-            if (installed.length () == 0) {
+            var installed = get_installed_entries (runner);
+            if (installed.size == 0) {
                 output.warning (_ ("No installed releases found for %s\n"), runner.title);
                 return 0;
             }
 
             output.info (_ ("Uninstalling all releases for %s...\n"), runner.title);
             var failed = false;
-            foreach (var release_name in installed) {
-                var code = yield uninstall_single_release (runner, release_name);
+            foreach (var entry in installed) {
+                var code = yield uninstall_single_release (runner, entry);
                 if (code != 0) {
                     failed = true;
                 }
@@ -401,9 +400,9 @@ namespace ProtonPlus.CLI {
                         continue;
                     }
 
-                    var installed = get_installed_releases (provider_tool);
-                    foreach (var release_name in installed) {
-                        var code = yield uninstall_single_release (provider_tool, release_name);
+                    var installed = get_installed_entries (provider_tool);
+                    foreach (var entry in installed) {
+                        var code = yield uninstall_single_release (provider_tool, entry);
                         if (code != 0) {
                             failed = true;
                         }
@@ -413,13 +412,16 @@ namespace ProtonPlus.CLI {
             return failed ? 1 : 0;
         }
 
-        private async int uninstall_single_release (Models.Tools.ProviderTool runner, string release_name) {
-            var job = create_job (runner, release_name);
-            output.info (_ ("Uninstalling %s...\n"), release_name);
+        private async int uninstall_single_release (
+            Models.Tools.ProviderTool runner,
+            Models.InstalledToolEntry entry
+        ) {
+            var job = create_job (runner, entry);
+            output.info (_ ("Uninstalling %s...\n"), entry.display_title);
             var code = yield job.remove ();
             var success = code == ReturnCode.RUNNER_REMOVED;
             if (success)
-                output.success (_ ("Successfully uninstalled %s\n"), release_name);
+                output.success (_ ("Successfully uninstalled %s\n"), entry.display_title);
             else
                 output.error (_ ("Error: Uninstallation failed: %s\n"), get_return_code_message (code));
             return success ? 0 : 1;
@@ -427,7 +429,7 @@ namespace ProtonPlus.CLI {
 
         private async int update_all () {
             output.info (_ ("Updating all runners...\n"));
-            var latest_runners = yield collect_latest_runners (launchers);
+            var latest_runners = collect_latest_runners (launchers);
             return yield update_runner_batch (latest_runners);
         }
 
@@ -435,7 +437,7 @@ namespace ProtonPlus.CLI {
             output.info (_ ("Updating runners for %s...\n"), launcher.title);
             var scoped = new Gee.LinkedList<Models.Launcher> ();
             scoped.add (launcher);
-            var latest_runners = yield collect_latest_runners (scoped);
+            var latest_runners = collect_latest_runners (scoped);
             return yield update_runner_batch (latest_runners);
         }
 
@@ -454,7 +456,7 @@ namespace ProtonPlus.CLI {
             }
         }
 
-        private async Gee.LinkedList<Models.Tools.ProviderTool> collect_latest_runners (Gee.LinkedList<Models.Launcher> scope) {
+        private Gee.LinkedList<Models.Tools.ProviderTool> collect_latest_runners (Gee.LinkedList<Models.Launcher> scope) {
             var latest_runners = new Gee.LinkedList<Models.Tools.ProviderTool> ();
             var collected_runner_ids = new Gee.HashSet<string> ();
 
@@ -471,14 +473,12 @@ namespace ProtonPlus.CLI {
 
                         foreach (var entry in entries) {
                             var latest = "%s Latest".printf (tool.title);
-                            if (entry.directory_name == latest || entry.directory_name.has_prefix ("%s-".printf (latest))) {
+                            var backup = "%s Backup".printf (latest);
+                            if (entry.directory_name == latest ||
+                                entry.directory_name.has_prefix ("%s-".printf (latest)) ||
+                                entry.directory_name == backup) {
                                 if (collected_runner_ids.add (provider_tool.id))
                                     latest_runners.add (provider_tool);
-                                continue;
-                            }
-
-                            if (entry.directory_name == "%s Latest Backup".printf (tool.title)) {
-                                yield Utils.Filesystem.delete_directory (entry.path);
                                 continue;
                             }
                         }
@@ -574,15 +574,18 @@ namespace ProtonPlus.CLI {
             return null;
         }
 
-        private List<string> get_installed_releases (Models.Tools.ProviderTool runner) {
+        private Gee.List<Models.InstalledToolEntry> get_installed_entries (
+            Models.Tools.ProviderTool runner
+        ) {
             runner.group.refresh_installed_state ();
             var entries = runner.group.get_installed_tool_snapshot ();
-            var installed = new List<string> ();
+            var installed = new Gee.ArrayList<Models.InstalledToolEntry> ();
 
             foreach (var entry in entries) {
-                if (entry.display_title.has_prefix (runner.title)) {
-                    installed.append (entry.display_title);
-                }
+                if (entry.provider_id == runner.provider_id &&
+                    entry.tool_id == runner.id &&
+                    entry.launcher_id == runner.group.launcher.tool_target_id)
+                    installed.add (entry);
             }
             return installed;
         }
@@ -611,16 +614,15 @@ namespace ProtonPlus.CLI {
             return runner.title.down ().replace (" ", "-");
         }
 
-        private string get_release_path (Models.Tools.ProviderTool runner, string release_name) {
-            return "%s%s/%s".printf (runner.group.launcher.directory, runner.group.directory, release_name);
-        }
-
-        private Services.InstallJob create_job (Models.Tools.ProviderTool runner, string release_name) {
+        private Services.InstallJob create_job (
+            Models.Tools.ProviderTool runner,
+            Models.InstalledToolEntry entry
+        ) {
             var release = new Models.Release (
-                release_name, "", "", new Models.Assets.Asset ("", ""), "", 0, "", release_name
+                entry.display_title, "", "", new Models.Assets.Asset ("", ""), "", 0, "", entry.release_id
             );
             return create_install_job (
-                release, runner, Services.InstallJob.Mode.VERSIONED, get_release_path (runner, release_name)
+                release, runner, Services.InstallJob.Mode.VERSIONED, entry.path
             );
         }
 

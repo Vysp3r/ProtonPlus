@@ -33,6 +33,26 @@ namespace AppTests.ReleasePageTest {
         }
     }
 
+    private class ParsedGitHubReleaseSource : Object, ReleaseSource {
+        private string response_body;
+        public ArrayList<int> requested_pages { get; private set; default = new ArrayList<int> (); }
+
+        public ParsedGitHubReleaseSource (string response_body) {
+            this.response_body = response_body;
+        }
+
+        public async ReleasePageResult fetch_page (
+            ProviderDefinition definition,
+            int requested_page,
+            int limit
+        ) {
+            requested_pages.add (requested_page);
+            return new GitHubReleaseSource ().parse_response (
+                definition, response_body, requested_page, limit
+            );
+        }
+    }
+
     private class FixtureGitHubActionsSource : GitHubActionsReleaseSource {
         private HashMap<int, string> responses = new HashMap<int, string> ();
         private HashMap<int, ReturnCode> response_codes = new HashMap<int, ReturnCode> ();
@@ -60,6 +80,7 @@ namespace AppTests.ReleasePageTest {
     public void register_tests () {
         Test.add_func ("/release-catalog/pagination-and-persistence", test_pagination_and_persistence);
         Test.add_func ("/release-catalog/latest-discovery-is-stateless", test_latest_discovery_is_stateless);
+        Test.add_func ("/release-catalog/automatic-update-skips-github-unstable-releases", test_automatic_update_skips_github_unstable_releases);
         Test.add_func ("/release-catalog/github-actions-scans-filtered-pages", test_github_actions_scanning);
         Test.add_func ("/release-catalog/github-actions-later-page-failure", test_github_actions_later_page_failure);
         Test.add_func ("/release-catalog/github-actions-proton-tkg-cache-reuse", test_github_actions_proton_tkg_cache_reuse);
@@ -106,7 +127,9 @@ namespace AppTests.ReleasePageTest {
             "https://example.test/releases", "https://example.test/source", 1, variants,
             { InstallLayout.template ("default", "$release_name") },
             null, null, "", false,
-            source_type == SourceType.GITHUB_ACTIONS ? "https://example.test/artifacts/{id}/fixture-action.zip" : ""
+            source_type == SourceType.GITHUB_ACTIONS ? "https://example.test/artifacts/{id}/fixture-action.zip" : "",
+            ArchiveInstallRequirement.STANDARD,
+            source_type == SourceType.GITHUB_ACTIONS
         );
     }
 
@@ -228,6 +251,20 @@ namespace AppTests.ReleasePageTest {
         assert (value.releases.size == 0 && value.page == 1 && !value.has_more && value.last_updated == "");
         assert (source.requested_pages.size == 2);
         assert (source.requested_pages[0] == 1 && source.requested_pages[1] == 2);
+    }
+
+    private void test_automatic_update_skips_github_unstable_releases () {
+        var response = ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename ("fixtures", "providers", "github", "release-policy.json")
+        );
+        assert (response != "");
+        var source = new ParsedGitHubReleaseSource (response);
+        var value = catalog ("stable-update-tool", definition (), source);
+
+        var result = latest (value);
+        assert (result.succeeded && result.has_release);
+        assert (result.require_release ().source_tag == "GE-Proton10-1");
+        assert (source.requested_pages.size == 1 && source.requested_pages[0] == 1);
     }
 
     private string workflow_runs (int count, bool successful) {
@@ -409,6 +446,33 @@ namespace AppTests.ReleasePageTest {
         var duplicate_result = load (catalog ("duplicate-url-tool", definition (SourceType.GITHUB, true), duplicate_source), false);
         assert (duplicate_result.releases[0].title == "fresh");
         assert (duplicate_result.succeeded && duplicate_source.requested_pages.size == 1);
+
+        var mismatched_default = new LinkedList<Release> ();
+        var mismatched_default_release = new Release (
+            "old", "", "2026-07-26T00:00:00Z",
+            new ProtonPlus.Models.Assets.Asset (
+                "old-alt.zip", "https://example.test/old-alt.zip"
+            ),
+            "", 0, "1", "old"
+        );
+        mismatched_default_release.variants.add (new ProtonPlus.Models.Variant (
+            "standard", "default", "$release_name", true,
+            "https://example.test/old-alt.zip"
+        ));
+        mismatched_default_release.variants.add (new ProtonPlus.Models.Variant (
+            "alt", "alternate", "$release_name.zip", false,
+            "https://example.test/old.zip"
+        ));
+        mismatched_default.add (mismatched_default_release);
+        save_snapshot (new ReleaseCatalogCache ("mismatched-default-tool", "Fixture provider"),
+            new ReleaseCatalogSnapshot (mismatched_default, 2, false, "old"));
+        var mismatched_default_source = new FixtureReleaseSource ();
+        mismatched_default_source.set_page (1, new ReleasePage (fresh, 2, false));
+        var mismatched_default_result = load (catalog (
+            "mismatched-default-tool", definition (SourceType.GITHUB, true), mismatched_default_source
+        ), false);
+        assert (mismatched_default_result.releases[0].title == "fresh");
+        assert (mismatched_default_result.succeeded && mismatched_default_source.requested_pages.size == 1);
     }
 
     private void test_stale_compatibility_refreshes () {

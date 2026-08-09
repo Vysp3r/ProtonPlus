@@ -13,6 +13,8 @@ test_sources = files(
     'asset_test.vala',
     'filesystem_test.vala',
     'web_test.vala',
+    'system-path-test.vala',
+    'systemd-timer-test.vala',
     'faugus-launcher-test.vala',
     'metadata_test.vala',
     'compatibility-tool-test.vala',

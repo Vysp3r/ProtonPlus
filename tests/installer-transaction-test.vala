@@ -17,20 +17,25 @@ namespace AppTests.InstallerTransactionTest {
             string fixture_path,
             bool cancel_download = false,
             bool fail_promotion = false,
-            ProtonPlus.Services.InstallJob.Mode mode = ProtonPlus.Services.InstallJob.Mode.VERSIONED
+            ProtonPlus.Services.InstallJob.Mode mode = ProtonPlus.Services.InstallJob.Mode.VERSIONED,
+            int64 download_size = 0,
+            string digest = ""
         ) {
             base (new Release (
                 "Fixture Runner", "", "", new Models.Assets.Asset (
-                    "runner.zip", "https://fixtures.invalid/%s".printf (Path.get_basename (fixture_path))
+                    "runner.zip", "https://fixtures.invalid/%s".printf (Path.get_basename (fixture_path)),
+                    download_size, digest
                 ),
-                "", 0, "fixture-release-id", "fixture-tag"
+                "", null, "fixture-release-id", "fixture-tag"
             ), runner, mode, location);
             this.fixture_path = fixture_path;
             this.cancel_download = cancel_download;
             this.fail_promotion = fail_promotion;
             release.variants.add (new Models.Variant (
                 "fixture-default", "Default", "", true,
-                "https://fixtures.invalid/%s".printf (Path.get_basename (fixture_path))
+                "https://fixtures.invalid/%s".printf (Path.get_basename (fixture_path)),
+                null,
+                release.asset
             ));
         }
 
@@ -102,10 +107,19 @@ namespace AppTests.InstallerTransactionTest {
         Test.add_func ("/installer-transaction/standard-finalization-uses-launcher-capabilities", test_standard_finalization_uses_launcher_capabilities);
         Test.add_func ("/installer-transaction/operation-identity-prevents-duplicates", test_operation_identity_prevents_duplicates);
         Test.add_func ("/installer-transaction/nested-archive-requirement-extracts-nested-archive", test_nested_archive_requirement_extracts_nested_archive);
+        Test.add_func ("/installer-transaction/invalid-download-is-not-cached", test_invalid_download_is_not_cached);
+        Test.add_func ("/installer-transaction/extraction-failure-evicts-cached-archive", test_extraction_failure_evicts_cached_archive);
+        Test.add_func ("/installer-transaction/integrity-metadata-rejects-corrupt-cache", test_integrity_metadata_rejects_corrupt_cache);
+        Test.add_func ("/installer-transaction/digest-mismatch-rejects-download", test_digest_mismatch_rejects_download);
         Test.add_func ("/installer-transaction/latest-rewrites-supported-compatibility-manifest-layouts", test_latest_rewrites_supported_compatibility_manifest_layouts);
         Test.add_func ("/installer-transaction/versioned-install-preserves-compatibility-manifest", test_versioned_install_preserves_compatibility_manifest);
         Test.add_func ("/installer-transaction/latest-rejects-malformed-compatibility-manifest", test_latest_rejects_malformed_compatibility_manifest);
         Test.add_func ("/installer-transaction/all-built-in-providers-use-latest-workflow", test_all_built_in_providers_use_latest_workflow);
+        Test.add_func ("/installer-transaction/aarch64-host-installs-x86-64-variant", test_aarch64_host_installs_x86_64_variant);
+        Test.add_func ("/installer-transaction/aarch64-host-defaults-to-native-variant", test_aarch64_host_defaults_to_native_variant);
+        Test.add_func ("/installer-transaction/armv8-host-rejects-armv8-1-variant", test_armv8_host_rejects_armv8_1_variant);
+        Test.add_func ("/installer-transaction/current-provider-requirement-overrides-stale-release-cache", test_current_provider_requirement_overrides_stale_release_cache);
+        Test.add_func ("/installer-transaction/x86-64-host-rejects-aarch64-variant", test_x86_64_host_rejects_aarch64_variant);
         Test.add_func ("/installer-transaction/incompatible-variant-stops-before-download", test_incompatible_variant_stops_before_download);
         Test.add_func ("/installer-transaction/incompatible-variant-stops-update-install", test_incompatible_variant_stops_update_install);
         Test.add_func ("/installer-transaction/records-completed-steam-workflow-and-persistence-failure", test_records_completed_steam_workflow_and_persistence_failure);
@@ -201,6 +215,21 @@ namespace AppTests.InstallerTransactionTest {
         root = temporary_directory (); cache = Path.build_filename (root, "cache"); tools = Path.build_filename (root, "tools"); location = Path.build_filename (tools, "Fixture Runner");
         Globals.CACHE_PATH = cache; assert (ProtonPlus.Utils.Filesystem.create_directory (cache));
     }
+    private string archive_cache_path (string cache, string url) {
+        return Path.build_filename (
+            cache, "archives", "%s.zip".printf (Checksum.compute_for_string (ChecksumType.SHA256, url))
+        );
+    }
+    private string file_sha256 (string path) {
+        try {
+            uint8[] contents;
+            FileUtils.get_data (path, out contents);
+            return Checksum.compute_for_data (ChecksumType.SHA256, contents);
+        } catch (FileError e) {
+            critical ("Could not checksum archive fixture: %s", e.message);
+            assert_not_reached ();
+        }
+    }
     private void test_stages_promotes_and_writes_metadata () {
         string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
         var target = runner (tools); var job = new FixtureJob (target, location, fixture_archive (root));
@@ -249,6 +278,98 @@ namespace AppTests.InstallerTransactionTest {
         assert (install (job) == ReturnCode.INCOMPATIBLE_VARIANT);
         assert (job.download_calls == 0);
         assert (ProtonPlus.Utils.DownloadManager.instance.active_downloads.size == 0);
+        assert (!FileUtils.test (location, FileTest.EXISTS));
+        Globals.CPU_CAPABILITIES = previous_capabilities;
+        assert (delete_directory (root));
+    }
+
+    private void test_aarch64_host_installs_x86_64_variant () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var archive = fixture_archive (root);
+        var job = new FixtureJob (runner (tools), location, archive);
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "x86-64", "x86_64", "", false, "https://fixtures.invalid/runner.zip",
+            VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)
+        ));
+        job.set_selected_variant ("x86_64", null, "x86-64");
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.AARCH64);
+        assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+        assert (job.download_calls == 1);
+        assert (FileUtils.test (location, FileTest.IS_DIR));
+        Globals.CPU_CAPABILITIES = previous_capabilities;
+        assert (delete_directory (root));
+    }
+
+    private void test_x86_64_host_rejects_aarch64_variant () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var job = new FixtureJob (runner (tools), location, "not-used.zip");
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "aarch64", "aarch64", "", false, "https://fixtures.invalid/aarch64.zip",
+            VariantCompatibility.for_architecture (CpuArchitecture.AARCH64)
+        ));
+        job.set_selected_variant ("aarch64", null, "aarch64");
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V4);
+        assert (install (job) == ReturnCode.INCOMPATIBLE_VARIANT);
+        assert (job.download_calls == 0);
+        assert (!FileUtils.test (location, FileTest.EXISTS));
+        Globals.CPU_CAPABILITIES = previous_capabilities;
+        assert (delete_directory (root));
+    }
+
+    private void test_aarch64_host_defaults_to_native_variant () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var archive = fixture_archive (root);
+        var job = new FixtureJob (runner (tools), location, archive);
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "x86-64", "x86_64", "", true, "https://fixtures.invalid/runner.zip",
+            VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)
+        ));
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "aarch64", "aarch64", "", false, "https://fixtures.invalid/runner.zip",
+            VariantCompatibility.for_aarch64_level (Aarch64Level.V8_1)
+        ));
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (
+            CpuArchitecture.AARCH64, X86_64Level.UNKNOWN, Aarch64Level.V8_1
+        );
+        assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+        assert (job.selected_variant_id == "aarch64");
+        assert (job.download_calls == 1);
+        Globals.CPU_CAPABILITIES = previous_capabilities;
+        assert (delete_directory (root));
+    }
+
+    private void test_armv8_host_rejects_armv8_1_variant () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var job = new FixtureJob (runner (tools), location, "not-used.zip");
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "aarch64", "aarch64", "", false, "https://fixtures.invalid/aarch64.zip",
+            VariantCompatibility.for_aarch64_level (Aarch64Level.V8_1)
+        ));
+        job.set_selected_variant ("aarch64", null, "aarch64");
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.AARCH64);
+        assert (install (job) == ReturnCode.INCOMPATIBLE_VARIANT);
+        assert (job.download_calls == 0);
+        assert (!FileUtils.test (location, FileTest.EXISTS));
+        Globals.CPU_CAPABILITIES = previous_capabilities;
+        assert (delete_directory (root));
+    }
+
+    private void test_current_provider_requirement_overrides_stale_release_cache () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var job = new FixtureJob (runner (tools), location, "not-used.zip");
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "aarch64", "aarch64", "", false, "https://fixtures.invalid/aarch64.zip",
+            VariantCompatibility.for_architecture (CpuArchitecture.AARCH64)
+        ));
+        job.set_selected_variant ("aarch64", null, "aarch64");
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.AARCH64);
+        assert (install (job) == ReturnCode.INCOMPATIBLE_VARIANT);
+        assert (job.download_calls == 0);
         assert (!FileUtils.test (location, FileTest.EXISTS));
         Globals.CPU_CAPABILITIES = previous_capabilities;
         assert (delete_directory (root));
@@ -438,6 +559,80 @@ namespace AppTests.InstallerTransactionTest {
         assert (job.archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE);
         assert (install (job) == ReturnCode.RUNNER_INSTALLED);
         assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (location, "marker.txt")) == "nested runner\n");
+        assert (delete_directory (root));
+    }
+
+    private void test_invalid_download_is_not_cached () {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        var invalid_archive = Path.build_filename (root, "invalid.zip");
+        ProtonPlus.Utils.Filesystem.create_file (invalid_archive, "not an archive");
+        var job = new FixtureJob (runner (tools), location, invalid_archive);
+        var cache_path = archive_cache_path (cache, job.selected_asset.download_url);
+
+        assert (install (job) == ReturnCode.EXTRACTION_FAILED);
+        assert (job.download_calls == 1);
+        assert (!FileUtils.test (cache_path, FileTest.EXISTS));
+        assert (delete_directory (root));
+    }
+
+    private void test_extraction_failure_evicts_cached_archive () {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        var fixture = fixture_archive (root);
+        var first = new FixtureJob (runner (tools), location, fixture);
+        var cache_path = archive_cache_path (cache, first.selected_asset.download_url);
+        assert (ProtonPlus.Utils.Filesystem.create_directory (Path.get_dirname (cache_path)));
+        ProtonPlus.Utils.Filesystem.create_file (cache_path, "truncated archive");
+
+        assert (install (first) == ReturnCode.EXTRACTION_FAILED);
+        assert (first.download_calls == 0);
+        assert (!FileUtils.test (cache_path, FileTest.EXISTS));
+
+        var retry = new FixtureJob (runner (Path.build_filename (root, "retry-tools")), location, fixture);
+        assert (install (retry) == ReturnCode.RUNNER_INSTALLED);
+        assert (retry.download_calls == 1);
+        assert (FileUtils.test (cache_path, FileTest.IS_REGULAR));
+        assert (delete_directory (root));
+    }
+
+    private void test_integrity_metadata_rejects_corrupt_cache () {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        var fixture = fixture_archive (root);
+        Posix.Stat fixture_stat;
+        assert (Posix.stat (fixture, out fixture_stat) == 0);
+        var job = new FixtureJob (
+            runner (tools), location, fixture, false, false,
+            ProtonPlus.Services.InstallJob.Mode.VERSIONED, fixture_stat.st_size,
+            "sha256:%s".printf (file_sha256 (fixture))
+        );
+        var cache_path = archive_cache_path (cache, job.selected_asset.download_url);
+        assert (ProtonPlus.Utils.Filesystem.create_directory (Path.get_dirname (cache_path)));
+        ProtonPlus.Utils.Filesystem.create_file (cache_path, "short");
+
+        assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+        assert (job.download_calls == 1);
+        Posix.Stat cache_stat;
+        assert (Posix.stat (cache_path, out cache_stat) == 0);
+        assert (cache_stat.st_size == fixture_stat.st_size);
+        assert (delete_directory (root));
+    }
+
+    private void test_digest_mismatch_rejects_download () {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        var fixture = fixture_archive (root);
+        var job = new FixtureJob (
+            runner (tools), location, fixture, false, false,
+            ProtonPlus.Services.InstallJob.Mode.VERSIONED, 0,
+            "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        );
+        var cache_path = archive_cache_path (cache, job.selected_asset.download_url);
+
+        assert (install (job) == ReturnCode.DOWNLOAD_FAILED);
+        assert (job.download_calls == 1);
+        assert (!FileUtils.test (cache_path, FileTest.EXISTS));
         assert (delete_directory (root));
     }
 

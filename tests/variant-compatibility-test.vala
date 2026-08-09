@@ -10,14 +10,19 @@ namespace AppTests.VariantCompatibilityTest {
         Test.add_func ("/variant-compatibility/unrestricted-and-independent", test_unrestricted_and_independent);
         Test.add_func ("/variant-compatibility/architecture-restrictions", test_architecture_restrictions);
         Test.add_func ("/variant-compatibility/x86-64-levels", test_x86_64_levels);
+        Test.add_func ("/variant-compatibility/aarch64-levels", test_aarch64_levels);
         Test.add_func ("/variant-compatibility/defensive-copies-and-propagation", test_defensive_copies_and_propagation);
         Test.add_func ("/variant-compatibility/definition-validation", test_definition_validation);
         Test.add_func ("/variant-compatibility/release-json", test_release_json);
         Test.add_func ("/variant-compatibility/built-in-annotations", test_built_in_annotations);
     }
 
-    private CpuCapabilities host (CpuArchitecture architecture, X86_64Level level = X86_64Level.UNKNOWN) {
-        return new CpuCapabilities (architecture, level);
+    private CpuCapabilities host (
+        CpuArchitecture architecture,
+        X86_64Level x86_64_level = X86_64Level.UNKNOWN,
+        Aarch64Level aarch64_level = Aarch64Level.UNKNOWN
+    ) {
+        return new CpuCapabilities (architecture, x86_64_level, aarch64_level);
     }
 
     private ProviderDefinition definition (VariantCompatibility? compatibility = null) {
@@ -57,7 +62,7 @@ namespace AppTests.VariantCompatibilityTest {
         assert (!x86_32.is_compatible_with (host (CpuArchitecture.AARCH64)));
         assert (aarch64.is_compatible_with (host (CpuArchitecture.AARCH64)));
         assert (!aarch64.is_compatible_with (host (CpuArchitecture.X86_64, X86_64Level.V4)));
-        assert (!x86_64.is_compatible_with (host (CpuArchitecture.AARCH64)));
+        assert (x86_64.is_compatible_with (host (CpuArchitecture.AARCH64)));
         assert (x86_64.is_compatible_with (host (CpuArchitecture.UNKNOWN)));
     }
 
@@ -77,6 +82,26 @@ namespace AppTests.VariantCompatibilityTest {
         assert (!v4.is_compatible_with (host (CpuArchitecture.X86_64, X86_64Level.V3)));
         foreach (var requirement in new VariantCompatibility[] { baseline, v2, v3, v4 })
             assert (requirement.is_compatible_with (host (CpuArchitecture.X86_64, X86_64Level.V4)));
+        foreach (var requirement in new VariantCompatibility[] { baseline, v2, v3, v4 })
+            assert (requirement.is_compatible_with (host (CpuArchitecture.AARCH64)));
+    }
+
+    private void test_aarch64_levels () {
+        var v8_0 = VariantCompatibility.for_aarch64_level (Aarch64Level.V8_0);
+        var v8_1 = VariantCompatibility.for_aarch64_level (Aarch64Level.V8_1);
+        var old_arm = host (CpuArchitecture.AARCH64);
+        var new_arm = host (
+            CpuArchitecture.AARCH64, X86_64Level.UNKNOWN, Aarch64Level.V8_1
+        );
+
+        assert (v8_0.is_compatible_with (old_arm));
+        assert (!v8_1.is_compatible_with (old_arm));
+        assert (v8_0.is_compatible_with (new_arm));
+        assert (v8_1.is_compatible_with (new_arm));
+        assert (!v8_1.is_compatible_with (host (CpuArchitecture.X86_64, X86_64Level.V4)));
+
+        var x86_64 = VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE);
+        assert (x86_64.is_compatible_with (old_arm));
     }
 
     private void test_defensive_copies_and_propagation () {
@@ -103,7 +128,7 @@ namespace AppTests.VariantCompatibilityTest {
         assert (tool.variants[0].compatibility.equals (compatibility));
 
         var variants = CatalogReleaseBuilder.create_variants (
-            configured, "v1", "v1", new LinkedList<Assets.Asset> (), "https://example.test/v1.tar.gz"
+            configured, "v1", "v1", new LinkedList<Assets.Asset> ()
         );
         assert (variants.size == 1);
         assert (variants[0].compatibility.equals (compatibility));
@@ -131,6 +156,13 @@ namespace AppTests.VariantCompatibilityTest {
                 new VariantDefinition (
                     "level-without-x86-64", "alt", "$release_name-alt", false,
                     new VariantCompatibility ({ CpuArchitecture.AARCH64 }, X86_64Level.V3)
+                ),
+                new VariantDefinition (
+                    "level-without-aarch64", "arm-alt", "$release_name-arm-alt", false,
+                    new VariantCompatibility (
+                        { CpuArchitecture.X86_64 }, X86_64Level.BASELINE, false,
+                        Aarch64Level.V8_1
+                    )
                 )
             },
             { InstallLayout.template ("default", "$release_name") }
@@ -141,6 +173,7 @@ namespace AppTests.VariantCompatibilityTest {
         assert (has_message (registry, "variant compatibility architecture is duplicated: default"));
         assert (has_message (registry, "x86-64 compatibility requires at least the baseline level: default"));
         assert (has_message (registry, "x86-64 compatibility level requires x86-64 architecture: level-without-x86-64"));
+        assert (has_message (registry, "AArch64 compatibility level requires AArch64 architecture: level-without-aarch64"));
     }
 
     private Json.Object object_from_json (string content) {
@@ -162,9 +195,14 @@ namespace AppTests.VariantCompatibilityTest {
             "v3", "x86_64_v3", "$release_name-v3", true, "https://example.test/v1-v3.tar.gz",
             VariantCompatibility.for_x86_64_level (X86_64Level.V3)
         ));
+        release.variants.add (new ProtonPlus.Models.Variant (
+            "arm", "aarch64", "$release_name-arm", false, "https://example.test/v1-arm.tar.gz",
+            VariantCompatibility.for_aarch64_level (Aarch64Level.V8_1)
+        ));
         var round_trip = Release.from_json (release.to_json ());
-        assert (round_trip != null && round_trip.variants.size == 1);
+        assert (round_trip != null && round_trip.variants.size == 2);
         assert (round_trip.variants[0].compatibility.equals (VariantCompatibility.for_x86_64_level (X86_64Level.V3)));
+        assert (round_trip.variants[1].compatibility.equals (VariantCompatibility.for_aarch64_level (Aarch64Level.V8_1)));
 
         var legacy = Release.from_json (object_from_json (
             "{\"kind\":\"generic\",\"title\":\"v1\",\"asset\":{\"name\":\"v1.tar.gz\",\"download_url\":\"https://example.test/v1.tar.gz\"},\"upstream_release_id\":\"1\",\"variants\":[{\"id\":\"default\",\"name\":\"default\",\"format\":\"$release_name\",\"default\":true,\"download_url\":\"https://example.test/v1.tar.gz\"}]}"
@@ -186,6 +224,13 @@ namespace AppTests.VariantCompatibilityTest {
         assert (unknown_level != null && unknown_level.variants.size == 1);
         assert (!unknown_level.variants[0].compatibility.is_specified);
         assert (unknown_level.variants[0].is_compatible_with (host (CpuArchitecture.AARCH64)));
+
+        var legacy_aarch64 = Release.from_json (object_from_json (
+            "{\"kind\":\"generic\",\"title\":\"v1\",\"asset\":{\"name\":\"v1.tar.gz\",\"download_url\":\"https://example.test/v1.tar.gz\"},\"upstream_release_id\":\"1\",\"variants\":[{\"id\":\"arm\",\"name\":\"aarch64\",\"format\":\"$release_name\",\"default\":true,\"download_url\":\"https://example.test/v1.tar.gz\",\"compatibility\":{\"architectures\":[\"aarch64\"],\"minimum_x86_64_level\":\"\",\"architecture_independent\":false}}]}"
+        ));
+        assert (legacy_aarch64 != null && legacy_aarch64.variants.size == 1);
+        assert (legacy_aarch64.variants[0].compatibility.minimum_aarch64_level == Aarch64Level.V8_0);
+        assert (legacy_aarch64.variants[0].is_compatible_with (host (CpuArchitecture.AARCH64)));
     }
 
     private void test_built_in_annotations () {
@@ -199,7 +244,11 @@ namespace AppTests.VariantCompatibilityTest {
         assert (variants[0].compatibility.is_compatible_with (host (CpuArchitecture.X86_64, X86_64Level.V3)));
         assert (variants[1].compatibility.is_compatible_with (host (CpuArchitecture.X86_64, X86_64Level.V3)));
         assert (!variants[1].compatibility.is_compatible_with (host (CpuArchitecture.X86_64, X86_64Level.V2)));
-        assert (variants[2].compatibility.is_compatible_with (host (CpuArchitecture.AARCH64)));
+        assert (variants[2].compatibility.minimum_aarch64_level == Aarch64Level.V8_1);
+        assert (!variants[2].compatibility.is_compatible_with (host (CpuArchitecture.AARCH64)));
+        assert (variants[2].compatibility.is_compatible_with (host (
+            CpuArchitecture.AARCH64, X86_64Level.UNKNOWN, Aarch64Level.V8_1
+        )));
         assert (!variants[2].compatibility.is_compatible_with (host (CpuArchitecture.X86_64, X86_64Level.V4)));
 
         var unspecified = registry.get_by_id ("proton-tkg");

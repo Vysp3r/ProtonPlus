@@ -26,7 +26,9 @@ namespace AppTests.ReleaseIdentityTest {
             { InstallLayout.template ("default", "$release_name") },
             null, null, "", false,
             source_type == SourceType.GITHUB_ACTIONS ?
-                "https://example.test/artifacts/{id}/fixture-action.zip?signature=example" : ""
+                "https://example.test/artifacts/{id}/fixture-action.zip?signature=example" : "",
+            ArchiveInstallRequirement.STANDARD,
+            true
         );
     }
 

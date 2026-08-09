@@ -186,38 +186,40 @@ namespace ProtonPlus.Widgets.Preferences {
                     });
                     steam_group.add (compatibility_tool_row);
 
-                    var profiles_model = new GLib.ListStore (typeof (ProtonPlus.Models.SteamProfile));
-                    foreach (var profile in steam_launcher.profiles) {
-                        profiles_model.append (profile);
-                    }
-
-                    var profile_row = new SteamProfileRow (profiles_model) {
-                        title = _("Selected profile"),
-                        subtitle = _("Currently selected profile for Steam"),
-                    };
-                    profile_row.add_prefix (new Gtk.Image.from_icon_name ("avatar-default-symbolic"));
-                    profile_row.set_sensitive (steam_launcher.profiles.length () > 1);
-
-                    var shortcut_row = new SteamShortcutRow (steam_launcher.profile);
-
-                    var last_profile_id = Globals.SETTINGS.get_string ("steam-selected-profile-id");
-                    for (var i = 0; i < (int) steam_launcher.profiles.length (); i++) {
-                        if (steam_launcher.profiles.nth_data (i).steam_id == last_profile_id) {
-                            profile_row.set_selected ((uint) i);
-                            break;
+                    if (steam_launcher.game_library_available && steam_launcher.profile != null) {
+                        var profiles_model = new GLib.ListStore (typeof (ProtonPlus.Models.SteamProfile));
+                        foreach (var profile in steam_launcher.profiles) {
+                            profiles_model.append (profile);
                         }
-                    }
 
-                    profile_row.notify["selected-item"].connect (() => {
-                        var selected_profile = profile_row.get_selected_item () as ProtonPlus.Models.SteamProfile;
-                        if (selected_profile != null) {
-                            Globals.SETTINGS.set_string ("steam-selected-profile-id", selected_profile.steam_id);
-                            shortcut_row.load (selected_profile);
-                            steam_launcher.switch_profile.begin (selected_profile);
+                        var profile_row = new SteamProfileRow (profiles_model) {
+                            title = _("Selected profile"),
+                            subtitle = _("Currently selected profile for Steam"),
+                        };
+                        profile_row.add_prefix (new Gtk.Image.from_icon_name ("avatar-default-symbolic"));
+                        profile_row.set_sensitive (steam_launcher.profiles.length () > 1);
+
+                        var shortcut_row = new SteamShortcutRow (steam_launcher.profile);
+
+                        var last_profile_id = Globals.SETTINGS.get_string ("steam-selected-profile-id");
+                        for (var i = 0; i < (int) steam_launcher.profiles.length (); i++) {
+                            if (steam_launcher.profiles.nth_data (i).steam_id == last_profile_id) {
+                                profile_row.set_selected ((uint) i);
+                                break;
+                            }
                         }
-                    });
-                    steam_group.add (profile_row);
-                    steam_group.add (shortcut_row);
+
+                        profile_row.notify["selected-item"].connect (() => {
+                            var selected_profile = profile_row.get_selected_item () as ProtonPlus.Models.SteamProfile;
+                            if (selected_profile != null) {
+                                Globals.SETTINGS.set_string ("steam-selected-profile-id", selected_profile.steam_id);
+                                shortcut_row.load (selected_profile);
+                                steam_launcher.switch_profile.begin (selected_profile);
+                            }
+                        });
+                        steam_group.add (profile_row);
+                        steam_group.add (shortcut_row);
+                    }
 
                     launchers_page.add (steam_group);
                     has_launchers = true;

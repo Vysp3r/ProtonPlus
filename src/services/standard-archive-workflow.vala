@@ -24,16 +24,22 @@ namespace ProtonPlus.Services {
             if (source_path == null || source_path == "") {
                 if (!job.canceled)
                     job.error_message = _ ("Extraction failed");
-                return yield archive_support.complete_attempt (ReturnCode.EXTRACTION_FAILED, archive);
+                return yield archive_support.complete_attempt (
+                    ReturnCode.EXTRACTION_FAILED, archive, !job.canceled
+                );
             }
             if (requires_nested_archive (job)) {
                 source_path = yield extract_nested_archive (job, source_path, archive.operation_path);
                 if (source_path == null || source_path == "") {
                     if (!job.canceled)
                         job.error_message = _ ("Extraction failed");
-                    return yield archive_support.complete_attempt (ReturnCode.EXTRACTION_FAILED, archive);
+                    return yield archive_support.complete_attempt (
+                        ReturnCode.EXTRACTION_FAILED, archive, !job.canceled
+                    );
                 }
             }
+            if (!yield archive_support.publish_archive (archive))
+                return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
 
             job.step = InstallJob.Step.MOVING;
             var install_parent = Path.get_dirname (job.install_location);
@@ -144,12 +150,8 @@ namespace ProtonPlus.Services {
             if (runner.release_catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
             var lookup = yield runner.release_catalog.fetch_latest_eligible_release ();
-            if (!lookup.succeeded) {
-                if (runner.archive_install_requirement == Models.Providers.ArchiveInstallRequirement.STANDARD &&
-                    metadata.tag != "" && is_request_failure (lookup.code))
-                    return ReturnCode.NOTHING_TO_UPDATE;
+            if (!lookup.succeeded)
                 return lookup.code;
-            }
             if (!lookup.has_release)
                 return ReturnCode.NOTHING_TO_UPDATE;
             var job = new InstallJob (
@@ -167,6 +169,22 @@ namespace ProtonPlus.Services {
             return yield update_latest_job (job, coordinator);
         }
 
+        // The older updater moved Latest to this visible backup name before
+        // installing.  Restore it only when no primary exists; a coexisting
+        // backup remains recovery state until another path proves it obsolete.
+        internal async ReturnCode restore_legacy_latest_backup (Models.Tools.ProviderTool runner) {
+            var directory = "%s%s/%s Latest".printf (
+                runner.group.launcher.directory, runner.group.directory, runner.title
+            );
+            var backup = "%s Backup".printf (directory);
+            if (FileUtils.test (directory, FileTest.EXISTS))
+                return ReturnCode.RUNNER_ALREADY_INSTALLED;
+            if (!FileUtils.test (backup, FileTest.IS_DIR))
+                return ReturnCode.RUNNER_NOT_INSTALLED;
+            return (yield Utils.Filesystem.move_directory_atomic (backup, directory))
+                ? ReturnCode.RUNNER_INSTALLED : ReturnCode.FILESYSTEM_ERROR;
+        }
+
         public async ReturnCode finalize_replaced_runner (string directory, string backup, bool migrate_prefix) {
             var backup_settings = "%s/user_settings.py".printf (backup);
             if (FileUtils.test (backup_settings, FileTest.IS_REGULAR)) {
@@ -175,7 +193,7 @@ namespace ProtonPlus.Services {
                 if (FileUtils.test (backup_settings, FileTest.IS_SYMLINK))
                     copied = Utils.Filesystem.copy_symlink (backup_settings, settings);
                 else
-                    Utils.Filesystem.create_file (settings, Utils.Filesystem.get_file_content (backup_settings));
+                    copied = yield Utils.Filesystem.copy_file_verified (backup_settings, settings);
                 if (!copied) {
                     yield rollback_replaced_runner (directory, backup);
                     return ReturnCode.FILESYSTEM_ERROR;
@@ -262,11 +280,7 @@ namespace ProtonPlus.Services {
                     warning ("Latest release for %s has no download URL for installed variant %s", job.tool.title, variant_id);
                     return ReturnCode.INVALID_DATA;
                 }
-                job.set_selected_variant (
-                    variant.name,
-                    Models.Assets.Asset.from_download_url ((!) variant.download_url),
-                    variant.id
-                );
+                job.set_selected_variant (variant.name, variant.resolved_asset (), variant.id);
                 return ReturnCode.RUNNER_INSTALLED;
             }
 
@@ -399,19 +413,5 @@ namespace ProtonPlus.Services {
             return metadata.save (directory);
         }
 
-        private bool is_request_failure (ReturnCode code) {
-            switch (code) {
-            case ReturnCode.REQUEST_FAILED:
-            case ReturnCode.CONNECTION_ISSUE:
-            case ReturnCode.CONNECTION_REFUSED:
-            case ReturnCode.CONNECTION_UNKNOWN:
-            case ReturnCode.API_LIMIT_REACHED:
-            case ReturnCode.INVALID_ACCESS_TOKEN:
-            case ReturnCode.TLS_HANDSHAKE_ERROR:
-                return true;
-            default:
-                return false;
-            }
-        }
     }
 }

@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 
 import importlib.util
+import re
 import sys
 import tempfile
 import unittest
+import xml.etree.ElementTree as ET
 from pathlib import Path
 from types import ModuleType
 
@@ -59,6 +61,46 @@ class SetVersionTest(unittest.TestCase):
 
             self.assertIn("version: '1.2.3'", updated_texts[0])
             self.assertIn("tag: v1.2.3", updated_texts[1])
+
+
+class SettingsSchemaContractTest(unittest.TestCase):
+    def test_required_keys_match_schema_and_runtime_usage(self) -> None:
+        schema_root = ET.parse(
+            PROJECT_ROOT / "data" / "com.vysp3r.ProtonPlus.gschema.xml"
+        ).getroot()
+        schema = schema_root.find("./schema[@id='com.vysp3r.ProtonPlus.State']")
+        self.assertIsNotNone(schema)
+        schema_keys = {key.attrib["name"] for key in schema.findall("key")}
+
+        filesystem_source = (
+            PROJECT_ROOT / "src" / "utils" / "filesystem.vala"
+        ).read_text(encoding="utf-8")
+        required_keys_match = re.search(
+            r"REQUIRED_SCHEMA_KEYS\s*=\s*\{(?P<keys>.*?)\};",
+            filesystem_source,
+            re.DOTALL,
+        )
+        self.assertIsNotNone(required_keys_match)
+        required_keys = set(re.findall(r'"([^"]+)"', required_keys_match.group("keys")))
+
+        settings_call_pattern = re.compile(
+            r"(?:ProtonPlus\.)?Globals\.SETTINGS\s*\.\s*"
+            r"(?:get_(?:boolean|enum|string|int|uint|double|value)|"
+            r"set_(?:boolean|enum|string|int|uint|double|value)|bind)"
+            r"\s*\(\s*\"([^\"]+)\"",
+            re.DOTALL,
+        )
+        settings_changed_pattern = re.compile(
+            r'(?:ProtonPlus\.)?Globals\.SETTINGS\s*\.\s*changed\s*\[\s*"([^"]+)"\s*\]'
+        )
+        runtime_keys = set()
+        for source_path in (PROJECT_ROOT / "src").rglob("*.vala"):
+            source = source_path.read_text(encoding="utf-8")
+            runtime_keys.update(settings_call_pattern.findall(source))
+            runtime_keys.update(settings_changed_pattern.findall(source))
+
+        self.assertSetEqual(required_keys, schema_keys)
+        self.assertSetEqual(runtime_keys - required_keys, set())
 
 
 if __name__ == "__main__":

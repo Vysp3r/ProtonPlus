@@ -10,6 +10,7 @@ namespace AppTests.ProviderRegistryTest {
         Test.add_func ("/provider-registry/defensive-collections", test_defensive_collections);
         Test.add_func ("/provider-registry/validation/duplicate-provider", test_duplicate_provider_validation);
         Test.add_func ("/provider-registry/validation/invalid-variant", test_invalid_variant_validation);
+        Test.add_func ("/provider-registry/validation/single-archive-variants", test_single_archive_variant_validation);
         Test.add_func ("/provider-registry/validation/invalid-layout", test_invalid_layout_validation);
         Test.add_func ("/provider-registry/validation/github-actions-template", test_github_actions_template_validation);
         Test.add_func ("/provider-registry/validation/required-fields-and-source", test_required_field_and_source_validation);
@@ -141,6 +142,22 @@ namespace AppTests.ProviderRegistryTest {
         registry = new ProviderRegistry ({ missing_default });
         assert (!registry.is_valid);
         assert (has_message (registry, "default variant is missing"));
+    }
+
+    private void test_single_archive_variant_validation () {
+        var definition = new ProviderDefinition (
+            Category.PROTON, SourceType.GITHUB, "invalid-single-archive", "Fixture", "",
+            "https://example.test/releases", "https://example.test/source", 1,
+            {
+                new VariantDefinition ("default", "default", "$release_name", true),
+                new VariantDefinition ("alternate", "alternate", "$release_name-alt", false)
+            },
+            { InstallLayout.template ("default", "$release_name") },
+            null, null, "", false, "", ArchiveInstallRequirement.STANDARD, true
+        );
+        var registry = new ProviderRegistry ({ definition });
+        assert (!registry.is_valid);
+        assert (has_message (registry, "single-archive releases require exactly one variant"));
     }
 
     private void test_invalid_layout_validation () {

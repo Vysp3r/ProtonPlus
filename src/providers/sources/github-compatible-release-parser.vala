@@ -18,6 +18,10 @@ namespace ProtonPlus.Providers.Sources {
                 if (object == null)
                     continue;
 
+                if (object.get_boolean_member_with_default ("draft", false) ||
+                    object.get_boolean_member_with_default ("prerelease", false))
+                    continue;
+
                 var tag_name = object.get_string_member_with_default ("tag_name", "");
                 if (!CatalogReleaseBuilder.is_eligible (definition, tag_name))
                     continue;
@@ -25,12 +29,9 @@ namespace ProtonPlus.Providers.Sources {
                 var assets = parse_assets (object);
                 if (assets.size == 0)
                     continue;
-                var first_asset = assets.first ();
-                if (first_asset == null)
-                    continue;
 
                 var variants = CatalogReleaseBuilder.create_variants (
-                    definition, tag_name, tag_name, assets, first_asset.download_url
+                    definition, tag_name, tag_name, assets
                 );
                 var primary_asset = CatalogReleaseBuilder.select_default_asset (assets, variants);
                 if (primary_asset == null)
@@ -73,7 +74,8 @@ namespace ProtonPlus.Providers.Sources {
                 assets.add (new Models.Assets.Asset (
                     name,
                     download_url,
-                    object.has_member ("size") ? object.get_int_member ("size") : 0
+                    object.has_member ("size") ? object.get_int_member ("size") : 0,
+                    object.get_string_member_with_default ("digest", "")
                 ));
             }
             return assets;

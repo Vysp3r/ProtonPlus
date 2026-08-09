@@ -218,6 +218,14 @@ namespace ProtonPlus.Models {
                     if (cached_variant.is_default &&
                         cached_release.asset.download_url != cached_variant.download_url)
                         return false;
+                    if (cached_variant.is_default && !definition.single_archive_releases &&
+                        !ProtonPlus.Providers.Sources.CatalogReleaseBuilder.default_variant_matches_asset (
+                            definition,
+                            cached_release.title,
+                            cached_release.source_tag,
+                            cached_release.asset
+                        ))
+                        return false;
                 }
 
                 for (var left_index = 0; left_index < cached_release.variants.size - 1; left_index++) {

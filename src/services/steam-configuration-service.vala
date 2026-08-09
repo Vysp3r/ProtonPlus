@@ -112,10 +112,14 @@ namespace ProtonPlus.Services {
                 uint appid;
                 if (!uint.try_parse (((!) intent).field_id, out appid)) continue;
                 var value = ((!) intent).desired_present ? ((!) intent).desired : (appid == 0 ? "proton_experimental" : "Default");
-                launcher.compatibility_tool_hashtable.set (appid, value);
-                if (appid == 0) launcher.default_compatibility_tool = value;
+                if (appid == 0) {
+                    launcher.compatibility_tool_hashtable.set (appid, value);
+                    launcher.default_compatibility_tool = value;
+                } else {
+                    launcher.update_game_compatibility_tool_mapping (appid, value);
+                }
                 foreach (var game in (List<Games.Steam>) launcher.games) {
-                    if (game.appid == appid) game.compatibility_tool = value;
+                    if (game.appid == appid) game.apply_effective_compatibility_tool (value);
                 }
             }
         }

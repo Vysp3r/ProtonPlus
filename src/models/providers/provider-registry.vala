@@ -160,19 +160,29 @@ namespace ProtonPlus.Models.Providers {
                         messages.add ("variant compatibility architecture is duplicated: %s".printf (variant.id));
                 }
                 var has_x86_64 = seen_architectures.contains (CpuArchitecture.X86_64);
+                var has_aarch64 = seen_architectures.contains (CpuArchitecture.AARCH64);
                 if (compatibility.architecture_independent &&
-                    (architectures.length > 0 || compatibility.minimum_x86_64_level != X86_64Level.UNKNOWN))
-                    messages.add ("architecture-independent variant compatibility must not declare architectures or an x86-64 level: %s".printf (variant.id));
+                    (architectures.length > 0 ||
+                     compatibility.minimum_x86_64_level != X86_64Level.UNKNOWN ||
+                     compatibility.minimum_aarch64_level != Aarch64Level.UNKNOWN))
+                    messages.add ("architecture-independent variant compatibility must not declare architectures or ISA levels: %s".printf (variant.id));
                 if (compatibility.minimum_x86_64_level != X86_64Level.UNKNOWN && !has_x86_64)
                     messages.add ("x86-64 compatibility level requires x86-64 architecture: %s".printf (variant.id));
                 if (has_x86_64 && compatibility.minimum_x86_64_level < X86_64Level.BASELINE)
                     messages.add ("x86-64 compatibility requires at least the baseline level: %s".printf (variant.id));
+                if (compatibility.minimum_aarch64_level != Aarch64Level.UNKNOWN && !has_aarch64)
+                    messages.add ("AArch64 compatibility level requires AArch64 architecture: %s".printf (variant.id));
+                if (has_aarch64 && compatibility.minimum_aarch64_level < Aarch64Level.V8_0)
+                    messages.add ("AArch64 compatibility requires at least the Armv8.0 level: %s".printf (variant.id));
             }
 
             if (default_count == 0)
                 messages.add ("default variant is missing");
             else if (default_count > 1)
                 messages.add ("more than one default variant is configured");
+
+            if (definition.single_archive_releases && variants.length != 1)
+                messages.add ("single-archive releases require exactly one variant");
         }
 
         private static void validate_install_layouts (ProviderDefinition definition, ArrayList<string> messages) {

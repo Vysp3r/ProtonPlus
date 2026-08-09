@@ -46,7 +46,7 @@ namespace ProtonPlus.Models {
             // and older call sites.  Copying the complete immutable asset
             // keeps Asset as the single authoritative in-memory owner.
             this.asset = download_size != null
-                ? new Assets.Asset (asset.name, asset.download_url, (!) download_size)
+                ? new Assets.Asset (asset.name, asset.download_url, (!) download_size, asset.digest)
                 : asset;
             this.page_url = page_url;
             this.upstream_release_id = upstream_release_id;
@@ -78,6 +78,8 @@ namespace ProtonPlus.Models {
                 variant_obj.set_string_member ("format", variant.format);
                 variant_obj.set_boolean_member ("default", variant.is_default);
                 variant_obj.set_string_member ("download_url", variant.download_url ?? "");
+                if (variant.asset != null)
+                    variant_obj.set_object_member ("asset", variant.asset.to_json (true));
                 variant_obj.set_object_member ("compatibility", variant.compatibility.to_json ());
                 variants_array.add_object_element (variant_obj);
             }
@@ -109,13 +111,16 @@ namespace ProtonPlus.Models {
             if (kind_string == "latest")
                 return null;
 
+            int64? cached_download_size = null;
+            if (obj.has_member ("download_size"))
+                cached_download_size = obj.get_int_member ("download_size");
             var release = new Release (
                 title,
                 obj.get_string_member_with_default ("description", ""),
                 obj.get_string_member_with_default ("release_date", ""),
                 asset,
                 obj.get_string_member_with_default ("page_url", ""),
-                obj.has_member ("download_size") ? obj.get_int_member ("download_size") : 0,
+                cached_download_size,
                 upstream_release_id,
                 source_tag,
                 kind_from_string (kind_string),
@@ -132,13 +137,21 @@ namespace ProtonPlus.Models {
                     var name = variant_obj.get_string_member_with_default ("name", "");
                     if (name == "")
                         continue;
+                    Assets.Asset? variant_asset = null;
+                    var variant_asset_node = variant_obj.get_member ("asset");
+                    if (variant_asset_node != null && variant_asset_node.get_node_type () == Json.NodeType.OBJECT)
+                        variant_asset = Assets.Asset.from_json (variant_asset_node.get_object ());
+                    var variant_download_url = variant_obj.get_string_member_with_default ("download_url", "");
+                    if (variant_download_url == "" && variant_asset != null)
+                        variant_download_url = variant_asset.download_url;
                     release.variants.add (new Variant (
                         variant_obj.get_string_member_with_default ("id", ""),
                         name,
                         variant_obj.get_string_member_with_default ("format", ""),
                         variant_obj.has_member ("default") && variant_obj.get_boolean_member ("default"),
-                        variant_obj.get_string_member_with_default ("download_url", ""),
-                        compatibility_from_json (variant_obj)
+                        variant_download_url,
+                        compatibility_from_json (variant_obj),
+                        variant_asset
                     ));
                 }
             }

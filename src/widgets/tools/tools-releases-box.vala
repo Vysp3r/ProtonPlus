@@ -630,9 +630,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (variant == null || variant.download_url == null || variant.download_url == "")
                 return false;
 
-            job.set_selected_variant (
-                variant.name, ProtonPlus.Models.Assets.Asset.from_download_url (variant.download_url), variant.id
-            );
+            job.set_selected_variant (variant.name, variant.resolved_asset (), variant.id);
             return true;
         }
 

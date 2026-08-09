@@ -8,7 +8,8 @@ namespace ProtonPlus.Utils {
             "check-updates-on-launch", "background-updates", "background-updates-frequency", "check-updates-on-boot",
             "github-api-key", "gitlab-api-key", "selected-tool-variants", "steam-selected-profile-id",
             "first-run", "theme", "language", "experimental-features", "show-legacy-tools",
-            "migrate-default-prefix", "proxy-mode", "proxy-url", "last-version"
+            "migrate-default-prefix", "proxy-mode", "proxy-url", "controller-confirm-button",
+            "controller-haptics-enabled", "last-version"
         };
 
         public static bool is_valid_schema (SettingsSchema schema) {
@@ -372,6 +373,40 @@ namespace ProtonPlus.Utils {
             }
         }
 
+        public static async bool copy_file_verified (string source, string destination) {
+            if (!yield copy_file (source, destination))
+                return false;
+
+            try {
+                uint8[] source_contents;
+                uint8[] destination_contents;
+                string source_etag;
+                string destination_etag;
+                yield File.parse_name (source).load_contents_async (
+                    null, out source_contents, out source_etag
+                );
+                yield File.parse_name (destination).load_contents_async (
+                    null, out destination_contents, out destination_etag
+                );
+
+                if (source_contents.length == destination_contents.length) {
+                    for (var index = 0; index < source_contents.length; index++) {
+                        if (source_contents[index] != destination_contents[index]) {
+                            warning ("Copied file verification failed: %s", destination);
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+
+                warning ("Copied file verification failed: %s", destination);
+            } catch (Error e) {
+                warning ("Failed to verify copied file %s: %s", destination, e.message);
+            }
+
+            return false;
+        }
+
         public static async bool move_directory (string source, string destination) {
             var destination_existed = FileUtils.test (destination, FileTest.EXISTS);
             var copied = yield copy_directory (source, destination);
@@ -525,7 +560,17 @@ namespace ProtonPlus.Utils {
 
             bool output = false;
             new Thread<void> ("delete_directory", () => {
-                if (delete_directory_direct (path)) {
+                Posix.Stat stat_;
+
+                // Enumeration follows a symlink passed as its root even when
+                // NOFOLLOW_SYMLINKS is requested.  Inspect the root itself
+                // first so deleting a linked directory never reaches its
+                // target.
+                if (Posix.lstat (path, out stat_) != 0) {
+                    output = false;
+                } else if (Posix.S_ISLNK (stat_.st_mode)) {
+                    output = delete_file_direct (path);
+                } else if (Posix.S_ISDIR (stat_.st_mode) && delete_directory_direct (path)) {
                     if (Posix.rmdir (path) == 0) {
                         output = true;
                     }

@@ -5,8 +5,8 @@
     "tag_name": "GE-Proton10-1",
     "body": "  Release notes  ",
     "html_url": "https://github.com/example/project/releases/tag/GE-Proton10-1",
-    "draft": true,
-    "prerelease": true,
+    "draft": false,
+    "prerelease": false,
     "created_at": "2026-07-25T12:34:56Z",
     "assets": [
       {

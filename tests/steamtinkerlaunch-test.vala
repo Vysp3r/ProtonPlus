@@ -48,9 +48,39 @@ namespace AppTests.SteamTinkerLaunchTest {
         }
     }
 
+    private class CommandFailureWorkflow : ProtonPlus.Services.SteamTinkerLaunchWorkflow {
+        private string failure_fragment;
+        private bool system_available;
+        private bool failure_triggered = false;
+
+        public CommandFailureWorkflow (string failure_fragment, bool system_available = false) {
+            this.failure_fragment = failure_fragment;
+            this.system_available = system_available;
+        }
+
+        protected override async bool system_installation_available () {
+            return system_available;
+        }
+
+        protected override async ProtonPlus.Utils.CommandResult run_command (string command) {
+            if (!failure_triggered && command.contains (failure_fragment)) {
+                failure_triggered = true;
+                return new ProtonPlus.Utils.CommandResult ("", "fixture command failure", 23);
+            }
+            if (command.has_prefix ("chmod "))
+                return yield base.run_command (command);
+            return new ProtonPlus.Utils.CommandResult ("", "", 0);
+        }
+    }
+
     public void register_tests () {
         Test.add_func ("/steamtinkerlaunch/install-update-and-remove-managed-layout", test_install_update_and_remove_managed_layout);
         Test.add_func ("/steamtinkerlaunch/replacement-link-failure-rolls-back", test_replacement_link_failure_rolls_back);
+        Test.add_func ("/steamtinkerlaunch/executable-preparation-failure-stops-before-replacement", test_executable_preparation_failure_stops_before_replacement);
+        Test.add_func ("/steamtinkerlaunch/compat-del-failure-restores-external-and-managed-installs", test_compat_del_failure_restores_external_and_managed_installs);
+        Test.add_func ("/steamtinkerlaunch/compat-add-failure-restores-external-and-managed-installs", test_compat_add_failure_restores_external_and_managed_installs);
+        Test.add_func ("/steamtinkerlaunch/system-compat-del-failure-stops-before-backups", test_system_compat_del_failure_stops_before_backups);
+        Test.add_func ("/steamtinkerlaunch/remove-compat-del-failure-preserves-installation", test_remove_compat_del_failure_preserves_installation);
         Test.add_func ("/steamtinkerlaunch/finalization-uses-launcher-capabilities", test_finalization_uses_launcher_capabilities);
     }
     private string temporary_directory () { try { return DirUtils.make_tmp ("protonplus-steamtinkerlaunch-test-XXXXXX"); } catch (FileError e) { critical ("Could not create test directory: %s", e.message); assert_not_reached (); } }
@@ -71,13 +101,165 @@ namespace AppTests.SteamTinkerLaunchTest {
     private ReturnCode install_replacement (FixtureJob job) { var loop = new MainLoop (); ReturnCode code = ReturnCode.FILESYSTEM_ERROR; job.install_replacement.begin ((obj, res) => { code = job.install_replacement.end (res); loop.quit (); }); loop.run (); return code; }
     private ReturnCode update (FixtureJob job) { var loop = new MainLoop (); ReturnCode code = ReturnCode.FILESYSTEM_ERROR; job.update.begin ((obj, res) => { code = job.update.end (res); loop.quit (); }); loop.run (); return code; }
     private ReturnCode remove (FixtureJob job) { var loop = new MainLoop (); ReturnCode code = ReturnCode.FILESYSTEM_ERROR; job.remove.begin (false, (obj, res) => { code = job.remove.end (res); loop.quit (); }); loop.run (); return code; }
+    private ReturnCode workflow_install (ProtonPlus.Services.SteamTinkerLaunchWorkflow workflow, FixtureJob job, bool replace_existing) { var loop = new MainLoop (); ReturnCode code = ReturnCode.FILESYSTEM_ERROR; workflow.install.begin (job, replace_existing, (obj, res) => { code = workflow.install.end (res); loop.quit (); }); loop.run (); return code; }
+    private ReturnCode workflow_remove (ProtonPlus.Services.SteamTinkerLaunchWorkflow workflow, FixtureJob job) { var loop = new MainLoop (); ReturnCode code = ReturnCode.FILESYSTEM_ERROR; workflow.remove.begin (job, (obj, res) => { code = workflow.remove.end (res); loop.quit (); }); loop.run (); return code; }
     private bool delete_directory (string path) { var loop = new MainLoop (); var deleted = false; ProtonPlus.Utils.Filesystem.delete_directory.begin (path, (obj, result) => { deleted = ProtonPlus.Utils.Filesystem.delete_directory.end (result); loop.quit (); }); loop.run (); return deleted; }
     private void no_entries (string directory, string prefix) { try { var entries = Dir.open (directory); string? name; while ((name = entries.read_name ()) != null) assert (!name.has_prefix (prefix)); } catch (FileError e) { critical ("Could not inspect temporary directory: %s", e.message); assert_not_reached (); } }
     private void test_replacement_link_failure_rolls_back () {
-        var root = temporary_directory (); var cache = Path.build_filename (root, "cache"); var tools = Path.build_filename (root, "tools"); var base_location = Path.build_filename (root, ".local", "share", "steamtinkerlaunch"); var link_parent = Path.build_filename (root, ".local", "bin"); var link = Path.build_filename (link_parent, "steamtinkerlaunch");
-        Globals.CACHE_PATH = cache; assert (ProtonPlus.Utils.Filesystem.create_directory (cache)); assert (ProtonPlus.Utils.Filesystem.create_directory (base_location)); assert (ProtonPlus.Utils.Filesystem.create_directory (link_parent)); ProtonPlus.Utils.Filesystem.create_file (Path.build_filename (base_location, "marker.txt"), "previous stl\n"); ProtonPlus.Utils.Filesystem.create_file (link, "blocked link\n");
+        var root = temporary_directory ();
+        var cache = Path.build_filename (root, "cache");
+        var tools = Path.build_filename (root, "tools");
+        var base_location = Path.build_filename (root, ".local", "share", "steamtinkerlaunch");
+        var link_parent = Path.build_filename (root, ".local", "bin");
+        var link = Path.build_filename (link_parent, "steamtinkerlaunch");
+        var external = Path.build_filename (root, "SteamTinkerLaunch");
+        Globals.CACHE_PATH = cache;
+        assert (ProtonPlus.Utils.Filesystem.create_directory (cache));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (base_location));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (link_parent));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (external));
+        ProtonPlus.Utils.Filesystem.create_file (
+            Path.build_filename (base_location, "marker.txt"), "previous managed\n"
+        );
+        ProtonPlus.Utils.Filesystem.create_file (
+            Path.build_filename (external, "marker.txt"), "previous external\n"
+        );
+        ProtonPlus.Utils.Filesystem.create_file (link, "blocked link\n");
         var job = new FixtureJob (tool (tools), root, fixture_archive (root));
-        assert (install_replacement (job) == ReturnCode.FILESYSTEM_ERROR); assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (base_location, "marker.txt")) == "previous stl\n"); assert (FileUtils.test (link, FileTest.IS_REGULAR)); no_entries (Path.get_dirname (base_location), ".protonplus-stl-stage-"); no_entries (cache, ".protonplus-stl-"); assert (delete_directory (root));
+        assert (ProtonPlus.Services.InstallationService.instance
+            .detect_steam_tinker_launch_external_installations (job));
+
+        assert (install_replacement (job) == ReturnCode.FILESYSTEM_ERROR);
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename (base_location, "marker.txt")
+        ) == "previous managed\n");
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename (external, "marker.txt")
+        ) == "previous external\n");
+        assert (FileUtils.test (link, FileTest.IS_REGULAR));
+        no_entries (root, ".protonplus-stl-external-");
+        no_entries (Path.get_dirname (base_location), ".protonplus-stl-stage-");
+        no_entries (cache, ".protonplus-stl-");
+        assert (delete_directory (root));
+    }
+
+    private void test_executable_preparation_failure_stops_before_replacement () {
+        var root = temporary_directory ();
+        var cache = Path.build_filename (root, "cache");
+        var tools = Path.build_filename (root, "tools");
+        Globals.CACHE_PATH = cache;
+        assert (ProtonPlus.Utils.Filesystem.create_directory (cache));
+        var job = new FixtureJob (tool (tools), root, fixture_archive (root));
+        var workflow = new CommandFailureWorkflow ("chmod +x");
+
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*prepare executable*");
+        assert (workflow_install (workflow, job, false) == ReturnCode.FILESYSTEM_ERROR);
+        Test.assert_expected_messages ();
+        assert (!FileUtils.test (job.install_location, FileTest.EXISTS));
+        assert (!FileUtils.test (Path.build_filename (root, ".local", "bin", "steamtinkerlaunch"), FileTest.EXISTS));
+        assert (job.error_message == "Failed to prepare the SteamTinkerLaunch executable");
+        no_entries (cache, ".protonplus-stl-");
+        assert (delete_directory (root));
+    }
+
+    private void test_compat_del_failure_restores_external_and_managed_installs () {
+        test_replacement_command_failure_restores_installations (" compat del", "unregister replacement compatibility tool");
+    }
+
+    private void test_compat_add_failure_restores_external_and_managed_installs () {
+        test_replacement_command_failure_restores_installations (" compat add", "register replacement compatibility tool");
+    }
+
+    private void test_replacement_command_failure_restores_installations (string failure_fragment, string warning_fragment) {
+        var root = temporary_directory ();
+        var cache = Path.build_filename (root, "cache");
+        var tools = Path.build_filename (root, "tools");
+        var base_location = Path.build_filename (root, ".local", "share", "steamtinkerlaunch");
+        var link = Path.build_filename (root, ".local", "bin", "steamtinkerlaunch");
+        var external_one = Path.build_filename (root, "SteamTinkerLaunch");
+        var external_two = Path.build_filename (root, "stl");
+        Globals.CACHE_PATH = cache;
+        assert (ProtonPlus.Utils.Filesystem.create_directory (cache));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (base_location));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (external_one));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (external_two));
+        ProtonPlus.Utils.Filesystem.create_file (Path.build_filename (base_location, "marker.txt"), "previous managed\n");
+        ProtonPlus.Utils.Filesystem.create_file (Path.build_filename (external_one, "marker.txt"), "previous external one\n");
+        ProtonPlus.Utils.Filesystem.create_file (Path.build_filename (external_two, "marker.txt"), "previous external two\n");
+        var job = new FixtureJob (tool (tools), root, fixture_archive (root));
+        var workflow = new CommandFailureWorkflow (failure_fragment);
+        assert (workflow.detect_external_installations (job));
+
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*%s*".printf (warning_fragment));
+        assert (workflow_install (workflow, job, true) == ReturnCode.FILESYSTEM_ERROR);
+        Test.assert_expected_messages ();
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (base_location, "marker.txt")) == "previous managed\n");
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (external_one, "marker.txt")) == "previous external one\n");
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (external_two, "marker.txt")) == "previous external two\n");
+        assert (!FileUtils.test (link, FileTest.EXISTS));
+        assert (job.error_message == "Failed to update SteamTinkerLaunch compatibility registration");
+        no_entries (root, ".protonplus-stl-external-");
+        no_entries (Path.get_dirname (base_location), ".protonplus-stl-");
+        no_entries (cache, ".protonplus-stl-");
+        assert (delete_directory (root));
+    }
+
+    private void test_system_compat_del_failure_stops_before_backups () {
+        var root = temporary_directory ();
+        var cache = Path.build_filename (root, "cache");
+        var tools = Path.build_filename (root, "tools");
+        var base_location = Path.build_filename (root, ".local", "share", "steamtinkerlaunch");
+        var external = Path.build_filename (root, "SteamTinkerLaunch");
+        Globals.CACHE_PATH = cache;
+        assert (ProtonPlus.Utils.Filesystem.create_directory (cache));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (base_location));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (external));
+        ProtonPlus.Utils.Filesystem.create_file (Path.build_filename (base_location, "marker.txt"), "previous managed\n");
+        ProtonPlus.Utils.Filesystem.create_file (Path.build_filename (external, "marker.txt"), "previous external\n");
+        var job = new FixtureJob (tool (tools), root, fixture_archive (root));
+        var workflow = new CommandFailureWorkflow ("steamtinkerlaunch compat del", true);
+        assert (workflow.detect_external_installations (job));
+
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*unregister previous compatibility tool*");
+        assert (workflow_install (workflow, job, true) == ReturnCode.FILESYSTEM_ERROR);
+        Test.assert_expected_messages ();
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (base_location, "marker.txt")) == "previous managed\n");
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (external, "marker.txt")) == "previous external\n");
+        no_entries (root, ".protonplus-stl-external-");
+        no_entries (Path.get_dirname (base_location), ".protonplus-stl-");
+        no_entries (cache, ".protonplus-stl-");
+        assert (delete_directory (root));
+    }
+
+    private void test_remove_compat_del_failure_preserves_installation () {
+        var root = temporary_directory ();
+        var tools = Path.build_filename (root, "tools");
+        var base_location = Path.build_filename (root, ".local", "share", "steamtinkerlaunch");
+        var binary = Path.build_filename (base_location, "steamtinkerlaunch");
+        var link_parent = Path.build_filename (root, ".local", "bin");
+        var link = Path.build_filename (link_parent, "steamtinkerlaunch");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (base_location));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (link_parent));
+        ProtonPlus.Utils.Filesystem.create_file (binary, "#!/bin/sh\nexit 0\n");
+        assert (Posix.chmod (binary, 0755) == 0);
+        var link_loop = new MainLoop ();
+        var link_created = false;
+        ProtonPlus.Utils.Filesystem.make_symlink.begin (link, binary, (obj, result) => {
+            link_created = ProtonPlus.Utils.Filesystem.make_symlink.end (result);
+            link_loop.quit ();
+        });
+        link_loop.run ();
+        assert (link_created);
+        var job = new FixtureJob (tool (tools), root, fixture_archive (root));
+        var workflow = new CommandFailureWorkflow (" compat del");
+
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*unregister compatibility tool before removal*");
+        assert (workflow_remove (workflow, job) == ReturnCode.FILESYSTEM_ERROR);
+        Test.assert_expected_messages ();
+        assert (FileUtils.test (base_location, FileTest.IS_DIR));
+        assert (FileUtils.test (binary, FileTest.IS_REGULAR));
+        assert (FileUtils.test (link, FileTest.IS_SYMLINK));
+        assert (delete_directory (root));
     }
 
     private void test_install_update_and_remove_managed_layout () {

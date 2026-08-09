@@ -20,9 +20,193 @@ namespace ProtonPlus.Utils {
         }
     }
 
+    public interface SystemctlBackend : Object {
+        public abstract async CommandResult run (string arguments);
+    }
+
+    private class HostSystemctlBackend : Object, SystemctlBackend {
+        public async CommandResult run (string arguments) {
+            return yield System.run_command ("systemctl --user " + arguments);
+        }
+    }
+
+    public class SystemdTimerManager : Object {
+        private const string TIMER_UNIT = "protonplus.timer";
+        private SystemctlBackend backend;
+        private string systemd_dir;
+        private string service_template;
+        private string timer_template;
+        private string exec_start;
+
+        public SystemdTimerManager (
+            SystemctlBackend backend,
+            string systemd_dir,
+            string service_template,
+            string timer_template,
+            string exec_start
+        ) {
+            this.backend = backend;
+            this.systemd_dir = systemd_dir;
+            this.service_template = service_template;
+            this.timer_template = timer_template;
+            this.exec_start = exec_start;
+        }
+
+        public async bool reconcile (bool check_on_boot, bool background_updates, int frequency) {
+            if (!check_on_boot && !background_updates)
+                return yield reconcile_disabled ();
+
+            bool files_changed;
+            if (!write_unit_files (check_on_boot, background_updates, frequency, out files_changed))
+                return false;
+
+            if (files_changed && !(yield run_action ("daemon-reload")))
+                return false;
+
+            var enabled = (yield backend.run ("is-enabled --quiet " + TIMER_UNIT)).exit_status == 0;
+            var active = (yield backend.run ("is-active --quiet " + TIMER_UNIT)).exit_status == 0;
+
+            if (!enabled || !active) {
+                if (!(yield run_action ("enable --now " + TIMER_UNIT)))
+                    return false;
+
+                /* Starting an inactive timer already loads the new schedule.
+                 * An active but newly enabled timer still needs a restart when
+                 * its unit contents changed. */
+                if (!active)
+                    return true;
+            }
+
+            if (files_changed)
+                return yield run_action ("restart " + TIMER_UNIT);
+
+            return true;
+        }
+
+        private async bool reconcile_disabled () {
+            var files_present = unit_files_exist ();
+            var enabled = (yield backend.run ("is-enabled --quiet " + TIMER_UNIT)).exit_status == 0;
+            var active = (yield backend.run ("is-active --quiet " + TIMER_UNIT)).exit_status == 0;
+
+            if ((files_present || enabled || active) && !(yield run_action ("disable --now " + TIMER_UNIT)))
+                return false;
+
+            bool files_removed;
+            if (!remove_unit_files (out files_removed))
+                return false;
+
+            if (files_removed || enabled || active)
+                return yield run_action ("daemon-reload");
+
+            return true;
+        }
+
+        private bool unit_files_exist () {
+            return FileUtils.test (Path.build_filename (systemd_dir, "protonplus.service"), FileTest.EXISTS)
+                || FileUtils.test (Path.build_filename (systemd_dir, TIMER_UNIT), FileTest.EXISTS);
+        }
+
+        private bool write_unit_files (
+            bool check_on_boot,
+            bool background_updates,
+            int frequency,
+            out bool files_changed
+        ) {
+            files_changed = false;
+            var on_unit_active_sec = "1h";
+            switch (frequency) {
+            case 1:
+                on_unit_active_sec = "3h";
+                break;
+            case 2:
+                on_unit_active_sec = "6h";
+                break;
+            case 3:
+                on_unit_active_sec = "12h";
+                break;
+            case 0:
+            default:
+                break;
+            }
+
+            var service_content = service_template.replace ("{ExecStart}", exec_start);
+            var timer_content = timer_template;
+            if (!check_on_boot)
+                timer_content = timer_content.replace ("OnBootSec=1min", "");
+            if (background_updates)
+                timer_content = timer_content.replace ("{OnUnitActiveSec}", on_unit_active_sec);
+            else
+                timer_content = timer_content.replace ("OnUnitActiveSec={OnUnitActiveSec}\n", "")
+                    .replace ("OnUnitActiveSec={OnUnitActiveSec}", "");
+
+            try {
+                var dir = File.new_for_path (systemd_dir);
+                if (!dir.query_exists ())
+                    dir.make_directory_with_parents ();
+
+                files_changed |= write_if_changed (
+                    Path.build_filename (systemd_dir, "protonplus.service"), service_content
+                );
+                files_changed |= write_if_changed (
+                    Path.build_filename (systemd_dir, TIMER_UNIT), timer_content
+                );
+                return true;
+            } catch (Error e) {
+                warning (e.message);
+                return false;
+            }
+        }
+
+        private bool write_if_changed (string path, string contents) throws FileError {
+            if (FileUtils.test (path, FileTest.EXISTS)) {
+                string existing;
+                FileUtils.get_contents (path, out existing);
+                if (existing == contents)
+                    return false;
+            }
+
+            FileUtils.set_contents (path, contents);
+            return true;
+        }
+
+        private bool remove_unit_files (out bool files_removed) {
+            files_removed = false;
+            try {
+                foreach (var name in new string[] { "protonplus.service", TIMER_UNIT }) {
+                    var file = File.new_for_path (Path.build_filename (systemd_dir, name));
+                    if (!file.query_exists ())
+                        continue;
+                    file.delete ();
+                    files_removed = true;
+                }
+                return true;
+            } catch (Error e) {
+                warning (e.message);
+                return false;
+            }
+        }
+
+        private async bool run_action (string arguments) {
+            var command = "systemctl --user " + arguments;
+            var result = yield backend.run (arguments);
+            if (result.exit_status == 0)
+                return true;
+
+            var error_output = result.stderr.strip ();
+            if (error_output == "")
+                error_output = result.stdout.strip ();
+            if (error_output == "")
+                error_output = "no output";
+
+            warning ("%s failed with exit status %d: %s", command, result.exit_status, error_output);
+            return false;
+        }
+    }
+
     public class System {
         static bool systemd_update_running = false;
         static bool systemd_update_pending = false;
+        static SystemdTimerManager? systemd_timer_manager = null;
 
         [CCode (cname = "ProtonPlusCpuFeatureProbe", cheader_filename = "utils/cpu-probe.h", has_type_id = false)]
         private struct CpuFeatureProbe {
@@ -53,6 +237,9 @@ namespace ProtonPlus.Utils {
             public bool xcr0_opmask;
             public bool xcr0_zmm_hi256;
             public bool xcr0_hi16_zmm;
+            public bool aarch64_crc32;
+            public bool aarch64_lse_atomics;
+            public bool aarch64_rdma;
         }
 
         [CCode (cname = "protonplus_cpu_get_feature_probe", cheader_filename = "utils/cpu-probe.h", has_target = false)]
@@ -153,15 +340,22 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        /// Supplies a host-independent seam for capability fixtures.  An
-        /// unavailable detailed probe intentionally leaves an x86-64 host at
-        /// the psABI baseline rather than guessing a newer ISA level.
+        /// Supplies a host-independent seam for capability fixtures. An
+        /// unavailable detailed probe leaves each known architecture at its
+        /// baseline rather than guessing a newer ISA level.
         public static CpuCapabilities get_cpu_capabilities_for_probe (
             string machine,
             bool feature_probe_available,
-            X86_64Features features
+            X86_64Features features,
+            Aarch64Features? aarch64_features = null
         ) {
             var architecture = normalize_cpu_architecture (machine);
+            if (architecture == CpuArchitecture.AARCH64) {
+                var level = feature_probe_available && aarch64_features != null
+                    ? CpuCapabilities.aarch64_level_from_features ((!) aarch64_features)
+                    : Aarch64Level.V8_0;
+                return new CpuCapabilities (architecture, X86_64Level.UNKNOWN, level);
+            }
             if (architecture != CpuArchitecture.X86_64)
                 return new CpuCapabilities (architecture);
 
@@ -202,10 +396,18 @@ namespace ProtonPlus.Utils {
             };
         }
 
+        private static Aarch64Features get_aarch64_features (CpuFeatureProbe probe) {
+            return new Aarch64Features () {
+                crc32 = probe.aarch64_crc32,
+                lse_atomics = probe.aarch64_lse_atomics,
+                rdma = probe.aarch64_rdma
+            };
+        }
+
         public static CpuCapabilities get_cpu_capabilities () {
             var system_info = Posix.utsname ();
             var architecture = normalize_cpu_architecture (system_info.machine);
-            if (architecture != CpuArchitecture.X86_64)
+            if (architecture != CpuArchitecture.X86_64 && architecture != CpuArchitecture.AARCH64)
                 return new CpuCapabilities (architecture);
 
             // CPUID establishes advertised CPU features; the C boundary reads
@@ -215,7 +417,8 @@ namespace ProtonPlus.Utils {
             return get_cpu_capabilities_for_probe (
                 system_info.machine,
                 probe.available,
-                get_x86_64_features (probe)
+                get_x86_64_features (probe),
+                get_aarch64_features (probe)
             );
         }
 
@@ -233,6 +436,8 @@ namespace ProtonPlus.Utils {
                 hwcaps.append ("x86_64");
                 break;
             case CpuArchitecture.AARCH64:
+                if (capabilities.supports_aarch64_level (Aarch64Level.V8_1))
+                    hwcaps.append ("aarch64_v8_1");
                 hwcaps.append ("aarch64");
                 break;
             case CpuArchitecture.X86_32:
@@ -354,6 +559,14 @@ namespace ProtonPlus.Utils {
             });
         }
 
+        public static string file_uri_for_path (string path) {
+            return File.new_for_path (path).get_uri ();
+        }
+
+        public static void open_path (string path) {
+            open_uri (file_uri_for_path (path));
+        }
+
         public static void systemd_handler () {
             systemd_update_pending = true;
             if (systemd_update_running)
@@ -366,142 +579,44 @@ namespace ProtonPlus.Utils {
         private static async void update_systemd_files () {
             do {
                 systemd_update_pending = false;
-
-                if (!Globals.SETTINGS.get_boolean ("background-updates") && !Globals.SETTINGS.get_boolean ("check-updates-on-boot")) {
-                    yield uninstall_systemd_files ();
-                } else if (systemd_files_exist ()) {
-                    yield modify_systemd_files ();
-                } else {
-                    yield install_systemd_files ();
+                var manager = get_systemd_timer_manager ();
+                if (manager != null) {
+                    yield ((!) manager).reconcile (
+                        Globals.SETTINGS.get_boolean ("check-updates-on-boot"),
+                        Globals.SETTINGS.get_boolean ("background-updates"),
+                        Globals.SETTINGS.get_enum ("background-updates-frequency")
+                    );
                 }
             } while (systemd_update_pending);
 
             systemd_update_running = false;
         }
 
-        private static string get_systemd_dir () {
-            return Path.build_filename (Environment.get_user_config_dir (), "systemd", "user");
-        }
+        private static SystemdTimerManager? get_systemd_timer_manager () {
+            if (systemd_timer_manager != null)
+                return systemd_timer_manager;
 
-        private static bool systemd_files_exist () {
-            string systemd_dir = get_systemd_dir ();
-            return File.new_for_path (Path.build_filename (systemd_dir, "protonplus.service")).query_exists () &&
-                   File.new_for_path (Path.build_filename (systemd_dir, "protonplus.timer")).query_exists ();
-        }
-
-        public static async void install_systemd_files () {
-            if (!write_systemd_files ()) {
-                return;
-            }
-
-            if (yield run_systemctl ("daemon-reload"))
-                yield run_systemctl ("enable protonplus.timer");
-        }
-
-        public static async void modify_systemd_files () {
-            if (!write_systemd_files ()) {
-                return;
-            }
-
-            yield run_systemctl ("daemon-reload");
-        }
-
-        private static async bool run_systemctl (string arguments) {
-            var command = "systemctl --user " + arguments;
-            var result = yield run_command (command);
-
-            if (result.exit_status == 0)
-                return true;
-
-            var error_output = result.stderr.strip ();
-            if (error_output == "")
-                error_output = result.stdout.strip ();
-            if (error_output == "")
-                error_output = "no output";
-
-            warning ("%s failed with exit status %d: %s", command, result.exit_status, error_output);
-            return false;
-        }
-
-        private static bool write_systemd_files () {
             string executable = Globals.IS_FLATPAK ?
                 "/usr/bin/flatpak run com.vysp3r.ProtonPlus" :
                 Environment.find_program_in_path ("protonplus") ?? "protonplus";
             string exec_start = "%s update all".printf (executable);
-            string on_unit_active_sec = "1h";
-
-            switch (Globals.SETTINGS.get_enum ("background-updates-frequency")) {
-                case 1:
-                    on_unit_active_sec = "3h";
-                    break;
-                case 2:
-                    on_unit_active_sec = "6h";
-                    break;
-                case 3:
-                    on_unit_active_sec = "12h";
-                    break;
-                case 0:
-                default:
-                    on_unit_active_sec = "1h";
-                    break;
-            }
 
             try {
-                bool check_on_boot = Globals.SETTINGS.get_boolean ("check-updates-on-boot");
-                bool background_updates = Globals.SETTINGS.get_boolean ("background-updates");
-
                 var service_resource = resources_lookup_data ("/com/vysp3r/ProtonPlus/protonplus.service", ResourceLookupFlags.NONE);
                 var timer_resource = resources_lookup_data ("/com/vysp3r/ProtonPlus/protonplus.timer", ResourceLookupFlags.NONE);
-
-                string service_content = Parser.data_to_string (service_resource.get_data ())
-                    .replace ("{ExecStart}", exec_start);
-                string timer_content = Parser.data_to_string (timer_resource.get_data ());
-
-                if (!check_on_boot) {
-                    timer_content = timer_content.replace ("OnBootSec=1min", "");
-                }
-
-                if (background_updates) {
-                    timer_content = timer_content.replace ("{OnUnitActiveSec}", on_unit_active_sec);
-                } else {
-                    timer_content = timer_content.replace ("OnUnitActiveSec={OnUnitActiveSec}\n", "").replace ("OnUnitActiveSec={OnUnitActiveSec}", "");
-                }
-
-                string systemd_dir = get_systemd_dir ();
-                var dir = File.new_for_path (systemd_dir);
-                if (!dir.query_exists ()) {
-                    dir.make_directory_with_parents ();
-                }
-
-                FileUtils.set_contents (Path.build_filename (systemd_dir, "protonplus.service"), service_content);
-                FileUtils.set_contents (Path.build_filename (systemd_dir, "protonplus.timer"), timer_content);
+                systemd_timer_manager = new SystemdTimerManager (
+                    new HostSystemctlBackend (),
+                    Path.build_filename (Environment.get_user_config_dir (), "systemd", "user"),
+                    Parser.data_to_string (service_resource.get_data ()),
+                    Parser.data_to_string (timer_resource.get_data ()),
+                    exec_start
+                );
             } catch (Error e) {
                 warning (e.message);
-                return false;
+                return null;
             }
 
-            return true;
-        }
-
-        public static async void uninstall_systemd_files () {
-            try {
-                yield run_systemctl ("disable --now protonplus.timer");
-
-                string systemd_dir = get_systemd_dir ();
-                var service_file = File.new_for_path (Path.build_filename (systemd_dir, "protonplus.service"));
-                if (service_file.query_exists ()) {
-                    service_file.delete ();
-                }
-
-                var timer_file = File.new_for_path (Path.build_filename (systemd_dir, "protonplus.timer"));
-                if (timer_file.query_exists ()) {
-                    timer_file.delete ();
-                }
-
-                yield run_systemctl ("daemon-reload");
-            } catch (Error e) {
-                warning (e.message);
-            }
+            return systemd_timer_manager;
         }
     }
 }

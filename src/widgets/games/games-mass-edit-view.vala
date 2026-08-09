@@ -146,8 +146,7 @@ namespace ProtonPlus.Widgets.Games {
                 if (!row.game.is_native)
                     all_native = false;
 
-                var steam_game = row.game as Models.Games.Steam;
-                if (!row.game.is_native && (steam_game == null || !steam_game.is_non_steam))
+                if (!Models.Launchers.Steam.is_game_steam_linux_runtime_compatible (row.game))
                     all_steam_linux_runtime_compatible = false;
             }
 

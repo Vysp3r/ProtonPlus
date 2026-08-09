@@ -201,15 +201,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         public Models.CompatibilityToolRuntimeKind runtime_for_tool (Models.CompatibilityTool? tool) {
-            if (tool == null)
-                return Models.CompatibilityToolRuntimeKind.UNKNOWN;
-            if (tool.runtime_kind != Models.CompatibilityToolRuntimeKind.UNKNOWN)
-                return tool.runtime_kind;
-            if (tool.internal_title == "Default")
-                return Models.CompatibilityToolRuntimeKind.PROTON;
-            if (Models.Launchers.Steam.is_steam_linux_runtime (tool.display_title, tool.internal_title))
-                return Models.CompatibilityToolRuntimeKind.NATIVE;
-            return Models.CompatibilityToolRuntimeKind.UNKNOWN;
+            return Models.Launchers.Steam.get_compatibility_tool_runtime_kind (tool);
         }
 
         public LaunchOptionEligibility evaluate (

@@ -6,6 +6,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Button protondb_button;
         Gtk.Box content_box;
         Gtk.Popover popover;
+        ulong awacy_status_handler;
 
         construct {
             open_protontricks_button = new Gtk.Button.with_label (_ ("Open in protontricks"));
@@ -46,33 +47,51 @@ namespace ProtonPlus.Widgets.Games {
 
                 content_box.append (protondb_button);
                 content_box.append (anticheat_button);
-
-                anticheat_button.set_tooltip_text (steam_game.awacy_status);
-                switch (steam_game.awacy_status) {
-                    case "Supported":
-                        anticheat_button.add_css_class ("green");
-                        break;
-                    case "Running":
-                        anticheat_button.add_css_class ("blue");
-                        break;
-                    case "Planned":
-                        anticheat_button.add_css_class ("purple");
-                        break;
-                    case "Broken":
-                        anticheat_button.add_css_class ("orange");
-                        break;
-                    case "Denied":
-                        anticheat_button.add_css_class ("red");
-                        break;
-                    default:
-                        anticheat_button.set_tooltip_text (_ ("Unknown"));
-                        anticheat_button.set_visible (false);
-                        break;
-                }
+                awacy_status_handler = steam_game.notify["awacy-status"].connect (refresh_anticheat_button);
+                refresh_anticheat_button ();
 
                 protondb_button.set_visible (!steam_game.is_non_steam);
             }
 
+            refresh_sensitivity ();
+        }
+
+        private void refresh_anticheat_button () {
+            var steam_game = game as Models.Games.Steam;
+            if (steam_game == null)
+                return;
+
+            foreach (var css_class in new string[] { "green", "blue", "purple", "orange", "red" })
+                anticheat_button.remove_css_class (css_class);
+
+            anticheat_button.set_tooltip_text (((!) steam_game).awacy_status);
+            anticheat_button.set_visible (true);
+            switch (((!) steam_game).awacy_status) {
+                case "Supported":
+                    anticheat_button.add_css_class ("green");
+                    break;
+                case "Running":
+                    anticheat_button.add_css_class ("blue");
+                    break;
+                case "Planned":
+                    anticheat_button.add_css_class ("purple");
+                    break;
+                case "Broken":
+                    anticheat_button.add_css_class ("orange");
+                    break;
+                case "Denied":
+                    anticheat_button.add_css_class ("red");
+                    break;
+                default:
+                    anticheat_button.set_tooltip_text (_ ("Unknown"));
+                    anticheat_button.set_visible (false);
+                    break;
+            }
+
+            refresh_sensitivity ();
+        }
+
+        private void refresh_sensitivity () {
             bool any_visible = false;
             var child = content_box.get_first_child ();
             while (child != null) {
@@ -86,6 +105,10 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         public override void dispose () {
+            if (awacy_status_handler != 0 && game is Models.Games.Steam) {
+                game.disconnect (awacy_status_handler);
+                awacy_status_handler = 0;
+            }
             popover.unparent ();
 
             base.dispose ();
