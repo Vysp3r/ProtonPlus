@@ -1,0 +1,20 @@
+[
+  {
+    "id": 4001,
+    "name": "Wine-GE-Proton8-26",
+    "tag_name": "GE-Proton8-26",
+    "body": "  Forgejo release notes  ",
+    "html_url": "https://codeberg.org/example/project/releases/tag/GE-Proton8-26",
+    "created_at": "2026-07-25T12:34:56Z",
+    "assets": [
+      {
+        "id": 4002,
+        "name": "Wine-GE-Proton8-26.tar.xz",
+        "content_type": "application/x-xz",
+        "size": 126,
+        "digest": "sha256:forgejo",
+        "browser_download_url": "https://codeberg.org/example/project/releases/download/GE-Proton8-26/Wine-GE-Proton8-26.tar.xz"
+      }
+    ]
+  }
+]

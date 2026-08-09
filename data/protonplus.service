@@ -1,0 +1,6 @@
+[Unit]
+Description=ProtonPlus
+
+[Service]
+Type=oneshot
+ExecStart={ExecStart}

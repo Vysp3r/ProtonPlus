@@ -1,6 +1,6 @@
 #!/bin/sh
+
 set -eu
-ARCH=$(uname -m)
 
 echo "Installing package dependencies..."
 echo "---------------------------------------------------------------"
@@ -19,12 +19,18 @@ pacman -Syu --noconfirm \
     libarchive \
     gettext \
     desktop-file-utils \
+    appstream \
     appstream-glib \
     bluez-libs \
     libnm \
     glib-networking \
-    libproxy
+    libproxy \
+    patchelf \
+    sdl3 \
+    libnotify
 
-echo "Installing debloated packages..."
-echo "---------------------------------------------------------------"
-get-debloated-pkgs --add-common --prefer-nano
+if command -v get-debloated-pkgs >/dev/null 2>&1; then
+    echo "Installing debloated packages..."
+    echo "---------------------------------------------------------------"
+    get-debloated-pkgs --add-common --prefer-nano
+fi

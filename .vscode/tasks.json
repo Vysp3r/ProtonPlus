@@ -1,0 +1,55 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile and Run",
+            "type": "shell",
+            "command": "make build-run",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Compile",
+            "type": "shell",
+            "command": "make build",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Compile (Debug)",
+            "type": "shell",
+            "command": "make build-debug",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Flathub",
+            "type": "shell",
+            "command": "make flathub",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run tests",
+            "type": "shell",
+            "command": "make tests",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "problemMatcher": []
+        }
+    ]
+}

@@ -7,23 +7,35 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   flatpak:
-    name: "Flatpak Build"
-    runs-on: ubuntu-latest
+    name: "Flatpak Build (${{ matrix.variant.arch }})"
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-50
       options: --privileged
+    strategy:
+      fail-fast: false
+      matrix:
+        variant:
+          - arch: x86_64
+            runner: ubuntu-24.04
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.variant.runner }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
-
+        uses: actions/checkout@v6
       - name: Build
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
           bundle: protonplus.flatpak
           manifest-path: com.vysp3r.ProtonPlus.local.yml
           run-tests: true
+          arch: ${{ matrix.variant.arch }}
+          verbose: true
 
       - name: Lint
         continue-on-error: true

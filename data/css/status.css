@@ -1,0 +1,20 @@
+/* Status colors must remain visible above custom theme button rules. */
+button.anticheat-button.green {
+    color: #2ec27e;
+}
+
+button.anticheat-button.blue {
+    color: #3584e4;
+}
+
+button.anticheat-button.purple {
+    color: #9141ac;
+}
+
+button.anticheat-button.orange {
+    color: #e66100;
+}
+
+button.anticheat-button.red {
+    color: #e01b24;
+}

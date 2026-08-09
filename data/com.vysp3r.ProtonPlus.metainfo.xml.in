@@ -5,45 +5,17 @@
   <project_license>GPL-3.0-or-later</project_license>
 
   <name>ProtonPlus</name>
-  <summary>A modern compatibility tools manager</summary>
+  <summary>Manage Proton, Wine, DXVK, and VKD3D tools for Linux game launchers</summary>
   <description>
     <p>
-      ProtonPlus is a simple tool to help you manage your compatibility tools for Steam, Lutris, Heroic Games Launcher and Bottles.
+      ProtonPlus helps you install, update, remove, and organize Windows compatibility tools used by Steam and other Linux game launchers.
     </p>
-    <p>Features:</p>
     <ul>
-      <li>Manage supported compatibility tools across supported launchers</li>
-      <li>Change the compatibility tool and launch options of your Steam games</li>
-      <li>And much more...</li>
-    </ul>
-    <p>Supported launchers:</p>
-    <ul>
-      <li>Steam</li>
-      <li>Lutris</li>
-      <li>Heroic Games Launcher</li>
-      <li>Bottles</li>
-      <li>WineZGUI</li>
-    </ul>
-    <p>Supported compatibility tools:</p>
-    <ul>
-      <li>Steam Tinker Launch</li>
-      <li>Proton-GE</li>
-      <li>Luxtorpeda</li>
-      <li>Boxtron</li>
-      <li>Roberta</li>
-      <li>Proton-GE RTSP</li>
-      <li>Proton CachyOS</li>
-      <li>Proton EM</li>
-      <li>Proton Tkg</li>
-      <li>Kron4ek Wine-Builds Proton</li>
-      <li>Kron4ek Wine-Builds Vanilla</li>
-      <li>Kron4ek Wine-Builds Staging</li>
-      <li>Kron4ek Wine-Builds Staging-Tkg</li>
-      <li>DXVK</li>
-      <li>DXVK (Sarek)</li>
-      <li>DXVK GPL+Async (Ph42oN)</li>
-      <li>VKD3D-Lutris</li>
-      <li>VKD3D-Proton</li>
+      <li>Manage Proton, Wine, DXVK, VKD3D, and related compatibility tools</li>
+      <li>Support Steam, Faugus Launcher, Lutris, Heroic Games Launcher, Bottles, and WineZGUI</li>
+      <li>Browse Steam games, change compatibility tools, and edit launch options</li>
+      <li>Track downloads and updates, with cancellation and desktop notifications</li>
+      <li>Use the command-line interface to list, install, update, and uninstall tools</li>
     </ul>
   </description>
 
@@ -55,6 +27,13 @@
     <keyword>Proton</keyword>
     <keyword>Wine</keyword>
     <keyword>Steam</keyword>
+    <keyword>Faugus</keyword>
+    <keyword>Lutris</keyword>
+    <keyword>Heroic</keyword>
+    <keyword>Bottles</keyword>
+    <keyword>DXVK</keyword>
+    <keyword>VKD3D</keyword>
+    <keyword>Steam Tinker Launch</keyword>
   </keywords>
 
   <url type="homepage">https://protonplus.vysp3r.com/</url>
@@ -65,7 +44,6 @@
 
   <categories>
     <category>Game</category>
-    <category>Utility</category>
   </categories>
 
   <provides>
@@ -76,6 +54,7 @@
     <control>pointing</control>
     <control>keyboard</control>
     <control>touch</control>
+    <control>gamepad</control>
   </supports>
 
   <translation type="gettext">com.vysp3r.ProtonPlus</translation>
@@ -109,6 +88,33 @@
   </screenshots>
 
   <releases>
+    <release version="0.6.0" date="2026-08-09">
+      <description>
+        <ul>
+          <li>✨ Added Faugus Launcher support</li>
+          <li>✨ Added CPU-aware x86-64 variant selection</li>
+          <li>✨ Added scheduled background updates and notifications</li>
+          <li>✨ Added controller navigation and a first-run guide</li>
+          <li>✨ Added Breeze Light, Breeze Dark, SteamOS, and OLED themes</li>
+          <li>✨ Added a built-in MangoHud editor and proxy settings</li>
+          <li>✨ Added Steam shortcut creation and guided Steam restarts, including SteamOS Gaming Mode</li>
+          <li>✨ Added default Steam compatibility prefix migration</li>
+          <li>✨ Added an active downloads indicator</li>
+          <li>✨ Added ARM64 Flatpak support</li>
+          <li>✨ Reworked the launch options editor with hardware-aware options and exact command previews</li>
+          <li>✨ Preserved custom and unknown safe launch options during single-game and mass edits</li>
+          <li>✨ Improved Games and Tools navigation, search, filtering, and selection</li>
+          <li>✨ Improved release sorting, Latest handling, and variant selection</li>
+          <li>✨ Improved installation, update, cancellation, and recovery</li>
+          <li>✨ Improved Steam multi-user, VDF, and shortcut handling</li>
+          <li>✨ Improved command-line validation and error reporting</li>
+          <li>🐛 Fixed release and installation issues affecting Proton-TKG, Proton-CachyOS, DXVK, VKD3D, Lutris, and Steam Tinker Launch</li>
+          <li>🌐 Added Slovak localization</li>
+          <li>🌐 Updated German localization</li>
+          <li>🌐 Updated Italian localization</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.5.22" date="2026-07-24">
       <description>
         <ul>

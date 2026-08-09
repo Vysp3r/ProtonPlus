@@ -1,11 +1,16 @@
 namespace ProtonPlus.Models.Launchers {
     public class Bottles : Launcher {
+        public const string FAMILY_ID = "bottles";
+
         public Bottles (Launcher.InstallationTypes installation_type) {
             string[] directories = null;
 
             switch (installation_type) {
                 case Launcher.InstallationTypes.SYSTEM:
-                    directories = new string[] { "%s/bottles".printf (Environment.get_user_data_dir ()), "%s/.local/share/bottles".printf (Environment.get_home_dir ()) };
+                    directories = new string[] {
+                        Path.build_filename (Environment.get_user_data_dir (), "bottles"),
+                        Path.build_filename (Environment.get_home_dir (), ".local", "share", "bottles")
+                    };
                     break;
                 case Launcher.InstallationTypes.FLATPAK:
                     directories = new string[] { "%s/.var/app/com.usebottles.bottles/data/bottles".printf (Environment.get_home_dir ()) };
@@ -14,7 +19,7 @@ namespace ProtonPlus.Models.Launchers {
                     break;
             }
 
-            base ("Bottles", installation_type, "%s/bottles.svg".printf (Config.RESOURCE_BASE), directories);
+            base ("Bottles", installation_type, "%s/bottles.svg".printf (Config.RESOURCE_BASE), directories, FAMILY_ID);
         }
     }
 }

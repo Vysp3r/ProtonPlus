@@ -1,276 +1,301 @@
 namespace ProtonPlus.Widgets {
-    public class Window : Adw.ApplicationWindow {
-        public bool only_show_used { get; set; }
-        public bool only_show_unused { get; set; }
-        public bool updating { get; set; }
-        public List<Models.Launcher> launchers;
-
-        StatusBox status_box;
-        RunnersBox runners_box;
-        GamesBox games_box;
-        DownloadsBox downloads_box;
-
-        LaunchersPopoverButton launchers_popover_button;
-        Menu menu;
-        Gtk.MenuButton menu_button;
-
-        Gtk.Stack content_stack;
-        public LaunchOptionsView launch_options_view;
-        public MassEditView mass_edit_view;
-        public DefaultToolView default_tool_view;
-
-        Adw.ViewStack view_stack;
-        Adw.ViewStackPage downloads_page;
-        Adw.ToastOverlay toast_overlay;
-        Adw.ViewSwitcher view_switcher;
-        Adw.HeaderBar header_bar;
-        Adw.ViewSwitcherBar view_switcher_bar;
-        Adw.ToolbarView toolbar_view;
-
-        construct {
-            set_application ((Adw.Application) GLib.Application.get_default ());
-            set_title (Config.APP_NAME);
-
-            add_action (get_set_selected_launcher_action ());
-            add_action (get_set_selected_view_action ());
-            add_action (get_donate_action ());
-
-            status_box = new StatusBox ();
-            status_box.initialize ("com.vysp3r.ProtonPlus", _ ("Loading"), "%s\n%s".printf (_ ("Taking longer than normal?"), _ ("Please report this issue on GitHub.")));
-
-            runners_box = new RunnersBox ();
-
-            games_box = new GamesBox ();
-
-            downloads_box = new DownloadsBox ();
-
-            launchers_popover_button = new LaunchersPopoverButton ();
-
-            menu = new Menu ();
-            menu.append (_ ("_Preferences"), "app.preferences");
-            menu.append (_ ("_Keyboard Shortcuts"), "win.show-help-overlay");
-            menu.append (_ ("_Donate"), "win.donate");
-            menu.append (_ ("_About ProtonPlus"), "app.about");
-
-            menu_button = new Gtk.MenuButton ();
-            menu_button.set_tooltip_text (_ ("Main Menu"));
-            menu_button.set_icon_name ("open-menu-symbolic");
-            menu_button.set_menu_model (menu);
-
-            view_stack = new Adw.ViewStack ();
-            view_stack.add_titled_with_icon (runners_box, "tools", _ ("Tools"), "toolbox-symbolic");
-            view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "game-library-symbolic");
-            downloads_page = view_stack.add_titled_with_icon (downloads_box, "downloads", _ ("Downloads"), "download-symbolic");
-            view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
-
-            Models.DownloadManager.instance.download_added.connect (() => {
-                update_downloads_status ();
-            });
-
-            Models.DownloadManager.instance.download_removed.connect (() => {
-                update_downloads_status ();
-            });
-
-            update_downloads_status ();
-
-            toast_overlay = new Adw.ToastOverlay ();
-            toast_overlay.set_child (view_stack);
-
-            launch_options_view = new LaunchOptionsView ();
-            launch_options_view.back_requested.connect (show_games_list_page);
-
-            mass_edit_view = new MassEditView ();
-            mass_edit_view.back_requested.connect (show_games_list_page);
-
-            default_tool_view = new DefaultToolView ();
-            default_tool_view.back_requested.connect (show_games_list_page);
-
-            view_switcher = new Adw.ViewSwitcher ();
-            view_switcher.set_stack (view_stack);
-            view_switcher.set_policy (Adw.ViewSwitcherPolicy.WIDE);
-
-            header_bar = new Adw.HeaderBar ();
-            header_bar.set_title_widget (view_switcher);
-            header_bar.pack_start (launchers_popover_button);
-            header_bar.pack_end (menu_button);
-
-            view_switcher_bar = new Adw.ViewSwitcherBar ();
-            view_switcher_bar.set_stack (view_stack);
-
-            toolbar_view = new Adw.ToolbarView ();
-            toolbar_view.add_top_bar (header_bar);
-            toolbar_view.set_content (toast_overlay);
-            toolbar_view.add_bottom_bar (view_switcher_bar);
-
-            content_stack = new Gtk.Stack ();
-            content_stack.set_vexpand (true);
-            content_stack.set_hexpand (true);
-            content_stack.set_transition_type (Gtk.StackTransitionType.SLIDE_LEFT_RIGHT);
-            content_stack.add_named (toolbar_view, "main");
-            content_stack.add_named (launch_options_view, "launch-options");
-            content_stack.add_named (mass_edit_view, "mass-edit");
-            content_stack.add_named (default_tool_view, "default-tool");
-            content_stack.set_visible_child_name ("main");
-
-            set_content (status_box);
-
-            initialize.begin ();
+    private class GtkControllerHostAdapter : Object, Utils.ControllerHostAdapter {
+        public bool is_controller_window (Object candidate) {
+            return candidate is Window;
         }
 
-        public async void initialize (bool disable_update_check = false) {
-            var loaded = yield Models.Launcher.get_all (out launchers);
-            if (!loaded) {
-                status_box.initialize ("bug-symbolic", _ ("Couldn't load the launchers"), _ ("Please report this issue on GitHub."), true);
+        public Object? get_root (Object candidate) {
+            var widget = candidate as Gtk.Widget;
+            return widget?.get_root () as Object;
+        }
+    }
+
+    private class ControllerPopoverRegistration : Object {
+        weak Gtk.Popover? popover;
+        weak Gtk.Widget? opener;
+        weak Gtk.Widget? initial_focus;
+        ulong visible_handler = 0;
+        ulong map_handler = 0;
+
+        public ControllerPopoverRegistration (Gtk.Popover popover, Gtk.Widget opener,
+            Gtk.Widget? initial_focus) {
+            this.popover = popover;
+            this.opener = opener;
+            this.initial_focus = initial_focus;
+        }
+
+        public void start () {
+            if (popover == null)
+                return;
+            visible_handler = ((!) popover).notify["visible"].connect (try_register);
+            map_handler = ((!) popover).map.connect (try_register);
+            try_register ();
+        }
+
+        void try_register () {
+            var current_popover = popover;
+            var current_opener = opener;
+            if (current_popover == null || current_opener == null ||
+                !Utils.ControllerSurfacePolicy.can_register_popover (
+                    current_popover.get_visible (), current_popover.get_mapped ()
+                ))
+                return;
+
+            var controller_window = Window.resolve_controller_window (current_opener);
+            if (controller_window == null)
+                controller_window = Window.resolve_controller_window (current_popover);
+            if (controller_window == null)
+                return;
+
+            controller_window.register_controller_popover (
+                current_popover, current_opener, initial_focus
+            );
+            if (visible_handler != 0) {
+                current_popover.disconnect (visible_handler);
+                visible_handler = 0;
+            }
+            if (map_handler != 0) {
+                current_popover.disconnect (map_handler);
+                map_handler = 0;
+            }
+        }
+    }
+
+    public class Window : Adw.ApplicationWindow {
+        public Gee.LinkedList<Models.Launcher> launchers { get; set; }
+        Utils.ControllerManager controller_manager { get; set; }
+
+        Header.Box header_box { get; set; }
+        Loading.Box loading_box { get; set; }
+        public Main.Box main_box { get; set; }
+        Adw.ToolbarView toolbar_view { get; set; }
+        ControllerHintBar controller_hint_bar { get; set; }
+        ulong controller_presentation_handler = 0;
+
+        private Services.SteamRestartManager restart_manager;
+        private Services.SteamRestartOrchestrator restart_orchestrator;
+
+        public Window (Services.SteamRestartManager restart_manager, Services.SteamRestartOrchestrator restart_orchestrator) {
+            Object (application: (Adw.Application) GLib.Application.get_default (), title: Config.APP_NAME);
+            this.restart_manager = restart_manager;
+            this.restart_orchestrator = restart_orchestrator;
+
+            controller_manager = new Utils.ControllerManager (this);
+            controller_presentation_handler = controller_manager.presentation_changed.connect ((state) => {
+                controller_hint_bar.update_state (state);
+                header_box.set_controller_mode_active (state.controller_mode_active);
+            });
+            var navigate_back_action = new SimpleAction ("navigate-back", null);
+            navigate_back_action.activate.connect ((parameter) => controller_manager.navigate_application_back ());
+            add_action (navigate_back_action);
+
+            build_ui ();
+            controller_manager.start ();
+        }
+
+        public static void present_dialog_for_controller (Adw.Dialog dialog, Gtk.Widget? parent) {
+            var controller_window = resolve_controller_window (parent);
+            if (controller_window != null) {
+                controller_window.present_controller_dialog (dialog, parent);
+                return;
             }
 
-            if (launchers.length () > 0) {
-                if (content_stack.get_parent () == null)
-                set_content (content_stack);
+            dialog.present (parent);
+        }
 
-                launchers_popover_button.initialize (launchers);
+        public static void register_popover_for_controller (Gtk.Popover popover,
+            Gtk.Widget opener, Gtk.Widget? initial_focus = null) {
+            new ControllerPopoverRegistration (popover, opener, initial_focus).start ();
+        }
 
-                activate_action_variant ("win.set-selected-launcher", 0);
+        internal static Window? resolve_controller_window (Gtk.Widget? parent) {
+            return Utils.ControllerWindowResolver.resolve (
+                parent, new GtkControllerHostAdapter ()
+            ) as Window;
+        }
 
-                if (!disable_update_check && Globals.SETTINGS != null && Globals.SETTINGS.get_boolean ("automatic-updates"))
-                yield check_for_updates ();
-            } else {
-                status_box.initialize ("com.vysp3r.ProtonPlus", _ ("Welcome to %s").printf (Config.APP_NAME), "%s\n(%s)".printf (_ ("Install Steam, Lutris, Bottles, Heroic Games Launcher or WineZGUI to get started."), _ ("Make sure to run the launchers at least once to ensure they're properly initialized")));
-
-                if (status_box.get_parent () == null)
-                set_content (status_box);
-
-                Timeout.add (10000, () => {
-                    initialize.begin ();
-
-                    return false;
+        public void present_controller_dialog (Adw.Dialog dialog, Gtk.Widget? parent = null) {
+            controller_manager.register_dialog (dialog);
+            var alert_dialog = dialog as Adw.AlertDialog;
+            if (alert_dialog != null)
+                prepare_alert_dialog_focus ((!) alert_dialog);
+            dialog.present (parent ?? this);
+            if (alert_dialog != null) {
+                GLib.Idle.add (() => {
+                    if (((!) alert_dialog).get_mapped ())
+                        prepare_alert_dialog_focus ((!) alert_dialog);
+                    return GLib.Source.REMOVE;
                 });
             }
         }
 
-        public async void check_for_updates (Models.Runners.Basic? runner = null) {
-            updating = true;
+        internal void register_controller_popover (Gtk.Popover popover,
+            Gtk.Widget opener, Gtk.Widget? initial_focus = null) {
+            controller_manager.register_popover (popover, opener, initial_focus);
+        }
 
-            Adw.Toast toast;
-            ReturnCode code;
+        public void open_menu () {
+            header_box.open_menu ();
+        }
 
-            toast = new Adw.Toast (
-                    runner == null ?
-                    _ ("Checking for updates") :
-                    _ ("Updating %s").printf ("%s Latest".printf (runner.title))
-            );
+        public void open_launchers () {
+            header_box.open_launchers ();
+        }
 
-            toast_overlay.add_toast (toast);
-
-            code = (
-            runner == null ?
-            yield Models.Runner.check_for_updates (launchers) :
-            yield Models.Runner.update_specific_runner (runner)
-            );
-
-            toast.dismiss ();
-
-            switch (code) {
-                case ReturnCode.NOTHING_TO_UPDATE:
-                    toast = new Adw.Toast (
-                            runner == null ?
-                            _ ("Nothing to update") :
-                            _ ("No update found for %s").printf ("%s Latest".printf (runner.title)));
-                    break;
-                case ReturnCode.RUNNERS_UPDATED:
-                case ReturnCode.RUNNER_UPDATED:
-                    toast = new Adw.Toast (
-                            runner == null ?
-                            _ ("Everything is now up-to-date") :
-                            _ ("%s is now up-to-date").printf ("%s Latest".printf (runner.title)));
-                    break;
-                case ReturnCode.API_LIMIT_REACHED:
-                    toast = new Adw.Toast (
-                            runner == null ?
-                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("API limit reached")) :
-                            _ ("Couldn't update %s (Reason: %s)").printf (runner.title, _ ("API limit reached")));
-                    break;
-                case ReturnCode.CONNECTION_ISSUE:
-                case ReturnCode.CONNECTION_REFUSED:
-                case ReturnCode.CONNECTION_UNKNOWN:
-                    toast = new Adw.Toast (
-                            runner == null ?
-                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unable to reach the API")) :
-                            _ ("Couldn't update %s (Reason: %s)").printf (runner.title, _ ("Unable to reach the API")));
-                    break;
-                case ReturnCode.INVALID_ACCESS_TOKEN:
-                    toast = new Adw.Toast (
-                            runner == null ?
-                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Invalid access token")) :
-                            _ ("Couldn't update %s (Reason: %s)").printf (runner.title, _ ("Invalid access token")));
-                    break;
-                default:
-                    toast = new Adw.Toast (
-                            runner == null ?
-                            _ ("Couldn't check for updates (Reason: %s)").printf (_ ("Unknown error")) :
-                            _ ("Couldn't update %s (Reason: %s)").printf (runner.title, _ ("Unknown error")));
-                    toast.set_button_label (_ ("Report"));
-                    toast.set_action_name ("app.report");
-                    break;
+        public void request_controller_exit () {
+            if (Utils.DownloadManager.instance.active_downloads.size > 0) {
+                close ();
+                return;
             }
 
-            toast_overlay.add_toast (toast);
-
-            updating = false;
+            var dialog = new Adw.AlertDialog (_("Do you want to exit?"), "");
+            dialog.add_response ("cancel", _("Cancel"));
+            dialog.add_response ("exit", _("Exit"));
+            dialog.set_response_appearance ("exit", Adw.ResponseAppearance.DESTRUCTIVE);
+            dialog.set_default_response ("cancel");
+            dialog.set_close_response ("cancel");
+            dialog.response.connect ((response) => {
+                if (response != "exit")
+                    return;
+                close ();
+            });
+            present_controller_dialog (dialog);
         }
 
-        void view_stack_visible_child_name_changed () {
-            games_box.active = view_stack.get_visible_child_name () == "games";
+        static void prepare_alert_dialog_focus (Adw.AlertDialog dialog) {
+            disable_alert_heading_focus (dialog, dialog.get_heading ());
+            update_alert_scroll_focus (dialog);
+
+            Gtk.Widget? focus = dialog.get_default_widget ();
+            var default_response = dialog.get_default_response ();
+            if (focus == null && default_response != null) {
+                focus = find_button_with_label (
+                    dialog, dialog.get_response_label ((!) default_response)
+                );
+            }
+            if (focus == null)
+                return;
+
+            ((!) focus).set_focusable (true);
+            dialog.set_focus (focus);
+            if (dialog.get_mapped ())
+                ((!) focus).grab_focus ();
         }
 
-        void update_downloads_status () {
-            bool active = Models.DownloadManager.instance.active_downloads.size > 0;
-
-            if (active) {
-                add_css_class ("downloads-attention");
-            } else {
-                remove_css_class ("downloads-attention");
+        static void disable_alert_heading_focus (Gtk.Widget root, string? heading) {
+            var child = root.get_first_child ();
+            while (child != null) {
+                var label = child as Gtk.Label;
+                if (label != null && heading != null && label.get_label () == heading) {
+                    label.set_selectable (false);
+                    label.set_focusable (false);
+                }
+                disable_alert_heading_focus (child, heading);
+                child = child.get_next_sibling ();
             }
         }
 
-        SimpleAction get_donate_action () {
-            SimpleAction action = new SimpleAction ("donate", null);
-
-            action.activate.connect (() => {
-                Utils.System.open_uri ("https://protonplus.vysp3r.com/#donate");
-            });
-
-            return action;
+        static void update_alert_scroll_focus (Gtk.Widget root) {
+            var child = root.get_first_child ();
+            while (child != null) {
+                var scrolled = child as Gtk.ScrolledWindow;
+                if (scrolled != null && scrolled.has_css_class ("body-scrolled-window")) {
+                    var adjustment = scrolled.get_vadjustment ();
+                    scrolled.set_focusable (
+                        Utils.ControllerSurfacePolicy.scroll_container_needs_focus (
+                            adjustment.get_upper (), adjustment.get_page_size ()
+                        )
+                    );
+                }
+                update_alert_scroll_focus (child);
+                child = child.get_next_sibling ();
+            }
         }
 
-        SimpleAction get_set_selected_launcher_action () {
-            SimpleAction action = new SimpleAction ("set-selected-launcher", VariantType.INT32);
-
-            action.activate.connect ((variant) => {
-                runners_box.set_selected_launcher (launchers.nth_data (variant.get_int32 ()));
-                games_box.set_selected_launcher (launchers.nth_data (variant.get_int32 ()));
-            });
-
-            return action;
+        static Gtk.Widget? find_button_with_label (Gtk.Widget root, string label) {
+            var child = root.get_first_child ();
+            while (child != null) {
+                var button = child as Gtk.Button;
+                if (button != null && button.get_label () == label)
+                    return button;
+                var nested = find_button_with_label (child, label);
+                if (nested != null)
+                    return nested;
+                child = child.get_next_sibling ();
+            }
+            return null;
         }
 
-        SimpleAction get_set_selected_view_action () {
-            SimpleAction action = new SimpleAction ("set-selected-view", VariantType.STRING);
-
-            action.activate.connect ((variant) => {
-                content_stack.set_visible_child_name (variant.get_string ());
+        private void build_ui () {
+            header_box = new Header.Box ();
+            header_box.set_controller_mode_active (
+                controller_manager.presentation_state.controller_mode_active
+            );
+            header_box.launcher_selected.connect ((launcher) => {
+                main_box.set_selected_launcher (launcher);
             });
 
-            return action;
+            loading_box = new Loading.Box ();
+            loading_box.loaded.connect ((launchers) => {
+                this.launchers = launchers;
+
+                header_box.initialize (launchers, main_box.view_switcher);
+                main_box.initialize (launchers);
+                toolbar_view.set_content (main_box);
+
+                if (Globals.SETTINGS.get_boolean ("check-updates-on-launch")) {
+                    main_box.check_for_updates.begin (launchers);
+                }
+            });
+
+            main_box = new Main.Box (restart_manager, restart_orchestrator);
+            header_box.download_selected.connect ((job) => {
+                main_box.navigate_to_download (job);
+            });
+
+            toolbar_view = new Adw.ToolbarView ();
+            toolbar_view.add_top_bar (header_box);
+            controller_hint_bar = new ControllerHintBar ();
+            controller_hint_bar.update_state (controller_manager.presentation_state);
+            toolbar_view.add_bottom_bar (controller_hint_bar);
+            toolbar_view.set_content (loading_box);
+
+            set_content (toolbar_view);
+            controller_manager.presentation_context_changed ();
+
+            loading_box.load.begin ();
+        }
+
+        public void reload_ui () {
+            var toplevels = Gtk.Window.get_toplevels ();
+            for (uint i = 0; i < toplevels.get_n_items (); i++) {
+                var popover = toplevels.get_item (i) as Gtk.Popover;
+
+                if (popover != null && popover.get_root () == this) {
+                    popover.popdown (); // Bezpečně sklopíme/zavřeme bublinu
+                }
+            }
+
+            build_ui ();
+        }
+
+        public void reload () {
+            toolbar_view.set_content (loading_box);
+
+            loading_box.load.begin ();
         }
 
         public override bool close_request () {
-            if (!updating) {
-                Utils.Filesystem.delete_directory.begin (Globals.CACHE_PATH);
+            if (Utils.DownloadManager.instance.active_downloads.size == 0) {
+                controller_manager.stop ();
 
                 return false;
             }
 
-            var dialog = new Adw.AlertDialog (_ ("Warning"), _ ("The application is currently checking for updates.\nExiting the application early may cause issues."));
+            var dialog = new Adw.AlertDialog (
+                _ ("Warning"),
+                _ ("The application is currently downloading a tool.\nExiting the application early may cause issues.")
+            );
 
             dialog.add_response ("exit", _ ("Exit"));
             dialog.set_response_appearance ("exit", Adw.ResponseAppearance.DESTRUCTIVE);
@@ -285,22 +310,23 @@ namespace ProtonPlus.Widgets {
                 if (response != "exit")
                 return;
 
-                Utils.Filesystem.delete_directory.begin (Globals.CACHE_PATH);
+                controller_manager.stop ();
 
                 application.quit ();
             });
 
-            dialog.present (this);
+            present_controller_dialog (dialog);
 
             return true;
         }
 
-        void show_games_list_page () {
-            content_stack.set_visible_child_name ("main");
-        }
-
-        public void show_downloads_page () {
-            view_stack.set_visible_child_name ("downloads");
+        public override void dispose () {
+            if (controller_presentation_handler != 0) {
+                controller_manager.disconnect (controller_presentation_handler);
+                controller_presentation_handler = 0;
+            }
+            controller_manager.stop ();
+            base.dispose ();
         }
     }
 }

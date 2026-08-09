@@ -9,6 +9,42 @@ namespace ProtonPlus.CLI {
     private const string OPT_LATEST = "latest";
     private const string OPT_ALL = "all";
 
+    public interface CliOutputSink : Object {
+        public abstract void write_stdout (string text);
+        public abstract void write_stderr (string text);
+        public abstract void flush_stdout ();
+    }
+
+    public class TerminalCliOutputSink : Object, CliOutputSink {
+        public void write_stdout (string text) {
+            print (text);
+        }
+
+        public void write_stderr (string text) {
+            printerr (text);
+        }
+
+        public void flush_stdout () {
+            stdout.flush ();
+        }
+    }
+
+    public class RecordingCliOutputSink : Object, CliOutputSink {
+        public string stdout_text { get; private set; default = ""; }
+        public string stderr_text { get; private set; default = ""; }
+
+        public void write_stdout (string text) {
+            stdout_text += text;
+        }
+
+        public void write_stderr (string text) {
+            stderr_text += text;
+        }
+
+        public void flush_stdout () {
+        }
+    }
+
     private class Output {
         private const string RESET = "\033[0m";
         private const string BOLD = "\033[1m";
@@ -16,35 +52,59 @@ namespace ProtonPlus.CLI {
         private const string GREEN = "\033[32m";
         private const string YELLOW = "\033[33m";
         private const string BLUE = "\033[34m";
+        private CliOutputSink sink;
 
-        public static void info (string format, ...) {
-            var args = va_list ();
-            print (format.vprintf (args));
+        public Output (CliOutputSink sink) {
+            this.sink = sink;
         }
 
-        public static void success (string format, ...) {
+        public void info (string format, ...) {
             var args = va_list ();
-            print (GREEN + format.vprintf (args) + RESET);
+            sink.write_stdout (format.vprintf (args));
         }
 
-        public static void error (string format, ...) {
+        public void success (string format, ...) {
             var args = va_list ();
-            printerr (RED + format.vprintf (args) + RESET);
+            sink.write_stdout (GREEN + format.vprintf (args) + RESET);
         }
 
-        public static void warning (string format, ...) {
+        public void error (string format, ...) {
             var args = va_list ();
-            print (YELLOW + format.vprintf (args) + RESET);
+            sink.write_stderr (RED + format.vprintf (args) + RESET);
         }
 
-        public static void header (string format, ...) {
+        public void warning (string format, ...) {
             var args = va_list ();
-            print (BOLD + BLUE + format.vprintf (args) + RESET);
+            sink.write_stdout (YELLOW + format.vprintf (args) + RESET);
+        }
+
+        public void header (string format, ...) {
+            var args = va_list ();
+            sink.write_stdout (BOLD + BLUE + format.vprintf (args) + RESET);
+        }
+
+        public void flush_stdout () {
+            sink.flush_stdout ();
         }
     }
 
     public class Handler {
-        private List<Models.Launcher> launchers;
+        private Gee.LinkedList<Models.Launcher> launchers;
+        /* Production discovers launchers at command time.  Tests may provide
+         * a fully temporary collection so command routing never touches a
+         * host launcher directory. */
+        private Gee.LinkedList<Models.Launcher>? fixture_launchers;
+        private ulong progress_updated_handler_id = 0;
+        private ulong steam_restart_recording_failed_handler_id = 0;
+        private Output output;
+        public CliOutputSink output_sink { get; private set; }
+
+        public Handler (Gee.LinkedList<Models.Launcher>? fixture_launchers = null,
+            CliOutputSink? output_sink = null) {
+            this.fixture_launchers = fixture_launchers;
+            this.output_sink = output_sink ?? new TerminalCliOutputSink ();
+            output = new Output (this.output_sink);
+        }
 
         public async int run (string[] args) {
             if (args.length < 2) {
@@ -52,40 +112,69 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
-            yield Globals.load ();
+            var command = args[1];
+            if (command == CMD_VERSION) {
+                output.info ("ProtonPlus %s\n", Config.APP_VERSION);
+                return 0;
+            }
 
-            if (!yield load_launchers ()) {
+            if (command == CMD_HELP) {
+                print_usage ();
+                return 0;
+            }
+
+            if (command != CMD_LIST && command != CMD_INSTALL &&
+                command != CMD_UNINSTALL && command != CMD_UPDATE) {
+                output.error (_ ("Error: Unknown command '%s'\n"), command);
+                print_usage ();
                 return 1;
             }
 
-            var command = args[1];
-            switch (command) {
-                case CMD_VERSION:
-                    Output.info ("ProtonPlus %s\n", Config.APP_VERSION);
-                    return 0;
-                case CMD_HELP:
-                    print_usage ();
-                    return 0;
-                case CMD_LIST:
-                    return handle_list (args);
-                case CMD_INSTALL:
-                    return yield handle_install (args);
-                case CMD_UNINSTALL:
-                    return yield handle_uninstall (args);
-                case CMD_UPDATE:
-                    return yield handle_update (args);
-                default:
-                    Output.error (_ ("Error: Unknown command '%s'\n"), command);
-                    print_usage ();
+            if (command == CMD_INSTALL || command == CMD_UPDATE)
+                progress_updated_handler_id = Utils.DownloadManager.instance.progress_updated.connect (on_progress_updated);
+            if (command == CMD_INSTALL || command == CMD_UNINSTALL || command == CMD_UPDATE) {
+                steam_restart_recording_failed_handler_id = Services.InstallationService.instance.steam_restart_recording_failed.connect ((job, message) => {
+                    output.warning (_ ("Warning: %s\n"), message);
+                });
+            }
+
+            try {
+                if (!yield load_launchers ())
                     return 1;
+
+                switch (command) {
+                    case CMD_LIST:
+                        return handle_list (args);
+                    case CMD_INSTALL:
+                        return yield handle_install (args);
+                    case CMD_UNINSTALL:
+                        return yield handle_uninstall (args);
+                    case CMD_UPDATE:
+                        return yield handle_update (args);
+                    default:
+                        return 1;
+                }
+            } finally {
+                disconnect_runtime_signals ();
+            }
+        }
+
+        private void disconnect_runtime_signals () {
+            if (progress_updated_handler_id != 0) {
+                Utils.DownloadManager.instance.disconnect (progress_updated_handler_id);
+                progress_updated_handler_id = 0;
+            }
+            if (steam_restart_recording_failed_handler_id != 0) {
+                Services.InstallationService.instance.disconnect (steam_restart_recording_failed_handler_id);
+                steam_restart_recording_failed_handler_id = 0;
             }
         }
 
         private int handle_list (string[] args) {
             if (args.length < 3) {
-                Output.header (_ ("Detected launchers:\n"));
+                output.header (_ ("Detected launchers:\n"));
                 foreach (var launcher in launchers) {
-                    Output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
+                    output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
                 }
                 return 0;
             }
@@ -95,20 +184,27 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
-            Output.header (_ ("Installed runners for %s:\n"), launcher.title);
+            output.header (_ ("Installed runners for %s:\n"), launcher.title);
             var found = false;
             foreach (var group in launcher.groups) {
-                var installed = group.get_compatibility_tool_directories ();
-                if (installed.length () > 0) {
-                    Output.info ("\n%s:\n", group.title);
-                    foreach (var dir in installed) {
-                        Output.info ("  %s\n", dir);
-                        found = true;
+                group.refresh_installed_state ();
+                var installed = group.get_installed_tool_snapshot ();
+                var group_found = false;
+                foreach (var entry in installed) {
+                    // This was intentionally omitted by Group's former raw
+                    // directory helper, so retain the CLI listing behavior.
+                    if (entry.directory_name == "LegacyRuntime")
+                        continue;
+                    if (!group_found) {
+                        output.info ("\n%s:\n", group.title);
+                        group_found = true;
                     }
+                    output.info ("  %s\n", entry.display_title);
+                    found = true;
                 }
             }
             if (!found) {
-                Output.warning (_ ("No runners installed\n"));
+                output.warning (_ ("No runners installed\n"));
             }
             return 0;
         }
@@ -128,8 +224,13 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
+            var provider_tool = get_provider_tool (runner, CMD_INSTALL);
+            if (provider_tool == null) {
+                return 1;
+            }
+
             var use_latest = args.length >= 5 && args[4] == OPT_LATEST;
-            return use_latest ? yield install_latest (runner) : yield install_interactive (runner);
+            return use_latest ? yield install_latest (provider_tool) : yield install_interactive (provider_tool);
         }
 
         private async int handle_uninstall (string[] args) {
@@ -151,8 +252,13 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
+            var provider_tool = get_provider_tool (runner, CMD_UNINSTALL);
+            if (provider_tool == null) {
+                return 1;
+            }
+
             var uninstall_all = args.length >= 5 && args[4] == OPT_ALL;
-            return uninstall_all ? yield uninstall_runner_all (runner) : yield uninstall_interactive (runner);
+            return uninstall_all ? yield uninstall_runner_all (provider_tool) : yield uninstall_interactive (provider_tool);
         }
 
         private async int handle_update (string[] args) {
@@ -174,178 +280,205 @@ namespace ProtonPlus.CLI {
                 if (runner == null) {
                     return 1;
                 }
-                return yield update_runner (runner);
+
+                var provider_tool = get_provider_tool (runner, CMD_UPDATE);
+                if (provider_tool == null) {
+                    return 1;
+                }
+                return yield update_runner (provider_tool);
             }
             return yield update_launcher (launcher);
         }
 
-        private async int install_latest (Models.Runner runner) {
-            if (!runner.has_latest_support) {
-                Output.error (_ ("Error: Runner '%s' does not support 'latest' installation\n"), runner.title);
+        private async int install_latest (Models.Tools.ProviderTool provider_tool) {
+            var catalog = provider_tool.release_catalog;
+            if (catalog == null)
+                return 1;
+            var result = yield catalog.fetch_latest_eligible_release ();
+            if (!result.succeeded) {
+                output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (result.code));
                 return 1;
             }
 
-            var basic_runner = runner as Models.Runners.Basic;
-            var code = yield load_runner_releases (basic_runner);
-            if (code != ReturnCode.RELEASES_LOADED || basic_runner.releases.length () == 0) {
+            if (!result.has_release) {
+                output.error (_ ("Error: No releases are available\n"));
                 return 1;
             }
 
-            var release = basic_runner.releases.nth_data (0) as Models.Releases.Basic;
-            var latest_release = new Models.Releases.Latest (
-                    basic_runner,
-                    "%s Latest".printf (runner.title),
-                    release.description,
-                    release.release_date,
-                    release.download_url,
-                    release.page_url
+            output.info (_ ("Installing %s Latest...\n"), provider_tool.title);
+            var job = create_install_job (
+                result.require_release (), provider_tool, Services.InstallJob.Mode.LATEST
             );
-
-            Output.info (_ ("Installing %s Latest...\n"), runner.title);
-            var success = yield latest_release.install ();
-            Output.success (success ? _ ("Successfully installed %s Latest\n") : _ ("Error: Installation failed\n"), runner.title);
+            var code = yield job.install ();
+            output.info ("\r\033[2K\r");
+            var success = code == ReturnCode.RUNNER_INSTALLED;
+            if (success)
+                output.success (_ ("Successfully installed %s Latest\n"), provider_tool.title);
+            else
+                output.error (_ ("Error: Installation failed: %s\n"), get_return_code_message (code));
             return success ? 0 : 1;
         }
 
-        private async int install_interactive (Models.Runner runner) {
-            var basic_runner = runner as Models.Runners.Basic;
-            var code = yield load_runner_releases (basic_runner);
-            if (code != ReturnCode.RELEASES_LOADED || basic_runner.releases.length () == 0) {
+        private async int install_interactive (Models.Tools.ProviderTool provider_tool) {
+            var catalog = provider_tool.release_catalog;
+            if (catalog == null)
+                return 1;
+            var code = yield load_runner_releases (provider_tool);
+            if (code != ReturnCode.RELEASES_LOADED || catalog.releases.size == 0) {
                 return 1;
             }
 
-            Output.header (_ ("Available releases for %s:\n"), runner.title);
-            for (var i = 0; i < basic_runner.releases.length (); i++) {
-                var release = basic_runner.releases.nth_data (i) as Models.Releases.Basic;
-                Output.info ("%d. %s (%s)\n", i + 1, release.title, release.release_date);
+            output.header (_ ("Available releases for %s:\n"), provider_tool.title);
+            for (var i = 0; i < catalog.releases.size; i++) {
+                var release = catalog.releases[i] as Models.Release;
+                output.info ("%d. %s (%s)\n", i + 1, release.title, release.release_date);
             }
 
-            var index = read_user_selection (_ ("Select release number"), (int) basic_runner.releases.length ());
+            var index = read_user_selection (_ ("Select release number"), (int) catalog.releases.size);
             if (index < 0) {
                 return 1;
             }
 
-            var selected = basic_runner.releases.nth_data (index) as Models.Releases.Basic;
-            Output.info (_ ("Installing %s...\n"), selected.title);
-            var success = yield selected.install ();
-            Output.success (success ? _ ("Successfully installed %s\n") : _ ("Error: Installation failed\n"), selected.title);
+            var selected = catalog.releases[index] as Models.Release;
+            output.info (_ ("Installing %s...\n"), selected.title);
+            var job = create_install_job (selected, provider_tool);
+            code = yield job.install ();
+            output.info ("\r\033[2K\r");
+            var success = code == ReturnCode.RUNNER_INSTALLED;
+            if (success)
+                output.success (_ ("Successfully installed %s\n"), selected.title);
+            else
+                output.error (_ ("Error: Installation failed: %s\n"), get_return_code_message (code));
             return success ? 0 : 1;
         }
 
-        private async int uninstall_interactive (Models.Runner runner) {
-            var installed = get_installed_releases (runner);
-            if (installed.length () == 0) {
-                Output.warning (_ ("No installed releases found for %s\n"), runner.title);
+        private async int uninstall_interactive (Models.Tools.ProviderTool runner) {
+            var installed = get_installed_entries (runner);
+            if (installed.size == 0) {
+                output.warning (_ ("No installed releases found for %s\n"), runner.title);
                 return 0;
             }
 
-            Output.header (_ ("Installed releases for %s:\n"), runner.title);
-            for (var i = 0; i < installed.length (); i++) {
-                Output.info ("%d. %s\n", i + 1, installed.nth_data (i));
+            output.header (_ ("Installed releases for %s:\n"), runner.title);
+            for (var i = 0; i < installed.size; i++) {
+                output.info ("%d. %s\n", i + 1, installed[i].display_title);
             }
 
-            var index = read_user_selection (_ ("Select release number"), (int) installed.length ());
+            var index = read_user_selection (_ ("Select release number"), installed.size);
             if (index < 0) {
                 return 1;
             }
 
-            var release_name = installed.nth_data (index);
-            return yield uninstall_single_release (runner, release_name);
+            return yield uninstall_single_release (runner, installed[index]);
         }
 
-        private async int uninstall_runner_all (Models.Runner runner) {
-            var installed = get_installed_releases (runner);
-            if (installed.length () == 0) {
-                Output.warning (_ ("No installed releases found for %s\n"), runner.title);
+        private async int uninstall_runner_all (Models.Tools.ProviderTool runner) {
+            var installed = get_installed_entries (runner);
+            if (installed.size == 0) {
+                output.warning (_ ("No installed releases found for %s\n"), runner.title);
                 return 0;
             }
 
-            Output.info (_ ("Uninstalling all releases for %s...\n"), runner.title);
-            foreach (var release_name in installed) {
-                yield uninstall_single_release (runner, release_name);
+            output.info (_ ("Uninstalling all releases for %s...\n"), runner.title);
+            var failed = false;
+            foreach (var entry in installed) {
+                var code = yield uninstall_single_release (runner, entry);
+                if (code != 0) {
+                    failed = true;
+                }
             }
-            return 0;
+            return failed ? 1 : 0;
         }
 
         private async int uninstall_launcher_all (Models.Launcher launcher) {
-            Output.info (_ ("Uninstalling all releases for launcher %s...\n"), launcher.title);
+            output.info (_ ("Uninstalling all releases for launcher %s...\n"), launcher.title);
+            var failed = false;
             foreach (var group in launcher.groups) {
-                foreach (var runner in group.runners) {
-                    var installed = get_installed_releases (runner);
-                    foreach (var release_name in installed) {
-                        var release = create_release (runner, release_name);
-                        if (yield release.remove (new Models.Parameters ())) {
-                            Output.success (_ ("Uninstalled %s\n"), release_name);
+                foreach (var runner in group.tools) {
+                    var provider_tool = runner as Models.Tools.ProviderTool;
+                    if (provider_tool == null) {
+                        continue;
+                    }
+
+                    var installed = get_installed_entries (provider_tool);
+                    foreach (var entry in installed) {
+                        var code = yield uninstall_single_release (provider_tool, entry);
+                        if (code != 0) {
+                            failed = true;
                         }
                     }
                 }
             }
-            return 0;
+            return failed ? 1 : 0;
         }
 
-        private async int uninstall_single_release (Models.Runner runner, string release_name) {
-            var release = create_release (runner, release_name);
-            Output.info (_ ("Uninstalling %s...\n"), release_name);
-            var success = yield release.remove (new Models.Parameters ());
-            Output.success (success ? _ ("Successfully uninstalled %s\n") : _ ("Error: Uninstallation failed\n"), release_name);
+        private async int uninstall_single_release (
+            Models.Tools.ProviderTool runner,
+            Models.InstalledToolEntry entry
+        ) {
+            var job = create_job (runner, entry);
+            output.info (_ ("Uninstalling %s...\n"), entry.display_title);
+            var code = yield job.remove ();
+            var success = code == ReturnCode.RUNNER_REMOVED;
+            if (success)
+                output.success (_ ("Successfully uninstalled %s\n"), entry.display_title);
+            else
+                output.error (_ ("Error: Uninstallation failed: %s\n"), get_return_code_message (code));
             return success ? 0 : 1;
         }
 
         private async int update_all () {
-            Output.info (_ ("Updating all runners...\n"));
-            var latest_runners = yield collect_latest_runners (launchers);
+            output.info (_ ("Updating all runners...\n"));
+            var latest_runners = collect_latest_runners (launchers);
             return yield update_runner_batch (latest_runners);
         }
 
         private async int update_launcher (Models.Launcher launcher) {
-            Output.info (_ ("Updating runners for %s...\n"), launcher.title);
-            var scoped = new List<Models.Launcher> ();
-            scoped.append (launcher);
-            var latest_runners = yield collect_latest_runners (scoped);
+            output.info (_ ("Updating runners for %s...\n"), launcher.title);
+            var scoped = new Gee.LinkedList<Models.Launcher> ();
+            scoped.add (launcher);
+            var latest_runners = collect_latest_runners (scoped);
             return yield update_runner_batch (latest_runners);
         }
 
-        private async int update_runner (Models.Runner runner) {
-            if (!runner.has_latest_support) {
-                return 1;
-            }
-
-            var code = yield update_runner_with_progress (runner as Models.Runners.Basic);
+        private async int update_runner (Models.Tools.ProviderTool runner) {
+            var code = yield update_runner_with_progress (runner);
             switch (code) {
                 case ReturnCode.RUNNER_UPDATED:
-                    Output.success (_ ("Successfully updated %s\n"), runner.title);
+                    output.success (_ ("Successfully updated %s\n"), runner.title);
                     return 0;
                 case ReturnCode.NOTHING_TO_UPDATE:
-                    Output.success (_ ("Already up to date: %s\n"), runner.title);
+                    output.success (_ ("Already up to date: %s\n"), runner.title);
                     return 0;
                 default:
-                    Output.error (_ ("Error: Failed to update %s\n"), runner.title);
+                    output.error (_ ("Error: Failed to update %s: %s\n"), runner.title, get_return_code_message (code));
                     return 1;
             }
         }
 
-        private async List<Models.Runners.Basic> collect_latest_runners (List<Models.Launcher> scope) {
-            var latest_runners = new List<Models.Runners.Basic> ();
+        private Gee.LinkedList<Models.Tools.ProviderTool> collect_latest_runners (Gee.LinkedList<Models.Launcher> scope) {
+            var latest_runners = new Gee.LinkedList<Models.Tools.ProviderTool> ();
+            var collected_runner_ids = new Gee.HashSet<string> ();
 
             foreach (var launcher in scope) {
                 foreach (var group in launcher.groups) {
-                    var directories = group.get_compatibility_tool_directories ();
+                    group.refresh_installed_state ();
+                    var entries = group.get_installed_tool_snapshot ();
 
-                    foreach (var runner in group.runners) {
-                        if (!runner.has_latest_support || !(runner is Models.Runners.Basic)) {
+                    foreach (var tool in group.tools) {
+                        var provider_tool = tool as Models.Tools.ProviderTool;
+                        if (provider_tool == null) {
                             continue;
                         }
 
-                        foreach (var directory in directories) {
-                            if (directory == "%s Latest".printf (runner.title)) {
-                                latest_runners.append (runner as Models.Runners.Basic);
-                                continue;
-                            }
-
-                            if (directory == "%s Latest Backup".printf (runner.title)) {
-                                yield Utils.Filesystem.delete_directory (
-                                        "%s/%s/%s Latest Backup".printf (launcher.directory, group.directory, runner.title)
-                                );
+                        foreach (var entry in entries) {
+                            var latest = "%s Latest".printf (tool.title);
+                            var backup = "%s Backup".printf (latest);
+                            if (entry.directory_name == latest ||
+                                entry.directory_name.has_prefix ("%s-".printf (latest)) ||
+                                entry.directory_name == backup) {
+                                if (collected_runner_ids.add (provider_tool.id))
+                                    latest_runners.add (provider_tool);
                                 continue;
                             }
                         }
@@ -356,126 +489,174 @@ namespace ProtonPlus.CLI {
             return latest_runners;
         }
 
-        private async int update_runner_batch (List<Models.Runners.Basic> runners) {
-            if (runners.length () == 0) {
-                Output.success (_ ("Already up to date\n"));
+        private async int update_runner_batch (Gee.LinkedList<Models.Tools.ProviderTool> runners) {
+            if (runners.size == 0) {
+                output.success (_ ("Already up to date\n"));
                 return 0;
             }
 
-            var updated_count = 0;
+            var failed = false;
 
             foreach (var runner in runners) {
                 var code = yield update_runner_with_progress (runner);
                 switch (code) {
                     case ReturnCode.RUNNER_UPDATED:
-                        Output.success (_ ("Successfully updated %s\n"), runner.title);
-                        updated_count++;
+                        output.success (_ ("Successfully updated %s\n"), runner.title);
                         break;
                     case ReturnCode.NOTHING_TO_UPDATE:
-                        Output.success (_ ("Already up to date: %s\n"), runner.title);
+                        output.success (_ ("Already up to date: %s\n"), runner.title);
                         break;
                     default:
-                        Output.error (_ ("Error: Failed to update %s\n"), runner.title);
+                        output.error (_ ("Error: Failed to update %s: %s\n"), runner.title, get_return_code_message (code));
+                        failed = true;
                         break;
                 }
             }
-            return 0;
+            return failed ? 1 : 0;
         }
 
-        private async ReturnCode update_runner_with_progress (Models.Runners.Basic runner) {
-            Output.info (_ ("Updating %s...") + "\r", runner.title);
-            stdout.flush ();
+        private async ReturnCode update_runner_with_progress (Models.Tools.ProviderTool runner) {
+            output.info (_ ("Updating %s...") + "\r", runner.title);
+            output.flush_stdout ();
 
-            var code = yield Models.Runner.update_specific_runner (runner);
+            var code = yield Services.InstallationService.instance.update_specific_runner (runner);
 
-            Output.info ("\r\033[2K\r");
+            output.info ("\r\033[2K\r");
             return code;
         }
 
         private async bool load_launchers () {
+            if (fixture_launchers != null) {
+                launchers = (!) fixture_launchers;
+                return true;
+            }
             var success = yield Models.Launcher.get_all (out launchers);
             if (!success || launchers == null) {
-                Output.error (_ ("Error: Failed to load launchers\n"));
+                output.error (_ ("Error: Failed to load launchers\n"));
                 return false;
             }
             return true;
         }
 
-        private async ReturnCode load_runner_releases (Models.Runners.Basic basic_runner) {
-            var code = yield basic_runner.load (out basic_runner.releases);
-            if (code != ReturnCode.RELEASES_LOADED || basic_runner.releases.length () == 0) {
-                Output.error (_ ("Error: Failed to load releases\n"));
-            }
-            return code;
+        private async ReturnCode load_runner_releases (Models.Tools.ProviderTool provider_tool) {
+            var catalog = provider_tool.release_catalog;
+            if (catalog == null)
+                return ReturnCode.INVALID_CONFIGURATION;
+            var result = yield catalog.load (false);
+            if (!result.succeeded)
+                output.error (_ ("Error: Failed to load releases: %s\n"), get_return_code_message (result.code));
+            else if (result.releases.size == 0)
+                output.error (_ ("Error: No releases are available\n"));
+            return result.code;
         }
 
         private Models.Launcher? find_launcher (string launcher_id) {
             foreach (var launcher in launchers) {
-                if (get_launcher_id (launcher) == launcher_id) {
+                if (matches_launcher_id (launcher, launcher_id)) {
                     return launcher;
                 }
             }
-            Output.error (_ ("Error: Launcher '%s' not found\n"), launcher_id);
+            output.error (_ ("Error: Launcher '%s' not found\n"), launcher_id);
             print_available_launchers ();
             return null;
         }
 
-        private Models.Runner? find_runner (Models.Launcher launcher, string runner_id) {
+        private Models.Tool? find_runner (Models.Launcher launcher, string runner_id) {
             foreach (var group in launcher.groups) {
-                foreach (var runner in group.runners) {
-                    if (get_runner_id (runner) == runner_id) {
+                foreach (var runner in group.tools) {
+                    if (matches_runner_id (runner, runner_id)) {
                         return runner;
                     }
                 }
             }
-            Output.error (_ ("Error: Runner '%s' not found\n"), runner_id);
+            output.error (_ ("Error: Tool '%s' not found\n"), runner_id);
             print_available_runners (launcher);
             return null;
         }
 
-        private List<string> get_installed_releases (Models.Runner runner) {
-            var directories = runner.group.get_compatibility_tool_directories ();
-            var installed = new List<string> ();
+        private Gee.List<Models.InstalledToolEntry> get_installed_entries (
+            Models.Tools.ProviderTool runner
+        ) {
+            runner.group.refresh_installed_state ();
+            var entries = runner.group.get_installed_tool_snapshot ();
+            var installed = new Gee.ArrayList<Models.InstalledToolEntry> ();
 
-            foreach (var dir in directories) {
-                if (dir.has_prefix (runner.title)) {
-                    installed.append (dir);
-                }
+            foreach (var entry in entries) {
+                if (entry.provider_id == runner.provider_id &&
+                    entry.tool_id == runner.id &&
+                    entry.launcher_id == runner.group.launcher.tool_target_id)
+                    installed.add (entry);
             }
             return installed;
         }
 
-        private string get_launcher_id (Models.Launcher launcher) {
+        public static string get_launcher_id (Models.Launcher launcher) {
+            return launcher.instance_id;
+        }
+
+        public static string get_runner_id (Models.Tool runner) {
+            return runner.provider_id;
+        }
+
+        public static bool matches_launcher_id (Models.Launcher launcher, string launcher_id) {
+            return get_launcher_id (launcher) == launcher_id || get_legacy_launcher_id (launcher) == launcher_id;
+        }
+
+        public static bool matches_runner_id (Models.Tool runner, string runner_id) {
+            return get_runner_id (runner) == runner_id || get_legacy_runner_id (runner) == runner_id;
+        }
+
+        private static string get_legacy_launcher_id (Models.Launcher launcher) {
             return "%s-%s".printf (launcher.title.down ().replace (" ", "-"), launcher.get_installation_type_title ().down ());
         }
 
-        private string get_runner_id (Models.Runner runner) {
+        private static string get_legacy_runner_id (Models.Tool runner) {
             return runner.title.down ().replace (" ", "-");
         }
 
-        private string get_release_path (Models.Runner runner, string release_name) {
-            return "%s%s/%s".printf (runner.group.launcher.directory, runner.group.directory, release_name);
+        private Services.InstallJob create_job (
+            Models.Tools.ProviderTool runner,
+            Models.InstalledToolEntry entry
+        ) {
+            var release = new Models.Release (
+                entry.display_title, "", "", new Models.Assets.Asset ("", ""), "", 0, "", entry.release_id
+            );
+            return create_install_job (
+                release, runner, Services.InstallJob.Mode.VERSIONED, entry.path
+            );
         }
 
-        private Models.Releases.Basic create_release (Models.Runner runner, string release_name) {
-            return new Models.Releases.Basic.simple (
-                    runner as Models.Runners.Basic,
-                    release_name,
-                    get_release_path (runner, release_name)
-            );
+        /* Keep the actual CLI routing and InstallationService lifecycle in
+         * place while allowing fixture jobs to cover cancellation and durable
+         * transaction failures without a network request. */
+        protected virtual Services.InstallJob create_install_job (
+            Models.Release release,
+            Models.Tools.ProviderTool provider_tool,
+            Services.InstallJob.Mode mode = Services.InstallJob.Mode.VERSIONED,
+            string? installation_location = null
+        ) {
+            return new Services.InstallJob (release, provider_tool, mode, installation_location);
+        }
+
+        private Models.Tools.ProviderTool? get_provider_tool (Models.Tool runner, string operation) {
+            var provider_tool = runner as Models.Tools.ProviderTool;
+            if (provider_tool == null) {
+                output.error (_ ("Error: Tool '%s' does not support %s\n"), runner.title, operation);
+            }
+            return provider_tool;
         }
 
         private bool validate_args (string[] args, int min_required, string usage) {
             if (args.length < min_required) {
-                Output.error (_ ("Usage: %s\n"), usage);
+                output.error (_ ("Usage: %s\n"), usage);
                 return false;
             }
             return true;
         }
 
         private int read_user_selection (string prompt, int max) {
-            stdout.printf ("%s: ", prompt);
-            stdout.flush ();
+            output.info ("%s: ", prompt);
+            output.flush_stdout ();
             var input = stdin.read_line ();
 
             if (input == null || input.strip () == "") {
@@ -484,43 +665,75 @@ namespace ProtonPlus.CLI {
 
             var val = int.parse (input);
             if (val == 0 && input.strip () != "0") {
-                Output.error (_ ("Error: Invalid input, please enter a number\n"));
+                output.error (_ ("Error: Invalid input, please enter a number\n"));
                 return -1;
             }
 
             var index = val - 1;
             if (index < 0 || index >= max) {
-                Output.error (_ ("Error: Selection out of range\n"));
+                output.error (_ ("Error: Selection out of range\n"));
                 return -1;
             }
             return index;
         }
 
         private void print_usage () {
-            Output.header (_ ("Usage:\n"));
-            Output.info ("  protonplus <command> [options]\n\n");
-            Output.header (_ ("Commands:\n"));
-            Output.info ("  %-45s %s\n", "version", _ ("Show version"));
-            Output.info ("  %-45s %s\n", "help", _ ("Show this help"));
-            Output.info ("  %-45s %s\n", "list [launcher_id]", _ ("List launchers or installed runners"));
-            Output.info ("  %-45s %s\n", "install <launcher_id> <runner_id> [latest]", _ ("Install runner"));
-            Output.info ("  %-45s %s\n", "uninstall <launcher_id> <runner_id|all> [all]", _ ("Uninstall runner"));
-            Output.info ("  %-45s %s\n", "update <all|launcher_id> [runner_id]", _ ("Update runner"));
+            output.header (_ ("Usage:\n"));
+            output.info ("  protonplus <command> [options]\n\n");
+            output.header (_ ("Commands:\n"));
+            output.info ("  %-45s %s\n", "version", _ ("Show version"));
+            output.info ("  %-45s %s\n", "help", _ ("Show this help"));
+            output.info ("  %-45s %s\n", "list [launcher_id]", _ ("List launchers or installed runners"));
+            output.info ("  %-45s %s\n", "install <launcher_id> <runner_id> [latest]", _ ("Install runner"));
+            output.info ("  %-45s %s\n", "uninstall <launcher_id> <runner_id|all> [all]", _ ("Uninstall runner"));
+            output.info ("  %-45s %s\n", "update <all|launcher_id> [runner_id]", _ ("Update runner"));
         }
 
         private void print_available_launchers () {
-            Output.header (_ ("\nAvailable launchers:\n"));
+            output.header (_ ("\nAvailable launchers:\n"));
             foreach (var launcher in launchers) {
-                Output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
+                output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
             }
         }
 
         private void print_available_runners (Models.Launcher launcher) {
-            Output.header (_ ("\nAvailable runners for %s:\n"), launcher.title);
+            output.header (_ ("\nAvailable runners for %s:\n"), launcher.title);
             foreach (var group in launcher.groups) {
-                foreach (var runner in group.runners) {
-                    Output.info ("  %-45s (%s)\n", get_runner_id (runner), runner.title);
+                foreach (var runner in group.tools) {
+                    output.info ("  %-45s (%s)\n", get_runner_id (runner), runner.title);
                 }
+            }
+        }
+
+        private void on_progress_updated (Services.InstallJob job) {
+            var speed = Utils.Filesystem.convert_bytes_to_string ((int64) (job.speed_kbps * 1024));
+            var progress = job.progress;
+
+            string eta_text;
+            if (job.seconds_remaining >= 0) {
+                eta_text = _ ("ETA: %s").printf (format_time (job.seconds_remaining));
+            } else {
+                eta_text = _ ("ETA: --");
+            }
+
+            var label = job.state == Services.InstallJob.State.BUSY_UPDATING ? _ ("Updating") : _ ("Installing");
+
+            output.info ("\r\033[2K%s %s... %s (%s/s) [%s]\r", label, job.title, progress, speed, eta_text);
+            output.flush_stdout ();
+        }
+
+        private string format_time (double seconds) {
+            int total_seconds = (int) seconds;
+            int h = total_seconds / 3600;
+            int m = (total_seconds % 3600) / 60;
+            int s = total_seconds % 60;
+
+            if (h > 0) {
+                return _ ("%dh %dm %ds").printf (h, m, s);
+            } else if (m > 0) {
+                return _ ("%dm %ds").printf (m, s);
+            } else {
+                return _ ("%ds").printf (s);
             }
         }
     }

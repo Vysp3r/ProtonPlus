@@ -1,0 +1,86 @@
+/* SteamOS-inspired palette. */
+@define-color steamos_accent #1a9fff;
+@define-color steamos_accent_light #66c0f4;
+@define-color steamos_window_bg #171a21;
+@define-color steamos_view_bg #1b2838;
+@define-color steamos_card_bg #202b38;
+@define-color steamos_fg #f1f1f1;
+@define-color steamos_sidebar_fg #d6d7d8;
+@define-color steamos_border rgba(102, 192, 244, 0.18);
+
+/* GTK and libadwaita symbolic colors. */
+@define-color accent_bg_color @steamos_accent;
+@define-color accent_fg_color #ffffff;
+@define-color accent_color @steamos_accent_light;
+@define-color window_bg_color @steamos_window_bg;
+@define-color window_fg_color @steamos_fg;
+@define-color view_bg_color @steamos_view_bg;
+@define-color view_fg_color @steamos_fg;
+@define-color headerbar_bg_color @steamos_view_bg;
+@define-color headerbar_fg_color #ffffff;
+@define-color headerbar_border_color @steamos_border;
+@define-color headerbar_backdrop_color @steamos_window_bg;
+@define-color card_bg_color @steamos_card_bg;
+@define-color card_fg_color @steamos_fg;
+@define-color dialog_bg_color @steamos_view_bg;
+@define-color dialog_fg_color @steamos_fg;
+@define-color popover_bg_color @steamos_card_bg;
+@define-color popover_fg_color @steamos_fg;
+@define-color sidebar_bg_color @steamos_window_bg;
+@define-color sidebar_fg_color @steamos_sidebar_fg;
+@define-color secondary_sidebar_bg_color @steamos_view_bg;
+@define-color secondary_sidebar_fg_color @steamos_sidebar_fg;
+@define-color theme_bg_color @steamos_window_bg;
+@define-color theme_fg_color @steamos_fg;
+@define-color theme_base_color @steamos_view_bg;
+@define-color theme_text_color @steamos_fg;
+@define-color theme_selected_bg_color @steamos_accent;
+@define-color theme_selected_fg_color #ffffff;
+
+/* libadwaita reads its palette through CSS custom properties. */
+* {
+  --accent-bg-color: @steamos_accent;
+  --accent-fg-color: #ffffff;
+  --accent-color: @steamos_accent_light;
+  --window-bg-color: @steamos_window_bg;
+  --window-fg-color: @steamos_fg;
+  --view-bg-color: @steamos_view_bg;
+  --view-fg-color: @steamos_fg;
+  --headerbar-bg-color: @steamos_view_bg;
+  --headerbar-fg-color: #ffffff;
+  --headerbar-border-color: @steamos_border;
+  --headerbar-backdrop-color: @steamos_window_bg;
+  --headerbar-shade-color: rgba(0, 0, 0, 0.28);
+  --headerbar-darker-shade-color: rgba(0, 0, 0, 0.5);
+  --sidebar-bg-color: @steamos_window_bg;
+  --sidebar-fg-color: @steamos_sidebar_fg;
+  --sidebar-backdrop-color: @steamos_window_bg;
+  --sidebar-border-color: @steamos_border;
+  --sidebar-shade-color: rgba(0, 0, 0, 0.28);
+  --secondary-sidebar-bg-color: @steamos_view_bg;
+  --secondary-sidebar-fg-color: @steamos_sidebar_fg;
+  --secondary-sidebar-backdrop-color: @steamos_window_bg;
+  --secondary-sidebar-border-color: @steamos_border;
+  --secondary-sidebar-shade-color: rgba(0, 0, 0, 0.28);
+  --card-bg-color: @steamos_card_bg;
+  --card-fg-color: @steamos_fg;
+  --card-shade-color: rgba(0, 0, 0, 0.38);
+  --dialog-bg-color: @steamos_view_bg;
+  --dialog-fg-color: @steamos_fg;
+  --popover-bg-color: @steamos_card_bg;
+  --popover-fg-color: @steamos_fg;
+  --popover-shade-color: rgba(0, 0, 0, 0.38);
+  --thumbnail-bg-color: @steamos_card_bg;
+  --thumbnail-fg-color: @steamos_fg;
+  --shade-color: rgba(0, 0, 0, 0.38);
+  --scrollbar-outline-color: rgba(0, 0, 0, 0.5);
+}
+
+.card {
+  border: 1px solid rgba(102, 192, 244, 0.14);
+}
+
+.navigation-sidebar > row:selected,
+.navigation-sidebar > row:hover {
+  background-color: rgba(102, 192, 244, 0.14);
+}

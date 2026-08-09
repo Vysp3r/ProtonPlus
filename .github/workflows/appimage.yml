@@ -7,7 +7,9 @@ concurrency:
 on:
   release:
     types: [published]
-  workflow_dispatch: {}
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -20,7 +22,7 @@ jobs:
             arch: x86_64
     container: ghcr.io/pkgforge-dev/archlinux:latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Preparing Container
         uses: pkgforge-dev/anylinux-setup-action@v1
@@ -38,9 +40,10 @@ jobs:
           path: dist
 
   release:
-    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'release'
     needs: [build]
-    permissions: write-all
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v4
@@ -49,4 +52,8 @@ jobs:
           merge-multiple: true
 
       - name: Release AppImage
-        uses: pkgforge-dev/make-stable-appimage-release@v1
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            *.AppImage
+            *.AppImage.zsync
