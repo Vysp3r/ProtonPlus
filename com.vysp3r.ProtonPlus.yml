@@ -6,6 +6,7 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.vala
 command: protonplus
 finish-args:
+  - --require-version=1.16.0
   - --device=dri
   - --device=input
   - --share=ipc
@@ -24,6 +25,7 @@ finish-args:
   - --filesystem=host
   # Request access to supported Flatpak apps
   - --filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic
+  # Read-only markers used to detect the Faugus Flatpak installation.
   - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/config/faugus-launcher:ro
   - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/data/faugus-launcher:ro
   - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/.local/state/faugus-launcher:ro
