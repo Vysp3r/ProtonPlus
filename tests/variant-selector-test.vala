@@ -124,6 +124,21 @@ namespace AppTests.VariantSelectorTest {
         assert (v2[0].name == "x86_64");
         assert (VariantSelector.select_variant (values,
             new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V2), "x86_64_v3").name == "x86_64");
+
+        var armv8_0 = new CpuCapabilities (CpuArchitecture.AARCH64);
+        var old_arm = VariantSelector.compatible_variants (values, armv8_0);
+        assert (old_arm.size == 2);
+        assert (old_arm[0].name == "x86_64");
+        assert (old_arm[1].name == "x86_64_v3");
+        assert (VariantSelector.select_variant (values, armv8_0).name == "x86_64");
+
+        var armv8_1 = new CpuCapabilities (
+            CpuArchitecture.AARCH64, X86_64Level.UNKNOWN, Aarch64Level.V8_1
+        );
+        var new_arm = VariantSelector.compatible_variants (values, armv8_1);
+        assert (new_arm.size == 3);
+        assert (new_arm[2].name == "arm64");
+        assert (VariantSelector.select_variant (values, armv8_1).name == "arm64");
     }
 
     private Release release_with_assets (ProtonPlus.Models.Variant[] values) {

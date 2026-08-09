@@ -14,6 +14,12 @@ namespace ProtonPlus.Models {
         V4
     }
 
+    public enum Aarch64Level {
+        UNKNOWN,
+        V8_0,
+        V8_1
+    }
+
     /// CPU feature inputs are deliberately compiler- and host-independent so
     /// the psABI classification remains testable without executing probes.
     public class X86_64Features : Object {
@@ -47,18 +53,31 @@ namespace ProtonPlus.Models {
         public bool xcr0_hi16_zmm { get; set; }
     }
 
+    public class Aarch64Features : Object {
+        public bool crc32 { get; set; }
+        public bool lse_atomics { get; set; }
+        public bool rdma { get; set; }
+    }
+
     public class CpuCapabilities : Object {
         public CpuArchitecture architecture { get; private set; }
         public X86_64Level maximum_x86_64_level { get; private set; }
+        public Aarch64Level maximum_aarch64_level { get; private set; }
 
         public CpuCapabilities (
             CpuArchitecture architecture,
-            X86_64Level maximum_x86_64_level = X86_64Level.UNKNOWN
+            X86_64Level maximum_x86_64_level = X86_64Level.UNKNOWN,
+            Aarch64Level maximum_aarch64_level = Aarch64Level.UNKNOWN
         ) {
             this.architecture = architecture;
             this.maximum_x86_64_level = architecture == CpuArchitecture.X86_64
                 ? maximum_x86_64_level
                 : X86_64Level.UNKNOWN;
+            this.maximum_aarch64_level = architecture == CpuArchitecture.AARCH64
+                ? (maximum_aarch64_level == Aarch64Level.UNKNOWN
+                    ? Aarch64Level.V8_0
+                    : maximum_aarch64_level)
+                : Aarch64Level.UNKNOWN;
         }
 
         public bool supports_x86_64_level (X86_64Level level) {
@@ -66,6 +85,13 @@ namespace ProtonPlus.Models {
                    && level != X86_64Level.UNKNOWN
                    && maximum_x86_64_level != X86_64Level.UNKNOWN
                    && (int) level <= (int) maximum_x86_64_level;
+        }
+
+        public bool supports_aarch64_level (Aarch64Level level) {
+            return architecture == CpuArchitecture.AARCH64
+                   && level != Aarch64Level.UNKNOWN
+                   && maximum_aarch64_level != Aarch64Level.UNKNOWN
+                   && (int) level <= (int) maximum_aarch64_level;
         }
 
         public static X86_64Level x86_64_level_from_features (X86_64Features features) {
@@ -103,6 +129,12 @@ namespace ProtonPlus.Models {
                          && features.xcr0_zmm_hi256
                          && features.xcr0_hi16_zmm;
             return has_v4 ? X86_64Level.V4 : X86_64Level.V3;
+        }
+
+        public static Aarch64Level aarch64_level_from_features (Aarch64Features features) {
+            return features.crc32 && features.lse_atomics && features.rdma
+                ? Aarch64Level.V8_1
+                : Aarch64Level.V8_0;
         }
     }
 }

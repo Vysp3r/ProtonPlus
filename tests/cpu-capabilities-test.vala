@@ -6,6 +6,7 @@ namespace AppTests.CpuCapabilitiesTest {
     public void register_tests () {
         Test.add_func ("/cpu-capabilities/architecture-normalization", test_architecture_normalization);
         Test.add_func ("/cpu-capabilities/cumulative-level-support", test_cumulative_level_support);
+        Test.add_func ("/cpu-capabilities/aarch64-level-support", test_aarch64_level_support);
         Test.add_func ("/cpu-capabilities/feature-level-classification", test_feature_level_classification);
         Test.add_func ("/cpu-capabilities/v3-requirements", test_v3_requirements);
         Test.add_func ("/cpu-capabilities/probe-fallback-and-non-x86", test_probe_fallback_and_non_x86);
@@ -55,6 +56,21 @@ namespace AppTests.CpuCapabilitiesTest {
 
     private CpuCapabilities capabilities_for (X86_64Features features) {
         return System.get_cpu_capabilities_for_probe ("x86_64", true, features);
+    }
+
+    private CpuCapabilities capabilities_for_aarch64 (
+        bool crc32,
+        bool lse_atomics,
+        bool rdma
+    ) {
+        return System.get_cpu_capabilities_for_probe (
+            "aarch64", true, new X86_64Features (),
+            new Aarch64Features () {
+                crc32 = crc32,
+                lse_atomics = lse_atomics,
+                rdma = rdma
+            }
+        );
     }
 
     private void test_architecture_normalization () {
@@ -120,6 +136,25 @@ namespace AppTests.CpuCapabilitiesTest {
         assert (capabilities_for (no_os_avx_state).maximum_x86_64_level == X86_64Level.V2);
     }
 
+    private void test_aarch64_level_support () {
+        var v8_0 = capabilities_for_aarch64 (false, false, false);
+        assert (v8_0.maximum_aarch64_level == Aarch64Level.V8_0);
+        assert (v8_0.supports_aarch64_level (Aarch64Level.V8_0));
+        assert (!v8_0.supports_aarch64_level (Aarch64Level.V8_1));
+
+        var v8_1 = capabilities_for_aarch64 (true, true, true);
+        assert (v8_1.maximum_aarch64_level == Aarch64Level.V8_1);
+        assert (v8_1.supports_aarch64_level (Aarch64Level.V8_0));
+        assert (v8_1.supports_aarch64_level (Aarch64Level.V8_1));
+
+        assert (capabilities_for_aarch64 (false, true, true).maximum_aarch64_level == Aarch64Level.V8_0);
+        assert (capabilities_for_aarch64 (true, false, true).maximum_aarch64_level == Aarch64Level.V8_0);
+        assert (capabilities_for_aarch64 (true, true, false).maximum_aarch64_level == Aarch64Level.V8_0);
+
+        assert (!new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V4)
+            .supports_aarch64_level (Aarch64Level.V8_0));
+    }
+
     private void test_v3_requirements () {
         foreach (var missing in new string[] {
             "avx", "avx2", "bmi1", "bmi2", "f16c", "fma", "lzcnt", "movbe", "osxsave", "xcr0_xmm", "xcr0_ymm"
@@ -151,6 +186,13 @@ namespace AppTests.CpuCapabilitiesTest {
         var aarch64 = System.get_cpu_capabilities_for_probe ("aarch64", true, complete_v4_features ());
         assert (aarch64.architecture == CpuArchitecture.AARCH64);
         assert (aarch64.maximum_x86_64_level == X86_64Level.UNKNOWN);
+        assert (aarch64.maximum_aarch64_level == Aarch64Level.V8_0);
+
+        var unavailable_aarch64 = System.get_cpu_capabilities_for_probe (
+            "aarch64", false, complete_v4_features (),
+            new Aarch64Features () { crc32 = true, lse_atomics = true, rdma = true }
+        );
+        assert (unavailable_aarch64.maximum_aarch64_level == Aarch64Level.V8_0);
     }
 
     private void assert_hwcaps (CpuCapabilities capabilities, string[] expected) {
@@ -166,6 +208,9 @@ namespace AppTests.CpuCapabilitiesTest {
         assert_hwcaps (new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V3), { "x86_64_v3", "x86_64_v2", "x86_64" });
         assert_hwcaps (new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V4), { "x86_64_v4", "x86_64_v3", "x86_64_v2", "x86_64" });
         assert_hwcaps (new CpuCapabilities (CpuArchitecture.AARCH64), { "aarch64" });
+        assert_hwcaps (new CpuCapabilities (
+            CpuArchitecture.AARCH64, X86_64Level.UNKNOWN, Aarch64Level.V8_1
+        ), { "aarch64_v8_1", "aarch64" });
         assert_hwcaps (new CpuCapabilities (CpuArchitecture.UNKNOWN), { "unknown" });
     }
 }

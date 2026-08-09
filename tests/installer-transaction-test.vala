@@ -117,6 +117,8 @@ namespace AppTests.InstallerTransactionTest {
         Test.add_func ("/installer-transaction/all-built-in-providers-use-latest-workflow", test_all_built_in_providers_use_latest_workflow);
         Test.add_func ("/installer-transaction/aarch64-host-installs-x86-64-variant", test_aarch64_host_installs_x86_64_variant);
         Test.add_func ("/installer-transaction/aarch64-host-defaults-to-native-variant", test_aarch64_host_defaults_to_native_variant);
+        Test.add_func ("/installer-transaction/armv8-host-rejects-armv8-1-variant", test_armv8_host_rejects_armv8_1_variant);
+        Test.add_func ("/installer-transaction/current-provider-requirement-overrides-stale-release-cache", test_current_provider_requirement_overrides_stale_release_cache);
         Test.add_func ("/installer-transaction/x86-64-host-rejects-aarch64-variant", test_x86_64_host_rejects_aarch64_variant);
         Test.add_func ("/installer-transaction/incompatible-variant-stops-before-download", test_incompatible_variant_stops_before_download);
         Test.add_func ("/installer-transaction/incompatible-variant-stops-update-install", test_incompatible_variant_stops_update_install);
@@ -326,13 +328,49 @@ namespace AppTests.InstallerTransactionTest {
         ));
         job.release.variants.add (new ProtonPlus.Models.Variant (
             "aarch64", "aarch64", "", false, "https://fixtures.invalid/runner.zip",
-            VariantCompatibility.for_architecture (CpuArchitecture.AARCH64)
+            VariantCompatibility.for_aarch64_level (Aarch64Level.V8_1)
         ));
         var previous_capabilities = Globals.CPU_CAPABILITIES;
-        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.AARCH64);
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (
+            CpuArchitecture.AARCH64, X86_64Level.UNKNOWN, Aarch64Level.V8_1
+        );
         assert (install (job) == ReturnCode.RUNNER_INSTALLED);
         assert (job.selected_variant_id == "aarch64");
         assert (job.download_calls == 1);
+        Globals.CPU_CAPABILITIES = previous_capabilities;
+        assert (delete_directory (root));
+    }
+
+    private void test_armv8_host_rejects_armv8_1_variant () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var job = new FixtureJob (runner (tools), location, "not-used.zip");
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "aarch64", "aarch64", "", false, "https://fixtures.invalid/aarch64.zip",
+            VariantCompatibility.for_aarch64_level (Aarch64Level.V8_1)
+        ));
+        job.set_selected_variant ("aarch64", null, "aarch64");
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.AARCH64);
+        assert (install (job) == ReturnCode.INCOMPATIBLE_VARIANT);
+        assert (job.download_calls == 0);
+        assert (!FileUtils.test (location, FileTest.EXISTS));
+        Globals.CPU_CAPABILITIES = previous_capabilities;
+        assert (delete_directory (root));
+    }
+
+    private void test_current_provider_requirement_overrides_stale_release_cache () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var job = new FixtureJob (runner (tools), location, "not-used.zip");
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "aarch64", "aarch64", "", false, "https://fixtures.invalid/aarch64.zip",
+            VariantCompatibility.for_architecture (CpuArchitecture.AARCH64)
+        ));
+        job.set_selected_variant ("aarch64", null, "aarch64");
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.AARCH64);
+        assert (install (job) == ReturnCode.INCOMPATIBLE_VARIANT);
+        assert (job.download_calls == 0);
+        assert (!FileUtils.test (location, FileTest.EXISTS));
         Globals.CPU_CAPABILITIES = previous_capabilities;
         assert (delete_directory (root));
     }

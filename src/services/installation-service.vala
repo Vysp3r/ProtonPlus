@@ -249,8 +249,28 @@ namespace ProtonPlus.Services {
                 return ReturnCode.INCOMPATIBLE_VARIANT;
             }
 
+            var provider_tool = (Models.Tools.ProviderTool) job.tool;
+            if (!configured_variant_is_compatible (
+                    provider_tool, (!) resolution.variant, Globals.CPU_CAPABILITIES))
+                return ReturnCode.INCOMPATIBLE_VARIANT;
+
             job.apply_selected_release_variant ((!) resolution.variant);
             return ReturnCode.RUNNER_INSTALLED;
+        }
+
+        private bool configured_variant_is_compatible (
+            Models.Tools.ProviderTool tool,
+            Models.Variant release_variant,
+            Models.CpuCapabilities capabilities
+        ) {
+            Models.Variant? matching_name = null;
+            foreach (var configured_variant in tool.variants) {
+                if (configured_variant.id == release_variant.id)
+                    return configured_variant.is_compatible_with (capabilities);
+                if (matching_name == null && configured_variant.name == release_variant.name)
+                    matching_name = configured_variant;
+            }
+            return matching_name == null || ((!) matching_name).is_compatible_with (capabilities);
         }
 
         private async ReturnCode execute_install (

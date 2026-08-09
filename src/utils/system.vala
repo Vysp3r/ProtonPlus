@@ -237,6 +237,9 @@ namespace ProtonPlus.Utils {
             public bool xcr0_opmask;
             public bool xcr0_zmm_hi256;
             public bool xcr0_hi16_zmm;
+            public bool aarch64_crc32;
+            public bool aarch64_lse_atomics;
+            public bool aarch64_rdma;
         }
 
         [CCode (cname = "protonplus_cpu_get_feature_probe", cheader_filename = "utils/cpu-probe.h", has_target = false)]
@@ -337,15 +340,22 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        /// Supplies a host-independent seam for capability fixtures.  An
-        /// unavailable detailed probe intentionally leaves an x86-64 host at
-        /// the psABI baseline rather than guessing a newer ISA level.
+        /// Supplies a host-independent seam for capability fixtures. An
+        /// unavailable detailed probe leaves each known architecture at its
+        /// baseline rather than guessing a newer ISA level.
         public static CpuCapabilities get_cpu_capabilities_for_probe (
             string machine,
             bool feature_probe_available,
-            X86_64Features features
+            X86_64Features features,
+            Aarch64Features? aarch64_features = null
         ) {
             var architecture = normalize_cpu_architecture (machine);
+            if (architecture == CpuArchitecture.AARCH64) {
+                var level = feature_probe_available && aarch64_features != null
+                    ? CpuCapabilities.aarch64_level_from_features ((!) aarch64_features)
+                    : Aarch64Level.V8_0;
+                return new CpuCapabilities (architecture, X86_64Level.UNKNOWN, level);
+            }
             if (architecture != CpuArchitecture.X86_64)
                 return new CpuCapabilities (architecture);
 
@@ -386,10 +396,18 @@ namespace ProtonPlus.Utils {
             };
         }
 
+        private static Aarch64Features get_aarch64_features (CpuFeatureProbe probe) {
+            return new Aarch64Features () {
+                crc32 = probe.aarch64_crc32,
+                lse_atomics = probe.aarch64_lse_atomics,
+                rdma = probe.aarch64_rdma
+            };
+        }
+
         public static CpuCapabilities get_cpu_capabilities () {
             var system_info = Posix.utsname ();
             var architecture = normalize_cpu_architecture (system_info.machine);
-            if (architecture != CpuArchitecture.X86_64)
+            if (architecture != CpuArchitecture.X86_64 && architecture != CpuArchitecture.AARCH64)
                 return new CpuCapabilities (architecture);
 
             // CPUID establishes advertised CPU features; the C boundary reads
@@ -399,7 +417,8 @@ namespace ProtonPlus.Utils {
             return get_cpu_capabilities_for_probe (
                 system_info.machine,
                 probe.available,
-                get_x86_64_features (probe)
+                get_x86_64_features (probe),
+                get_aarch64_features (probe)
             );
         }
 
@@ -417,6 +436,8 @@ namespace ProtonPlus.Utils {
                 hwcaps.append ("x86_64");
                 break;
             case CpuArchitecture.AARCH64:
+                if (capabilities.supports_aarch64_level (Aarch64Level.V8_1))
+                    hwcaps.append ("aarch64_v8_1");
                 hwcaps.append ("aarch64");
                 break;
             case CpuArchitecture.X86_32:

@@ -9,7 +9,7 @@ namespace ProtonPlus.Models.Providers {
                     "https://github.com/GloriousEggroll/proton-ge-custom", 2,
                     {
                         new VariantDefinition ("x86", "x86", "$release_name", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)),
-                        new VariantDefinition ("aarch64", "aarch64", "$release_name-aarch64", false, VariantCompatibility.for_architecture (CpuArchitecture.AARCH64))
+                        new VariantDefinition ("aarch64", "aarch64", "$release_name-aarch64", false, VariantCompatibility.for_aarch64_level (Aarch64Level.V8_1))
                     },
                     {
                         InstallLayout.template ("default", "$release_name"),
@@ -26,7 +26,7 @@ namespace ProtonPlus.Models.Providers {
                     {
                         new VariantDefinition ("x86-64", "x86_64", "proton-$tag_name-x86_64", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)),
                         new VariantDefinition ("x86-64-v3", "x86_64_v3", "proton-$tag_name-x86_64_v3", false, VariantCompatibility.for_x86_64_level (X86_64Level.V3)),
-                        new VariantDefinition ("arm64", "arm64", "proton-$tag_name-arm64", false, VariantCompatibility.for_architecture (CpuArchitecture.AARCH64))
+                        new VariantDefinition ("arm64", "arm64", "proton-$tag_name-arm64", false, VariantCompatibility.for_aarch64_level (Aarch64Level.V8_1))
                     },
                     { InstallLayout.template ("default", "$release_name") }, null, null, "Recommended"
                 ),

@@ -2,6 +2,11 @@
 
 #include <stdint.h>
 
+#if defined(__aarch64__) && defined(__linux__)
+#include <asm/hwcap.h>
+#include <sys/auxv.h>
+#endif
+
 #if (defined(__x86_64__) || defined(_M_X64)) && (defined(__GNUC__) || defined(__clang__))
 #include <cpuid.h>
 
@@ -74,6 +79,16 @@ protonplus_cpu_get_feature_probe (ProtonPlusCpuFeatureProbe *out_probe)
         __cpuid (0x80000001, eax, ebx, ecx, edx);
         probe.lahf_sahf = (ecx & bit_LAHF_LM) != 0;
         probe.lzcnt = (ecx & bit_LZCNT) != 0;
+    }
+#elif defined(__aarch64__) && defined(__linux__)
+    probe.available = TRUE;
+    {
+        /* GCC's generic Armv8.1-A target enables CRC, LSE, and RDM. Require
+         * all three kernel-exposed capabilities before accepting that ABI. */
+        unsigned long hwcaps = getauxval (AT_HWCAP);
+        probe.aarch64_crc32 = (hwcaps & HWCAP_CRC32) != 0;
+        probe.aarch64_lse_atomics = (hwcaps & HWCAP_ATOMICS) != 0;
+        probe.aarch64_rdma = (hwcaps & HWCAP_ASIMDRDM) != 0;
     }
 #endif
 

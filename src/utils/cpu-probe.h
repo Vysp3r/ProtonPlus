@@ -30,6 +30,9 @@ typedef struct _ProtonPlusCpuFeatureProbe {
     gboolean xcr0_opmask;
     gboolean xcr0_zmm_hi256;
     gboolean xcr0_hi16_zmm;
+    gboolean aarch64_crc32;
+    gboolean aarch64_lse_atomics;
+    gboolean aarch64_rdma;
 } ProtonPlusCpuFeatureProbe;
 
 void protonplus_cpu_get_feature_probe (ProtonPlusCpuFeatureProbe *out_probe);
