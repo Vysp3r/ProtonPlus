@@ -129,8 +129,8 @@ If build-tests/ already exists, reconfigure it with:
 meson setup build-tests --reconfigure
 ~~~
 
-make tests is a verbose shortcut for the reconfigure, compile, and test steps,
-but it assumes that build-tests/ has already been configured.
+make tests is a verbose shortcut that configures build-tests/ when needed,
+reconfigures an existing build, then compiles and runs the complete suite.
 
 The test suite includes Vala unit tests, maintenance-script tests, and—when
 the corresponding host tools are available—desktop-file, AppStream, and

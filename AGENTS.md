@@ -28,8 +28,8 @@ Run focused GLib paths from `tests/` so fixtures resolve correctly:
 ```
 
 See [`docs/testing.md`](docs/testing.md) for the test map. Run
-`make translations` only after adding, removing, or changing translatable UI
-strings.
+`make translations` after changing translatable UI strings or adding/removing
+Vala sources; documentation-only edits do not require it.
 
 ## Required contracts
 

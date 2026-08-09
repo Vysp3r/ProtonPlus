@@ -59,6 +59,10 @@ local-run:
 	./scripts/build.sh local run
 
 tests:
-	meson setup build-tests --reconfigure
+	@if [ -f build-tests/meson-private/coredata.dat ]; then \
+		meson setup build-tests --reconfigure; \
+	else \
+		meson setup build-tests; \
+	fi
 	meson compile -C build-tests
 	meson test -C build-tests --verbose

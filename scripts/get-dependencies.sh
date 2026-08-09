@@ -29,6 +29,8 @@ pacman -Syu --noconfirm \
     sdl3 \
     libnotify
 
-echo "Installing debloated packages..."
-echo "---------------------------------------------------------------"
-get-debloated-pkgs --add-common --prefer-nano
+if command -v get-debloated-pkgs >/dev/null 2>&1; then
+    echo "Installing debloated packages..."
+    echo "---------------------------------------------------------------"
+    get-debloated-pkgs --add-common --prefer-nano
+fi

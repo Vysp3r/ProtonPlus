@@ -24,8 +24,8 @@ meson setup build --reconfigure
 ```
 
 `build-tests/` is the contributor guide's fresh-test convention and works the
-same way. The Makefile's `make tests` target assumes `build-tests/` has already
-been configured.
+same way. The Makefile's `make tests` target configures it when missing and
+reconfigures it when it already exists.
 
 The Meson suite currently contains:
 

@@ -43,7 +43,8 @@ ProtonPlus helps you install, update, remove, and organize compatibility tools u
 
 - Manage Proton, Wine, DXVK, and VKD3D tools from one application.
 - Install versioned releases and `Latest` builds, update installed tools, remove old versions, and migrate games between tools where supported.
-- Filter release variants against the detected CPU architecture and x86-64 capability level before installation.
+- Filter release variants against the detected CPU architecture and ISA level,
+  including native AArch64 builds and supported x86-64 builds on AArch64 hosts.
 - Detect system and Flatpak launcher installations, with Steam Snap support.
 - Manage tools for Steam, Faugus Launcher, Lutris, Heroic Games Launcher, Bottles, and WineZGUI.
 - Browse Steam games, change default and per-game compatibility tools, edit launch options, and apply compatibility-tool or launch-option changes to multiple games.
