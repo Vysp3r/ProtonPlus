@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 21:26-0400\n"
+"POT-Creation-Date: 2026-08-08 21:32-0400\n"
 "PO-Revision-Date: 2025-11-30 21:00+0000\n"
 "Last-Translator: serg <serhii.maleev@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
@@ -5284,6 +5284,18 @@ msgstr "Загрузка"
 #, fuzzy
 msgid "Report issue"
 msgstr "Отчет"
+
+#: src/widgets/loading/loading-box.vala:145
+msgid "You need a game launcher to use ProtonPlus."
+msgstr ""
+
+#: src/widgets/loading/loading-box.vala:147
+msgid "Install one of these to get started:"
+msgstr ""
+
+#: src/widgets/loading/loading-box.vala:188
+msgid "Important: Run the launcher once to initialize it properly."
+msgstr ""
 
 #: src/widgets/loading/loading-box.vala:190
 msgid "Check again"

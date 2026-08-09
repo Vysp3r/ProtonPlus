@@ -313,11 +313,11 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void open_install_directory_button_clicked () {
-            Utils.System.open_uri ("file://%s".printf (game.installdir));
+            Utils.System.open_path (game.installdir);
         }
 
         void open_prefix_directory_button_clicked () {
-            Utils.System.open_uri ("file://%s".printf (game.prefixdir));
+            Utils.System.open_path (game.prefixdir);
         }
 
         void run_custom_executable_button_clicked () {

@@ -8,7 +8,8 @@ namespace ProtonPlus.Utils {
             "check-updates-on-launch", "background-updates", "background-updates-frequency", "check-updates-on-boot",
             "github-api-key", "gitlab-api-key", "selected-tool-variants", "steam-selected-profile-id",
             "first-run", "theme", "language", "experimental-features", "show-legacy-tools",
-            "migrate-default-prefix", "proxy-mode", "proxy-url", "last-version"
+            "migrate-default-prefix", "proxy-mode", "proxy-url", "controller-confirm-button",
+            "controller-haptics-enabled", "last-version"
         };
 
         public static bool is_valid_schema (SettingsSchema schema) {

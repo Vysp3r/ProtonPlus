@@ -20,6 +20,7 @@ int main (string[] args) {
     AppTests.AssetTest.register_tests ();
     AppTests.FilesystemTest.register_tests ();
     AppTests.WebTest.register_tests ();
+    AppTests.SystemPathTest.register_tests ();
     AppTests.SystemdTimerTest.register_tests ();
     AppTests.FaugusLauncherTest.register_tests ();
     AppTests.MetadataTest.register_tests ();

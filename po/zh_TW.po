@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 21:26-0400\n"
+"POT-Creation-Date: 2026-08-08 21:32-0400\n"
 "PO-Revision-Date: 2026-04-19 00:59+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -5327,6 +5327,18 @@ msgstr "正在下載"
 #, fuzzy
 msgid "Report issue"
 msgstr "回報問題"
+
+#: src/widgets/loading/loading-box.vala:145
+msgid "You need a game launcher to use ProtonPlus."
+msgstr ""
+
+#: src/widgets/loading/loading-box.vala:147
+msgid "Install one of these to get started:"
+msgstr ""
+
+#: src/widgets/loading/loading-box.vala:188
+msgid "Important: Run the launcher once to initialize it properly."
+msgstr ""
 
 #: src/widgets/loading/loading-box.vala:190
 msgid "Check again"

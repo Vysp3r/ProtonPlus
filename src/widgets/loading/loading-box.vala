@@ -142,9 +142,9 @@ namespace ProtonPlus.Widgets.Loading {
         }
 
         Gtk.Box create_welcome_box () {
-            var first_label = new Gtk.Label ("You need a game launcher to use ProtonPlus.");
+            var first_label = new Gtk.Label (_ ("You need a game launcher to use ProtonPlus."));
 
-            var second_label = new Gtk.Label ("Install one of these to get started:");
+            var second_label = new Gtk.Label (_ ("Install one of these to get started:"));
 
             var steam_button = create_image_button ("Steam", "steam.svg");
             steam_button.clicked.connect (() => {
@@ -185,7 +185,7 @@ namespace ProtonPlus.Widgets.Loading {
             launchers_box.append (bottles_button);
             launchers_box.append (winezgui_button);
 
-            var third_label = new Gtk.Label ("Important: Run the launcher once to initialize it properly.");
+            var third_label = new Gtk.Label (_ ("Important: Run the launcher once to initialize it properly."));
 
             var check_button = create_icon_button (_ ("Check again"), "arrow-rotate-symbolic", true);
             check_button.clicked.connect (() => {

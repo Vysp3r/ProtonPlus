@@ -538,6 +538,14 @@ namespace ProtonPlus.Utils {
             });
         }
 
+        public static string file_uri_for_path (string path) {
+            return File.new_for_path (path).get_uri ();
+        }
+
+        public static void open_path (string path) {
+            open_uri (file_uri_for_path (path));
+        }
+
         public static void systemd_handler () {
             systemd_update_pending = true;
             if (systemd_update_running)
