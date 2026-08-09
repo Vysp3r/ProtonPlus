@@ -18,6 +18,7 @@ test_sources = files(
     'faugus-launcher-test.vala',
     'metadata_test.vala',
     'compatibility-tool-test.vala',
+    'steam-compatibility-tool-discovery-test.vala',
     'installed-tool-inventory-test.vala',
     'parser_test.vala',
     'launch-command-test.vala',

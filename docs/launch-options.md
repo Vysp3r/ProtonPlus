@@ -19,6 +19,10 @@ resolved internal title must match a discovered compatibility tool with a
 concrete installation path. If the mapping is absent, stale, or points to a
 missing installation, keep only generic Proton capabilities; never infer the
 default from list order, a provider name, or the newest-looking version.
+When ProtonPlus runs in Flatpak while controlling native Steam, the tool's
+launcher path remains the host `/usr/...` path, while bounded documentation and
+launcher probes use its `/run/host/usr/...` inspection path. Never persist or
+pass the inspection alias to a host-side command.
 
 Each rule declares a capability and one or more exact source/documentation
 markers. The resolver checks a bounded set of files in each installed tool and

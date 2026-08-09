@@ -361,10 +361,14 @@ namespace ProtonPlus.Models {
             return true;
         }
 
-        public virtual List<string> get_tool_directories (Group group) {
+        public virtual List<string> get_managed_tool_directories (Group group) {
             var directories = new List<string> ();
-            directories.append (this.directory + group.directory);
+            directories.append (get_primary_managed_tool_directory (group));
             return directories;
+        }
+
+        public virtual string get_primary_managed_tool_directory (Group group) {
+            return this.directory + group.directory;
         }
 
         public virtual async bool ensure_group_directory (string group_directory) {

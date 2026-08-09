@@ -346,9 +346,8 @@ namespace ProtonPlus.Services {
             var provider_tool = tool as Models.Tools.ProviderTool;
             if (provider_tool == null)
                 return;
-            install_location = "%s%s/%s".printf (
-                tool.group.launcher.directory,
-                tool.group.directory,
+            install_location = Path.build_filename (
+                tool.group.launcher.get_primary_managed_tool_directory (tool.group),
                 effective_directory_name (provider_tool)
             );
         }

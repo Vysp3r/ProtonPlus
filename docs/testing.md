@@ -66,6 +66,7 @@ meson test -C build --print-errorlogs "ProtonPlus unit tests"
 | Launcher/tool identity and layout | `/identity`, `/install-layout`, launcher-specific tests, `variant_settings_test.vala`. |
 | CPU/variant selection | `/cpu-capabilities`, `/variant-compatibility`, `/variant-selector`. |
 | Installed state and metadata | `/installed-tool-inventory`, `/metadata`, `/compatibility-tool`. |
+| Steam selectable-tool discovery | `/steam-compatibility-tool-discovery`; injected Steam-library, native-system, and Flatpak extension roots only. `/steam/library-compatibility-tools-use-stable-identities` covers the library-loading projection. |
 | Installation and updates | `/compatibility-process-guard`, `/installer-transaction`, `/update-transaction`, `/steamtinkerlaunch`. |
 | VDF and Steam library parsing | `/vdf`, `/vdf-binary`, `/vdf-shortcuts`, `/steam`. |
 | Steam lifecycle | `/steam-session`, `/steam-configuration`, `/steam-restart-manager`, `/steam-restart-orchestrator`, `/steam-restart-presentation`. |
