@@ -4,6 +4,8 @@ set -eu
 
 ARCH=$(uname -m)
 REPOSITORY=${GITHUB_REPOSITORY:-Vysp3r/ProtonPlus}
+APPIMAGE_APPDIR=${PROTONPLUS_APPIMAGE_APPDIR:-./AppDir}
+APPIMAGE_LOCALE_SOURCE=${PROTONPLUS_APPIMAGE_LOCALE_SOURCE:-/usr/share/locale}
 
 # Build and install locally to /usr
 if [ -f build-appimage/meson-private/coredata.dat ]; then
@@ -32,6 +34,24 @@ quick-sharun \
     /usr/lib/gio/modules/libgiognomeproxy.so \
     /usr/lib/gio/modules/libgiognutls.so \
     /usr/lib/gio/modules/libgiolibproxy.so
+
+# Quick-Sharun matches catalogs against the lowercase executable name and
+# removes ProtonPlus' case-sensitive gettext domain during locale debloating.
+# Restore only ProtonPlus catalogs instead of deploying the full locale tree.
+find "$APPIMAGE_LOCALE_SOURCE" -type f \
+    -path '*/LC_MESSAGES/com.vysp3r.ProtonPlus.mo' \
+    -exec sh -c '
+        locale_source=$1
+        appdir=$2
+        shift 2
+
+        for catalog do
+            relative_path=${catalog#"$locale_source"/}
+            destination=$appdir/share/locale/$relative_path
+            mkdir -p "${destination%/*}"
+            cp "$catalog" "$destination"
+        done
+    ' sh "$APPIMAGE_LOCALE_SOURCE" "$APPIMAGE_APPDIR" {} +
 
 # Turn AppDir into AppImage
 quick-sharun --make-appimage
