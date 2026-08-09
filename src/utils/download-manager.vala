@@ -147,11 +147,14 @@ namespace ProtonPlus.Utils {
             }
 
             int64 now_us = get_monotonic_time ();
-            if (global_throttle_next_allowed_time_us < now_us)
+            if (global_throttle_next_allowed_time_us == 0)
                 global_throttle_next_allowed_time_us = now_us;
 
             int64 chunk_budget_us = (bytes_written * 1000000) / speed_limit;
             global_throttle_next_allowed_time_us += chunk_budget_us;
+
+            if (global_throttle_next_allowed_time_us < now_us)
+                global_throttle_next_allowed_time_us = now_us;
 
             int64 delay_us = global_throttle_next_allowed_time_us - now_us;
             if (delay_us > 0) {
