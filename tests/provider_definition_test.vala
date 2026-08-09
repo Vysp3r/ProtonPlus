@@ -8,6 +8,7 @@ namespace AppTests.ProviderDefinitionTest {
         Test.add_func ("/provider-definitions/snapshot", test_definition_snapshot);
         Test.add_func ("/provider-definitions/kron4ek-filters", test_kron4ek_filters);
         Test.add_func ("/provider-definitions/ph42on-asset-selection", test_ph42on_asset_selection);
+        Test.add_func ("/provider-definitions/multi-archive-asset-selection", test_multi_archive_asset_selection);
         Test.add_func ("/provider-definitions/catalog-construction-isolation", test_catalog_construction_isolation);
         Test.add_func ("/provider-definitions/proton-tkg-archive-requirement", test_proton_tkg_archive_requirement);
         Test.add_func ("/provider-definitions/steam-tinker-launch", test_steam_tinker_launch);
@@ -129,6 +130,7 @@ namespace AppTests.ProviderDefinitionTest {
             assert (definition.sort_priority == object.get_int_member ("priority"));
             assert (definition.tag == object.get_string_member_with_default ("tag", ""));
             assert (definition.legacy == object.get_boolean_member_with_default ("legacy", false));
+            assert (definition.single_archive_releases == object.get_boolean_member_with_default ("single_archive", false));
 
             var expected_variants = object.get_array_member ("variants");
             var variants = definition.get_variants ();
@@ -176,6 +178,48 @@ namespace AppTests.ProviderDefinitionTest {
         assert (variants[0].download_url == "https://example.invalid/release.tar.gz");
         var primary_asset = CatalogReleaseBuilder.select_default_asset (assets, variants);
         assert (primary_asset != null && primary_asset.name == "dxvk-gplasync-v3.0-1.tar.gz");
+    }
+
+    private void test_multi_archive_asset_selection () {
+        var proton_ge = get_definition ("proton-ge");
+        var proton_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
+        proton_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "GE-Proton10-1-aarch64.tar.gz", "https://example.invalid/aarch64.tar.gz"
+        ));
+        proton_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "GE-Proton10-1.tar.gz", "https://example.invalid/x86.tar.gz"
+        ));
+        var proton_variants = CatalogReleaseBuilder.create_variants (
+            proton_ge, "GE-Proton10-1", "GE-Proton10-1", proton_assets
+        );
+        var proton_primary = CatalogReleaseBuilder.select_default_asset (proton_assets, proton_variants);
+        assert (proton_primary != null && proton_primary.name == "GE-Proton10-1.tar.gz");
+
+        var dxvk = get_definition ("dxvk-doitsujin");
+        var dxvk_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
+        dxvk_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "dxvk-native-3.0.2-steamrt-sniper.tar.gz", "https://example.invalid/native.tar.gz"
+        ));
+        dxvk_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "dxvk-3.0.2.tar.gz", "https://example.invalid/dxvk.tar.gz"
+        ));
+        var dxvk_variants = CatalogReleaseBuilder.create_variants (dxvk, "v3.0.2", "v3.0.2", dxvk_assets);
+        var dxvk_primary = CatalogReleaseBuilder.select_default_asset (dxvk_assets, dxvk_variants);
+        assert (dxvk_primary != null && dxvk_primary.name == "dxvk-3.0.2.tar.gz");
+
+        var boxtron = get_definition ("boxtron");
+        var boxtron_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
+        boxtron_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "boxtron.zip", "https://example.invalid/boxtron.zip"
+        ));
+        boxtron_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "boxtron.tar.xz", "https://example.invalid/boxtron.tar.xz"
+        ));
+        var boxtron_variants = CatalogReleaseBuilder.create_variants (
+            boxtron, "v0.5.4", "v0.5.4", boxtron_assets
+        );
+        var boxtron_primary = CatalogReleaseBuilder.select_default_asset (boxtron_assets, boxtron_variants);
+        assert (boxtron_primary != null && boxtron_primary.name == "boxtron.tar.xz");
     }
 
     private void test_catalog_construction_isolation () {

@@ -103,7 +103,7 @@ namespace AppTests.VariantCompatibilityTest {
         assert (tool.variants[0].compatibility.equals (compatibility));
 
         var variants = CatalogReleaseBuilder.create_variants (
-            configured, "v1", "v1", new LinkedList<Assets.Asset> (), "https://example.test/v1.tar.gz"
+            configured, "v1", "v1", new LinkedList<Assets.Asset> ()
         );
         assert (variants.size == 1);
         assert (variants[0].compatibility.equals (compatibility));

@@ -40,12 +40,9 @@ namespace ProtonPlus.Providers.Sources {
                 var assets = parse_assets (object);
                 if (assets.size == 0)
                     continue;
-                var first_asset = assets.first ();
-                if (first_asset == null)
-                    continue;
 
                 var variants = CatalogReleaseBuilder.create_variants (
-                    definition, tag_name, tag_name, assets, first_asset.download_url
+                    definition, tag_name, tag_name, assets
                 );
                 var primary_asset = CatalogReleaseBuilder.select_default_asset (assets, variants);
                 if (primary_asset == null)

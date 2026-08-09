@@ -15,6 +15,8 @@ namespace AppTests.ProviderSourceTest {
         Test.add_func ("/providers/forgejo/incomplete-assets", test_forgejo_incomplete_assets);
         Test.add_func ("/providers/gitlab/incomplete-assets", test_gitlab_incomplete_assets);
         Test.add_func ("/providers/github-compatible/default-variant-assets", test_github_compatible_default_variant_assets);
+        Test.add_func ("/providers/default-asset/fail-closed", test_missing_default_asset_fails_closed);
+        Test.add_func ("/providers/single-archive/fallback", test_single_archive_fallback);
         Test.add_func ("/providers/github-compatible/stable-release-policy", test_github_compatible_stable_release_policy);
         Test.add_func ("/providers/github-compatible/validation-and-skipped-releases", test_github_compatible_validation_and_skipped_releases);
         Test.add_func ("/providers/invalid-response-codes", test_invalid_response_codes);
@@ -47,7 +49,9 @@ namespace AppTests.ProviderSourceTest {
             null,
             "",
             false,
-            template
+            template,
+            ArchiveInstallRequirement.STANDARD,
+            true
         );
     }
 
@@ -157,7 +161,8 @@ namespace AppTests.ProviderSourceTest {
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") },
             { "73" }, null, "", false,
-            "https://example.test/artifacts/{id}/fixture-action.zip?signature=example"
+            "https://example.test/artifacts/{id}/fixture-action.zip?signature=example",
+            ArchiveInstallRequirement.STANDARD, true
         );
         var filtered_result = new GitHubActionsReleaseSource ().parse_response (
             filtered, fixture ("github-actions", "run.json"), 1, 25
@@ -170,7 +175,8 @@ namespace AppTests.ProviderSourceTest {
             { new VariantDefinition ("standard", "default", "$release_name", true) },
             { InstallLayout.template ("default", "$release_name") },
             null, { "73" }, "", false,
-            "https://example.test/artifacts/{id}/fixture-action.zip?signature=example"
+            "https://example.test/artifacts/{id}/fixture-action.zip?signature=example",
+            ArchiveInstallRequirement.STANDARD, true
         );
         var excluded_result = new GitHubActionsReleaseSource ().parse_response (
             excluded, fixture ("github-actions", "run.json"), 1, 25
@@ -220,9 +226,7 @@ namespace AppTests.ProviderSourceTest {
             definition (SourceType.GITHUB), fixture ("github", "incomplete-assets.json"), 1, 25
         );
         assert (fallback_result.succeeded);
-        var fallback = fallback_result.require_page ().releases[0];
-        assert (fallback.asset.download_url == "https://example.test/github/v-mixed-first.tar.gz");
-        assert (fallback.variants[0].download_url == fallback.asset.download_url);
+        assert (fallback_result.require_page ().releases.size == 0);
     }
 
     private void test_forgejo_incomplete_assets () {
@@ -245,9 +249,7 @@ namespace AppTests.ProviderSourceTest {
             definition (SourceType.FORGEJO), fixture ("forgejo", "incomplete-assets.json"), 1, 25
         );
         assert (fallback_result.succeeded);
-        var fallback = fallback_result.require_page ().releases[0];
-        assert (fallback.asset.download_url == "https://example.test/forgejo/v-mixed-first.tar.gz");
-        assert (fallback.variants[0].download_url == fallback.asset.download_url);
+        assert (fallback_result.require_page ().releases.size == 0);
     }
 
     private void test_gitlab_incomplete_assets () {
@@ -270,9 +272,7 @@ namespace AppTests.ProviderSourceTest {
             definition (SourceType.GITLAB), fixture ("gitlab", "incomplete-assets.json"), 1, 25
         );
         assert (fallback_result.succeeded);
-        var fallback = fallback_result.require_page ().releases[0];
-        assert (fallback.asset.download_url == "https://example.test/gitlab/v-mixed-first.tar.gz");
-        assert (fallback.variants[0].download_url == fallback.asset.download_url);
+        assert (fallback_result.require_page ().releases.size == 0);
     }
 
     private void test_github_compatible_default_variant_assets () {
@@ -292,6 +292,38 @@ namespace AppTests.ProviderSourceTest {
         assert (forgejo.asset.name == "v1-default.tar.gz" && forgejo.download_size == 20);
         assert (github.variants[0].download_url == "https://example.test/v1-default.tar.gz");
         assert (forgejo.variants[0].download_url == "https://example.test/v1-default.tar.gz");
+    }
+
+    private void test_missing_default_asset_fails_closed () {
+        var github_response = "[{\"id\":42,\"tag_name\":\"v1\",\"assets\":[{\"name\":\"v1-first.tar.gz\",\"browser_download_url\":\"https://example.test/v1-first.tar.gz\"}]}]";
+        var github_result = new GitHubReleaseSource ().parse_response (
+            policy_definition (SourceType.GITHUB), github_response, 1, 25
+        );
+        var forgejo_result = new ForgejoReleaseSource ().parse_response (
+            policy_definition (SourceType.FORGEJO), github_response, 1, 25
+        );
+        assert (github_result.succeeded && forgejo_result.succeeded);
+        assert (github_result.require_page ().releases.size == 0);
+        assert (forgejo_result.require_page ().releases.size == 0);
+
+        var gitlab_response = "[{\"id\":42,\"tag_name\":\"v1\",\"_links\":{},\"assets\":{\"links\":[{\"name\":\"v1-first.tar.gz\",\"direct_asset_url\":\"https://example.test/v1-first.tar.gz\"}]}}]";
+        var gitlab_result = new GitLabReleaseSource ().parse_response (
+            policy_definition (SourceType.GITLAB), gitlab_response, 1, 25
+        );
+        assert (gitlab_result.succeeded);
+        assert (gitlab_result.require_page ().releases.size == 0);
+    }
+
+    private void test_single_archive_fallback () {
+        var github_response = "[{\"id\":42,\"tag_name\":\"v1\",\"assets\":[{\"name\":\"renamed.tar.gz\",\"browser_download_url\":\"https://example.test/renamed.tar.gz\"}]}]";
+        var result = new GitHubReleaseSource ().parse_response (
+            definition (SourceType.GITHUB), github_response, 1, 25
+        );
+        assert (result.succeeded);
+        assert (result.require_page ().releases.size == 1);
+        var release = result.require_page ().releases[0];
+        assert (release.asset.name == "renamed.tar.gz");
+        assert (release.variants[0].download_url == release.asset.download_url);
     }
 
     private void test_github_compatible_stable_release_policy () {

@@ -173,6 +173,9 @@ namespace ProtonPlus.Models.Providers {
                 messages.add ("default variant is missing");
             else if (default_count > 1)
                 messages.add ("more than one default variant is configured");
+
+            if (definition.single_archive_releases && variants.length != 1)
+                messages.add ("single-archive releases require exactly one variant");
         }
 
         private static void validate_install_layouts (ProviderDefinition definition, ArrayList<string> messages) {

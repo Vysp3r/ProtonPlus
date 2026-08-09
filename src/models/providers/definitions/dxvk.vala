@@ -6,7 +6,7 @@ namespace ProtonPlus.Models.Providers {
                     Category.DXVK, SourceType.GITHUB, "dxvk-doitsujin", "DXVK (doitsujin)", "",
                     "https://api.github.com/repos/doitsujin/dxvk/releases",
                     "https://github.com/doitsujin/dxvk", 1,
-                    { new VariantDefinition ("standard", "default", "$release_name", true) },
+                    { new VariantDefinition ("standard", "default", "dxvk-$release_version", true) },
                     { InstallLayout.replace ("default", "$release_name", "v", "dxvk-") }
                 ),
                 new ProviderDefinition (
@@ -22,7 +22,7 @@ namespace ProtonPlus.Models.Providers {
                     "DXVK builds that work with pre-Vulkan 1.3 versions.",
                     "https://api.github.com/repos/pythonlover02/DXVK-Sarek/releases",
                     "https://github.com/pythonlover02/DXVK-Sarek", 3,
-                    { new VariantDefinition ("standard", "default", "$release_name", true) },
+                    { new VariantDefinition ("standard", "default", "dxvk-sarek-dyasync-$release_name", true) },
                     { InstallLayout.template ("default", "sarek-$release_name") }
                 )
             };

@@ -70,15 +70,18 @@ namespace ProtonPlus.Providers.Sources {
                 var assets = new LinkedList<Models.Assets.Asset> ();
                 assets.add (asset);
                 var variants = CatalogReleaseBuilder.create_variants (
-                    definition, release_name, release_name, assets, asset.download_url
+                    definition, release_name, release_name, assets
                 );
+                var primary_asset = CatalogReleaseBuilder.select_default_asset (assets, variants);
+                if (primary_asset == null)
+                    continue;
                 var release = new Models.Release (
                     release_name,
                     "",
                     ReleaseSourceSupport.get_iso8601_date (run, "created_at"),
-                    asset,
+                    primary_asset,
                     run.get_string_member_with_default ("html_url", ""),
-                    asset.download_size,
+                    primary_asset.download_size,
                     id > 0 ? id.to_string () : "",
                     "",
                     Models.Release.Kind.GITHUB_ACTION,

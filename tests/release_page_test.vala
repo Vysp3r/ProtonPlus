@@ -127,7 +127,9 @@ namespace AppTests.ReleasePageTest {
             "https://example.test/releases", "https://example.test/source", 1, variants,
             { InstallLayout.template ("default", "$release_name") },
             null, null, "", false,
-            source_type == SourceType.GITHUB_ACTIONS ? "https://example.test/artifacts/{id}/fixture-action.zip" : ""
+            source_type == SourceType.GITHUB_ACTIONS ? "https://example.test/artifacts/{id}/fixture-action.zip" : "",
+            ArchiveInstallRequirement.STANDARD,
+            source_type == SourceType.GITHUB_ACTIONS
         );
     }
 
@@ -444,6 +446,33 @@ namespace AppTests.ReleasePageTest {
         var duplicate_result = load (catalog ("duplicate-url-tool", definition (SourceType.GITHUB, true), duplicate_source), false);
         assert (duplicate_result.releases[0].title == "fresh");
         assert (duplicate_result.succeeded && duplicate_source.requested_pages.size == 1);
+
+        var mismatched_default = new LinkedList<Release> ();
+        var mismatched_default_release = new Release (
+            "old", "", "2026-07-26T00:00:00Z",
+            new ProtonPlus.Models.Assets.Asset (
+                "old-alt.zip", "https://example.test/old-alt.zip"
+            ),
+            "", 0, "1", "old"
+        );
+        mismatched_default_release.variants.add (new ProtonPlus.Models.Variant (
+            "standard", "default", "$release_name", true,
+            "https://example.test/old-alt.zip"
+        ));
+        mismatched_default_release.variants.add (new ProtonPlus.Models.Variant (
+            "alt", "alternate", "$release_name.zip", false,
+            "https://example.test/old.zip"
+        ));
+        mismatched_default.add (mismatched_default_release);
+        save_snapshot (new ReleaseCatalogCache ("mismatched-default-tool", "Fixture provider"),
+            new ReleaseCatalogSnapshot (mismatched_default, 2, false, "old"));
+        var mismatched_default_source = new FixtureReleaseSource ();
+        mismatched_default_source.set_page (1, new ReleasePage (fresh, 2, false));
+        var mismatched_default_result = load (catalog (
+            "mismatched-default-tool", definition (SourceType.GITHUB, true), mismatched_default_source
+        ), false);
+        assert (mismatched_default_result.releases[0].title == "fresh");
+        assert (mismatched_default_result.succeeded && mismatched_default_source.requested_pages.size == 1);
     }
 
     private void test_stale_compatibility_refreshes () {
