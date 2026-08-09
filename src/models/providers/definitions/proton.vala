@@ -77,7 +77,8 @@ namespace ProtonPlus.Models.Providers {
                         new VariantDefinition ("x86-64-v3", "x86_64_v3", "proton-$tag_name-x86_64_v3", false, VariantCompatibility.for_x86_64_level (X86_64Level.V3)),
                         new VariantDefinition ("x86-64-wow64", "x86_64_wow64", "proton-$tag_name-x86_64_wow64", false, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE))
                     },
-                    { InstallLayout.template ("default", "$release_name") }
+                    { InstallLayout.template ("default", "$release_name") },
+                    null, { "beta" }
                 ),
                 new ProviderDefinition (
                     Category.PROTON, SourceType.FORGEJO, "luxtorpeda", "Luxtorpeda",

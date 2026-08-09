@@ -198,6 +198,13 @@ namespace ProtonPlus.Models {
                 return true;
 
             foreach (var cached_release in cached_releases) {
+                var release_title = cached_release.source_tag != ""
+                    ? cached_release.source_tag : cached_release.title;
+                if (!ProtonPlus.Providers.Sources.CatalogReleaseBuilder.is_eligible (
+                    (!) definition, release_title
+                ))
+                    return false;
+
                 if (cached_release.variants.size != configured_variants.length)
                     return false;
 

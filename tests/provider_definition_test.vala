@@ -7,6 +7,7 @@ namespace AppTests.ProviderDefinitionTest {
     public void register_tests () {
         Test.add_func ("/provider-definitions/snapshot", test_definition_snapshot);
         Test.add_func ("/provider-definitions/kron4ek-filters", test_kron4ek_filters);
+        Test.add_func ("/provider-definitions/wineland-excludes-beta", test_wineland_excludes_beta);
         Test.add_func ("/provider-definitions/ph42on-asset-selection", test_ph42on_asset_selection);
         Test.add_func ("/provider-definitions/multi-archive-asset-selection", test_multi_archive_asset_selection);
         Test.add_func ("/provider-definitions/catalog-construction-isolation", test_catalog_construction_isolation);
@@ -161,6 +162,19 @@ namespace AppTests.ProviderDefinitionTest {
             assert (definition.asset_exclusions[0] == "proton");
             assert (definition.asset_exclusions[1] == ".0.");
         }
+    }
+
+    private void test_wineland_excludes_beta () {
+        var definition = get_definition ("proton-cachyos-wineland");
+        assert (definition.asset_filters.length == 0);
+        assert (definition.asset_exclusions.length == 1);
+        assert (definition.asset_exclusions[0] == "beta");
+        assert (!CatalogReleaseBuilder.is_eligible (
+            definition, "cachyos-wineland-11.0-20260713.beta3-slr"
+        ));
+        assert (CatalogReleaseBuilder.is_eligible (
+            definition, "cachyos-wineland-11.0-20260702.4-slr"
+        ));
     }
 
     private void test_ph42on_asset_selection () {

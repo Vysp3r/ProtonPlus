@@ -87,6 +87,7 @@ namespace AppTests.ReleasePageTest {
         Test.add_func ("/release-catalog/in-memory-state-skips-cache-and-network", test_in_memory_state_skips_network);
         Test.add_func ("/release-catalog/valid-cache-skips-network", test_valid_cache_skips_network);
         Test.add_func ("/release-catalog/missing-and-malformed-cache-fetches", test_missing_and_malformed_cache_fetches);
+        Test.add_func ("/release-catalog/stale-filtered-release-refreshes", test_stale_filtered_release_refreshes);
         Test.add_func ("/release-catalog/stale-variants-refresh", test_stale_variants_refresh);
         Test.add_func ("/release-catalog/stale-compatibility-refreshes", test_stale_compatibility_refreshes);
         Test.add_func ("/release-catalog/forced-refresh-is-atomic", test_forced_refresh_is_atomic);
@@ -111,7 +112,8 @@ namespace AppTests.ReleasePageTest {
     private ProviderDefinition definition (
         SourceType source_type = SourceType.GITHUB,
         bool two_variants = false,
-        VariantCompatibility? compatibility = null
+        VariantCompatibility? compatibility = null,
+        string[]? exclusions = null
     ) {
         VariantDefinition[] variants = {
             new VariantDefinition ("standard", "default", "$release_name", true, compatibility)
@@ -126,7 +128,7 @@ namespace AppTests.ReleasePageTest {
             Category.PROTON, source_type, "fixture-provider", "Fixture provider", "",
             "https://example.test/releases", "https://example.test/source", 1, variants,
             { InstallLayout.template ("default", "$release_name") },
-            null, null, "", false,
+            null, exclusions, "", false,
             source_type == SourceType.GITHUB_ACTIONS ? "https://example.test/artifacts/{id}/fixture-action.zip" : "",
             ArchiveInstallRequirement.STANDARD,
             source_type == SourceType.GITHUB_ACTIONS
@@ -386,6 +388,26 @@ namespace AppTests.ReleasePageTest {
         var malformed_result = load (catalog ("malformed-tool", definition (), malformed_source), false);
         assert (malformed_result.releases.size == 1);
         assert (malformed_result.succeeded && malformed_source.requested_pages.size == 1);
+    }
+
+    private void test_stale_filtered_release_refreshes () {
+        cache_path ();
+        var cached = new LinkedList<Release> ();
+        cached.add (cached_release ("wineland-11.0.beta3", "1"));
+        save_snapshot (new ReleaseCatalogCache ("filtered-cache-tool", "Fixture provider"),
+            new ReleaseCatalogSnapshot (cached, 2, false, "old"));
+
+        var source = new FixtureReleaseSource ();
+        var fresh = new LinkedList<Release> ();
+        fresh.add (release ("wineland-11.0.4", "2"));
+        source.set_page (1, new ReleasePage (fresh, 2, false));
+
+        var result = load (catalog (
+            "filtered-cache-tool", definition (SourceType.GITHUB, false, null, { "beta" }), source
+        ), false);
+        assert (result.succeeded && result.releases.size == 1);
+        assert (result.releases[0].title == "wineland-11.0.4");
+        assert (source.requested_pages.size == 1);
     }
 
     private void test_stale_variants_refresh () {
