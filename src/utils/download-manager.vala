@@ -4,6 +4,7 @@ namespace ProtonPlus.Utils {
         private const string SPEED_LIMIT_SETTINGS_KEY = "download-speed-limit-bps";
         private static DownloadManager? _instance = null;
         private ulong speed_limit_settings_changed_handler = 0;
+        private int64 global_throttle_next_allowed_time_us = 0;
         public static DownloadManager instance {
             get {
                 if (_instance == null) {
@@ -131,6 +132,31 @@ namespace ProtonPlus.Utils {
 
                 source.attach (MainContext.default ());
                 yield;
+            }
+        }
+
+        /// Applies a shared throttle budget across all active downloads.
+        public async void throttle_global_download_bytes (int64 bytes_written, Cancellable? cancellable = null) {
+            if (bytes_written <= 0)
+                return;
+
+            int64 speed_limit = speed_limit_bps;
+            if (speed_limit <= 0) {
+                global_throttle_next_allowed_time_us = 0;
+                return;
+            }
+
+            int64 now_us = get_monotonic_time ();
+            if (global_throttle_next_allowed_time_us < now_us)
+                global_throttle_next_allowed_time_us = now_us;
+
+            int64 chunk_budget_us = (bytes_written * 1000000) / speed_limit;
+            global_throttle_next_allowed_time_us += chunk_budget_us;
+
+            int64 delay_us = global_throttle_next_allowed_time_us - now_us;
+            if (delay_us > 0) {
+                uint delay_ms = (uint) ((delay_us + 999) / 1000);
+                yield async_sleep (delay_ms, cancellable);
             }
         }
 

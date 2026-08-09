@@ -281,7 +281,6 @@ namespace ProtonPlus.Utils {
 
                 int64 start_time = get_monotonic_time ();
                 int64 last_progress_report_time = start_time;
-                int64 throttle_next_allowed_time_us = start_time;
 
                 while (true) {
                     if (cancellable != null && cancellable.is_cancelled ()) {
@@ -310,27 +309,11 @@ namespace ProtonPlus.Utils {
 
                     bytes_downloaded += bytes_written;
 
-                    var speed_limit_bps = get_effective_speed_limit_bps ();
-                    if (speed_limit_bps > 0) {
-                        int64 now_for_limit = get_monotonic_time ();
-                        if (throttle_next_allowed_time_us < now_for_limit)
-                            throttle_next_allowed_time_us = now_for_limit;
+                    yield DownloadManager.instance.throttle_global_download_bytes ((int64) bytes_written, cancellable);
 
-                        int64 chunk_budget_us = ((int64) bytes_written * 1000000) / speed_limit_bps;
-                        throttle_next_allowed_time_us += chunk_budget_us;
-
-                        int64 delay_us = throttle_next_allowed_time_us - now_for_limit;
-                        if (delay_us > 0) {
-                            uint delay_ms = (uint) ((delay_us + 999) / 1000);
-                            yield DownloadManager.instance.async_sleep (delay_ms, cancellable);
-                        }
-
-                        if (cancellable != null && cancellable.is_cancelled ()) {
-                            is_canceled = true;
-                            break;
-                        }
-                    } else {
-                        throttle_next_allowed_time_us = get_monotonic_time ();
+                    if (cancellable != null && cancellable.is_cancelled ()) {
+                        is_canceled = true;
+                        break;
                     }
 
                     int64 now = get_monotonic_time ();

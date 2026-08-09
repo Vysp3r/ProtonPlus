@@ -5,6 +5,8 @@ namespace AppTests.WebTest {
         Test.add_func ("/web/download-retries-timeout-once", test_download_retries_timeout_once);
         Test.add_func ("/web/download-stops-after-timeout-retry", test_download_stops_after_timeout_retry);
         Test.add_func ("/web/download-cancels-during-throttle", test_download_cancels_during_throttle);
+        Test.add_func ("/web/download-respects-whole-download-speed-limit", test_download_respects_whole_download_speed_limit);
+        Test.add_func ("/web/download-shares-global-speed-limit", test_download_shares_global_speed_limit);
     }
 
     private void test_download_retries_timeout_once () {
@@ -91,6 +93,24 @@ namespace AppTests.WebTest {
         var loop = new MainLoop ();
         test_download_cancels_during_throttle_async.begin ((obj, res) => {
             test_download_cancels_during_throttle_async.end (res);
+            loop.quit ();
+        });
+        loop.run ();
+    }
+
+    private void test_download_respects_whole_download_speed_limit () {
+        var loop = new MainLoop ();
+        test_download_respects_whole_download_speed_limit_async.begin ((obj, res) => {
+            test_download_respects_whole_download_speed_limit_async.end (res);
+            loop.quit ();
+        });
+        loop.run ();
+    }
+
+    private void test_download_shares_global_speed_limit () {
+        var loop = new MainLoop ();
+        test_download_shares_global_speed_limit_async.begin ((obj, res) => {
+            test_download_shares_global_speed_limit_async.end (res);
             loop.quit ();
         });
         loop.run ();
@@ -190,6 +210,138 @@ namespace AppTests.WebTest {
         assert (elapsed_ms < 500);
         assert (error_message == null);
         assert (!FileUtils.test (destination, FileTest.EXISTS));
+        assert (DirUtils.remove (root) == 0);
+    }
+
+    private async void test_download_respects_whole_download_speed_limit_async () {
+        var server = new Soup.Server ("server-header", "ProtonPlus Test", null);
+        server.add_handler ("/archive", (server, message, path, query) => {
+            uint8[] body = new uint8[8192];
+            for (var i = 0; i < body.length; i++) {
+                body[i] = (uint8) (i % 251);
+            }
+            message.set_status (Soup.Status.OK, null);
+            message.set_response ("application/octet-stream", Soup.MemoryUse.COPY, body);
+        });
+
+        try {
+            server.listen_local (0, Soup.ServerListenOptions.IPV4_ONLY);
+        } catch (Error e) {
+            Test.message ("Could not start loopback server: %s", e.message);
+            assert_not_reached ();
+        }
+
+        var uri = server.get_uris ().data;
+        assert (uri != null);
+        var root = "";
+        try {
+            root = DirUtils.make_tmp ("protonplus-web-test-XXXXXX");
+        } catch (Error e) {
+            assert_not_reached ();
+        }
+
+        var destination = Path.build_filename (root, "archive");
+        var manager = ProtonPlus.Utils.DownloadManager.instance;
+        var previous_limit = manager.speed_limit_bps;
+        manager.speed_limit_bps = 32768;
+
+        var start_time = get_monotonic_time ();
+        string? error_message = null;
+        var downloaded = yield ProtonPlus.Utils.Web.download (
+            "%sarchive".printf (((!) uri).to_string ()), destination, null, null, out error_message
+        );
+        var elapsed_ms = (get_monotonic_time () - start_time) / 1000;
+
+        manager.speed_limit_bps = previous_limit;
+        server.disconnect ();
+
+        assert (downloaded);
+        assert (error_message == null);
+        assert (elapsed_ms >= 150);
+        if (FileUtils.test (destination, FileTest.EXISTS))
+            assert (FileUtils.remove (destination) == 0);
+        assert (DirUtils.remove (root) == 0);
+    }
+
+    private async void test_download_shares_global_speed_limit_async () {
+        var server = new Soup.Server ("server-header", "ProtonPlus Test", null);
+        server.add_handler ("/archive", (server, message, path, query) => {
+            uint8[] body = new uint8[8192];
+            for (var i = 0; i < body.length; i++) {
+                body[i] = (uint8) (255 - (i % 251));
+            }
+            message.set_status (Soup.Status.OK, null);
+            message.set_response ("application/octet-stream", Soup.MemoryUse.COPY, body);
+        });
+
+        try {
+            server.listen_local (0, Soup.ServerListenOptions.IPV4_ONLY);
+        } catch (Error e) {
+            Test.message ("Could not start loopback server: %s", e.message);
+            assert_not_reached ();
+        }
+
+        var uri = server.get_uris ().data;
+        assert (uri != null);
+        var root = "";
+        try {
+            root = DirUtils.make_tmp ("protonplus-web-test-XXXXXX");
+        } catch (Error e) {
+            assert_not_reached ();
+        }
+
+        var destination1 = Path.build_filename (root, "archive-1");
+        var destination2 = Path.build_filename (root, "archive-2");
+        var manager = ProtonPlus.Utils.DownloadManager.instance;
+        var previous_limit = manager.speed_limit_bps;
+        manager.speed_limit_bps = 32768;
+
+        bool done1 = false;
+        bool done2 = false;
+        bool downloaded1 = false;
+        bool downloaded2 = false;
+        string? error_message1 = null;
+        string? error_message2 = null;
+        var wait_loop = new MainLoop ();
+
+        var start_time = get_monotonic_time ();
+
+        ProtonPlus.Utils.Web.download.begin (
+            "%sarchive".printf (((!) uri).to_string ()), destination1, null, null,
+            (obj, res) => {
+                downloaded1 = ProtonPlus.Utils.Web.download.end (res, out error_message1);
+                done1 = true;
+                if (done2)
+                    wait_loop.quit ();
+            }
+        );
+
+        ProtonPlus.Utils.Web.download.begin (
+            "%sarchive".printf (((!) uri).to_string ()), destination2, null, null,
+            (obj, res) => {
+                downloaded2 = ProtonPlus.Utils.Web.download.end (res, out error_message2);
+                done2 = true;
+                if (done1)
+                    wait_loop.quit ();
+            }
+        );
+
+        wait_loop.run ();
+        var elapsed_ms = (get_monotonic_time () - start_time) / 1000;
+
+        manager.speed_limit_bps = previous_limit;
+        server.disconnect ();
+
+        assert (downloaded1);
+        assert (downloaded2);
+        assert (error_message1 == null);
+        assert (error_message2 == null);
+        assert (elapsed_ms >= 450);
+
+        if (FileUtils.test (destination1, FileTest.EXISTS))
+            assert (FileUtils.remove (destination1) == 0);
+        if (FileUtils.test (destination2, FileTest.EXISTS))
+            assert (FileUtils.remove (destination2) == 0);
         assert (DirUtils.remove (root) == 0);
     }
 }
