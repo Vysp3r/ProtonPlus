@@ -106,10 +106,41 @@ namespace AppTests.SteamTinkerLaunchTest {
     private bool delete_directory (string path) { var loop = new MainLoop (); var deleted = false; ProtonPlus.Utils.Filesystem.delete_directory.begin (path, (obj, result) => { deleted = ProtonPlus.Utils.Filesystem.delete_directory.end (result); loop.quit (); }); loop.run (); return deleted; }
     private void no_entries (string directory, string prefix) { try { var entries = Dir.open (directory); string? name; while ((name = entries.read_name ()) != null) assert (!name.has_prefix (prefix)); } catch (FileError e) { critical ("Could not inspect temporary directory: %s", e.message); assert_not_reached (); } }
     private void test_replacement_link_failure_rolls_back () {
-        var root = temporary_directory (); var cache = Path.build_filename (root, "cache"); var tools = Path.build_filename (root, "tools"); var base_location = Path.build_filename (root, ".local", "share", "steamtinkerlaunch"); var link_parent = Path.build_filename (root, ".local", "bin"); var link = Path.build_filename (link_parent, "steamtinkerlaunch");
-        Globals.CACHE_PATH = cache; assert (ProtonPlus.Utils.Filesystem.create_directory (cache)); assert (ProtonPlus.Utils.Filesystem.create_directory (base_location)); assert (ProtonPlus.Utils.Filesystem.create_directory (link_parent)); ProtonPlus.Utils.Filesystem.create_file (Path.build_filename (base_location, "marker.txt"), "previous stl\n"); ProtonPlus.Utils.Filesystem.create_file (link, "blocked link\n");
+        var root = temporary_directory ();
+        var cache = Path.build_filename (root, "cache");
+        var tools = Path.build_filename (root, "tools");
+        var base_location = Path.build_filename (root, ".local", "share", "steamtinkerlaunch");
+        var link_parent = Path.build_filename (root, ".local", "bin");
+        var link = Path.build_filename (link_parent, "steamtinkerlaunch");
+        var external = Path.build_filename (root, "SteamTinkerLaunch");
+        Globals.CACHE_PATH = cache;
+        assert (ProtonPlus.Utils.Filesystem.create_directory (cache));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (base_location));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (link_parent));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (external));
+        ProtonPlus.Utils.Filesystem.create_file (
+            Path.build_filename (base_location, "marker.txt"), "previous managed\n"
+        );
+        ProtonPlus.Utils.Filesystem.create_file (
+            Path.build_filename (external, "marker.txt"), "previous external\n"
+        );
+        ProtonPlus.Utils.Filesystem.create_file (link, "blocked link\n");
         var job = new FixtureJob (tool (tools), root, fixture_archive (root));
-        assert (install_replacement (job) == ReturnCode.FILESYSTEM_ERROR); assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (base_location, "marker.txt")) == "previous stl\n"); assert (FileUtils.test (link, FileTest.IS_REGULAR)); no_entries (Path.get_dirname (base_location), ".protonplus-stl-stage-"); no_entries (cache, ".protonplus-stl-"); assert (delete_directory (root));
+        assert (ProtonPlus.Services.InstallationService.instance
+            .detect_steam_tinker_launch_external_installations (job));
+
+        assert (install_replacement (job) == ReturnCode.FILESYSTEM_ERROR);
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename (base_location, "marker.txt")
+        ) == "previous managed\n");
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename (external, "marker.txt")
+        ) == "previous external\n");
+        assert (FileUtils.test (link, FileTest.IS_REGULAR));
+        no_entries (root, ".protonplus-stl-external-");
+        no_entries (Path.get_dirname (base_location), ".protonplus-stl-stage-");
+        no_entries (cache, ".protonplus-stl-");
+        assert (delete_directory (root));
     }
 
     private void test_executable_preparation_failure_stops_before_replacement () {
