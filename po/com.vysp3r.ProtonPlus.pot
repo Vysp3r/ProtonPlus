@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-08 22:31-0400\n"
+"POT-Creation-Date: 2026-08-09 10:25-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2364,6 +2364,7 @@ msgid "Tool"
 msgstr ""
 
 #: src/widgets/games/games-box.vala:237
+#: src/widgets/introduction/controller.vala:37
 msgid "Actions"
 msgstr ""
 
@@ -4998,20 +4999,43 @@ msgid ""
 "for running Windows games on Linux."
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:8
+#: src/widgets/introduction/controller.vala:20
 msgid "Controller support"
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:9
+#: src/widgets/introduction/controller.vala:33
+msgid "Navigation"
+msgstr ""
+
+#: src/widgets/introduction/controller.vala:34
 msgid ""
-"ProtonPlus automatically adapts to controller input and shows contextual "
-"hints using your controller's button labels. Navigate pages, dialogs, and "
-"menus with the D-pad or sticks; use the face buttons for actions such as "
-"Confirm, Back, Search, and Filter; and switch sections with the shoulder "
-"buttons. You can choose the Confirm button and enable vibration in "
-"Preferences. On Steam Deck, focus a text field and press Steam + X to open "
-"the on-screen keyboard. Other systems may require a physical or system "
-"keyboard."
+"Use the D-pad or sticks to move through pages, dialogs, and menus. Switch "
+"sections with the shoulder buttons."
+msgstr ""
+
+#: src/widgets/introduction/controller.vala:38
+msgid ""
+"Use the face buttons for Confirm, Back, Search, and Filter. Hints match your "
+"controller's button labels."
+msgstr ""
+
+#: src/widgets/introduction/controller.vala:41
+msgid "Preferences"
+msgstr ""
+
+#: src/widgets/introduction/controller.vala:42
+msgid ""
+"Choose the Confirm button and enable controller vibration in Preferences."
+msgstr ""
+
+#: src/widgets/introduction/controller.vala:45
+msgid "Text input"
+msgstr ""
+
+#: src/widgets/introduction/controller.vala:46
+msgid ""
+"On Steam Deck, focus a text field and press Steam + X. Other systems may "
+"require a physical or system keyboard."
 msgstr ""
 
 #: src/widgets/introduction/forks.vala:8
