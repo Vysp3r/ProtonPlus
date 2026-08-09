@@ -31,6 +31,48 @@ namespace AppTests.SteamTest {
         }
     }
 
+    private class ManualAwacyGameSource : Object, ProtonPlus.Models.Games.AwacyGameSource {
+        public int load_count { get; private set; }
+        public bool cancellation_observed { get; private set; }
+        private SourceFunc? pending_callback;
+        private Gee.HashMap<uint, ProtonPlus.Models.Games.Steam.AwacyGame?> result;
+
+        public ManualAwacyGameSource () {
+            result = new Gee.HashMap<uint, ProtonPlus.Models.Games.Steam.AwacyGame?> ();
+        }
+
+        public void add_game (uint appid, string name, string status) {
+            result.set (appid, new ProtonPlus.Models.Games.Steam.AwacyGame (appid, name, status));
+        }
+
+        public async Gee.HashMap<uint, ProtonPlus.Models.Games.Steam.AwacyGame?>? load (Cancellable? cancellable) {
+            load_count++;
+            if (cancellable != null && !((!) cancellable).is_cancelled ()) {
+                var cancellation_handler = ((!) cancellable).cancelled.connect (() => {
+                    cancellation_observed = true;
+                    Idle.add (() => {
+                        complete ();
+                        return Source.REMOVE;
+                    });
+                });
+                pending_callback = load.callback;
+                yield;
+                ((!) cancellable).disconnect (cancellation_handler);
+            } else if (cancellable != null) {
+                cancellation_observed = true;
+            }
+            return result;
+        }
+
+        public void complete () {
+            if (pending_callback == null)
+                return;
+            var callback = (!) pending_callback;
+            pending_callback = null;
+            callback ();
+        }
+    }
+
     public void register_tests () {
         Test.add_func ("/steam/linux-runtime-detection", test_linux_runtime_detection);
         Test.add_func ("/steam/base-launcher-compatibility-tool-lifecycle-is-no-op", test_base_launcher_compatibility_tool_lifecycle);
@@ -44,6 +86,9 @@ namespace AppTests.SteamTest {
         Test.add_func ("/steam/profile-load-failures-are-filtered", test_profile_load_failures_are_filtered);
         Test.add_func ("/steam/library-failure-is-launcher-scoped", test_library_failure_is_launcher_scoped);
         Test.add_func ("/steam/profile-failure-is-launcher-scoped", test_profile_failure_is_launcher_scoped);
+        Test.add_func ("/steam/awacy-catalog-deduplicates-and-caches", test_awacy_catalog_deduplicates_and_caches);
+        Test.add_func ("/steam/awacy-catalog-bounds-optional-request", test_awacy_catalog_bounds_optional_request);
+        Test.add_func ("/steam/local-library-does-not-wait-for-awacy", test_local_library_does_not_wait_for_awacy);
     }
 
     private void test_linux_runtime_detection () {
@@ -164,6 +209,137 @@ namespace AppTests.SteamTest {
         });
         loop.run ();
         return deleted;
+    }
+
+    private Gee.HashMap<uint, ProtonPlus.Models.Games.Steam.AwacyGame?> load_awacy_catalog (
+        ProtonPlus.Models.Games.AwacyGameCatalog catalog
+    ) {
+        var loop = new MainLoop ();
+        Gee.HashMap<uint, ProtonPlus.Models.Games.Steam.AwacyGame?>? games = null;
+        var completed = false;
+        catalog.get_games.begin ((obj, result) => {
+            games = catalog.get_games.end (result);
+            completed = true;
+            if (loop.is_running ())
+                loop.quit ();
+        });
+        if (!completed)
+            loop.run ();
+        return (!) games;
+    }
+
+    private bool load_steam_library (ProtonPlus.Models.Launchers.Steam steam) {
+        var loop = new MainLoop ();
+        var loaded = false;
+        var completed = false;
+        steam.load_game_library.begin ((obj, result) => {
+            loaded = steam.load_game_library.end (result);
+            completed = true;
+            if (loop.is_running ())
+                loop.quit ();
+        });
+        if (!completed)
+            loop.run ();
+        return loaded;
+    }
+
+    private void test_awacy_catalog_deduplicates_and_caches () {
+        var source = new ManualAwacyGameSource ();
+        source.add_game (42, "fixture-game", "Supported");
+        var catalog = new ProtonPlus.Models.Games.AwacyGameCatalog (source, 0);
+        var loop = new MainLoop ();
+        var completed = 0;
+        Gee.HashMap<uint, ProtonPlus.Models.Games.Steam.AwacyGame?>? first = null;
+        Gee.HashMap<uint, ProtonPlus.Models.Games.Steam.AwacyGame?>? second = null;
+
+        catalog.get_games.begin ((obj, result) => {
+            first = catalog.get_games.end (result);
+            completed++;
+            if (completed == 2 && loop.is_running ())
+                loop.quit ();
+        });
+        catalog.get_games.begin ((obj, result) => {
+            second = catalog.get_games.end (result);
+            completed++;
+            if (completed == 2 && loop.is_running ())
+                loop.quit ();
+        });
+
+        assert (source.load_count == 1);
+        source.complete ();
+        if (completed < 2)
+            loop.run ();
+
+        assert (((!) first).has_key (42));
+        assert (((!) second).has_key (42));
+        var cached = load_awacy_catalog (catalog);
+        assert (cached.has_key (42));
+        assert (source.load_count == 1);
+    }
+
+    private void test_awacy_catalog_bounds_optional_request () {
+        var source = new ManualAwacyGameSource ();
+        var catalog = new ProtonPlus.Models.Games.AwacyGameCatalog (source, 10);
+
+        var games = load_awacy_catalog (catalog);
+
+        assert (games.size == 0);
+        assert (source.cancellation_observed);
+        assert (source.load_count == 1);
+        assert (load_awacy_catalog (catalog).size == 0);
+        assert (source.load_count == 1);
+    }
+
+    private void test_local_library_does_not_wait_for_awacy () {
+        var root = temporary_directory ();
+        var config_directory = Path.build_filename (root, "config");
+        var steamapps_directory = Path.build_filename (root, "steamapps");
+        var game_directory = Path.build_filename (steamapps_directory, "common", "FixtureGame");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (config_directory));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (game_directory));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (config_directory, "config.vdf"),
+            "\"InstallConfigStore\" { \"Software\" { \"Valve\" { \"Steam\" { } } } }"
+        ));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (steamapps_directory, "libraryfolders.vdf"),
+            "\"libraryfolders\" { \"0\" { \"path\" \"%s\" \"apps\" { \"42\" \"1\" } } }".printf (root)
+        ));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (steamapps_directory, "appmanifest_42.acf"),
+            "\"AppState\" { \"appid\" \"42\" \"name\" \"Fixture Game\" \"installdir\" \"FixtureGame\" }"
+        ));
+
+        var source = new ManualAwacyGameSource ();
+        source.add_game (42, "fixture-game", "Running");
+        var catalog = new ProtonPlus.Models.Games.AwacyGameCatalog (source, 0);
+        var steam = new ProtonPlus.Models.Launchers.Steam (Launcher.InstallationTypes.SNAP, catalog);
+        steam.directory = root;
+        steam.groups = {};
+
+        assert (load_steam_library (steam));
+        assert (steam.games.length () == 1);
+        var game = steam.games.nth_data (0) as ProtonPlus.Models.Games.Steam;
+        assert (game != null);
+        assert (((!) game).awacy_status == null);
+
+        while (MainContext.default ().pending ())
+            MainContext.default ().iteration (false);
+        assert (source.load_count == 1);
+        assert (((!) game).awacy_status == null);
+
+        var notified = false;
+        ((!) game).notify["awacy-status"].connect (() => {
+            notified = true;
+        });
+        source.complete ();
+        while (MainContext.default ().pending ())
+            MainContext.default ().iteration (false);
+
+        assert (notified);
+        assert (((!) game).awacy_name == "fixture-game");
+        assert (((!) game).awacy_status == "Running");
+        assert (delete_directory (root));
     }
 
     private void test_compatibility_tool_path_registration () {

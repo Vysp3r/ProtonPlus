@@ -90,7 +90,11 @@ namespace ProtonPlus.Utils {
             return false;
         }
 
-        public static async Response get_request (string uri, GetRequestType get_request_type = GetRequestType.OTHER) {
+        public static async Response get_request (
+            string uri,
+            GetRequestType get_request_type = GetRequestType.OTHER,
+            Cancellable? cancellable = null
+        ) {
             var message = new Soup.Message ("GET", uri);
 
             if (Globals.SETTINGS != null) {
@@ -112,29 +116,31 @@ namespace ProtonPlus.Utils {
                 }
             }
 
-            var response = yield send_request (message);
+            Response? response = yield send_request (message, cancellable);
+            if (response == null)
+                return new Response ();
 
-            if (response.is_successful)
-                return response;
+            if (((!) response).is_successful)
+                return (!) response;
 
-            if (response.status_code == 403 || response.status_code == 429) {
-                response.code = ReturnCode.API_LIMIT_REACHED;
-            } else if (response.status_code == 401 &&
+            if (((!) response).status_code == 403 || ((!) response).status_code == 429) {
+                ((!) response).code = ReturnCode.API_LIMIT_REACHED;
+            } else if (((!) response).status_code == 401 &&
                        (get_request_type == GetRequestType.GITHUB ||
                         get_request_type == GetRequestType.GITLAB ||
                         get_request_type == GetRequestType.FORGEJO ||
                         get_request_type == GetRequestType.STEAMTINKERLAUNCH)) {
-                response.code = ReturnCode.INVALID_ACCESS_TOKEN;
+                ((!) response).code = ReturnCode.INVALID_ACCESS_TOKEN;
             }
 
-            return response;
+            return (!) response;
         }
 
-        private static async Response send_request (Soup.Message message) {
+        private static async Response send_request (Soup.Message message, Cancellable? cancellable) {
             var response = new Response ();
 
             try {
-                Bytes bytes = yield current_session.send_and_read_async (message, Priority.DEFAULT, null);
+                Bytes bytes = yield current_session.send_and_read_async (message, Priority.DEFAULT, cancellable);
 
                 response.status_code = (int) message.status_code;
                 response.error_message = message.reason_phrase;
@@ -154,7 +160,7 @@ namespace ProtonPlus.Utils {
                     response.code = ReturnCode.CONNECTION_REFUSED;
                 } else if (e is IOError.HOST_NOT_FOUND) {
                     response.code = ReturnCode.CONNECTION_UNKNOWN;
-                } else {
+                } else if (!(e is IOError.CANCELLED)) {
                     warning (e.message);
                 }
 

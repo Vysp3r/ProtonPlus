@@ -1,4 +1,113 @@
 namespace ProtonPlus.Models.Games {
+    public interface AwacyGameSource : Object {
+        public abstract async Gee.HashMap<uint, Steam.AwacyGame?>? load (Cancellable? cancellable);
+    }
+
+    public class RemoteAwacyGameSource : Object, AwacyGameSource {
+        private const string GAMES_URI = "https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json";
+
+        public async Gee.HashMap<uint, Steam.AwacyGame?>? load (Cancellable? cancellable) {
+            var games = new Gee.HashMap<uint, Steam.AwacyGame?> ();
+            Utils.Web.Response? response = yield Utils.Web.get_request (
+                GAMES_URI,
+                Utils.Web.GetRequestType.OTHER,
+                cancellable
+            );
+
+            if (response == null || ((!) response).code != ReturnCode.VALID_REQUEST || ((!) response).body == null)
+                return games;
+
+            var root_node = Utils.Parser.get_node_from_json ((!) ((!) response).body);
+            if (root_node == null || root_node.get_node_type () != Json.NodeType.ARRAY)
+                return games;
+
+            var root_array = root_node.get_array ();
+            if (root_array == null)
+                return games;
+
+            for (var i = 0; i < root_array.get_length (); i++) {
+                var object = root_array.get_object_element (i);
+                var storeids_object = object.get_object_member ("storeIds");
+                if (storeids_object == null || !storeids_object.has_member ("steam"))
+                    continue;
+
+                uint appid = 0;
+                if (!uint.try_parse (storeids_object.get_string_member ("steam"), out appid))
+                    continue;
+                if (!object.has_member ("slug") || !object.has_member ("status"))
+                    continue;
+
+                games.set (appid, new Steam.AwacyGame (
+                    appid,
+                    object.get_string_member ("slug"),
+                    object.get_string_member ("status")
+                ));
+            }
+
+            return games;
+        }
+    }
+
+    public class AwacyGameCatalog : Object {
+        public const uint DEFAULT_TIMEOUT_MILLISECONDS = 3000;
+
+        private static AwacyGameCatalog? shared_catalog;
+        private AwacyGameSource source;
+        private uint timeout_milliseconds;
+        private Gee.HashMap<uint, Steam.AwacyGame?>? cached_games;
+        private bool is_loading;
+
+        private signal void fetch_completed ();
+
+        public AwacyGameCatalog (
+            AwacyGameSource? source = null,
+            uint timeout_milliseconds = DEFAULT_TIMEOUT_MILLISECONDS
+        ) {
+            this.source = source ?? new RemoteAwacyGameSource ();
+            this.timeout_milliseconds = timeout_milliseconds;
+        }
+
+        public static AwacyGameCatalog get_shared () {
+            if (shared_catalog == null)
+                shared_catalog = new AwacyGameCatalog ();
+            return (!) shared_catalog;
+        }
+
+        public async Gee.HashMap<uint, Steam.AwacyGame?> get_games () {
+            if (cached_games != null)
+                return (!) cached_games;
+
+            if (is_loading) {
+                var handler_id = fetch_completed.connect (() => {
+                    get_games.callback ();
+                });
+                yield;
+                disconnect (handler_id);
+                return (!) cached_games;
+            }
+
+            is_loading = true;
+            var cancellable = new Cancellable ();
+            uint timeout_source_id = 0;
+            if (timeout_milliseconds > 0) {
+                timeout_source_id = Timeout.add (timeout_milliseconds, () => {
+                    timeout_source_id = 0;
+                    cancellable.cancel ();
+                    return Source.REMOVE;
+                });
+            }
+
+            var loaded_games = yield source.load (cancellable);
+            cached_games = loaded_games ?? new Gee.HashMap<uint, Steam.AwacyGame?> ();
+            if (timeout_source_id != 0)
+                Source.remove (timeout_source_id);
+
+            is_loading = false;
+            fetch_completed ();
+            return (!) cached_games;
+        }
+    }
+
     public class Steam : Game {
         public uint appid { get; set; }
         public int library_folder_id { get; set; }
@@ -130,60 +239,6 @@ namespace ProtonPlus.Models.Games {
                 this.status = status;
             }
 
-            public static async Gee.HashMap<uint, Models.Games.Steam.AwacyGame?> get_awacy_games () {
-                var games = new Gee.HashMap<uint, Models.Games.Steam.AwacyGame?> ();
-
-                var response = yield Utils.Web.get_request (
-                    "https://raw.githubusercontent.com/AreWeAntiCheatYet/AreWeAntiCheatYet/refs/heads/master/games.json",
-                    Utils.Web.GetRequestType.OTHER
-                );
-
-                if (response.code != ReturnCode.VALID_REQUEST)
-                    return games;
-
-                var root_node = Utils.Parser.get_node_from_json (response.body);
-
-                if (root_node == null)
-                    return games;
-
-                if (root_node.get_node_type () != Json.NodeType.ARRAY)
-                    return games;
-
-                var root_array = root_node.get_array ();
-                if (root_array == null)
-                    return games;
-
-                for (var i = 0; i < root_array.get_length (); i++) {
-                    var object = root_array.get_object_element (i);
-
-                    var storeids_object = object.get_object_member ("storeIds");
-                    if (storeids_object == null)
-                        continue;
-
-                    if (!storeids_object.has_member ("steam"))
-                        continue;
-
-                    uint appid = 0;
-                    if (!uint.try_parse (storeids_object.get_string_member ("steam"), out appid))
-                        continue;
-
-                    if (!object.has_member ("slug"))
-                        continue;
-
-                    var name = object.get_string_member ("slug");
-
-                    if (!object.has_member ("status"))
-                        continue;
-
-                    var status = object.get_string_member ("status");
-
-                    var game = new AwacyGame (appid, name, status);
-
-                    games.set (appid, game);
-                }
-
-                return games;
-            }
         }
     }
 }
