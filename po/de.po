@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-09 10:43-0400\n"
+"POT-Creation-Date: 2026-08-09 11:57-0400\n"
 "PO-Revision-Date: 2026-08-05 08:51+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -2028,7 +2028,7 @@ msgstr "%d s"
 
 #. System Page
 #: src/globals.vala:30 src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:302
+#: src/widgets/preferences/preferences-dialog.vala:303
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr "System"
@@ -2136,6 +2136,11 @@ msgstr "Chinesisch"
 #: src/globals.vala:56
 msgid "Chinese (Traditional)"
 msgstr "Chinesisch (Traditionell)"
+
+#: src/models/launchers/steam.vala:356
+#, c-format
+msgid "%s (Unavailable)"
+msgstr ""
 
 #: src/models/tools/steamtinkerlaunch.vala:8
 msgid ""
@@ -2249,11 +2254,11 @@ msgid "Failed to save compatibility tool metadata"
 msgstr ""
 "Metadaten des Kompatibilitätswerkzeugs konnten nicht gespeichert werden"
 
-#: src/services/standard-archive-workflow.vala:331
+#: src/services/standard-archive-workflow.vala:334
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "Compatibilitytool.vdf konnte nicht aktualisiert werden"
 
-#: src/services/standard-archive-workflow.vala:348
+#: src/services/standard-archive-workflow.vala:351
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr ""
 "Das Manifest des Kompatibilitätswerkzeugs ist ungültig oder unvollständig"
@@ -2445,7 +2450,7 @@ msgstr ""
 msgid "Top face button"
 msgstr "Unten links"
 
-#: src/widgets/games/games-box.vala:75 src/widgets/games/games-box.vala:494
+#: src/widgets/games/games-box.vala:75 src/widgets/games/games-box.vala:500
 #: src/widgets/tools/tools-release-box.vala:102
 msgid "No games found"
 msgstr "Keine Spiele gefunden"
@@ -2526,36 +2531,36 @@ msgstr ""
 msgid "Default"
 msgstr "Standard"
 
-#: src/widgets/games/games-box.vala:462
+#: src/widgets/games/games-box.vala:468
 msgid "Filter: Native"
 msgstr "Filter: Nativ"
 
-#: src/widgets/games/games-box.vala:464
+#: src/widgets/games/games-box.vala:470
 msgid "Filter: Non-Steam"
 msgstr "Filter: Nicht-Steam"
 
-#: src/widgets/games/games-box.vala:466
+#: src/widgets/games/games-box.vala:472
 msgid "Filter: All games"
 msgstr "Filter: Alle Spiele"
 
-#: src/widgets/games/games-box.vala:486
+#: src/widgets/games/games-box.vala:492
 msgid "No matching games"
 msgstr "Keine passenden Spiele"
 
-#: src/widgets/games/games-box.vala:487
+#: src/widgets/games/games-box.vala:493
 #: src/widgets/tools/tools-group-box.vala:170
 msgid "Try a different search term or clear the search."
 msgstr "Versuchen Sie einen anderen Suchbegriff oder leeren Sie die Suche."
 
-#: src/widgets/games/games-box.vala:490
+#: src/widgets/games/games-box.vala:496
 msgid "No games match this filter"
 msgstr "Keine Spiele entsprechen diesem Filter"
 
-#: src/widgets/games/games-box.vala:491
+#: src/widgets/games/games-box.vala:497
 msgid "Choose All games to see your complete library."
 msgstr "Wählen Sie „Alle Spiele“, um Ihre vollständige Bibliothek anzuzeigen."
 
-#: src/widgets/games/games-box.vala:495
+#: src/widgets/games/games-box.vala:501
 msgid "No games are available for this launcher."
 msgstr "Für diesen Starter sind keine Spiele verfügbar."
 
@@ -2653,6 +2658,7 @@ msgstr ""
 "lassen die ausgewählten Spiele unverändert."
 
 #: src/widgets/games/games-mass-edit-view.vala:268
+#: src/widgets/games/games-mass-edit-view.vala:279
 msgid "Compatibility tool cannot be applied"
 msgstr "Kompatibilitätswerkzeug kann nicht angewendet werden"
 
@@ -2662,18 +2668,27 @@ msgstr ""
 "Es wurden keine Spiele geändert, da kein Kompatibilitätswerkzeug ausgewählt "
 "ist."
 
-#: src/widgets/games/games-mass-edit-view.vala:291
+#: src/widgets/games/games-mass-edit-view.vala:280
+#, fuzzy
+msgid ""
+"No games were changed because the selected compatibility tool is no longer "
+"available."
+msgstr ""
+"Es wurden keine Spiele geändert, da kein Kompatibilitätswerkzeug ausgewählt "
+"ist."
+
+#: src/widgets/games/games-mass-edit-view.vala:306
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
 "Die ausgewählten Startoptionen sind unvollständig oder werden von diesen "
 "Spielen nicht unterstützt."
 
-#: src/widgets/games/games-mass-edit-view.vala:292
+#: src/widgets/games/games-mass-edit-view.vala:307
 msgid "Launch options cannot be applied"
 msgstr "Startoptionen können nicht angewendet werden"
 
-#: src/widgets/games/games-mass-edit-view.vala:293
+#: src/widgets/games/games-mass-edit-view.vala:308
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
@@ -2681,11 +2696,11 @@ msgstr ""
 "Es wurden keine Spiele geändert, da der Startbefehl nicht sicher vorbereitet "
 "werden konnte."
 
-#: src/widgets/games/games-mass-edit-view.vala:344
+#: src/widgets/games/games-mass-edit-view.vala:359
 msgid "Batch Update Failed"
 msgstr "Stapelaktualisierung fehlgeschlagen"
 
-#: src/widgets/games/games-mass-edit-view.vala:345
+#: src/widgets/games/games-mass-edit-view.vala:360
 msgid ""
 "Some games could not be updated with the new compatibility tool or launch "
 "options. This may be due to missing permissions or file access issues."
@@ -3698,7 +3713,7 @@ msgstr "Systemstandard"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
-#: src/widgets/preferences/preferences-dialog.vala:365
+#: src/widgets/preferences/preferences-dialog.vala:366
 msgid "Gamescope"
 msgstr "Gamescope"
 
@@ -3709,7 +3724,7 @@ msgstr "Gamescope"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
-#: src/widgets/preferences/preferences-dialog.vala:370
+#: src/widgets/preferences/preferences-dialog.vala:371
 msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
 
@@ -5321,12 +5336,12 @@ msgstr ""
 #. Advanced Page
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:40
 #: src/widgets/mangohud/mangohud-box.vala:69
-#: src/widgets/preferences/preferences-dialog.vala:236
+#: src/widgets/preferences/preferences-dialog.vala:237
 msgid "Advanced"
 msgstr "Erweitert"
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
-#: src/widgets/preferences/preferences-dialog.vala:281
+#: src/widgets/preferences/preferences-dialog.vala:282
 msgid "Experimental"
 msgstr "Experimentell"
 
@@ -5720,7 +5735,7 @@ msgid "Tools"
 msgstr "Werkzeuge"
 
 #: src/widgets/main/main-box.vala:48
-#: src/widgets/preferences/preferences-dialog.vala:355
+#: src/widgets/preferences/preferences-dialog.vala:356
 msgid "MangoHud"
 msgstr "MangoHud"
 
@@ -6240,7 +6255,7 @@ msgid "Media Info"
 msgstr "Medieninformationen"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:130
-#: src/widgets/preferences/preferences-dialog.vala:263
+#: src/widgets/preferences/preferences-dialog.vala:264
 msgid "Network"
 msgstr "Netzwerk"
 
@@ -6779,124 +6794,124 @@ msgstr "Ältere Werkzeuge anzeigen, die nicht mehr aktiv gepflegt werden"
 msgid "Launchers"
 msgstr "Starter"
 
-#: src/widgets/preferences/preferences-dialog.vala:169
+#: src/widgets/preferences/preferences-dialog.vala:170
 msgid "Default compatibility tool"
 msgstr "Standard-Kompatibilitätswerkzeug"
 
-#: src/widgets/preferences/preferences-dialog.vala:170
+#: src/widgets/preferences/preferences-dialog.vala:171
 msgid "The compatibility tool games will use by default"
 msgstr "Das Kompatibilitätswerkzeug, das Spiele standardmäßig verwenden"
 
-#: src/widgets/preferences/preferences-dialog.vala:196
+#: src/widgets/preferences/preferences-dialog.vala:197
 msgid "Selected profile"
 msgstr "Ausgewähltes Profil"
 
-#: src/widgets/preferences/preferences-dialog.vala:197
+#: src/widgets/preferences/preferences-dialog.vala:198
 msgid "Currently selected profile for Steam"
 msgstr "Derzeit ausgewähltes Profil für Steam"
 
-#: src/widgets/preferences/preferences-dialog.vala:242
+#: src/widgets/preferences/preferences-dialog.vala:243
 msgid "API Tokens"
 msgstr "API-Tokens"
 
-#: src/widgets/preferences/preferences-dialog.vala:271
+#: src/widgets/preferences/preferences-dialog.vala:272
 msgid "Proxy URL"
 msgstr "Proxy-URL"
 
-#: src/widgets/preferences/preferences-dialog.vala:274
+#: src/widgets/preferences/preferences-dialog.vala:275
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr "Beispiel: http://127.0.0.1:7890 oder socks5://127.0.0.1:1080"
 
-#: src/widgets/preferences/preferences-dialog.vala:286
+#: src/widgets/preferences/preferences-dialog.vala:287
 msgid "Preview features"
 msgstr "Vorschaufunktionen"
 
-#: src/widgets/preferences/preferences-dialog.vala:287
+#: src/widgets/preferences/preferences-dialog.vala:288
 msgid "Enable experimental features for early testing"
 msgstr "Experimentelle Funktionen für frühe Tests aktivieren"
 
-#: src/widgets/preferences/preferences-dialog.vala:294
+#: src/widgets/preferences/preferences-dialog.vala:295
 msgid "Maintenance"
 msgstr "Wartung"
 
-#: src/widgets/preferences/preferences-dialog.vala:308
+#: src/widgets/preferences/preferences-dialog.vala:309
 msgid "Software Environment"
 msgstr "Softwareumgebung"
 
-#: src/widgets/preferences/preferences-dialog.vala:313
+#: src/widgets/preferences/preferences-dialog.vala:314
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr "SteamOS"
 
-#: src/widgets/preferences/preferences-dialog.vala:314
-#: src/widgets/preferences/preferences-dialog.vala:319
-#: src/widgets/preferences/preferences-dialog.vala:346
-#: src/widgets/preferences/preferences-dialog.vala:351
-#: src/widgets/preferences/preferences-dialog.vala:356
-#: src/widgets/preferences/preferences-dialog.vala:361
-#: src/widgets/preferences/preferences-dialog.vala:366
-#: src/widgets/preferences/preferences-dialog.vala:371
-#: src/widgets/preferences/preferences-dialog.vala:376
+#: src/widgets/preferences/preferences-dialog.vala:315
+#: src/widgets/preferences/preferences-dialog.vala:320
+#: src/widgets/preferences/preferences-dialog.vala:347
+#: src/widgets/preferences/preferences-dialog.vala:352
+#: src/widgets/preferences/preferences-dialog.vala:357
+#: src/widgets/preferences/preferences-dialog.vala:362
+#: src/widgets/preferences/preferences-dialog.vala:367
+#: src/widgets/preferences/preferences-dialog.vala:372
+#: src/widgets/preferences/preferences-dialog.vala:377
 #: src/widgets/tools/tools-stl-release-row.vala:98
 msgid "Yes"
 msgstr "Ja"
 
-#: src/widgets/preferences/preferences-dialog.vala:314
-#: src/widgets/preferences/preferences-dialog.vala:319
-#: src/widgets/preferences/preferences-dialog.vala:346
-#: src/widgets/preferences/preferences-dialog.vala:351
-#: src/widgets/preferences/preferences-dialog.vala:356
-#: src/widgets/preferences/preferences-dialog.vala:361
-#: src/widgets/preferences/preferences-dialog.vala:366
-#: src/widgets/preferences/preferences-dialog.vala:371
-#: src/widgets/preferences/preferences-dialog.vala:376
+#: src/widgets/preferences/preferences-dialog.vala:315
+#: src/widgets/preferences/preferences-dialog.vala:320
+#: src/widgets/preferences/preferences-dialog.vala:347
+#: src/widgets/preferences/preferences-dialog.vala:352
+#: src/widgets/preferences/preferences-dialog.vala:357
+#: src/widgets/preferences/preferences-dialog.vala:362
+#: src/widgets/preferences/preferences-dialog.vala:367
+#: src/widgets/preferences/preferences-dialog.vala:372
+#: src/widgets/preferences/preferences-dialog.vala:377
 #: src/widgets/tools/tools-stl-release-row.vala:97
 msgid "No"
 msgstr "Nein"
 
-#: src/widgets/preferences/preferences-dialog.vala:318
+#: src/widgets/preferences/preferences-dialog.vala:319
 msgid "Flatpak"
 msgstr "Flatpak"
 
-#: src/widgets/preferences/preferences-dialog.vala:323
+#: src/widgets/preferences/preferences-dialog.vala:324
 msgid "Hardware"
 msgstr "Hardware"
 
-#: src/widgets/preferences/preferences-dialog.vala:335
+#: src/widgets/preferences/preferences-dialog.vala:336
 msgid "HWCAPS"
 msgstr "HWCAPS"
 
-#: src/widgets/preferences/preferences-dialog.vala:340
+#: src/widgets/preferences/preferences-dialog.vala:341
 msgid "Dependencies"
 msgstr "Abhängigkeiten"
 
-#: src/widgets/preferences/preferences-dialog.vala:345
+#: src/widgets/preferences/preferences-dialog.vala:346
 msgid "Protontricks"
 msgstr "Protontricks"
 
-#: src/widgets/preferences/preferences-dialog.vala:350
+#: src/widgets/preferences/preferences-dialog.vala:351
 msgid "Protontricks (Flatpak)"
 msgstr "Protontricks (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:360
+#: src/widgets/preferences/preferences-dialog.vala:361
 msgid "MangoHud (Flatpak)"
 msgstr "MangoHud (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:375
+#: src/widgets/preferences/preferences-dialog.vala:376
 msgid "Feral Gamemode"
 msgstr "Feral GameMode"
 
-#: src/widgets/preferences/preferences-dialog.vala:380
+#: src/widgets/preferences/preferences-dialog.vala:381
 msgid "Detected Launchers"
 msgstr "Erkannte Starter"
 
-#: src/widgets/preferences/preferences-dialog.vala:403
+#: src/widgets/preferences/preferences-dialog.vala:404
 #: src/widgets/tools/tools-box.vala:209
 #: src/widgets/tools/tools-group-box.vala:285
 msgid "Installed"
 msgstr "Installiert"
 
-#: src/widgets/preferences/preferences-dialog.vala:403
+#: src/widgets/preferences/preferences-dialog.vala:404
 msgid "Not installed"
 msgstr "Nicht installiert"
 
@@ -7105,11 +7120,11 @@ msgid_plural "%d games selected"
 msgstr[0] "%d Spiel ausgewählt"
 msgstr[1] "%d Spiele ausgewählt"
 
-#: src/widgets/tools/tools-migrate-box.vala:142
+#: src/widgets/tools/tools-migrate-box.vala:144
 msgid "Migration Failed"
 msgstr "Migration fehlgeschlagen"
 
-#: src/widgets/tools/tools-migrate-box.vala:143
+#: src/widgets/tools/tools-migrate-box.vala:145
 msgid ""
 "Some games could not be migrated to the new compatibility tool. This may be "
 "due to missing permissions or file access issues."

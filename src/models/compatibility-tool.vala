@@ -11,7 +11,13 @@ namespace ProtonPlus.Models {
     public class CompatibilityTool : Object {
         public string display_title { get; set; default = ""; }
         public string internal_title { get; set; default = ""; }
+        /* path is valid for the target launcher or a host-side command.
+         * inspection_path is the corresponding path visible to ProtonPlus. */
         public string path { get; set; default = ""; }
+        public string inspection_path { get; set; default = ""; }
+        public bool externally_managed { get; set; default = false; }
+        public bool is_available { get; set; default = true; }
+        public bool is_assignable { get; set; default = true; }
         public int sort_priority { get; set; default = 1000; }
         /* Providers may set this only when their runtime classification is
          * explicit.  Unknown deliberately does not grant variant capabilities. */
@@ -21,11 +27,15 @@ namespace ProtonPlus.Models {
             string display_title,
             string internal_title = "",
             string path = "",
-            CompatibilityToolRuntimeKind runtime_kind = CompatibilityToolRuntimeKind.UNKNOWN
+            CompatibilityToolRuntimeKind runtime_kind = CompatibilityToolRuntimeKind.UNKNOWN,
+            string inspection_path = "",
+            bool externally_managed = false
         ) {
             this.display_title = display_title;
             this.internal_title = internal_title != "" ? internal_title : display_title;
             this.path = path;
+            this.inspection_path = inspection_path != "" ? inspection_path : path;
+            this.externally_managed = externally_managed;
             this.runtime_kind = runtime_kind;
         }
     }

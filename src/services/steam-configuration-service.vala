@@ -211,6 +211,11 @@ namespace ProtonPlus.Services {
         }
 
         private SteamConfigurationMutation change_compatibility_mapping (Launchers.Steam steam, uint appid, string value, SteamChangeKind kind) {
+            if (!steam.external_compatibility_tool_remains_available (value))
+                return new SteamConfigurationMutation (
+                    SteamConfigurationMutationResult.FAILED,
+                    "The externally managed compatibility tool is no longer available."
+                );
             var target = steam.get_steam_restart_target ();
             if (target == null) return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "No Steam target.");
             var path = Path.build_filename (steam.directory, "config", "config.vdf");

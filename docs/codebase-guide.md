@@ -112,7 +112,7 @@ provider, source, and specialized-workflow extension rules.
 ### Installed-state discovery
 
 Every `Group` owns one `InstalledToolInventory`. It scans the launcher's
-physical tool directories, reads `.protonplus` metadata and compatibility-tool
+ProtonPlus-managed tool directories, reads `.protonplus` metadata and compatibility-tool
 manifests, and resolves installed entries back to tools. Stable persisted
 identity wins; carefully bounded legacy fallbacks may migrate metadata when a
 match is unambiguous.
@@ -121,6 +121,19 @@ Services invalidate this inventory after installation or removal. Consumers
 refresh it at an explicit boundary and read a snapshot. Do not let a widget or
 each tool independently rescan the same directory; that creates stale and
 cross-launcher state.
+
+Steam-selectable tools have a separate boundary:
+`SteamCompatibilityToolDiscovery` reads Steam library apps, the active Steam
+`compatibilitytools.d`, native distro roots, or Flatpak Steam extensions as
+appropriate for that launcher. External entries remain lightweight
+`CompatibilityTool` models and never enter inventory or installation
+workflows. `CompatibilityTool.path` is the launcher/host path; its explicit
+inspection path is used for sandbox-side VDF, Proton-launcher, and bounded
+feature probes. Package/custom roots obtain their exact identity from
+`compatibilitytool.vdf`. Official Steam library tools instead use their stable
+Valve app ID mapping and require a regular `toolmanifest.vdf`; Proton entries
+also require a regular `proton` launcher. Display names never supply persisted
+Steam compatibility-tool IDs.
 
 ### Install, update, and removal
 

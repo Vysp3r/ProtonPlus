@@ -271,6 +271,21 @@ namespace ProtonPlus.Widgets.Games {
                 ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
                 return;
             }
+            if (compatibility_tool_switch.active) {
+                foreach (var row in rows) {
+                    var steam = row.game.launcher as Models.Launchers.Steam;
+                    if (steam != null && !((!) steam).can_assign_compatibility_tool (item.internal_title)) {
+                        var dialog = new Main.ErrorDialog (
+                            _("Compatibility tool cannot be applied"),
+                            _("No games were changed because the selected compatibility tool is no longer available."), ""
+                        );
+                        ProtonPlus.Widgets.Window.present_dialog_for_controller (
+                            dialog, (Gtk.Window) this.get_root ()
+                        );
+                        return;
+                    }
+                }
+            }
             var invalids = new List<string> ();
             var launch_writes = new Gee.HashMap<Models.Games.Steam, LaunchOptionsEditor.LaunchCommandWriteResult> ();
 

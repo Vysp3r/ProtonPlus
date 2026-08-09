@@ -397,8 +397,14 @@ namespace ProtonPlus.Widgets.Games {
             model = new ListStore (typeof (Models.CompatibilityTool));
             model.append (new Models.CompatibilityTool (_("Default"), "Default", "",
                 Models.CompatibilityToolRuntimeKind.PROTON));
-            foreach (var ct in launcher.compatibility_tools)
-                model.append (ct);
+            var steam = launcher as Models.Launchers.Steam;
+            if (steam != null) {
+                foreach (var ct in ((!) steam).get_assignable_compatibility_tools ())
+                    model.append (ct);
+            } else {
+                foreach (var ct in launcher.compatibility_tools)
+                    model.append (ct);
+            }
 
             foreach (var game in launcher.games) {
                 var game_row = new GameRow (

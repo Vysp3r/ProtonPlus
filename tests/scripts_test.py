@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 import importlib.util
+import os
 import re
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -101,6 +103,123 @@ class SettingsSchemaContractTest(unittest.TestCase):
 
         self.assertSetEqual(required_keys, schema_keys)
         self.assertSetEqual(runtime_keys - required_keys, set())
+
+
+class FlatpakManifestPermissionTest(unittest.TestCase):
+    def test_steam_extension_roots_are_read_only_in_both_manifests(self) -> None:
+        required = {
+            "--filesystem=xdg-data/flatpak:ro",
+            "--filesystem=/var/lib/flatpak:ro",
+        }
+        for filename in (
+            "com.vysp3r.ProtonPlus.yml",
+            "com.vysp3r.ProtonPlus.local.yml",
+        ):
+            with self.subTest(manifest=filename):
+                content = (PROJECT_ROOT / filename).read_text(encoding="utf-8")
+                permissions = {
+                    match.group(1)
+                    for match in re.finditer(r"^\s*-\s+(--filesystem=\S+)\s*$", content, re.MULTILINE)
+                }
+                self.assertTrue(required.issubset(permissions))
+                self.assertNotIn("--filesystem=host-root", permissions)
+                self.assertNotIn("--filesystem=xdg-data/flatpak", permissions)
+                self.assertNotIn("--filesystem=/var/lib/flatpak", permissions)
+
+
+class AppImagePackagingTest(unittest.TestCase):
+    def test_restores_all_protonplus_catalogs_without_host_locale_tree(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            test_root = Path(temporary_directory)
+            locale_source = test_root / "locale source"
+            appdir = test_root / "Generated AppDir"
+            expected_catalogs = {}
+            linguas = (PROJECT_ROOT / "po" / "LINGUAS").read_text(encoding="utf-8")
+            locales = tuple(filter(None, linguas.splitlines()))
+
+            for locale in locales:
+                messages_directory = locale_source / locale / "LC_MESSAGES"
+                messages_directory.mkdir(parents=True)
+                catalog = messages_directory / "com.vysp3r.ProtonPlus.mo"
+                catalog_content = f"{locale} ProtonPlus catalog".encode()
+                catalog.write_bytes(catalog_content)
+                expected_catalogs[locale] = catalog_content
+                (messages_directory / "host-application.mo").write_bytes(b"unrelated")
+
+            fake_bin = test_root / "bin"
+            fake_bin.mkdir()
+            self._write_executable(
+                fake_bin / "uname",
+                "#!/bin/sh\nprintf '%s\\n' x86_64\n",
+            )
+            self._write_executable(
+                fake_bin / "meson",
+                """#!/bin/sh
+set -eu
+if [ "$1" = introspect ]; then
+    printf '%s\\n' '{"version":"0.0.0"}'
+fi
+""",
+            )
+            self._write_executable(
+                fake_bin / "quick-sharun",
+                """#!/bin/sh
+set -eu
+if [ "${1:-}" = --make-appimage ]; then
+    catalog_count=$(find "$PROTONPLUS_APPIMAGE_APPDIR/share/locale" \\
+        -type f -name 'com.vysp3r.ProtonPlus.mo' | wc -l)
+    unrelated_count=$(find "$PROTONPLUS_APPIMAGE_APPDIR/share/locale" \\
+        -type f -name 'host-application.mo' | wc -l)
+    [ "$catalog_count" -eq "$PROTONPLUS_EXPECTED_CATALOG_COUNT" ]
+    [ "$unrelated_count" -eq 0 ]
+    touch "$PROTONPLUS_APPIMAGE_APPDIR/.made-appimage"
+else
+    rm -rf "$PROTONPLUS_APPIMAGE_APPDIR/share/locale"
+    mkdir -p "$PROTONPLUS_APPIMAGE_APPDIR/share/locale"
+fi
+""",
+            )
+
+            environment = os.environ.copy()
+            environment["PATH"] = f"{fake_bin}{os.pathsep}{environment['PATH']}"
+            environment["PROTONPLUS_APPIMAGE_APPDIR"] = str(appdir)
+            environment["PROTONPLUS_APPIMAGE_LOCALE_SOURCE"] = str(locale_source)
+            environment["PROTONPLUS_EXPECTED_CATALOG_COUNT"] = str(len(locales))
+            subprocess.run(
+                ["/bin/sh", str(PROJECT_ROOT / "scripts" / "make-appimage.sh")],
+                cwd=test_root,
+                env=environment,
+                check=True,
+                capture_output=True,
+                text=True,
+            )
+
+            packaged_files = {
+                path.relative_to(appdir / "share" / "locale")
+                for path in (appdir / "share" / "locale").rglob("*")
+                if path.is_file()
+            }
+            expected_files = {
+                Path(locale) / "LC_MESSAGES" / "com.vysp3r.ProtonPlus.mo"
+                for locale in expected_catalogs
+            }
+            self.assertSetEqual(packaged_files, expected_files)
+            for locale, expected_content in expected_catalogs.items():
+                packaged_catalog = (
+                    appdir
+                    / "share"
+                    / "locale"
+                    / locale
+                    / "LC_MESSAGES"
+                    / "com.vysp3r.ProtonPlus.mo"
+                )
+                self.assertEqual(packaged_catalog.read_bytes(), expected_content)
+            self.assertTrue((appdir / ".made-appimage").is_file())
+
+    @staticmethod
+    def _write_executable(path: Path, content: str) -> None:
+        path.write_text(content, encoding="utf-8")
+        path.chmod(0o755)
 
 
 if __name__ == "__main__":

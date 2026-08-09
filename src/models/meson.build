@@ -4,6 +4,7 @@ sources += files(
     'variant-selector.vala',
     'group.vala',
     'compatibility-tool.vala',
+    'steam-compatibility-tool-discovery.vala',
     'installed-tool-inventory.vala',
     'steam-profile.vala',
     'steam-restart-target.vala',
