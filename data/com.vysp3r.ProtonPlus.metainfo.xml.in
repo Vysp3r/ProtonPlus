@@ -92,9 +92,9 @@
       <description>
         <ul>
           <li>✨ Added Faugus Launcher support</li>
-          <li>✨ Added CPU-aware x86-64 variant selection</li>
+          <li>✨ Added CPU-aware x86-64 and ARM64 variant selection</li>
           <li>✨ Added scheduled background updates and notifications</li>
-          <li>✨ Added controller navigation and a first-run guide</li>
+          <li>✨ Added controller navigation with contextual hints, optional haptic feedback, and a first-run guide</li>
           <li>✨ Added Breeze Light, Breeze Dark, SteamOS, and OLED themes</li>
           <li>✨ Added a built-in MangoHud editor and proxy settings</li>
           <li>✨ Added Steam shortcut creation and guided Steam restarts, including SteamOS Gaming Mode</li>
@@ -103,13 +103,16 @@
           <li>✨ Added ARM64 Flatpak support</li>
           <li>✨ Reworked the launch options editor with hardware-aware options and exact command previews</li>
           <li>✨ Preserved custom and unknown safe launch options during single-game and mass edits</li>
-          <li>✨ Improved Games and Tools navigation, search, filtering, and selection</li>
-          <li>✨ Improved release sorting, Latest handling, and variant selection</li>
-          <li>✨ Improved installation, update, cancellation, and recovery</li>
+          <li>✨ Improved Games and Tools navigation, search, filtering, selection, and repository links</li>
+          <li>✨ Improved stable release selection, Latest handling, and variant selection</li>
+          <li>✨ Improved downloads and tool updates with timeout recovery, archive checks, preserved settings, and safer rollback</li>
           <li>✨ Improved Steam multi-user, VDF, and shortcut handling</li>
           <li>✨ Improved command-line validation and error reporting</li>
+          <li>🐛 Fixed custom executable launches and kept the app usable when some Steam data cannot be loaded</li>
           <li>🐛 Fixed release and installation issues affecting Proton-TKG, Proton-CachyOS, DXVK, VKD3D, Lutris, and Steam Tinker Launch</li>
+          <li>🌐 Added Arabic localization</li>
           <li>🌐 Added Slovak localization</li>
+          <li>🌐 Updated Simplified Chinese localization</li>
           <li>🌐 Updated German localization</li>
           <li>🌐 Updated Italian localization</li>
         </ul>
