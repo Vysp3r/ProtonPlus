@@ -31,6 +31,15 @@ namespace ProtonPlus.Utils {
             new Thread<void> ("extract", () => {
                 const int BUFFER_SIZE = 192000;
 
+                // The private workspace is trusted, but an OSTree host may
+                // expose it through a symlinked ancestor such as /home.
+                var extraction_location = Posix.realpath (install_location);
+                if (extraction_location == null) {
+                    warning ("Could not resolve extraction directory: %s", install_location);
+                    Idle.add ((owned) callback, Priority.DEFAULT);
+                    return;
+                }
+
                 var archive = new Archive.Read ();
                 archive.support_format_all ();
                 archive.support_filter_all ();
@@ -47,7 +56,7 @@ namespace ProtonPlus.Utils {
                 ext.set_standard_lookup ();
                 ext.set_options (flags);
 
-                var archive_path = Path.build_filename (install_location, tool_name + extension);
+                var archive_path = Path.build_filename ((!) extraction_location, tool_name + extension);
                 if (archive.open_filename (archive_path, BUFFER_SIZE) != Archive.Result.OK) {
                     Idle.add ((owned) callback, Priority.DEFAULT);
                     return;
@@ -92,11 +101,15 @@ namespace ProtonPlus.Utils {
                         first_run = false;
                     }
 
-                    entry.set_pathname (Path.build_filename (install_location, entry_path));
+                    entry.set_pathname (Path.build_filename ((!) extraction_location, entry_path));
                     r = ext.write_header (entry);
 
                     if (r < Archive.Result.OK) {
                         warning ("Could not write archive entry: %s", ext.error_string ());
+                        if (r < Archive.Result.WARN) {
+                            Idle.add ((owned) callback, Priority.DEFAULT);
+                            return;
+                        }
                     } else if (entry.size () > 0) {
                         r = copy_data (archive, ext, cancellable);
                         if (r < Archive.Result.WARN) {
