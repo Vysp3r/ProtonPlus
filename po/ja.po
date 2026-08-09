@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 00:42+0200\n"
+"POT-Creation-Date: 2026-08-10 00:45+0200\n"
 "PO-Revision-Date: 2026-04-20 20:09+0000\n"
 "Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
@@ -2278,118 +2278,6 @@ msgstr "使用したい互換性ツールを選択"
 #: src/services/steam-tinker-launch-workflow.vala:155
 msgid "Failed to initialize SteamTinkerLaunch"
 msgstr ""
-
-#: src/translatables.vala:4
-msgid "Compatibility tools by Valve for running Windows software on Linux."
-msgstr ""
-"Valve が提供する、Windows ソフトウェアを Linux で実行するための互換性ツール"
-
-#: src/translatables.vala:5
-msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton."
-msgstr ""
-"Valve 公式の Proton に改良を加えた、Windows のゲームを動かすための Steam 互換"
-"性ツール。"
-
-#: src/translatables.vala:6
-msgid "Recommended"
-msgstr ""
-
-#: src/translatables.vala:7
-msgid ""
-"Steam compatibility tool from the CachyOS Linux distribution for running "
-"Windows games with improvements over Valve's default Proton."
-msgstr ""
-"Cachy OS のディストリビューションが提供する、Valve 公式の Proton に改良を加え"
-"た Windows ゲームを動かすための Steam 互換性ツール。"
-
-#: src/translatables.vala:8
-msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
-msgstr ""
-"Dawn Winery によってカスタムされた Proton のフォークで、沢山のゲームに向けた"
-"修正がなされています。:xdd:"
-
-#: src/translatables.vala:9
-msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and wine "
-"wayland tweaks."
-msgstr ""
-"Valve 公式の Proton に改良を加えた、Windows のゲームを動かすための Steam 互換"
-"性ツール。Etaash Mathamsetty 氏によって FSR4 サポートと wine wayland のへの変"
-"更が追加されています。"
-
-#: src/translatables.vala:10
-msgid ""
-"Steam compatibility tool based on Proton-GE with additional patches to "
-"improve RTSP codecs for VRChat."
-msgstr ""
-"VRChat での RTSP コーデックへの対応パッチを適応した、Proton-GE をベースにし"
-"た Steam 互換性ツール。"
-
-#: src/translatables.vala:11
-msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-msgstr ""
-"Wine-tkg を元にした、Windows ゲームを動かすためのカスタム Proton ビルド"
-
-#: src/translatables.vala:12
-msgid ""
-"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
-msgstr ""
-"Luxtorpeda はいくつかの Windows 限定ゲームをサポートする Linux ネイティブな"
-"ゲームエンジンです。"
-
-#: src/translatables.vala:13
-msgid ""
-"Steam compatibility tool for running adventure games using ScummVM for Linux."
-msgstr ""
-"ScummVM を使用した、アドベンチャーゲームを実行するための Steam 互換性ツール。"
-
-#: src/translatables.vala:14
-msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
-msgstr ""
-"DOS のゲームを Linux で動かすための、DOSBoxを使用した Steam 互換性ツール。"
-
-#: src/translatables.vala:15
-msgid "Compatibility tools for running Windows software on Linux."
-msgstr "Windows ソフトウェアを Linux で動かすための互換性ツール。"
-
-#: src/translatables.vala:16
-msgid "Wine build compiled from the official WineHQ sources."
-msgstr "WineHQ 公式のソースからコンパイルされた Wine のビルド。"
-
-#: src/translatables.vala:17
-msgid "Wine build with the Staging patchset."
-msgstr "テスト用の Staging パッチが適用された Wine のビルド。"
-
-#: src/translatables.vala:18
-msgid "Wine build with the Staging patchset and many other useful patches."
-msgstr ""
-"Staging パッチや、その他の有用なパッチの数々が適用された Wine のビルド。"
-
-#: src/translatables.vala:19
-msgid "Wine build modified by Valve and other contributors."
-msgstr "Valve やほかの貢献者によって改変された Wine のビルド。"
-
-#: src/translatables.vala:20
-msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr "Vulkan ベースの Linux/Wine 向けの Direct3D 8, 9, 10 と 11 の実装"
-
-#: src/translatables.vala:21
-msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
-msgstr "Vulkan バージョン 1.3 未満で動作させるための DXVK のビルド。"
-
-#: src/translatables.vala:22
-msgid "DXVK builds with gplasync patch by Ph42oN."
-msgstr "gplasync のパッチが適用された Ph42oN 氏による DXVK のビルド"
-
-#: src/translatables.vala:23
-msgid ""
-"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
-"top of Vulkan."
-msgstr ""
-"Wine の VKD3D で完全な Direct3D 12 API を実装することを目指したバージョン。"
 
 #: src/utils/web.vala:222
 msgid "The download timed out. Check your connection and try again."
@@ -6671,11 +6559,11 @@ msgid "Download speed limit"
 msgstr "ダウンロード"
 
 #: src/widgets/preferences/preferences-dialog.vala:287
-msgid "Maximum speed in KB/s. Set to 0 for unlimited."
+msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:290
-msgid "This limit applies to each active download."
+msgid "This limit is shared across all active downloads."
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:312
@@ -7248,6 +7136,102 @@ msgid ""
 msgstr ""
 "アプリケーションは更新の確認中です。\n"
 "アプリケーションを終了すると問題が発生することがあります。"
+
+#~ msgid "Compatibility tools by Valve for running Windows software on Linux."
+#~ msgstr ""
+#~ "Valve が提供する、Windows ソフトウェアを Linux で実行するための互換性ツー"
+#~ "ル"
+
+#~ msgid ""
+#~ "Steam compatibility tool for running Windows games with improvements over "
+#~ "Valve's default Proton."
+#~ msgstr ""
+#~ "Valve 公式の Proton に改良を加えた、Windows のゲームを動かすための Steam "
+#~ "互換性ツール。"
+
+#~ msgid ""
+#~ "Steam compatibility tool from the CachyOS Linux distribution for running "
+#~ "Windows games with improvements over Valve's default Proton."
+#~ msgstr ""
+#~ "Cachy OS のディストリビューションが提供する、Valve 公式の Proton に改良を"
+#~ "加えた Windows ゲームを動かすための Steam 互換性ツール。"
+
+#~ msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+#~ msgstr ""
+#~ "Dawn Winery によってカスタムされた Proton のフォークで、沢山のゲームに向け"
+#~ "た修正がなされています。:xdd:"
+
+#~ msgid ""
+#~ "Steam compatibility tool for running Windows games with improvements over "
+#~ "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and "
+#~ "wine wayland tweaks."
+#~ msgstr ""
+#~ "Valve 公式の Proton に改良を加えた、Windows のゲームを動かすための Steam "
+#~ "互換性ツール。Etaash Mathamsetty 氏によって FSR4 サポートと wine wayland "
+#~ "のへの変更が追加されています。"
+
+#~ msgid ""
+#~ "Steam compatibility tool based on Proton-GE with additional patches to "
+#~ "improve RTSP codecs for VRChat."
+#~ msgstr ""
+#~ "VRChat での RTSP コーデックへの対応パッチを適応した、Proton-GE をベースに"
+#~ "した Steam 互換性ツール。"
+
+#~ msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+#~ msgstr ""
+#~ "Wine-tkg を元にした、Windows ゲームを動かすためのカスタム Proton ビルド"
+
+#~ msgid ""
+#~ "Luxtorpeda provides Linux-native game engines for certain Windows-only "
+#~ "games."
+#~ msgstr ""
+#~ "Luxtorpeda はいくつかの Windows 限定ゲームをサポートする Linux ネイティブ"
+#~ "なゲームエンジンです。"
+
+#~ msgid ""
+#~ "Steam compatibility tool for running adventure games using ScummVM for "
+#~ "Linux."
+#~ msgstr ""
+#~ "ScummVM を使用した、アドベンチャーゲームを実行するための Steam 互換性ツー"
+#~ "ル。"
+
+#~ msgid ""
+#~ "Steam compatibility tool for running DOS games using DOSBox for Linux."
+#~ msgstr ""
+#~ "DOS のゲームを Linux で動かすための、DOSBoxを使用した Steam 互換性ツール。"
+
+#~ msgid "Compatibility tools for running Windows software on Linux."
+#~ msgstr "Windows ソフトウェアを Linux で動かすための互換性ツール。"
+
+#~ msgid "Wine build compiled from the official WineHQ sources."
+#~ msgstr "WineHQ 公式のソースからコンパイルされた Wine のビルド。"
+
+#~ msgid "Wine build with the Staging patchset."
+#~ msgstr "テスト用の Staging パッチが適用された Wine のビルド。"
+
+#~ msgid "Wine build with the Staging patchset and many other useful patches."
+#~ msgstr ""
+#~ "Staging パッチや、その他の有用なパッチの数々が適用された Wine のビルド。"
+
+#~ msgid "Wine build modified by Valve and other contributors."
+#~ msgstr "Valve やほかの貢献者によって改変された Wine のビルド。"
+
+#~ msgid ""
+#~ "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
+#~ msgstr "Vulkan ベースの Linux/Wine 向けの Direct3D 8, 9, 10 と 11 の実装"
+
+#~ msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
+#~ msgstr "Vulkan バージョン 1.3 未満で動作させるための DXVK のビルド。"
+
+#~ msgid "DXVK builds with gplasync patch by Ph42oN."
+#~ msgstr "gplasync のパッチが適用された Ph42oN 氏による DXVK のビルド"
+
+#~ msgid ""
+#~ "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API "
+#~ "on top of Vulkan."
+#~ msgstr ""
+#~ "Wine の VKD3D で完全な Direct3D 12 API を実装することを目指したバージョ"
+#~ "ン。"
 
 #~ msgid "No profile was found."
 #~ msgstr "プロファイルが見つかりませんでした。"

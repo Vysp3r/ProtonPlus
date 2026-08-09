@@ -284,10 +284,10 @@ namespace ProtonPlus.Widgets.Preferences {
 
             download_speed_limit_row = new Adw.SpinRow.with_range (0, 10240, 1) {
                 title = _("Download speed limit"),
-                subtitle = _("Maximum speed in KB/s. Set to 0 for unlimited.")
+                subtitle = _("Maximum total speed in KB/s for all downloads. Set to 0 for unlimited.")
             };
             ((!) download_speed_limit_row).set_digits (0);
-            ((!) download_speed_limit_row).set_tooltip_text (_("This limit applies to each active download."));
+            ((!) download_speed_limit_row).set_tooltip_text (_("This limit is shared across all active downloads."));
             update_download_speed_limit_row ();
             ((!) download_speed_limit_row).notify["value"].connect (() => {
                 var limit_kib = (int64) Math.round (((!) download_speed_limit_row).get_value ());
