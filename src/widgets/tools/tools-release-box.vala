@@ -150,44 +150,16 @@ namespace ProtonPlus.Widgets.Tools {
             list_box.remove_all ();
 
             var tool_name = job.get_usage_identifier ();
-
-            string default_tool = "";
-            if (steam_launcher != null) {
-                default_tool = steam_launcher.default_compatibility_tool;
-            }
-            bool is_default_tool = tool_name == default_tool;
-
             var has_games = false;
 
-            if (launcher.games != null) {
-                foreach (var game in launcher.games) {
-                    if (!game.is_native && (game.compatibility_tool == tool_name || (is_default_tool && game.compatibility_tool == "Default"))) {
-                        var row = new GameRow (game);
-                        row.notify["selected"].connect (() => {
-                            selection_changed ();
-                        });
-                        list_box.append (row);
-                        has_games = true;
-                    }
-                }
-            }
-
             if (steam_launcher != null) {
-                if (steam_launcher.profiles != null) {
-                    foreach (var profile in steam_launcher.profiles) {
-                        if (profile.non_steam_games != null) {
-                            foreach (var game in profile.non_steam_games) {
-                                if (!game.is_native && (game.compatibility_tool == tool_name || (is_default_tool && game.compatibility_tool == "Default"))) {
-                                    var row = new GameRow (game);
-                                    row.notify["selected"].connect (() => {
-                                        selection_changed ();
-                                    });
-                                    list_box.append (row);
-                                    has_games = true;
-                                }
-                            }
-                        }
-                    }
+                foreach (var game in steam_launcher.get_compatibility_tool_usage_games (tool_name)) {
+                    var row = new GameRow (game);
+                    row.notify["selected"].connect (() => {
+                        selection_changed ();
+                    });
+                    list_box.append (row);
+                    has_games = true;
                 }
             }
 

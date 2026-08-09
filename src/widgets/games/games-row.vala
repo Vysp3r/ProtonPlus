@@ -14,6 +14,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Box other_box;
         Gtk.Box content_box;
         weak Gtk.Widget? controller_up_target;
+        weak Gtk.Widget? controller_down_target;
         string normalized_name;
         public Models.Game game { get; set; }
 
@@ -27,9 +28,11 @@ namespace ProtonPlus.Widgets.Games {
                         Gtk.SizeGroup? tool_column_size_group = null,
                         Gtk.SizeGroup? actions_column_size_group = null,
                         Gtk.SizeGroup? filter_column_size_group = null,
-                        Gtk.Widget? controller_up_target = null) {
+                        Gtk.Widget? controller_up_target = null,
+                        Gtk.Widget? controller_down_target = null) {
             this.game = game;
             this.controller_up_target = controller_up_target;
+            this.controller_down_target = controller_down_target;
             normalized_name = game.name.down ();
 
             select_check_button = new Gtk.CheckButton ();
@@ -139,7 +142,11 @@ namespace ProtonPlus.Widgets.Games {
 
             if (direction == Utils.ControllerNavigationDirection.UP &&
                 find_adjacent_game (Gtk.DirectionType.UP) == null)
-                return focus_controller_up_target ();
+                return focus_controller_target (controller_up_target);
+
+            if (direction == Utils.ControllerNavigationDirection.DOWN &&
+                find_adjacent_game (Gtk.DirectionType.DOWN) == null)
+                return focus_controller_target (controller_down_target);
 
             if (direction == Utils.ControllerNavigationDirection.LEFT ||
                 direction == Utils.ControllerNavigationDirection.RIGHT)
@@ -178,7 +185,7 @@ namespace ProtonPlus.Widgets.Games {
             if (adjacent != null)
                 return ((!) adjacent).grab_focus ();
             if (direction == Gtk.DirectionType.UP)
-                return focus_controller_up_target ();
+                return focus_controller_target (controller_up_target);
             return false;
         }
 
@@ -197,12 +204,12 @@ namespace ProtonPlus.Widgets.Games {
             return null;
         }
 
-        bool focus_controller_up_target () {
-            return controller_up_target != null &&
-                ((!) controller_up_target).get_mapped () &&
-                ((!) controller_up_target).is_visible () &&
-                ((!) controller_up_target).is_sensitive () &&
-                ((!) controller_up_target).grab_focus ();
+        bool focus_controller_target (Gtk.Widget? target) {
+            return target != null &&
+                ((!) target).get_mapped () &&
+                ((!) target).is_visible () &&
+                ((!) target).is_sensitive () &&
+                ((!) target).grab_focus ();
         }
 
         bool focus_first_action () {
