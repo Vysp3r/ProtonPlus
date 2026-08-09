@@ -115,6 +115,9 @@ namespace AppTests.InstallerTransactionTest {
         Test.add_func ("/installer-transaction/versioned-install-preserves-compatibility-manifest", test_versioned_install_preserves_compatibility_manifest);
         Test.add_func ("/installer-transaction/latest-rejects-malformed-compatibility-manifest", test_latest_rejects_malformed_compatibility_manifest);
         Test.add_func ("/installer-transaction/all-built-in-providers-use-latest-workflow", test_all_built_in_providers_use_latest_workflow);
+        Test.add_func ("/installer-transaction/aarch64-host-installs-x86-64-variant", test_aarch64_host_installs_x86_64_variant);
+        Test.add_func ("/installer-transaction/aarch64-host-defaults-to-native-variant", test_aarch64_host_defaults_to_native_variant);
+        Test.add_func ("/installer-transaction/x86-64-host-rejects-aarch64-variant", test_x86_64_host_rejects_aarch64_variant);
         Test.add_func ("/installer-transaction/incompatible-variant-stops-before-download", test_incompatible_variant_stops_before_download);
         Test.add_func ("/installer-transaction/incompatible-variant-stops-update-install", test_incompatible_variant_stops_update_install);
         Test.add_func ("/installer-transaction/records-completed-steam-workflow-and-persistence-failure", test_records_completed_steam_workflow_and_persistence_failure);
@@ -274,6 +277,62 @@ namespace AppTests.InstallerTransactionTest {
         assert (job.download_calls == 0);
         assert (ProtonPlus.Utils.DownloadManager.instance.active_downloads.size == 0);
         assert (!FileUtils.test (location, FileTest.EXISTS));
+        Globals.CPU_CAPABILITIES = previous_capabilities;
+        assert (delete_directory (root));
+    }
+
+    private void test_aarch64_host_installs_x86_64_variant () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var archive = fixture_archive (root);
+        var job = new FixtureJob (runner (tools), location, archive);
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "x86-64", "x86_64", "", false, "https://fixtures.invalid/runner.zip",
+            VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)
+        ));
+        job.set_selected_variant ("x86_64", null, "x86-64");
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.AARCH64);
+        assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+        assert (job.download_calls == 1);
+        assert (FileUtils.test (location, FileTest.IS_DIR));
+        Globals.CPU_CAPABILITIES = previous_capabilities;
+        assert (delete_directory (root));
+    }
+
+    private void test_x86_64_host_rejects_aarch64_variant () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var job = new FixtureJob (runner (tools), location, "not-used.zip");
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "aarch64", "aarch64", "", false, "https://fixtures.invalid/aarch64.zip",
+            VariantCompatibility.for_architecture (CpuArchitecture.AARCH64)
+        ));
+        job.set_selected_variant ("aarch64", null, "aarch64");
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V4);
+        assert (install (job) == ReturnCode.INCOMPATIBLE_VARIANT);
+        assert (job.download_calls == 0);
+        assert (!FileUtils.test (location, FileTest.EXISTS));
+        Globals.CPU_CAPABILITIES = previous_capabilities;
+        assert (delete_directory (root));
+    }
+
+    private void test_aarch64_host_defaults_to_native_variant () {
+        string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
+        var archive = fixture_archive (root);
+        var job = new FixtureJob (runner (tools), location, archive);
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "x86-64", "x86_64", "", true, "https://fixtures.invalid/runner.zip",
+            VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)
+        ));
+        job.release.variants.add (new ProtonPlus.Models.Variant (
+            "aarch64", "aarch64", "", false, "https://fixtures.invalid/runner.zip",
+            VariantCompatibility.for_architecture (CpuArchitecture.AARCH64)
+        ));
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.AARCH64);
+        assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+        assert (job.selected_variant_id == "aarch64");
+        assert (job.download_calls == 1);
         Globals.CPU_CAPABILITIES = previous_capabilities;
         assert (delete_directory (root));
     }

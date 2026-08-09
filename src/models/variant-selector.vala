@@ -60,6 +60,10 @@ namespace ProtonPlus.Models {
                 }
             }
 
+            var native_aarch64 = find_native_aarch64_variant (compatible, capabilities, false);
+            if (native_aarch64 != null)
+                return native_aarch64;
+
             foreach (var variant in compatible) {
                 if (variant.is_default)
                     return variant;
@@ -132,6 +136,12 @@ namespace ProtonPlus.Models {
                 return new InstallationVariantResolution (null, matching, true);
             }
 
+            var native_aarch64 = find_native_aarch64_variant (
+                release.variants, capabilities, true
+            );
+            if (native_aarch64 != null)
+                return new InstallationVariantResolution (native_aarch64, null, false);
+
             foreach (var variant in release.variants) {
                 if (variant.is_default && has_download_url (variant) &&
                     variant.is_compatible_with (capabilities))
@@ -142,6 +152,23 @@ namespace ProtonPlus.Models {
                     return new InstallationVariantResolution (variant, null, false);
             }
             return new InstallationVariantResolution (null, null, false);
+        }
+
+        private static Variant? find_native_aarch64_variant (
+            Gee.Iterable<Variant> variants,
+            CpuCapabilities capabilities,
+            bool require_download_url
+        ) {
+            if (capabilities.architecture != CpuArchitecture.AARCH64)
+                return null;
+
+            foreach (var variant in variants) {
+                if (variant.compatibility.explicitly_supports_architecture (CpuArchitecture.AARCH64) &&
+                    variant.is_compatible_with (capabilities) &&
+                    (!require_download_url || has_download_url (variant)))
+                    return variant;
+            }
+            return null;
         }
 
         private static Variant? find_matching_release_variant (Release release, Variant selected_variant) {

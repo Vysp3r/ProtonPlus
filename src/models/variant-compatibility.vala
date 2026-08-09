@@ -55,6 +55,10 @@ namespace ProtonPlus.Models {
             return copy_architectures (supported_architectures);
         }
 
+        public bool explicitly_supports_architecture (CpuArchitecture architecture) {
+            return supports_architecture (architecture);
+        }
+
         public VariantCompatibility copy () {
             return new VariantCompatibility (
                 supported_architectures, minimum_x86_64_level, architecture_independent
@@ -80,8 +84,16 @@ namespace ProtonPlus.Models {
                 architecture_independent)
                 return true;
 
-            if (supported_architectures.length > 0 && !supports_architecture (capabilities.architecture))
-                return false;
+            if (supported_architectures.length > 0 &&
+                !supports_architecture (capabilities.architecture)) {
+                // AArch64 systems may run x86-64 tools through an emulation
+                // layer. Keep this intentionally one-way: an x86-64 system
+                // must not be offered AArch64 artifacts.
+                var supports_emulated_x86_64 = capabilities.architecture == CpuArchitecture.AARCH64 &&
+                    supports_architecture (CpuArchitecture.X86_64);
+                if (!supports_emulated_x86_64)
+                    return false;
+            }
 
             // The minimum ISA is meaningful only for an x86-64 host. Provider
             // validation rejects declarations which attempt to use it otherwise.

@@ -44,7 +44,9 @@ namespace AppTests.VariantSelectorTest {
         assert_projection (new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V2), { "x86_64", "x86_64_v2" });
         assert_projection (new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V3), { "x86_64", "x86_64_v2", "x86_64_v3" });
         assert_projection (new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V4), { "x86_64", "x86_64_v2", "x86_64_v3", "x86_64_v4" });
-        assert_projection (new CpuCapabilities (CpuArchitecture.AARCH64), { "aarch64" });
+        assert_projection (new CpuCapabilities (CpuArchitecture.AARCH64), {
+            "x86_64", "x86_64_v2", "x86_64_v3", "x86_64_v4", "aarch64"
+        });
     }
 
     private void test_unspecified_and_unknown_host () {
@@ -54,9 +56,10 @@ namespace AppTests.VariantSelectorTest {
         var unknown = VariantSelector.compatible_variants (values, new CpuCapabilities (CpuArchitecture.UNKNOWN));
         assert (unknown.size == values.size);
         var aarch64 = VariantSelector.compatible_variants (values, new CpuCapabilities (CpuArchitecture.AARCH64));
-        assert (aarch64[0].name == "aarch64");
-        assert (aarch64[1].name == "plain");
-        assert (aarch64[2].name == "independent");
+        assert (aarch64.size == values.size);
+        assert (aarch64[4].name == "aarch64");
+        assert (aarch64[5].name == "plain");
+        assert (aarch64[6].name == "independent");
     }
 
     private void test_selection_and_display_index () {
@@ -83,6 +86,10 @@ namespace AppTests.VariantSelectorTest {
         ));
         assert (VariantSelector.select_variant (variants (), new CpuCapabilities (CpuArchitecture.X86_32)) == null);
         assert (!VariantSelector.should_show_dropdown (empty));
+
+        var aarch64 = new CpuCapabilities (CpuArchitecture.AARCH64);
+        assert (VariantSelector.select_variant (variants (), aarch64).name == "aarch64");
+        assert (VariantSelector.select_variant (variants (), aarch64, "x86_64").name == "x86_64");
     }
 
     private LinkedList<ProtonPlus.Models.Variant> provider_variants (ProviderDefinition definition) {
@@ -196,7 +203,15 @@ namespace AppTests.VariantSelectorTest {
         assert (VariantSelector.resolve_installation_variant (none, "", "", v2).variant == null);
 
         var aarch64 = new CpuCapabilities (CpuArchitecture.AARCH64);
-        assert (VariantSelector.resolve_installation_variant (release, "base", "", aarch64).variant == null);
+        assert (VariantSelector.resolve_installation_variant (release, "base", "", aarch64).variant != null);
+        var native_default = release_with_assets ({
+            new ProtonPlus.Models.Variant ("base", "Baseline", "", true,
+                "https://example.test/base.tar.gz", VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)),
+            new ProtonPlus.Models.Variant ("arm", "AArch64", "", false,
+                "https://example.test/arm.tar.gz", VariantCompatibility.for_architecture (CpuArchitecture.AARCH64))
+        });
+        var aarch64_default = VariantSelector.resolve_installation_variant (native_default, "", "", aarch64);
+        assert (aarch64_default.variant != null && aarch64_default.variant.id == "arm");
         var unknown = new CpuCapabilities (CpuArchitecture.UNKNOWN);
         assert (VariantSelector.resolve_installation_variant (release, "v3", "", unknown).variant != null);
         var unrestricted = release_with_assets ({

@@ -57,7 +57,7 @@ namespace AppTests.VariantCompatibilityTest {
         assert (!x86_32.is_compatible_with (host (CpuArchitecture.AARCH64)));
         assert (aarch64.is_compatible_with (host (CpuArchitecture.AARCH64)));
         assert (!aarch64.is_compatible_with (host (CpuArchitecture.X86_64, X86_64Level.V4)));
-        assert (!x86_64.is_compatible_with (host (CpuArchitecture.AARCH64)));
+        assert (x86_64.is_compatible_with (host (CpuArchitecture.AARCH64)));
         assert (x86_64.is_compatible_with (host (CpuArchitecture.UNKNOWN)));
     }
 
@@ -77,6 +77,8 @@ namespace AppTests.VariantCompatibilityTest {
         assert (!v4.is_compatible_with (host (CpuArchitecture.X86_64, X86_64Level.V3)));
         foreach (var requirement in new VariantCompatibility[] { baseline, v2, v3, v4 })
             assert (requirement.is_compatible_with (host (CpuArchitecture.X86_64, X86_64Level.V4)));
+        foreach (var requirement in new VariantCompatibility[] { baseline, v2, v3, v4 })
+            assert (requirement.is_compatible_with (host (CpuArchitecture.AARCH64)));
     }
 
     private void test_defensive_copies_and_propagation () {
