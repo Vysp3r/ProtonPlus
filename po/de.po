@@ -123,19 +123,16 @@ msgid "Steam Tinker Launch"
 msgstr "Steam Tinker Launch"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:74
-#, fuzzy
 msgid "The tools interface of ProtonPlus."
-msgstr "Die Hauptoberfläche von ProtonPlus."
+msgstr "Die Oberfläche für Werkzeuge von ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:78
-#, fuzzy
 msgid "The releases interface of ProtonPlus."
-msgstr "Die Hauptoberfläche von ProtonPlus."
+msgstr "Die Oberfläche für Veröffentlichungen von ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:82
-#, fuzzy
 msgid "The games interface of ProtonPlus."
-msgstr "Die Hauptoberfläche von ProtonPlus."
+msgstr "Die Oberfläche für Spiele von ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:86
 msgid "The mass edit interface of ProtonPlus."
