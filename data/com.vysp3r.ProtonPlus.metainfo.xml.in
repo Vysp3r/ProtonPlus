@@ -88,6 +88,19 @@
   </screenshots>
 
   <releases>
+    <release version="0.6.1" date="2026-08-09">
+      <description>
+        <ul>
+          <li>✨ Improved how ProtonPlus finds Steam compatibility tools</li>
+          <li>✨ Improved mass editing and controller navigation in the Games tab</li>
+          <li>🐛 Fixed compatibility tool installation for some Steam setups</li>
+          <li>🐛 Fixed tool usage counts and game lists when moving to another tool</li>
+          <li>🐛 Fixed tool installation on some Linux systems and improved archive safety</li>
+          <li>🐛 Fixed translations missing from the AppImage version</li>
+          <li>🌐 Updated Czech and Slovak translations</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.6.0" date="2026-08-09">
       <description>
         <ul>
