@@ -5,6 +5,8 @@ namespace ProtonPlus.Utils {
         private static DownloadManager? _instance = null;
         private ulong speed_limit_settings_changed_handler = 0;
         private int64 global_throttle_next_allowed_time_us = 0;
+        private uint64 _throttle_generation = 0;
+        private int64 _speed_limit_bps = 0;
         public static DownloadManager instance {
             get {
                 if (_instance == null) {
@@ -16,7 +18,33 @@ namespace ProtonPlus.Utils {
 
         public Gee.LinkedList<Services.InstallJob> active_downloads { get; private set; }
 
-        public int64 speed_limit_bps { get; set; default = 0; }
+        public int64 speed_limit_bps {
+            get {
+                return _speed_limit_bps;
+            }
+            set {
+                var normalized_limit = value > 0 ? value : 0;
+                if (_speed_limit_bps == normalized_limit)
+                    return;
+
+                _speed_limit_bps = normalized_limit;
+                invalidate_throttle_schedule ();
+
+                if (Globals.SETTINGS != null) {
+                    var persisted = Globals.SETTINGS.get_int64 (SPEED_LIMIT_SETTINGS_KEY);
+                    if (persisted != _speed_limit_bps)
+                        Globals.SETTINGS.set_int64 (SPEED_LIMIT_SETTINGS_KEY, _speed_limit_bps);
+                }
+
+                speed_limit_changed (_speed_limit_bps);
+            }
+        }
+
+        public uint64 throttle_generation {
+            get {
+                return _throttle_generation;
+            }
+        }
 
         /// Checks whether this target-bound operation is currently active.
         public bool is_downloading (Services.InstallJob job) {
@@ -53,19 +81,6 @@ namespace ProtonPlus.Utils {
         private DownloadManager () {
             active_downloads = new Gee.LinkedList<Services.InstallJob> ();
             sync_speed_limit_from_settings ();
-
-            this.notify["speed-limit-bps"].connect (() => {
-                if (speed_limit_bps < 0)
-                    speed_limit_bps = 0;
-
-                if (Globals.SETTINGS != null) {
-                    var persisted = Globals.SETTINGS.get_int64 (SPEED_LIMIT_SETTINGS_KEY);
-                    if (persisted != speed_limit_bps)
-                        Globals.SETTINGS.set_int64 (SPEED_LIMIT_SETTINGS_KEY, speed_limit_bps);
-                }
-
-                speed_limit_changed (this.speed_limit_bps);
-            });
         }
 
         public void sync_speed_limit_from_settings () {
@@ -83,10 +98,17 @@ namespace ProtonPlus.Utils {
             }
 
             var configured_limit = Globals.SETTINGS.get_int64 (SPEED_LIMIT_SETTINGS_KEY);
-            if (configured_limit < 0)
+            if (configured_limit < 0) {
                 configured_limit = 0;
+                Globals.SETTINGS.set_int64 (SPEED_LIMIT_SETTINGS_KEY, configured_limit);
+            }
             if (speed_limit_bps != configured_limit)
                 speed_limit_bps = configured_limit;
+        }
+
+        private void invalidate_throttle_schedule () {
+            global_throttle_next_allowed_time_us = 0;
+            _throttle_generation++;
         }
 
         public void add_download (Services.InstallJob job) {
@@ -107,13 +129,15 @@ namespace ProtonPlus.Utils {
             download_finished (job, success);
         }
 
-        public async void async_sleep (uint milliseconds, Cancellable? cancellable = null) {
-            if (milliseconds == 0)
-                return;
-
-            int64 deadline_us = get_monotonic_time () + ((int64) milliseconds * 1000);
+        private async void wait_for_throttle_deadline (
+            int64 deadline_us,
+            uint64 expected_generation,
+            Cancellable? cancellable
+        ) {
             while (true) {
                 if (cancellable != null && cancellable.is_cancelled ())
+                    return;
+                if (_throttle_generation != expected_generation)
                     return;
 
                 int64 now_us = get_monotonic_time ();
@@ -126,7 +150,7 @@ namespace ProtonPlus.Utils {
 
                 var source = new TimeoutSource (remaining_ms);
                 source.set_callback (() => {
-                    async_sleep.callback ();
+                    wait_for_throttle_deadline.callback ();
                     return Source.REMOVE;
                 });
 
@@ -136,31 +160,41 @@ namespace ProtonPlus.Utils {
         }
 
         /// Applies a shared throttle budget across all active downloads.
-        public async void throttle_global_download_bytes (int64 bytes_written, Cancellable? cancellable = null) {
+        public async void throttle_global_download_bytes (
+            int64 bytes_written,
+            int64 transfer_started_us,
+            uint64 expected_generation,
+            Cancellable? cancellable = null
+        ) {
             if (bytes_written <= 0)
+                return;
+            if (_throttle_generation != expected_generation)
                 return;
 
             int64 speed_limit = speed_limit_bps;
-            if (speed_limit <= 0) {
-                global_throttle_next_allowed_time_us = 0;
+            if (speed_limit <= 0)
                 return;
-            }
 
             int64 now_us = get_monotonic_time ();
-            if (global_throttle_next_allowed_time_us == 0)
-                global_throttle_next_allowed_time_us = now_us;
+            int64 schedule_base_us = global_throttle_next_allowed_time_us;
+            if (transfer_started_us > schedule_base_us && transfer_started_us < now_us)
+                schedule_base_us = transfer_started_us;
+            if (schedule_base_us == 0)
+                schedule_base_us = now_us;
 
             int64 chunk_budget_us = (bytes_written * 1000000) / speed_limit;
-            global_throttle_next_allowed_time_us += chunk_budget_us;
+            global_throttle_next_allowed_time_us = schedule_base_us + chunk_budget_us;
 
             if (global_throttle_next_allowed_time_us < now_us)
                 global_throttle_next_allowed_time_us = now_us;
 
             int64 delay_us = global_throttle_next_allowed_time_us - now_us;
-            if (delay_us > 0) {
-                uint delay_ms = (uint) ((delay_us + 999) / 1000);
-                yield async_sleep (delay_ms, cancellable);
-            }
+            if (delay_us > 0)
+                yield wait_for_throttle_deadline (
+                    global_throttle_next_allowed_time_us,
+                    expected_generation,
+                    cancellable
+                );
         }
 
     }

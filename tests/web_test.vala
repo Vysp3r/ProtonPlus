@@ -7,6 +7,8 @@ namespace AppTests.WebTest {
         Test.add_func ("/web/download-cancels-during-throttle", test_download_cancels_during_throttle);
         Test.add_func ("/web/download-respects-whole-download-speed-limit", test_download_respects_whole_download_speed_limit);
         Test.add_func ("/web/download-shares-global-speed-limit", test_download_shares_global_speed_limit);
+        Test.add_func ("/web/download-throttle-credits-transfer-time", test_download_throttle_credits_transfer_time);
+        Test.add_func ("/web/download-throttle-reacts-to-limit-change", test_download_throttle_reacts_to_limit_change);
     }
 
     private void test_download_retries_timeout_once () {
@@ -111,6 +113,24 @@ namespace AppTests.WebTest {
         var loop = new MainLoop ();
         test_download_shares_global_speed_limit_async.begin ((obj, res) => {
             test_download_shares_global_speed_limit_async.end (res);
+            loop.quit ();
+        });
+        loop.run ();
+    }
+
+    private void test_download_throttle_credits_transfer_time () {
+        var loop = new MainLoop ();
+        test_download_throttle_credits_transfer_time_async.begin ((obj, res) => {
+            test_download_throttle_credits_transfer_time_async.end (res);
+            loop.quit ();
+        });
+        loop.run ();
+    }
+
+    private void test_download_throttle_reacts_to_limit_change () {
+        var loop = new MainLoop ();
+        test_download_throttle_reacts_to_limit_change_async.begin ((obj, res) => {
+            test_download_throttle_reacts_to_limit_change_async.end (res);
             loop.quit ();
         });
         loop.run ();
@@ -343,5 +363,73 @@ namespace AppTests.WebTest {
         if (FileUtils.test (destination2, FileTest.EXISTS))
             assert (FileUtils.remove (destination2) == 0);
         assert (DirUtils.remove (root) == 0);
+    }
+
+    private async void test_download_throttle_credits_transfer_time_async () {
+        var manager = ProtonPlus.Utils.DownloadManager.instance;
+        var previous_limit = manager.speed_limit_bps;
+        manager.speed_limit_bps = 1000;
+
+        var generation = manager.throttle_generation;
+        var transfer_started_us = get_monotonic_time () - 200000;
+        var wait_started_us = get_monotonic_time ();
+
+        yield manager.throttle_global_download_bytes (
+            100,
+            transfer_started_us,
+            generation,
+            null
+        );
+
+        var elapsed_ms = (get_monotonic_time () - wait_started_us) / 1000;
+        assert (elapsed_ms < 75);
+
+        // Leave the shared deadline idle, then verify a later transfer starts a
+        // fresh budget instead of inheriting a stale deadline.
+        Thread.usleep (100000);
+        transfer_started_us = get_monotonic_time ();
+        Thread.usleep (20000);
+        wait_started_us = get_monotonic_time ();
+
+        yield manager.throttle_global_download_bytes (
+            100,
+            transfer_started_us,
+            generation,
+            null
+        );
+
+        elapsed_ms = (get_monotonic_time () - wait_started_us) / 1000;
+        manager.speed_limit_bps = previous_limit;
+
+        assert (elapsed_ms >= 50);
+        assert (elapsed_ms < 150);
+    }
+
+    private async void test_download_throttle_reacts_to_limit_change_async () {
+        var manager = ProtonPlus.Utils.DownloadManager.instance;
+        var previous_limit = manager.speed_limit_bps;
+        manager.speed_limit_bps = 1;
+
+        var generation = manager.throttle_generation;
+        var change_source = new TimeoutSource (20);
+        change_source.set_callback (() => {
+            manager.speed_limit_bps = 0;
+            return Source.REMOVE;
+        });
+        change_source.attach (MainContext.default ());
+
+        var wait_started_us = get_monotonic_time ();
+        yield manager.throttle_global_download_bytes (
+            5,
+            wait_started_us,
+            generation,
+            null
+        );
+        var elapsed_ms = (get_monotonic_time () - wait_started_us) / 1000;
+
+        change_source.destroy ();
+        manager.speed_limit_bps = previous_limit;
+
+        assert (elapsed_ms < 500);
     }
 }

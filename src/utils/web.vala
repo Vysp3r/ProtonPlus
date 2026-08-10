@@ -3,7 +3,6 @@ namespace ProtonPlus.Utils {
         const int PROXY_MODE_SYSTEM = 0;
         const int PROXY_MODE_MANUAL = 1;
         const int MAX_DOWNLOAD_ATTEMPTS = 2;
-        const string SPEED_LIMIT_SETTINGS_KEY = "download-speed-limit-bps";
 
 
         public enum GetRequestType {
@@ -223,17 +222,6 @@ namespace ProtonPlus.Utils {
             return error.message;
         }
 
-        private static int64 get_effective_speed_limit_bps () {
-            if (Globals.SETTINGS != null) {
-                var configured_limit = Globals.SETTINGS.get_int64 (SPEED_LIMIT_SETTINGS_KEY);
-                if (configured_limit > 0)
-                    return configured_limit;
-            }
-
-            var manager_limit = DownloadManager.instance.speed_limit_bps;
-            return manager_limit > 0 ? manager_limit : 0;
-        }
-
         private static async bool download_once (
             string url,
             File file,
@@ -288,7 +276,9 @@ namespace ProtonPlus.Utils {
                         break;
                     }
 
-                    var speed_limit_bps_before_read = get_effective_speed_limit_bps ();
+                    var download_manager = DownloadManager.instance;
+                    var speed_limit_bps_before_read = download_manager.speed_limit_bps;
+                    var throttle_generation_before_read = download_manager.throttle_generation;
                     size_t chunk_size = max_chunk_size;
                     if (speed_limit_bps_before_read > 0) {
                         // Keep small limits responsive and avoid huge burst writes.
@@ -299,6 +289,7 @@ namespace ProtonPlus.Utils {
                             chunk_size = (size_t) suggested_chunk;
                     }
 
+                    int64 transfer_started_us = get_monotonic_time ();
                     var chunk = yield input_stream.read_bytes_async (chunk_size, Priority.DEFAULT, cancellable);
 
                     if (chunk.get_size () == 0)
@@ -309,7 +300,12 @@ namespace ProtonPlus.Utils {
 
                     bytes_downloaded += bytes_written;
 
-                    yield DownloadManager.instance.throttle_global_download_bytes ((int64) bytes_written, cancellable);
+                    yield download_manager.throttle_global_download_bytes (
+                        (int64) bytes_written,
+                        transfer_started_us,
+                        throttle_generation_before_read,
+                        cancellable
+                    );
 
                     if (cancellable != null && cancellable.is_cancelled ()) {
                         is_canceled = true;
