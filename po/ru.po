@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-09 21:45-0400\n"
-"PO-Revision-Date: 2026-08-10 11:51+0000\n"
+"PO-Revision-Date: 2026-08-10 13:44+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ru/>\n"
@@ -32,7 +32,7 @@ msgstr "Современный менеджер инструментов сов�
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:8
 msgid "Manage Proton, Wine, DXVK, and VKD3D tools for Linux game launchers"
-msgstr "Управляйте Proton, Wine, DXVK и VKD3D для игровых лаунчеров Linux"
+msgstr "Управление Proton, Wine, DXVK и VKD3D для игровых лаунчеров Linux"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:10
 msgid ""
@@ -40,13 +40,12 @@ msgid ""
 "compatibility tools used by Steam and other Linux game launchers."
 msgstr ""
 "ProtonPlus помогает устанавливать, обновлять, удалять и упорядочивать "
-"инструменты совместимости Windows, используемые Steam и другими игровыми "
-"лаунчерами Linux."
+"инструменты совместимости Windows для Steam и других игровых лаунчеров Linux."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:14
 msgid "Manage Proton, Wine, DXVK, VKD3D, and related compatibility tools"
 msgstr ""
-"Управляйте Proton, Wine, DXVK, VKD3D и связанными инструментами совместимости"
+"Управление Proton, Wine, DXVK, VKD3D и смежными инструментами совместимости"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:15
 msgid ""
@@ -59,22 +58,21 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:16
 msgid "Browse Steam games, change compatibility tools, and edit launch options"
 msgstr ""
-"Просматривайте игры Steam, изменяйте инструменты совместимости и параметры "
+"Просмотр игр Steam, смена инструментов совместимости и правка параметров "
 "запуска"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:17
 msgid ""
 "Track downloads and updates, with cancellation and desktop notifications"
 msgstr ""
-"Отслеживайте загрузки и обновления, с возможностью отмены и уведомлениями на "
-"рабочем столе"
+"Отслеживание загрузок и обновлений с отменой и уведомлениями на рабочем столе"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:18
 msgid ""
 "Use the command-line interface to list, install, update, and uninstall tools"
 msgstr ""
-"Используйте интерфейс командной строки для вывода списка, установки, "
-"обновления и удаления инструментов"
+"Интерфейс командной строки для вывода, установки, обновления и удаления "
+"инструментов"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:23
 msgid "Vysp3r"
@@ -145,11 +143,11 @@ msgstr "✨ Добавлены сборки AppImage для систем AArch64
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:95
 msgid "✨ Added a configurable download speed limit"
-msgstr "✨ Добавлена настраиваемая скорость загрузки"
+msgstr "✨ Добавлена настройка ограничения скорости загрузки"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:96
 msgid "🐛 Fixed Faugus launcher not being detected under Flatpak"
-msgstr "🐛 Исправлена проблема обнаружения Faugus в Flatpak"
+msgstr "🐛 Исправлено обнаружение Faugus в Flatpak"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:97
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:139
@@ -174,14 +172,14 @@ msgstr "✨ Улучшен поиск инструментов совмести�
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:105
 msgid "✨ Improved mass editing and controller navigation in the Games tab"
 msgstr ""
-"✨ Улучшены массовое редактирование и навигация с контроллера на вкладке «"
-"Игры»"
+"✨ Улучшены массовое редактирование и навигация по вкладке «Игры» с "
+"контроллера"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:106
 msgid "🐛 Fixed compatibility tool installation for some Steam setups"
 msgstr ""
-"🐛 Исправлена установка инструмента совместимости для некоторых конфигураций "
-"Steam"
+"🐛 Исправлена установка инструментов совместимости для некоторых "
+"конфигураций Steam"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:107
 msgid "🐛 Fixed tool usage counts and game lists when moving to another tool"
@@ -214,15 +212,15 @@ msgstr "✨ Добавлен выбор варианта x86-64 и ARM64 с уч
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:119
 msgid "✨ Added scheduled background updates and notifications"
-msgstr "✨ Добавлены запланированные фоновые обновления и уведомления"
+msgstr "✨ Добавлены фоновые обновления по расписанию и уведомления"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:120
 msgid ""
 "✨ Added controller navigation with contextual hints, optional haptic "
 "feedback, and a first-run guide"
 msgstr ""
-"✨ Добавлена навигация с контроллера с контекстными подсказками, "
-"необязательной тактильной обратной связью и руководством для первого запуска"
+"✨ Добавлена навигация с контроллера, контекстные подсказки, вибрация и "
+"руководство для новичков"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:121
 msgid "✨ Added Breeze Light, Breeze Dark, SteamOS, and OLED themes"
@@ -237,12 +235,12 @@ msgid ""
 "✨ Added Steam shortcut creation and guided Steam restarts, including "
 "SteamOS Gaming Mode"
 msgstr ""
-"✨ Добавлены создание ярлыков Steam и управляемые перезапуски Steam, включая "
+"✨ Добавлены создание ярлыков и управляемые перезапуски Steam, включая "
 "SteamOS Gaming Mode"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:124
 msgid "✨ Added default Steam compatibility prefix migration"
-msgstr "✨ Добавлена миграция префикса совместимости Steam по умолчанию"
+msgstr "✨ Добавлен перенос стандартного префикса совместимости Steam"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:125
 msgid "✨ Added an active downloads indicator"
@@ -258,15 +256,15 @@ msgid ""
 "command previews"
 msgstr ""
 "✨ Переработан редактор параметров запуска с учётом оборудования и точным "
-"предварительным просмотром команды"
+"предпросмотром команды"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:128
 msgid ""
 "✨ Preserved custom and unknown safe launch options during single-game and "
 "mass edits"
 msgstr ""
-"✨ Сохранены пользовательские и неизвестные безопасные параметры запуска при "
-"правке одной игры и массовом редактировании"
+"✨ Сохранены пользовательские и неизвестные параметры запуска при правке "
+"одной или нескольких игр"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:129
 msgid ""
@@ -279,7 +277,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:130
 msgid ""
 "✨ Improved stable release selection, Latest handling, and variant selection"
-msgstr "✨ Улучшен выбор стабильных версий, обработка «Latest» и выбор вариантов"
+msgstr "✨ Улучшен выбор стабильных версий, работа с «Latest» и выбор вариантов"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:131
 msgid ""
@@ -310,8 +308,8 @@ msgid ""
 "🐛 Fixed release and installation issues affecting Proton-TKG, Proton-"
 "CachyOS, DXVK, VKD3D, Lutris, and Steam Tinker Launch"
 msgstr ""
-"🐛 Исправлены проблемы релизов и установки, затрагивающие Proton-TKG, Proton-"
-"CachyOS, DXVK, VKD3D, Lutris и Steam Tinker Launch"
+"🐛 Исправлены проблемы установки и релизов для Proton-TKG, Proton-CachyOS, "
+"DXVK, VKD3D, Lutris и Steam Tinker Launch"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:136
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:335
@@ -5778,7 +5776,7 @@ msgstr "Теперь все в актуальном состоянии"
 #: src/widgets/main/main-box.vala:307 src/widgets/tools/tools-box.vala:654
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
-msgstr "Невозможно проверить наличие обновлений (Reason: %s)"
+msgstr "Не удалось проверить обновления (причина: %s)"
 
 #: src/widgets/main/main-box.vala:314
 msgid "Update started"
@@ -5786,7 +5784,7 @@ msgstr "Обновление начато"
 
 #: src/widgets/main/main-box.vala:316
 msgid "Download started"
-msgstr "Загрузка начата"
+msgstr "Загрузка запущена"
 
 #: src/widgets/main/main-box.vala:322
 msgid "Download finished"
@@ -7005,7 +7003,7 @@ msgstr "Использованное"
 
 #: src/widgets/tools/tools-box.vala:208
 msgid "Unused"
-msgstr "Неиспользуемый"
+msgstr "Неиспользуемое"
 
 #: src/widgets/tools/tools-box.vala:372
 msgid "Search is active"
@@ -7148,7 +7146,7 @@ msgstr "Оставшееся время: --"
 
 #: src/widgets/tools/tools-release-row.vala:55
 msgid "Update the runner if a newer version is available"
-msgstr "Обновить программу запуска, если доступна более новая версия"
+msgstr "Обновить раннер, если доступна более новая версия"
 
 #: src/widgets/tools/tools-release-row.vala:60
 #, c-format
@@ -7362,8 +7360,8 @@ msgid ""
 "The application is currently downloading a tool.\n"
 "Exiting the application early may cause issues."
 msgstr ""
-"Приложение в данный момент загружает инструмент.\n"
-"Досрочный выход из приложения может вызвать проблемы."
+"Приложение загружает инструмент.\\n\n"
+"Выход может вызвать проблемы."
 
 #~ msgid "Compatibility tools by Valve for running Windows software on Linux."
 #~ msgstr ""
@@ -7715,3 +7713,6 @@ msgstr ""
 
 #~ msgid "Checking for updates..."
 #~ msgstr "Проверка обновлений..."
+
+msgid "runner"
+msgstr "раннер"
