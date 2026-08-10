@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-09 21:45-0400\n"
-"PO-Revision-Date: 2026-04-28 02:09+0000\n"
+"PO-Revision-Date: 2026-08-10 19:51+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:7
@@ -1761,12 +1761,12 @@ msgstr ""
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
 msgid "General"
-msgstr "Загальне"
+msgstr "Загальні"
 
 #: data/ui/gtk/help-overlay.ui:14
 msgctxt "shortcut window"
 msgid "Show Shortcuts"
-msgstr "Показати скорочення клавіш"
+msgstr "Клавіатурні скорочення"
 
 #: data/ui/gtk/help-overlay.ui:20
 msgctxt "shortcut window"
@@ -1779,9 +1779,9 @@ msgid "Error: Unknown command '%s'\n"
 msgstr "Помилка: невідома команда '%s'\n"
 
 #: src/cli/cli.vala:137
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: %s\n"
-msgstr "Увага"
+msgstr "Увага: %s\n"
 
 #: src/cli/cli.vala:175
 msgid "Detected launchers:\n"
@@ -1797,13 +1797,13 @@ msgid "No runners installed\n"
 msgstr "Інструменти відсутні\n"
 
 #: src/cli/cli.vala:299 src/cli/cli.vala:547
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Failed to load releases: %s\n"
-msgstr "Помилка: не вдалося завантажити випуски\n"
+msgstr "Помилка: не вдалося завантажити випуски: %s\n"
 
 #: src/cli/cli.vala:304 src/cli/cli.vala:549
 msgid "Error: No releases are available\n"
-msgstr ""
+msgstr "Помилка: немає доступних випусків\n"
 
 #: src/cli/cli.vala:308
 #, c-format
@@ -1816,9 +1816,9 @@ msgid "Successfully installed %s Latest\n"
 msgstr "Найновішу версію %s встановлено\n"
 
 #: src/cli/cli.vala:318 src/cli/cli.vala:351
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Installation failed: %s\n"
-msgstr "Помилка: встановлення не вдалося\n"
+msgstr "Помилка: не встановлено: %s\n"
 
 #: src/cli/cli.vala:331
 #, c-format
@@ -2223,6 +2223,8 @@ msgid ""
 "A compatibility tool is currently in use. Close the running game and try "
 "again."
 msgstr ""
+"Інструмент сумісності зараз використовується. Закрийте запущену гру та "
+"спробуйте ще раз."
 
 #: src/return_codes.vala:70
 msgid "The operation could not be completed."
@@ -2378,7 +2380,7 @@ msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:183
 msgid "A button"
-msgstr ""
+msgstr "Кнопка А"
 
 #: src/widgets/controller-hint-bar.vala:187
 msgid "B button"
@@ -3112,8 +3114,8 @@ msgid ""
 "Makes Proton report an AMD APU as a discrete GPU for games that mis-detect "
 "integrated graphics."
 msgstr ""
-"Proton змушує ігри бачити AMD APU як дискретну відеокарту, коли вони "
-"неправильно визначають вбудовану графіку."
+"Proton змушує ігри бачити AMD APU як дискретну відеокарту, коли вбудовану "
+"графіку неправильно визначено."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:37
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
@@ -5142,7 +5144,7 @@ msgstr "Виводить HDR-кольори, за умови підтримки 
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:40
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:48
 msgid "Matches your display's refresh rate to the game's FPS."
-msgstr "Узгоджує частоту оновлення дисплея з частотою кадрів у грі."
+msgstr "Підлаштовує частоту оновлення дисплея під частоту кадрів у грі."
 
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:51
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:65
@@ -6464,19 +6466,19 @@ msgstr "Відкрити сторінку ProtonDB"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:15
 msgid "1h"
-msgstr ""
+msgstr "1 год"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:16
 msgid "3h"
-msgstr ""
+msgstr "3 год"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:17
 msgid "6h"
-msgstr ""
+msgstr "6 год"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:18
 msgid "12h"
-msgstr ""
+msgstr "12 год"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:26
 #, fuzzy
@@ -7049,17 +7051,21 @@ msgid ""
 msgstr ""
 
 #: src/widgets/tools/tools-releases-box.vala:75
+#, fuzzy
 msgid "64-bit ARM build. Choose this only on ARM64 hardware."
-msgstr ""
+msgstr "64-бітна збірка ARM. Вибирайте лише на апаратурі ARM64."
 
 #: src/widgets/tools/tools-releases-box.vala:77
+#, fuzzy
 msgid "32-bit x86 build. Choose this only when a 32-bit runner is required."
 msgstr ""
+"32-бітна x86 збірка. Вибирайте, лише якщо потрібен 32-бітний інструмент."
 
 #: src/widgets/tools/tools-releases-box.vala:80
 msgid ""
 "64-bit build with WoW64 support for running 32-bit Windows applications."
 msgstr ""
+"64-бітна збірка з підтримкою WoW64 для запуску 32-бітних Windows-програм."
 
 #: src/widgets/tools/tools-releases-box.vala:82
 msgid "The provider's recommended build for most systems."
