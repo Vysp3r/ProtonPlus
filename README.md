@@ -52,7 +52,7 @@ ProtonPlus helps you install, update, remove, and organize compatibility tools u
 - Coordinate required Steam restarts after compatibility-tool or Steam configuration changes.
 - Navigate Tools, Games, preferences, dialogs, and menus with a gamepad, with contextual button hints and optional vibration.
 - Configure MangoHud presets when MangoHud is installed, including visual, performance, metrics, and extra settings.
-- Track downloads and updates from the application header, with cancellation and desktop notifications.
+- Track downloads and updates from the application header, with a shared speed limit, cancellation, and desktop notifications.
 - Use the command-line interface for listing launchers, installing, updating, and uninstalling tools.
 - Configure background updates, API tokens, proxy settings, themes, language, legacy-tool visibility, and other application preferences.
 - Localized through gettext and Weblate.
@@ -267,7 +267,7 @@ Application preferences are available from the preferences dialog. They include:
 - Background update frequency and update checks at launch or system startup
 - Default Steam compatibility tool and selected Steam profile
 - GitHub and GitLab API tokens for higher API limits or authenticated access
-- System or manual proxy configuration
+- System or manual proxy configuration and a shared download speed limit
 - Legacy-tool visibility, experimental features, and default-prefix migration behavior
 - Cache deletion and application environment diagnostics
 
