@@ -203,6 +203,7 @@ namespace ProtonPlus.Models.Providers {
         // names.  Keep the configuration and matching semantics unchanged.
         private string[] asset_filter_values;
         private string[] asset_exclusion_values;
+        private string[] legacy_endpoint_values;
         public string url_template { get; private set; }
         public ArchiveInstallRequirement archive_install_requirement { get; private set; }
         public bool single_archive_releases { get; private set; }
@@ -213,6 +214,10 @@ namespace ProtonPlus.Models.Providers {
 
         public string[] asset_exclusions {
             owned get { return copy_strings (asset_exclusion_values); }
+        }
+
+        public string[] legacy_endpoints {
+            owned get { return copy_strings (legacy_endpoint_values); }
         }
 
         public string source_id {
@@ -236,7 +241,8 @@ namespace ProtonPlus.Models.Providers {
             bool legacy = false,
             string url_template = "",
             ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD,
-            bool single_archive_releases = false
+            bool single_archive_releases = false,
+            string[]? legacy_endpoints = null
         ) {
             this.category = category;
             this.source_type = source_type;
@@ -250,6 +256,7 @@ namespace ProtonPlus.Models.Providers {
             this.install_layouts = copy_install_layouts (install_layouts);
             this.asset_filter_values = copy_strings (asset_filters);
             this.asset_exclusion_values = copy_strings (asset_exclusions);
+            this.legacy_endpoint_values = copy_strings (legacy_endpoints);
             this.tag = tag;
             this.legacy = legacy;
             this.url_template = url_template;
@@ -307,6 +314,19 @@ namespace ProtonPlus.Models.Providers {
             }
 
             return null;
+        }
+
+        public bool matches_endpoint (string candidate) {
+            if (candidate == "")
+                return false;
+            if (candidate == endpoint)
+                return true;
+
+            foreach (var legacy_endpoint in legacy_endpoint_values) {
+                if (candidate == legacy_endpoint)
+                    return true;
+            }
+            return false;
         }
 
         public static string source_id_for (SourceType source_type) {
