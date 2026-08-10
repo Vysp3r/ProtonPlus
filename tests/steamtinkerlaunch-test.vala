@@ -82,7 +82,26 @@ namespace AppTests.SteamTinkerLaunchTest {
         Test.add_func ("/steamtinkerlaunch/system-compat-del-failure-stops-before-backups", test_system_compat_del_failure_stops_before_backups);
         Test.add_func ("/steamtinkerlaunch/remove-compat-del-failure-preserves-installation", test_remove_compat_del_failure_preserves_installation);
         Test.add_func ("/steamtinkerlaunch/finalization-uses-launcher-capabilities", test_finalization_uses_launcher_capabilities);
+        Test.add_func ("/steamtinkerlaunch/yad-version-classification", test_yad_version_classification);
     }
+
+    private void test_yad_version_classification () {
+        assert (Services.SteamTinkerLaunchYadCompatibility.classify_version_output ("7.1 (GTK+ 3.24.0)") ==
+            Services.SteamTinkerLaunchYadCompatibility.Status.TOO_OLD);
+        assert (Services.SteamTinkerLaunchYadCompatibility.classify_version_output ("7.2 (GTK+ 3.24.0)") ==
+            Services.SteamTinkerLaunchYadCompatibility.Status.SUPPORTED);
+        assert (Services.SteamTinkerLaunchYadCompatibility.classify_version_output ("14.1 (GTK+ 3.24.0)") ==
+            Services.SteamTinkerLaunchYadCompatibility.Status.SUPPORTED);
+        assert (Services.SteamTinkerLaunchYadCompatibility.classify_version_output ("15.0 (GTK+ 3.24.0)") ==
+            Services.SteamTinkerLaunchYadCompatibility.Status.INCOMPATIBLE_15);
+        assert (Services.SteamTinkerLaunchYadCompatibility.classify_version_output ("15,2 (GTK+ 3.24.0)") ==
+            Services.SteamTinkerLaunchYadCompatibility.Status.INCOMPATIBLE_15);
+        assert (Services.SteamTinkerLaunchYadCompatibility.classify_version_output ("16.0 (GTK+ 3.24.0)") ==
+            Services.SteamTinkerLaunchYadCompatibility.Status.SUPPORTED);
+        assert (Services.SteamTinkerLaunchYadCompatibility.classify_version_output ("unknown") ==
+            Services.SteamTinkerLaunchYadCompatibility.Status.UNKNOWN);
+    }
+
     private string temporary_directory () { try { return DirUtils.make_tmp ("protonplus-steamtinkerlaunch-test-XXXXXX"); } catch (FileError e) { critical ("Could not create test directory: %s", e.message); assert_not_reached (); } }
     private string fixture_archive (string root) {
         var encoded = ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename ("fixtures", "archives", "steamtinkerlaunch.zip.base64")).strip (); var path = Path.build_filename (root, "steamtinkerlaunch.zip");
