@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-09 21:45-0400\n"
-"PO-Revision-Date: 2026-08-10 11:52+0000\n"
+"PO-Revision-Date: 2026-08-10 13:44+0000\n"
 "Last-Translator: CrissZollo <depth-broaden-oboe@duck.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/sv/>\n"
@@ -174,7 +174,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:451
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:501
 msgid "🌐 Updated German localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Tysk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:104
 #, fuzzy
@@ -305,11 +305,11 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:136
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:335
 msgid "🌐 Added Arabic localization"
-msgstr "🌐 Tillagd arabisk lokalisering"
+msgstr "🌐 Tillagd Arabisk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:137
 msgid "🌐 Added Slovak localization"
-msgstr ""
+msgstr "🌐 Tillagd Slovakisk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:138
 msgid "🌐 Updated Simplified Chinese localization"
@@ -320,7 +320,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:303
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:376
 msgid "🌐 Updated Italian localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Italiensk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:147
 msgid "🐛 Fixed Proton-GE RTSP download"
@@ -349,7 +349,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:500
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:526
 msgid "🌐 Updated Chinese localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Kinesisk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:158
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:210
@@ -367,14 +367,14 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:517
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:545
 msgid "🌐 Updated Portuguese localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Portugisisk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:159
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:189
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:207
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:306
 msgid "🌐 Updated Polish localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Polsk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:160
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:208
@@ -384,7 +384,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:493
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:502
 msgid "🌐 Updated French localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Fransk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:161
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:179
@@ -392,7 +392,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:214
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:308
 msgid "🌐 Updated Ukrainian localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Ukrainsk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:162
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:180
@@ -405,16 +405,16 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:354
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:544
 msgid "🌐 Updated Spanish localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Spansk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:163
 msgid "🌐 Updated Greek localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Grekisk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:164
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:211
 msgid "🌐 Updated Japanese localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Japansk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:171
 msgid "✨ Added a new \"Downloads\" tab"
@@ -435,7 +435,7 @@ msgstr "✨ Lade till ett SteamOS-tema och ett OLED-tema"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:175
 msgid "🐛 Fixed DXVK-Sarek"
-msgstr ""
+msgstr "🐛 Fixat DXVK-Sarek"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:176
 msgid "🐛 Fixed tool usage count to account for default tool"
@@ -462,7 +462,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:199
 msgid "✨ Removed Proton-Sarek"
-msgstr ""
+msgstr "✨ Tog bort Proton-Sarek"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:200
 msgid "🐛 Fixed a few typos"
@@ -470,7 +470,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:201
 msgid "🐛 Fixed broken icons"
-msgstr ""
+msgstr "🐛 Fixade trasiga ikoner"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:202
 msgid "🐛 Fixed XDG base directory specification"
@@ -494,11 +494,11 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:422
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:492
 msgid "🌐 Updated Indonesian localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Indonesisk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:221
 msgid "✨ Added CLI support"
-msgstr ""
+msgstr "✨ Tillagd CLI stöd"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:222
 msgid "🐛 Fixed Lutris install directory for Proton runners"
@@ -510,11 +510,11 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:225
 msgid "🌐 Added Vietnamese localization"
-msgstr ""
+msgstr "🌐 Tillagd Vietnamesisk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:232
 msgid "✨ Added DW-Proton Latest"
-msgstr ""
+msgstr "✨ Lagt till DW-Proton senaste"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:233
 msgid "✨ Added Proton-Sarek Latest"
@@ -562,7 +562,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:254
 msgid "✨ Added DW-Proton"
-msgstr ""
+msgstr "✨ Tillagd DW-Proton"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:263
 msgid "✨ Migrate user_settings.py on update"
@@ -832,7 +832,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:400
 msgid "💄 Improved UI/UX"
-msgstr ""
+msgstr "💄 Förbättrat UI/UX"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:401
 msgid "💄 Refined the game library list header"
@@ -987,7 +987,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:534
 msgid "✨ Re-ordered runners"
-msgstr ""
+msgstr "✨ Omordnat körningar"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:535
 msgid "✨ Removed deprecated runners"
@@ -1048,7 +1048,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:588
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:678
 msgid "🧑‍💻 Backend improvements"
-msgstr ""
+msgstr "🧑‍💻 Backend-förbättringar"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:589
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:645
@@ -1059,7 +1059,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:694
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:705
 msgid "🌐 Updated localization"
-msgstr ""
+msgstr "🌐 Uppdaterad lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:596
 msgid "💄 Switched app icon to PNG format due to poor SVG support in KDE"
@@ -1107,7 +1107,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:638
 msgid "🐛 Fix appdata"
-msgstr ""
+msgstr "🐛 Fix appdata"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:652
 msgid "✨ Added Proton-GE RTSP to Steam"
@@ -1159,7 +1159,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:693
 msgid "🧑‍💻 General improvements"
-msgstr ""
+msgstr "🧑‍💻 Allmänna förbättringar"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:701
 msgid "📝 Updated README, appdata and preview image"
@@ -1205,7 +1205,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:725
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:735
 msgid "⚡️ Backend optimization"
-msgstr ""
+msgstr "⚡️ Backendoptimering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:732
 msgid "🍱 Change preview video file format to webm"
@@ -1249,7 +1249,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:755
 msgid "🧑‍💻 Project Refactor"
-msgstr ""
+msgstr "🧑‍💻 Projektomstrukturering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:762
 msgid "✨ Added support for Bottles"
@@ -1274,7 +1274,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:975
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:984
 msgid "🔨 Update appdata"
-msgstr ""
+msgstr "🔨 Uppdatera appdata"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:764
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:773
@@ -1334,7 +1334,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:795
 msgid "💄 Updated icons"
-msgstr ""
+msgstr "💄 Uppdaterade ikoner"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:796
 msgid "🐛 Fixed tools and releases not being locked when needed"
@@ -1391,7 +1391,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1023
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1047
 msgid "📝 Update README.md"
-msgstr ""
+msgstr "📝 Uppdatering README.md"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:850
 msgid "🌐 Add Chinese(Simplified) Translation"
@@ -1399,7 +1399,7 @@ msgstr "🌐 Lade till Kinesiska(Enkel) Översättning"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:851
 msgid "🐛 Fix translation"
-msgstr ""
+msgstr "🐛 Fix översättning"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:860
 msgid "🐛 Correct desktop file exec"
@@ -1435,7 +1435,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:939
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:973
 msgid "🧑‍💻 Project refactor"
-msgstr ""
+msgstr "🧑‍💻 Projektomstrukturering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:876
 msgid "🐛 Fix tool renaming"
@@ -1484,7 +1484,7 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:897
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:914
 msgid "🔨 Update meson"
-msgstr ""
+msgstr "🔨 Uppdatera meson"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:905
 msgid "✨ Add localization system"
@@ -1525,7 +1525,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:925
 msgid "🧑‍💻 Refactor ProtonMessageDialog"
-msgstr ""
+msgstr "🧑‍💻 Refaktorisering ProtonMessageDialog"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:926
 msgid "🚚 Rename Selector to InstallTool"
@@ -1617,11 +1617,11 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:987
 msgid "🍱 Add icon"
-msgstr ""
+msgstr "🍱 Lägg till ikon"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:988
 msgid "🔨 Update .desktop"
-msgstr ""
+msgstr "🔨 Uppdatera .desktop"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:989
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1004
@@ -1765,7 +1765,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1055
 msgid "🎉 Initial release"
-msgstr ""
+msgstr "🎉 Första utgivningen"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1056
 msgid "📝 Create pull request template"
@@ -1789,7 +1789,7 @@ msgstr ""
 #: src/cli/cli.vala:128
 #, c-format
 msgid "Error: Unknown command '%s'\n"
-msgstr ""
+msgstr "Fel: Okänt kommando '%s'\n"
 
 #: src/cli/cli.vala:137
 #, c-format
@@ -1801,9 +1801,9 @@ msgid "Detected launchers:\n"
 msgstr "Upptäckta launchers:\n"
 
 #: src/cli/cli.vala:187
-#, fuzzy, c-format
+#, c-format
 msgid "Installed runners for %s:\n"
-msgstr "Endast Installerade"
+msgstr "Installerade körare för %s:\n"
 
 #: src/cli/cli.vala:207
 msgid "No runners installed\n"
@@ -1826,7 +1826,7 @@ msgstr "Installerar %s Senaste...\n"
 #: src/cli/cli.vala:316
 #, c-format
 msgid "Successfully installed %s Latest\n"
-msgstr ""
+msgstr "Lyckats installera %s Senaste\n"
 
 #: src/cli/cli.vala:318 src/cli/cli.vala:351
 #, fuzzy, c-format
@@ -1836,11 +1836,11 @@ msgstr "Installationen kommer att avbrytas."
 #: src/cli/cli.vala:331
 #, c-format
 msgid "Available releases for %s:\n"
-msgstr ""
+msgstr "Tillgängliga utgåvor för %s:\n"
 
 #: src/cli/cli.vala:337 src/cli/cli.vala:367
 msgid "Select release number"
-msgstr ""
+msgstr "Välj utgivningsnummer"
 
 #: src/cli/cli.vala:343
 #, c-format
@@ -1850,7 +1850,7 @@ msgstr "Installerar %s...\n"
 #: src/cli/cli.vala:349
 #, c-format
 msgid "Successfully installed %s\n"
-msgstr ""
+msgstr "Lyckats installera %s\n"
 
 #: src/cli/cli.vala:358 src/cli/cli.vala:378
 #, c-format
@@ -1860,7 +1860,7 @@ msgstr ""
 #: src/cli/cli.vala:362
 #, c-format
 msgid "Installed releases for %s:\n"
-msgstr ""
+msgstr "Installerade utgåvor för %s:\n"
 
 #: src/cli/cli.vala:382
 #, c-format
@@ -1880,7 +1880,7 @@ msgstr "Avinstallerar %s...\n"
 #: src/cli/cli.vala:424
 #, c-format
 msgid "Successfully uninstalled %s\n"
-msgstr ""
+msgstr "Lyckats avinstallera %s\n"
 
 #: src/cli/cli.vala:426
 #, fuzzy, c-format
@@ -1889,17 +1889,17 @@ msgstr "Endast Installerade"
 
 #: src/cli/cli.vala:431
 msgid "Updating all runners...\n"
-msgstr ""
+msgstr "Uppdaterar alla körningar...\n"
 
 #: src/cli/cli.vala:437
 #, c-format
 msgid "Updating runners for %s...\n"
-msgstr ""
+msgstr "Uppdaterar körare för %s...\n"
 
 #: src/cli/cli.vala:448 src/cli/cli.vala:504
 #, c-format
 msgid "Successfully updated %s\n"
-msgstr ""
+msgstr "Lyckats uppdatera %s\n"
 
 #: src/cli/cli.vala:451 src/cli/cli.vala:507
 #, fuzzy, c-format
@@ -1912,9 +1912,8 @@ msgid "Error: Failed to update %s: %s\n"
 msgstr "%s är redan senaste versionen."
 
 #: src/cli/cli.vala:494
-#, fuzzy
 msgid "Already up to date\n"
-msgstr "%s är redan senaste versionen."
+msgstr "Redan uppdaterad\n"
 
 #: src/cli/cli.vala:519
 #, c-format
@@ -1967,7 +1966,7 @@ msgstr "Visa version"
 
 #: src/cli/cli.vala:685
 msgid "Show this help"
-msgstr ""
+msgstr "Visa denna hjälp"
 
 #: src/cli/cli.vala:686
 #, fuzzy
@@ -2000,6 +1999,8 @@ msgid ""
 "\n"
 "Available runners for %s:\n"
 msgstr ""
+"\n"
+"Tillgängliga körare för %s:\n"
 
 #: src/cli/cli.vala:714
 #, c-format
@@ -2023,7 +2024,7 @@ msgstr "Installera %s"
 #: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:227
 #, c-format
 msgid "%dh %dm %ds"
-msgstr ""
+msgstr "%dh %dm %ds"
 
 #: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:227
 #, c-format
@@ -2169,7 +2170,7 @@ msgstr ""
 
 #: src/return_codes.vala:38
 msgid "The download failed."
-msgstr ""
+msgstr "Nedladdningen misslyckades."
 
 #: src/return_codes.vala:40
 msgid "A filesystem operation failed."
@@ -2205,11 +2206,11 @@ msgstr ""
 
 #: src/return_codes.vala:56
 msgid "API limit reached."
-msgstr ""
+msgstr "API-gränsen nådd."
 
 #: src/return_codes.vala:58
 msgid "Invalid access token."
-msgstr ""
+msgstr "Ogiltig åtkomsttoken."
 
 #: src/return_codes.vala:60
 msgid "A secure connection could not be established."
@@ -2339,7 +2340,7 @@ msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:125
 msgid "Left and right"
-msgstr ""
+msgstr "Vänster och höger"
 
 #: src/widgets/controller-hint-bar.vala:126
 #: src/widgets/controller-hint-bar.vala:131
@@ -2348,7 +2349,7 @@ msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:130
 msgid "Up and down"
-msgstr ""
+msgstr "Upp och ner"
 
 #: src/widgets/controller-hint-bar.vala:135
 msgid "Keyboard"
@@ -2421,7 +2422,7 @@ msgstr ""
 #: src/widgets/controller-hint-bar.vala:215
 #: src/widgets/preferences/preferences-dialog.vala:40
 msgid "Bottom face button"
-msgstr ""
+msgstr "Nedersta face-knappen"
 
 #: src/widgets/controller-hint-bar.vala:218
 msgid "Right"
@@ -2430,7 +2431,7 @@ msgstr ""
 #: src/widgets/controller-hint-bar.vala:219
 #: src/widgets/preferences/preferences-dialog.vala:41
 msgid "Right face button"
-msgstr ""
+msgstr "Högra face-knappen"
 
 #: src/widgets/controller-hint-bar.vala:222
 msgid "Left"
@@ -2438,7 +2439,7 @@ msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:223
 msgid "Left face button"
-msgstr ""
+msgstr "Vänstra face-knappen"
 
 #: src/widgets/controller-hint-bar.vala:226
 msgid "Top"
@@ -2446,12 +2447,12 @@ msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:227
 msgid "Top face button"
-msgstr ""
+msgstr "Översta face-knappen"
 
 #: src/widgets/games/games-box.vala:73 src/widgets/games/games-box.vala:486
 #: src/widgets/tools/tools-release-box.vala:102
 msgid "No games found"
-msgstr ""
+msgstr "Inga spel hittades"
 
 #: src/widgets/games/games-box.vala:74
 msgid "Try a different search term or filter."
@@ -2536,11 +2537,11 @@ msgstr "Filter: icke-Steam"
 
 #: src/widgets/games/games-box.vala:458
 msgid "Filter: All games"
-msgstr ""
+msgstr "Filter: Alla spel"
 
 #: src/widgets/games/games-box.vala:478
 msgid "No matching games"
-msgstr ""
+msgstr "Inga matchande spel"
 
 #: src/widgets/games/games-box.vala:479
 #: src/widgets/tools/tools-group-box.vala:170
@@ -2624,21 +2625,19 @@ msgstr ""
 
 #: src/widgets/games/games-mass-edit-view.vala:40
 msgid "Apply the current modification"
-msgstr ""
+msgstr "Tillämpa den nuvarande modifieringen"
 
 #: src/widgets/games/games-mass-edit-view.vala:51
-#, fuzzy
 msgid "Apply compatibility tool"
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "Tillämpa kompatibilitetsverktyget"
 
 #: src/widgets/games/games-mass-edit-view.vala:52
 msgid "Set the same tool for every selected game."
 msgstr ""
 
 #: src/widgets/games/games-mass-edit-view.vala:77
-#, fuzzy
 msgid "Apply launch options"
-msgstr "Visa mer information"
+msgstr "Använd startalternativ"
 
 #: src/widgets/games/games-mass-edit-view.vala:78
 msgid "Set the same options for every selected Steam game."
@@ -2685,7 +2684,7 @@ msgstr ""
 
 #: src/widgets/games/games-mass-edit-view.vala:359
 msgid "Batch Update Failed"
-msgstr ""
+msgstr "Batchuppdatering misslyckades"
 
 #: src/widgets/games/games-mass-edit-view.vala:360
 msgid ""
@@ -2695,11 +2694,11 @@ msgstr ""
 
 #: src/widgets/games/games-row.vala:289
 msgid "Modify the game"
-msgstr ""
+msgstr "Modifiera spelet"
 
 #: src/widgets/games/games-row.vala:294
 msgid "Launch custom executable"
-msgstr ""
+msgstr "Starta en anpassad körbar fil"
 
 #: src/widgets/games/games-row.vala:301
 msgid "Launch game"
@@ -2711,7 +2710,7 @@ msgstr ""
 
 #: src/widgets/games/games-row.vala:312
 msgid "Browse prefix directory"
-msgstr ""
+msgstr "Bläddra i prefixkatalogen"
 
 #: src/widgets/games/games-row.vala:332
 msgid "Select executable"
@@ -2736,11 +2735,11 @@ msgstr ""
 #: src/widgets/games/games-row.vala:397
 #, c-format
 msgid "Exit status: %d"
-msgstr ""
+msgstr "Avslutningsstatus: %d"
 
 #: src/widgets/games/games-row.vala:402
 msgid "Custom Executable Failed"
-msgstr ""
+msgstr "Anpassad Körbar Fil Misslyckades"
 
 #: src/widgets/games/games-row.vala:403
 #, c-format
@@ -2763,7 +2762,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:17
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1325
 msgid "Custom game arguments"
-msgstr ""
+msgstr "Anpassade spelargument"
 
 #: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:18
 msgid "Unknown arguments are imported here and preserved exactly as loaded."
@@ -2774,9 +2773,8 @@ msgid "Audio options"
 msgstr "Ljudinställningar"
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:15
-#, fuzzy
 msgid "Audio-related launch options."
-msgstr "Visa mer information"
+msgstr "Ljudrelaterade startalternativ"
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:18
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1315
@@ -2835,7 +2833,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:20
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1231
 msgid "MangoHud performance overlay"
-msgstr ""
+msgstr "MangoHud-prestandaöverlägg"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:21
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
@@ -2876,7 +2874,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:57
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1233
 msgid "CachyOS game-performance profile"
-msgstr ""
+msgstr "CachyOS spelprestandaprofil"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:58
 msgid ""
@@ -2898,7 +2896,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:69
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1235
 msgid "OBS Vulkan/OpenGL capture"
-msgstr ""
+msgstr "OBS Vulkan/OpenGL-fångst"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:70
 msgid ""
@@ -2927,7 +2925,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:25
 msgid "Disable DXVK logging"
-msgstr ""
+msgstr "Inaktivera DXVK-loggning"
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:26
 msgid ""
@@ -2936,7 +2934,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:30
 msgid "DXVK Frame Limit"
-msgstr ""
+msgstr "DXVK-bildgräns"
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:31
 msgid "Caps the frame rate using DXVK's built-in frame limiter."
@@ -3020,7 +3018,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:23
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1322
 msgid "DirectX 11 renderer"
-msgstr ""
+msgstr "DirectX 11-renderare"
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:23
 msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
@@ -3029,7 +3027,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:24
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
 msgid "DirectX 12 renderer"
-msgstr ""
+msgstr "DirectX 12-renderare"
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:24
 msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
@@ -3058,7 +3056,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:30
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1287
 msgid "Use discrete GPU"
-msgstr ""
+msgstr "Använd diskret GPU"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:30
 msgid "Makes the game use the AMD dGPU on hybrid systems."
@@ -3165,7 +3163,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:92
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1299
 msgid "Staging shared memory"
-msgstr ""
+msgstr "Uppsättning delat minne"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:93
 msgid ""
@@ -3218,7 +3216,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-intel-options-group.vala:10
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
 msgid "XeSS component upgrade"
-msgstr ""
+msgstr "XeSS-komponentuppgradering"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-intel-options-group.vala:10
 msgid "Upgrades XeSS in supported games."
@@ -3237,7 +3235,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:24
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
 msgid "DLSS component updates"
-msgstr ""
+msgstr "DLSS-komponentuppdateringar"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:25
 msgid "Auto upgrades DLSS components for supported games."
@@ -3276,9 +3274,8 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:25
-#, fuzzy
 msgid "GPU vendor options"
-msgstr "Visa mer information"
+msgstr "GPU-leverantörsalternativ"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:29
 msgid ""
@@ -3332,7 +3329,7 @@ msgstr "Fler inställningar"
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:22
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1243
 msgid "vkBasalt visual effects"
-msgstr ""
+msgstr "vkBasalt visuella effekter"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:22
 msgid "Adds visual effects like sharpening and color adjustments."
@@ -3342,7 +3339,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:24
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
 msgid "OpenGL fallback (WineD3D)"
-msgstr ""
+msgstr "OpenGL återfallning (WineD3D)"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:25
 msgid ""
@@ -3363,7 +3360,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:36
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1237
 msgid "Per-game shader cache"
-msgstr ""
+msgstr "Shader-cache per spel"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:37
 msgid ""
@@ -3384,7 +3381,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:43
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1314
 msgid "Bypass Steam Input"
-msgstr ""
+msgstr "Bypass Steam Indata"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:44
 msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
@@ -3393,7 +3390,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:48
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
 msgid "Vulkan synchronization 2"
-msgstr ""
+msgstr "Vulkan synkronisering 2"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:49
 msgid ""
@@ -3404,7 +3401,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:53
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1269
 msgid "Futex waitv synchronization"
-msgstr ""
+msgstr "Futex waitv synkronisering"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:54
 msgid ""
@@ -3414,7 +3411,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:58
 msgid "Simulate Write-Copy Memory"
-msgstr ""
+msgstr "Simulera skriv-kopieringsminne"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:59
 msgid ""
@@ -3433,7 +3430,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:22
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1236
 msgid "High process priority"
-msgstr ""
+msgstr "Hög processprioritet"
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:23
 msgid ""
@@ -3467,7 +3464,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:37
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1328
 msgid "Proton debug log"
-msgstr ""
+msgstr "Protondebuglogg"
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:38
 msgid ""
@@ -3519,11 +3516,11 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:27
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala:21
 msgid "VKD3D Logging Level"
-msgstr ""
+msgstr "VKD3D-loggningsnivå"
 
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:30
 msgid "Enable VKD3D GPUVA"
-msgstr ""
+msgstr "Aktivera VKD3D GPUVA"
 
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:31
 msgid ""
@@ -3767,7 +3764,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:25
 msgid "Enable ACO Debug"
-msgstr ""
+msgstr "Aktivera ACO felsökning"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:26
 msgid "Apply low-level shader compiler flags and overrides"
@@ -3792,7 +3789,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-amd-icd.vala:24
 msgid "Force Vulkan Driver"
-msgstr ""
+msgstr "Forcera Vulkan Drivrutiner"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-amd-icd.vala:25
 msgid "Override system-wide Vulkan driver preference for this game"
@@ -3808,7 +3805,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:21
 msgid "Apply argument edit"
-msgstr ""
+msgstr "Tillämpa argumentredigering"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:29
 msgid "Remove argument"
@@ -3816,7 +3813,7 @@ msgstr "Ta bort argument"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:82
 msgid "Add custom argument"
-msgstr "Lägg till anpassade argument"
+msgstr "Lägg till anpassat argument"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:83
 msgid "Add one argument per list entry."
@@ -3844,14 +3841,12 @@ msgid "Launch options"
 msgstr "Launcher-inställningar"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:120
-#, fuzzy
 msgid "Search all options"
-msgstr "Visa mer information"
+msgstr "Sök igenom alla alternativ"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:123
-#, fuzzy
 msgid "Search launch options"
-msgstr "Visa mer information"
+msgstr "Sök startalternativ"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
 msgid "Browse"
@@ -3874,7 +3869,7 @@ msgstr "Alla inställningar"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:212
 msgid "Raw command controls"
-msgstr ""
+msgstr "Råa kommandokontroller"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:213
 msgid "Change the Steam command placeholder only when a game requires it."
@@ -3987,7 +3982,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:72
 msgid "Wine DLL Overrides"
-msgstr ""
+msgstr "Wine DLL överstyrningar"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:73
 msgid "Manage library overrides (builtin/native)"
@@ -3995,7 +3990,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:74
 msgid "Enable DLL Overrides"
-msgstr ""
+msgstr "Aktivera DLL överskrivningar"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:75
 msgid "Bypass or prefer specific Windows DLLs"
@@ -4068,7 +4063,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:29
 msgid "Enable RADV Debug"
-msgstr ""
+msgstr "Aktivera RADV felsökning"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:30
 msgid "Apply low-level driver bugfixes and overrides"
@@ -4113,7 +4108,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:28
 msgid "Enable RADV Perftest"
-msgstr ""
+msgstr "Aktivera RADV Prestandatest"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:29
 msgid "Test bleeding-edge driver optimizations (use with caution)"
@@ -4221,13 +4216,12 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:64
-#, fuzzy
 msgid "VKD3D Proton Configurations"
-msgstr "Visa mer information"
+msgstr "VKD3D Protonkonfigurationer"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:66
 msgid "Enable VKD3D Option"
-msgstr ""
+msgstr "Aktivera VKD3D-alternativet"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:67
 msgid "Test specific Direct3D 12 compatibility workarounds and optimizations"
@@ -4243,7 +4237,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:351
 msgid "Performance & monitoring"
-msgstr ""
+msgstr "Prestanda och övervakning"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:352
 msgid "Display & launch tools"
@@ -4260,11 +4254,11 @@ msgstr "Grafisk översättning"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:355
 msgid "Hardware & drivers"
-msgstr ""
+msgstr "Hårdvara och drivrutiner"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:356
 msgid "Input & audio"
-msgstr ""
+msgstr "Ingång och ljud"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:358
 msgid "Diagnostics & raw command"
@@ -4357,7 +4351,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1245
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:26
 msgid "Legacy custom-Proton HDR"
-msgstr ""
+msgstr "Legacy anpassad-Proton HDR"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1245
 msgid ""
@@ -4445,7 +4439,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:40
 msgid "Variable refresh rate"
-msgstr ""
+msgstr "Variabel uppdateringsfrekvens"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
@@ -4467,7 +4461,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:73
 msgid "Additional Gamescope arguments"
-msgstr ""
+msgstr "Ytterligare Gamescope-argument"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
 msgid "Keeps extra Gamescope flags such as output selection."
@@ -4513,7 +4507,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:79
 msgid "Additional ScopeBuddy arguments"
-msgstr ""
+msgstr "Ytterligare ScopeBuddy-argument"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:80
@@ -4551,7 +4545,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
 msgid "Write-copy memory workaround"
-msgstr ""
+msgstr "Skriv-kopiera minnes kringlösning"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
 msgid "Simulates page write protection for initialization errors."
@@ -4567,7 +4561,7 @@ msgstr "Aktiverar WINE_SYNC_USE_FUTEX_WAITV."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
 msgid "Enables Proton OptiScaler."
-msgstr ""
+msgstr "Aktiverar Proton OptiScaler."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
@@ -4581,7 +4575,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
 msgid "Wine DLL overrides"
-msgstr ""
+msgstr "Wine DLL överskridningar"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
 msgid "Choose builtin or native Windows DLL behavior."
@@ -4590,7 +4584,7 @@ msgstr ""
 #. Graphics translation
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1275
 msgid "DXVK frame limit"
-msgstr ""
+msgstr "DXVK bildgräns"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1275
 msgid "Caps the frame rate with DXVK's built-in limiter."
@@ -4598,7 +4592,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
 msgid "Asynchronous pipeline compilation"
-msgstr ""
+msgstr "Asynkron pipelinekompilering"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
 msgid "Enables DXVK asynchronous pipeline compilation."
@@ -4610,7 +4604,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
 msgid "VKD3D shader cache"
-msgstr ""
+msgstr "VKD3D shader cache"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
 msgid "Enables VKD3D's internal shader cache."
@@ -4632,9 +4626,8 @@ msgid "Enables VKD3D GPU virtual addressing."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
-#, fuzzy
 msgid "VKD3D compatibility settings"
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "VKD3D-kompatibilitetsinställningar"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
 msgid "Configure Direct3D 12 to Vulkan compatibility workarounds."
@@ -4770,9 +4763,8 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
-#, fuzzy
 msgid "AMD Reflex compatibility"
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "AMD Reflex-kompatibilitet"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
 msgid "May not convince games that explicitly require an NVIDIA GPU"
@@ -4830,15 +4822,15 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1300
 msgid "Mesa GL threading"
-msgstr ""
+msgstr "Mesa GL trådning"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1300
 msgid "Enables Mesa GLThread."
-msgstr ""
+msgstr "Aktivera Mesa GLThread."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1301
 msgid "Mesa shader-cache control"
-msgstr ""
+msgstr "Mesa shader cachekontroll"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1301
 msgid "Controls Mesa's shader cache."
@@ -4846,7 +4838,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
 msgid "Experimental RADV features"
-msgstr ""
+msgstr "Experimentella RADV funktioner"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
 msgid "Tests experimental RADV performance features."
@@ -4862,7 +4854,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
 msgid "ACO shader-compiler debugging"
-msgstr "ACO shader-kompilering felsökning"
+msgstr "ACO shader kompilator felsökning"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
 msgid "Configure AMD ACO shader compiler debugging."
@@ -4882,7 +4874,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
 msgid "Enables NVIDIA-specific libraries."
-msgstr ""
+msgstr "Aktivera NVIDIA-specifika bibliotek."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
 msgid "Reports an NVIDIA GPU as AMD for affected games."
@@ -4952,15 +4944,15 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1329
 msgid "DXVK log level"
-msgstr ""
+msgstr "DXVK loggnivå"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1329
 msgid "Controls DXVK logging."
-msgstr ""
+msgstr "Styr DXVK loggning."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1330
 msgid "VKD3D log level"
-msgstr ""
+msgstr "VKD3D loggnivå"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1330
 msgid "Controls VKD3D troubleshooting logs."
@@ -4996,9 +4988,8 @@ msgid "Experimental"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:46
-#, fuzzy
 msgid "Requires related option"
-msgstr "Visa mer information"
+msgstr "Kräver relaterat alternativ"
 
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:36
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:38
@@ -5027,7 +5018,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:75
 msgid "Add Gamescope arguments"
-msgstr ""
+msgstr "Lägg till Gamescope-argument"
 
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:19
 msgid ""
@@ -5055,7 +5046,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:81
 msgid "Add ScopeBuddy arguments"
-msgstr ""
+msgstr "Lägg till ScopeBuddy-argument"
 
 #: src/widgets/header/header-box.vala:25
 msgid "Main Menu"
@@ -5136,12 +5127,12 @@ msgstr ""
 #: src/widgets/header/header-downloads-indicator.vala:313
 #, c-format
 msgid "ETA: %dh %dm"
-msgstr ""
+msgstr "ETA: %dh %dm"
 
 #: src/widgets/header/header-downloads-indicator.vala:315
 #, c-format
 msgid "ETA: %dm %ds"
-msgstr ""
+msgstr "ETA: %dm %ds"
 
 #: src/widgets/header/header-downloads-indicator.vala:316
 #, c-format
@@ -5149,9 +5140,8 @@ msgid "ETA: %ds"
 msgstr "ETA: %ds"
 
 #: src/widgets/introduction/application.vala:8
-#, fuzzy
 msgid "Welcome to ProtonPlus"
-msgstr "Välkommen till %s"
+msgstr "Välkommen till ProtonPlus"
 
 #: src/widgets/introduction/application.vala:9
 msgid ""
@@ -5210,7 +5200,7 @@ msgstr ""
 
 #: src/widgets/introduction/how-to-use.vala:8
 msgid "How to Use"
-msgstr ""
+msgstr "Hur man använder"
 
 #: src/widgets/introduction/how-to-use.vala:9
 msgid ""
@@ -5226,7 +5216,7 @@ msgstr "Visa mer information"
 
 #: src/widgets/introduction/proton.vala:8
 msgid "What is Proton?"
-msgstr ""
+msgstr "Vad är Proton?"
 
 #: src/widgets/introduction/proton.vala:9
 msgid ""
@@ -5235,9 +5225,8 @@ msgid ""
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:8
-#, fuzzy
 msgid "Keep Everything Updated"
-msgstr "%s är redan senaste versionen."
+msgstr "Håll allt uppdaterat"
 
 #: src/widgets/introduction/updates.vala:9
 msgid ""
@@ -5282,7 +5271,7 @@ msgstr ""
 
 #: src/widgets/introduction/wine.vala:8
 msgid "What is Wine?"
-msgstr ""
+msgstr "Vad är Wine?"
 
 #: src/widgets/introduction/wine.vala:9
 msgid ""
@@ -5300,7 +5289,7 @@ msgstr ""
 
 #: src/widgets/loading/loading-box.vala:58
 msgid "Taking longer than normal?"
-msgstr ""
+msgstr "Tar det längre tid än vanligt?"
 
 #: src/widgets/loading/loading-box.vala:75
 msgid "An unexpected error occurred"
@@ -5358,7 +5347,7 @@ msgstr "OK"
 #: src/widgets/preferences/preferences-dialog.vala:81
 #: src/widgets/tools/tools-box.vala:93
 msgid "Tools"
-msgstr ""
+msgstr "Verktyg"
 
 #: src/widgets/main/main-box.vala:48
 #: src/widgets/preferences/preferences-dialog.vala:381
@@ -5420,9 +5409,8 @@ msgid "Nothing to update"
 msgstr "Inget att uppdatera"
 
 #: src/widgets/main/main-box.vala:304 src/widgets/tools/tools-box.vala:651
-#, fuzzy
 msgid "Everything is now up-to-date"
-msgstr "%s är redan senaste versionen."
+msgstr "Allt är nu uppdaterat till senaste"
 
 #: src/widgets/main/main-box.vala:307 src/widgets/tools/tools-box.vala:654
 #, fuzzy, c-format
@@ -5454,9 +5442,9 @@ msgid "Update finished"
 msgstr "Uppdatering klar"
 
 #: src/widgets/main/main-box.vala:336
-#, fuzzy, c-format
+#, c-format
 msgid "%s is now up-to-date"
-msgstr "%s är redan senaste versionen."
+msgstr "%s är redan senaste versionen"
 
 #: src/widgets/main/main-box.vala:338
 #, fuzzy, c-format
@@ -5571,7 +5559,7 @@ msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:114
 msgid "Steam is updating"
-msgstr ""
+msgstr "Steam uppdateras"
 
 #: src/widgets/main/steam-restart-presentation.vala:114
 msgid "Wait until the update finishes, then try again."
@@ -5618,7 +5606,7 @@ msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:124
 msgid "Close Steam manually"
-msgstr ""
+msgstr "Stäng ner Steam manuellt"
 
 #: src/widgets/main/steam-restart-presentation.vala:124
 msgid ""
@@ -5629,7 +5617,7 @@ msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:127
 msgid "Steam didn’t close"
-msgstr ""
+msgstr "Steam har inte stängts ner"
 
 #: src/widgets/main/steam-restart-presentation.vala:127
 msgid "No force termination was attempted. Close Steam manually or try again."
@@ -5678,7 +5666,7 @@ msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:140
 msgid "Steam couldn’t restart"
-msgstr ""
+msgstr "Steam kunde inte startas om"
 
 #: src/widgets/main/steam-restart-presentation.vala:140
 msgid "Try again later or restart Steam manually."
@@ -5699,9 +5687,8 @@ msgid "Multiple changes will be applied after Steam restarts"
 msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:219
-#, fuzzy
 msgid "Steam restart needed"
-msgstr "Radera körprogrammet"
+msgstr "Steam omstart behövs"
 
 #: src/widgets/mangohud/mangohud-box.vala:35
 msgid "Presets"
@@ -5889,7 +5876,7 @@ msgstr "Utmatningsmapp"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:178
 msgid "Select Output Folder"
-msgstr ""
+msgstr "Välj utmatningsmapp"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:190
 msgid "Autoupload Results"
@@ -5907,7 +5894,7 @@ msgstr "GPU"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:63
 msgid "Custom GPU name"
-msgstr ""
+msgstr "Anpassat GPU namn"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:68
 #: src/widgets/mangohud/mangohud-metrics-page.vala:145
@@ -6004,7 +5991,7 @@ msgstr "CPU"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:140
 msgid "Custom CPU name"
-msgstr ""
+msgstr "Anpassat CPU namn"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:163
 msgid "Core Load"
@@ -6032,7 +6019,7 @@ msgstr "RAM Temperatur"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:176
 msgid "Temperature / Power"
-msgstr ""
+msgstr "Temperatur / Effekt"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:180
 msgid "RAM"
@@ -6048,7 +6035,7 @@ msgstr "Swap"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:185
 msgid "Memory / IO"
-msgstr ""
+msgstr "Minne / IO"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:32
 msgid "Show FPS"
@@ -6121,7 +6108,7 @@ msgstr "Förskjutning"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:72
 msgid "Change FPS Colors"
-msgstr ""
+msgstr "Ändra FPS färger"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:91
 msgid "Method"
@@ -6129,7 +6116,7 @@ msgstr "Metod"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:99
 msgid "Limit Toggle Key"
-msgstr ""
+msgstr "Limit växlingsknapp"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:114
 msgid "Limiters"
@@ -6157,7 +6144,7 @@ msgstr "Anisotropic Filtering"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:132
 msgid "Mip-map LoD Bias"
-msgstr ""
+msgstr "Mip-map LoD Bias"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:134
 msgid "Filters"
@@ -6257,7 +6244,7 @@ msgstr "Kolumner"
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:96
 msgid "HUD Toggle Key"
-msgstr ""
+msgstr "HUD växlingsknapp"
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:113
 msgid "Compact HUD"
@@ -6265,7 +6252,7 @@ msgstr "Kompakt HUD"
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:115
 msgid "Hide by default"
-msgstr ""
+msgstr "Göm som standard"
 
 #: src/widgets/preferences/preferences-access-token-row.vala:6
 msgid "Enter an access token to reduce your chances of being rate limited"
@@ -6274,7 +6261,7 @@ msgstr ""
 #: src/widgets/preferences/preferences-access-token-row.vala:11
 #, c-format
 msgid "%s access token"
-msgstr ""
+msgstr "%s åtkomsttoken"
 
 #: src/widgets/preferences/preferences-access-token-row.vala:22
 msgid "Open token creation page"
@@ -6351,7 +6338,7 @@ msgstr "Uppdateringar"
 
 #: src/widgets/preferences/preferences-dialog.vala:119
 msgid "Migrate default prefix"
-msgstr ""
+msgstr "Migrera standardprefixet"
 
 #: src/widgets/preferences/preferences-dialog.vala:120
 msgid "Automatically migrate the default prefix when updating"
@@ -6362,9 +6349,8 @@ msgid "Behavior"
 msgstr "Beteende"
 
 #: src/widgets/preferences/preferences-dialog.vala:131
-#, fuzzy
 msgid "Show legacy tools"
-msgstr "Endast Installerade"
+msgstr "Visa legacy verktyg"
 
 #: src/widgets/preferences/preferences-dialog.vala:132
 msgid "Display older tools that are no longer actively maintained"
@@ -6376,9 +6362,8 @@ msgid "Launchers"
 msgstr "Launchers"
 
 #: src/widgets/preferences/preferences-dialog.vala:174
-#, fuzzy
 msgid "Default compatibility tool"
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "Standardkompatibilitetsverktyg"
 
 #: src/widgets/preferences/preferences-dialog.vala:175
 msgid "The compatibility tool games will use by default"
@@ -6406,7 +6391,7 @@ msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:286
 msgid "Download speed limit"
-msgstr ""
+msgstr "Nedladdningshastighetsgräns"
 
 #: src/widgets/preferences/preferences-dialog.vala:287
 msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
@@ -6502,9 +6487,8 @@ msgstr "Upptäckta Launchers"
 #: src/widgets/preferences/preferences-dialog.vala:429
 #: src/widgets/tools/tools-box.vala:202
 #: src/widgets/tools/tools-group-box.vala:285
-#, fuzzy
 msgid "Installed"
-msgstr "Installera %s"
+msgstr "Installerad"
 
 #: src/widgets/preferences/preferences-dialog.vala:429
 msgid "Not installed"
@@ -6516,7 +6500,7 @@ msgstr "Språk"
 
 #: src/widgets/preferences/preferences-refresh-application-data-row.vala:14
 msgid "Refresh application data"
-msgstr ""
+msgstr "Uppdatera applikationsdata"
 
 #: src/widgets/preferences/preferences-refresh-application-data-row.vala:15
 msgid "Refreshes the launchers, tools and games"
@@ -6626,16 +6610,16 @@ msgstr ""
 
 #: src/widgets/tools/tools-box.vala:372
 msgid "Search is active"
-msgstr ""
+msgstr "Sökning är aktiv"
 
 #: src/widgets/tools/tools-box.vala:382
 msgid "Filter is active"
-msgstr ""
+msgstr "Filter är aktivt"
 
 #: src/widgets/tools/tools-group-box.vala:84
 #: src/widgets/tools/tools-group-box.vala:192
 msgid "No tools found"
-msgstr ""
+msgstr "Inga verktyg hittades"
 
 #: src/widgets/tools/tools-group-box.vala:85
 msgid "No tools match the current filter."
@@ -6643,12 +6627,11 @@ msgstr ""
 
 #: src/widgets/tools/tools-group-box.vala:169
 msgid "No matching tools"
-msgstr ""
+msgstr "Inga matchningsverktyg"
 
 #: src/widgets/tools/tools-group-box.vala:177
-#, fuzzy
 msgid "No installed tools"
-msgstr "Installera %s"
+msgstr "Inga installerade verktyg"
 
 #: src/widgets/tools/tools-group-box.vala:178
 #, fuzzy
@@ -6665,7 +6648,7 @@ msgstr ""
 
 #: src/widgets/tools/tools-group-box.vala:187
 msgid "No unused tools"
-msgstr ""
+msgstr "Inga oanvända verktyg"
 
 #: src/widgets/tools/tools-group-box.vala:188
 msgid "Every tool in this group is currently in use."
@@ -6676,9 +6659,8 @@ msgid "No tools are available in this group."
 msgstr ""
 
 #: src/widgets/tools/tools-group-box.vala:259
-#, fuzzy
 msgid "Recommended compatibility tool"
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "Rekommenderat kompatibilitetsverktyg"
 
 #: src/widgets/tools/tools-group-box.vala:280
 msgid "In use"
@@ -6747,18 +6729,17 @@ msgid "Cancel installation"
 msgstr "Avbryt installationen"
 
 #: src/widgets/tools/tools-release-row.vala:41
-#, fuzzy
 msgid "Show installation details"
-msgstr "Endast Installerade"
+msgstr "Visa installationsdetaljer"
 
 #: src/widgets/tools/tools-release-row.vala:44
 msgid "Speed: 0 KB/s"
-msgstr ""
+msgstr "Hastighet: 0 KB/s"
 
 #: src/widgets/tools/tools-release-row.vala:45
 #: src/widgets/tools/tools-release-row.vala:226
 msgid "Remaining time: --"
-msgstr ""
+msgstr "Återstående tid: -"
 
 #: src/widgets/tools/tools-release-row.vala:55
 msgid "Update the runner if a newer version is available"
@@ -6775,7 +6756,7 @@ msgstr ""
 
 #: src/widgets/tools/tools-release-row.vala:64
 msgid "Open tool directory"
-msgstr ""
+msgstr "Öppna verktygskatalog"
 
 #: src/widgets/tools/tools-release-row.vala:199
 #, c-format
@@ -6819,7 +6800,7 @@ msgstr "Hastighet: %s/s"
 #: src/widgets/tools/tools-release-row.vala:226
 #, c-format
 msgid "Remaining time: %s"
-msgstr ""
+msgstr "Återstående tid: %s"
 
 #: src/widgets/tools/tools-release-row.vala:228
 msgid "Installation Failed"
@@ -6879,7 +6860,7 @@ msgstr "Hämta mer"
 
 #: src/widgets/tools/tools-releases-box.vala:275
 msgid "No releases found"
-msgstr ""
+msgstr "Inga utgåvor hittades"
 
 #: src/widgets/tools/tools-releases-box.vala:276
 #: src/widgets/tools/tools-releases-box.vala:546
@@ -6897,9 +6878,9 @@ msgid "No compatible variants are available for this system."
 msgstr ""
 
 #: src/widgets/tools/tools-releases-box.vala:661
-#, fuzzy, c-format
+#, c-format
 msgid "Last updated: %s"
-msgstr "Installera %s"
+msgstr "Senast uppdaterat: %s"
 
 #: src/widgets/tools/tools-remove-dialog.vala:8
 #, c-format
