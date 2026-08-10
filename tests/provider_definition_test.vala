@@ -88,7 +88,7 @@ namespace AppTests.ProviderDefinitionTest {
         case "proton-cachyos":
             return "https://github.com/CachyOS/proton-cachyos";
         case "dw-proton":
-            return "https://dawn.wine/dawn-winery/dwproton";
+            return "https://github.com/dawn-winery/dwproton-mirror";
         case "proton-ge-rtsp":
             return "https://github.com/SpookySkeletons/proton-ge-rtsp";
         case "proton-tkg":
@@ -132,6 +132,15 @@ namespace AppTests.ProviderDefinitionTest {
             assert (definition.tag == object.get_string_member_with_default ("tag", ""));
             assert (definition.legacy == object.get_boolean_member_with_default ("legacy", false));
             assert (definition.single_archive_releases == object.get_boolean_member_with_default ("single_archive", false));
+
+            Json.Array? expected_legacy_endpoints = object.has_member ("legacy_endpoints")
+                ? object.get_array_member ("legacy_endpoints") : null;
+            var legacy_endpoints = definition.legacy_endpoints;
+            var expected_legacy_endpoint_count = expected_legacy_endpoints == null
+                ? 0 : expected_legacy_endpoints.get_length ();
+            assert (legacy_endpoints.length == expected_legacy_endpoint_count);
+            for (var index = 0; index < legacy_endpoints.length; index++)
+                assert (legacy_endpoints[index] == expected_legacy_endpoints.get_string_element (index));
 
             var expected_variants = object.get_array_member ("variants");
             var variants = definition.get_variants ();

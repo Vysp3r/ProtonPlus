@@ -27,6 +27,7 @@ namespace AppTests.InstalledToolInventoryTest {
     public void register_tests () {
         Test.add_func ("/installed-tool-inventory/stable-identity-wins-and-constrains-launcher", test_stable_identity);
         Test.add_func ("/installed-tool-inventory/unambiguous-legacy-endpoint-migrates", test_legacy_endpoint_migration);
+        Test.add_func ("/installed-tool-inventory/legacy-endpoint-alias-migrates", test_legacy_endpoint_alias_migration);
         Test.add_func ("/installed-tool-inventory/legacy-tag-and-directory-fallbacks", test_legacy_tag_and_directory_fallbacks);
         Test.add_func ("/installed-tool-inventory/vdf-internal-and-display-title-fallbacks", test_vdf_fallbacks);
         Test.add_func ("/installed-tool-inventory/latest-and-variant-directories", test_latest_and_variant_directories);
@@ -57,14 +58,20 @@ namespace AppTests.InstalledToolInventoryTest {
         return deleted;
     }
 
-    private ProviderDefinition definition (string id, string title, string endpoint = "https://example.test/releases") {
+    private ProviderDefinition definition (
+        string id,
+        string title,
+        string endpoint = "https://example.test/releases",
+        string[]? legacy_endpoints = null
+    ) {
         return new ProviderDefinition (
             Category.PROTON, SourceType.GITHUB, id, title, "", endpoint, "https://example.test/source", 1,
             {
                 new VariantDefinition ("default", "default", "$release_name", true),
                 new VariantDefinition ("arm", "Arm 64", "$release_name-arm", false)
             },
-            { InstallLayout.template ("default", "$release_name") }
+            { InstallLayout.template ("default", "$release_name") },
+            null, null, "", false, "", ArchiveInstallRequirement.STANDARD, false, legacy_endpoints
         );
     }
 
@@ -171,6 +178,31 @@ namespace AppTests.InstalledToolInventoryTest {
         assert (ProtonPlus.Utils.Filesystem.create_directory (path));
         var metadata = ProtonPlus.Utils.Metadata.load (path);
         metadata.runner_endpoint = "https://example.test/releases";
+        assert (metadata.save (path));
+
+        value.refresh_installed_state ();
+        assert (tool.is_installed ());
+        var migrated = ProtonPlus.Utils.Metadata.load (path);
+        assert (migrated.provider_id == tool.provider_id);
+        assert (migrated.tool_id == tool.id);
+        assert (migrated.launcher_id == launcher.instance_id);
+
+        assert (delete_directory (root));
+    }
+
+    private void test_legacy_endpoint_alias_migration () {
+        var root = temporary_directory ();
+        var launcher = new InventoryLauncher (root);
+        var value = group (launcher);
+        var tool = add_tool (value, definition (
+            "endpoint-tool", "Endpoint Tool", "https://example.test/new-releases",
+            { "https://example.test/old-releases" }
+        ));
+        var path = Path.build_filename (root, "old-endpoint-installation");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (path));
+        var metadata = ProtonPlus.Utils.Metadata.load (path);
+        metadata.runner_endpoint = "https://example.test/old-releases";
+        metadata.runner_title = "Endpoint Tool";
         assert (metadata.save (path));
 
         value.refresh_installed_state ();

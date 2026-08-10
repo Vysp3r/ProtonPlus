@@ -12,6 +12,7 @@ namespace AppTests.ProviderRegistryTest {
         Test.add_func ("/provider-registry/validation/invalid-variant", test_invalid_variant_validation);
         Test.add_func ("/provider-registry/validation/single-archive-variants", test_single_archive_variant_validation);
         Test.add_func ("/provider-registry/validation/invalid-layout", test_invalid_layout_validation);
+        Test.add_func ("/provider-registry/validation/legacy-endpoints", test_legacy_endpoint_validation);
         Test.add_func ("/provider-registry/validation/github-actions-template", test_github_actions_template_validation);
         Test.add_func ("/provider-registry/validation/required-fields-and-source", test_required_field_and_source_validation);
         Test.add_func ("/provider-registry/source-type-fitness", test_source_type_fitness);
@@ -108,6 +109,11 @@ namespace AppTests.ProviderRegistryTest {
         var filters = registry.get_by_id ("wine-proton").asset_filters;
         filters[0] = "changed";
         assert (registry.get_by_id ("wine-proton").asset_filters[0] == "proton");
+
+        var legacy_endpoints = registry.get_by_id ("dw-proton").legacy_endpoints;
+        legacy_endpoints[0] = "changed";
+        assert (registry.get_by_id ("dw-proton").legacy_endpoints[0] ==
+                "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases");
     }
 
     private void test_duplicate_provider_validation () {
@@ -176,6 +182,28 @@ namespace AppTests.ProviderRegistryTest {
         assert (has_message (registry, "install layout is duplicated for launcher family: steam"));
         assert (has_message (registry, "launcher family ID is empty"));
         assert (has_message (registry, "default install layout is missing"));
+    }
+
+    private void test_legacy_endpoint_validation () {
+        var definition = new ProviderDefinition (
+            Category.PROTON, SourceType.GITHUB, "invalid-legacy-endpoints", "Fixture", "",
+            "https://example.test/releases", "https://example.test/source", 1,
+            { new VariantDefinition ("standard", "default", "$release_name", true) },
+            { InstallLayout.template ("default", "$release_name") },
+            null, null, "", false, "", ArchiveInstallRequirement.STANDARD, false,
+            {
+                "",
+                "https://example.test/releases",
+                "https://example.test/old-releases",
+                "https://example.test/old-releases"
+            }
+        );
+        var registry = new ProviderRegistry ({ definition });
+        assert (!registry.is_valid);
+        assert (has_message (registry, "legacy endpoint is empty"));
+        assert (has_message (registry, "legacy endpoint duplicates the current endpoint"));
+        assert (has_message (registry,
+            "legacy endpoint is duplicated: https://example.test/old-releases"));
     }
 
     private void test_github_actions_template_validation () {
