@@ -7713,6 +7713,3 @@ msgstr ""
 
 #~ msgid "Checking for updates..."
 #~ msgstr "Проверка обновлений..."
-
-msgid "runner"
-msgstr "раннер"
