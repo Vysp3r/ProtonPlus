@@ -31,13 +31,14 @@ namespace ProtonPlus.Models.Providers {
                     { InstallLayout.template ("default", "$release_name") }, null, null, "Recommended"
                 ),
                 new ProviderDefinition (
-                    Category.PROTON, SourceType.FORGEJO, "dw-proton", "DW-Proton",
+                    Category.PROTON, SourceType.GITHUB, "dw-proton", "DW-Proton",
                     "Dawn Winery's custom Proton fork with fixes for various games :xdd:",
-                    "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases",
-                    "https://dawn.wine/dawn-winery/dwproton", 3,
-                    { new VariantDefinition ("x86-64", "x86_64", "$release_name-x86_64", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)) },
+                    "https://api.github.com/repos/dawn-winery/dwproton-mirror/releases",
+                    "https://github.com/dawn-winery/dwproton-mirror", 3,
+                    { new VariantDefinition ("x86-64", "x86_64", "$tag_name-x86_64", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)) },
                     { InstallLayout.template ("default", "$release_name") },
-                    null, null, "", false, "", ArchiveInstallRequirement.STANDARD, true
+                    null, null, "", false, "", ArchiveInstallRequirement.STANDARD, true,
+                    { "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases" }
                 ),
                 new ProviderDefinition (
                     Category.PROTON, SourceType.GITHUB, "proton-ge-rtsp", "Proton-GE RTSP",

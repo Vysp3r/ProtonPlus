@@ -261,7 +261,7 @@ namespace ProtonPlus.Models {
         }
 
         private bool legacy_metadata_matches_tool (InstalledToolEntry entry, Tools.ProviderTool tool) {
-            var endpoint_matches = entry.runner_endpoint != "" && entry.runner_endpoint == tool.endpoint;
+            var endpoint_matches = tool.definition.matches_endpoint (entry.runner_endpoint);
             var title_matches = entry.runner_title != "" && entry.runner_title == tool.title;
 
             if (entry.runner_endpoint != "" && entry.runner_title != "")
