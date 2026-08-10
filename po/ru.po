@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-09 21:45-0400\n"
-"PO-Revision-Date: 2026-08-10 13:44+0000\n"
+"PO-Revision-Date: 2026-08-10 19:51+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ru/>\n"
@@ -516,12 +516,13 @@ msgstr "✨ Добавлена поддержка CLI"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:222
 msgid "🐛 Fixed Lutris install directory for Proton runners"
-msgstr "🐛 Исправлен каталог установки Lutris для раннеров Proton"
+msgstr "🐛 Исправлен каталог установки Lutris для сред запуска Proton"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:223
 msgid "🐛 Fixed unnecessary re-downloads of the same runner as an \"update\""
 msgstr ""
-"🐛 Исправлены повторные загрузки одного и того же раннера как «обновление»"
+"🐛 Исправлены повторные загрузки одной и той же среды запуска как «обновление"
+"»"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:225
 msgid "🌐 Added Vietnamese localization"
@@ -561,8 +562,8 @@ msgid ""
 "🐛 Fixed \"Games\" tab runners not refreshing when installing/removing a "
 "runner"
 msgstr ""
-"🐛 Исправлено отсутствие обновления раннеров на вкладке «Игры» при установке/"
-"удалении раннера"
+"🐛 Исправлено отсутствие обновления сред запуска на вкладке «Игры» при "
+"установке/удалении среды запуска"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:245
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:319
@@ -588,11 +589,11 @@ msgstr "✨ Перенос user_settings.py при обновлении"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:264
 msgid "✨ Added a button to open runners install directory"
-msgstr "✨ Добавлена кнопка для открытия каталога установки раннеров"
+msgstr "✨ Добавлена кнопка для открытия каталога установки сред запуска"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:265
 msgid "✨ Added a basic cache system for downloaded runners"
-msgstr "✨ Добавлена базовая система кэширования загруженных раннеров"
+msgstr "✨ Добавлена базовая система кэширования загруженных сред запуска"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:266
 msgid "✨ Improved new user experience"
@@ -604,7 +605,7 @@ msgstr "✨ Добавлен диалог предупреждения о лим
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:268
 msgid "✨ Improved \"Runners\" tab filters"
-msgstr "✨ Улучшены фильтры на вкладке «Раннеры»"
+msgstr "✨ Улучшены фильтры на вкладке «Среды запуска»"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:269
 msgid "✨ Added preferences dialog"
@@ -675,7 +676,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:296
 msgid "✨ Added Wine runners to Bottles"
-msgstr "✨ Добавлены раннеры Wine в Bottles"
+msgstr "✨ Добавлены среды запуска Wine в Bottles"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:297
 msgid "✨ Update runtime to GNOME 49"
@@ -731,11 +732,11 @@ msgstr "✨ Добавлена возможность просмотра пре�
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:330
 msgid "✨ Added a sticky filter bar to the \"Runners\" tab"
-msgstr "✨ Добавлена закреплённая панель фильтров на вкладке «Раннеры»"
+msgstr "✨ Добавлена закреплённая панель фильтров на вкладке «Среды запуска»"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:331
 msgid "✨ Added a way to see which runners are used"
-msgstr "✨ Добавлена возможность просмотра используемых раннеров"
+msgstr "✨ Добавлена возможность просмотра используемых сред запуска"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:332
 msgid "✨ Improve Proton-GE Latest handling"
@@ -760,7 +761,7 @@ msgstr "✨ Удаление кэша при выходе"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:349
 msgid "🐛 Fixed runners not downloading for HGL"
-msgstr "🐛 Исправлена проблема загрузки раннеров для HGL"
+msgstr "🐛 Исправлена проблема загрузки сред запуска для HGL"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:350
 msgid "🐛 Fixed recursive copy error"
@@ -788,7 +789,7 @@ msgstr "✨ Добавлена кнопка переключения профи�
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:364
 msgid "✨ Made the runners dynamic"
-msgstr "✨ Сделаны раннеры динамическими"
+msgstr "✨ Сделаны среды запуска динамическими"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:365
 msgid "✨ Added a loading screen"
@@ -1013,11 +1014,11 @@ msgstr "✨ Добавлен Proton CachyOS для Bottles"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:534
 msgid "✨ Re-ordered runners"
-msgstr "✨ Изменён порядок раннеров"
+msgstr "✨ Изменён порядок сред запуска"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:535
 msgid "✨ Removed deprecated runners"
-msgstr "✨ Удалены устаревшие раннеры"
+msgstr "✨ Удалены устаревшие среды запуска"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:536
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:561
@@ -1033,7 +1034,7 @@ msgstr "✨ Добавлена поддержка Proton CachyOS"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:552
 msgid "🐛 Fix some DXVK runners using the wrong name"
-msgstr "🐛 Исправлено неправильное имя некоторых раннеров DXVK"
+msgstr "🐛 Исправлено неправильное имя некоторых сред запуска DXVK"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:553
 msgid "🌐 Fix typo in German localization"
@@ -1831,11 +1832,11 @@ msgstr "Обнаруженные лаунчеры:\n"
 #: src/cli/cli.vala:187
 #, c-format
 msgid "Installed runners for %s:\n"
-msgstr "Установленные раннеры для %s:\n"
+msgstr "Установленные среды запуска для %s:\n"
 
 #: src/cli/cli.vala:207
 msgid "No runners installed\n"
-msgstr "Раннеры не установлены\n"
+msgstr "Среды запуска не установлены\n"
 
 #: src/cli/cli.vala:299 src/cli/cli.vala:547
 #, c-format
@@ -1917,12 +1918,12 @@ msgstr "Ошибка: Удаление не удалось: %s\n"
 
 #: src/cli/cli.vala:431
 msgid "Updating all runners...\n"
-msgstr "Обновление всех раннеров...\n"
+msgstr "Обновление всех сред запуска...\n"
 
 #: src/cli/cli.vala:437
 #, c-format
 msgid "Updating runners for %s...\n"
-msgstr "Обновление раннеров для %s...\n"
+msgstr "Обновление сред запуска для %s...\n"
 
 #: src/cli/cli.vala:448 src/cli/cli.vala:504
 #, c-format
@@ -1998,19 +1999,19 @@ msgstr "Показать эту справку"
 
 #: src/cli/cli.vala:686
 msgid "List launchers or installed runners"
-msgstr "Список лаунчеров или установленных раннеров"
+msgstr "Список лаунчеров или установленных сред запуска"
 
 #: src/cli/cli.vala:687
 msgid "Install runner"
-msgstr "Установить раннер"
+msgstr "Установить среду запуска"
 
 #: src/cli/cli.vala:688
 msgid "Uninstall runner"
-msgstr "Удалить раннер"
+msgstr "Удалить среду запуска"
 
 #: src/cli/cli.vala:689
 msgid "Update runner"
-msgstr "Обновить раннер"
+msgstr "Обновить среду запуска"
 
 #: src/cli/cli.vala:693
 msgid ""
@@ -2027,7 +2028,7 @@ msgid ""
 "Available runners for %s:\n"
 msgstr ""
 "\n"
-"Доступные раннеры для %s:\n"
+"Доступные среды запуска для %s:\n"
 
 #: src/cli/cli.vala:714
 #, c-format
@@ -7146,7 +7147,7 @@ msgstr "Оставшееся время: --"
 
 #: src/widgets/tools/tools-release-row.vala:55
 msgid "Update the runner if a newer version is available"
-msgstr "Обновить раннер, если доступна более новая версия"
+msgstr "Обновить среду запуска, если доступна более новая версия"
 
 #: src/widgets/tools/tools-release-row.vala:60
 #, c-format
@@ -7238,7 +7239,8 @@ msgstr "64-битная сборка ARM. Выбирайте только на �
 #: src/widgets/tools/tools-releases-box.vala:77
 msgid "32-bit x86 build. Choose this only when a 32-bit runner is required."
 msgstr ""
-"32-битная сборка x86. Выбирайте только когда требуется 32-битный раннер."
+"32-битная сборка x86. Выбирайте только когда требуется 32-битная среда "
+"запуска."
 
 #: src/widgets/tools/tools-releases-box.vala:80
 msgid ""
