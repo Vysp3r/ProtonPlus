@@ -1,14 +1,14 @@
 # Daniel Rusek <mail@asciiwolf.com>, 2023.
 # "M.M." <martin.miscikms@gmail.com>, 2025.
-# AsciiWolf <mail@asciiwolf.com>, 2025.
+# AsciiWolf <mail@asciiwolf.com>, 2025, 2026.
 # Valentin Ljuba <7fnndt50@anonaddy.me>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-09 21:45-0400\n"
-"PO-Revision-Date: 2026-08-09 00:00+0000\n"
-"Last-Translator: GitHub Copilot\n"
+"PO-Revision-Date: 2026-08-10 11:51+0000\n"
+"Last-Translator: AsciiWolf <mail@asciiwolf.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/cs/>\n"
 "Language: cs\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:7
@@ -120,19 +120,16 @@ msgid "Steam Tinker Launch"
 msgstr "Steam Tinker Launch"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:74
-#, fuzzy
 msgid "The tools interface of ProtonPlus."
-msgstr "Hlavní rozhraní ProtonPlus."
+msgstr "Rozhraní nástrojů ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:78
-#, fuzzy
 msgid "The releases interface of ProtonPlus."
-msgstr "Hlavní rozhraní ProtonPlus."
+msgstr "Rozhraní vydání ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:82
-#, fuzzy
 msgid "The games interface of ProtonPlus."
-msgstr "Hlavní rozhraní ProtonPlus."
+msgstr "Rozhraní her ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:86
 msgid "The mass edit interface of ProtonPlus."
@@ -140,17 +137,15 @@ msgstr "Rozhraní hromadných úprav v ProtonPlus."
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:94
 msgid "✨ Added AppImage builds for AArch64 systems"
-msgstr ""
+msgstr "✨ Přidány sestavení AppImage pro systémy AArch64"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:95
-#, fuzzy
 msgid "✨ Added a configurable download speed limit"
-msgstr "✨ Přidán indikátor aktivních stahování"
+msgstr "✨ Přidán nastavitelný limit rychlosti stahování"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:96
-#, fuzzy
 msgid "🐛 Fixed Faugus launcher not being detected under Flatpak"
-msgstr "🐛 Opraveno nerozpoznání spouštěčů na některých distribucích"
+msgstr "🐛 Opraveno rozpoznání spouštěče Faugus pod Flatpakem"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:97
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:139
@@ -169,40 +164,40 @@ msgid "🌐 Updated German localization"
 msgstr "🌐 Aktualizována německá lokalizace"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:104
-#, fuzzy
 msgid "✨ Improved how ProtonPlus finds Steam compatibility tools"
 msgstr ""
-"✨ Vylepšeny možnosti spuštění, hromadné úpravy a zobrazení výchozího "
-"nástroje kompatibility"
+"✨ Vylepšen způsob, jakým ProtonPlus vyhledává nástroje kompatibility pro "
+"Steam"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:105
 msgid "✨ Improved mass editing and controller navigation in the Games tab"
-msgstr ""
+msgstr "✨ Vylepšeny hromadné úpravy a navigace ovladačem na kartě Hry"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:106
-#, fuzzy
 msgid "🐛 Fixed compatibility tool installation for some Steam setups"
-msgstr "🐛 Opravena detekce nástroje kompatibility"
+msgstr ""
+"🐛 Opravena instalace nástrojů kompatibility pro některá nastavení Steamu"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:107
-#, fuzzy
 msgid "🐛 Fixed tool usage counts and game lists when moving to another tool"
-msgstr "🐛 Opraveno počítání použití nástroje se započtením výchozího nástroje"
+msgstr ""
+"🐛 Opraveno počítání použití nástroje a seznamy her při přechodu na jiný "
+"nástroj"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:108
 msgid ""
 "🐛 Fixed tool installation on some Linux systems and improved archive safety"
 msgstr ""
+"🐛 Opravena instalace nástrojů na některých linuxových systémech a vylepšeno "
+"zabezpečení archivu"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:109
-#, fuzzy
 msgid "🐛 Fixed translations missing from the AppImage version"
-msgstr "🌐 Přidány chybějící překlady"
+msgstr "🐛 Přidány chybějící překlady do AppImage verze"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:110
-#, fuzzy
 msgid "🌐 Updated Czech and Slovak translations"
-msgstr "🌐 Aktualizována česká lokalizace"
+msgstr "🌐 Aktualizovány české a slovenské překlady"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:117
 msgid "✨ Added Faugus Launcher support"
@@ -269,24 +264,27 @@ msgstr ""
 "hry i hromadných úpravách"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:129
-#, fuzzy
 msgid ""
 "✨ Improved Games and Tools navigation, search, filtering, selection, and "
 "repository links"
 msgstr ""
-"✨ Vylepšena navigace, vyhledávání, filtrování a výběr v Hrách a Nástrojích"
+"✨ Vylepšena navigace, vyhledávání, filtrování, výběr a odkazy na repozitáře "
+"v Hrách a Nástrojích"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:130
-#, fuzzy
 msgid ""
 "✨ Improved stable release selection, Latest handling, and variant selection"
-msgstr "✨ Vylepšeno řazení vydání, práce s Latest a výběr variant"
+msgstr ""
+"✨ Vylepšen výběr stabilních vydání, zpracování nejnovějších verzí a výběr "
+"variant"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:131
 msgid ""
 "✨ Improved downloads and tool updates with timeout recovery, archive "
 "checks, preserved settings, and safer rollback"
 msgstr ""
+"✨ Vylepšené stahování a aktualizace nástrojů s obnovou po vypršení časového "
+"limitu, kontrolami archivů, zachováním nastavení a bezpečnějším vrácením zpět"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:132
 msgid "✨ Improved Steam multi-user, VDF, and shortcut handling"
@@ -2172,7 +2170,7 @@ msgstr "Čínština (Tradiční)"
 #: src/models/launchers/steam.vala:360
 #, c-format
 msgid "%s (Unavailable)"
-msgstr ""
+msgstr "%s (nedostupné)"
 
 #: src/models/tools/steamtinkerlaunch.vala:8
 msgid ""
@@ -2684,11 +2682,12 @@ msgstr ""
 "Žádné hry nebyly změněny, protože není vybraný žádný nástroj kompatibility."
 
 #: src/widgets/games/games-mass-edit-view.vala:280
-#, fuzzy
 msgid ""
 "No games were changed because the selected compatibility tool is no longer "
 "available."
-msgstr "Podporované nástroje kompatibility"
+msgstr ""
+"Žádné hry nebyly změněny, protože vybraný nástroj kompatibility již není k "
+"dispozici."
 
 #: src/widgets/games/games-mass-edit-view.vala:306
 msgid ""
@@ -6715,14 +6714,14 @@ msgid "Download speed limit"
 msgstr "Limit rychlosti stahování"
 
 #: src/widgets/preferences/preferences-dialog.vala:287
-#, fuzzy
 msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
-msgstr "Maximální rychlost v KB/s. Pro neomezenou rychlost nastavte 0."
+msgstr ""
+"Maximální rychlost v KB/s pro všechna stahování. Pro neomezenou rychlost "
+"nastavte 0."
 
 #: src/widgets/preferences/preferences-dialog.vala:290
-#, fuzzy
 msgid "This limit is shared across all active downloads."
-msgstr "Tento limit se použije na každé aktivní stahování."
+msgstr "Tento limit se sdílí mezi všechna aktivní stahování."
 
 #: src/widgets/preferences/preferences-dialog.vala:312
 msgid "Preview features"
