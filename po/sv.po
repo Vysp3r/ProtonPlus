@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-09 21:45-0400\n"
-"PO-Revision-Date: 2026-08-10 13:44+0000\n"
+"PO-Revision-Date: 2026-08-10 19:51+0000\n"
 "Last-Translator: CrissZollo <depth-broaden-oboe@duck.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/sv/>\n"
@@ -81,18 +81,15 @@ msgid "Vysp3r"
 msgstr "Vysp3r"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:27
-#, fuzzy
 msgid "Proton"
 msgstr "Proton"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:28
 #: src/widgets/mangohud/mangohud-extras-page.vala:94
-#, fuzzy
 msgid "Wine"
 msgstr "Wine"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:29
-#, fuzzy
 msgid "Steam"
 msgstr "Steam"
 
@@ -102,7 +99,6 @@ msgid "Faugus"
 msgstr "Faugus"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:31
-#, fuzzy
 msgid "Lutris"
 msgstr "Lutris"
 
@@ -124,7 +120,6 @@ msgid "DXVK"
 msgstr "DXVK"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:35
-#, fuzzy
 msgid "VKD3D"
 msgstr "VKD3D"
 
@@ -208,13 +203,12 @@ msgid "🌐 Updated Czech and Slovak translations"
 msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:117
-#, fuzzy
 msgid "✨ Added Faugus Launcher support"
-msgstr "Visa mer information"
+msgstr "✨ Tillagd stöd för Faugus Launcher"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:118
 msgid "✨ Added CPU-aware x86-64 and ARM64 variant selection"
-msgstr ""
+msgstr "✨ Lagt till CPU-medvetna x86-64 och ARM64 variantval"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:119
 msgid "✨ Added scheduled background updates and notifications"
@@ -225,10 +219,12 @@ msgid ""
 "✨ Added controller navigation with contextual hints, optional haptic "
 "feedback, and a first-run guide"
 msgstr ""
+"✨ Lagt till handkontrollnavigering med kontextuella ledtrådar, valfri "
+"haptisk feedback och en guide för första genomspelningen"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:121
 msgid "✨ Added Breeze Light, Breeze Dark, SteamOS, and OLED themes"
-msgstr ""
+msgstr "✨ Lagt till teman Breeze Light, Breeze Dark, SteamOS och OLED"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:122
 msgid "✨ Added a built-in MangoHud editor and proxy settings"
@@ -241,9 +237,8 @@ msgid ""
 msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:124
-#, fuzzy
 msgid "✨ Added default Steam compatibility prefix migration"
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "✨ Tillagd migrering av standardkompatibilitetsprefixet till Steam"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:125
 msgid "✨ Added an active downloads indicator"
@@ -421,9 +416,8 @@ msgid "✨ Added a new \"Downloads\" tab"
 msgstr "✨ Lagt till en ny flik \"Nedladdningar\""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:172
-#, fuzzy
 msgid "✨ Added more launch options"
-msgstr "Visa mer information"
+msgstr "✨ Fler startalternativ lades till"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:173
 msgid "✨ Added a \"Run custom executable\" button"
@@ -518,7 +512,7 @@ msgstr "✨ Lagt till DW-Proton senaste"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:233
 msgid "✨ Added Proton-Sarek Latest"
-msgstr ""
+msgstr "✨ Lagt till Proton-Sarek Senaste"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:234
 msgid "✨ Added Proton-Sarek (Async) Latest"
@@ -526,7 +520,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:235
 msgid "✨ Added Proton-EM Latest"
-msgstr ""
+msgstr "✨ Tillagd proton-EM senaste"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:236
 msgid "✨ Added Proton-GE RTSP Latest"
@@ -549,16 +543,16 @@ msgstr ""
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:245
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:319
 msgid "🌐 Updated Czech localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Tjeckisk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:246
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:304
 msgid "🌐 Updated Arabic localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Arabisk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:247
 msgid "🌐 Added Georgian localization"
-msgstr ""
+msgstr "🌐 Tillagd Georgiansk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:254
 msgid "✨ Added DW-Proton"
@@ -590,7 +584,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:269
 msgid "✨ Added preferences dialog"
-msgstr ""
+msgstr "✨ Tillagd preferensdialog"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:270
 msgid "✨ Added report button to error dialogs"
@@ -598,7 +592,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:271
 msgid "✨ Added GitHub/GitLab access token"
-msgstr ""
+msgstr "✨ Tillagd GitHub/GitLab-åtkomsttoken"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:272
 msgid "✨ Added release date under release name"
@@ -610,7 +604,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:274
 msgid "🐛 Fixed select/unselect all"
-msgstr ""
+msgstr "🐛 Fixade att markera/avmarkera alla"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:275
 msgid "🐛 Fixed Proton-CachyOS not downloading the good version"
@@ -638,13 +632,13 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:281
 msgid "🌐 Added Japanese localization"
-msgstr ""
+msgstr "🌐 Lagt till Japansk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:287
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:320
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:379
 msgid "🌐 Updated Russian localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Rysk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:294
 msgid "✨ Added a search bar in the \"Games\" tab"
@@ -652,7 +646,7 @@ msgstr "✨ Lagt till en sökfält i fliken \"Spel\""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:295
 msgid "✨ Added a way to see the speed and remaining time of downloads"
-msgstr ""
+msgstr "✨ Lagt till ett sätt att se hastighet och återstående nedladdningstid"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:296
 msgid "✨ Added Wine runners to Bottles"
@@ -664,11 +658,11 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:298
 msgid "🐛 Fixed icons issue"
-msgstr ""
+msgstr "🐛 Fixade ikonproblem"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:299
 msgid "🐛 Fixed Proton-GE RTSP"
-msgstr ""
+msgstr "🐛 Fixade Proton-GE RTSP"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:300
 msgid "🐛 Fixed error when cancelling install during extraction"
@@ -676,7 +670,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:305
 msgid "🌐 Updated Finnish localization"
-msgstr ""
+msgstr "🌐 Uppdaterad Finsk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:315
 msgid "🐛 Fixed launchers loading issue"
@@ -706,7 +700,7 @@ msgstr "✨ Lade till en uppdateringsindikator"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:329
 msgid "✨ Added a way to see the games prefix"
-msgstr ""
+msgstr "✨ Lagt till ett sätt att se spelets prefix"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:330
 msgid "✨ Added a sticky filter bar to the \"Runners\" tab"
@@ -714,7 +708,7 @@ msgstr "✨ Lade till en fäst filterbar på fliken \"Runners\""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:331
 msgid "✨ Added a way to see which runners are used"
-msgstr ""
+msgstr "✨ Lagt till ett sätt att se vilka körare som används"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:332
 msgid "✨ Improve Proton-GE Latest handling"
@@ -726,7 +720,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:334
 msgid "🌐 Added Ukrainian localization"
-msgstr ""
+msgstr "🌐 Tillagd Ukrainsk lokalisering"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:341
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:381
@@ -920,13 +914,14 @@ msgid "✨ Made it possible to unselect a game by clicking on it"
 msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:463
-#, fuzzy
 msgid "✨ Added a way to select/unselect all the games"
-msgstr "Installera körprogrammet"
+msgstr "✨ Lagt till ett sätt att välja/avmarkera alla spel"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:464
 msgid "✨ Added a way to sort by game name and sort by compatbility tool name"
 msgstr ""
+"✨ Lagt till ett sätt att sortera efter spelnamn och sortera efter "
+"kompatibilitetsverktyg namn"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:471
 msgid "🐛 Fixed Proton Kron4ek"
@@ -975,7 +970,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:524
 msgid "🐛 Added check for inactive Steam installations"
-msgstr ""
+msgstr "🐛 Tillagd kontroll för inaktiva Steam-installationer"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:525
 msgid "🧑‍💻 Updated runtime to GNOME 48"
@@ -1031,7 +1026,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:584
 msgid "✨ Added a way to view the description of each release"
-msgstr ""
+msgstr "✨ Lagt till ett sätt att se beskrivningen av varje utgåva"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:585
 msgid "✨ Added support for DXVK Sarek"
@@ -1135,7 +1130,7 @@ msgstr "✨ Lade till ett installerat filter, endast"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:687
 msgid "✨ Added Kron4ek builds and Proton-tkg to HGL"
-msgstr ""
+msgstr "✨ Lade till Kron4ek-byggen och Proton-tkg till HGL"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:688
 msgid "✨ Added VKD3D support for Lutris"
@@ -1143,15 +1138,15 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:689
 msgid "✨ Added Kron4ek Wine-Builds Staging"
-msgstr ""
+msgstr "✨ Lagt till Kron4ek Wine-Builds Staging"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:690
 msgid "✨ Added DXVK GPL+Async (Ph42oN)"
-msgstr ""
+msgstr "✨ Tillagd DXVK GPL+Async (Ph42oN)"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:691
 msgid "💄 Added description to groups"
-msgstr ""
+msgstr "💄 Tillagd beskrivning till grupper"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:692
 msgid "💄 Improved Steam Deck experience"
@@ -1217,7 +1212,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:734
 msgid "🌐 Added German translation"
-msgstr ""
+msgstr "🌐 Tillagd Tysk översättning"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:742
 msgid "✨ Added a tasks queue system"
@@ -1354,7 +1349,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:808
 msgid "🌐 Added missing russian translations"
-msgstr ""
+msgstr "🌐 Tillagda saknade Ryska översättningar"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:817
 msgid "✨ Add warning for gamescope compatibility issues"
@@ -1366,7 +1361,7 @@ msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:820
 msgid "🌐 Added missing translations"
-msgstr ""
+msgstr "🌐 Tillagda saknade översättningar"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:829
 msgid "🐛 Fix directory creation"
@@ -1672,9 +1667,8 @@ msgid "🧱 Separate Release from CompatibilityTool"
 msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1009
-#, fuzzy
 msgid "🧱 Rename CompatibilityTool to Tool"
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "🧱 Bytt namn på Kompatibilitetsverktyg till Verktyg"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1010
 msgid "⚰️ Remove unused file"
@@ -1689,9 +1683,8 @@ msgid "✨ Added a naming convention extracted directories"
 msgstr "✨ Lade till en namngivningskonvention för att extrahera kataloger"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1014
-#, fuzzy
 msgid "🚚 Rename compatibilitytool to tool"
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "🚚 Bytt namn på kompatibilitetsverktyget till verktyget"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1021
 msgid "ProtonPlus now requires Libadwaita version 1.2 or higher."
@@ -1735,9 +1728,8 @@ msgid "💄 Update preferences window to Libadwaita"
 msgstr ""
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1034
-#, fuzzy
 msgid "⬆️ Update the runtime version"
-msgstr "Uppdatera %s till den senaste versionen"
+msgstr "⬆️ Uppdatera runtime-versionen"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1042
 msgid "🐛 Fix Steam not showing up on fresh install"
@@ -2012,9 +2004,8 @@ msgid "ETA: --"
 msgstr "ETA: --"
 
 #: src/cli/cli.vala:719
-#, fuzzy
 msgid "Updating"
-msgstr "Installera %s"
+msgstr "Uppdaterar"
 
 #: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:295
 #, fuzzy
@@ -2177,28 +2168,24 @@ msgid "A filesystem operation failed."
 msgstr ""
 
 #: src/return_codes.vala:42
-#, fuzzy
 msgid "This compatibility tool is already being processed."
-msgstr "%s stöds ej"
+msgstr "Detta kompatibilitetsverktyg är redan under bearbetning."
 
 #: src/return_codes.vala:44
-#, fuzzy
 msgid "This compatibility tool is already installed."
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "Detta kompatibilitetsverktyg är redan installerat."
 
 #: src/return_codes.vala:46
-#, fuzzy
 msgid "This compatibility tool is not installed."
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "Detta kompatibilitetsverktyg är inte installerat."
 
 #: src/return_codes.vala:48
 msgid "This compatibility tool is not configured correctly."
 msgstr ""
 
 #: src/return_codes.vala:50
-#, fuzzy
 msgid "This operation is not supported for this compatibility tool."
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "Denna operation stöds inte för detta kompatibilitetsverktyg."
 
 #: src/return_codes.vala:54
 msgid "Unable to reach the API."
@@ -2217,9 +2204,8 @@ msgid "A secure connection could not be established."
 msgstr ""
 
 #: src/return_codes.vala:62
-#, fuzzy
 msgid "This archive format is not supported."
-msgstr "%s stöds ej"
+msgstr "Detta arkivformat stöds inte."
 
 #: src/return_codes.vala:64
 msgid "The archive could not be extracted."
@@ -2271,14 +2257,12 @@ msgid "Failed to update compatibilitytool.vdf"
 msgstr "En modern kompatibilitetsverktygshanterare för Linux."
 
 #: src/services/standard-archive-workflow.vala:351
-#, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "Kompatibilitetsverktygets manifest är ogiltigt eller ofullständigt"
 
 #: src/services/steam-tinker-launch-workflow.vala:71
-#, fuzzy
 msgid "The SteamTinkerLaunch archive is invalid or incomplete"
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "SteamTinkerLaunch-arkivet är ogiltigt eller ofullständigt"
 
 #: src/services/steam-tinker-launch-workflow.vala:79
 msgid "Failed to prepare the SteamTinkerLaunch executable"
@@ -2513,9 +2497,9 @@ msgid "Unsupported launcher"
 msgstr "Ej stödbar launcher"
 
 #: src/widgets/games/games-box.vala:335
-#, fuzzy, c-format
+#, c-format
 msgid "%s is currently not supported."
-msgstr "%s stöds ej"
+msgstr "%s stöds för närvarande inte."
 
 #: src/widgets/games/games-box.vala:336
 msgid ""
@@ -2660,11 +2644,12 @@ msgid "No games were changed because no compatibility tool is selected."
 msgstr ""
 
 #: src/widgets/games/games-mass-edit-view.vala:280
-#, fuzzy
 msgid ""
 "No games were changed because the selected compatibility tool is no longer "
 "available."
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr ""
+"Inga spel ändrades eftersom det valda kompatibilitetsverktyget inte längre "
+"är tillgängligt."
 
 #: src/widgets/games/games-mass-edit-view.vala:306
 msgid ""
@@ -3588,9 +3573,8 @@ msgid "ScopeBuddy"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:214
-#, fuzzy
 msgid "This option is unsupported and cannot be newly enabled."
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "Detta alternativ stöds inte och kan inte aktiveras på nytt."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:221
 msgid "This legacy option is preserved but cannot be newly enabled."
@@ -3609,9 +3593,8 @@ msgid "Requires a compatible Proton variant."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:267
-#, fuzzy
 msgid "The selected launch backend is not supported."
-msgstr "%s stöds ej"
+msgstr "Den valda startbackend stöds inte"
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:345
 msgid "Requires an AMD GPU."
@@ -3654,9 +3637,8 @@ msgid "Requires vkBasalt, which is not available."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:355
-#, fuzzy
 msgid "Requires DXVK from the selected compatibility tool."
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "Kräver DXVK från det valda kompatibilitetsverktyget."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:356
 msgid "Requires VKD3D-Proton from the selected compatibility tool."
@@ -3664,9 +3646,8 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:357
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:367
-#, fuzzy
 msgid "Not supported by the selected compatibility tool."
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "Stöds inte av det valda kompatibilitetsverktyget."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:358
 msgid ""
@@ -3832,9 +3813,8 @@ msgid "Command preview"
 msgstr "Kommand-förhandsvisning"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:101
-#, fuzzy
 msgid "No matching launch options."
-msgstr "Visa mer information"
+msgstr "Inga matchande startalternativ."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:116
 msgid "Launch options"
@@ -4244,9 +4224,8 @@ msgid "Display & launch tools"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:353
-#, fuzzy
 msgid "Proton & Wine compatibility"
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "Proton- och Winekompatibilitet"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:354
 msgid "Graphics translation"
@@ -4613,9 +4592,8 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
-#, fuzzy
 msgid "VKD3D-Proton"
-msgstr "Visa mer information"
+msgstr "VKD3D-Proton"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
 msgid "VKD3D GPU virtual addressing"
@@ -4967,9 +4945,8 @@ msgid "Marks where Steam inserts the game's command."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1332
-#, fuzzy
 msgid "Preserved unrecognized launch options"
-msgstr "Visa mer information"
+msgstr "Bevarade icke-igenkännande startalternativ"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1332
 msgid "Keeps unrecognized, quoted, and opaque shell content exactly as loaded."
@@ -5082,11 +5059,11 @@ msgid "Downloads"
 msgstr ""
 
 #: src/widgets/header/header-downloads-indicator.vala:152
-#, fuzzy, c-format
+#, c-format
 msgid "%u active download"
 msgid_plural "%u active downloads"
-msgstr[0] "Avbryt"
-msgstr[1] "Avbryt"
+msgstr[0] "%u aktiv nedladdning"
+msgstr[1] "%u aktiva nedladdningar"
 
 #: src/widgets/header/header-downloads-indicator.vala:160
 #, c-format
@@ -5447,7 +5424,7 @@ msgid "%s is now up-to-date"
 msgstr "%s är redan senaste versionen"
 
 #: src/widgets/main/main-box.vala:338
-#, fuzzy, c-format
+#, c-format
 msgid "%s is already up-to-date"
 msgstr "%s är redan senaste versionen."
 
@@ -5499,9 +5476,10 @@ msgid ""
 msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:85
-#, fuzzy
 msgid "Steam must restart to detect a newly installed compatibility tool."
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr ""
+"Steam måste starta om för att upptäcka ett nyinstallerat "
+"kompatibilitetsverktyg."
 
 #: src/widgets/main/steam-restart-presentation.vala:86
 msgid "Restarting Steam lets it safely reload the changed configuration."
@@ -5533,9 +5511,8 @@ msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:97
 #: src/widgets/main/steam-restart-presentation.vala:151
-#, fuzzy
 msgid "SteamOS is restarting Steam"
-msgstr "Radera körprogrammet"
+msgstr "SteamOS startar om Steam"
 
 #: src/widgets/main/steam-restart-presentation.vala:105
 msgid "Steam no longer needs to restart"
@@ -5795,9 +5772,8 @@ msgid "HDR*"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:106
-#, fuzzy
 msgid "Options"
-msgstr "Visa mer information"
+msgstr "Alternativ"
 
 #. Battery subsection
 #: src/widgets/mangohud/mangohud-extras-page.vala:111
@@ -6565,9 +6541,8 @@ msgid "Theme"
 msgstr "Tema"
 
 #: src/widgets/preferences/preferences-tool-row.vala:18
-#, fuzzy
 msgid "Select your desired compatibility tool"
-msgstr "En modern kompatibilitetsverktygshanterare för Linux."
+msgstr "Välj ditt önskade kompatibilitetsverktyg"
 
 #: src/widgets/preferences/proxy-mode-row.vala:15
 msgid "System proxy"
