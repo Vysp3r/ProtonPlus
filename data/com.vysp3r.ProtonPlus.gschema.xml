@@ -116,6 +116,10 @@
         <key name="proxy-url" type="s">
             <default>''</default>
         </key>
+        <key name="download-speed-limit-bps" type="x">
+            <default>0</default>
+            <summary>Maximum download speed in bytes per second (0 disables the limit)</summary>
+        </key>
         <key name="controller-confirm-button" enum="com.vysp3r.ProtonPlus.ControllerConfirmButton">
             <default>'south'</default>
         </key>

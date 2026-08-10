@@ -8,10 +8,12 @@ namespace ProtonPlus.Widgets.Header {
         private Gtk.MenuButton button;
         private Gtk.Image icon;
         private Gtk.Label badge;
+        private Gtk.Label limit_label;
         private Gtk.ListBox downloads_list;
         private Gtk.Popover downloads_popover;
         private ulong download_added_handler = 0;
         private ulong download_removed_handler = 0;
+        private ulong speed_limit_changed_handler = 0;
 
         public DownloadsIndicator () {
             Object (orientation: Gtk.Orientation.HORIZONTAL, spacing: 0);
@@ -43,6 +45,17 @@ namespace ProtonPlus.Widgets.Header {
                 css_classes = { "title-4" }
             };
 
+            limit_label = new Gtk.Label ("") {
+                halign = Gtk.Align.END,
+                xalign = 1,
+                hexpand = true,
+                css_classes = { "caption", "dim-label" }
+            };
+
+            var title_row = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+            title_row.append (title);
+            title_row.append (limit_label);
+
             var scrolled = new Gtk.ScrolledWindow () {
                 child = downloads_list,
                 hscrollbar_policy = Gtk.PolicyType.NEVER,
@@ -58,7 +71,7 @@ namespace ProtonPlus.Widgets.Header {
                 margin_end = 12,
                 width_request = 360
             };
-            content.append (title);
+            content.append (title_row);
             content.append (scrolled);
 
             downloads_popover = new Gtk.Popover ();
@@ -68,6 +81,11 @@ namespace ProtonPlus.Widgets.Header {
 
             download_added_handler = manager.download_added.connect (add_download);
             download_removed_handler = manager.download_removed.connect (remove_download);
+            speed_limit_changed_handler = manager.speed_limit_changed.connect ((new_limit) => {
+                update_limit_label (new_limit);
+            });
+
+            update_limit_label (manager.speed_limit_bps);
 
             foreach (var job in manager.active_downloads)
                 add_download (job);
@@ -84,6 +102,11 @@ namespace ProtonPlus.Widgets.Header {
             if (download_removed_handler != 0) {
                 manager.disconnect (download_removed_handler);
                 download_removed_handler = 0;
+            }
+
+            if (speed_limit_changed_handler != 0) {
+                manager.disconnect (speed_limit_changed_handler);
+                speed_limit_changed_handler = 0;
             }
 
             foreach (var entry in entries.values)
@@ -130,6 +153,13 @@ namespace ProtonPlus.Widgets.Header {
 
             if (count == 0)
                 downloads_popover.popdown ();
+        }
+
+        private void update_limit_label (int64 speed_limit_bps) {
+            if (speed_limit_bps > 0)
+                limit_label.set_label (_("Limit: %s/s").printf (Utils.Filesystem.convert_bytes_to_string (speed_limit_bps)));
+            else
+                limit_label.set_label ("");
         }
     }
 
@@ -251,10 +281,8 @@ namespace ProtonPlus.Widgets.Header {
             }
 
             status_label.set_label (status);
-            metrics_label.set_label ("%s · %s".printf (
-                speed,
-                format_eta (job.step == Services.InstallJob.Step.DOWNLOADING ? job.seconds_remaining : -1)
-            ));
+            var eta = format_eta (job.step == Services.InstallJob.Step.DOWNLOADING ? job.seconds_remaining : -1);
+            metrics_label.set_label ("%s · %s".printf (speed, eta));
         }
 
         private string get_step_text () {

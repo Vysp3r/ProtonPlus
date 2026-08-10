@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-09 19:39-0400\n"
+"POT-Creation-Date: 2026-08-10 00:45+0200\n"
 "PO-Revision-Date: 2026-08-07 23:07+0800\n"
 "Last-Translator: Markson Hosben <marksonhosben@proton.me>\n"
 "Language-Team: Chinese <>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "ProtonPlus"
 msgstr "ProtonPlus"
 
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:231
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:232
 msgid "A modern compatibility tools manager"
 msgstr "一个现代的兼容性工具管理器"
 
@@ -1981,7 +1981,7 @@ msgstr ""
 msgid "ETA: %s"
 msgstr "预计剩余时间：%s"
 
-#: src/cli/cli.vala:716 src/widgets/header/header-downloads-indicator.vala:277
+#: src/cli/cli.vala:716 src/widgets/header/header-downloads-indicator.vala:305
 msgid "ETA: --"
 msgstr "预计剩余时间：--"
 
@@ -1989,7 +1989,7 @@ msgstr "预计剩余时间：--"
 msgid "Updating"
 msgstr "正在更新"
 
-#: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:267
+#: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:295
 msgid "Installing"
 msgstr "正在安装"
 
@@ -2010,7 +2010,7 @@ msgstr "%d秒"
 
 #. System Page
 #: src/globals.vala:30 src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:303
+#: src/widgets/preferences/preferences-dialog.vala:328
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr "系统"
@@ -2259,19 +2259,19 @@ msgstr "无法更新 compatibilitytool.vdf"
 msgid "Failed to initialize SteamTinkerLaunch"
 msgstr "🐛 修复了 Steam Tinker Launch 的 yad 检查问题"
 
-#: src/utils/web.vala:221
+#: src/utils/web.vala:222
 msgid "The download timed out. Check your connection and try again."
 msgstr ""
 
-#: src/widgets/application.vala:233
+#: src/widgets/application.vala:234
 msgid "Website"
 msgstr "网站"
 
-#: src/widgets/application.vala:238
+#: src/widgets/application.vala:239
 msgid "translator-credits"
 msgstr "Markson Hosben <marksonhosben@proton.me>nick.exe <nick.exe@gmail.com>"
 
-#: src/widgets/application.vala:239
+#: src/widgets/application.vala:240
 msgid "Special thanks to"
 msgstr "特别鸣谢"
 
@@ -2383,7 +2383,7 @@ msgid "Bottom"
 msgstr "下"
 
 #: src/widgets/controller-hint-bar.vala:215
-#: src/widgets/preferences/preferences-dialog.vala:36
+#: src/widgets/preferences/preferences-dialog.vala:40
 msgid "Bottom face button"
 msgstr "下方正面按键"
 
@@ -2392,7 +2392,7 @@ msgid "Right"
 msgstr "右"
 
 #: src/widgets/controller-hint-bar.vala:219
-#: src/widgets/preferences/preferences-dialog.vala:37
+#: src/widgets/preferences/preferences-dialog.vala:41
 msgid "Right face button"
 msgstr "右侧正面按键"
 
@@ -3578,7 +3578,7 @@ msgstr "系统默认"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
-#: src/widgets/preferences/preferences-dialog.vala:366
+#: src/widgets/preferences/preferences-dialog.vala:391
 msgid "Gamescope"
 msgstr "Gamescope"
 
@@ -3589,7 +3589,7 @@ msgstr "Gamescope"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
-#: src/widgets/preferences/preferences-dialog.vala:371
+#: src/widgets/preferences/preferences-dialog.vala:396
 msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
 
@@ -5039,12 +5039,12 @@ msgstr "保持无法识别、带引号及不透明的 Shell 内容与加载时�
 #. Advanced Page
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:40
 #: src/widgets/mangohud/mangohud-box.vala:69
-#: src/widgets/preferences/preferences-dialog.vala:237
+#: src/widgets/preferences/preferences-dialog.vala:241
 msgid "Advanced"
 msgstr "高级"
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
-#: src/widgets/preferences/preferences-dialog.vala:282
+#: src/widgets/preferences/preferences-dialog.vala:307
 msgid "Experimental"
 msgstr "实验性"
 
@@ -5134,62 +5134,67 @@ msgstr "关于 ProtonPlus(_A)"
 msgid "_Exit"
 msgstr "退出"
 
-#: src/widgets/header/header-downloads-indicator.vala:32
+#: src/widgets/header/header-downloads-indicator.vala:34
 msgid "Active downloads"
 msgstr "正在进行的下载"
 
-#: src/widgets/header/header-downloads-indicator.vala:41
+#: src/widgets/header/header-downloads-indicator.vala:43
 #: src/widgets/tools/tools-box.vala:94
 msgid "Downloads"
 msgstr "下载"
 
-#: src/widgets/header/header-downloads-indicator.vala:129
+#: src/widgets/header/header-downloads-indicator.vala:152
 #, c-format
 msgid "%u active download"
 msgid_plural "%u active downloads"
 msgstr[0] "%u 个进行中的下载"
 
-#: src/widgets/header/header-downloads-indicator.vala:187
+#: src/widgets/header/header-downloads-indicator.vala:160
+#, fuzzy, c-format
+msgid "Limit: %s/s"
+msgstr "限制器"
+
+#: src/widgets/header/header-downloads-indicator.vala:217
 #: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:152
 #: src/widgets/window.vala:303
 msgid "Cancel"
 msgstr "取消"
 
-#: src/widgets/header/header-downloads-indicator.vala:237
-#: src/widgets/header/header-downloads-indicator.vala:239
+#: src/widgets/header/header-downloads-indicator.vala:267
+#: src/widgets/header/header-downloads-indicator.vala:269
 msgid "Cancelling"
 msgstr "正在取消"
 
-#: src/widgets/header/header-downloads-indicator.vala:263
+#: src/widgets/header/header-downloads-indicator.vala:291
 #: src/widgets/tools/tools-release-row.vala:212
 msgid "Downloading"
 msgstr "正在下载"
 
-#: src/widgets/header/header-downloads-indicator.vala:265
+#: src/widgets/header/header-downloads-indicator.vala:293
 #: src/widgets/tools/tools-release-row.vala:212
 msgid "Extracting"
 msgstr "正在解压"
 
-#: src/widgets/header/header-downloads-indicator.vala:269
+#: src/widgets/header/header-downloads-indicator.vala:297
 #: src/widgets/tools/tools-release-row.vala:212
 msgid "Removing"
 msgstr "正在移除"
 
-#: src/widgets/header/header-downloads-indicator.vala:271
+#: src/widgets/header/header-downloads-indicator.vala:299
 msgid "Preparing"
 msgstr "正在准备"
 
-#: src/widgets/header/header-downloads-indicator.vala:285
+#: src/widgets/header/header-downloads-indicator.vala:313
 #, c-format
 msgid "ETA: %dh %dm"
 msgstr "预计剩余时间：%d 时 %d 分"
 
-#: src/widgets/header/header-downloads-indicator.vala:287
+#: src/widgets/header/header-downloads-indicator.vala:315
 #, c-format
 msgid "ETA: %dm %ds"
 msgstr "预计剩余时间：%d 分 %d 秒"
 
-#: src/widgets/header/header-downloads-indicator.vala:288
+#: src/widgets/header/header-downloads-indicator.vala:316
 #, c-format
 msgid "ETA: %ds"
 msgstr "预计剩余时间：%d 秒"
@@ -5298,37 +5303,37 @@ msgid ""
 msgstr "ProtonPlus 可以自动检查并安装更新，以确保您的游戏体验流畅。"
 
 #: src/widgets/introduction/updates.vala:17
-#: src/widgets/preferences/preferences-dialog.vala:88
+#: src/widgets/preferences/preferences-dialog.vala:92
 msgid "Background updates"
 msgstr "后台更新"
 
 #: src/widgets/introduction/updates.vala:18
-#: src/widgets/preferences/preferences-dialog.vala:89
+#: src/widgets/preferences/preferences-dialog.vala:93
 msgid "Automatically update the tools in the background"
 msgstr "在后台自动更新工具"
 
 #: src/widgets/introduction/updates.vala:24
-#: src/widgets/preferences/preferences-dialog.vala:95
+#: src/widgets/preferences/preferences-dialog.vala:99
 msgid "Set how often to check for updates in the background"
 msgstr "设置后台检查更新的频率"
 
 #: src/widgets/introduction/updates.vala:30
-#: src/widgets/preferences/preferences-dialog.vala:101
+#: src/widgets/preferences/preferences-dialog.vala:105
 msgid "Check updates on boot"
 msgstr "系统启动时检查更新"
 
 #: src/widgets/introduction/updates.vala:31
-#: src/widgets/preferences/preferences-dialog.vala:102
+#: src/widgets/preferences/preferences-dialog.vala:106
 msgid "Check for tool updates when the system starts"
 msgstr "系统启动时检查工具更新"
 
 #: src/widgets/introduction/updates.vala:37
-#: src/widgets/preferences/preferences-dialog.vala:108
+#: src/widgets/preferences/preferences-dialog.vala:112
 msgid "Check updates on launch"
 msgstr "应用启动时检查更新"
 
 #: src/widgets/introduction/updates.vala:38
-#: src/widgets/preferences/preferences-dialog.vala:109
+#: src/widgets/preferences/preferences-dialog.vala:113
 msgid "Update the tools when the application is launched"
 msgstr "应用程序启动时更新工具"
 
@@ -5411,13 +5416,13 @@ msgstr "确定"
 
 #. Tools Page
 #: src/widgets/main/main-box.vala:45
-#: src/widgets/preferences/preferences-dialog.vala:77
+#: src/widgets/preferences/preferences-dialog.vala:81
 #: src/widgets/tools/tools-box.vala:93
 msgid "Tools"
 msgstr "工具"
 
 #: src/widgets/main/main-box.vala:48
-#: src/widgets/preferences/preferences-dialog.vala:356
+#: src/widgets/preferences/preferences-dialog.vala:381
 msgid "MangoHud"
 msgstr "MangoHud"
 
@@ -5903,7 +5908,7 @@ msgid "Media Info"
 msgstr "媒体信息"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:130
-#: src/widgets/preferences/preferences-dialog.vala:264
+#: src/widgets/preferences/preferences-dialog.vala:268
 msgid "Network"
 msgstr "网络"
 
@@ -6372,189 +6377,202 @@ msgid "Removes all cached information and temporary downloads"
 msgstr "清除所有缓存信息和临时下载内容"
 
 #. General Page
-#: src/widgets/preferences/preferences-dialog.vala:12
+#: src/widgets/preferences/preferences-dialog.vala:16
 msgid "General"
 msgstr "常规"
 
-#: src/widgets/preferences/preferences-dialog.vala:18
+#: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Appearance"
 msgstr "外观"
 
-#: src/widgets/preferences/preferences-dialog.vala:31
+#: src/widgets/preferences/preferences-dialog.vala:35
 msgid "Controller"
 msgstr "控制器"
 
-#: src/widgets/preferences/preferences-dialog.vala:39
+#: src/widgets/preferences/preferences-dialog.vala:43
 msgid "Confirm button"
 msgstr "确认按钮"
 
-#: src/widgets/preferences/preferences-dialog.vala:40
+#: src/widgets/preferences/preferences-dialog.vala:44
 msgid "Choose which face button activates the selected control"
 msgstr "选择哪个正面按键用于触发所选控制功能"
 
-#: src/widgets/preferences/preferences-dialog.vala:53
+#: src/widgets/preferences/preferences-dialog.vala:57
 msgid "Controller vibration"
 msgstr "控制器震动"
 
-#: src/widgets/preferences/preferences-dialog.vala:54
+#: src/widgets/preferences/preferences-dialog.vala:58
 msgid "Use subtle vibration for controller actions and navigation limits"
 msgstr "针对控制器操作和导航边界使用轻微振动反馈。"
 
-#: src/widgets/preferences/preferences-dialog.vala:61
+#: src/widgets/preferences/preferences-dialog.vala:65
 msgid "Help"
 msgstr "帮助"
 
-#: src/widgets/preferences/preferences-dialog.vala:64
+#: src/widgets/preferences/preferences-dialog.vala:68
 msgid "Show Introduction"
 msgstr "显示介绍"
 
-#: src/widgets/preferences/preferences-dialog.vala:83
+#: src/widgets/preferences/preferences-dialog.vala:87
 msgid "Updates"
 msgstr "更新"
 
-#: src/widgets/preferences/preferences-dialog.vala:115
+#: src/widgets/preferences/preferences-dialog.vala:119
 msgid "Migrate default prefix"
 msgstr "迁移默认容器"
 
-#: src/widgets/preferences/preferences-dialog.vala:116
+#: src/widgets/preferences/preferences-dialog.vala:120
 msgid "Automatically migrate the default prefix when updating"
 msgstr "更新时自动迁移默认容器"
 
-#: src/widgets/preferences/preferences-dialog.vala:122
+#: src/widgets/preferences/preferences-dialog.vala:126
 msgid "Behavior"
 msgstr "行为"
 
-#: src/widgets/preferences/preferences-dialog.vala:127
+#: src/widgets/preferences/preferences-dialog.vala:131
 msgid "Show legacy tools"
 msgstr "显示旧版工具"
 
-#: src/widgets/preferences/preferences-dialog.vala:128
+#: src/widgets/preferences/preferences-dialog.vala:132
 msgid "Display older tools that are no longer actively maintained"
 msgstr "显示不再积极维护的旧版本兼容工具。"
 
 #. Launchers Page
-#: src/widgets/preferences/preferences-dialog.vala:136
+#: src/widgets/preferences/preferences-dialog.vala:140
 msgid "Launchers"
 msgstr "启动器"
 
-#: src/widgets/preferences/preferences-dialog.vala:170
+#: src/widgets/preferences/preferences-dialog.vala:174
 msgid "Default compatibility tool"
 msgstr "默认兼容性工具"
 
-#: src/widgets/preferences/preferences-dialog.vala:171
+#: src/widgets/preferences/preferences-dialog.vala:175
 msgid "The compatibility tool games will use by default"
 msgstr "游戏将会默认使用的兼容性工具"
 
-#: src/widgets/preferences/preferences-dialog.vala:197
+#: src/widgets/preferences/preferences-dialog.vala:201
 msgid "Selected profile"
 msgstr "选择的个人资料"
 
-#: src/widgets/preferences/preferences-dialog.vala:198
+#: src/widgets/preferences/preferences-dialog.vala:202
 msgid "Currently selected profile for Steam"
 msgstr "当前选择的 Steam 个人资料"
 
-#: src/widgets/preferences/preferences-dialog.vala:243
+#: src/widgets/preferences/preferences-dialog.vala:247
 msgid "API Tokens"
 msgstr "API 令牌"
 
-#: src/widgets/preferences/preferences-dialog.vala:272
+#: src/widgets/preferences/preferences-dialog.vala:276
 msgid "Proxy URL"
 msgstr "代理 URL"
 
-#: src/widgets/preferences/preferences-dialog.vala:275
+#: src/widgets/preferences/preferences-dialog.vala:279
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr "如：http://127.0.0.1:7890 或 socks5://127.0.0.1:1080"
 
+#: src/widgets/preferences/preferences-dialog.vala:286
+#, fuzzy
+msgid "Download speed limit"
+msgstr "已开始下载"
+
 #: src/widgets/preferences/preferences-dialog.vala:287
+msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:290
+msgid "This limit is shared across all active downloads."
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:312
 msgid "Preview features"
 msgstr "预览功能"
 
-#: src/widgets/preferences/preferences-dialog.vala:288
+#: src/widgets/preferences/preferences-dialog.vala:313
 msgid "Enable experimental features for early testing"
 msgstr "启用实验性功能以便尽早测试"
 
-#: src/widgets/preferences/preferences-dialog.vala:295
+#: src/widgets/preferences/preferences-dialog.vala:320
 msgid "Maintenance"
 msgstr "维护"
 
-#: src/widgets/preferences/preferences-dialog.vala:309
+#: src/widgets/preferences/preferences-dialog.vala:334
 msgid "Software Environment"
 msgstr "软件环境"
 
-#: src/widgets/preferences/preferences-dialog.vala:314
+#: src/widgets/preferences/preferences-dialog.vala:339
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr "SteamOS"
 
-#: src/widgets/preferences/preferences-dialog.vala:315
-#: src/widgets/preferences/preferences-dialog.vala:320
-#: src/widgets/preferences/preferences-dialog.vala:347
-#: src/widgets/preferences/preferences-dialog.vala:352
-#: src/widgets/preferences/preferences-dialog.vala:357
-#: src/widgets/preferences/preferences-dialog.vala:362
-#: src/widgets/preferences/preferences-dialog.vala:367
+#: src/widgets/preferences/preferences-dialog.vala:340
+#: src/widgets/preferences/preferences-dialog.vala:345
 #: src/widgets/preferences/preferences-dialog.vala:372
 #: src/widgets/preferences/preferences-dialog.vala:377
+#: src/widgets/preferences/preferences-dialog.vala:382
+#: src/widgets/preferences/preferences-dialog.vala:387
+#: src/widgets/preferences/preferences-dialog.vala:392
+#: src/widgets/preferences/preferences-dialog.vala:397
+#: src/widgets/preferences/preferences-dialog.vala:402
 #: src/widgets/tools/tools-stl-release-row.vala:98
 msgid "Yes"
 msgstr "是"
 
-#: src/widgets/preferences/preferences-dialog.vala:315
-#: src/widgets/preferences/preferences-dialog.vala:320
-#: src/widgets/preferences/preferences-dialog.vala:347
-#: src/widgets/preferences/preferences-dialog.vala:352
-#: src/widgets/preferences/preferences-dialog.vala:357
-#: src/widgets/preferences/preferences-dialog.vala:362
-#: src/widgets/preferences/preferences-dialog.vala:367
+#: src/widgets/preferences/preferences-dialog.vala:340
+#: src/widgets/preferences/preferences-dialog.vala:345
 #: src/widgets/preferences/preferences-dialog.vala:372
 #: src/widgets/preferences/preferences-dialog.vala:377
+#: src/widgets/preferences/preferences-dialog.vala:382
+#: src/widgets/preferences/preferences-dialog.vala:387
+#: src/widgets/preferences/preferences-dialog.vala:392
+#: src/widgets/preferences/preferences-dialog.vala:397
+#: src/widgets/preferences/preferences-dialog.vala:402
 #: src/widgets/tools/tools-stl-release-row.vala:97
 msgid "No"
 msgstr "否"
 
-#: src/widgets/preferences/preferences-dialog.vala:319
+#: src/widgets/preferences/preferences-dialog.vala:344
 msgid "Flatpak"
 msgstr "Flatpak"
 
-#: src/widgets/preferences/preferences-dialog.vala:324
+#: src/widgets/preferences/preferences-dialog.vala:349
 msgid "Hardware"
 msgstr "硬件"
 
-#: src/widgets/preferences/preferences-dialog.vala:336
+#: src/widgets/preferences/preferences-dialog.vala:361
 msgid "HWCAPS"
 msgstr "HWCAPS"
 
-#: src/widgets/preferences/preferences-dialog.vala:341
+#: src/widgets/preferences/preferences-dialog.vala:366
 msgid "Dependencies"
 msgstr "依赖项"
 
-#: src/widgets/preferences/preferences-dialog.vala:346
+#: src/widgets/preferences/preferences-dialog.vala:371
 msgid "Protontricks"
 msgstr "Protontricks"
 
-#: src/widgets/preferences/preferences-dialog.vala:351
+#: src/widgets/preferences/preferences-dialog.vala:376
 msgid "Protontricks (Flatpak)"
 msgstr "Protontricks (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:361
+#: src/widgets/preferences/preferences-dialog.vala:386
 msgid "MangoHud (Flatpak)"
 msgstr "MangoHud (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:376
+#: src/widgets/preferences/preferences-dialog.vala:401
 msgid "Feral Gamemode"
 msgstr "Feral Gamemode"
 
-#: src/widgets/preferences/preferences-dialog.vala:381
+#: src/widgets/preferences/preferences-dialog.vala:406
 msgid "Detected Launchers"
 msgstr "检测到的启动器"
 
-#: src/widgets/preferences/preferences-dialog.vala:404
+#: src/widgets/preferences/preferences-dialog.vala:429
 #: src/widgets/tools/tools-box.vala:202
 #: src/widgets/tools/tools-group-box.vala:285
 msgid "Installed"
 msgstr "已安装"
 
-#: src/widgets/preferences/preferences-dialog.vala:404
+#: src/widgets/preferences/preferences-dialog.vala:429
 msgid "Not installed"
 msgstr "未安装"
 
@@ -7009,9 +7027,92 @@ msgstr ""
 "应用程序当前正在下载工具。\n"
 "过早退出程序或许会引发问题。"
 
+#~ msgid "Compatibility tools by Valve for running Windows software on Linux."
+#~ msgstr "Valve 提供的兼容性工具，用于在 Linux 系统上运行 Windows 软件。"
+
+#~ msgid ""
+#~ "Steam compatibility tool for running Windows games with improvements over "
+#~ "Valve's default Proton."
+#~ msgstr ""
+#~ "一款适用于 Steam 平台的兼容工具，用于运行 Windows 游戏，并且相较于 Valve "
+#~ "的默认 Proton 版本有所改进。"
+
 #, fuzzy
-#~ msgid "🌐 Improved German localization"
-#~ msgstr "🌐 更新了德语翻译"
+#~ msgid "Recommended"
+#~ msgstr "圆形"
+
+#~ msgid ""
+#~ "Steam compatibility tool from the CachyOS Linux distribution for running "
+#~ "Windows games with improvements over Valve's default Proton."
+#~ msgstr ""
+#~ "来自 CachyOS Linux 发行版的 Steam 兼容工具，用于运行 Windows 游戏，其性能"
+#~ "优于 Valve 默认的 Proton 工具。"
+
+#~ msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+#~ msgstr "Dawn Winery 的定制 Proton 分支，包含针对多款游戏的修复  :xdd:"
+
+#~ msgid ""
+#~ "Steam compatibility tool for running Windows games with improvements over "
+#~ "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and "
+#~ "wine wayland tweaks."
+#~ msgstr ""
+#~ "一款适用于 Steam 平台的兼容工具，可让运行 Windows 游戏时获得比 Valve 默认"
+#~ "的 Proton 更出色的性能提升。由 Etaash Mathamsetty 开发，新增了 FSR4 支持以"
+#~ "及对 Wine Wayland 的调整优化。"
+
+#~ msgid ""
+#~ "Steam compatibility tool based on Proton-GE with additional patches to "
+#~ "improve RTSP codecs for VRChat."
+#~ msgstr ""
+#~ "基于 Proton-GE 打造的 Steam 兼容性工具，包含针对 VRChat 的额外补丁以改进 "
+#~ "RTSP 编解码器支持。"
+
+#~ msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+#~ msgstr "用于运行 Windows 游戏的自定义 Proton 构建版，基于 Wine-tkg。"
+
+#~ msgid ""
+#~ "Luxtorpeda provides Linux-native game engines for certain Windows-only "
+#~ "games."
+#~ msgstr "Luxtorpeda 为某些仅限 Windows 的游戏提供了 Linux 原生的游戏引擎。"
+
+#~ msgid ""
+#~ "Steam compatibility tool for running adventure games using ScummVM for "
+#~ "Linux."
+#~ msgstr "用于在 Linux 上通过 ScummVM 运行冒险游戏的 Steam 兼容性工具。"
+
+#~ msgid ""
+#~ "Steam compatibility tool for running DOS games using DOSBox for Linux."
+#~ msgstr "用于在 Linux 上通过 DOSBox 运行 DOS 游戏的 Steam 兼容性工具。"
+
+#~ msgid "Compatibility tools for running Windows software on Linux."
+#~ msgstr "适用于在 Linux 上运行 Windows 软件的兼容性工具。"
+
+#~ msgid "Wine build compiled from the official WineHQ sources."
+#~ msgstr "基于官方 WineHQ 源代码编译的 Wine 版本。"
+
+#~ msgid "Wine build with the Staging patchset."
+#~ msgstr "带有 Staging 补丁集的 Wine 构建版本。"
+
+#~ msgid "Wine build with the Staging patchset and many other useful patches."
+#~ msgstr "带有 Staging 补丁集及许多其他实用补丁的 Wine 构建版本。"
+
+#~ msgid "Wine build modified by Valve and other contributors."
+#~ msgstr "由 Valve 及其他贡献者修改的 Wine 构建版本。"
+
+#~ msgid ""
+#~ "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
+#~ msgstr "基于 Vulkan 实现的 Direct3D 8、9、10 和 11，适用于 Linux/Wine。"
+
+#~ msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
+#~ msgstr "适用于 Vulkan 1.3 之前版本的 DXVK 构建。"
+
+#~ msgid "DXVK builds with gplasync patch by Ph42oN."
+#~ msgstr "由 Ph42oN 制作的带有 gplasync 补丁的 DXVK 版本。"
+
+#~ msgid ""
+#~ "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API "
+#~ "on top of Vulkan."
+#~ msgstr "Wine 的 VKD3D 变体，旨在 Vulkan 之上实现完整的 Direct3D 12 API。"
 
 #~ msgid "The library interface of ProtonPlus."
 #~ msgstr "ProtonPlus 的游戏库界面。"
@@ -7167,89 +7268,6 @@ msgstr ""
 
 #~ msgid "Dark"
 #~ msgstr "深色"
-
-#~ msgid "Compatibility tools by Valve for running Windows software on Linux."
-#~ msgstr "Valve 提供的兼容性工具，用于在 Linux 系统上运行 Windows 软件。"
-
-#~ msgid ""
-#~ "Steam compatibility tool for running Windows games with improvements over "
-#~ "Valve's default Proton."
-#~ msgstr ""
-#~ "一款适用于 Steam 平台的兼容工具，用于运行 Windows 游戏，并且相较于 Valve "
-#~ "的默认 Proton 版本有所改进。"
-
-#~ msgid ""
-#~ "Steam compatibility tool from the CachyOS Linux distribution for running "
-#~ "Windows games with improvements over Valve's default Proton."
-#~ msgstr ""
-#~ "来自 CachyOS Linux 发行版的 Steam 兼容工具，用于运行 Windows 游戏，其性能"
-#~ "优于 Valve 默认的 Proton 工具。"
-
-#~ msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
-#~ msgstr "Dawn Winery 的定制 Proton 分支，包含针对多款游戏的修复  :xdd:"
-
-#~ msgid ""
-#~ "Steam compatibility tool for running Windows games with improvements over "
-#~ "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and "
-#~ "wine wayland tweaks."
-#~ msgstr ""
-#~ "一款适用于 Steam 平台的兼容工具，可让运行 Windows 游戏时获得比 Valve 默认"
-#~ "的 Proton 更出色的性能提升。由 Etaash Mathamsetty 开发，新增了 FSR4 支持以"
-#~ "及对 Wine Wayland 的调整优化。"
-
-#~ msgid ""
-#~ "Steam compatibility tool based on Proton-GE with additional patches to "
-#~ "improve RTSP codecs for VRChat."
-#~ msgstr ""
-#~ "基于 Proton-GE 打造的 Steam 兼容性工具，包含针对 VRChat 的额外补丁以改进 "
-#~ "RTSP 编解码器支持。"
-
-#~ msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-#~ msgstr "用于运行 Windows 游戏的自定义 Proton 构建版，基于 Wine-tkg。"
-
-#~ msgid ""
-#~ "Luxtorpeda provides Linux-native game engines for certain Windows-only "
-#~ "games."
-#~ msgstr "Luxtorpeda 为某些仅限 Windows 的游戏提供了 Linux 原生的游戏引擎。"
-
-#~ msgid ""
-#~ "Steam compatibility tool for running adventure games using ScummVM for "
-#~ "Linux."
-#~ msgstr "用于在 Linux 上通过 ScummVM 运行冒险游戏的 Steam 兼容性工具。"
-
-#~ msgid ""
-#~ "Steam compatibility tool for running DOS games using DOSBox for Linux."
-#~ msgstr "用于在 Linux 上通过 DOSBox 运行 DOS 游戏的 Steam 兼容性工具。"
-
-#~ msgid "Compatibility tools for running Windows software on Linux."
-#~ msgstr "适用于在 Linux 上运行 Windows 软件的兼容性工具。"
-
-#~ msgid "Wine build compiled from the official WineHQ sources."
-#~ msgstr "基于官方 WineHQ 源代码编译的 Wine 版本。"
-
-#~ msgid "Wine build with the Staging patchset."
-#~ msgstr "带有 Staging 补丁集的 Wine 构建版本。"
-
-#~ msgid "Wine build with the Staging patchset and many other useful patches."
-#~ msgstr "带有 Staging 补丁集及许多其他实用补丁的 Wine 构建版本。"
-
-#~ msgid "Wine build modified by Valve and other contributors."
-#~ msgstr "由 Valve 及其他贡献者修改的 Wine 构建版本。"
-
-#~ msgid ""
-#~ "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-#~ msgstr "基于 Vulkan 实现的 Direct3D 8、9、10 和 11，适用于 Linux/Wine。"
-
-#~ msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
-#~ msgstr "适用于 Vulkan 1.3 之前版本的 DXVK 构建。"
-
-#~ msgid "DXVK builds with gplasync patch by Ph42oN."
-#~ msgstr "由 Ph42oN 制作的带有 gplasync 补丁的 DXVK 版本。"
-
-#~ msgid ""
-#~ "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API "
-#~ "on top of Vulkan."
-#~ msgstr "Wine 的 VKD3D 变体，旨在 Vulkan 之上实现完整的 Direct3D 12 API。"
 
 #~ msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
 #~ msgstr "适用于 Vulkan 1.3 以下版本的 DXVK Async 构建。"

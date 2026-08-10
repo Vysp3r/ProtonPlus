@@ -1,8 +1,12 @@
 namespace ProtonPlus.Widgets.Preferences {
     public class PreferencesDialog : Adw.PreferencesDialog, Utils.ControllerNavigationHost {
+        const int64 KILOBYTE = 1000;
+        const string DOWNLOAD_SPEED_LIMIT_KEY = "download-speed-limit-bps";
         Adw.PreferencesPage[] controller_pages = {};
         Adw.EntryRow? proxy_url_row;
+        Adw.SpinRow? download_speed_limit_row;
         ulong proxy_mode_changed_handler = 0;
+        ulong download_speed_limit_changed_handler = 0;
 
         public PreferencesDialog (Gee.LinkedList<Models.Launcher> launchers) {
             set_search_enabled (true);
@@ -278,6 +282,27 @@ namespace ProtonPlus.Widgets.Preferences {
             proxy_mode_changed_handler = Globals.SETTINGS.changed["proxy-mode"].connect (update_proxy_url_sensitivity);
             network_group.add (proxy_url_row);
 
+            download_speed_limit_row = new Adw.SpinRow.with_range (0, 10240, 1) {
+                title = _("Download speed limit"),
+                subtitle = _("Maximum total speed in KB/s for all downloads. Set to 0 for unlimited.")
+            };
+            ((!) download_speed_limit_row).set_digits (0);
+            ((!) download_speed_limit_row).set_tooltip_text (_("This limit is shared across all active downloads."));
+            update_download_speed_limit_row ();
+            ((!) download_speed_limit_row).notify["value"].connect (() => {
+                var limit_kib = (int64) Math.round (((!) download_speed_limit_row).get_value ());
+                if (limit_kib < 0)
+                    limit_kib = 0;
+
+                var limit_bps = limit_kib * KILOBYTE;
+                if (Globals.SETTINGS.get_int64 (DOWNLOAD_SPEED_LIMIT_KEY) != limit_bps)
+                    Globals.SETTINGS.set_int64 (DOWNLOAD_SPEED_LIMIT_KEY, limit_bps);
+            });
+            download_speed_limit_changed_handler = Globals.SETTINGS.changed[DOWNLOAD_SPEED_LIMIT_KEY].connect (
+                update_download_speed_limit_row
+            );
+            network_group.add ((!) download_speed_limit_row);
+
             var experimental_group = new Adw.PreferencesGroup () {
                 title = _("Experimental")
             };
@@ -416,13 +441,32 @@ namespace ProtonPlus.Widgets.Preferences {
                 proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
         }
 
+        void update_download_speed_limit_row () {
+            if (download_speed_limit_row == null || Globals.SETTINGS == null)
+                return;
+
+            var limit_bps = Globals.SETTINGS.get_int64 (DOWNLOAD_SPEED_LIMIT_KEY);
+            if (limit_bps < 0)
+                limit_bps = 0;
+
+            var limit_kib = (double) limit_bps / (double) KILOBYTE;
+            if (Math.fabs (((!) download_speed_limit_row).get_value () - limit_kib) > 0.0001)
+                ((!) download_speed_limit_row).set_value (limit_kib);
+        }
+
         public override void dispose () {
             if (proxy_mode_changed_handler != 0 && Globals.SETTINGS != null) {
                 Globals.SETTINGS.disconnect (proxy_mode_changed_handler);
                 proxy_mode_changed_handler = 0;
             }
 
+            if (download_speed_limit_changed_handler != 0 && Globals.SETTINGS != null) {
+                Globals.SETTINGS.disconnect (download_speed_limit_changed_handler);
+                download_speed_limit_changed_handler = 0;
+            }
+
             proxy_url_row = null;
+            download_speed_limit_row = null;
             base.dispose ();
         }
 
