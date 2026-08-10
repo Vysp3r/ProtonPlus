@@ -94,6 +94,7 @@
           <li>✨ Added AppImage builds for AArch64 systems</li>
           <li>✨ Added a configurable download speed limit</li>
           <li>🐛 Fixed Faugus launcher not being detected under Flatpak</li>
+          <li>🐛 Fixed controllers not working under Flatpak</li>
           <li>🌐 Updated German localization</li>
         </ul>
       </description>
