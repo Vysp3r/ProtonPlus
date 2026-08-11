@@ -191,6 +191,8 @@ namespace ProtonPlus.Models.Providers {
         public SourceType source_type { get; private set; }
         public string provider_id { get; private set; }
         public string title { get; private set; }
+        // Descriptions and user-visible tags are translated after composition.
+        // Mark their definition literals with N_() so gettext can extract them.
         public string description { get; private set; }
         public string endpoint { get; private set; }
         public string repository_url { get; private set; }

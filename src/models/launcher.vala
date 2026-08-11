@@ -274,13 +274,13 @@ namespace ProtonPlus.Models {
         private static string get_group_description (Category category) {
             switch (category) {
             case Category.DXVK:
-                return "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine.";
+                return N_ ("Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine.");
             case Category.VKD3D:
-                return "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan.";
+                return N_ ("Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on top of Vulkan.");
             case Category.PROTON:
-                return "Compatibility tools by Valve for running Windows software on Linux.";
+                return N_ ("Compatibility tools by Valve for running Windows software on Linux.");
             case Category.WINE:
-                return "Compatibility tools for running Windows software on Linux.";
+                return N_ ("Compatibility tools for running Windows software on Linux.");
             }
 
             return "";

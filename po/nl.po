@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 21:18-0400\n"
+"POT-Creation-Date: 2026-08-10 21:37-0400\n"
 "PO-Revision-Date: 2025-07-21 02:03+0000\n"
 "Last-Translator: WeAreGeek <weblate@wearegeek.nl>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/protonplus/"
@@ -2140,6 +2140,30 @@ msgstr ""
 msgid "Chinese (Traditional)"
 msgstr ""
 
+#: src/models/launcher.vala:277
+msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
+msgstr ""
+"Op Vulkan gebaseerde implementatie van Direct3D 8, 9, 10 en 11 voor Linux/"
+"Wine."
+
+#: src/models/launcher.vala:279
+msgid ""
+"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
+"top of Vulkan."
+msgstr ""
+"Variant van Wine's VKD3D die als doel heeft om de volledige Direct3D 12 API "
+"bovenop Vulkan te implementeren."
+
+#: src/models/launcher.vala:281
+msgid "Compatibility tools by Valve for running Windows software on Linux."
+msgstr ""
+"Compatibiliteitstools van Valve voor het uitvoeren van Windows software op "
+"Linux."
+
+#: src/models/launcher.vala:283
+msgid "Compatibility tools for running Windows software on Linux."
+msgstr "Compatibiliteitstools voor het draaien van Windows software op Linux."
+
 #: src/models/launchers/faugus-launcher.vala:78
 msgid ""
 "Faugus Launcher uses this folder for Proton installations, but ProtonPlus "
@@ -2154,6 +2178,110 @@ msgstr ""
 #, c-format
 msgid "%s (Unavailable)"
 msgstr ""
+
+#: src/models/providers/definitions/dxvk.vala:14
+msgid "DXVK builds with gplasync patch by Ph42oN."
+msgstr ""
+
+#: src/models/providers/definitions/dxvk.vala:22
+#, fuzzy
+msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
+msgstr "DXVK-beelden die werken met pre-Vulkan 1.3-versies"
+
+#: src/models/providers/definitions/proton.vala:7
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton."
+msgstr ""
+"Steam-compatibiliteitstool voor het uitvoeren van Windows-spellen met "
+"verbeteringen ten opzichte van Valve's standaard Proton."
+
+#: src/models/providers/definitions/proton.vala:23
+msgid ""
+"Steam compatibility tool from the CachyOS Linux distribution for running "
+"Windows games with improvements over Valve's default Proton."
+msgstr ""
+"Steam-compatibiliteitstool van de CachyOS Linux-distributie voor het "
+"uitvoeren van Windows-spellen met verbeteringen ten opzichte van Valve's "
+"standaard Proton."
+
+#: src/models/providers/definitions/proton.vala:31
+msgid "Recommended"
+msgstr ""
+
+#: src/models/providers/definitions/proton.vala:35
+msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+msgstr ""
+
+#: src/models/providers/definitions/proton.vala:45
+msgid ""
+"Steam compatibility tool based on Proton-GE with additional patches to "
+"improve RTSP codecs for VRChat."
+msgstr ""
+"Steam-compatibiliteitstool gebaseerd op Proton-GE met extra pleisters om "
+"RTSP-codecs voor VRChat te verbeteren."
+
+#: src/models/providers/definitions/proton.vala:53
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+msgstr ""
+"Aangepaste Proton-versie voor het draaien van Windows spellen, gebaseerd op "
+"Wine-tkg."
+
+#: src/models/providers/definitions/proton.vala:64
+#, fuzzy
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton. By Etaash Mathamsetty, adding FSR4 support and Wine "
+"Wayland tweaks."
+msgstr ""
+"Steam-compatibiliteitstool voor het uitvoeren van Windows-spellen met "
+"verbeteringen ten opzichte van Valve's standaard Proton. Door Etaash "
+"Mathamsetty met FSR4 ondersteuning en wine wayland tweaks."
+
+#: src/models/providers/definitions/proton.vala:75
+#, fuzzy
+msgid ""
+"Steam compatibility tool based on CachyOS Proton with Wayland improvements, "
+"especially for Windows launcher applications."
+msgstr ""
+"Steam-compatibiliteitstool gebaseerd op Proton-GE met extra pleisters om "
+"RTSP-codecs voor VRChat te verbeteren."
+
+#: src/models/providers/definitions/proton.vala:88
+msgid ""
+"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
+msgstr ""
+"Luxtorpeda biedt een verzameling Linux-geschikte game engines voor bepaalde "
+"Windows spellen."
+
+#: src/models/providers/definitions/proton.vala:97
+msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
+msgstr ""
+"Steam-compatibiliteitstool om DOS-spellen uit te voeren met DOSBox voor "
+"Linux."
+
+#: src/models/providers/definitions/proton.vala:105
+msgid ""
+"Steam compatibility tool for running adventure games using ScummVM for Linux."
+msgstr ""
+"Steam-compatibiliteitstool voor het uitvoeren van avonturenspellen met "
+"ScummVM voor Linux."
+
+#: src/models/providers/definitions/wine.vala:7
+msgid "Wine build modified by Valve and other contributors."
+msgstr "Wine-versie aangepast door Valve en andere medewerkers."
+
+#: src/models/providers/definitions/wine.vala:23
+msgid "Wine build with the Staging patchset."
+msgstr "Wine versie met de Enscenering-patches."
+
+#: src/models/providers/definitions/wine.vala:37
+msgid "Wine build with the Staging patchset and many other useful patches."
+msgstr "Wine-versie met de Enscenering-patches en vele andere nuttige patches."
+
+#: src/models/providers/definitions/wine.vala:51
+msgid "Wine build compiled from the official WineHQ sources."
+msgstr "Wine-versie samengesteld uit de officiële WineHQ broncode."
 
 #: src/models/tools/steamtinkerlaunch.vala:8
 msgid ""
@@ -7114,101 +7242,6 @@ msgid ""
 msgstr ""
 "Het programma controleert momenteel op updates\n"
 "Nu afsluiten kan problemen opleveren."
-
-#~ msgid "Compatibility tools by Valve for running Windows software on Linux."
-#~ msgstr ""
-#~ "Compatibiliteitstools van Valve voor het uitvoeren van Windows software "
-#~ "op Linux."
-
-#~ msgid ""
-#~ "Steam compatibility tool for running Windows games with improvements over "
-#~ "Valve's default Proton."
-#~ msgstr ""
-#~ "Steam-compatibiliteitstool voor het uitvoeren van Windows-spellen met "
-#~ "verbeteringen ten opzichte van Valve's standaard Proton."
-
-#~ msgid ""
-#~ "Steam compatibility tool from the CachyOS Linux distribution for running "
-#~ "Windows games with improvements over Valve's default Proton."
-#~ msgstr ""
-#~ "Steam-compatibiliteitstool van de CachyOS Linux-distributie voor het "
-#~ "uitvoeren van Windows-spellen met verbeteringen ten opzichte van Valve's "
-#~ "standaard Proton."
-
-#~ msgid ""
-#~ "Steam compatibility tool for running Windows games with improvements over "
-#~ "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and "
-#~ "wine wayland tweaks."
-#~ msgstr ""
-#~ "Steam-compatibiliteitstool voor het uitvoeren van Windows-spellen met "
-#~ "verbeteringen ten opzichte van Valve's standaard Proton. Door Etaash "
-#~ "Mathamsetty met FSR4 ondersteuning en wine wayland tweaks."
-
-#~ msgid ""
-#~ "Steam compatibility tool based on Proton-GE with additional patches to "
-#~ "improve RTSP codecs for VRChat."
-#~ msgstr ""
-#~ "Steam-compatibiliteitstool gebaseerd op Proton-GE met extra pleisters om "
-#~ "RTSP-codecs voor VRChat te verbeteren."
-
-#~ msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-#~ msgstr ""
-#~ "Aangepaste Proton-versie voor het draaien van Windows spellen, gebaseerd "
-#~ "op Wine-tkg."
-
-#~ msgid ""
-#~ "Luxtorpeda provides Linux-native game engines for certain Windows-only "
-#~ "games."
-#~ msgstr ""
-#~ "Luxtorpeda biedt een verzameling Linux-geschikte game engines voor "
-#~ "bepaalde Windows spellen."
-
-#~ msgid ""
-#~ "Steam compatibility tool for running adventure games using ScummVM for "
-#~ "Linux."
-#~ msgstr ""
-#~ "Steam-compatibiliteitstool voor het uitvoeren van avonturenspellen met "
-#~ "ScummVM voor Linux."
-
-#~ msgid ""
-#~ "Steam compatibility tool for running DOS games using DOSBox for Linux."
-#~ msgstr ""
-#~ "Steam-compatibiliteitstool om DOS-spellen uit te voeren met DOSBox voor "
-#~ "Linux."
-
-#~ msgid "Compatibility tools for running Windows software on Linux."
-#~ msgstr ""
-#~ "Compatibiliteitstools voor het draaien van Windows software op Linux."
-
-#~ msgid "Wine build compiled from the official WineHQ sources."
-#~ msgstr "Wine-versie samengesteld uit de officiële WineHQ broncode."
-
-#~ msgid "Wine build with the Staging patchset."
-#~ msgstr "Wine versie met de Enscenering-patches."
-
-#~ msgid "Wine build with the Staging patchset and many other useful patches."
-#~ msgstr ""
-#~ "Wine-versie met de Enscenering-patches en vele andere nuttige patches."
-
-#~ msgid "Wine build modified by Valve and other contributors."
-#~ msgstr "Wine-versie aangepast door Valve en andere medewerkers."
-
-#~ msgid ""
-#~ "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-#~ msgstr ""
-#~ "Op Vulkan gebaseerde implementatie van Direct3D 8, 9, 10 en 11 voor Linux/"
-#~ "Wine."
-
-#, fuzzy
-#~ msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
-#~ msgstr "DXVK-beelden die werken met pre-Vulkan 1.3-versies"
-
-#~ msgid ""
-#~ "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API "
-#~ "on top of Vulkan."
-#~ msgstr ""
-#~ "Variant van Wine's VKD3D die als doel heeft om de volledige Direct3D 12 "
-#~ "API bovenop Vulkan te implementeren."
 
 #~ msgid "No profile was found."
 #~ msgstr "Er is geen profiel gevonden."

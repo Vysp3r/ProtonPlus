@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 21:18-0400\n"
+"POT-Creation-Date: 2026-08-10 21:37-0400\n"
 "PO-Revision-Date: 2026-01-09 12:01+0000\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <https://hosted.weblate.org/projects/protonplus/"
@@ -2142,6 +2142,29 @@ msgstr ""
 msgid "Chinese (Traditional)"
 msgstr ""
 
+#: src/models/launcher.vala:277
+msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
+msgstr ""
+"Vulkan-ზე დაფუძნებული განხორციელება Direct3D 8,9,10 და 11 Linux/Wine-ისთვის."
+
+#: src/models/launcher.vala:279
+msgid ""
+"Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
+"top of Vulkan."
+msgstr ""
+"Wine-ის VKD3D-ის ვარიანტი, რომლის მიზანია, ჰქონდეს სრული Direct3D 12 API-ის "
+"მხარდაჭერა Vulkan-ის ზემოდან."
+
+#: src/models/launcher.vala:281
+msgid "Compatibility tools by Valve for running Windows software on Linux."
+msgstr ""
+"თავსებადობის პროგრამები Valve-ისგან Windows-ის პროგრამების Linux-ზე "
+"გასაშვებად."
+
+#: src/models/launcher.vala:283
+msgid "Compatibility tools for running Windows software on Linux."
+msgstr "თავსებადობის ხელსაწყოები Windows-ის პროგრამების Linux-ზე გასაშვებად."
+
 #: src/models/launchers/faugus-launcher.vala:78
 msgid ""
 "Faugus Launcher uses this folder for Proton installations, but ProtonPlus "
@@ -2156,6 +2179,111 @@ msgstr ""
 #, c-format
 msgid "%s (Unavailable)"
 msgstr ""
+
+#: src/models/providers/definitions/dxvk.vala:14
+msgid "DXVK builds with gplasync patch by Ph42oN."
+msgstr "DXVK-ის აგებები gplasync-ის პაჩით Ph42oN-ისგან."
+
+#: src/models/providers/definitions/dxvk.vala:22
+msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
+msgstr "DXVK-ის აგებები, რომლებიც Vulkan 1.3-მდე ვერსიებთან მუშაობს."
+
+#: src/models/providers/definitions/proton.vala:7
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton."
+msgstr ""
+"Steam-ის თავსებადობის პროგრამა Windows-ის თამაშების გასაშვებად Valve-ის "
+"ნაგულისხმევ Proton-ზე."
+
+#: src/models/providers/definitions/proton.vala:23
+msgid ""
+"Steam compatibility tool from the CachyOS Linux distribution for running "
+"Windows games with improvements over Valve's default Proton."
+msgstr ""
+"Steam-ის თავსებადობის პროგრამა CachyOS დისტრიბუტივიდან Windows-ის თამაშების "
+"გასაშვებად მრავალი გაუმჯობესებით Valve-ის ნაგულისხმევ Proton-თან შედარებით."
+
+#: src/models/providers/definitions/proton.vala:31
+msgid "Recommended"
+msgstr ""
+
+#: src/models/providers/definitions/proton.vala:35
+msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+msgstr ""
+"Dawn Winery-ის საკუთარი Proton-ის ვარიანტი, რომელსაც ბევრი სხვადასხვა "
+"დამატებითი თამაშის გაშვება შეუძლია :xdd:"
+
+#: src/models/providers/definitions/proton.vala:45
+msgid ""
+"Steam compatibility tool based on Proton-GE with additional patches to "
+"improve RTSP codecs for VRChat."
+msgstr ""
+"Steam-ის თავსებადობის პროგრამა, დაფუძნებულია Proton-GE-ზე, ცვლილებებით RTSP "
+"კოდეკების გასაუმჯობესებლად VRChat-ისთვის."
+
+#: src/models/providers/definitions/proton.vala:53
+msgid "Custom Proton build for running Windows games, based on Wine-tkg."
+msgstr ""
+"მორგებული Proton-ის აგება Windows-ის თამაშების გასაშვებად. ბაზირებულია Wine-"
+"tkg-ზე."
+
+#: src/models/providers/definitions/proton.vala:64
+#, fuzzy
+msgid ""
+"Steam compatibility tool for running Windows games with improvements over "
+"Valve's default Proton. By Etaash Mathamsetty, adding FSR4 support and Wine "
+"Wayland tweaks."
+msgstr ""
+"Steam-ის თავსებადობის პროგრამა Windows-ის თამაშების გასაშვებად Valve-ის "
+"ნაგულისხმევ Proton-თან შედარებით. Etaash Mathamsetty-მა დაამატა FSR4-ის "
+"მხარდაჭერა და Wine-ის Wayland-თან ინტეგრაციის დეტალები."
+
+#: src/models/providers/definitions/proton.vala:75
+#, fuzzy
+msgid ""
+"Steam compatibility tool based on CachyOS Proton with Wayland improvements, "
+"especially for Windows launcher applications."
+msgstr ""
+"Steam-ის თავსებადობის პროგრამა, დაფუძნებულია Proton-GE-ზე, ცვლილებებით RTSP "
+"კოდეკების გასაუმჯობესებლად VRChat-ისთვის."
+
+#: src/models/providers/definitions/proton.vala:88
+msgid ""
+"Luxtorpeda provides Linux-native game engines for certain Windows-only games."
+msgstr ""
+"Luxtorpeda გაწვდით Linux-ზე დაწერილი თამაშის ძრავებს ზოგიერთი მხოლოდ Windows-"
+"ისთვის დაწერილი თამაშებისთვის."
+
+#: src/models/providers/definitions/proton.vala:97
+msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
+msgstr ""
+"Steam-ის თავსებადობის პროგრამა DOS-ის თამაშების DOSBox for Linux-ით "
+"გასაშვებად."
+
+#: src/models/providers/definitions/proton.vala:105
+msgid ""
+"Steam compatibility tool for running adventure games using ScummVM for Linux."
+msgstr ""
+"Steam-ის თავსებადობის პროგრამა სათავგადასავლო თამაშების ფასაშვებად ScummVM "
+"for Linux-ით."
+
+#: src/models/providers/definitions/wine.vala:7
+msgid "Wine build modified by Valve and other contributors."
+msgstr "Wine-ის აგება, შეცვლილი Valve-ის და სხვა მოხალისეების მიერ."
+
+#: src/models/providers/definitions/wine.vala:23
+msgid "Wine build with the Staging patchset."
+msgstr "Wine-ის აგება სატესტო პაჩების ნაკრებით."
+
+#: src/models/providers/definitions/wine.vala:37
+msgid "Wine build with the Staging patchset and many other useful patches."
+msgstr ""
+"Wine-ის აგება სატესტო პაჩების ნაკრებით და ბევრი სხვა სასარგებლო პაჩებით."
+
+#: src/models/providers/definitions/wine.vala:51
+msgid "Wine build compiled from the official WineHQ sources."
+msgstr "Wine-ის აგებები, დაკომპილებული ოფიციალური WineHQ-ის წყაროებიდან."
 
 #: src/models/tools/steamtinkerlaunch.vala:8
 msgid ""
@@ -7117,108 +7245,6 @@ msgid ""
 msgstr ""
 "აპლიკაცია ამჟამად განახლებებს ამოწმებს.\n"
 "აპლიკაციიდან გასვლამ, შეიძლება, პრობლემები გამოიწვიოს."
-
-#~ msgid "Compatibility tools by Valve for running Windows software on Linux."
-#~ msgstr ""
-#~ "თავსებადობის პროგრამები Valve-ისგან Windows-ის პროგრამების Linux-ზე "
-#~ "გასაშვებად."
-
-#~ msgid ""
-#~ "Steam compatibility tool for running Windows games with improvements over "
-#~ "Valve's default Proton."
-#~ msgstr ""
-#~ "Steam-ის თავსებადობის პროგრამა Windows-ის თამაშების გასაშვებად Valve-ის "
-#~ "ნაგულისხმევ Proton-ზე."
-
-#~ msgid ""
-#~ "Steam compatibility tool from the CachyOS Linux distribution for running "
-#~ "Windows games with improvements over Valve's default Proton."
-#~ msgstr ""
-#~ "Steam-ის თავსებადობის პროგრამა CachyOS დისტრიბუტივიდან Windows-ის "
-#~ "თამაშების გასაშვებად მრავალი გაუმჯობესებით Valve-ის ნაგულისხმევ Proton-"
-#~ "თან შედარებით."
-
-#~ msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
-#~ msgstr ""
-#~ "Dawn Winery-ის საკუთარი Proton-ის ვარიანტი, რომელსაც ბევრი სხვადასხვა "
-#~ "დამატებითი თამაშის გაშვება შეუძლია :xdd:"
-
-#~ msgid ""
-#~ "Steam compatibility tool for running Windows games with improvements over "
-#~ "Valve's default Proton. By Etaash Mathamsetty adding FSR4 support and "
-#~ "wine wayland tweaks."
-#~ msgstr ""
-#~ "Steam-ის თავსებადობის პროგრამა Windows-ის თამაშების გასაშვებად Valve-ის "
-#~ "ნაგულისხმევ Proton-თან შედარებით. Etaash Mathamsetty-მა დაამატა FSR4-ის "
-#~ "მხარდაჭერა და Wine-ის Wayland-თან ინტეგრაციის დეტალები."
-
-#~ msgid ""
-#~ "Steam compatibility tool based on Proton-GE with additional patches to "
-#~ "improve RTSP codecs for VRChat."
-#~ msgstr ""
-#~ "Steam-ის თავსებადობის პროგრამა, დაფუძნებულია Proton-GE-ზე, ცვლილებებით "
-#~ "RTSP კოდეკების გასაუმჯობესებლად VRChat-ისთვის."
-
-#~ msgid "Custom Proton build for running Windows games, based on Wine-tkg."
-#~ msgstr ""
-#~ "მორგებული Proton-ის აგება Windows-ის თამაშების გასაშვებად. ბაზირებულია "
-#~ "Wine-tkg-ზე."
-
-#~ msgid ""
-#~ "Luxtorpeda provides Linux-native game engines for certain Windows-only "
-#~ "games."
-#~ msgstr ""
-#~ "Luxtorpeda გაწვდით Linux-ზე დაწერილი თამაშის ძრავებს ზოგიერთი მხოლოდ "
-#~ "Windows-ისთვის დაწერილი თამაშებისთვის."
-
-#~ msgid ""
-#~ "Steam compatibility tool for running adventure games using ScummVM for "
-#~ "Linux."
-#~ msgstr ""
-#~ "Steam-ის თავსებადობის პროგრამა სათავგადასავლო თამაშების ფასაშვებად "
-#~ "ScummVM for Linux-ით."
-
-#~ msgid ""
-#~ "Steam compatibility tool for running DOS games using DOSBox for Linux."
-#~ msgstr ""
-#~ "Steam-ის თავსებადობის პროგრამა DOS-ის თამაშების DOSBox for Linux-ით "
-#~ "გასაშვებად."
-
-#~ msgid "Compatibility tools for running Windows software on Linux."
-#~ msgstr ""
-#~ "თავსებადობის ხელსაწყოები Windows-ის პროგრამების Linux-ზე გასაშვებად."
-
-#~ msgid "Wine build compiled from the official WineHQ sources."
-#~ msgstr "Wine-ის აგებები, დაკომპილებული ოფიციალური WineHQ-ის წყაროებიდან."
-
-#~ msgid "Wine build with the Staging patchset."
-#~ msgstr "Wine-ის აგება სატესტო პაჩების ნაკრებით."
-
-#~ msgid "Wine build with the Staging patchset and many other useful patches."
-#~ msgstr ""
-#~ "Wine-ის აგება სატესტო პაჩების ნაკრებით და ბევრი სხვა სასარგებლო პაჩებით."
-
-#~ msgid "Wine build modified by Valve and other contributors."
-#~ msgstr "Wine-ის აგება, შეცვლილი Valve-ის და სხვა მოხალისეების მიერ."
-
-#~ msgid ""
-#~ "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-#~ msgstr ""
-#~ "Vulkan-ზე დაფუძნებული განხორციელება Direct3D 8,9,10 და 11 Linux/Wine-"
-#~ "ისთვის."
-
-#~ msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
-#~ msgstr "DXVK-ის აგებები, რომლებიც Vulkan 1.3-მდე ვერსიებთან მუშაობს."
-
-#~ msgid "DXVK builds with gplasync patch by Ph42oN."
-#~ msgstr "DXVK-ის აგებები gplasync-ის პაჩით Ph42oN-ისგან."
-
-#~ msgid ""
-#~ "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API "
-#~ "on top of Vulkan."
-#~ msgstr ""
-#~ "Wine-ის VKD3D-ის ვარიანტი, რომლის მიზანია, ჰქონდეს სრული Direct3D 12 API-"
-#~ "ის მხარდაჭერა Vulkan-ის ზემოდან."
 
 #~ msgid "No profile was found."
 #~ msgstr "პროფილები აღმოჩენილი არაა."
