@@ -1,5 +1,6 @@
 sources += files(
     'games-box.vala',
+    'games-collection.vala',
     'games-row.vala',
     'games-extra-button.vala',
     'games-mass-edit-view.vala',

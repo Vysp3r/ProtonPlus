@@ -1,417 +1,576 @@
 namespace ProtonPlus.Widgets.Games {
-    public class GameRow : Gtk.ListBoxRow, Utils.ControllerDirectionalFocus,
+    public delegate bool GameVerticalFocusRequest (GameListItem item, int delta);
+    public delegate bool GamePeerFocusRequest (GameListItem item);
+    public delegate void GameModifyRequest (GameListItem item);
+
+    public enum GameTextCellKind {
+        TITLE,
+        PREFIX,
+        TOOL
+    }
+
+    public class GameSelectionCell : Gtk.Box, Utils.ControllerDirectionalFocus,
         Utils.ControllerActivationRedirect {
-        Gtk.GestureClick title_gesture;
-        Gtk.GestureClick prefix_gesture;
-        Gtk.CheckButton select_check_button;
-        Gtk.Label title_label;
-        Gtk.Label prefix_label;
-        Gtk.Label tool_label;
-        Gtk.Button tool_button;
-        Gtk.Button launch_button;
-        Gtk.Button run_custom_executable_button;
-        ExtraButton extra_button;
-        Gtk.Box other_box;
-        Gtk.Box content_box;
-        weak Gtk.Widget? controller_up_target;
-        weak Gtk.Widget? controller_down_target;
-        string normalized_name;
-        public Models.Game game { get; set; }
+        Gtk.CheckButton check_button;
+        Binding? selected_binding;
+        GameListItem? item;
+        unowned GameVerticalFocusRequest vertical_focus;
+        unowned GamePeerFocusRequest actions_focus;
 
-        public signal void mass_edit_requested (GameRow row);
+        public GameSelectionCell (GameVerticalFocusRequest vertical_focus,
+            GamePeerFocusRequest actions_focus) {
+            Object (orientation: Gtk.Orientation.HORIZONTAL);
+            this.vertical_focus = vertical_focus;
+            this.actions_focus = actions_focus;
 
-        public bool selected { get; set; }
-
-        public GameRow (Models.Game game,
-                        bool reserve_filter_column = false,
-                        Gtk.SizeGroup? prefix_column_size_group = null,
-                        Gtk.SizeGroup? tool_column_size_group = null,
-                        Gtk.SizeGroup? actions_column_size_group = null,
-                        Gtk.SizeGroup? filter_column_size_group = null,
-                        Gtk.Widget? controller_up_target = null,
-                        Gtk.Widget? controller_down_target = null) {
-            this.game = game;
-            this.controller_up_target = controller_up_target;
-            this.controller_down_target = controller_down_target;
-            normalized_name = game.name.down ();
-
-            select_check_button = new Gtk.CheckButton ();
-            select_check_button.set_size_request (30, 0);
-            select_check_button.bind_property ("active", this, "selected", GLib.BindingFlags.BIDIRECTIONAL | GLib.BindingFlags.SYNC_CREATE);
-
-            title_label = new Gtk.Label (game.name);
-            title_label.set_tooltip_text (title_label.get_label ());
-            title_label.set_halign (Gtk.Align.START);
-            title_label.set_hexpand (true);
-            title_label.set_ellipsize (Pango.EllipsizeMode.END);
-
-            title_gesture = new Gtk.GestureClick ();
-            title_gesture.pressed.connect ((gesture, n_press, x, y) => {
-                if (n_press == 1)
-                    open_install_directory_button_clicked ();
-            });
-
-            prefix_label = new Gtk.Label (game.prefix.to_string ());
-            prefix_label.set_xalign (0);
-            prefix_label.set_max_width_chars (10);
-            prefix_label.set_ellipsize (Pango.EllipsizeMode.END);
-            prefix_label.set_size_request (110, 0);
-            if (prefix_column_size_group != null)
-                prefix_column_size_group.add_widget (prefix_label);
-
-            prefix_gesture = new Gtk.GestureClick ();
-            prefix_gesture.pressed.connect ((gesture, n_press, x, y) => {
-                if (n_press == 1)
-                    open_prefix_directory_button_clicked ();
-            });
-
-            tool_label = new Gtk.Label (null);
-            tool_label.set_xalign (0.0f);
-            tool_label.set_max_width_chars (30);
-            tool_label.set_ellipsize (Pango.EllipsizeMode.END);
-            tool_label.set_size_request (254, 0);
-            if (tool_column_size_group != null)
-                tool_column_size_group.add_widget (tool_label);
-            refresh_tool_label ();
-
-            extra_button = new ExtraButton (game);
-
-            other_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-            other_box.set_size_request (122, 0);
-            if (actions_column_size_group != null)
-                actions_column_size_group.add_widget (other_box);
-            other_box.append (extra_button);
-
-            content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-            content_box.set_hexpand (true);
-            content_box.set_margin_start (12);
-            content_box.set_margin_end (12);
-            content_box.set_margin_top (12);
-            content_box.set_margin_bottom (12);
-            content_box.set_valign (Gtk.Align.CENTER);
-            content_box.append (select_check_button);
-            content_box.append (title_label);
-            if (reserve_filter_column) {
-                // Keep the remaining row columns aligned with the header's
-                // filter button, which occupies a column of its own.
-                var filter_column_spacer = new Gtk.MenuButton () {
-                    icon_name = "filter-2-symbolic",
-                    sensitive = false,
-                    focusable = false,
-                    opacity = 0.0,
-                    css_classes = { "flat" },
-                };
-                if (filter_column_size_group != null)
-                    filter_column_size_group.add_widget (filter_column_spacer);
-                content_box.append (filter_column_spacer);
-            }
-            content_box.append (prefix_label);
-            content_box.append (tool_label);
-            content_box.append (other_box);
-
-            if (game is Models.Games.Steam)
-                load_steam ((Models.Games.Steam) game);
-
-            set_child (content_box);
-            set_selectable (false);
+            set_focusable (true);
+            set_halign (Gtk.Align.CENTER);
+            set_valign (Gtk.Align.CENTER);
+            check_button = new Gtk.CheckButton () {
+                tooltip_text = _("Select game")
+            };
+            append (check_button);
         }
 
-        public override bool focus (Gtk.DirectionType direction) {
-            var root = get_root ();
-            var focused = root?.get_focus ();
-            if (focused == null ||
-                (focused != this && !((!) focused).is_ancestor (this))) {
-                if (direction == Gtk.DirectionType.UP ||
-                    direction == Gtk.DirectionType.DOWN)
-                    return grab_focus ();
-                return base.focus (direction);
-            }
+        public void bind (GameListItem item) {
+            unbind ();
+            this.item = item;
+            selected_binding = item.bind_property (
+                "selected", check_button, "active",
+                BindingFlags.BIDIRECTIONAL | BindingFlags.SYNC_CREATE
+            );
+        }
 
-            if (direction == Gtk.DirectionType.UP || direction == Gtk.DirectionType.DOWN)
-                return focus_adjacent_game (direction);
+        public void unbind () {
+            selected_binding?.unbind ();
+            selected_binding = null;
+            item = null;
+            check_button.set_active (false);
+        }
 
-            return base.focus (direction);
+        public GameListItem? get_item () {
+            return item;
         }
 
         public bool controller_focus_direction (
             Object focused_object, Utils.ControllerNavigationDirection direction
         ) {
-            var focused = focused_object as Gtk.Widget;
-            if (focused == null)
+            if (item == null)
                 return false;
-
-            if (direction == Utils.ControllerNavigationDirection.UP &&
-                find_adjacent_game (Gtk.DirectionType.UP) == null)
-                return focus_controller_target (controller_up_target);
-
-            if (direction == Utils.ControllerNavigationDirection.DOWN &&
-                find_adjacent_game (Gtk.DirectionType.DOWN) == null)
-                return focus_controller_target (controller_down_target);
-
-            if (direction == Utils.ControllerNavigationDirection.LEFT ||
-                direction == Utils.ControllerNavigationDirection.RIGHT)
-                return focus_horizontal ((!) focused, direction);
-
+            if (direction == Utils.ControllerNavigationDirection.UP)
+                return vertical_focus ((!) item, -1);
+            if (direction == Utils.ControllerNavigationDirection.DOWN)
+                return vertical_focus ((!) item, 1);
+            if (direction == Utils.ControllerNavigationDirection.RIGHT)
+                return actions_focus ((!) item);
+            if (direction == Utils.ControllerNavigationDirection.LEFT)
+                return check_button.grab_focus ();
             return false;
         }
 
         public Object? get_controller_activation_target (Object focused_object) {
-            var focused = focused_object as Gtk.Widget;
-            if (focused == null || find_action_ancestor ((!) focused) != null)
-                return null;
-            return select_check_button;
+            return check_button;
+        }
+    }
+
+    public class GameTextCell : Gtk.Box {
+        Gtk.Label label;
+        Gtk.GestureClick gesture;
+        Gtk.EventControllerMotion motion;
+        GameTextCellKind kind;
+        GameListItem? item;
+        ulong tool_title_handler = 0;
+
+        public GameTextCell (GameTextCellKind kind) {
+            Object (orientation: Gtk.Orientation.HORIZONTAL);
+            this.kind = kind;
+            set_margin_start (6);
+            set_margin_end (6);
+            set_valign (Gtk.Align.CENTER);
+
+            label = new Gtk.Label (null) {
+                xalign = 0,
+                halign = Gtk.Align.FILL,
+                hexpand = true,
+                ellipsize = Pango.EllipsizeMode.END
+            };
+            append (label);
+
+            gesture = new Gtk.GestureClick ();
+            gesture.pressed.connect ((gesture, n_press, x, y) => {
+                if (n_press == 1)
+                    open_directory ();
+            });
+            label.add_controller (gesture);
+
+            motion = new Gtk.EventControllerMotion ();
+            motion.enter.connect ((x, y) => set_underlined (can_open_directory ()));
+            motion.leave.connect (() => set_underlined (false));
+            label.add_controller (motion);
         }
 
-        bool focus_horizontal (Gtk.Widget focused,
-            Utils.ControllerNavigationDirection direction) {
-            var action = find_action_ancestor (focused);
+        public void bind (GameListItem item) {
+            unbind ();
+            this.item = item;
+            if (kind == GameTextCellKind.TOOL) {
+                tool_title_handler = item.notify["tool-title"].connect (refresh);
+            }
+            refresh ();
+        }
 
-            if (direction == Utils.ControllerNavigationDirection.RIGHT) {
-                if (action == null)
-                    return focus_first_action ();
-                return focus_action_sibling ((!) action, true);
-            } else {
-                if (action == null)
-                    return select_check_button.grab_focus ();
-                var previous = find_focusable_action ((!) action, false);
-                return previous != null
-                    ? ((!) previous).grab_focus ()
-                    : grab_focus ();
+        public void unbind () {
+            if (tool_title_handler != 0 && item != null) {
+                ((!) item).disconnect (tool_title_handler);
+                tool_title_handler = 0;
+            }
+            item = null;
+            label.set_label ("");
+            label.set_tooltip_text (null);
+            set_underlined (false);
+        }
+
+        void refresh () {
+            if (item == null)
+                return;
+            switch (kind) {
+            case GameTextCellKind.TITLE:
+                label.set_label (((!) item).game.name);
+                label.set_tooltip_text (((!) item).has_install_directory
+                    ? _("Browse game install directory") : ((!) item).game.name);
+                break;
+            case GameTextCellKind.PREFIX:
+                label.set_label (((!) item).game.prefix.to_string ());
+                label.set_tooltip_text (((!) item).has_prefix_directory
+                    ? _("Browse prefix directory") : null);
+                break;
+            case GameTextCellKind.TOOL:
+                label.set_label (((!) item).tool_title);
+                label.set_tooltip_text (((!) item).tool_title);
+                break;
             }
         }
 
-        bool focus_adjacent_game (Gtk.DirectionType direction) {
-            var adjacent = find_adjacent_game (direction);
-            if (adjacent != null)
-                return ((!) adjacent).grab_focus ();
-            if (direction == Gtk.DirectionType.UP)
-                return focus_controller_target (controller_up_target);
+        bool can_open_directory () {
+            return item != null && ((kind == GameTextCellKind.TITLE
+                && ((!) item).has_install_directory) ||
+                (kind == GameTextCellKind.PREFIX && ((!) item).has_prefix_directory));
+        }
+
+        void open_directory () {
+            if (!can_open_directory ())
+                return;
+            if (kind == GameTextCellKind.TITLE)
+                Utils.System.open_path (((!) item).game.installdir);
+            else
+                Utils.System.open_path (((!) item).game.prefixdir);
+        }
+
+        void set_underlined (bool underlined) {
+            if (!underlined) {
+                label.attributes = null;
+                return;
+            }
+            var attributes = new Pango.AttrList ();
+            attributes.insert (Pango.attr_underline_new (Pango.Underline.SINGLE));
+            label.attributes = attributes;
+        }
+    }
+
+    public class GameActions : Gtk.Box, Utils.ControllerDirectionalFocus {
+        Gtk.Button modify_button;
+        Gtk.Button custom_executable_button;
+        Gtk.Button launch_button;
+        ExtraButton extra_button;
+        GameListItem? item;
+        unowned GameModifyRequest modify_request;
+        unowned GameVerticalFocusRequest vertical_focus;
+        unowned GamePeerFocusRequest selection_focus;
+
+        public GameActions (GameModifyRequest modify_request,
+            GameVerticalFocusRequest vertical_focus,
+            GamePeerFocusRequest selection_focus) {
+            Object (orientation: Gtk.Orientation.HORIZONTAL, spacing: 6);
+            this.modify_request = modify_request;
+            this.vertical_focus = vertical_focus;
+            this.selection_focus = selection_focus;
+            set_halign (Gtk.Align.START);
+            set_valign (Gtk.Align.CENTER);
+
+            modify_button = new Gtk.Button.from_icon_name ("screwdriver-wrench-symbolic") {
+                tooltip_text = _("Modify the game"),
+                css_classes = { "flat" }
+            };
+            modify_button.clicked.connect (() => {
+                if (item != null)
+                    modify_request ((!) item);
+            });
+
+            custom_executable_button = new Gtk.Button.from_icon_name ("rocket-symbolic") {
+                tooltip_text = _("Launch custom executable"),
+                css_classes = { "flat" }
+            };
+            custom_executable_button.clicked.connect (open_custom_executable);
+
+            launch_button = new Gtk.Button.from_icon_name ("play-fill") {
+                tooltip_text = _("Launch game"),
+                css_classes = { "flat" }
+            };
+            launch_button.clicked.connect (() => {
+                var steam_game = item?.game as Models.Games.Steam;
+                if (steam_game != null)
+                    Utils.System.open_uri ("steam://run/" + ((!) steam_game).appid.to_string ());
+            });
+
+            extra_button = new ExtraButton ();
+            append (modify_button);
+            append (custom_executable_button);
+            append (launch_button);
+            append (extra_button);
+        }
+
+        public void bind (GameListItem item) {
+            unbind ();
+            this.item = item;
+            var is_steam = item.game is Models.Games.Steam;
+            modify_button.set_visible (is_steam);
+            custom_executable_button.set_visible (is_steam);
+            custom_executable_button.set_sensitive (item.has_prefix_directory);
+            launch_button.set_visible (is_steam);
+            extra_button.bind (item);
+        }
+
+        public void unbind () {
+            item = null;
+            extra_button.unbind ();
+            modify_button.set_visible (false);
+            custom_executable_button.set_visible (false);
+            launch_button.set_visible (false);
+        }
+
+        public GameListItem? get_item () {
+            return item;
+        }
+
+        public bool focus_first_action () {
+            return focus_action (null, true);
+        }
+
+        public bool controller_focus_direction (
+            Object focused_object, Utils.ControllerNavigationDirection direction
+        ) {
+            if (item == null)
+                return false;
+            var focused = focused_object as Gtk.Widget;
+            if (focused == null)
+                return false;
+            if (direction == Utils.ControllerNavigationDirection.UP)
+                return vertical_focus ((!) item, -1);
+            if (direction == Utils.ControllerNavigationDirection.DOWN)
+                return vertical_focus ((!) item, 1);
+            if (direction == Utils.ControllerNavigationDirection.RIGHT) {
+                if (focus_action ((!) focused, true))
+                    return true;
+                return ((!) focused).grab_focus ();
+            }
+            if (direction == Utils.ControllerNavigationDirection.LEFT) {
+                if (focus_action ((!) focused, false))
+                    return true;
+                return selection_focus ((!) item);
+            }
             return false;
         }
 
-        GameRow? find_adjacent_game (Gtk.DirectionType direction) {
-            Gtk.Widget? sibling = direction == Gtk.DirectionType.UP
-                ? get_prev_sibling () : get_next_sibling ();
-            while (sibling != null) {
-                if (sibling is GameRow && sibling.get_mapped () && sibling.is_visible () &&
-                    sibling.get_child_visible () &&
-                    sibling.is_sensitive () && sibling.get_focusable ())
-                    return (GameRow) sibling;
-                sibling = direction == Gtk.DirectionType.UP
-                    ? sibling.get_prev_sibling ()
-                    : sibling.get_next_sibling ();
+        bool focus_action (Gtk.Widget? focused, bool forward) {
+            Gtk.Widget? action = find_action_ancestor (focused);
+            Gtk.Widget? candidate = action == null
+                ? (forward ? get_first_child () : get_last_child ())
+                : (forward ? action.get_next_sibling () : action.get_prev_sibling ());
+            while (candidate != null) {
+                if (candidate.get_mapped () && candidate.is_visible () &&
+                    candidate.is_sensitive () && candidate.get_focusable ())
+                    return candidate.grab_focus ();
+                candidate = forward
+                    ? candidate.get_next_sibling () : candidate.get_prev_sibling ();
             }
-            return null;
+            return false;
         }
 
-        bool focus_controller_target (Gtk.Widget? target) {
-            return target != null &&
-                ((!) target).get_mapped () &&
-                ((!) target).is_visible () &&
-                ((!) target).is_sensitive () &&
-                ((!) target).grab_focus ();
-        }
-
-        bool focus_first_action () {
-            var child = find_focusable_action (null, true);
-            return child != null && ((!) child).grab_focus ();
-        }
-
-        bool focus_action_sibling (Gtk.Widget action, bool forward) {
-            var sibling = find_focusable_action (action, forward);
-            return sibling != null
-                ? ((!) sibling).grab_focus ()
-                : action.grab_focus ();
-        }
-
-        Gtk.Widget? find_focusable_action (Gtk.Widget? current, bool forward) {
-            Gtk.Widget? child;
-            if (current == null)
-                child = forward ? other_box.get_first_child () : other_box.get_last_child ();
-            else
-                child = forward ? current.get_next_sibling () : current.get_prev_sibling ();
-
-            while (child != null) {
-                if (child.get_mapped () && child.is_visible () &&
-                    child.is_sensitive () && child.get_focusable ())
-                    return child;
-                child = forward ? child.get_next_sibling () : child.get_prev_sibling ();
-            }
-            return null;
-        }
-
-        Gtk.Widget? find_action_ancestor (Gtk.Widget focused) {
-            Gtk.Widget? current = focused;
-            while (current != null && current != other_box) {
-                if (current.get_parent () == other_box)
+        Gtk.Widget? find_action_ancestor (Gtk.Widget? focused) {
+            var current = focused;
+            while (current != null && current != this) {
+                if (current.get_parent () == this)
                     return current;
                 current = current.get_parent ();
             }
             return null;
         }
 
-        public bool matches_search (string query) {
-            return normalized_name.contains (query);
-        }
+        void open_custom_executable () {
+            if (item == null)
+                return;
+            var expected = (!) item;
+            var root = get_root () as Gtk.Window;
+            if (root == null)
+                return;
 
-        void add_hover_underline (Gtk.Label label) {
-            var motion = new Gtk.EventControllerMotion ();
-            motion.enter.connect ((x, y) => {
-                var list = new Pango.AttrList ();
-                list.insert (Pango.attr_underline_new (Pango.Underline.SINGLE));
-                label.attributes = list;
-            });
-            motion.leave.connect (() => {
-                label.attributes = null;
-            });
-            label.add_controller (motion);
-        }
-
-        public void refresh_tool_label () {
-            string tool_name = _("Default");
-
-            if (game.compatibility_tool == "Default" && game.is_native) {
-                tool_name = _("Native");
-            } else {
-                foreach (var tool in game.launcher.compatibility_tools) {
-                    if (tool.internal_title == game.compatibility_tool) {
-                        tool_name = tool.display_title;
-                        break;
-                    }
-                }
-            }
-
-            tool_label.set_label (tool_name);
-        }
-
-        void load_steam (Models.Games.Steam game) {
-            tool_button = new Gtk.Button.from_icon_name ("screwdriver-wrench-symbolic");
-            tool_button.set_tooltip_text (_("Modify the game"));
-            tool_button.add_css_class ("flat");
-            tool_button.clicked.connect (() => mass_edit_requested (this));
-
-            run_custom_executable_button = new Gtk.Button.from_icon_name ("rocket-symbolic");
-            run_custom_executable_button.set_tooltip_text (_("Launch custom executable"));
-            run_custom_executable_button.add_css_class ("flat");
-            run_custom_executable_button.clicked.connect (run_custom_executable_button_clicked);
-            run_custom_executable_button.set_sensitive (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR));
-
-
-            launch_button = new Gtk.Button.from_icon_name ("play-fill");
-            launch_button.set_tooltip_text (_("Launch game"));
-            launch_button.add_css_class ("flat");
-            launch_button.clicked.connect (launch_button_clicked);
-
-            if (FileUtils.test (game.installdir, GLib.FileTest.IS_DIR)) {
-                title_label.set_tooltip_text (_("Browse game install directory"));
-                title_label.add_controller (title_gesture);
-                add_hover_underline (title_label);
-            }
-
-            if (FileUtils.test (game.prefixdir, GLib.FileTest.IS_DIR)) {
-                prefix_label.set_tooltip_text (_("Browse prefix directory"));
-                prefix_label.add_controller (prefix_gesture);
-                add_hover_underline (prefix_label);
-            }
-
-            other_box.prepend (launch_button);
-            other_box.prepend (run_custom_executable_button);
-            other_box.prepend (tool_button);
-        }
-
-        void open_install_directory_button_clicked () {
-            Utils.System.open_path (game.installdir);
-        }
-
-        void open_prefix_directory_button_clicked () {
-            Utils.System.open_path (game.prefixdir);
-        }
-
-        void run_custom_executable_button_clicked () {
-            var file_dialog = new Gtk.FileDialog ();
-            file_dialog.set_title (_("Select executable"));
-
+            var file_dialog = new Gtk.FileDialog () {
+                title = _("Select executable")
+            };
             var filters = new ListStore (typeof (Gtk.FileFilter));
-            var filter = new Gtk.FileFilter ();
+            var filter = new Gtk.FileFilter () {
+                name = _("Executables (*.exe, *.msi, *.msu, *.bat)")
+            };
             filter.add_pattern ("*.exe");
             filter.add_pattern ("*.msi");
             filter.add_pattern ("*.msu");
             filter.add_pattern ("*.bat");
-            filter.name = _("Executables (*.exe, *.msi, *.msu, *.bat)");
             filters.append (filter);
-
             file_dialog.set_filters (filters);
 
-            file_dialog.open.begin ((Gtk.Window) this.get_root (), null, (obj, res) => {
+            file_dialog.open.begin ((!) root, null, (object, result) => {
                 try {
-                    var file = file_dialog.open.end (res);
-                    if (file != null) {
-                        run_custom_executable (file.get_path ());
-                    }
-                } catch (Error e) {
-                    warning (e.message);
+                    var file = file_dialog.open.end (result);
+                    var path = file?.get_path ();
+                    if (path != null)
+                        run_custom_executable (expected, (!) path, (!) root);
+                } catch (Error error) {
+                    warning (error.message);
                 }
             });
         }
 
-        void launch_button_clicked () {
-            if (game is Models.Games.Steam) {
-                var steam_game = (Models.Games.Steam) game;
-                var uri = "steam://run/" + steam_game.appid.to_string ();
-                Utils.System.open_uri (uri);
-            }
-        }
-
-        void run_custom_executable (string exe_path) {
+        static void run_custom_executable (GameListItem expected, string exe_path,
+            Gtk.Window root) {
+            var game = expected.game;
             var steam = game.launcher as Models.Launchers.Steam;
-            var proton_path = steam?.resolve_effective_proton_executable (game.compatibility_tool);
+            var proton_path = steam?.resolve_effective_proton_executable (
+                game.compatibility_tool
+            );
             if (proton_path == null) {
-                var dialog = new Main.ErrorDialog (
+                present_error_dialog (root, new Main.ErrorDialog (
                     _("Compatibility Tool Not Found"),
-                    _("The compatibility tool required for %s is missing from your system. Please ensure it is correctly installed.").printf (game.name),
+                    _("The compatibility tool required for %s is missing from your system. Please ensure it is correctly installed.").printf (game.name), // vala-lint=line-length
                     ""
-                );
-                present_error_dialog (dialog);
+                ));
                 return;
             }
-
-            var steam_compat_data_path = game.prefixdir;
-            var steam_compat_client_install_path = game.launcher.directory;
 
             var inner_command = "STEAM_COMPAT_DATA_PATH=%s STEAM_COMPAT_CLIENT_INSTALL_PATH=%s %s run %s".printf (
-                Shell.quote (steam_compat_data_path),
-                Shell.quote (steam_compat_client_install_path),
-                Shell.quote (proton_path),
-                Shell.quote (exe_path)
+                Shell.quote (game.prefixdir), Shell.quote (game.launcher.directory),
+                Shell.quote ((!) proton_path), Shell.quote (exe_path)
             );
-
-            Utils.System.run_command.begin ("sh -c " + Shell.quote (inner_command), (obj, res) => {
-                var result = Utils.System.run_command.end (res);
-                if (result.exit_status == 0)
-                    return;
-
-                var diagnostic = result.stderr.strip ();
-                if (diagnostic == "")
-                    diagnostic = result.stdout.strip ();
-
-                var details = _("Exit status: %d").printf (result.exit_status);
-                if (diagnostic != "")
-                    details = "%s\n\n%s".printf (details, diagnostic);
-
-                var dialog = new Main.ErrorDialog (
-                    _("Custom Executable Failed"),
-                    _("The custom executable for %s could not be launched.").printf (game.name),
-                    details
-                );
-                present_error_dialog (dialog);
-            });
+            Utils.System.run_command.begin ("sh -c " + Shell.quote (inner_command),
+                (object, result) => {
+                    var command_result = Utils.System.run_command.end (result);
+                    if (command_result.exit_status == 0)
+                        return;
+                    var diagnostic = command_result.stderr.strip ();
+                    if (diagnostic == "")
+                        diagnostic = command_result.stdout.strip ();
+                    var details = _("Exit status: %d").printf (command_result.exit_status);
+                    if (diagnostic != "")
+                        details = "%s\n\n%s".printf (details, diagnostic);
+                    present_error_dialog (root, new Main.ErrorDialog (
+                        _("Custom Executable Failed"),
+                        _("The custom executable for %s could not be launched.").printf (game.name),
+                        details
+                    ));
+                });
         }
 
-        void present_error_dialog (Adw.AlertDialog dialog) {
-            var root = this.get_root () as Gtk.Window;
-            if (root == null)
+        static void present_error_dialog (Gtk.Window root, Adw.AlertDialog dialog) {
+            if (root.get_root () == null)
                 return;
-            ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (!) root);
+            Window.present_dialog_for_controller (dialog, root);
+        }
+    }
+
+    public class GameRow : Gtk.Box, Utils.ControllerDirectionalFocus,
+        Utils.ControllerActivationRedirect {
+        Gtk.CheckButton select_check_button;
+        Gtk.Label title_label;
+        Gtk.Label tool_label;
+        Gtk.Label prefix_label;
+        GameActions actions;
+        Gtk.GestureClick title_gesture;
+        Gtk.GestureClick prefix_gesture;
+        Gtk.EventControllerMotion title_motion;
+        Gtk.EventControllerMotion prefix_motion;
+        Binding? selected_binding;
+        GameListItem? item;
+        ulong tool_title_handler = 0;
+        unowned GameVerticalFocusRequest vertical_focus;
+
+        public GameRow (GameModifyRequest modify_request,
+            GameVerticalFocusRequest vertical_focus) {
+            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 4);
+            this.vertical_focus = vertical_focus;
+            set_focusable (true);
+            set_hexpand (true);
+            set_margin_top (10);
+            set_margin_bottom (10);
+            set_margin_start (12);
+            set_margin_end (12);
+
+            select_check_button = new Gtk.CheckButton () {
+                valign = Gtk.Align.CENTER,
+                tooltip_text = _("Select game")
+            };
+            title_label = compact_label (true);
+            title_label.add_css_class ("heading");
+            tool_label = compact_label (true);
+            prefix_label = compact_label (false);
+            prefix_label.add_css_class ("dim-label");
+
+            title_gesture = new Gtk.GestureClick ();
+            title_gesture.pressed.connect ((gesture, n_press, x, y) => {
+                if (n_press == 1 && item != null && ((!) item).has_install_directory)
+                    Utils.System.open_path (((!) item).game.installdir);
+            });
+            title_label.add_controller (title_gesture);
+            title_motion = new Gtk.EventControllerMotion ();
+            title_motion.enter.connect ((x, y) => {
+                set_label_underlined (
+                    title_label, item != null && ((!) item).has_install_directory
+                );
+            });
+            title_motion.leave.connect (() => set_label_underlined (title_label, false));
+            title_label.add_controller (title_motion);
+
+            prefix_gesture = new Gtk.GestureClick ();
+            prefix_gesture.pressed.connect ((gesture, n_press, x, y) => {
+                if (n_press == 1 && item != null && ((!) item).has_prefix_directory)
+                    Utils.System.open_path (((!) item).game.prefixdir);
+            });
+            prefix_label.add_controller (prefix_gesture);
+            prefix_motion = new Gtk.EventControllerMotion ();
+            prefix_motion.enter.connect ((x, y) => {
+                set_label_underlined (
+                    prefix_label, item != null && ((!) item).has_prefix_directory
+                );
+            });
+            prefix_motion.leave.connect (() => set_label_underlined (prefix_label, false));
+            prefix_label.add_controller (prefix_motion);
+
+            var title_line = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+            title_line.append (select_check_button);
+            title_line.append (title_label);
+
+            var details_line = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+            details_line.set_margin_start (30);
+            details_line.append (tool_label);
+            details_line.append (prefix_label);
+
+            actions = new GameActions (
+                modify_request, on_vertical_focus, focus_selection
+            );
+            actions.set_margin_start (30);
+
+            append (title_line);
+            append (details_line);
+            append (actions);
+        }
+
+        static Gtk.Label compact_label (bool expand) {
+            return new Gtk.Label (null) {
+                xalign = 0,
+                halign = Gtk.Align.FILL,
+                hexpand = expand,
+                ellipsize = Pango.EllipsizeMode.END
+            };
+        }
+
+        static void set_label_underlined (Gtk.Label label, bool underlined) {
+            if (!underlined) {
+                label.attributes = null;
+                return;
+            }
+            var attributes = new Pango.AttrList ();
+            attributes.insert (Pango.attr_underline_new (Pango.Underline.SINGLE));
+            label.attributes = attributes;
+        }
+
+        public void bind (GameListItem item) {
+            unbind ();
+            this.item = item;
+            selected_binding = item.bind_property (
+                "selected", select_check_button, "active",
+                BindingFlags.BIDIRECTIONAL | BindingFlags.SYNC_CREATE
+            );
+            tool_title_handler = item.notify["tool-title"].connect (refresh_tool_title);
+            title_label.set_label (item.game.name);
+            title_label.set_tooltip_text (item.game.name);
+            prefix_label.set_label (item.game.prefix.to_string ());
+            prefix_label.set_tooltip_text (item.has_prefix_directory
+                ? _("Browse prefix directory") : null);
+            refresh_tool_title ();
+            actions.bind (item);
+        }
+
+        public void unbind () {
+            selected_binding?.unbind ();
+            selected_binding = null;
+            if (tool_title_handler != 0 && item != null) {
+                ((!) item).disconnect (tool_title_handler);
+                tool_title_handler = 0;
+            }
+            actions.unbind ();
+            item = null;
+            title_label.set_label ("");
+            tool_label.set_label ("");
+            prefix_label.set_label ("");
+            select_check_button.set_active (false);
+            set_label_underlined (title_label, false);
+            set_label_underlined (prefix_label, false);
+        }
+
+        public GameListItem? get_item () {
+            return item;
+        }
+
+        void refresh_tool_title () {
+            if (item == null)
+                return;
+            tool_label.set_label (((!) item).tool_title);
+            tool_label.set_tooltip_text (((!) item).tool_title);
+        }
+
+        public bool focus_first_action () {
+            return actions.focus_first_action ();
+        }
+
+        bool on_vertical_focus (GameListItem item, int delta) {
+            return vertical_focus (item, delta);
+        }
+
+        bool focus_selection (GameListItem item) {
+            return select_check_button.grab_focus ();
+        }
+
+        public bool controller_focus_direction (
+            Object focused_object, Utils.ControllerNavigationDirection direction
+        ) {
+            if (item == null)
+                return false;
+            var focused = focused_object as Gtk.Widget;
+            if (focused == null)
+                return false;
+            if (direction == Utils.ControllerNavigationDirection.UP)
+                return vertical_focus ((!) item, -1);
+            if (direction == Utils.ControllerNavigationDirection.DOWN)
+                return vertical_focus ((!) item, 1);
+            if (direction == Utils.ControllerNavigationDirection.RIGHT)
+                return actions.focus_first_action ();
+            if (direction == Utils.ControllerNavigationDirection.LEFT)
+                return select_check_button.grab_focus ();
+            return false;
+        }
+
+        public Object? get_controller_activation_target (Object focused_object) {
+            var focused = focused_object as Gtk.Widget;
+            if (focused != null && ((!) focused).is_ancestor (actions))
+                return null;
+            return select_check_button;
         }
     }
 }

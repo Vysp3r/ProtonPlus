@@ -1,6 +1,6 @@
 namespace ProtonPlus.Widgets.Games {
     public class ExtraButton : Gtk.Button {
-        Models.Game game;
+        GameListItem? item;
         Gtk.Button open_protontricks_button;
         Gtk.Button anticheat_button;
         Gtk.Button protondb_button;
@@ -35,29 +35,51 @@ namespace ProtonPlus.Widgets.Games {
             add_css_class ("flat");
         }
 
-        public ExtraButton (Models.Game game) {
-            this.game = game;
+        public ExtraButton () {
+            content_box.append (open_protontricks_button);
+            content_box.append (protondb_button);
+            content_box.append (anticheat_button);
+            unbind ();
+        }
 
-            if (game is Models.Games.Steam) {
-                if (Globals.PROTONTRICKS_INSTALLED || Globals.PROTONTRICKS_FLATPAK_INSTALLED)
-                content_box.append (open_protontricks_button);
+        public void bind (GameListItem item) {
+            unbind ();
+            this.item = item;
 
-                var steam_game = game as Models.Games.Steam;
-                open_protontricks_button.set_visible (!steam_game.is_non_steam);
-
-                content_box.append (protondb_button);
-                content_box.append (anticheat_button);
-                awacy_status_handler = steam_game.notify["awacy-status"].connect (refresh_anticheat_button);
-                refresh_anticheat_button ();
-
-                protondb_button.set_visible (!steam_game.is_non_steam);
+            var steam_game = item.game as Models.Games.Steam;
+            if (steam_game == null) {
+                refresh_sensitivity ();
+                return;
             }
 
+            open_protontricks_button.set_visible (
+                (Globals.PROTONTRICKS_INSTALLED || Globals.PROTONTRICKS_FLATPAK_INSTALLED)
+                && !((!) steam_game).is_non_steam
+            );
+            protondb_button.set_visible (!((!) steam_game).is_non_steam);
+            awacy_status_handler = ((!) steam_game).notify["awacy-status"].connect (
+                refresh_anticheat_button
+            );
+            refresh_anticheat_button ();
+            refresh_sensitivity ();
+        }
+
+        public void unbind () {
+            popover.popdown ();
+            var game = item?.game;
+            if (awacy_status_handler != 0 && game != null) {
+                ((!) game).disconnect (awacy_status_handler);
+                awacy_status_handler = 0;
+            }
+            item = null;
+            open_protontricks_button.set_visible (false);
+            protondb_button.set_visible (false);
+            anticheat_button.set_visible (false);
             refresh_sensitivity ();
         }
 
         private void refresh_anticheat_button () {
-            var steam_game = game as Models.Games.Steam;
+            var steam_game = item?.game as Models.Games.Steam;
             if (steam_game == null)
                 return;
 
@@ -105,10 +127,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         public override void dispose () {
-            if (awacy_status_handler != 0 && game is Models.Games.Steam) {
-                game.disconnect (awacy_status_handler);
-                awacy_status_handler = 0;
-            }
+            unbind ();
             popover.unparent ();
 
             base.dispose ();
@@ -119,30 +138,40 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void open_protontricks_button_clicked () {
-            var steam_game = game as Models.Games.Steam;
+            var steam_game = item?.game as Models.Games.Steam;
+            if (steam_game == null)
+                return;
 
             if (Globals.PROTONTRICKS_INSTALLED) {
-                Utils.System.run_command.begin ("%s %u --gui".printf ("protontricks", steam_game.appid));
+                Utils.System.run_command.begin ("%s %u --gui".printf ("protontricks", ((!) steam_game).appid));
             } else if (Globals.PROTONTRICKS_FLATPAK_INSTALLED) {
-                Utils.System.run_command.begin ("flatpak run %s %u --gui".printf ("com.github.Matoking.protontricks", steam_game.appid));
+                Utils.System.run_command.begin (
+                    "flatpak run %s %u --gui".printf (
+                        "com.github.Matoking.protontricks", ((!) steam_game).appid
+                    )
+                );
             }
 
             popover.popdown ();
         }
 
         void anticheat_button_clicked () {
-            var steam_game = game as Models.Games.Steam;
+            var steam_game = item?.game as Models.Games.Steam;
+            if (steam_game == null)
+                return;
 
-            if (steam_game.awacy_name != null)
-            Utils.System.open_uri ("https://areweanticheatyet.com/game/%s".printf (steam_game.awacy_name));
+            if (((!) steam_game).awacy_name != null)
+                Utils.System.open_uri ("https://areweanticheatyet.com/game/%s".printf (((!) steam_game).awacy_name));
 
             popover.popdown ();
         }
 
         void protondb_button_clicked () {
-            var steam_game = game as Models.Games.Steam;
+            var steam_game = item?.game as Models.Games.Steam;
+            if (steam_game == null)
+                return;
 
-            Utils.System.open_uri ("https://www.protondb.com/app/%u".printf (steam_game.appid));
+            Utils.System.open_uri ("https://www.protondb.com/app/%u".printf (((!) steam_game).appid));
 
             popover.popdown ();
         }

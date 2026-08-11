@@ -107,6 +107,7 @@ src/widgets/circular-progress-bar.vala
 src/widgets/controller-choice-box.vala
 src/widgets/controller-hint-bar.vala
 src/widgets/games/games-box.vala
+src/widgets/games/games-collection.vala
 src/widgets/games/games-extra-button.vala
 src/widgets/games/games-mass-edit-button.vala
 src/widgets/games/games-mass-edit-view.vala
@@ -166,6 +167,7 @@ src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala
 src/widgets/header/header-box.vala
 src/widgets/header/header-downloads-indicator.vala
 src/widgets/header/header-launchers-button.vala
+src/widgets/header/header-presentation.vala
 src/widgets/introduction/application.vala
 src/widgets/introduction/base.vala
 src/widgets/introduction/controller.vala
