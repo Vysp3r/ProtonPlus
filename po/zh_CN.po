@@ -2,20 +2,22 @@
 # This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
 #
 # SPDX-FileCopyrightText: 2026 Markson Hosben <marksonhosben@proton.me>
+# Silence <1059022187@qq.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-10 22:14-0400\n"
-"PO-Revision-Date: 2026-08-07 23:07+0800\n"
-"Last-Translator: Markson Hosben <marksonhosben@proton.me>\n"
-"Language-Team: Chinese <>\n"
+"PO-Revision-Date: 2026-08-11 12:51+0000\n"
+"Last-Translator: Silence <1059022187@qq.com>\n"
+"Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
+"projects/protonplus/protonplus/zh_Hans/>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 23.08.5\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:7
@@ -2399,7 +2401,7 @@ msgstr "🐛 修复了 Steam Tinker Launch 的 yad 检查问题"
 
 #: src/utils/web.vala:221
 msgid "The download timed out. Check your connection and try again."
-msgstr ""
+msgstr "下载超时.请检查连接并重试"
 
 #: src/widgets/application.vala:234
 msgid "Website"
@@ -5531,7 +5533,7 @@ msgstr ""
 
 #: src/widgets/loading/loading-box.vala:147
 msgid "Install one of these to get started:"
-msgstr ""
+msgstr "安装其中一项即可开始:"
 
 #: src/widgets/loading/loading-box.vala:188
 msgid "Important: Run the launcher once to initialize it properly."
