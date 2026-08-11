@@ -32,12 +32,15 @@ namespace ProtonPlus.Widgets.Introduction {
             title_label.add_css_class ("title-1");
             title_label.wrap = true;
             title_label.justify = Gtk.Justification.CENTER;
+            title_label.width_chars = 25;
+            title_label.max_width_chars = 25;
             this.append (title_label);
 
             var desc_label = new Gtk.Label (description_text);
             desc_label.add_css_class ("body");
             desc_label.wrap = true;
             desc_label.justify = Gtk.Justification.CENTER;
+            desc_label.width_chars = 50;
             desc_label.max_width_chars = 50;
             this.append (desc_label);
         }

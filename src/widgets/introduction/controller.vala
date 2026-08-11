@@ -15,47 +15,60 @@ namespace ProtonPlus.Widgets.Introduction {
 
             var image = new Gtk.Image.from_icon_name ("gamepad-symbolic");
             image.pixel_size = 56;
-            append (image);
+            this.append (image);
 
             var title_label = new Gtk.Label (_("Controller support"));
             title_label.add_css_class ("title-1");
             title_label.wrap = true;
             title_label.justify = Gtk.Justification.CENTER;
-            append (title_label);
+            title_label.width_chars = 25;
+            title_label.max_width_chars = 25;
+            this.append (title_label);
 
-            var feature_grid = new Gtk.Grid ();
-            feature_grid.set_column_homogeneous (true);
-            feature_grid.set_column_spacing (24);
-            feature_grid.set_row_spacing (12);
-            feature_grid.set_hexpand (true);
+            var feature_rows = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+            feature_rows.set_hexpand (true);
 
-            feature_grid.attach (create_feature (
+            var row0 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 24);
+            row0.set_hexpand (true);
+            row0.set_homogeneous (true);
+            row0.append (create_feature (
                 _("Navigation"),
                 _("Use the D-pad or sticks to move through pages, dialogs, and menus. Switch sections with the shoulder buttons.")
-            ), 0, 0, 1, 1);
-            feature_grid.attach (create_feature (
+            ));
+            row0.append (create_feature (
                 _("Actions"),
                 _("Use the face buttons for Confirm, Back, Search, and Filter. Hints match your controller's button labels.")
-            ), 1, 0, 1, 1);
-            feature_grid.attach (create_feature (
+            ));
+
+            var row1 = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 24);
+            row1.set_hexpand (true);
+            row1.set_homogeneous (true);
+            row1.append (create_feature (
                 _("Preferences"),
                 _("Choose the Confirm button and enable controller vibration in Preferences.")
-            ), 0, 1, 1, 1);
-            feature_grid.attach (create_feature (
+            ));
+            row1.append (create_feature (
                 _("Text input"),
                 _("On Steam Deck, focus a text field and press Steam + X. Other systems may require a physical or system keyboard.")
-            ), 1, 1, 1, 1);
-            append (feature_grid);
+            ));
+
+            feature_rows.append (row0);
+            feature_rows.append (row1);
+            this.append (feature_rows);
         }
 
         private Gtk.Widget create_feature (string title, string description) {
             var feature = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
             feature.set_valign (Gtk.Align.START);
+            feature.hexpand = true;
+            feature.vexpand = true;
 
             var title_label = new Gtk.Label (title);
             title_label.add_css_class ("heading");
             title_label.set_xalign (0);
             title_label.set_wrap (true);
+            title_label.set_width_chars (15);
+            title_label.set_max_width_chars (15);
             feature.append (title_label);
 
             var description_label = new Gtk.Label (description);
@@ -63,6 +76,8 @@ namespace ProtonPlus.Widgets.Introduction {
             description_label.add_css_class ("dim-label");
             description_label.set_xalign (0);
             description_label.set_wrap (true);
+            description_label.set_width_chars (28);
+            description_label.set_max_width_chars (28);
             feature.append (description_label);
 
             return feature;
