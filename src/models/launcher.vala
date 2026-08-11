@@ -176,8 +176,13 @@ namespace ProtonPlus.Models {
                     if (group_directory == null)
                         return false;
 
-                    if (!yield launcher.ensure_group_directory (group_directory))
-                        return false;
+                    if (!yield launcher.ensure_group_directory (group_directory)) {
+                        warning (
+                            "Could not prepare group directory for launcher '%s': %s",
+                            launcher.instance_id,
+                            launcher.directory + group_directory
+                        );
+                    }
 
                     var app_group = new Group (
                                                group_title,
@@ -372,7 +377,10 @@ namespace ProtonPlus.Models {
         }
 
         public virtual async bool ensure_group_directory (string group_directory) {
-            return true;
+            var target_directory = this.directory + group_directory;
+            if (FileUtils.test (target_directory, FileTest.IS_DIR))
+                return true;
+            return yield Utils.Filesystem.create_directory_async (target_directory);
         }
 
         public virtual bool supports_provider_definition (ProviderDefinition definition) {

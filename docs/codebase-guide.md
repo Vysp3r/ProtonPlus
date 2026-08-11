@@ -78,7 +78,9 @@ model constructs all supported system, Flatpak, and Snap candidates, retains
 detected installations, and then initializes each launcher:
 
 1. Select launcher-supported categories (`PROTON`, `WINE`, `DXVK`, `VKD3D`).
-2. Resolve and create each category's target directory.
+2. Resolve and attempt to create each category's target directory. A target
+   filesystem failure is logged but does not prevent other launcher state from
+   loading; installation workflows enforce writability when a mutation begins.
 3. Create a `Group` with an `InstalledToolInventory`.
 4. Filter the `ProviderRegistry` definitions through launcher capabilities and
    ask `ProviderCatalog` to create `ProviderTool` instances.

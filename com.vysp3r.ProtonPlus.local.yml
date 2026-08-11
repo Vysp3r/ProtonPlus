@@ -8,12 +8,13 @@ command: protonplus
 finish-args:
   - --require-version=1.16.0
   - --device=dri
+  # For controller support
   - --device=input
   - --share=ipc
   - --share=network
   - --socket=fallback-x11
   - --socket=wayland
-  # To prevent certain environments from failing to locate the schema
+  # Ensure the bundled GSettings schema is discoverable in all Flatpak environments.
   - --env=GSETTINGS_SCHEMA_DIR=/app/share/glib-2.0/schemas
   # Host-spawn access is needed to check if host contains dependencies,
   # and to execute various compatibility tool installers on the host.
@@ -27,11 +28,11 @@ finish-args:
   - --filesystem=xdg-data/flatpak:ro
   - --filesystem=/var/lib/flatpak:ro
   # Request access to supported Flatpak apps
-  - --filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic
   # Read-only markers used to detect the Faugus Flatpak installation.
   - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/config/faugus-launcher:ro
   - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/data/faugus-launcher:ro
   - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/.local/state/faugus-launcher:ro
+  - --filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic
   - --filesystem=~/.var/app/com.usebottles.bottles/data/bottles
   - --filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam
   - --filesystem=~/.var/app/net.lutris.Lutris/data/lutris

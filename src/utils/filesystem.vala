@@ -623,16 +623,33 @@ namespace ProtonPlus.Utils {
                 // https://github.com/coreutils/coreutils/blob/408301e4bc171bf5544f373f64bb6ed3351541db/src/mkdir.c#L136
                 // https://github.com/coreutils/gnulib/blob/e87d09bee37eeb742b8a34c9054cd2ebde22b835/lib/sys_stat.in.h#L423
                 if (Posix.mkdir (current_path, S_IRWXUGO) != 0) {
+                    var error_number = Posix.errno;
+
                     // Check failures for any reasons other than "it exists".
-                    if (Posix.errno != Posix.EEXIST)
+                    if (error_number != Posix.EEXIST) {
+                        warning (
+                            "Could not create directory '%s': %s",
+                            current_path,
+                            Posix.strerror (error_number)
+                        );
                         return false;
+                    }
 
                     // Verify that it's a directory (or a directory symlink).
                     // NOTE: We use `stat()` since we ALLOW the dir to be symlinked.
-                    if (Posix.stat (current_path, out stat_) != 0)
+                    if (Posix.stat (current_path, out stat_) != 0) {
+                        error_number = Posix.errno;
+                        warning (
+                            "Could not inspect directory '%s': %s",
+                            current_path,
+                            Posix.strerror (error_number)
+                        );
                         return false;
-                    if (!Posix.S_ISDIR (stat_.st_mode))
+                    }
+                    if (!Posix.S_ISDIR (stat_.st_mode)) {
+                        warning ("Directory path component is not a directory: %s", current_path);
                         return false;
+                    }
                 }
             }
 

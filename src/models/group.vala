@@ -20,10 +20,6 @@ namespace ProtonPlus.Models {
             this.directory = directory;
             this.launcher = launcher;
             installed_tool_inventory = new InstalledToolInventory (this);
-
-            if (!FileUtils.test (launcher.directory + directory, FileTest.IS_DIR)) {
-                Utils.Filesystem.create_directory_async.begin (launcher.directory + directory, null);
-            }
         }
 
         public void refresh_installed_state () {

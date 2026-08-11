@@ -59,10 +59,6 @@ namespace ProtonPlus.Models.Launchers {
             );
         }
 
-        public override async bool ensure_group_directory (string group_directory) {
-            return yield Utils.Filesystem.create_directory_async (directory + group_directory);
-        }
-
         /* Faugus writes the host native Steam compatibility-tool directory.
          * Its own package type must not produce a second Steam session target. */
         public override SteamRestartTarget? get_steam_restart_target () {
