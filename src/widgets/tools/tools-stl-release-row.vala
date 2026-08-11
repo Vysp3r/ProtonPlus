@@ -5,43 +5,52 @@ namespace ProtonPlus.Widgets.Tools {
     }
 
     public class STLReleaseRow : ReleaseRow {
-        bool install_request_in_progress = false;
-
         public STLReleaseRow (Services.InstallJob job) {
             base (job);
         }
 
         protected override void install_button_clicked () {
-            if (install_request_in_progress)
+            if (action_request_in_progress || row_disposed)
                 return;
-            install_request_in_progress = true;
+            update_action_request_state (true);
+            run_dependency_check (this);
+        }
 
+        static void run_dependency_check (STLReleaseRow owner) {
+            var owner_ref = WeakRef (owner);
             dependency_check.begin ((obj, res) => {
                 var result = dependency_check.end (res);
+                var row = owner_ref.get () as STLReleaseRow;
+                if (row == null || ((!) row).row_disposed)
+                    return;
 
                 if (result.missing_dependencies != "") {
                     var alert_dialog = new Main.WarningDialog (
                         _ ("Warning"),
                         "%s\n\n%s\n%s".printf (
-                            _ ("You are missing the following dependencies for %s:").printf (title),
+                            _ ("You are missing the following dependencies for %s:").printf (((!) row).title),
                             result.missing_dependencies,
                             _ ("Installation will be canceled.")
                         )
                     );
                     alert_dialog.closed.connect (() => {
-                        install_request_in_progress = false;
+                        var current = owner_ref.get () as STLReleaseRow;
+                        if (current != null && !((!) current).row_disposed)
+                            ((!) current).update_action_request_state (false);
                     });
-                    ProtonPlus.Widgets.Window.present_dialog_for_controller (alert_dialog, (Gtk.Window) this.get_root ());
+                    ProtonPlus.Widgets.Window.present_dialog_for_controller (
+                        alert_dialog, (Gtk.Window) ((!) row).get_root ()
+                    );
 
                     return;
                 }
 
                 if (result.has_incompatible_yad) {
-                    show_yad_compatibility_warning ();
+                    ((!) row).show_yad_compatibility_warning ();
                     return;
                 }
 
-                external_install_check ();
+                ((!) row).external_install_check ();
             });
         }
 
@@ -53,14 +62,21 @@ namespace ProtonPlus.Widgets.Tools {
             context.user_requested_removal = true;
 
             var remove_config_check = new Gtk.CheckButton.with_label (_ ("Check this to also delete your configuration files."));
-            remove_config_check.activate.connect (() => {
-                context.remove_config = remove_config_check.get_active ();
-            });
+            bind_remove_config_check (context, remove_config_check);
 
             dialog.set_extra_child (remove_config_check);
         }
 
-        async STLDependencyCheckResult dependency_check () {
+        static void bind_remove_config_check (
+            Services.SteamTinkerLaunchContext context,
+            Gtk.CheckButton remove_config_check
+        ) {
+            remove_config_check.activate.connect (() => {
+                context.remove_config = remove_config_check.get_active ();
+            });
+        }
+
+        static async STLDependencyCheckResult dependency_check () {
             var result = new STLDependencyCheckResult ();
             var yad_status = Services.SteamTinkerLaunchYadCompatibility.Status.UNKNOWN;
             if (yield Utils.System.check_dependency ("yad")) {
@@ -104,24 +120,38 @@ namespace ProtonPlus.Widgets.Tools {
             alert_dialog.set_default_response ("cancel");
             alert_dialog.set_close_response ("cancel");
             alert_dialog.set_response_appearance ("install", Adw.ResponseAppearance.SUGGESTED);
+            track_yad_warning (alert_dialog, this);
+            ProtonPlus.Widgets.Window.present_dialog_for_controller (
+                alert_dialog, (Gtk.Window) get_root ()
+            );
+        }
 
+        static void track_yad_warning (
+            Adw.AlertDialog alert_dialog,
+            STLReleaseRow owner
+        ) {
             var installation_continued = false;
+            var owner_ref = WeakRef (owner);
             alert_dialog.response.connect ((response) => {
+                var row = owner_ref.get () as STLReleaseRow;
+                if (row == null || ((!) row).row_disposed)
+                    return;
                 if (response != "install") {
-                    install_request_in_progress = false;
+                    ((!) row).update_action_request_state (false);
                     return;
                 }
                 if (installation_continued)
                     return;
 
                 installation_continued = true;
-                external_install_check ();
+                ((!) row).external_install_check ();
             });
             alert_dialog.closed.connect (() => {
-                if (!installation_continued)
-                    install_request_in_progress = false;
+                var row = owner_ref.get () as STLReleaseRow;
+                if (!installation_continued && row != null &&
+                    !((!) row).row_disposed)
+                    ((!) row).update_action_request_state (false);
             });
-            ProtonPlus.Widgets.Window.present_dialog_for_controller (alert_dialog, (Gtk.Window) this.get_root ());
         }
 
         void external_install_check () {
@@ -142,29 +172,47 @@ namespace ProtonPlus.Widgets.Tools {
 
                 alert_dialog.set_response_appearance ("no", Adw.ResponseAppearance.DEFAULT);
                 alert_dialog.set_response_appearance ("yes", Adw.ResponseAppearance.DESTRUCTIVE);
-
-                var installation_started = false;
-                alert_dialog.response.connect ((response) => {
-                    if (response != "yes") {
-                        install_request_in_progress = false;
-                        return;
-                    }
-                    if (installation_started)
-                        return;
-
-                    installation_started = true;
-                    base.install_button_clicked ();
-                    install_request_in_progress = false;
-                });
-                alert_dialog.closed.connect (() => {
-                    if (!installation_started)
-                        install_request_in_progress = false;
-                });
-                ProtonPlus.Widgets.Window.present_dialog_for_controller (alert_dialog, (Gtk.Window) this.get_root ());
+                track_external_install_warning (alert_dialog, this);
+                ProtonPlus.Widgets.Window.present_dialog_for_controller (
+                    alert_dialog, (Gtk.Window) get_root ()
+                );
             } else {
+                update_action_request_state (false);
                 base.install_button_clicked ();
-                install_request_in_progress = false;
             }
+        }
+
+        static void track_external_install_warning (
+            Adw.AlertDialog alert_dialog,
+            STLReleaseRow owner
+        ) {
+            var installation_started = false;
+            var owner_ref = WeakRef (owner);
+            alert_dialog.response.connect ((response) => {
+                var row = owner_ref.get () as STLReleaseRow;
+                if (row == null || ((!) row).row_disposed)
+                    return;
+                if (response != "yes") {
+                    ((!) row).update_action_request_state (false);
+                    return;
+                }
+                if (installation_started)
+                    return;
+
+                installation_started = true;
+                ((!) row).update_action_request_state (false);
+                ((!) row).install_after_external_check ();
+            });
+            alert_dialog.closed.connect (() => {
+                var row = owner_ref.get () as STLReleaseRow;
+                if (!installation_started && row != null &&
+                    !((!) row).row_disposed)
+                    ((!) row).update_action_request_state (false);
+            });
+        }
+
+        void install_after_external_check () {
+            base.install_button_clicked ();
         }
     }
 }

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-11 17:51-0400\n"
+"POT-Creation-Date: 2026-08-11 18:27-0400\n"
 "PO-Revision-Date: 2025-07-11 14:50+0000\n"
 "Last-Translator: SecularSteve <fairfull.playing@gmail.com>\n"
 "Language-Team: Serbian (Latin script) <https://hosted.weblate.org/projects/"
@@ -2047,27 +2047,28 @@ msgstr ""
 msgid "ETA: --"
 msgstr ""
 
-#: src/cli/cli.vala:719
+#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:593
 #, fuzzy
 msgid "Updating"
 msgstr "Instalirajte %s"
 
 #: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:301
+#: src/widgets/tools/tools-release-row.vala:589
 #, fuzzy
 msgid "Installing"
 msgstr "Instalirajte %s"
 
-#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:227
+#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:712
 #, c-format
 msgid "%dh %dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:227
+#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:716
 #, c-format
 msgid "%dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:227
+#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:717
 #, c-format
 msgid "%ds"
 msgstr ""
@@ -2550,7 +2551,7 @@ msgid "Search"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-box.vala:491 src/widgets/tools/tools-box.vala:217
+#: src/widgets/games/games-box.vala:492 src/widgets/tools/tools-box.vala:217
 #: src/widgets/tools/tools-box.vala:438
 msgid "Filter"
 msgstr ""
@@ -2621,23 +2622,23 @@ msgstr ""
 msgid "Top face button"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:101 src/widgets/games/games-box.vala:683
+#: src/widgets/games/games-box.vala:102 src/widgets/games/games-box.vala:684
 #: src/widgets/tools/tools-release-box.vala:102
 #, fuzzy
 msgid "No games found"
 msgstr "Nije pronađen profil."
 
-#: src/widgets/games/games-box.vala:102
+#: src/widgets/games/games-box.vala:103
 msgid "Try a different search term or filter."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:129
-#: src/widgets/tools/tools-stl-release-row.vala:24
-#: src/widgets/tools/tools-stl-release-row.vala:133 src/widgets/window.vala:348
+#: src/widgets/games/games-box.vala:130
+#: src/widgets/tools/tools-stl-release-row.vala:29
+#: src/widgets/tools/tools-stl-release-row.vala:163 src/widgets/window.vala:348
 msgid "Warning"
 msgstr "Upozorenje"
 
-#: src/widgets/games/games-box.vala:130
+#: src/widgets/games/games-box.vala:131
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
@@ -2645,112 +2646,112 @@ msgstr ""
 "Molimo vas da izaberete najmanje jednu igru pre nego što koristite funkciju "
 "masovnog uređivanja."
 
-#: src/widgets/games/games-box.vala:179 src/widgets/games/games-box.vala:182
-#: src/widgets/games/games-box.vala:223 src/widgets/main/main-box.vala:70
+#: src/widgets/games/games-box.vala:180 src/widgets/games/games-box.vala:183
+#: src/widgets/games/games-box.vala:224 src/widgets/main/main-box.vala:70
 msgid "Games"
 msgstr "Igre"
 
-#: src/widgets/games/games-box.vala:230
+#: src/widgets/games/games-box.vala:231
 msgid "Prefix"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:237
+#: src/widgets/games/games-box.vala:238
 msgid "Tool"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:244
+#: src/widgets/games/games-box.vala:245
 #: src/widgets/introduction/controller.vala:49
 #, fuzzy
 msgid "Actions"
 msgstr "Opcije pokretanja"
 
-#: src/widgets/games/games-box.vala:458 src/widgets/tools/tools-box.vala:219
+#: src/widgets/games/games-box.vala:459 src/widgets/tools/tools-box.vala:219
 msgid "All"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:461
+#: src/widgets/games/games-box.vala:462
 #: src/widgets/games/games-collection.vala:72
 #: src/widgets/games/games-mass-edit-view.vala:173
 msgid "Native"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:463
+#: src/widgets/games/games-box.vala:464
 msgid "Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:503
+#: src/widgets/games/games-box.vala:504
 #, fuzzy
 msgid "Search games"
 msgstr "Opcije pokretanja"
 
-#: src/widgets/games/games-box.vala:513
+#: src/widgets/games/games-box.vala:514
 #, fuzzy
 msgid "Select all visible games"
 msgstr "Izaberite sve igre"
 
-#: src/widgets/games/games-box.vala:557
+#: src/widgets/games/games-box.vala:558
 msgid "Steam games couldn’t be loaded"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:558
+#: src/widgets/games/games-box.vala:559
 msgid ""
 "Steam’s library or profile data is missing or invalid. Finish setting up "
 "Steam, then restart ProtonPlus. Tools and other launchers remain available."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:568
+#: src/widgets/games/games-box.vala:569
 msgid "Unsupported launcher"
 msgstr "Nepodržani lanser"
 
-#: src/widgets/games/games-box.vala:570
+#: src/widgets/games/games-box.vala:571
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s trenutno nije podržan."
 
-#: src/widgets/games/games-box.vala:571
+#: src/widgets/games/games-box.vala:572
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 "Ako želite da ubrzate razvoj, budite sigurni da pokažete svoju podršku!"
 
-#: src/widgets/games/games-box.vala:615
+#: src/widgets/games/games-box.vala:616
 #: src/widgets/games/games-collection.vala:78
 #: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:658
+#: src/widgets/games/games-box.vala:659
 msgid "Filter: Native"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:660
+#: src/widgets/games/games-box.vala:661
 msgid "Filter: Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:662
+#: src/widgets/games/games-box.vala:663
 #, fuzzy
 msgid "Filter: All games"
 msgstr "Promenite opcije pokretanja igara"
 
-#: src/widgets/games/games-box.vala:671
+#: src/widgets/games/games-box.vala:672
 #, fuzzy
 msgid "No matching games"
 msgstr "Opcije pokretanja"
 
-#: src/widgets/games/games-box.vala:673
+#: src/widgets/games/games-box.vala:674
 #: src/widgets/tools/tools-group-box.vala:170
 msgid "Try a different search term or clear the search."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:677
+#: src/widgets/games/games-box.vala:678
 msgid "No games match this filter"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:679
+#: src/widgets/games/games-box.vala:680
 msgid "Choose All games to see your complete library."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:685
+#: src/widgets/games/games-box.vala:686
 msgid "No games are available for this launcher."
 msgstr ""
 
@@ -2760,6 +2761,8 @@ msgid "Game Actions"
 msgstr "Opcije pokretanja"
 
 #: src/widgets/games/games-extra-button.vala:71
+#: src/widgets/tools/tools-release-row.vala:171
+#: src/widgets/tools/tools-release-row.vala:435
 #, fuzzy, c-format
 msgid "Actions for %s"
 msgstr "Opcije pokretanja"
@@ -2973,27 +2976,27 @@ msgid ""
 "options. This may be due to missing permissions or file access issues."
 msgstr ""
 
-#: src/widgets/games/games-row.vala:34 src/widgets/games/games-row.vala:334
+#: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:337
 #, fuzzy
 msgid "Select game"
 msgstr "Izaberi sve"
 
-#: src/widgets/games/games-row.vala:39 src/widgets/games/games-row.vala:347
+#: src/widgets/games/games-row.vala:41 src/widgets/games/games-row.vala:350
 #, fuzzy
 msgid "Modify Game"
 msgstr "Promenite opcije pokretanja igara"
 
-#: src/widgets/games/games-row.vala:102 src/widgets/games/games-row.vala:435
+#: src/widgets/games/games-row.vala:105 src/widgets/games/games-row.vala:438
 #, c-format
 msgid "Toggle selection for %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:103 src/widgets/games/games-row.vala:436
+#: src/widgets/games/games-row.vala:106 src/widgets/games/games-row.vala:439
 #, c-format
 msgid "Modify %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:219 src/widgets/games/games-row.vala:222
+#: src/widgets/games/games-row.vala:222 src/widgets/games/games-row.vala:225
 #, fuzzy, c-format
 msgid "Launch %s"
 msgstr "Opcije pokretanja"
@@ -5384,30 +5387,34 @@ msgstr ""
 
 #: src/widgets/header/header-downloads-indicator.vala:223
 #: src/widgets/tools/tools-remove-dialog.vala:26
-#: src/widgets/tools/tools-stl-release-row.vala:102 src/widgets/window.vala:160
+#: src/widgets/tools/tools-stl-release-row.vala:118 src/widgets/window.vala:160
 #: src/widgets/window.vala:355
 msgid "Cancel"
 msgstr "Otkaži"
 
 #: src/widgets/header/header-downloads-indicator.vala:273
 #: src/widgets/header/header-downloads-indicator.vala:275
+#: src/widgets/tools/tools-release-row.vala:420
+#: src/widgets/tools/tools-release-row.vala:625
 #, fuzzy
 msgid "Cancelling"
 msgstr "Otkaži"
 
 #: src/widgets/header/header-downloads-indicator.vala:297
-#: src/widgets/tools/tools-release-row.vala:212
+#: src/widgets/tools/tools-release-row.vala:628
 #, fuzzy
 msgid "Downloading"
 msgstr "Preuzimanje"
 
 #: src/widgets/header/header-downloads-indicator.vala:299
-#: src/widgets/tools/tools-release-row.vala:212
+#: src/widgets/tools/tools-release-row.vala:630
 msgid "Extracting"
 msgstr "Izvlačenje"
 
 #: src/widgets/header/header-downloads-indicator.vala:303
-#: src/widgets/tools/tools-release-row.vala:212
+#: src/widgets/tools/tools-release-row.vala:597
+#: src/widgets/tools/tools-release-row.vala:634
+#: src/widgets/tools/tools-release-row.vala:639
 msgid "Removing"
 msgstr ""
 
@@ -6765,7 +6772,7 @@ msgstr ""
 #: src/widgets/preferences/preferences-dialog.vala:392
 #: src/widgets/preferences/preferences-dialog.vala:397
 #: src/widgets/preferences/preferences-dialog.vala:402
-#: src/widgets/tools/tools-stl-release-row.vala:141
+#: src/widgets/tools/tools-stl-release-row.vala:171
 msgid "Yes"
 msgstr "Da"
 
@@ -6778,7 +6785,7 @@ msgstr "Da"
 #: src/widgets/preferences/preferences-dialog.vala:392
 #: src/widgets/preferences/preferences-dialog.vala:397
 #: src/widgets/preferences/preferences-dialog.vala:402
-#: src/widgets/tools/tools-stl-release-row.vala:140
+#: src/widgets/tools/tools-stl-release-row.vala:170
 msgid "No"
 msgstr "Ne"
 
@@ -6824,11 +6831,14 @@ msgstr "Nepodržani lanser"
 #: src/widgets/preferences/preferences-dialog.vala:429
 #: src/widgets/tools/tools-box.vala:222
 #: src/widgets/tools/tools-group-box.vala:285
+#: src/widgets/tools/tools-release-row.vala:582
+#: src/widgets/tools/tools-release-row.vala:586
 #, fuzzy
 msgid "Installed"
 msgstr "Instalirajte %s"
 
 #: src/widgets/preferences/preferences-dialog.vala:429
+#: src/widgets/tools/tools-release-row.vala:579
 #, fuzzy
 msgid "Not installed"
 msgstr "Instalirajte %s"
@@ -7072,75 +7082,105 @@ msgstr ""
 msgid "Used by"
 msgstr "Koristi se u %i igrama."
 
-#: src/widgets/tools/tools-release-row.vala:27
-#, c-format
-msgid "Delete %s"
-msgstr "Izbriši %s"
-
-#: src/widgets/tools/tools-release-row.vala:32
-msgid "Cancel installation"
-msgstr ""
-
-#: src/widgets/tools/tools-release-row.vala:41
+#: src/widgets/tools/tools-release-row.vala:105
 #, fuzzy
 msgid "Show installation details"
 msgstr "_Upravo instalirano"
 
-#: src/widgets/tools/tools-release-row.vala:44
+#: src/widgets/tools/tools-release-row.vala:109
 msgid "Speed: 0 KB/s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:45
-#: src/widgets/tools/tools-release-row.vala:226
+#: src/widgets/tools/tools-release-row.vala:112
+#: src/widgets/tools/tools-release-row.vala:703
 msgid "Remaining time: --"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:55
-msgid "Update the runner if a newer version is available"
-msgstr ""
-
-#: src/widgets/tools/tools-release-row.vala:60
-#, c-format
-msgid ""
-"Version: %s\n"
-"This is a rolling release.\n"
-"It will always be updated to the latest available version when automatic "
-"updates is activated."
-msgstr ""
-
-#: src/widgets/tools/tools-release-row.vala:64
+#: src/widgets/tools/tools-release-row.vala:168
 #, fuzzy
-msgid "Open tool directory"
-msgstr "Otvori direktorijum prefiksa"
+msgid "Release Actions"
+msgstr "Opcije pokretanja"
 
-#: src/widgets/tools/tools-release-row.vala:199
-#, c-format
-msgid "Install %s"
-msgstr "Instalirajte %s"
-
-#: src/widgets/tools/tools-release-row.vala:211
-msgid "Nothing"
-msgstr ""
-
-#: src/widgets/tools/tools-release-row.vala:212
-msgid "Moving"
-msgstr ""
-
-#: src/widgets/tools/tools-release-row.vala:213
+#: src/widgets/tools/tools-release-row.vala:399
 #, c-format
 msgid "Step: %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:222
+#: src/widgets/tools/tools-release-row.vala:402
 #, fuzzy, c-format
-msgid "Failed to Update %s"
-msgstr "%s je već ažuriran."
+msgid "%s for %s"
+msgstr "Opcije pokretanja"
 
-#: src/widgets/tools/tools-release-row.vala:222
-msgid "An error occurred while attempting to update the compatibility tool."
+#: src/widgets/tools/tools-release-row.vala:407
+#, fuzzy, c-format
+msgid "Progress for %s"
+msgstr "Opcije pokretanja"
+
+#: src/widgets/tools/tools-release-row.vala:490
+#, fuzzy
+msgid "Install"
+msgstr "Instalirajte %s"
+
+#: src/widgets/tools/tools-release-row.vala:491
+#: src/widgets/tools/tools-release-row.vala:494
+#, c-format
+msgid "Install %s"
+msgstr "Instalirajte %s"
+
+#: src/widgets/tools/tools-release-row.vala:500
+#, fuzzy
+msgid "Update"
+msgstr "Instalirajte %s"
+
+#: src/widgets/tools/tools-release-row.vala:501
+#: src/widgets/tools/tools-release-row.vala:504
+#, fuzzy, c-format
+msgid "Update %s"
+msgstr "Instalirajte %s"
+
+#: src/widgets/tools/tools-release-row.vala:515
+#, fuzzy, c-format
+msgid "Cancelling %s"
+msgstr "Otkaži"
+
+#: src/widgets/tools/tools-release-row.vala:516
+#, fuzzy, c-format
+msgid "Cancel %s"
+msgstr "Otkaži"
+
+#: src/widgets/tools/tools-release-row.vala:539
+msgid "_Check for Updates"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:225
+#: src/widgets/tools/tools-release-row.vala:541
+#, fuzzy
+msgid "_Open Folder"
+msgstr "Igre"
+
+#: src/widgets/tools/tools-release-row.vala:543
+#, fuzzy
+msgid "_Delete…"
+msgstr "Izbriši %s"
+
+#: src/widgets/tools/tools-release-row.vala:545
+msgid "Open _Release Page"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:583
+#, fuzzy
+msgid "Update available"
+msgstr "_Upravo instalirano"
+
+#: src/widgets/tools/tools-release-row.vala:602
+msgid "Rolling release"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:605
+#, fuzzy, c-format
+msgid "Variant: %s"
+msgstr "Upozorenje"
+
+#: src/widgets/tools/tools-release-row.vala:611
 #, fuzzy, c-format
 msgid "Used by %i game"
 msgid_plural "Used by %i games"
@@ -7148,22 +7188,44 @@ msgstr[0] "Koristi se u %i igrama."
 msgstr[1] "Koristi se u %i igrama."
 msgstr[2] "Koristi se u %i igrama."
 
-#: src/widgets/tools/tools-release-row.vala:226
+#: src/widgets/tools/tools-release-row.vala:632
+msgid "Moving"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:637
+#, fuzzy
+msgid "Preparing update"
+msgstr "%s je već ažuriran."
+
+#: src/widgets/tools/tools-release-row.vala:640
+msgid "Preparing installation"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:694
 #, c-format
 msgid "Speed: %s/s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:226
+#: src/widgets/tools/tools-release-row.vala:700
 #, c-format
 msgid "Remaining time: %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:228
+#: src/widgets/tools/tools-release-row.vala:773
+#, fuzzy, c-format
+msgid "Failed to Update %s"
+msgstr "%s je već ažuriran."
+
+#: src/widgets/tools/tools-release-row.vala:774
+msgid "An error occurred while attempting to update the compatibility tool."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:818
 #, fuzzy
 msgid "Installation Failed"
 msgstr "Instalacija će biti otkazana."
 
-#: src/widgets/tools/tools-release-row.vala:228
+#: src/widgets/tools/tools-release-row.vala:819
 #, c-format
 msgid "ProtonPlus could not install %s on your system."
 msgstr ""
@@ -7271,24 +7333,24 @@ msgid ""
 "tool from your system."
 msgstr ""
 
-#: src/widgets/tools/tools-stl-release-row.vala:26
+#: src/widgets/tools/tools-stl-release-row.vala:31
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr "Nedostaju vam sledeće zavisnosti za %s:"
 
-#: src/widgets/tools/tools-stl-release-row.vala:28
+#: src/widgets/tools/tools-stl-release-row.vala:33
 msgid "Installation will be canceled."
 msgstr "Instalacija će biti otkazana."
 
-#: src/widgets/tools/tools-stl-release-row.vala:55
+#: src/widgets/tools/tools-stl-release-row.vala:64
 msgid "Check this to also delete your configuration files."
 msgstr "Označite ovo da biste uklonili i konfiguracione datoteke."
 
-#: src/widgets/tools/tools-stl-release-row.vala:98
+#: src/widgets/tools/tools-stl-release-row.vala:114
 msgid "SteamTinkerLaunch may not work"
 msgstr ""
 
-#: src/widgets/tools/tools-stl-release-row.vala:99
+#: src/widgets/tools/tools-stl-release-row.vala:115
 msgid ""
 "YAD 15 is currently incompatible with SteamTinkerLaunch. SteamTinkerLaunch "
 "may fail to start even if ProtonPlus installs it successfully.\n"
@@ -7297,12 +7359,12 @@ msgid ""
 "installation problem."
 msgstr ""
 
-#: src/widgets/tools/tools-stl-release-row.vala:103
+#: src/widgets/tools/tools-stl-release-row.vala:119
 #, fuzzy
 msgid "Install Anyway"
 msgstr "Instalirajte %s"
 
-#: src/widgets/tools/tools-stl-release-row.vala:135
+#: src/widgets/tools/tools-stl-release-row.vala:165
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
@@ -7311,7 +7373,7 @@ msgstr ""
 "Izgleda da trenutno imate drugačiju verziju %s koju ProtonPlus nije "
 "instalirao."
 
-#: src/widgets/tools/tools-stl-release-row.vala:136
+#: src/widgets/tools/tools-stl-release-row.vala:166
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Da li želite da ga ponovo instalirate sa ProtonPlus-om?"
 
@@ -7324,6 +7386,14 @@ msgid ""
 "The application is currently downloading a tool.\n"
 "Exiting the application early may cause issues."
 msgstr ""
+
+#, c-format
+#~ msgid "Delete %s"
+#~ msgstr "Izbriši %s"
+
+#, fuzzy
+#~ msgid "Open tool directory"
+#~ msgstr "Otvori direktorijum prefiksa"
 
 #, fuzzy
 #~ msgid "Extra"

@@ -8,6 +8,7 @@ test_sources = files(
     'controller-navigation-policy-test.vala',
     'controller-surface-policy-test.vala',
     'games-action-policy-test.vala',
+    'release-row-presentation-test.vala',
     'games-collection-test.vala',
     'cpu-capabilities-test.vala',
     'variant-compatibility-test.vala',

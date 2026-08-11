@@ -209,6 +209,7 @@ src/widgets/tools/tools-group-box.vala
 src/widgets/tools/tools-migrate-box.vala
 src/widgets/tools/tools-release-box.vala
 src/widgets/tools/tools-release-changelog.vala
+src/widgets/tools/tools-release-row-presentation.vala
 src/widgets/tools/tools-release-row.vala
 src/widgets/tools/tools-releases-box.vala
 src/widgets/tools/tools-remove-dialog.vala
