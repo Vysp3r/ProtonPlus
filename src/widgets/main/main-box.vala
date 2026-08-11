@@ -3,6 +3,7 @@ namespace ProtonPlus.Widgets.Main {
         Utils.ControllerPageShortcuts {
         public Adw.ViewStack view_stack { get; set; }
         public Adw.ViewSwitcher view_switcher { get; set; }
+        public Adw.ViewSwitcherBar view_switcher_bar { get; set; }
         Adw.ToastOverlay toast_overlay { get; set; }
 
         string previous_view_name { get; set; }
@@ -57,6 +58,28 @@ namespace ProtonPlus.Widgets.Main {
             view_switcher.set_stack (view_stack);
             view_switcher.set_policy (Adw.ViewSwitcherPolicy.WIDE);
 
+            view_switcher_bar = new Adw.ViewSwitcherBar ();
+            view_switcher_bar.set_stack (view_stack);
+            view_switcher_bar.set_reveal (false);
+
+            add_view_switcher_reset_controller (view_switcher);
+            add_view_switcher_reset_controller (view_switcher_bar);
+
+            toast_overlay = new Adw.ToastOverlay ();
+            toast_overlay.set_child (view_stack);
+
+            if (restart_manager != null && restart_orchestrator != null)
+                setup_steam_restart_presentation ((!) restart_manager, (!) restart_orchestrator,
+                    restart_notification_sender ?? new LibnotifySteamRestartNotificationSender ());
+            append (toast_overlay);
+
+            Utils.DownloadManager.instance.download_added.connect (on_download_added);
+            Utils.DownloadManager.instance.download_finished.connect (on_download_finished);
+            Utils.DownloadManager.instance.tool_updated.connect (on_tool_updated);
+            Utils.DownloadManager.instance.tool_removed.connect (on_tool_removed);
+        }
+
+        void add_view_switcher_reset_controller (Gtk.Widget switcher) {
             var reset_controller = new Gtk.GestureClick ();
             reset_controller.set_propagation_phase (Gtk.PropagationPhase.CAPTURE);
             reset_controller.pressed.connect ((gesture, n_press, x, y) => {
@@ -76,20 +99,7 @@ namespace ProtonPlus.Widgets.Main {
                     return Source.REMOVE;
                 });
             });
-            view_switcher.add_controller (reset_controller);
-
-            toast_overlay = new Adw.ToastOverlay ();
-            toast_overlay.set_child (view_stack);
-
-            if (restart_manager != null && restart_orchestrator != null)
-                setup_steam_restart_presentation ((!) restart_manager, (!) restart_orchestrator,
-                    restart_notification_sender ?? new LibnotifySteamRestartNotificationSender ());
-            append (toast_overlay);
-
-            Utils.DownloadManager.instance.download_added.connect (on_download_added);
-            Utils.DownloadManager.instance.download_finished.connect (on_download_finished);
-            Utils.DownloadManager.instance.tool_updated.connect (on_tool_updated);
-            Utils.DownloadManager.instance.tool_removed.connect (on_tool_removed);
+            switcher.add_controller (reset_controller);
         }
 
         public void initialize (Gee.LinkedList<Models.Launcher> launchers) {

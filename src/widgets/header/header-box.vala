@@ -2,7 +2,7 @@ namespace ProtonPlus.Widgets.Header {
     public class Box : Gtk.Box {
         public signal void launcher_selected (Models.Launcher launcher);
 
-        Adw.HeaderBar header_bar { get; set; }
+        public Adw.HeaderBar header_bar { get; private set; }
         LaunchersButton launchers_button { get; set; }
         DownloadsIndicator downloads_indicator { get; set; }
         Gtk.MenuButton menu_button { get; set; }
@@ -57,11 +57,12 @@ namespace ProtonPlus.Widgets.Header {
                 menu.append (_("_Exit"), "app.quit");
         }
 
-        public void initialize (Gee.LinkedList<Models.Launcher> launchers, Adw.ViewSwitcher view_switcher) {
+        public void initialize (Gee.LinkedList<Models.Launcher> launchers,
+            Adw.ViewSwitcher? view_switcher) {
             launchers_button.initialize (launchers);
 
-            if (view_switcher.get_parent () == null)
-                header_bar.set_title_widget (view_switcher);
+            if (view_switcher != null && ((!) view_switcher).get_parent () == null)
+                header_bar.set_title_widget ((!) view_switcher);
         }
 
         public void open_menu () {

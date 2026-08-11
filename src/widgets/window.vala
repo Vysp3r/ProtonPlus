@@ -62,6 +62,11 @@ namespace ProtonPlus.Widgets {
     }
 
     public class Window : Adw.ApplicationWindow {
+        // Leave room for the launcher, three-page switcher, downloads, and menu.
+        const double NARROW_NAVIGATION_WIDTH = 800;
+        const int MINIMUM_WINDOW_WIDTH = 768;
+        const int MINIMUM_WINDOW_HEIGHT = 360;
+
         public Gee.LinkedList<Models.Launcher> launchers { get; set; }
         Utils.ControllerManager controller_manager { get; set; }
 
@@ -69,8 +74,10 @@ namespace ProtonPlus.Widgets {
         Loading.Box loading_box { get; set; }
         public Main.Box main_box { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
+        Adw.BreakpointBin responsive { get; set; }
         ControllerHintBar controller_hint_bar { get; set; }
         ulong controller_presentation_handler = 0;
+        bool navigation_breakpoint_added = false;
 
         private Services.SteamRestartManager restart_manager;
         private Services.SteamRestartOrchestrator restart_orchestrator;
@@ -227,6 +234,7 @@ namespace ProtonPlus.Widgets {
         }
 
         private void build_ui () {
+            navigation_breakpoint_added = false;
             header_box = new Header.Box ();
             header_box.set_controller_mode_active (
                 controller_manager.presentation_state.controller_mode_active
@@ -239,9 +247,14 @@ namespace ProtonPlus.Widgets {
             loading_box.loaded.connect ((launchers) => {
                 this.launchers = launchers;
 
-                header_box.initialize (launchers, main_box.view_switcher);
+                header_box.initialize (
+                    launchers,
+                    navigation_breakpoint_added ? null : main_box.view_switcher
+                );
                 main_box.initialize (launchers);
                 toolbar_view.set_content (main_box);
+                main_box.view_switcher_bar.set_visible (true);
+                add_navigation_breakpoint ();
 
                 if (Globals.SETTINGS.get_boolean ("check-updates-on-launch")) {
                     main_box.check_for_updates.begin (launchers);
@@ -249,21 +262,54 @@ namespace ProtonPlus.Widgets {
             });
 
             main_box = new Main.Box (restart_manager, restart_orchestrator);
+            main_box.view_switcher_bar.set_visible (false);
             header_box.download_selected.connect ((job) => {
                 main_box.navigate_to_download (job);
             });
 
             toolbar_view = new Adw.ToolbarView ();
             toolbar_view.add_top_bar (header_box);
+            toolbar_view.add_bottom_bar (main_box.view_switcher_bar);
             controller_hint_bar = new ControllerHintBar ();
             controller_hint_bar.update_state (controller_manager.presentation_state);
             toolbar_view.add_bottom_bar (controller_hint_bar);
             toolbar_view.set_content (loading_box);
 
-            set_content (toolbar_view);
+            responsive = new Adw.BreakpointBin ();
+            responsive.set_size_request (
+                MINIMUM_WINDOW_WIDTH, MINIMUM_WINDOW_HEIGHT
+            );
+            responsive.set_child (toolbar_view);
+            set_content (responsive);
             controller_manager.presentation_context_changed ();
 
             loading_box.load.begin ();
+        }
+
+        void add_navigation_breakpoint () {
+            if (navigation_breakpoint_added)
+                return;
+
+            var navigation_breakpoint = new Adw.Breakpoint (
+                new Adw.BreakpointCondition.length (
+                    Adw.BreakpointConditionLengthType.MAX_WIDTH,
+                    NARROW_NAVIGATION_WIDTH,
+                    Adw.LengthUnit.SP
+                )
+            );
+            var no_title = Value (typeof (Gtk.Widget));
+            no_title.set_object (null);
+            navigation_breakpoint.add_setter (
+                header_box.header_bar, "title-widget", no_title
+            );
+            var revealed = Value (typeof (bool));
+            revealed.set_boolean (true);
+            navigation_breakpoint.add_setter (
+                main_box.view_switcher_bar, "reveal", revealed
+            );
+
+            responsive.add_breakpoint (navigation_breakpoint);
+            navigation_breakpoint_added = true;
         }
 
         public void reload_ui () {
