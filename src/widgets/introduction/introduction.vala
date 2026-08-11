@@ -75,8 +75,8 @@ namespace ProtonPlus.Widgets.Introduction {
             toolbar_view.add_top_bar (header_bar);
             toolbar_view.set_content (content_box);
 
-            set_content_width (600);
-            set_content_height (400);
+            set_content_width (650);
+            set_content_height (450);
             set_can_close (true);
             set_child (toolbar_view);
         }

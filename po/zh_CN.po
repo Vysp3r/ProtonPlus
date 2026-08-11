@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 21:37-0400\n"
+"POT-Creation-Date: 2026-08-10 22:14-0400\n"
 "PO-Revision-Date: 2026-08-07 23:07+0800\n"
 "Last-Translator: Markson Hosben <marksonhosben@proton.me>\n"
 "Language-Team: Chinese <>\n"
@@ -2590,7 +2590,7 @@ msgid "Tool"
 msgstr "工具"
 
 #: src/widgets/games/games-box.vala:227
-#: src/widgets/introduction/controller.vala:37
+#: src/widgets/introduction/controller.vala:49
 msgid "Actions"
 msgstr "操作"
 
@@ -5350,41 +5350,41 @@ msgstr ""
 "ProtonPlus 可帮助您轻松管理、安装和更新兼容层，以便在 Linux 上运行 Windows 游"
 "戏。"
 
-#: src/widgets/introduction/controller.vala:20
+#: src/widgets/introduction/controller.vala:31
 msgid "Controller support"
 msgstr "控制器支持"
 
-#: src/widgets/introduction/controller.vala:33
+#: src/widgets/introduction/controller.vala:45
 msgid "Navigation"
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:34
+#: src/widgets/introduction/controller.vala:46
 msgid ""
 "Use the D-pad or sticks to move through pages, dialogs, and menus. Switch "
 "sections with the shoulder buttons."
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:38
+#: src/widgets/introduction/controller.vala:50
 msgid ""
 "Use the face buttons for Confirm, Back, Search, and Filter. Hints match your "
 "controller's button labels."
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:41
+#: src/widgets/introduction/controller.vala:57
 #, fuzzy
 msgid "Preferences"
 msgstr "偏好设置(_P)"
 
-#: src/widgets/introduction/controller.vala:42
+#: src/widgets/introduction/controller.vala:58
 msgid ""
 "Choose the Confirm button and enable controller vibration in Preferences."
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:45
+#: src/widgets/introduction/controller.vala:61
 msgid "Text input"
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:46
+#: src/widgets/introduction/controller.vala:62
 msgid ""
 "On Steam Deck, focus a text field and press Steam + X. Other systems may "
 "require a physical or system keyboard."

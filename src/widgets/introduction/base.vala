@@ -32,6 +32,7 @@ namespace ProtonPlus.Widgets.Introduction {
             title_label.add_css_class ("title-1");
             title_label.wrap = true;
             title_label.justify = Gtk.Justification.CENTER;
+            title_label.max_width_chars = 25;
             this.append (title_label);
 
             var desc_label = new Gtk.Label (description_text);
