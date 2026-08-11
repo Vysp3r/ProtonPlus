@@ -152,6 +152,14 @@ namespace AppTests.ProviderDefinitionTest {
                 assert (actual.name == expected_variant.get_string_element (1));
                 assert (actual.format == expected_variant.get_string_element (2));
                 assert (actual.is_default == expected_variant.get_boolean_element (3));
+                Json.Array? expected_alternates = expected_variant.get_length () > 4
+                    ? expected_variant.get_array_element (4) : null;
+                var alternates = actual.alternate_formats;
+                var expected_alternate_count = expected_alternates == null
+                    ? 0 : expected_alternates.get_length ();
+                assert (alternates.length == expected_alternate_count);
+                for (var alternate_index = 0; alternate_index < alternates.length; alternate_index++)
+                    assert (alternates[alternate_index] == expected_alternates.get_string_element (alternate_index));
             }
         }
     }
@@ -212,11 +220,14 @@ namespace AppTests.ProviderDefinitionTest {
         proton_assets.add (new ProtonPlus.Models.Assets.Asset (
             "GE-Proton10-1.tar.gz", "https://example.invalid/x86.tar.gz"
         ));
+        proton_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "GE-Proton10-1-x86_64.tar.gz", "https://example.invalid/x86-64.tar.gz"
+        ));
         var proton_variants = CatalogReleaseBuilder.create_variants (
             proton_ge, "GE-Proton10-1", "GE-Proton10-1", proton_assets
         );
         var proton_primary = CatalogReleaseBuilder.select_default_asset (proton_assets, proton_variants);
-        assert (proton_primary != null && proton_primary.name == "GE-Proton10-1.tar.gz");
+        assert (proton_primary != null && proton_primary.name == "GE-Proton10-1-x86_64.tar.gz");
 
         var dxvk = get_definition ("dxvk-doitsujin");
         var dxvk_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();

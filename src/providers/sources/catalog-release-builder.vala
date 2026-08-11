@@ -32,17 +32,10 @@ namespace ProtonPlus.Providers.Sources {
             var variants = new LinkedList<Models.Variant> ();
 
             foreach (var definition_variant in definition.get_variants ()) {
-                string? download_url = null;
-                Models.Assets.Asset? selected_asset = null;
-                var expected_name = render_asset_name (definition_variant, definition.title, release_name, tag_name);
-
-                foreach (var asset in assets) {
-                    if (variant_matches_asset (expected_name, asset.name)) {
-                        download_url = asset.download_url;
-                        selected_asset = asset;
-                        break;
-                    }
-                }
+                var selected_asset = find_variant_asset (
+                    definition_variant, definition.title, release_name, tag_name, assets
+                );
+                string? download_url = selected_asset?.download_url;
 
                 if (download_url == null && definition_variant.is_default &&
                     definition.single_archive_releases && assets.size == 1) {
@@ -92,10 +85,14 @@ namespace ProtonPlus.Providers.Sources {
                 if (!variant.is_default)
                     continue;
 
-                var expected_name = render_asset_name (
-                    variant, definition.title, release_name, tag_name
-                );
-                return variant_matches_asset (expected_name, asset.name);
+                foreach (var format in variant.get_asset_formats ()) {
+                    var expected_name = render_asset_format (
+                        format, definition.title, release_name, tag_name
+                    );
+                    if (variant_matches_asset (expected_name, asset.name))
+                        return true;
+                }
+                return false;
             }
 
             return false;
@@ -107,14 +104,44 @@ namespace ProtonPlus.Providers.Sources {
             string release_name,
             string tag_name
         ) {
-            return Models.Providers.ProviderTemplate.render (variant.format, title, release_name, tag_name);
+            return render_asset_format (variant.format, title, release_name, tag_name);
+        }
+
+        private static Models.Assets.Asset? find_variant_asset (
+            Models.Providers.VariantDefinition variant,
+            string title,
+            string release_name,
+            string tag_name,
+            LinkedList<Models.Assets.Asset> assets
+        ) {
+            // Prefer the canonical format even if an older alias appears first
+            // in the upstream asset list.
+            foreach (var format in variant.get_asset_formats ()) {
+                var expected_name = render_asset_format (
+                    format, title, release_name, tag_name
+                );
+                foreach (var asset in assets) {
+                    if (variant_matches_asset (expected_name, asset.name))
+                        return asset;
+                }
+            }
+            return null;
+        }
+
+        private static string render_asset_format (
+            string format,
+            string title,
+            string release_name,
+            string tag_name
+        ) {
+            return Models.Providers.ProviderTemplate.render (
+                format, title, release_name, tag_name
+            );
         }
 
         private static bool variant_matches_asset (string expected_asset_name, string asset_name) {
-            if (asset_name == expected_asset_name)
-                return true;
-
-            return Utils.ArchiveHelper.strip_archive_extension (asset_name) == expected_asset_name;
+            return asset_name == expected_asset_name ||
+                Utils.ArchiveHelper.strip_archive_extension (asset_name) == expected_asset_name;
         }
     }
 }

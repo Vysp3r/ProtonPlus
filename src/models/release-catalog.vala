@@ -41,7 +41,7 @@ namespace ProtonPlus.Models {
                 if (releases.size == 0)
                     return "";
 
-                Release? last_release = releases.size > 1 ? releases.get (1) : releases.get (0);
+                Release? last_release = releases.get (0);
                 if (last_release == null || last_release.title == null || last_release.title == "")
                     return "";
 

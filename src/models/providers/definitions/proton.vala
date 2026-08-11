@@ -8,7 +8,11 @@ namespace ProtonPlus.Models.Providers {
                     "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases",
                     "https://github.com/GloriousEggroll/proton-ge-custom", 2,
                     {
-                        new VariantDefinition ("x86", "x86", "$release_name", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)),
+                        new VariantDefinition (
+                            "x86", "x86", "$release_name-x86_64", true,
+                            VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE),
+                            { "$release_name" }
+                        ),
                         new VariantDefinition ("aarch64", "aarch64", "$release_name-aarch64", false, VariantCompatibility.for_aarch64_level (Aarch64Level.V8_1))
                     },
                     {

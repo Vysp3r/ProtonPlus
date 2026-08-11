@@ -93,6 +93,7 @@ namespace AppTests.ReleasePageTest {
         Test.add_func ("/release-catalog/forced-refresh-is-atomic", test_forced_refresh_is_atomic);
         Test.add_func ("/release-catalog/load-more-failure-preserves-state", test_load_more_failure_preserves_state);
         Test.add_func ("/release-catalog/latest-empty-and-failure-are-distinct", test_latest_empty_and_failure_are_distinct);
+        Test.add_func ("/release-catalog/latest-version-uses-first-release", test_latest_version_uses_first_release);
         Test.add_func ("/release-catalog/static-and-instance-state", test_static_and_instance_state);
     }
 
@@ -573,6 +574,18 @@ namespace AppTests.ReleasePageTest {
         var failed_result = latest (failed_catalog);
         assert (!failed_result.succeeded && !failed_result.has_release && failed_result.code == ReturnCode.REQUEST_FAILED);
         assert (failed_catalog.releases.size == 0 && failed_catalog.page == 1 && !failed_catalog.has_more);
+    }
+
+    private void test_latest_version_uses_first_release () {
+        var source = new FixtureReleaseSource ();
+        var releases = new LinkedList<Release> ();
+        releases.add (release ("GE-Proton11-5", "11-5"));
+        releases.add (release ("GE-Proton11-4", "11-4"));
+        source.set_page (1, new ReleasePage (releases, 2, false));
+
+        var value = catalog ("latest-version-tool", definition (), source);
+        assert (load (value, false).succeeded);
+        assert (value.last_version == "11-5");
     }
 
     private void test_static_and_instance_state () {
