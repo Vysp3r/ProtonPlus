@@ -4,7 +4,7 @@ namespace ProtonPlus.Models.Providers {
             return {
                 new ProviderDefinition (
                     Category.WINE, SourceType.GITHUB, "wine-proton", "Wine-Proton (Kron4ek)",
-                    "Wine build modified by Valve and other contributors.",
+                    N_ ("Wine build modified by Valve and other contributors."),
                     "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
                     "https://github.com/Kron4ek/Wine-Builds", 1,
                     {
@@ -20,7 +20,7 @@ namespace ProtonPlus.Models.Providers {
                 ),
                 new ProviderDefinition (
                     Category.WINE, SourceType.GITHUB, "wine-staging", "Wine-Staging (Kron4ek)",
-                    "Wine build with the Staging patchset.",
+                    N_ ("Wine build with the Staging patchset."),
                     "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
                     "https://github.com/Kron4ek/Wine-Builds", 2,
                     {
@@ -34,7 +34,7 @@ namespace ProtonPlus.Models.Providers {
                 ),
                 new ProviderDefinition (
                     Category.WINE, SourceType.GITHUB, "wine-staging-tkg", "Wine-Staging-Tkg (Kron4ek)",
-                    "Wine build with the Staging patchset and many other useful patches.",
+                    N_ ("Wine build with the Staging patchset and many other useful patches."),
                     "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
                     "https://github.com/Kron4ek/Wine-Builds", 3,
                     {
@@ -48,7 +48,7 @@ namespace ProtonPlus.Models.Providers {
                 ),
                 new ProviderDefinition (
                     Category.WINE, SourceType.GITHUB, "wine-vanilla", "Wine-Vanilla (Kron4ek)",
-                    "Wine build compiled from the official WineHQ sources.",
+                    N_ ("Wine build compiled from the official WineHQ sources."),
                     "https://api.github.com/repos/Kron4ek/Wine-Builds/releases",
                     "https://github.com/Kron4ek/Wine-Builds", 4,
                     {
