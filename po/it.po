@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 20:48-0400\n"
+"POT-Creation-Date: 2026-08-10 21:18-0400\n"
 "PO-Revision-Date: 2026-08-05 16:05+0200\n"
 "Last-Translator: Youseffo13 <>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -2242,6 +2242,16 @@ msgstr "Cinese"
 msgid "Chinese (Traditional)"
 msgstr "Cinese (tradizionale)"
 
+#: src/models/launchers/faugus-launcher.vala:78
+msgid ""
+"Faugus Launcher uses this folder for Proton installations, but ProtonPlus "
+"cannot access its symlink target:"
+msgstr ""
+
+#: src/models/launchers/faugus-launcher.vala:80
+msgid "Grant ProtonPlus access, restart it, and try the installation again:"
+msgstr ""
+
 #: src/models/launchers/steam.vala:360
 #, c-format
 msgid "%s (Unavailable)"
@@ -2341,28 +2351,28 @@ msgstr ""
 "Lo strumento di compatibilità è stato modificato, ma non è stato possibile "
 "salvare il promemoria di riavvio di Steam."
 
-#: src/services/standard-archive-workflow.vala:26
-#: src/services/standard-archive-workflow.vala:35
+#: src/services/standard-archive-workflow.vala:32
+#: src/services/standard-archive-workflow.vala:41
 #: src/services/steam-tinker-launch-workflow.vala:47
 msgid "Extraction failed"
 msgstr "Estrazione fallita"
 
-#: src/services/standard-archive-workflow.vala:53
-#: src/services/standard-archive-workflow.vala:80
+#: src/services/standard-archive-workflow.vala:59
+#: src/services/standard-archive-workflow.vala:86
 #: src/services/steam-tinker-launch-workflow.vala:61
 #: src/services/steam-tinker-launch-workflow.vala:97
 msgid "Moving failed"
 msgstr "Spostamento fallito"
 
-#: src/services/standard-archive-workflow.vala:62
+#: src/services/standard-archive-workflow.vala:68
 msgid "Failed to save compatibility tool metadata"
 msgstr "Impossibile salvare i metadati dello strumento di compatibilità"
 
-#: src/services/standard-archive-workflow.vala:334
+#: src/services/standard-archive-workflow.vala:340
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "Impossibile aggiornare compatibilitytool.vdf"
 
-#: src/services/standard-archive-workflow.vala:351
+#: src/services/standard-archive-workflow.vala:357
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr ""
 "Il manifest dello strumento di compatibilità non è valido o è incompleto"

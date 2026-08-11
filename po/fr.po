@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 20:48-0400\n"
+"POT-Creation-Date: 2026-08-10 21:18-0400\n"
 "PO-Revision-Date: 2026-05-10 19:11+0000\n"
 "Last-Translator: Badreddine-Rezzouk <badreddinerezzouk@protonmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/protonplus/"
@@ -2148,6 +2148,16 @@ msgstr ""
 msgid "Chinese (Traditional)"
 msgstr ""
 
+#: src/models/launchers/faugus-launcher.vala:78
+msgid ""
+"Faugus Launcher uses this folder for Proton installations, but ProtonPlus "
+"cannot access its symlink target:"
+msgstr ""
+
+#: src/models/launchers/faugus-launcher.vala:80
+msgid "Grant ProtonPlus access, restart it, and try the installation again:"
+msgstr ""
+
 #: src/models/launchers/steam.vala:360
 #, c-format
 msgid "%s (Unavailable)"
@@ -2250,32 +2260,32 @@ msgid ""
 "saved."
 msgstr ""
 
-#: src/services/standard-archive-workflow.vala:26
-#: src/services/standard-archive-workflow.vala:35
+#: src/services/standard-archive-workflow.vala:32
+#: src/services/standard-archive-workflow.vala:41
 #: src/services/steam-tinker-launch-workflow.vala:47
 #, fuzzy
 msgid "Extraction failed"
 msgstr "Extraction"
 
-#: src/services/standard-archive-workflow.vala:53
-#: src/services/standard-archive-workflow.vala:80
+#: src/services/standard-archive-workflow.vala:59
+#: src/services/standard-archive-workflow.vala:86
 #: src/services/steam-tinker-launch-workflow.vala:61
 #: src/services/steam-tinker-launch-workflow.vala:97
 #, fuzzy
 msgid "Moving failed"
 msgstr "Déplacement"
 
-#: src/services/standard-archive-workflow.vala:62
+#: src/services/standard-archive-workflow.vala:68
 #, fuzzy
 msgid "Failed to save compatibility tool metadata"
 msgstr "Sélectionner votre outil de compatibilité"
 
-#: src/services/standard-archive-workflow.vala:334
+#: src/services/standard-archive-workflow.vala:340
 #, fuzzy
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "Sélectionner votre outil de compatibilité"
 
-#: src/services/standard-archive-workflow.vala:351
+#: src/services/standard-archive-workflow.vala:357
 #, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "Outil de compatibilité"

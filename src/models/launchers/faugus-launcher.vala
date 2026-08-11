@@ -65,6 +65,23 @@ namespace ProtonPlus.Models.Launchers {
             return SteamRestartTarget.for_native (directory, "Steam", "steam.desktop");
         }
 
+        public override string? get_install_target_error (string target_directory) {
+            if (!Globals.IS_FLATPAK ||
+                !FileUtils.test (target_directory, FileTest.IS_SYMLINK) ||
+                FileUtils.test (target_directory, FileTest.IS_DIR))
+                return null;
+
+            var command = "flatpak override --user --filesystem=\"$HOME/.local/share/Steam/compatibilitytools.d\" %s".printf (
+                Config.APP_ID
+            );
+            return "%s\n%s\n\n%s\n%s".printf (
+                _ ("Faugus Launcher uses this folder for Proton installations, but ProtonPlus cannot access its symlink target:"),
+                target_directory,
+                _ ("Grant ProtonPlus access, restart it, and try the installation again:"),
+                command
+            );
+        }
+
         public override bool supports_provider_definition (Providers.ProviderDefinition definition) {
             switch (definition.provider_id) {
             case "proton-ge":

@@ -278,6 +278,11 @@ namespace AppTests.FaugusLauncherTest {
             critical ("Could not read Faugus target symlink: %s", e.message);
             assert_not_reached ();
         }
+        var was_flatpak = Globals.IS_FLATPAK;
+        Globals.IS_FLATPAK = true;
+        var target_error = launcher.get_install_target_error (linked_tools);
+        Globals.IS_FLATPAK = was_flatpak;
+        assert (target_error == null);
 
         assert (delete_directory (root));
     }
@@ -304,6 +309,22 @@ namespace AppTests.FaugusLauncherTest {
         assert (launcher.groups[0].id == "proton");
         assert (FileUtils.test (linked_tools, FileTest.IS_SYMLINK));
         assert (!FileUtils.test (linked_tools, FileTest.IS_DIR));
+
+        var runner = provider_tool (launcher.groups[0], definition ("proton-ge"));
+        var job = new InstallJob (
+            release ("Fixture Runner", "fixture-release-id", "fixture-tag"),
+            runner
+        );
+        var was_flatpak = Globals.IS_FLATPAK;
+        Globals.IS_FLATPAK = true;
+        var validation = new StandardArchiveWorkflow ().validate_install (job, false);
+        Globals.IS_FLATPAK = was_flatpak;
+        assert (validation == ReturnCode.FILESYSTEM_ERROR);
+        assert (job.error_message != null);
+        assert (((!) job.error_message).contains (linked_tools));
+        assert (((!) job.error_message).contains (
+            "flatpak override --user --filesystem=\"$HOME/.local/share/Steam/compatibilitytools.d\" com.vysp3r.ProtonPlus"
+        ));
 
         assert (delete_directory (root));
     }

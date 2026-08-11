@@ -383,6 +383,12 @@ namespace ProtonPlus.Models {
             return yield Utils.Filesystem.create_directory_async (target_directory);
         }
 
+        /* Launcher-owned target layouts may provide focused remediation before
+         * a workflow downloads an archive. */
+        public virtual string? get_install_target_error (string target_directory) {
+            return null;
+        }
+
         public virtual bool supports_provider_definition (ProviderDefinition definition) {
             return true;
         }

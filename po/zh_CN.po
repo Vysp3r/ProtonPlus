@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 20:48-0400\n"
+"POT-Creation-Date: 2026-08-10 21:18-0400\n"
 "PO-Revision-Date: 2026-08-07 23:07+0800\n"
 "Last-Translator: Markson Hosben <marksonhosben@proton.me>\n"
 "Language-Team: Chinese <>\n"
@@ -2134,6 +2134,16 @@ msgstr "中文"
 msgid "Chinese (Traditional)"
 msgstr "中文（繁体）"
 
+#: src/models/launchers/faugus-launcher.vala:78
+msgid ""
+"Faugus Launcher uses this folder for Proton installations, but ProtonPlus "
+"cannot access its symlink target:"
+msgstr ""
+
+#: src/models/launchers/faugus-launcher.vala:80
+msgid "Grant ProtonPlus access, restart it, and try the installation again:"
+msgstr ""
+
 #: src/models/launchers/steam.vala:360
 #, c-format
 msgid "%s (Unavailable)"
@@ -2227,28 +2237,28 @@ msgid ""
 "saved."
 msgstr "兼容性工具已更改，但无法保存 Steam 重启提醒。"
 
-#: src/services/standard-archive-workflow.vala:26
-#: src/services/standard-archive-workflow.vala:35
+#: src/services/standard-archive-workflow.vala:32
+#: src/services/standard-archive-workflow.vala:41
 #: src/services/steam-tinker-launch-workflow.vala:47
 msgid "Extraction failed"
 msgstr "解压失败"
 
-#: src/services/standard-archive-workflow.vala:53
-#: src/services/standard-archive-workflow.vala:80
+#: src/services/standard-archive-workflow.vala:59
+#: src/services/standard-archive-workflow.vala:86
 #: src/services/steam-tinker-launch-workflow.vala:61
 #: src/services/steam-tinker-launch-workflow.vala:97
 msgid "Moving failed"
 msgstr "移动失败"
 
-#: src/services/standard-archive-workflow.vala:62
+#: src/services/standard-archive-workflow.vala:68
 msgid "Failed to save compatibility tool metadata"
 msgstr "无法保存兼容性工具元数据"
 
-#: src/services/standard-archive-workflow.vala:334
+#: src/services/standard-archive-workflow.vala:340
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "无法更新 compatibilitytool.vdf"
 
-#: src/services/standard-archive-workflow.vala:351
+#: src/services/standard-archive-workflow.vala:357
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "兼容性工具清单无效或不完整。"
 
