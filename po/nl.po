@@ -2498,7 +2498,7 @@ msgid "Tool"
 msgstr ""
 
 #: src/widgets/games/games-box.vala:227
-#: src/widgets/introduction/controller.vala:37
+#: src/widgets/introduction/controller.vala:39
 #, fuzzy
 msgid "Actions"
 msgstr "Lanceeropties"
@@ -5232,36 +5232,36 @@ msgstr ""
 msgid "Controller support"
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:33
+#: src/widgets/introduction/controller.vala:35
 msgid "Navigation"
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:34
+#: src/widgets/introduction/controller.vala:36
 msgid ""
 "Use the D-pad or sticks to move through pages, dialogs, and menus. Switch "
 "sections with the shoulder buttons."
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:38
+#: src/widgets/introduction/controller.vala:40
 msgid ""
 "Use the face buttons for Confirm, Back, Search, and Filter. Hints match your "
 "controller's button labels."
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:41
+#: src/widgets/introduction/controller.vala:47
 msgid "Preferences"
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:42
+#: src/widgets/introduction/controller.vala:48
 msgid ""
 "Choose the Confirm button and enable controller vibration in Preferences."
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:45
+#: src/widgets/introduction/controller.vala:51
 msgid "Text input"
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:46
+#: src/widgets/introduction/controller.vala:52
 msgid ""
 "On Steam Deck, focus a text field and press Steam + X. Other systems may "
 "require a physical or system keyboard."

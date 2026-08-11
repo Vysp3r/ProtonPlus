@@ -5594,11 +5594,11 @@ msgstr ""
 msgid "Controller support"
 msgstr "Controller-Unterstützung"
 
-#: src/widgets/introduction/controller.vala:33
+#: src/widgets/introduction/controller.vala:35
 msgid "Navigation"
 msgstr "Navigation"
 
-#: src/widgets/introduction/controller.vala:34
+#: src/widgets/introduction/controller.vala:36
 msgid ""
 "Use the D-pad or sticks to move through pages, dialogs, and menus. Switch "
 "sections with the shoulder buttons."
@@ -5606,7 +5606,7 @@ msgstr ""
 "Navigieren Sie mit dem Steuerkreuz oder den Sticks durch Seiten, Dialoge und "
 "Menüs. Wechseln Sie Bereiche mit den Schultertasten."
 
-#: src/widgets/introduction/controller.vala:38
+#: src/widgets/introduction/controller.vala:40
 msgid ""
 "Use the face buttons for Confirm, Back, Search, and Filter. Hints match your "
 "controller's button labels."
@@ -5614,7 +5614,7 @@ msgstr ""
 "Verwenden Sie die Aktionstasten für Bestätigen, Zurück, Suchen und Filtern. "
 "Die Hinweise entsprechen den Tastenbeschriftungen Ihres Controllers."
 
-#: src/widgets/introduction/controller.vala:41
+#: src/widgets/introduction/controller.vala:47
 msgid "Preferences"
 msgstr "Einstellungen"
 
@@ -5625,11 +5625,11 @@ msgstr ""
 "Wählen Sie die Bestätigungstaste aus und aktivieren Sie die Controller-"
 "Vibration in den Einstellungen."
 
-#: src/widgets/introduction/controller.vala:45
+#: src/widgets/introduction/controller.vala:51
 msgid "Text input"
 msgstr "Texteingabe"
 
-#: src/widgets/introduction/controller.vala:46
+#: src/widgets/introduction/controller.vala:52
 msgid ""
 "On Steam Deck, focus a text field and press Steam + X. Other systems may "
 "require a physical or system keyboard."

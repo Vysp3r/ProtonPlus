@@ -2573,7 +2573,7 @@ msgid "Tool"
 msgstr "Nástroj"
 
 #: src/widgets/games/games-box.vala:227
-#: src/widgets/introduction/controller.vala:37
+#: src/widgets/introduction/controller.vala:39
 msgid "Actions"
 msgstr "Akcie"
 
@@ -5584,11 +5584,11 @@ msgstr ""
 msgid "Controller support"
 msgstr "Podpora ovládačov"
 
-#: src/widgets/introduction/controller.vala:33
+#: src/widgets/introduction/controller.vala:35
 msgid "Navigation"
 msgstr "Navigácia"
 
-#: src/widgets/introduction/controller.vala:34
+#: src/widgets/introduction/controller.vala:36
 msgid ""
 "Use the D-pad or sticks to move through pages, dialogs, and menus. Switch "
 "sections with the shoulder buttons."
@@ -5596,7 +5596,7 @@ msgstr ""
 "Na pohyb medzi stránkami, dialógmi a ponukami použite D-pad alebo páčky. "
 "Sekcie prepínajte ramennými tlačidlami."
 
-#: src/widgets/introduction/controller.vala:38
+#: src/widgets/introduction/controller.vala:40
 msgid ""
 "Use the face buttons for Confirm, Back, Search, and Filter. Hints match your "
 "controller's button labels."
@@ -5604,22 +5604,22 @@ msgstr ""
 "Na Potvrdiť, Späť, Hľadať a Filter používajte predné tlačidlá. Nápovedy "
 "zodpovedajú popisom tlačidiel vášho ovládača."
 
-#: src/widgets/introduction/controller.vala:41
+#: src/widgets/introduction/controller.vala:47
 #, fuzzy
 msgid "Preferences"
 msgstr "Předvolby"
 
-#: src/widgets/introduction/controller.vala:42
+#: src/widgets/introduction/controller.vala:48
 msgid ""
 "Choose the Confirm button and enable controller vibration in Preferences."
 msgstr ""
 "V Predvoľbách zvoľte potvrdzovacie tlačidlo a povoľte vibrácie ovládača."
 
-#: src/widgets/introduction/controller.vala:45
+#: src/widgets/introduction/controller.vala:51
 msgid "Text input"
 msgstr "Zadávanie textu"
 
-#: src/widgets/introduction/controller.vala:46
+#: src/widgets/introduction/controller.vala:52
 msgid ""
 "On Steam Deck, focus a text field and press Steam + X. Other systems may "
 "require a physical or system keyboard."

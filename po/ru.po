@@ -2526,7 +2526,7 @@ msgid "Tool"
 msgstr "Инструмент"
 
 #: src/widgets/games/games-box.vala:227
-#: src/widgets/introduction/controller.vala:37
+#: src/widgets/introduction/controller.vala:39
 msgid "Actions"
 msgstr "Действия"
 
@@ -5514,11 +5514,11 @@ msgstr ""
 msgid "Controller support"
 msgstr "Поддержка контроллера"
 
-#: src/widgets/introduction/controller.vala:33
+#: src/widgets/introduction/controller.vala:35
 msgid "Navigation"
 msgstr "Навигация"
 
-#: src/widgets/introduction/controller.vala:34
+#: src/widgets/introduction/controller.vala:36
 msgid ""
 "Use the D-pad or sticks to move through pages, dialogs, and menus. Switch "
 "sections with the shoulder buttons."
@@ -5526,7 +5526,7 @@ msgstr ""
 "Используйте D-pad или стики для перемещения по страницам, диалогам и меню. "
 "Переключайте разделы с помощью плечевых кнопок."
 
-#: src/widgets/introduction/controller.vala:38
+#: src/widgets/introduction/controller.vala:40
 msgid ""
 "Use the face buttons for Confirm, Back, Search, and Filter. Hints match your "
 "controller's button labels."
@@ -5534,21 +5534,21 @@ msgstr ""
 "Используйте лицевые кнопки для подтверждения, возврата, поиска и фильтрации. "
 "Подсказки соответствуют меткам кнопок вашего контроллера."
 
-#: src/widgets/introduction/controller.vala:41
+#: src/widgets/introduction/controller.vala:47
 msgid "Preferences"
 msgstr "Настройки"
 
-#: src/widgets/introduction/controller.vala:42
+#: src/widgets/introduction/controller.vala:48
 msgid ""
 "Choose the Confirm button and enable controller vibration in Preferences."
 msgstr ""
 "Выберите кнопку подтверждения и включите вибрацию контроллера в настройках."
 
-#: src/widgets/introduction/controller.vala:45
+#: src/widgets/introduction/controller.vala:51
 msgid "Text input"
 msgstr "Ввод текста"
 
-#: src/widgets/introduction/controller.vala:46
+#: src/widgets/introduction/controller.vala:52
 msgid ""
 "On Steam Deck, focus a text field and press Steam + X. Other systems may "
 "require a physical or system keyboard."
