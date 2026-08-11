@@ -88,6 +88,20 @@
   </screenshots>
 
   <releases>
+    <release version="0.6.3" date="2026-08-11">
+      <description>
+        <ul>
+          <li>✨ Improved the introduction screen on smaller windows</li>
+          <li>✨ Added a warning when YAD 15 may prevent SteamTinkerLaunch from working</li>
+          <li>🐛 Fixed new Proton-GE x86-64 releases not being detected</li>
+          <li>🐛 Fixed DW-Proton not using GitHub releases</li>
+          <li>🐛 Fixed inaccessible Faugus folders preventing ProtonPlus from starting</li>
+          <li>🐛 Fixed SteamTinkerLaunch installations sometimes starting more than once</li>
+          <li>🐛 Fixed some tool descriptions not being translated</li>
+          <li>🌐 Updated Czech, German, Russian, Simplified Chinese, Swedish, and Ukrainian localizations</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.6.2" date="2026-08-09">
       <description>
         <ul>
