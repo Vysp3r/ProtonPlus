@@ -24,15 +24,8 @@ finish-args:
   - --filesystem=xdg-run/gvfsd
   # Required because Steam libraries can be installed anywhere on the host.
   - --filesystem=host
-  # Read-only Flatpak deployment metadata used to discover Steam extensions.
-  - --filesystem=xdg-data/flatpak:ro
-  - --filesystem=/var/lib/flatpak:ro
   # Request access to supported Flatpak apps
   - --filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic
-  # Read-only markers used to detect the Faugus Flatpak installation.
-  - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/config/faugus-launcher:ro
-  - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/data/faugus-launcher:ro
-  - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/.local/state/faugus-launcher:ro
   - --filesystem=~/.var/app/com.usebottles.bottles/data/bottles
   - --filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam
   - --filesystem=~/.var/app/net.lutris.Lutris/data/lutris

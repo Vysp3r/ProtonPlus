@@ -106,10 +106,13 @@ class SettingsSchemaContractTest(unittest.TestCase):
 
 
 class FlatpakManifestPermissionTest(unittest.TestCase):
-    def test_steam_extension_roots_are_read_only_in_both_manifests(self) -> None:
-        required = {
+    def test_redundant_and_private_detection_paths_are_absent(self) -> None:
+        forbidden = {
             "--filesystem=xdg-data/flatpak:ro",
             "--filesystem=/var/lib/flatpak:ro",
+            "--filesystem=~/.var/app/io.github.Faugus.faugus-launcher/config/faugus-launcher:ro",
+            "--filesystem=~/.var/app/io.github.Faugus.faugus-launcher/data/faugus-launcher:ro",
+            "--filesystem=~/.var/app/io.github.Faugus.faugus-launcher/.local/state/faugus-launcher:ro",
         }
         for filename in (
             "com.vysp3r.ProtonPlus.yml",
@@ -121,7 +124,7 @@ class FlatpakManifestPermissionTest(unittest.TestCase):
                     match.group(1)
                     for match in re.finditer(r"^\s*-\s+(--filesystem=\S+)\s*$", content, re.MULTILINE)
                 }
-                self.assertTrue(required.issubset(permissions))
+                self.assertTrue(forbidden.isdisjoint(permissions))
                 self.assertNotIn("--filesystem=host-root", permissions)
                 self.assertNotIn("--filesystem=xdg-data/flatpak", permissions)
                 self.assertNotIn("--filesystem=/var/lib/flatpak", permissions)

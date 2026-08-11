@@ -199,6 +199,15 @@ namespace AppTests.FaugusLauncherTest {
         assert (!system.installed);
         assert (flatpak.installed);
 
+        assert (DirUtils.remove (flatpak_marker) == 0);
+        var was_flatpak = Globals.IS_FLATPAK;
+        var was_faugus_flatpak_installed = Globals.FAUGUS_FLATPAK_INSTALLED;
+        Globals.IS_FLATPAK = true;
+        Globals.FAUGUS_FLATPAK_INSTALLED = true;
+        assert (faugus (Launcher.InstallationTypes.FLATPAK, home, host_data, config, data, state).installed);
+        Globals.IS_FLATPAK = was_flatpak;
+        Globals.FAUGUS_FLATPAK_INSTALLED = was_faugus_flatpak_installed;
+
         assert (delete_directory (root));
     }
 

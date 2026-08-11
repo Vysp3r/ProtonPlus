@@ -57,6 +57,11 @@ namespace ProtonPlus.Models.Launchers {
                 Steam.FAMILY_ID,
                 "steam-system"
             );
+
+            // Other Flatpak apps' private data is intentionally hidden from
+            // the sandbox. Use the host package query cached at startup instead.
+            if (installation_type == Launcher.InstallationTypes.FLATPAK && Globals.IS_FLATPAK)
+                installed = Globals.FAUGUS_FLATPAK_INSTALLED;
         }
 
         /* Faugus writes the host native Steam compatibility-tool directory.
