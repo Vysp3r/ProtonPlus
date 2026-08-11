@@ -20,7 +20,6 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Stack list_stack;
         Gtk.Stack views_stack;
         Adw.StatusPage empty_status_page;
-        Gtk.ScrolledWindow scrolled_window;
         Gtk.ColumnView wide_view;
         Gtk.ListView narrow_view;
         Gtk.MenuButton filter_button;
@@ -73,11 +72,16 @@ namespace ProtonPlus.Widgets.Games {
                 transition_type = Gtk.StackTransitionType.CROSSFADE,
                 transition_duration = 150
             };
-            views_stack.add_named (wide_view, "wide");
-            views_stack.add_named (narrow_view, "narrow");
+            views_stack.add_named (
+                create_collection_scroller (wide_view), "wide"
+            );
+            views_stack.add_named (
+                create_collection_scroller (narrow_view), "narrow"
+            );
             views_stack.set_visible_child_name ("wide");
 
             var responsive_views = new Adw.BreakpointBin ();
+            responsive_views.set_size_request (360, 1);
             responsive_views.set_child (views_stack);
             var narrow_breakpoint = new Adw.Breakpoint (
                 new Adw.BreakpointCondition.length (
@@ -111,14 +115,8 @@ namespace ProtonPlus.Widgets.Games {
 
             overlay = new Gtk.Overlay () {
                 hexpand = true,
-                child = list_stack
-            };
-            scrolled_window = new Gtk.ScrolledWindow () {
-                hexpand = true,
                 vexpand = true,
-                child = overlay,
-                hscrollbar_policy = Gtk.PolicyType.NEVER,
-                vscrollbar_policy = Gtk.PolicyType.AUTOMATIC
+                child = list_stack
             };
 
             mass_edit_button = new MassEditButton (focus_last_visible_game) {
@@ -151,7 +149,7 @@ namespace ProtonPlus.Widgets.Games {
             games_card.add_css_class ("card");
             games_card.add_css_class ("transparent-card");
             games_card.append (build_toolbar ());
-            games_card.append (scrolled_window);
+            games_card.append (overlay);
 
             set_orientation (Gtk.Orientation.VERTICAL);
             set_spacing (0);
@@ -223,21 +221,18 @@ namespace ProtonPlus.Widgets.Games {
                 _("Games"), create_text_factory (GameTextCellKind.TITLE)
             );
             title_column.set_expand (true);
-            title_column.set_resizable (true);
             view.append_column (title_column);
 
             var prefix_column = new Gtk.ColumnViewColumn (
                 _("Prefix"), create_text_factory (GameTextCellKind.PREFIX)
             );
             prefix_column.set_expand (false);
-            prefix_column.set_resizable (true);
             view.append_column (prefix_column);
 
             var tool_column = new Gtk.ColumnViewColumn (
                 _("Tool"), create_text_factory (GameTextCellKind.TOOL)
             );
             tool_column.set_expand (true);
-            tool_column.set_resizable (true);
             view.append_column (tool_column);
 
             var actions_column = new Gtk.ColumnViewColumn (
@@ -291,6 +286,16 @@ namespace ProtonPlus.Widgets.Games {
             view.add_css_class ("boxed-list");
             view.add_css_class ("list-content");
             return view;
+        }
+
+        Gtk.ScrolledWindow create_collection_scroller (Gtk.Widget view) {
+            return new Gtk.ScrolledWindow () {
+                hexpand = true,
+                vexpand = true,
+                hscrollbar_policy = Gtk.PolicyType.NEVER,
+                vscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
+                child = view
+            };
         }
 
         Gtk.SignalListItemFactory create_selection_factory () {
