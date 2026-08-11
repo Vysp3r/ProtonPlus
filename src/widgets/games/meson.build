@@ -1,4 +1,5 @@
 sources += files(
+    'games-action-policy.vala',
     'games-box.vala',
     'games-collection.vala',
     'games-row.vala',

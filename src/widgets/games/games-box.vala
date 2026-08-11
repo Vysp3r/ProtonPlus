@@ -21,6 +21,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Stack views_stack;
         Adw.StatusPage empty_status_page;
         Gtk.ColumnView wide_view;
+        Gtk.ColumnViewColumn actions_column;
         Gtk.ListView narrow_view;
         Gtk.MenuButton filter_button;
         Gtk.CheckButton all_filter_check;
@@ -45,6 +46,7 @@ namespace ProtonPlus.Widgets.Games {
         uint focus_idle_id = 0;
         bool updating_selection_toggle = false;
         bool mass_edit_cleanup_pending = false;
+        bool selection_mode_active = false;
 
         public signal void header_presentation_changed (Header.Presentation? presentation);
 
@@ -207,9 +209,10 @@ namespace ProtonPlus.Widgets.Games {
                 vexpand = true,
                 show_column_separators = true,
                 show_row_separators = true,
-                single_click_activate = false
+                single_click_activate = true
             };
             view.add_css_class ("list-content");
+            view.activate.connect (activate_game_row);
 
             var selection_column = new Gtk.ColumnViewColumn (
                 "", create_selection_factory ()
@@ -220,7 +223,7 @@ namespace ProtonPlus.Widgets.Games {
             var title_column = new Gtk.ColumnViewColumn (
                 _("Games"), create_text_factory (GameTextCellKind.TITLE)
             );
-            title_column.set_expand (true);
+            title_column.set_expand (false);
             title_column.set_sorter (games.name_sorter);
             view.append_column (title_column);
 
@@ -238,7 +241,7 @@ namespace ProtonPlus.Widgets.Games {
             tool_column.set_sorter (games.tool_sorter);
             view.append_column (tool_column);
 
-            var actions_column = new Gtk.ColumnViewColumn (
+            actions_column = new Gtk.ColumnViewColumn (
                 _("Actions"), create_actions_factory ()
             );
             actions_column.set_expand (false);
@@ -255,8 +258,10 @@ namespace ProtonPlus.Widgets.Games {
             var factory = new Gtk.SignalListItemFactory ();
             factory.setup.connect ((object) => {
                 var list_item = (Gtk.ListItem) object;
-                var row = new GameRow (open_single_game_edit, focus_narrow_relative);
-                list_item.set_activatable (false);
+                var row = new GameRow (
+                    focus_narrow_relative, activate_game_item
+                );
+                list_item.set_activatable (true);
                 list_item.set_focusable (false);
                 list_item.set_selectable (false);
                 list_item.set_child (row);
@@ -268,6 +273,7 @@ namespace ProtonPlus.Widgets.Games {
                 if (item == null || row == null)
                     return;
                 ((!) row).bind ((!) item);
+                ((!) row).set_selection_mode (selection_mode_active);
                 narrow_rows.set ((!) item, (!) row);
             });
             factory.unbind.connect ((object) => {
@@ -289,10 +295,11 @@ namespace ProtonPlus.Widgets.Games {
             var view = new Gtk.ListView (games.selection_model, factory) {
                 hexpand = true,
                 vexpand = true,
-                single_click_activate = false
+                single_click_activate = true
             };
             view.add_css_class ("boxed-list");
             view.add_css_class ("list-content");
+            view.activate.connect (activate_game_row);
             return view;
         }
 
@@ -310,11 +317,11 @@ namespace ProtonPlus.Widgets.Games {
             var factory = new Gtk.SignalListItemFactory ();
             factory.setup.connect ((object) => {
                 var list_item = (Gtk.ListItem) object;
-                list_item.set_activatable (false);
+                list_item.set_activatable (true);
                 list_item.set_focusable (false);
                 list_item.set_selectable (false);
                 list_item.set_child (new GameSelectionCell (
-                    focus_wide_relative, focus_wide_actions
+                    focus_wide_relative, focus_wide_actions, activate_game_item
                 ));
             });
             factory.bind.connect ((object) => {
@@ -324,6 +331,7 @@ namespace ProtonPlus.Widgets.Games {
                 if (item == null || cell == null)
                     return;
                 ((!) cell).bind ((!) item);
+                ((!) cell).set_selection_mode (selection_mode_active);
                 wide_selection_cells.set ((!) item, (!) cell);
             });
             factory.unbind.connect ((object) => {
@@ -348,7 +356,7 @@ namespace ProtonPlus.Widgets.Games {
             var factory = new Gtk.SignalListItemFactory ();
             factory.setup.connect ((object) => {
                 var list_item = (Gtk.ListItem) object;
-                list_item.set_activatable (false);
+                list_item.set_activatable (true);
                 list_item.set_focusable (false);
                 list_item.set_selectable (false);
                 list_item.set_child (new GameTextCell (kind));
@@ -377,11 +385,11 @@ namespace ProtonPlus.Widgets.Games {
             var factory = new Gtk.SignalListItemFactory ();
             factory.setup.connect ((object) => {
                 var list_item = (Gtk.ListItem) object;
-                list_item.set_activatable (false);
+                list_item.set_activatable (true);
                 list_item.set_focusable (false);
                 list_item.set_selectable (false);
                 list_item.set_child (new GameActions (
-                    open_single_game_edit, focus_wide_relative, focus_wide_selection
+                    focus_wide_relative, focus_wide_selection
                 ));
             });
             factory.bind.connect ((object) => {
@@ -391,6 +399,7 @@ namespace ProtonPlus.Widgets.Games {
                 if (item == null || actions == null)
                     return;
                 ((!) actions).bind ((!) item);
+                ((!) actions).set_selection_mode (selection_mode_active);
                 wide_action_cells.set ((!) item, (!) actions);
             });
             factory.unbind.connect ((object) => {
@@ -684,6 +693,7 @@ namespace ProtonPlus.Widgets.Games {
         void update_selection_controls () {
             var visible_count = games.visible_count ();
             var selected_count = games.selected_visible_count ();
+            set_selection_mode (games.selected_items ().length > 0);
             updating_selection_toggle = true;
             check_button.set_inconsistent (
                 selected_count > 0 && selected_count < visible_count
@@ -694,6 +704,37 @@ namespace ProtonPlus.Widgets.Games {
             updating_selection_toggle = false;
             mass_edit_button.set_selected_count ((int) selected_count);
             mass_edit_button.set_visible (selected_count >= 2);
+        }
+
+        void set_selection_mode (bool active) {
+            if (selection_mode_active == active)
+                return;
+            selection_mode_active = active;
+            actions_column.set_visible (!active);
+            foreach (var row in narrow_rows.values)
+                row.set_selection_mode (active);
+            foreach (var cell in wide_selection_cells.values)
+                cell.set_selection_mode (active);
+            foreach (var actions in wide_action_cells.values)
+                actions.set_selection_mode (active);
+        }
+
+        void activate_game_row (uint position) {
+            var item = games.item_at (position);
+            if (item == null)
+                return;
+            activate_game_item ((!) item);
+        }
+
+        void activate_game_item (GameListItem item) {
+            switch (GameActionAvailability.row_activation (selection_mode_active)) {
+            case GameRowActivation.TOGGLE_SELECTION:
+                item.selected = !item.selected;
+                break;
+            case GameRowActivation.MODIFY:
+                open_single_game_edit (item);
+                break;
+            }
         }
 
         void open_single_game_edit (GameListItem item) {

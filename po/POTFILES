@@ -106,6 +106,7 @@ src/widgets/application.vala
 src/widgets/circular-progress-bar.vala
 src/widgets/controller-choice-box.vala
 src/widgets/controller-hint-bar.vala
+src/widgets/games/games-action-policy.vala
 src/widgets/games/games-box.vala
 src/widgets/games/games-collection.vala
 src/widgets/games/games-extra-button.vala

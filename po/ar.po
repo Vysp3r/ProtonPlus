@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-11 17:33-0400\n"
+"POT-Creation-Date: 2026-08-11 17:51-0400\n"
 "PO-Revision-Date: 2026-02-03 11:54+0000\n"
 "Last-Translator: Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/protonplus/"
@@ -2561,7 +2561,7 @@ msgid "Search"
 msgstr "البحث"
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-box.vala:483 src/widgets/tools/tools-box.vala:217
+#: src/widgets/games/games-box.vala:491 src/widgets/tools/tools-box.vala:217
 #: src/widgets/tools/tools-box.vala:438
 msgid "Filter"
 msgstr "التصفية"
@@ -2632,149 +2632,239 @@ msgstr "أعلى"
 msgid "Top face button"
 msgstr "زر الوجه الأعلى"
 
-#: src/widgets/games/games-box.vala:100 src/widgets/games/games-box.vala:675
+#: src/widgets/games/games-box.vala:101 src/widgets/games/games-box.vala:683
 #: src/widgets/tools/tools-release-box.vala:102
 msgid "No games found"
 msgstr "لم يتم العثور على أي لعبة"
 
-#: src/widgets/games/games-box.vala:101
+#: src/widgets/games/games-box.vala:102
 msgid "Try a different search term or filter."
 msgstr "جرب لفظ بحث آخر أو تصفية مختلفة."
 
-#: src/widgets/games/games-box.vala:128
+#: src/widgets/games/games-box.vala:129
 #: src/widgets/tools/tools-stl-release-row.vala:24
 #: src/widgets/tools/tools-stl-release-row.vala:133 src/widgets/window.vala:348
 msgid "Warning"
 msgstr "تحذير"
 
-#: src/widgets/games/games-box.vala:129
+#: src/widgets/games/games-box.vala:130
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
 msgstr ""
 "الرجاء التأكد من تحديد لعبة واحدة على الأقل قبل إستخدام ميزة التحرير بالجُملًة"
 
-#: src/widgets/games/games-box.vala:178 src/widgets/games/games-box.vala:181
-#: src/widgets/games/games-box.vala:221 src/widgets/main/main-box.vala:70
+#: src/widgets/games/games-box.vala:179 src/widgets/games/games-box.vala:182
+#: src/widgets/games/games-box.vala:223 src/widgets/main/main-box.vala:70
 msgid "Games"
 msgstr "الألعاب"
 
-#: src/widgets/games/games-box.vala:228
+#: src/widgets/games/games-box.vala:230
 msgid "Prefix"
 msgstr "البادئة"
 
-#: src/widgets/games/games-box.vala:235
+#: src/widgets/games/games-box.vala:237
 msgid "Tool"
 msgstr "أداة"
 
-#: src/widgets/games/games-box.vala:242
+#: src/widgets/games/games-box.vala:244
 #: src/widgets/introduction/controller.vala:49
 msgid "Actions"
 msgstr "الإجراءات"
 
-#: src/widgets/games/games-box.vala:450 src/widgets/tools/tools-box.vala:219
+#: src/widgets/games/games-box.vala:458 src/widgets/tools/tools-box.vala:219
 msgid "All"
 msgstr "الكل"
 
-#: src/widgets/games/games-box.vala:453
+#: src/widgets/games/games-box.vala:461
 #: src/widgets/games/games-collection.vala:72
 #: src/widgets/games/games-mass-edit-view.vala:173
 msgid "Native"
 msgstr "أصلي"
 
-#: src/widgets/games/games-box.vala:455
+#: src/widgets/games/games-box.vala:463
 msgid "Non-Steam"
 msgstr "Non-Steam"
 
-#: src/widgets/games/games-box.vala:495
+#: src/widgets/games/games-box.vala:503
 msgid "Search games"
 msgstr "بحث الألعاب"
 
-#: src/widgets/games/games-box.vala:505
+#: src/widgets/games/games-box.vala:513
 msgid "Select all visible games"
 msgstr "حدد كل الألعاب الظاهرة"
 
-#: src/widgets/games/games-box.vala:549
+#: src/widgets/games/games-box.vala:557
 msgid "Steam games couldn’t be loaded"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:550
+#: src/widgets/games/games-box.vala:558
 msgid ""
 "Steam’s library or profile data is missing or invalid. Finish setting up "
 "Steam, then restart ProtonPlus. Tools and other launchers remain available."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:560
+#: src/widgets/games/games-box.vala:568
 msgid "Unsupported launcher"
 msgstr "البرامج المشغلة الغير مدعومة"
 
-#: src/widgets/games/games-box.vala:562
+#: src/widgets/games/games-box.vala:570
 #, c-format
 msgid "%s is currently not supported."
 msgstr "إن %s غير مدعوم حالياً"
 
-#: src/widgets/games/games-box.vala:563
+#: src/widgets/games/games-box.vala:571
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "إن أردت مني إسراع عملية التطوير الرجاء التطوع للمشروع لإظهار دعمك لي"
 
-#: src/widgets/games/games-box.vala:607
+#: src/widgets/games/games-box.vala:615
 #: src/widgets/games/games-collection.vala:78
 #: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
 msgstr "إفتراضي"
 
-#: src/widgets/games/games-box.vala:650
+#: src/widgets/games/games-box.vala:658
 msgid "Filter: Native"
 msgstr "تصفية: أصلي"
 
-#: src/widgets/games/games-box.vala:652
+#: src/widgets/games/games-box.vala:660
 msgid "Filter: Non-Steam"
 msgstr "تصفية: Non-Steam"
 
-#: src/widgets/games/games-box.vala:654
+#: src/widgets/games/games-box.vala:662
 #, fuzzy
 msgid "Filter: All games"
 msgstr "تصفية: جميع الألعاب"
 
-#: src/widgets/games/games-box.vala:663
+#: src/widgets/games/games-box.vala:671
 #, fuzzy
 msgid "No matching games"
 msgstr "لا توجد ألعاب مطابقة"
 
-#: src/widgets/games/games-box.vala:665
+#: src/widgets/games/games-box.vala:673
 #: src/widgets/tools/tools-group-box.vala:170
 msgid "Try a different search term or clear the search."
 msgstr "جرب لفظ بحث آخر أو أفرغ خانة البحث"
 
-#: src/widgets/games/games-box.vala:669
+#: src/widgets/games/games-box.vala:677
 msgid "No games match this filter"
 msgstr "لا توجد ألعاب مطابقة للتصفية الحالية"
 
-#: src/widgets/games/games-box.vala:671
+#: src/widgets/games/games-box.vala:679
 msgid "Choose All games to see your complete library."
 msgstr "إختر جميع الألعاب لرؤية المكتبة بأكملها."
 
-#: src/widgets/games/games-box.vala:677
+#: src/widgets/games/games-box.vala:685
 msgid "No games are available for this launcher."
 msgstr "لا توجد ألعاب متوفرة لمشغل البرامج هذا."
 
-#: src/widgets/games/games-extra-button.vala:12
-msgid "Open in protontricks"
+#: src/widgets/games/games-extra-button.vala:53
+#, fuzzy
+msgid "Game Actions"
+msgstr "الإجراءات"
+
+#: src/widgets/games/games-extra-button.vala:71
+#, fuzzy, c-format
+msgid "Actions for %s"
+msgstr "الإجراءات"
+
+#: src/widgets/games/games-extra-button.vala:118
+#, fuzzy
+msgid "_Run Custom Executable…"
+msgstr "شغل البرنامج القابل للتنفيذ المخصص"
+
+#: src/widgets/games/games-extra-button.vala:120
+#, fuzzy
+msgid "Open _Game Folder"
+msgstr "مجلد المخرجات"
+
+#: src/widgets/games/games-extra-button.vala:122
+#, fuzzy
+msgid "Open _Prefix Folder"
+msgstr "فتح في متصفح الويب الخاص بك"
+
+#: src/widgets/games/games-extra-button.vala:124
+#, fuzzy
+msgid "Open in Proton_tricks"
 msgstr "protontricks فتح بواسطة"
 
-#: src/widgets/games/games-extra-button.vala:16
-msgid "Open ProtonDB page"
+#: src/widgets/games/games-extra-button.vala:126
+#, fuzzy
+msgid "Open Proton_DB"
 msgstr "ProtonDB إفتح صفحة"
 
-#: src/widgets/games/games-extra-button.vala:34
+#: src/widgets/games/games-extra-button.vala:149
 #, fuzzy
-msgid "Extra"
-msgstr "إضافي"
+msgid "Supported"
+msgstr "مشغل برامج غير مدعوم"
 
-#: src/widgets/games/games-extra-button.vala:108
+#: src/widgets/games/games-extra-button.vala:152
+msgid "Running"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:155
+msgid "Planned"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:158
+msgid "Broken"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:161
+msgid "Denied"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:164
+#, fuzzy
+msgid "Loading…"
+msgstr "جاري التحميل"
+
+#: src/widgets/games/games-extra-button.vala:167
 msgid "Unknown"
 msgstr "مجهول"
+
+#: src/widgets/games/games-extra-button.vala:170
+#, c-format
+msgid "Anti-Cheat: %s — _AreWeAntiCheatYet"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:182
+msgid "Select executable"
+msgstr "حدد الكل"
+
+#: src/widgets/games/games-extra-button.vala:186
+msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
+msgstr "البرامج القابلة للتنفيذ (*.exe, *.msi, *.msu, *.bat)"
+
+#: src/widgets/games/games-extra-button.vala:216
+#, fuzzy
+msgid "Compatibility Tool Not Found"
+msgstr "لم يتم إيجاد أداة التوافق"
+
+#: src/widgets/games/games-extra-button.vala:217
+#, c-format
+msgid ""
+"The compatibility tool required for %s is missing from your system. Please "
+"ensure it is correctly installed."
+msgstr ""
+"أداة التوافق المطلوبة لـ%s مفقودة من النظام. الرجاء التأكد من إنها مثبتة "
+"بشكل صحيح"
+
+#: src/widgets/games/games-extra-button.vala:235
+#, c-format
+msgid "Exit status: %d"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:241
+#, fuzzy
+msgid "Custom Executable Failed"
+msgstr "حدد الكل"
+
+#: src/widgets/games/games-extra-button.vala:242
+#, c-format
+msgid "The custom executable for %s could not be launched."
+msgstr ""
 
 #: src/widgets/games/games-mass-edit-button.vala:14
 msgid "Modify the selected games"
@@ -2890,67 +2980,30 @@ msgstr ""
 "لم نمكن من تحديث بعض الألعاب بأداة التوافق الجديدة أو خيارات التشغيل.\n"
 "قد يكون السبب هو عدم وجود صلاحيات أو وجود مشاكل أثناء محاولة الوصول للملف."
 
-#: src/widgets/games/games-row.vala:30 src/widgets/games/games-row.vala:417
+#: src/widgets/games/games-row.vala:34 src/widgets/games/games-row.vala:334
 #, fuzzy
 msgid "Select game"
 msgstr "اختر"
 
-#: src/widgets/games/games-row.vala:139
-msgid "Browse game install directory"
-msgstr "فتح دليل التثبيت"
-
-#: src/widgets/games/games-row.vala:144 src/widgets/games/games-row.vala:505
-msgid "Browse prefix directory"
-msgstr "فتح دليل البادِئة"
-
-#: src/widgets/games/games-row.vala:200
-msgid "Modify the game"
+#: src/widgets/games/games-row.vala:39 src/widgets/games/games-row.vala:347
+#, fuzzy
+msgid "Modify Game"
 msgstr "تحرير اللعبة"
 
-#: src/widgets/games/games-row.vala:209
-msgid "Launch custom executable"
-msgstr "شغل البرنامج القابل للتنفيذ المخصص"
-
-#: src/widgets/games/games-row.vala:215
-msgid "Launch game"
-msgstr "شغل اللعبة"
-
-#: src/widgets/games/games-row.vala:317
-msgid "Select executable"
-msgstr "حدد الكل"
-
-#: src/widgets/games/games-row.vala:321
-msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
-msgstr "البرامج القابلة للتنفيذ (*.exe, *.msi, *.msu, *.bat)"
-
-#: src/widgets/games/games-row.vala:351
-#, fuzzy
-msgid "Compatibility Tool Not Found"
-msgstr "لم يتم إيجاد أداة التوافق"
-
-#: src/widgets/games/games-row.vala:352
+#: src/widgets/games/games-row.vala:102 src/widgets/games/games-row.vala:435
 #, c-format
-msgid ""
-"The compatibility tool required for %s is missing from your system. Please "
-"ensure it is correctly installed."
-msgstr ""
-"أداة التوافق المطلوبة لـ%s مفقودة من النظام. الرجاء التأكد من إنها مثبتة "
-"بشكل صحيح"
-
-#: src/widgets/games/games-row.vala:370
-#, c-format
-msgid "Exit status: %d"
+msgid "Toggle selection for %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:374
-#, fuzzy
-msgid "Custom Executable Failed"
-msgstr "حدد الكل"
-
-#: src/widgets/games/games-row.vala:375
+#: src/widgets/games/games-row.vala:103 src/widgets/games/games-row.vala:436
 #, c-format
-msgid "The custom executable for %s could not be launched."
+msgid "Modify %s"
 msgstr ""
+
+#: src/widgets/games/games-row.vala:219 src/widgets/games/games-row.vala:222
+#, fuzzy, c-format
+msgid "Launch %s"
+msgstr "البرامج المٌشغلة"
 
 #: src/widgets/games/games-tool-row.vala:18
 #: src/widgets/tools/tools-migrate-box.vala:18
@@ -7474,6 +7527,19 @@ msgstr ""
 "التطبيق حالياً يعمل على تنزيل أداة.\n"
 "الخروج أثناء هذه العملية قد يتسبب في حدوث عدة مشاكل."
 
+#, fuzzy
+#~ msgid "Extra"
+#~ msgstr "إضافي"
+
+#~ msgid "Browse game install directory"
+#~ msgstr "فتح دليل التثبيت"
+
+#~ msgid "Browse prefix directory"
+#~ msgstr "فتح دليل البادِئة"
+
+#~ msgid "Launch game"
+#~ msgstr "شغل اللعبة"
+
 #~ msgid "The library interface of ProtonPlus."
 #~ msgstr "واجهة مكتبة بروتون بلس."
 
@@ -7516,10 +7582,6 @@ msgstr ""
 #~ msgstr "ترقية %s"
 
 #, fuzzy
-#~ msgid "Open in browser"
-#~ msgstr "فتح في متصفح الويب الخاص بك"
-
-#, fuzzy
 #~ msgid "Open the source repository"
 #~ msgstr "فتح دليل المشغل"
 
@@ -7538,10 +7600,6 @@ msgstr ""
 #, fuzzy
 #~ msgid "Apply the custom resolution"
 #~ msgstr "تطبيق التعديل الحالي"
-
-#, fuzzy
-#~ msgid "Supported launchers:"
-#~ msgstr "مشغل برامج غير مدعوم"
 
 #, fuzzy, c-format
 #~ msgid "Uninstalled %s\n"

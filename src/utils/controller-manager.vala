@@ -1196,9 +1196,14 @@ namespace ProtonPlus.Utils {
             var list_view = find_list_view_ancestor (
                 focused, get_direction_input_root (focused, get_active_surface ())
             );
+            var activation_handler = find_controller_activation_handler (
+                focused, root
+            );
             var redirected_target = find_controller_activation_target (focused, root);
             var succeeded = false;
-            if (redirected_target != null) {
+            if (activation_handler != null) {
+                succeeded = ((!) activation_handler).controller_activate (focused);
+            } else if (redirected_target != null) {
                 succeeded = ((!) redirected_target).activate ();
             } else if (list_view != null) {
                 /* Controller navigation moves GTK focus between list items
@@ -1225,6 +1230,20 @@ namespace ProtonPlus.Utils {
                 schedule_page_focus_restore ();
             refresh_presentation ();
             return succeeded;
+        }
+
+        ControllerActivationHandler? find_controller_activation_handler (
+            Gtk.Widget focused, Gtk.Widget root
+        ) {
+            Gtk.Widget? current = focused;
+            while (current != null) {
+                if (current is ControllerActivationHandler)
+                    return (ControllerActivationHandler) current;
+                if (current == root)
+                    break;
+                current = current.get_parent ();
+            }
+            return null;
         }
 
         Gtk.Widget? find_controller_activation_target (

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-11 17:33-0400\n"
+"POT-Creation-Date: 2026-08-11 17:51-0400\n"
 "PO-Revision-Date: 2026-08-11 18:11+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -2618,7 +2618,7 @@ msgid "Search"
 msgstr "Suchen"
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-box.vala:483 src/widgets/tools/tools-box.vala:217
+#: src/widgets/games/games-box.vala:491 src/widgets/tools/tools-box.vala:217
 #: src/widgets/tools/tools-box.vala:438
 msgid "Filter"
 msgstr "Filter"
@@ -2689,22 +2689,22 @@ msgstr "Oben"
 msgid "Top face button"
 msgstr "Obere Aktionstaste"
 
-#: src/widgets/games/games-box.vala:100 src/widgets/games/games-box.vala:675
+#: src/widgets/games/games-box.vala:101 src/widgets/games/games-box.vala:683
 #: src/widgets/tools/tools-release-box.vala:102
 msgid "No games found"
 msgstr "Keine Spiele gefunden"
 
-#: src/widgets/games/games-box.vala:101
+#: src/widgets/games/games-box.vala:102
 msgid "Try a different search term or filter."
 msgstr "Versuchen Sie einen anderen Suchbegriff oder Filter."
 
-#: src/widgets/games/games-box.vala:128
+#: src/widgets/games/games-box.vala:129
 #: src/widgets/tools/tools-stl-release-row.vala:24
 #: src/widgets/tools/tools-stl-release-row.vala:133 src/widgets/window.vala:348
 msgid "Warning"
 msgstr "Warnung"
 
-#: src/widgets/games/games-box.vala:129
+#: src/widgets/games/games-box.vala:130
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
@@ -2712,51 +2712,51 @@ msgstr ""
 "Bitte stellen Sie sicher, dass Sie mindestens ein Spiel auswählen, bevor Sie "
 "die Massenbearbeitungsfunktion verwenden."
 
-#: src/widgets/games/games-box.vala:178 src/widgets/games/games-box.vala:181
-#: src/widgets/games/games-box.vala:221 src/widgets/main/main-box.vala:70
+#: src/widgets/games/games-box.vala:179 src/widgets/games/games-box.vala:182
+#: src/widgets/games/games-box.vala:223 src/widgets/main/main-box.vala:70
 msgid "Games"
 msgstr "Spiele"
 
-#: src/widgets/games/games-box.vala:228
+#: src/widgets/games/games-box.vala:230
 msgid "Prefix"
 msgstr "Präfix"
 
-#: src/widgets/games/games-box.vala:235
+#: src/widgets/games/games-box.vala:237
 msgid "Tool"
 msgstr "Werkzeug"
 
-#: src/widgets/games/games-box.vala:242
+#: src/widgets/games/games-box.vala:244
 #: src/widgets/introduction/controller.vala:49
 msgid "Actions"
 msgstr "Aktionen"
 
-#: src/widgets/games/games-box.vala:450 src/widgets/tools/tools-box.vala:219
+#: src/widgets/games/games-box.vala:458 src/widgets/tools/tools-box.vala:219
 msgid "All"
 msgstr "Alle"
 
-#: src/widgets/games/games-box.vala:453
+#: src/widgets/games/games-box.vala:461
 #: src/widgets/games/games-collection.vala:72
 #: src/widgets/games/games-mass-edit-view.vala:173
 msgid "Native"
 msgstr "Nativ"
 
-#: src/widgets/games/games-box.vala:455
+#: src/widgets/games/games-box.vala:463
 msgid "Non-Steam"
 msgstr "Nicht-Steam"
 
-#: src/widgets/games/games-box.vala:495
+#: src/widgets/games/games-box.vala:503
 msgid "Search games"
 msgstr "Spiele suchen"
 
-#: src/widgets/games/games-box.vala:505
+#: src/widgets/games/games-box.vala:513
 msgid "Select all visible games"
 msgstr "Alle sichtbaren Spiele auswählen"
 
-#: src/widgets/games/games-box.vala:549
+#: src/widgets/games/games-box.vala:557
 msgid "Steam games couldn’t be loaded"
 msgstr "Steam-Spiele konnten nicht geladen werden"
 
-#: src/widgets/games/games-box.vala:550
+#: src/widgets/games/games-box.vala:558
 msgid ""
 "Steam’s library or profile data is missing or invalid. Finish setting up "
 "Steam, then restart ProtonPlus. Tools and other launchers remain available."
@@ -2765,76 +2765,167 @@ msgstr ""
 "Schließen Sie die Einrichtung von Steam ab und starten Sie ProtonPlus neu. "
 "Werkzeuge und andere Starter bleiben verfügbar."
 
-#: src/widgets/games/games-box.vala:560
+#: src/widgets/games/games-box.vala:568
 msgid "Unsupported launcher"
 msgstr "Nicht unterstützter Starter"
 
-#: src/widgets/games/games-box.vala:562
+#: src/widgets/games/games-box.vala:570
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s wird aktuell nicht unterstützt."
 
-#: src/widgets/games/games-box.vala:563
+#: src/widgets/games/games-box.vala:571
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 "Wenn Sie möchten, dass ich die Entwicklung beschleunige, zeigen Sie Ihre "
 "Unterstützung!"
 
-#: src/widgets/games/games-box.vala:607
+#: src/widgets/games/games-box.vala:615
 #: src/widgets/games/games-collection.vala:78
 #: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
 msgstr "Standard"
 
-#: src/widgets/games/games-box.vala:650
+#: src/widgets/games/games-box.vala:658
 msgid "Filter: Native"
 msgstr "Filter: Nativ"
 
-#: src/widgets/games/games-box.vala:652
+#: src/widgets/games/games-box.vala:660
 msgid "Filter: Non-Steam"
 msgstr "Filter: Nicht-Steam"
 
-#: src/widgets/games/games-box.vala:654
+#: src/widgets/games/games-box.vala:662
 msgid "Filter: All games"
 msgstr "Filter: Alle Spiele"
 
-#: src/widgets/games/games-box.vala:663
+#: src/widgets/games/games-box.vala:671
 msgid "No matching games"
 msgstr "Keine passenden Spiele"
 
-#: src/widgets/games/games-box.vala:665
+#: src/widgets/games/games-box.vala:673
 #: src/widgets/tools/tools-group-box.vala:170
 msgid "Try a different search term or clear the search."
 msgstr "Versuchen Sie einen anderen Suchbegriff oder leeren Sie die Suche."
 
-#: src/widgets/games/games-box.vala:669
+#: src/widgets/games/games-box.vala:677
 msgid "No games match this filter"
 msgstr "Keine Spiele entsprechen diesem Filter"
 
-#: src/widgets/games/games-box.vala:671
+#: src/widgets/games/games-box.vala:679
 msgid "Choose All games to see your complete library."
 msgstr "Wählen Sie „Alle Spiele“, um Ihre vollständige Bibliothek anzuzeigen."
 
-#: src/widgets/games/games-box.vala:677
+#: src/widgets/games/games-box.vala:685
 msgid "No games are available for this launcher."
 msgstr "Für diesen Starter sind keine Spiele verfügbar."
 
-#: src/widgets/games/games-extra-button.vala:12
-msgid "Open in protontricks"
+#: src/widgets/games/games-extra-button.vala:53
+#, fuzzy
+msgid "Game Actions"
+msgstr "Aktionen"
+
+#: src/widgets/games/games-extra-button.vala:71
+#, fuzzy, c-format
+msgid "Actions for %s"
+msgstr "Aktionen"
+
+#: src/widgets/games/games-extra-button.vala:118
+#, fuzzy
+msgid "_Run Custom Executable…"
+msgstr "Benutzerdefinierte ausführbare Datei starten"
+
+#: src/widgets/games/games-extra-button.vala:120
+#, fuzzy
+msgid "Open _Game Folder"
+msgstr "Ausgabeordner"
+
+#: src/widgets/games/games-extra-button.vala:122
+#, fuzzy
+msgid "Open _Prefix Folder"
+msgstr "Im Webbrowser öffnen"
+
+#: src/widgets/games/games-extra-button.vala:124
+#, fuzzy
+msgid "Open in Proton_tricks"
 msgstr "Öffnen in protontricks"
 
-#: src/widgets/games/games-extra-button.vala:16
-msgid "Open ProtonDB page"
+#: src/widgets/games/games-extra-button.vala:126
+#, fuzzy
+msgid "Open Proton_DB"
 msgstr "ProtonDB-Seite öffnen"
 
-#: src/widgets/games/games-extra-button.vala:34
-msgid "Extra"
-msgstr "Extra"
+#: src/widgets/games/games-extra-button.vala:149
+#, fuzzy
+msgid "Supported"
+msgstr "Nicht unterstützter Starter"
 
-#: src/widgets/games/games-extra-button.vala:108
+#: src/widgets/games/games-extra-button.vala:152
+msgid "Running"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:155
+msgid "Planned"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:158
+msgid "Broken"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:161
+msgid "Denied"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:164
+#, fuzzy
+msgid "Loading…"
+msgstr "Laden"
+
+#: src/widgets/games/games-extra-button.vala:167
 msgid "Unknown"
 msgstr "Unbekannt"
+
+#: src/widgets/games/games-extra-button.vala:170
+#, c-format
+msgid "Anti-Cheat: %s — _AreWeAntiCheatYet"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:182
+msgid "Select executable"
+msgstr "Ausführbare Datei auswählen"
+
+#: src/widgets/games/games-extra-button.vala:186
+msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
+msgstr "Ausführbare Dateien (*.exe, *.msi, *.msu, *.bat)"
+
+#: src/widgets/games/games-extra-button.vala:216
+msgid "Compatibility Tool Not Found"
+msgstr "Kompatibilitätswerkzeug nicht gefunden"
+
+#: src/widgets/games/games-extra-button.vala:217
+#, c-format
+msgid ""
+"The compatibility tool required for %s is missing from your system. Please "
+"ensure it is correctly installed."
+msgstr ""
+"Das für %s benötigte Kompatibilitätswerkzeug fehlt auf Ihrem System. Bitte "
+"stellen Sie sicher, dass es korrekt installiert ist."
+
+#: src/widgets/games/games-extra-button.vala:235
+#, c-format
+msgid "Exit status: %d"
+msgstr "Exit-Status: %d"
+
+#: src/widgets/games/games-extra-button.vala:241
+msgid "Custom Executable Failed"
+msgstr "Benutzerdefinierte ausführbare Datei fehlgeschlagen"
+
+#: src/widgets/games/games-extra-button.vala:242
+#, c-format
+msgid "The custom executable for %s could not be launched."
+msgstr ""
+"Die benutzerdefinierte ausführbare Datei für %s konnte nicht gestartet "
+"werden."
 
 #: src/widgets/games/games-mass-edit-button.vala:14
 msgid "Modify the selected games"
@@ -2950,67 +3041,30 @@ msgstr ""
 "neuen Startoptionen aktualisiert werden. Ursache können fehlende "
 "Berechtigungen oder Probleme beim Dateizugriff sein."
 
-#: src/widgets/games/games-row.vala:30 src/widgets/games/games-row.vala:417
+#: src/widgets/games/games-row.vala:34 src/widgets/games/games-row.vala:334
 #, fuzzy
 msgid "Select game"
 msgstr "Auswählen"
 
-#: src/widgets/games/games-row.vala:139
-msgid "Browse game install directory"
-msgstr "Installationsverzeichnis des Spiels durchsuchen"
-
-#: src/widgets/games/games-row.vala:144 src/widgets/games/games-row.vala:505
-msgid "Browse prefix directory"
-msgstr "Präfixverzeichnis durchsuchen"
-
-#: src/widgets/games/games-row.vala:200
-msgid "Modify the game"
+#: src/widgets/games/games-row.vala:39 src/widgets/games/games-row.vala:347
+#, fuzzy
+msgid "Modify Game"
 msgstr "Spiel bearbeiten"
 
-#: src/widgets/games/games-row.vala:209
-msgid "Launch custom executable"
-msgstr "Benutzerdefinierte ausführbare Datei starten"
-
-#: src/widgets/games/games-row.vala:215
-msgid "Launch game"
-msgstr "Spiel starten"
-
-#: src/widgets/games/games-row.vala:317
-msgid "Select executable"
-msgstr "Ausführbare Datei auswählen"
-
-#: src/widgets/games/games-row.vala:321
-msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
-msgstr "Ausführbare Dateien (*.exe, *.msi, *.msu, *.bat)"
-
-#: src/widgets/games/games-row.vala:351
-msgid "Compatibility Tool Not Found"
-msgstr "Kompatibilitätswerkzeug nicht gefunden"
-
-#: src/widgets/games/games-row.vala:352
+#: src/widgets/games/games-row.vala:102 src/widgets/games/games-row.vala:435
 #, c-format
-msgid ""
-"The compatibility tool required for %s is missing from your system. Please "
-"ensure it is correctly installed."
+msgid "Toggle selection for %s"
 msgstr ""
-"Das für %s benötigte Kompatibilitätswerkzeug fehlt auf Ihrem System. Bitte "
-"stellen Sie sicher, dass es korrekt installiert ist."
 
-#: src/widgets/games/games-row.vala:370
+#: src/widgets/games/games-row.vala:103 src/widgets/games/games-row.vala:436
 #, c-format
-msgid "Exit status: %d"
-msgstr "Exit-Status: %d"
-
-#: src/widgets/games/games-row.vala:374
-msgid "Custom Executable Failed"
-msgstr "Benutzerdefinierte ausführbare Datei fehlgeschlagen"
-
-#: src/widgets/games/games-row.vala:375
-#, c-format
-msgid "The custom executable for %s could not be launched."
+msgid "Modify %s"
 msgstr ""
-"Die benutzerdefinierte ausführbare Datei für %s konnte nicht gestartet "
-"werden."
+
+#: src/widgets/games/games-row.vala:219 src/widgets/games/games-row.vala:222
+#, fuzzy, c-format
+msgid "Launch %s"
+msgstr "Starter"
 
 #: src/widgets/games/games-tool-row.vala:18
 #: src/widgets/tools/tools-migrate-box.vala:18
@@ -7694,6 +7748,18 @@ msgstr ""
 "Die Anwendung lädt derzeit ein Werkzeug herunter.\n"
 "Ein vorzeitiges Beenden der Anwendung kann zu Problemen führen."
 
+#~ msgid "Extra"
+#~ msgstr "Extra"
+
+#~ msgid "Browse game install directory"
+#~ msgstr "Installationsverzeichnis des Spiels durchsuchen"
+
+#~ msgid "Browse prefix directory"
+#~ msgstr "Präfixverzeichnis durchsuchen"
+
+#~ msgid "Launch game"
+#~ msgstr "Spiel starten"
+
 #, fuzzy
 #~ msgid "Clear sorting"
 #~ msgstr "Verlauf löschen"
@@ -7751,10 +7817,6 @@ msgstr ""
 #~ msgstr "Optimiert FSR 4.0 für RDNA3-Hardware."
 
 #, fuzzy
-#~ msgid "Open in browser"
-#~ msgstr "Im Webbrowser öffnen"
-
-#, fuzzy
 #~ msgid "Open the source repository"
 #~ msgstr "Ausführungswerkzeugverzeichnis öffnen"
 
@@ -7803,9 +7865,6 @@ msgstr ""
 
 #~ msgid "VRR"
 #~ msgstr "VRR"
-
-#~ msgid "Supported launchers:"
-#~ msgstr "Nicht unterstützter Starter"
 
 #~ msgid "WineZGUI"
 #~ msgstr "WineD3D"

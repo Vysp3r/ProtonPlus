@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-11 17:33-0400\n"
+"POT-Creation-Date: 2026-08-11 17:51-0400\n"
 "PO-Revision-Date: 2026-08-11 12:51+0000\n"
 "Last-Translator: Silence <1059022187@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -2523,7 +2523,7 @@ msgid "Search"
 msgstr "搜索"
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-box.vala:483 src/widgets/tools/tools-box.vala:217
+#: src/widgets/games/games-box.vala:491 src/widgets/tools/tools-box.vala:217
 #: src/widgets/tools/tools-box.vala:438
 msgid "Filter"
 msgstr "过滤器"
@@ -2594,146 +2594,234 @@ msgstr "上"
 msgid "Top face button"
 msgstr "上方正面按键"
 
-#: src/widgets/games/games-box.vala:100 src/widgets/games/games-box.vala:675
+#: src/widgets/games/games-box.vala:101 src/widgets/games/games-box.vala:683
 #: src/widgets/tools/tools-release-box.vala:102
 msgid "No games found"
 msgstr "未找到游戏"
 
-#: src/widgets/games/games-box.vala:101
+#: src/widgets/games/games-box.vala:102
 msgid "Try a different search term or filter."
 msgstr "尝试其他搜索词或筛选条件。"
 
-#: src/widgets/games/games-box.vala:128
+#: src/widgets/games/games-box.vala:129
 #: src/widgets/tools/tools-stl-release-row.vala:24
 #: src/widgets/tools/tools-stl-release-row.vala:133 src/widgets/window.vala:348
 msgid "Warning"
 msgstr "警告"
 
-#: src/widgets/games/games-box.vala:129
+#: src/widgets/games/games-box.vala:130
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
 msgstr "使用批量编辑功能前，请务必至少选择一款游戏。"
 
-#: src/widgets/games/games-box.vala:178 src/widgets/games/games-box.vala:181
-#: src/widgets/games/games-box.vala:221 src/widgets/main/main-box.vala:70
+#: src/widgets/games/games-box.vala:179 src/widgets/games/games-box.vala:182
+#: src/widgets/games/games-box.vala:223 src/widgets/main/main-box.vala:70
 msgid "Games"
 msgstr "游戏"
 
-#: src/widgets/games/games-box.vala:228
+#: src/widgets/games/games-box.vala:230
 msgid "Prefix"
 msgstr "容器"
 
-#: src/widgets/games/games-box.vala:235
+#: src/widgets/games/games-box.vala:237
 msgid "Tool"
 msgstr "工具"
 
-#: src/widgets/games/games-box.vala:242
+#: src/widgets/games/games-box.vala:244
 #: src/widgets/introduction/controller.vala:49
 msgid "Actions"
 msgstr "操作"
 
-#: src/widgets/games/games-box.vala:450 src/widgets/tools/tools-box.vala:219
+#: src/widgets/games/games-box.vala:458 src/widgets/tools/tools-box.vala:219
 msgid "All"
 msgstr "全部"
 
-#: src/widgets/games/games-box.vala:453
+#: src/widgets/games/games-box.vala:461
 #: src/widgets/games/games-collection.vala:72
 #: src/widgets/games/games-mass-edit-view.vala:173
 msgid "Native"
 msgstr "原生"
 
-#: src/widgets/games/games-box.vala:455
+#: src/widgets/games/games-box.vala:463
 msgid "Non-Steam"
 msgstr "非Steam"
 
-#: src/widgets/games/games-box.vala:495
+#: src/widgets/games/games-box.vala:503
 msgid "Search games"
 msgstr "搜索游戏"
 
-#: src/widgets/games/games-box.vala:505
+#: src/widgets/games/games-box.vala:513
 msgid "Select all visible games"
 msgstr "选择所有可见游戏"
 
-#: src/widgets/games/games-box.vala:549
+#: src/widgets/games/games-box.vala:557
 #, fuzzy
 msgid "Steam games couldn’t be loaded"
 msgstr "无法重新打开 Steam"
 
-#: src/widgets/games/games-box.vala:550
+#: src/widgets/games/games-box.vala:558
 msgid ""
 "Steam’s library or profile data is missing or invalid. Finish setting up "
 "Steam, then restart ProtonPlus. Tools and other launchers remain available."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:560
+#: src/widgets/games/games-box.vala:568
 msgid "Unsupported launcher"
 msgstr "不支持的启动器"
 
-#: src/widgets/games/games-box.vala:562
+#: src/widgets/games/games-box.vala:570
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s 目前不受支持。"
 
-#: src/widgets/games/games-box.vala:563
+#: src/widgets/games/games-box.vala:571
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "如果你想让我加快开发进度，请务必表达你的支持！"
 
-#: src/widgets/games/games-box.vala:607
+#: src/widgets/games/games-box.vala:615
 #: src/widgets/games/games-collection.vala:78
 #: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
 msgstr "默认"
 
-#: src/widgets/games/games-box.vala:650
+#: src/widgets/games/games-box.vala:658
 msgid "Filter: Native"
 msgstr "筛选：原生"
 
-#: src/widgets/games/games-box.vala:652
+#: src/widgets/games/games-box.vala:660
 msgid "Filter: Non-Steam"
 msgstr "过滤器：非Steam"
 
-#: src/widgets/games/games-box.vala:654
+#: src/widgets/games/games-box.vala:662
 msgid "Filter: All games"
 msgstr "筛选：全部游戏"
 
-#: src/widgets/games/games-box.vala:663
+#: src/widgets/games/games-box.vala:671
 msgid "No matching games"
 msgstr "没有匹配的游戏"
 
-#: src/widgets/games/games-box.vala:665
+#: src/widgets/games/games-box.vala:673
 #: src/widgets/tools/tools-group-box.vala:170
 msgid "Try a different search term or clear the search."
 msgstr "尝试其他搜索词或清除搜索。"
 
-#: src/widgets/games/games-box.vala:669
+#: src/widgets/games/games-box.vala:677
 msgid "No games match this filter"
 msgstr "没有游戏符合此筛选条件"
 
-#: src/widgets/games/games-box.vala:671
+#: src/widgets/games/games-box.vala:679
 msgid "Choose All games to see your complete library."
 msgstr "选择“全部游戏”以查看完整库。"
 
-#: src/widgets/games/games-box.vala:677
+#: src/widgets/games/games-box.vala:685
 msgid "No games are available for this launcher."
 msgstr "此启动器没有可用游戏。"
 
-#: src/widgets/games/games-extra-button.vala:12
-msgid "Open in protontricks"
+#: src/widgets/games/games-extra-button.vala:53
+#, fuzzy
+msgid "Game Actions"
+msgstr "操作"
+
+#: src/widgets/games/games-extra-button.vala:71
+#, fuzzy, c-format
+msgid "Actions for %s"
+msgstr "操作"
+
+#: src/widgets/games/games-extra-button.vala:118
+#, fuzzy
+msgid "_Run Custom Executable…"
+msgstr "启动自定义可执行程序"
+
+#: src/widgets/games/games-extra-button.vala:120
+#, fuzzy
+msgid "Open _Game Folder"
+msgstr "输出文件夹"
+
+#: src/widgets/games/games-extra-button.vala:122
+#, fuzzy
+msgid "Open _Prefix Folder"
+msgstr "在网络浏览器中打开"
+
+#: src/widgets/games/games-extra-button.vala:124
+#, fuzzy
+msgid "Open in Proton_tricks"
 msgstr "在 protontricks 中打开"
 
-#: src/widgets/games/games-extra-button.vala:16
-msgid "Open ProtonDB page"
+#: src/widgets/games/games-extra-button.vala:126
+#, fuzzy
+msgid "Open Proton_DB"
 msgstr "打开 ProtonDB 页面"
 
-#: src/widgets/games/games-extra-button.vala:34
-msgid "Extra"
-msgstr "更多"
+#: src/widgets/games/games-extra-button.vala:149
+#, fuzzy
+msgid "Supported"
+msgstr "不支持的启动器"
 
-#: src/widgets/games/games-extra-button.vala:108
+#: src/widgets/games/games-extra-button.vala:152
+msgid "Running"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:155
+msgid "Planned"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:158
+msgid "Broken"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:161
+msgid "Denied"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:164
+#, fuzzy
+msgid "Loading…"
+msgstr "正在加载"
+
+#: src/widgets/games/games-extra-button.vala:167
 msgid "Unknown"
 msgstr "未知"
+
+#: src/widgets/games/games-extra-button.vala:170
+#, c-format
+msgid "Anti-Cheat: %s — _AreWeAntiCheatYet"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:182
+msgid "Select executable"
+msgstr "选择可执行程序"
+
+#: src/widgets/games/games-extra-button.vala:186
+msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
+msgstr "可执行程序（*.exe, *.msi, *.msu, *.bat）"
+
+#: src/widgets/games/games-extra-button.vala:216
+msgid "Compatibility Tool Not Found"
+msgstr "未找到兼容性工具"
+
+#: src/widgets/games/games-extra-button.vala:217
+#, c-format
+msgid ""
+"The compatibility tool required for %s is missing from your system. Please "
+"ensure it is correctly installed."
+msgstr "您的系统中缺少 %s 所需的兼容性工具。请确保它已被正确安装。"
+
+#: src/widgets/games/games-extra-button.vala:235
+#, c-format
+msgid "Exit status: %d"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:241
+#, fuzzy
+msgid "Custom Executable Failed"
+msgstr "启动自定义可执行程序"
+
+#: src/widgets/games/games-extra-button.vala:242
+#, fuzzy, c-format
+msgid "The custom executable for %s could not be launched."
+msgstr "请求无法完成。"
 
 #: src/widgets/games/games-mass-edit-button.vala:14
 msgid "Modify the selected games"
@@ -2837,64 +2925,30 @@ msgstr ""
 "部分游戏可能无法使用新的兼容性工具或启动选项进行更新。这可能是由于权限不足或"
 "文件访问问题造成的。"
 
-#: src/widgets/games/games-row.vala:30 src/widgets/games/games-row.vala:417
+#: src/widgets/games/games-row.vala:34 src/widgets/games/games-row.vala:334
 #, fuzzy
 msgid "Select game"
 msgstr "选择"
 
-#: src/widgets/games/games-row.vala:139
-msgid "Browse game install directory"
-msgstr "浏览游戏安装目录"
-
-#: src/widgets/games/games-row.vala:144 src/widgets/games/games-row.vala:505
-msgid "Browse prefix directory"
-msgstr "浏览容器目录"
-
-#: src/widgets/games/games-row.vala:200
-msgid "Modify the game"
+#: src/widgets/games/games-row.vala:39 src/widgets/games/games-row.vala:347
+#, fuzzy
+msgid "Modify Game"
 msgstr "修改游戏"
 
-#: src/widgets/games/games-row.vala:209
-msgid "Launch custom executable"
-msgstr "启动自定义可执行程序"
-
-#: src/widgets/games/games-row.vala:215
-msgid "Launch game"
-msgstr "启动游戏"
-
-#: src/widgets/games/games-row.vala:317
-msgid "Select executable"
-msgstr "选择可执行程序"
-
-#: src/widgets/games/games-row.vala:321
-msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
-msgstr "可执行程序（*.exe, *.msi, *.msu, *.bat）"
-
-#: src/widgets/games/games-row.vala:351
-msgid "Compatibility Tool Not Found"
-msgstr "未找到兼容性工具"
-
-#: src/widgets/games/games-row.vala:352
+#: src/widgets/games/games-row.vala:102 src/widgets/games/games-row.vala:435
 #, c-format
-msgid ""
-"The compatibility tool required for %s is missing from your system. Please "
-"ensure it is correctly installed."
-msgstr "您的系统中缺少 %s 所需的兼容性工具。请确保它已被正确安装。"
-
-#: src/widgets/games/games-row.vala:370
-#, c-format
-msgid "Exit status: %d"
+msgid "Toggle selection for %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:374
-#, fuzzy
-msgid "Custom Executable Failed"
-msgstr "启动自定义可执行程序"
+#: src/widgets/games/games-row.vala:103 src/widgets/games/games-row.vala:436
+#, c-format
+msgid "Modify %s"
+msgstr ""
 
-#: src/widgets/games/games-row.vala:375
+#: src/widgets/games/games-row.vala:219 src/widgets/games/games-row.vala:222
 #, fuzzy, c-format
-msgid "The custom executable for %s could not be launched."
-msgstr "请求无法完成。"
+msgid "Launch %s"
+msgstr "启动器"
 
 #: src/widgets/games/games-tool-row.vala:18
 #: src/widgets/tools/tools-migrate-box.vala:18
@@ -7236,6 +7290,18 @@ msgstr ""
 "应用程序当前正在下载工具。\n"
 "过早退出程序或许会引发问题。"
 
+#~ msgid "Extra"
+#~ msgstr "更多"
+
+#~ msgid "Browse game install directory"
+#~ msgstr "浏览游戏安装目录"
+
+#~ msgid "Browse prefix directory"
+#~ msgstr "浏览容器目录"
+
+#~ msgid "Launch game"
+#~ msgstr "启动游戏"
+
 #, fuzzy
 #~ msgid "Clear sorting"
 #~ msgstr "清除历史"
@@ -7297,10 +7363,6 @@ msgstr ""
 #~ msgstr "为 RDNA3 硬件优化 FSR 4.0。"
 
 #, fuzzy
-#~ msgid "Open in browser"
-#~ msgstr "在网络浏览器中打开"
-
-#, fuzzy
 #~ msgid "Open the source repository"
 #~ msgstr "打开安装目录"
 
@@ -7347,10 +7409,6 @@ msgstr ""
 
 #~ msgid "VRR"
 #~ msgstr "垂直同步"
-
-#, fuzzy
-#~ msgid "Supported launchers:"
-#~ msgstr "不支持的启动器"
 
 #, c-format
 #~ msgid "Uninstalled %s\n"

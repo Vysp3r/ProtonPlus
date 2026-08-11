@@ -39,6 +39,12 @@ namespace ProtonPlus.Utils {
         public abstract Object? get_controller_activation_target (Object focused);
     }
 
+    /* Composite rows can preserve one semantic activation across adaptive GTK
+     * views while still activating focused child controls normally. */
+    public interface ControllerActivationHandler : Object {
+        public abstract bool controller_activate (Object focused);
+    }
+
     public interface ControllerPageShortcuts : Object {
         public abstract bool controller_can_open_search ();
         public abstract bool controller_can_open_filter ();
