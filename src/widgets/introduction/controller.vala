@@ -66,6 +66,7 @@ namespace ProtonPlus.Widgets.Introduction {
             feature_rows.append (row1);
 
             var responsive = new Adw.BreakpointBin ();
+            responsive.set_size_request (360, 1);
             responsive.set_child (feature_rows);
 
             var narrow = new Adw.Breakpoint (new Adw.BreakpointCondition.length (
