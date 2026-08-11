@@ -20,11 +20,25 @@ namespace AppTests.ReleaseRowPresentationTest {
         bool rolling = false,
         bool has_directory = false,
         bool has_page = false,
-        bool canceled = false
+        bool canceled = false,
+        bool recommended = false,
+        bool in_use = false,
+        bool available = true,
+        ReleaseRowRetryAction retry = ReleaseRowRetryAction.NONE
     ) {
         return ReleaseRowPresentation.evaluate (
-            state, step, rolling, has_directory, has_page, canceled
+            state, step, rolling, has_directory, has_page, canceled,
+            recommended, in_use, available, retry
         );
+    }
+
+    private void test_recommended () {
+        var current = presentation (
+            InstallJob.State.NOT_INSTALLED, InstallJob.Step.NOTHING,
+            false, false, false, false, true
+        );
+        assert (current.recommended);
+        assert (current.primary_action == ReleaseRowPrimaryAction.INSTALL);
     }
 
     private void test_not_installed () {
@@ -49,6 +63,16 @@ namespace AppTests.ReleaseRowPresentationTest {
         assert (current.installed && current.show_menu);
         assert (current.show_open_folder && current.show_delete);
         assert (!current.show_check_for_updates);
+        assert (!current.in_use);
+    }
+
+    private void test_installed_and_in_use () {
+        var current = presentation (
+            InstallJob.State.UP_TO_DATE, InstallJob.Step.NOTHING,
+            false, true, false, false, false, true
+        );
+        assert (current.installed && current.in_use);
+        assert (!current.update_available);
     }
 
     private void test_update_available () {
@@ -116,15 +140,20 @@ namespace AppTests.ReleaseRowPresentationTest {
     }
 
     private void test_failed_operations_restore_actual_state () {
-        var failed_install = presentation (InstallJob.State.NOT_INSTALLED);
-        assert (failed_install.primary_action == ReleaseRowPrimaryAction.INSTALL);
+        var failed_install = presentation (
+            InstallJob.State.NOT_INSTALLED, InstallJob.Step.NOTHING,
+            false, false, false, false, false, false, true,
+            ReleaseRowRetryAction.INSTALL
+        );
+        assert (failed_install.primary_action == ReleaseRowPrimaryAction.RETRY);
         assert (!failed_install.show_delete);
 
         var failed_update = presentation (
             InstallJob.State.UPDATE_AVAILABLE, InstallJob.Step.NOTHING,
-            true, true
+            true, true, false, false, false, false, true,
+            ReleaseRowRetryAction.UPDATE
         );
-        assert (failed_update.primary_action == ReleaseRowPrimaryAction.UPDATE);
+        assert (failed_update.primary_action == ReleaseRowPrimaryAction.RETRY);
         assert (failed_update.show_delete);
 
         var failed_removal = presentation (
@@ -133,6 +162,24 @@ namespace AppTests.ReleaseRowPresentationTest {
         );
         assert (failed_removal.primary_action == ReleaseRowPrimaryAction.NONE);
         assert (failed_removal.show_open_folder && failed_removal.show_delete);
+    }
+
+    private void test_unavailable_action () {
+        var unavailable = presentation (
+            InstallJob.State.NOT_INSTALLED, InstallJob.Step.NOTHING,
+            false, false, true, false, false, false, false
+        );
+        assert (unavailable.unavailable);
+        assert (unavailable.primary_action == ReleaseRowPrimaryAction.NONE);
+        assert (unavailable.show_release_page);
+
+        var installed = presentation (
+            InstallJob.State.UP_TO_DATE, InstallJob.Step.NOTHING,
+            true, true, false, false, false, false, false
+        );
+        assert (installed.primary_action == ReleaseRowPrimaryAction.NONE);
+        assert (!installed.show_check_for_updates);
+        assert (installed.show_open_folder && installed.show_delete);
     }
 
     private void test_readable_timestamp () {
@@ -180,7 +227,9 @@ namespace AppTests.ReleaseRowPresentationTest {
 
     public void register_tests () {
         Test.add_func ("/release-row-presentation/not-installed", test_not_installed);
+        Test.add_func ("/release-row-presentation/recommended", test_recommended);
         Test.add_func ("/release-row-presentation/installed-current", test_installed_current);
+        Test.add_func ("/release-row-presentation/installed-in-use", test_installed_and_in_use);
         Test.add_func ("/release-row-presentation/update-available", test_update_available);
         Test.add_func ("/release-row-presentation/rolling-update-check", test_rolling_update_check);
         Test.add_func ("/release-row-presentation/downloading", test_downloading);
@@ -188,6 +237,7 @@ namespace AppTests.ReleaseRowPresentationTest {
         Test.add_func ("/release-row-presentation/removing", test_removing);
         Test.add_func ("/release-row-presentation/cancellation", test_cancellation);
         Test.add_func ("/release-row-presentation/failed-operations", test_failed_operations_restore_actual_state);
+        Test.add_func ("/release-row-presentation/unavailable-action", test_unavailable_action);
         Test.add_func ("/release-row-presentation/readable-timestamp", test_readable_timestamp);
         Test.add_func (
             "/release-row-presentation/dispose-active-job",

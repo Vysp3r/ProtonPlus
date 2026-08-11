@@ -98,7 +98,14 @@ namespace ProtonPlus.Widgets.Tools {
         NONE,
         INSTALL,
         UPDATE,
+        RETRY,
         PROGRESS
+    }
+
+    public enum ReleaseRowRetryAction {
+        NONE,
+        INSTALL,
+        UPDATE
     }
 
     /// UI-free mapping from the observable installation lifecycle and row
@@ -106,6 +113,10 @@ namespace ProtonPlus.Widgets.Tools {
     public class ReleaseRowPresentation : Object {
         public ReleaseRowPrimaryAction primary_action { get; private set; }
         public bool installed { get; private set; }
+        public bool recommended { get; private set; }
+        public bool in_use { get; private set; }
+        public bool update_available { get; private set; }
+        public bool unavailable { get; private set; }
         public bool busy { get; private set; }
         public bool progress_indeterminate { get; private set; }
         public bool show_cancel { get; private set; }
@@ -128,30 +139,42 @@ namespace ProtonPlus.Widgets.Tools {
             bool supports_update_check,
             bool has_installed_directory,
             bool has_release_page,
-            bool cancellation_requested = false
+            bool cancellation_requested = false,
+            bool recommended = false,
+            bool in_use = false,
+            bool action_available = true,
+            ReleaseRowRetryAction retry_action = ReleaseRowRetryAction.NONE
         ) {
             var result = new ReleaseRowPresentation ();
             result.installed = state == Services.InstallJob.State.UP_TO_DATE ||
                 state == Services.InstallJob.State.UPDATE_AVAILABLE;
+            result.recommended = recommended;
+            result.in_use = in_use;
+            result.update_available =
+                state == Services.InstallJob.State.UPDATE_AVAILABLE;
+            result.unavailable = !action_available;
             result.busy = state == Services.InstallJob.State.BUSY_INSTALLING ||
                 state == Services.InstallJob.State.BUSY_UPDATING ||
                 state == Services.InstallJob.State.BUSY_REMOVING;
 
-            switch (state) {
-            case Services.InstallJob.State.NOT_INSTALLED:
-                result.primary_action = ReleaseRowPrimaryAction.INSTALL;
-                break;
-            case Services.InstallJob.State.UPDATE_AVAILABLE:
-                result.primary_action = ReleaseRowPrimaryAction.UPDATE;
-                break;
-            case Services.InstallJob.State.BUSY_INSTALLING:
-            case Services.InstallJob.State.BUSY_UPDATING:
-            case Services.InstallJob.State.BUSY_REMOVING:
+            if (result.busy) {
                 result.primary_action = ReleaseRowPrimaryAction.PROGRESS;
-                break;
-            default:
+            } else if (!action_available) {
                 result.primary_action = ReleaseRowPrimaryAction.NONE;
-                break;
+            } else if (retry_action != ReleaseRowRetryAction.NONE) {
+                result.primary_action = ReleaseRowPrimaryAction.RETRY;
+            } else {
+                switch (state) {
+                case Services.InstallJob.State.NOT_INSTALLED:
+                    result.primary_action = ReleaseRowPrimaryAction.INSTALL;
+                    break;
+                case Services.InstallJob.State.UPDATE_AVAILABLE:
+                    result.primary_action = ReleaseRowPrimaryAction.UPDATE;
+                    break;
+                default:
+                    result.primary_action = ReleaseRowPrimaryAction.NONE;
+                    break;
+                }
             }
 
             result.progress_indeterminate = result.busy &&
@@ -166,7 +189,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (!result.busy) {
                 result.show_check_for_updates =
                     state == Services.InstallJob.State.UP_TO_DATE &&
-                    supports_update_check;
+                    supports_update_check && action_available;
                 result.show_open_folder = result.installed &&
                     has_installed_directory;
                 result.show_delete = result.installed;

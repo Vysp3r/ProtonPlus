@@ -925,8 +925,20 @@ namespace ProtonPlus.Widgets.Tools {
                 return true;
 
             var variant = resolve_release_variant (job.release, job.mode);
-            if (variant == null || variant.download_url == null || variant.download_url == "")
+            if (variant == null || variant.download_url == null || variant.download_url == "") {
+                // Keep state, usage, folder, and removal checks bound to the
+                // selected installation slot even when this release has no
+                // installable asset for it.  The row then disables only the
+                // unavailable install/update action.
+                if (selected_variant != null) {
+                    job.set_selected_variant (
+                        ((!) selected_variant).name,
+                        null,
+                        ((!) selected_variant).id
+                    );
+                }
                 return false;
+            }
 
             job.set_selected_variant (variant.name, variant.resolved_asset (), variant.id);
             return true;
@@ -936,8 +948,12 @@ namespace ProtonPlus.Widgets.Tools {
             var child = list_box.get_first_child ();
             while (child != null) {
                 var job = child.get_data<Services.InstallJob> ("job");
-                if (job != null)
-                    apply_selected_variant_to_job (job);
+                if (job != null) {
+                    var row = child as ReleaseRow;
+                    var available = apply_selected_variant_to_job (job);
+                    if (row != null)
+                        ((!) row).set_release_action_available (available);
+                }
 
                 child = child.get_next_sibling ();
             }
@@ -1033,8 +1049,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (current_tool == null)
                 return;
             var job = new Services.InstallJob (release, current_tool, mode);
-            if (!apply_selected_variant_to_job (job))
-                return;
+            var release_action_available = apply_selected_variant_to_job (job);
 
             var active_job = Utils.DownloadManager.instance.get_active_download (job);
             if (active_job != null)
@@ -1057,7 +1072,7 @@ namespace ProtonPlus.Widgets.Tools {
                 if (active_job == null)
                     Services.InstallationService.instance.refresh_steam_tinker_launch_release.begin (job);
             } else {
-                row = new ReleaseRow (job);
+                row = new ReleaseRow (job, release_action_available);
             }
             var row_up_target = find_inline_control (null, false);
             row.set_controller_up_target (
@@ -1179,12 +1194,13 @@ namespace ProtonPlus.Widgets.Tools {
             if (job == null)
                 return true;
 
-            if (search_text != "" && !job.title.down ().contains (search_text.down ()))
+            if (search_text != "" &&
+                !job.release.title.down ().contains (search_text.down ()) &&
+                !job.title.down ().contains (search_text.down ()))
                 return false;
 
             var provider_tool = current_tool as Models.Tools.ProviderTool;
-            if (provider_tool != null && (!provider_has_compatible_variants ||
-                resolve_release_variant (job.release, job.mode) == null))
+            if (provider_tool != null && !provider_has_compatible_variants)
                 return false;
 
             if (filter == Filter.ALL)

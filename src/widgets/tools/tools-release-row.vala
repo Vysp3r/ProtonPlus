@@ -6,8 +6,10 @@ namespace ProtonPlus.Widgets.Tools {
         protected Services.InstallJob job { get; set; }
         protected bool action_request_in_progress { get; private set; default = false; }
         protected bool row_disposed { get; private set; default = false; }
+        protected ReleaseRowRetryAction retry_action { get; private set; default = ReleaseRowRetryAction.NONE; }
 
         Gtk.Box input_box;
+        Gtk.Image disclosure_image;
         Gtk.Button primary_button;
         Adw.ButtonContent primary_content;
         Gtk.Button cancel_button;
@@ -29,18 +31,22 @@ namespace ProtonPlus.Widgets.Tools {
 
         ReleaseRowJobSignalBinding job_signal_binding;
         uint progress_pulse_timeout_id = 0;
+        bool release_action_available;
 
-        public ReleaseRow (Services.InstallJob job) {
+        public ReleaseRow (
+            Services.InstallJob job,
+            bool release_action_available = true
+        ) {
             Object (
-                title: job.title,
+                title: release_display_title (job),
                 subtitle: Utils.format_timestamp (job.release.release_date),
                 subtitle_lines: 2,
                 title_lines: 1,
                 activatable: true
             );
             this.job = job;
+            this.release_action_available = release_action_available;
 
-            add_prefix (new Gtk.Image.from_icon_name ("box-open-symbolic"));
             activated.connect (row_activated);
 
             create_primary_button ();
@@ -59,6 +65,13 @@ namespace ProtonPlus.Widgets.Tools {
             input_box.append (actions_button);
             add_suffix (input_box);
 
+            disclosure_image = new Gtk.Image.from_icon_name ("go-next-symbolic") {
+                valign = Gtk.Align.CENTER,
+                tooltip_text = _("Open Release Details")
+            };
+            disclosure_image.add_css_class ("dim-label");
+            add_suffix (disclosure_image);
+
             job_signal_binding = new ReleaseRowJobSignalBinding (job, this);
 
             refresh_presentation ();
@@ -75,6 +88,7 @@ namespace ProtonPlus.Widgets.Tools {
                 valign = Gtk.Align.CENTER
             };
             primary_button.add_css_class ("flat");
+            primary_button.add_css_class ("suggested-action");
             primary_button.clicked.connect (primary_button_clicked);
         }
 
@@ -94,7 +108,10 @@ namespace ProtonPlus.Widgets.Tools {
 
             progress_status_label = new Gtk.Label ("") {
                 valign = Gtk.Align.CENTER,
-                accessible_role = Gtk.AccessibleRole.STATUS
+                accessible_role = Gtk.AccessibleRole.STATUS,
+                ellipsize = Pango.EllipsizeMode.END,
+                width_chars = 12,
+                max_width_chars = 12
             };
             var progress_content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
             progress_content.append (progress_bar);
@@ -135,7 +152,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void create_cancel_button () {
-            cancel_button = new Gtk.Button.from_icon_name ("circle-xmark-symbolic") {
+            cancel_button = new Gtk.Button.with_label (_("Cancel")) {
                 valign = Gtk.Align.CENTER
             };
             cancel_button.add_css_class ("flat");
@@ -436,14 +453,16 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public void release_row_job_variant_changed () {
-            if (!row_disposed)
-                refresh_status_text ();
+            if (row_disposed)
+                return;
+            retry_action = ReleaseRowRetryAction.NONE;
+            refresh_presentation ();
         }
 
         public void release_row_job_release_changed () {
             if (row_disposed)
                 return;
-            set_title (job.title);
+            set_title (release_display_title (job));
             actions_button.update_property (
                 Gtk.AccessibleProperty.LABEL,
                 _("Actions for %s").printf (job.title),
@@ -461,13 +480,38 @@ namespace ProtonPlus.Widgets.Tools {
                 supports_update_check (),
                 has_directory,
                 job.release.page_url != "",
-                job.canceled
+                job.canceled,
+                job.mode != Services.InstallJob.Mode.VERSIONED,
+                usage_count () > 0,
+                release_action_available,
+                retry_action
             );
+        }
+
+        static string release_display_title (Services.InstallJob job) {
+            if (job.steam_tinker_launch_context != null)
+                return _("Latest");
+            return job.release.title != "" ? job.release.title : job.title;
+        }
+
+        public void set_release_action_available (bool available) {
+            if (release_action_available == available)
+                return;
+            release_action_available = available;
+            retry_action = ReleaseRowRetryAction.NONE;
+            if (!row_disposed)
+                refresh_presentation ();
         }
 
         bool supports_update_check () {
             return job.mode == Services.InstallJob.Mode.LATEST ||
                 job.steam_tinker_launch_context != null;
+        }
+
+        int usage_count () {
+            return job.tool.group.launcher.get_compatibility_tool_usage_count (
+                job.get_usage_identifier ()
+            );
         }
 
         void refresh_presentation () {
@@ -480,7 +524,8 @@ namespace ProtonPlus.Widgets.Tools {
             configure_primary_action (presentation.primary_action);
             primary_button.set_visible (
                 presentation.primary_action == ReleaseRowPrimaryAction.INSTALL ||
-                presentation.primary_action == ReleaseRowPrimaryAction.UPDATE
+                presentation.primary_action == ReleaseRowPrimaryAction.UPDATE ||
+                presentation.primary_action == ReleaseRowPrimaryAction.RETRY
             );
             primary_button.set_sensitive (!action_request_in_progress);
             progress_button.set_visible (
@@ -516,6 +561,16 @@ namespace ProtonPlus.Widgets.Tools {
                 primary_button.update_property (
                     Gtk.AccessibleProperty.LABEL,
                     _("Update %s").printf (job.title),
+                    -1
+                );
+                break;
+            case ReleaseRowPrimaryAction.RETRY:
+                primary_content.set_icon_name ("arrow-rotate-symbolic");
+                primary_content.set_label (_("Retry"));
+                primary_button.set_tooltip_text (_("Retry %s").printf (get_title ()));
+                primary_button.update_property (
+                    Gtk.AccessibleProperty.LABEL,
+                    _("Retry %s").printf (get_title ()),
                     -1
                 );
                 break;
@@ -588,6 +643,11 @@ namespace ProtonPlus.Widgets.Tools {
 
         void refresh_status_text () {
             var details = new Gee.ArrayList<string> ();
+            var presentation = current_presentation ();
+            if (presentation.recommended)
+                details.add (_("Recommended"));
+            if (retry_action != ReleaseRowRetryAction.NONE)
+                details.add (_("Failed"));
             switch (job.state) {
             case Services.InstallJob.State.NOT_INSTALLED:
                 details.add (_("Not installed"));
@@ -612,22 +672,23 @@ namespace ProtonPlus.Widgets.Tools {
                 break;
             }
 
-            if (supports_update_check ())
-                details.add (_("Rolling release"));
+            if (presentation.unavailable)
+                details.add (_("Unavailable for the selected variant"));
 
-            var usage_count = job.tool.group.launcher
-                .get_compatibility_tool_usage_count (job.get_usage_identifier ());
-            if (usage_count > 0) {
+            var current_usage_count = usage_count ();
+            if (presentation.in_use) {
                 details.add (ngettext (
-                    "Used by %i game", "Used by %i games", usage_count
-                ).printf (usage_count));
+                    "In use by %i game", "In use by %i games", current_usage_count
+                ).printf (current_usage_count));
             }
 
             var status = string.joinv (" · ", details.to_array ());
             var date = Utils.format_timestamp (job.release.release_date);
             set_subtitle (date != "" ? "%s\n%s".printf (date, status) : status);
             update_property (
-                Gtk.AccessibleProperty.DESCRIPTION, status, -1
+                Gtk.AccessibleProperty.DESCRIPTION,
+                _("%s. Open Release Details").printf (status),
+                -1
             );
         }
 
@@ -739,6 +800,12 @@ namespace ProtonPlus.Widgets.Tools {
             case ReleaseRowPrimaryAction.UPDATE:
                 begin_update ();
                 break;
+            case ReleaseRowPrimaryAction.RETRY:
+                if (retry_action == ReleaseRowRetryAction.UPDATE)
+                    begin_update ();
+                else if (retry_action == ReleaseRowRetryAction.INSTALL)
+                    install_button_clicked ();
+                break;
             default:
                 break;
             }
@@ -753,6 +820,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void begin_update () {
+            retry_action = ReleaseRowRetryAction.NONE;
             update_action_request_state (true);
             run_update (job, this);
         }
@@ -776,6 +844,11 @@ namespace ProtonPlus.Widgets.Tools {
                 var row = owner_ref.get () as ReleaseRow;
                 if (row == null || ((!) row).row_disposed)
                     return;
+                ((!) row).retry_action = code != ReturnCode.RUNNER_UPDATED &&
+                    code != ReturnCode.NOTHING_TO_UPDATE &&
+                    !operation_job.canceled
+                    ? ReleaseRowRetryAction.UPDATE
+                    : ReleaseRowRetryAction.NONE;
                 ((!) row).update_action_request_state (false);
                 if (code != ReturnCode.RUNNER_UPDATED &&
                     code != ReturnCode.NOTHING_TO_UPDATE &&
@@ -808,6 +881,7 @@ namespace ProtonPlus.Widgets.Tools {
         protected virtual void install_button_clicked () {
             if (action_request_in_progress || row_disposed)
                 return;
+            retry_action = ReleaseRowRetryAction.NONE;
             update_action_request_state (true);
             run_install (job, this);
         }
@@ -822,6 +896,10 @@ namespace ProtonPlus.Widgets.Tools {
                 var row = owner_ref.get () as ReleaseRow;
                 if (row == null || ((!) row).row_disposed)
                     return;
+                ((!) row).retry_action = code != ReturnCode.RUNNER_INSTALLED &&
+                    !operation_job.canceled
+                    ? ReleaseRowRetryAction.INSTALL
+                    : ReleaseRowRetryAction.NONE;
                 ((!) row).update_action_request_state (false);
                 if (code != ReturnCode.RUNNER_INSTALLED &&
                     !operation_job.canceled) {

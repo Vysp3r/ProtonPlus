@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-11 19:14-0400\n"
+"POT-Creation-Date: 2026-08-11 19:31-0400\n"
 "PO-Revision-Date: 2026-04-19 00:59+0800\n"
 "Last-Translator: nick.exe <nick.exe@gmail.com>\n"
 "Language-Team: CodeBay.IN\n"
@@ -2034,27 +2034,27 @@ msgstr ""
 msgid "ETA: --"
 msgstr ""
 
-#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:605
+#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:667
 msgid "Updating"
 msgstr "正在更新"
 
 #: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:301
-#: src/widgets/tools/tools-release-row.vala:601
+#: src/widgets/tools/tools-release-row.vala:663
 #, fuzzy
 msgid "Installing"
 msgstr "正在安裝 %s...\n"
 
-#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:721
+#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:784
 #, c-format
 msgid "%dh %dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:725
+#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:788
 #, c-format
 msgid "%dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:726
+#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:789
 #, c-format
 msgid "%ds"
 msgstr ""
@@ -2227,6 +2227,7 @@ msgstr ""
 "預設 Proton 的改進功能。"
 
 #: src/models/providers/definitions/proton.vala:35
+#: src/widgets/tools/tools-release-row.vala:648
 msgid "Recommended"
 msgstr ""
 
@@ -2739,8 +2740,8 @@ msgid "Game Actions"
 msgstr "進階選項"
 
 #: src/widgets/games/games-extra-button.vala:71
-#: src/widgets/tools/tools-release-row.vala:172
-#: src/widgets/tools/tools-release-row.vala:447
+#: src/widgets/tools/tools-release-row.vala:191
+#: src/widgets/tools/tools-release-row.vala:468
 #, fuzzy, c-format
 msgid "Actions for %s"
 msgstr "進階選項"
@@ -2792,6 +2793,7 @@ msgid "Denied"
 msgstr ""
 
 #: src/widgets/games/games-extra-button.vala:164
+#: src/widgets/tools/tools-releases-box.vala:1109
 #, fuzzy
 msgid "Loading…"
 msgstr "正在下載"
@@ -5421,6 +5423,7 @@ msgid "Limit: %s/s"
 msgstr ""
 
 #: src/widgets/header/header-downloads-indicator.vala:223
+#: src/widgets/tools/tools-release-row.vala:155
 #: src/widgets/tools/tools-remove-dialog.vala:26
 #: src/widgets/tools/tools-stl-release-row.vala:118 src/widgets/window.vala:160
 #: src/widgets/window.vala:356
@@ -5429,26 +5432,26 @@ msgstr "取消"
 
 #: src/widgets/header/header-downloads-indicator.vala:273
 #: src/widgets/header/header-downloads-indicator.vala:275
-#: src/widgets/tools/tools-release-row.vala:432
-#: src/widgets/tools/tools-release-row.vala:634
+#: src/widgets/tools/tools-release-row.vala:451
+#: src/widgets/tools/tools-release-row.vala:697
 #, fuzzy
 msgid "Cancelling"
 msgstr "取消"
 
 #: src/widgets/header/header-downloads-indicator.vala:297
-#: src/widgets/tools/tools-release-row.vala:637
+#: src/widgets/tools/tools-release-row.vala:700
 msgid "Downloading"
 msgstr "正在下載"
 
 #: src/widgets/header/header-downloads-indicator.vala:299
-#: src/widgets/tools/tools-release-row.vala:639
+#: src/widgets/tools/tools-release-row.vala:702
 msgid "Extracting"
 msgstr "正在解壓縮"
 
 #: src/widgets/header/header-downloads-indicator.vala:303
-#: src/widgets/tools/tools-release-row.vala:609
-#: src/widgets/tools/tools-release-row.vala:643
-#: src/widgets/tools/tools-release-row.vala:648
+#: src/widgets/tools/tools-release-row.vala:671
+#: src/widgets/tools/tools-release-row.vala:706
+#: src/widgets/tools/tools-release-row.vala:711
 #, fuzzy
 msgid "Removing"
 msgstr "正在搬移"
@@ -6875,13 +6878,13 @@ msgstr "偵測到的啟動器：\n"
 #: src/widgets/preferences/preferences-dialog.vala:429
 #: src/widgets/tools/tools-box.vala:231
 #: src/widgets/tools/tools-group-box.vala:551
-#: src/widgets/tools/tools-release-row.vala:594
-#: src/widgets/tools/tools-release-row.vala:598
+#: src/widgets/tools/tools-release-row.vala:656
+#: src/widgets/tools/tools-release-row.vala:660
 msgid "Installed"
 msgstr "已安裝"
 
 #: src/widgets/preferences/preferences-dialog.vala:429
-#: src/widgets/tools/tools-release-row.vala:591
+#: src/widgets/tools/tools-release-row.vala:653
 #, fuzzy
 msgid "Not installed"
 msgstr "已安裝"
@@ -7130,241 +7133,270 @@ msgstr ""
 msgid "Used by"
 msgstr "已使用"
 
-#: src/widgets/tools/tools-release-row.vala:106
+#: src/widgets/tools/tools-release-row.vala:70
+#, fuzzy
+msgid "Open Release Details"
+msgstr "開啟 ProtonDB 頁面"
+
+#: src/widgets/tools/tools-release-row.vala:125
 #, fuzzy
 msgid "Show installation details"
 msgstr "顯示已安裝的運行器"
 
-#: src/widgets/tools/tools-release-row.vala:110
+#: src/widgets/tools/tools-release-row.vala:129
 msgid "Speed: 0 KB/s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:113
-#: src/widgets/tools/tools-release-row.vala:712
+#: src/widgets/tools/tools-release-row.vala:132
+#: src/widgets/tools/tools-release-row.vala:775
 msgid "Remaining time: --"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:169
+#: src/widgets/tools/tools-release-row.vala:188
 #, fuzzy
 msgid "Release Actions"
 msgstr "進階選項"
 
-#: src/widgets/tools/tools-release-row.vala:411
+#: src/widgets/tools/tools-release-row.vala:430
 #, c-format
 msgid "Step: %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:414
+#: src/widgets/tools/tools-release-row.vala:433
 #, fuzzy, c-format
 msgid "%s for %s"
 msgstr "進階選項"
 
-#: src/widgets/tools/tools-release-row.vala:419
+#: src/widgets/tools/tools-release-row.vala:438
 #, fuzzy, c-format
 msgid "Progress for %s"
 msgstr "進階選項"
 
-#: src/widgets/tools/tools-release-row.vala:502
+#: src/widgets/tools/tools-release-row.vala:493
+#, fuzzy
+msgid "Latest"
+msgstr "最新版本"
+
+#: src/widgets/tools/tools-release-row.vala:549
 #, fuzzy
 msgid "Install"
 msgstr "已安裝"
 
-#: src/widgets/tools/tools-release-row.vala:503
-#: src/widgets/tools/tools-release-row.vala:506
+#: src/widgets/tools/tools-release-row.vala:550
+#: src/widgets/tools/tools-release-row.vala:553
 #, c-format
 msgid "Install %s"
 msgstr "安裝 %s"
 
-#: src/widgets/tools/tools-release-row.vala:512
+#: src/widgets/tools/tools-release-row.vala:559
 #, fuzzy
 msgid "Update"
 msgstr "正在更新"
 
-#: src/widgets/tools/tools-release-row.vala:513
-#: src/widgets/tools/tools-release-row.vala:516
+#: src/widgets/tools/tools-release-row.vala:560
+#: src/widgets/tools/tools-release-row.vala:563
 #, fuzzy, c-format
 msgid "Update %s"
 msgstr "正在更新"
 
-#: src/widgets/tools/tools-release-row.vala:527
+#: src/widgets/tools/tools-release-row.vala:569
+#: src/widgets/tools/tools-releases-box.vala:367
+msgid "Retry"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:570
+#: src/widgets/tools/tools-release-row.vala:573
+#, c-format
+msgid "Retry %s"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:584
 #, fuzzy, c-format
 msgid "Cancelling %s"
 msgstr "取消"
 
-#: src/widgets/tools/tools-release-row.vala:528
+#: src/widgets/tools/tools-release-row.vala:585
 #, fuzzy, c-format
 msgid "Cancel %s"
 msgstr "取消"
 
-#: src/widgets/tools/tools-release-row.vala:551
+#: src/widgets/tools/tools-release-row.vala:608
 #, fuzzy
 msgid "_Check for Updates"
 msgstr "檢查更新"
 
-#: src/widgets/tools/tools-release-row.vala:553
+#: src/widgets/tools/tools-release-row.vala:610
 #, fuzzy
 msgid "_Open Folder"
 msgstr "Gamescope"
 
-#: src/widgets/tools/tools-release-row.vala:555
+#: src/widgets/tools/tools-release-row.vala:612
 #, fuzzy
 msgid "_Delete…"
 msgstr "移除"
 
-#: src/widgets/tools/tools-release-row.vala:557
+#: src/widgets/tools/tools-release-row.vala:614
 msgid "Open _Release Page"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:595
+#: src/widgets/tools/tools-release-row.vala:650
+msgid "Failed"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:657
 #, fuzzy
 msgid "Update available"
 msgstr "更新運行器"
 
-#: src/widgets/tools/tools-release-row.vala:614
-msgid "Rolling release"
+#: src/widgets/tools/tools-release-row.vala:676
+msgid "Unavailable for the selected variant"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:620
+#: src/widgets/tools/tools-release-row.vala:681
 #, fuzzy, c-format
-msgid "Used by %i game"
-msgid_plural "Used by %i games"
+msgid "In use by %i game"
+msgid_plural "In use by %i games"
 msgstr[0] "已有 %i 款遊戲使用。"
 
-#: src/widgets/tools/tools-release-row.vala:641
+#: src/widgets/tools/tools-release-row.vala:690
+#, fuzzy, c-format
+msgid "%s. Open Release Details"
+msgstr "開啟 ProtonDB 頁面"
+
+#: src/widgets/tools/tools-release-row.vala:704
 msgid "Moving"
 msgstr "正在搬移"
 
-#: src/widgets/tools/tools-release-row.vala:646
+#: src/widgets/tools/tools-release-row.vala:709
 #, fuzzy
 msgid "Preparing update"
 msgstr "目前皆已為最新版本"
 
-#: src/widgets/tools/tools-release-row.vala:649
+#: src/widgets/tools/tools-release-row.vala:712
 msgid "Preparing installation"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:703
+#: src/widgets/tools/tools-release-row.vala:766
 #, c-format
 msgid "Speed: %s/s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:709
+#: src/widgets/tools/tools-release-row.vala:772
 #, c-format
 msgid "Remaining time: %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:782
+#: src/widgets/tools/tools-release-row.vala:857
 #, fuzzy, c-format
 msgid "Failed to Update %s"
 msgstr "錯誤：更新 %s 失敗\n"
 
-#: src/widgets/tools/tools-release-row.vala:783
+#: src/widgets/tools/tools-release-row.vala:858
 msgid "An error occurred while attempting to update the compatibility tool."
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:827
+#: src/widgets/tools/tools-release-row.vala:907
 #, fuzzy
 msgid "Installation Failed"
 msgstr "錯誤：安裝失敗\n"
 
-#: src/widgets/tools/tools-release-row.vala:828
+#: src/widgets/tools/tools-release-row.vala:908
 #, c-format
 msgid "ProtonPlus could not install %s on your system."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:167
+#: src/widgets/tools/tools-releases-box.vala:174
 msgid "Standard 64-bit build for most Intel and AMD PCs."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:169
+#: src/widgets/tools/tools-releases-box.vala:176
 msgid ""
 "Optimized 64-bit build for Intel and AMD CPUs that support the x86-64-v3 "
 "instruction set."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:172
+#: src/widgets/tools/tools-releases-box.vala:179
 msgid "64-bit ARM build. Choose this only on ARM64 hardware."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:174
+#: src/widgets/tools/tools-releases-box.vala:181
 msgid "32-bit x86 build. Choose this only when a 32-bit runner is required."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:177
+#: src/widgets/tools/tools-releases-box.vala:184
 msgid ""
 "64-bit build with WoW64 support for running 32-bit Windows applications."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:179
+#: src/widgets/tools/tools-releases-box.vala:186
 msgid "The provider's recommended build for most systems."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:181
+#: src/widgets/tools/tools-releases-box.vala:188
 #, c-format
 msgid "Select the %s build variant."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:254
-#: src/widgets/tools/tools-releases-box.vala:258
+#: src/widgets/tools/tools-releases-box.vala:261
+#: src/widgets/tools/tools-releases-box.vala:265
 #, fuzzy
 msgid "Check for new releases"
 msgstr "檢查更新"
 
-#: src/widgets/tools/tools-releases-box.vala:267
+#: src/widgets/tools/tools-releases-box.vala:274
 #, fuzzy
 msgid "Open repository"
 msgstr "開啟運行器目錄"
 
-#: src/widgets/tools/tools-releases-box.vala:278
+#: src/widgets/tools/tools-releases-box.vala:285
 msgid "Choose which architecture or build variant to show."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:307
+#: src/widgets/tools/tools-releases-box.vala:314
+#: src/widgets/tools/tools-releases-box.vala:1147
 #, fuzzy
 msgid "Load More"
 msgstr "載入更多"
 
-#: src/widgets/tools/tools-releases-box.vala:346
-#: src/widgets/tools/tools-releases-box.vala:439
-#: src/widgets/tools/tools-releases-box.vala:783
+#: src/widgets/tools/tools-releases-box.vala:353
+#: src/widgets/tools/tools-releases-box.vala:453
+#: src/widgets/tools/tools-releases-box.vala:801
+#: src/widgets/tools/tools-releases-box.vala:1110
 #, fuzzy
 msgid "Loading releases"
 msgstr "正在下載"
 
-#: src/widgets/tools/tools-releases-box.vala:355
-#: src/widgets/tools/tools-releases-box.vala:453
-#: src/widgets/tools/tools-releases-box.vala:1126
+#: src/widgets/tools/tools-releases-box.vala:362
+#: src/widgets/tools/tools-releases-box.vala:468
+#: src/widgets/tools/tools-releases-box.vala:1178
 #, fuzzy
 msgid "No releases found"
 msgstr "未找到個人檔案。"
 
-#: src/widgets/tools/tools-releases-box.vala:356
-#: src/widgets/tools/tools-releases-box.vala:831
-#: src/widgets/tools/tools-releases-box.vala:844
+#: src/widgets/tools/tools-releases-box.vala:363
+#: src/widgets/tools/tools-releases-box.vala:853
+#: src/widgets/tools/tools-releases-box.vala:866
 msgid "No releases match the current filter."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:360
-msgid "Retry"
-msgstr ""
-
-#: src/widgets/tools/tools-releases-box.vala:366
-#: src/widgets/tools/tools-releases-box.vala:540
+#: src/widgets/tools/tools-releases-box.vala:373
+#: src/widgets/tools/tools-releases-box.vala:556
 #, fuzzy
 msgid "Failed to Fetch Releases"
 msgstr "錯誤：載入版本失敗\n"
 
-#: src/widgets/tools/tools-releases-box.vala:481
-#: src/widgets/tools/tools-releases-box.vala:819
+#: src/widgets/tools/tools-releases-box.vala:497
+#: src/widgets/tools/tools-releases-box.vala:841
+#: src/widgets/tools/tools-releases-box.vala:1142
 #, fuzzy
 msgid "Releases loaded"
 msgstr "未找到個人檔案。"
 
-#: src/widgets/tools/tools-releases-box.vala:840
+#: src/widgets/tools/tools-releases-box.vala:862
 msgid "No compatible variants are available for this system."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:937
+#: src/widgets/tools/tools-releases-box.vala:975
 #, fuzzy, c-format
 msgid "Last updated: %s"
 msgstr "無法更新 %s"

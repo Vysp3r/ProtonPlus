@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-11 19:14-0400\n"
+"POT-Creation-Date: 2026-08-11 19:31-0400\n"
 "PO-Revision-Date: 2026-08-09 00:00+0000\n"
 "Last-Translator: GitHub Copilot\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/protonplus/"
@@ -2120,26 +2120,26 @@ msgstr "Zostáva: %s"
 msgid "ETA: --"
 msgstr "Zostáva: --"
 
-#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:605
+#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:667
 msgid "Updating"
 msgstr "Aktualizuje se"
 
 #: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:301
-#: src/widgets/tools/tools-release-row.vala:601
+#: src/widgets/tools/tools-release-row.vala:663
 msgid "Installing"
 msgstr "Instaluje se"
 
-#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:721
+#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:784
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%dh %dm %ds"
 
-#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:725
+#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:788
 #, c-format
 msgid "%dm %ds"
 msgstr "%dm %ds"
 
-#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:726
+#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:789
 #, c-format
 msgid "%ds"
 msgstr "%ds"
@@ -2320,6 +2320,7 @@ msgstr ""
 "hier pre Windows s vylepšeními oproti predvolenému Protonu od Valve."
 
 #: src/models/providers/definitions/proton.vala:35
+#: src/widgets/tools/tools-release-row.vala:648
 #, fuzzy
 msgid "Recommended"
 msgstr "Zaoblené"
@@ -2840,8 +2841,8 @@ msgid "Game Actions"
 msgstr "Akcie"
 
 #: src/widgets/games/games-extra-button.vala:71
-#: src/widgets/tools/tools-release-row.vala:172
-#: src/widgets/tools/tools-release-row.vala:447
+#: src/widgets/tools/tools-release-row.vala:191
+#: src/widgets/tools/tools-release-row.vala:468
 #, fuzzy, c-format
 msgid "Actions for %s"
 msgstr "Akcie"
@@ -2893,6 +2894,7 @@ msgid "Denied"
 msgstr ""
 
 #: src/widgets/games/games-extra-button.vala:164
+#: src/widgets/tools/tools-releases-box.vala:1109
 #, fuzzy
 msgid "Loading…"
 msgstr "Načítání"
@@ -5752,6 +5754,7 @@ msgid "Limit: %s/s"
 msgstr "Limit: %s/s"
 
 #: src/widgets/header/header-downloads-indicator.vala:223
+#: src/widgets/tools/tools-release-row.vala:155
 #: src/widgets/tools/tools-remove-dialog.vala:26
 #: src/widgets/tools/tools-stl-release-row.vala:118 src/widgets/window.vala:160
 #: src/widgets/window.vala:356
@@ -5760,27 +5763,27 @@ msgstr "Zrušiť"
 
 #: src/widgets/header/header-downloads-indicator.vala:273
 #: src/widgets/header/header-downloads-indicator.vala:275
-#: src/widgets/tools/tools-release-row.vala:432
-#: src/widgets/tools/tools-release-row.vala:634
+#: src/widgets/tools/tools-release-row.vala:451
+#: src/widgets/tools/tools-release-row.vala:697
 #, fuzzy
 msgid "Cancelling"
 msgstr "Zrušiť"
 
 #: src/widgets/header/header-downloads-indicator.vala:297
-#: src/widgets/tools/tools-release-row.vala:637
+#: src/widgets/tools/tools-release-row.vala:700
 #, fuzzy
 msgid "Downloading"
 msgstr "Sťahuje sa"
 
 #: src/widgets/header/header-downloads-indicator.vala:299
-#: src/widgets/tools/tools-release-row.vala:639
+#: src/widgets/tools/tools-release-row.vala:702
 msgid "Extracting"
 msgstr "Rozbaľuje sa"
 
 #: src/widgets/header/header-downloads-indicator.vala:303
-#: src/widgets/tools/tools-release-row.vala:609
-#: src/widgets/tools/tools-release-row.vala:643
-#: src/widgets/tools/tools-release-row.vala:648
+#: src/widgets/tools/tools-release-row.vala:671
+#: src/widgets/tools/tools-release-row.vala:706
+#: src/widgets/tools/tools-release-row.vala:711
 #, fuzzy
 msgid "Removing"
 msgstr "Presúva sa"
@@ -7240,13 +7243,13 @@ msgstr "Nalezené spouštěče"
 #: src/widgets/preferences/preferences-dialog.vala:429
 #: src/widgets/tools/tools-box.vala:231
 #: src/widgets/tools/tools-group-box.vala:551
-#: src/widgets/tools/tools-release-row.vala:594
-#: src/widgets/tools/tools-release-row.vala:598
+#: src/widgets/tools/tools-release-row.vala:656
+#: src/widgets/tools/tools-release-row.vala:660
 msgid "Installed"
 msgstr "Nainstalováno"
 
 #: src/widgets/preferences/preferences-dialog.vala:429
-#: src/widgets/tools/tools-release-row.vala:591
+#: src/widgets/tools/tools-release-row.vala:653
 msgid "Not installed"
 msgstr "Nenainstalováno"
 
@@ -7511,156 +7514,187 @@ msgstr "Zmeniť farby FPS"
 msgid "Used by"
 msgstr "Použito"
 
-#: src/widgets/tools/tools-release-row.vala:106
+#: src/widgets/tools/tools-release-row.vala:70
+#, fuzzy
+msgid "Open Release Details"
+msgstr "Otvoriť stránku ProtonDB"
+
+#: src/widgets/tools/tools-release-row.vala:125
 #, fuzzy
 msgid "Show installation details"
 msgstr "Zobraziť podrobnosti o inštalácii"
 
-#: src/widgets/tools/tools-release-row.vala:110
+#: src/widgets/tools/tools-release-row.vala:129
 msgid "Speed: 0 KB/s"
 msgstr "Rýchlosť: 0 KB/s"
 
-#: src/widgets/tools/tools-release-row.vala:113
-#: src/widgets/tools/tools-release-row.vala:712
+#: src/widgets/tools/tools-release-row.vala:132
+#: src/widgets/tools/tools-release-row.vala:775
 msgid "Remaining time: --"
 msgstr "Zostávajúci čas: --"
 
-#: src/widgets/tools/tools-release-row.vala:169
+#: src/widgets/tools/tools-release-row.vala:188
 #, fuzzy
 msgid "Release Actions"
 msgstr "Akcie"
 
-#: src/widgets/tools/tools-release-row.vala:411
+#: src/widgets/tools/tools-release-row.vala:430
 #, fuzzy, c-format
 msgid "Step: %s"
 msgstr "Rýchlosť: %s/s"
 
-#: src/widgets/tools/tools-release-row.vala:414
+#: src/widgets/tools/tools-release-row.vala:433
 #, fuzzy, c-format
 msgid "%s for %s"
 msgstr "Akcie"
 
-#: src/widgets/tools/tools-release-row.vala:419
+#: src/widgets/tools/tools-release-row.vala:438
 #, fuzzy, c-format
 msgid "Progress for %s"
 msgstr "Akcie"
 
-#: src/widgets/tools/tools-release-row.vala:502
+#: src/widgets/tools/tools-release-row.vala:493
+#, fuzzy
+msgid "Latest"
+msgstr "Neskôr"
+
+#: src/widgets/tools/tools-release-row.vala:549
 #, fuzzy
 msgid "Install"
 msgstr "Nainstalováno"
 
-#: src/widgets/tools/tools-release-row.vala:503
-#: src/widgets/tools/tools-release-row.vala:506
+#: src/widgets/tools/tools-release-row.vala:550
+#: src/widgets/tools/tools-release-row.vala:553
 #, c-format
 msgid "Install %s"
 msgstr "Nainstalovat %s"
 
-#: src/widgets/tools/tools-release-row.vala:512
+#: src/widgets/tools/tools-release-row.vala:559
 #, fuzzy
 msgid "Update"
 msgstr "Aktualizace"
 
-#: src/widgets/tools/tools-release-row.vala:513
-#: src/widgets/tools/tools-release-row.vala:516
+#: src/widgets/tools/tools-release-row.vala:560
+#: src/widgets/tools/tools-release-row.vala:563
 #, fuzzy, c-format
 msgid "Update %s"
 msgstr "Aktualizace"
 
-#: src/widgets/tools/tools-release-row.vala:527
+#: src/widgets/tools/tools-release-row.vala:569
+#: src/widgets/tools/tools-releases-box.vala:367
+#, fuzzy
+msgid "Retry"
+msgstr "Retro"
+
+#: src/widgets/tools/tools-release-row.vala:570
+#: src/widgets/tools/tools-release-row.vala:573
+#, fuzzy, c-format
+msgid "Retry %s"
+msgstr "Retro"
+
+#: src/widgets/tools/tools-release-row.vala:584
 #, fuzzy, c-format
 msgid "Cancelling %s"
 msgstr "Zrušiť"
 
-#: src/widgets/tools/tools-release-row.vala:528
+#: src/widgets/tools/tools-release-row.vala:585
 #, fuzzy, c-format
 msgid "Cancel %s"
 msgstr "Zrušiť"
 
-#: src/widgets/tools/tools-release-row.vala:551
+#: src/widgets/tools/tools-release-row.vala:608
 #, fuzzy
 msgid "_Check for Updates"
 msgstr "Kontrolovať aktualizácie"
 
-#: src/widgets/tools/tools-release-row.vala:553
+#: src/widgets/tools/tools-release-row.vala:610
 #, fuzzy
 msgid "_Open Folder"
 msgstr "Výstupná zložka"
 
-#: src/widgets/tools/tools-release-row.vala:555
+#: src/widgets/tools/tools-release-row.vala:612
 #, fuzzy
 msgid "_Delete…"
 msgstr "Vymazať"
 
-#: src/widgets/tools/tools-release-row.vala:557
+#: src/widgets/tools/tools-release-row.vala:614
 msgid "Open _Release Page"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:595
+#: src/widgets/tools/tools-release-row.vala:650
+msgid "Failed"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:657
 #, fuzzy
 msgid "Update available"
 msgstr "Hromadná aktualizácia zlyhala"
 
-#: src/widgets/tools/tools-release-row.vala:614
-msgid "Rolling release"
+#: src/widgets/tools/tools-release-row.vala:676
+msgid "Unavailable for the selected variant"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:620
+#: src/widgets/tools/tools-release-row.vala:681
 #, fuzzy, c-format
-msgid "Used by %i game"
-msgid_plural "Used by %i games"
+msgid "In use by %i game"
+msgid_plural "In use by %i games"
 msgstr[0] "Používa sa v %i hre"
 msgstr[1] "Používa sa v %i hrách"
 msgstr[2] "Používa sa v %i hrách"
 
-#: src/widgets/tools/tools-release-row.vala:641
+#: src/widgets/tools/tools-release-row.vala:690
+#, fuzzy, c-format
+msgid "%s. Open Release Details"
+msgstr "Otvoriť stránku ProtonDB"
+
+#: src/widgets/tools/tools-release-row.vala:704
 msgid "Moving"
 msgstr "Presúva sa"
 
-#: src/widgets/tools/tools-release-row.vala:646
+#: src/widgets/tools/tools-release-row.vala:709
 #, fuzzy
 msgid "Preparing update"
 msgstr "Pripravuje sa"
 
-#: src/widgets/tools/tools-release-row.vala:649
+#: src/widgets/tools/tools-release-row.vala:712
 #, fuzzy
 msgid "Preparing installation"
 msgstr "Zrušiť inštaláciu"
 
-#: src/widgets/tools/tools-release-row.vala:703
+#: src/widgets/tools/tools-release-row.vala:766
 #, c-format
 msgid "Speed: %s/s"
 msgstr "Rýchlosť: %s/s"
 
-#: src/widgets/tools/tools-release-row.vala:709
+#: src/widgets/tools/tools-release-row.vala:772
 #, c-format
 msgid "Remaining time: %s"
 msgstr "Zostávajúci čas: %s"
 
-#: src/widgets/tools/tools-release-row.vala:782
+#: src/widgets/tools/tools-release-row.vala:857
 #, fuzzy, c-format
 msgid "Failed to Update %s"
 msgstr "Nepodarilo sa aktualizovať %s"
 
-#: src/widgets/tools/tools-release-row.vala:783
+#: src/widgets/tools/tools-release-row.vala:858
 msgid "An error occurred while attempting to update the compatibility tool."
 msgstr "Pri pokuse o aktualizáciu nástroja kompatibility sa vyskytla chyba."
 
-#: src/widgets/tools/tools-release-row.vala:827
+#: src/widgets/tools/tools-release-row.vala:907
 #, fuzzy
 msgid "Installation Failed"
 msgstr "Inštalácia zlyhala"
 
-#: src/widgets/tools/tools-release-row.vala:828
+#: src/widgets/tools/tools-release-row.vala:908
 #, c-format
 msgid "ProtonPlus could not install %s on your system."
 msgstr "Aplikácii ProtonPlus sa nepodarilo nainštalovať %s do vášho systému."
 
-#: src/widgets/tools/tools-releases-box.vala:167
+#: src/widgets/tools/tools-releases-box.vala:174
 msgid "Standard 64-bit build for most Intel and AMD PCs."
 msgstr "Štandardný 64-bitový build pre väčšinu počítačov s Intel a AMD."
 
-#: src/widgets/tools/tools-releases-box.vala:169
+#: src/widgets/tools/tools-releases-box.vala:176
 msgid ""
 "Optimized 64-bit build for Intel and AMD CPUs that support the x86-64-v3 "
 "instruction set."
@@ -7668,91 +7702,89 @@ msgstr ""
 "Optimalizovaný 64-bitový build pre CPU Intel a AMD s podporou inštrukčnej "
 "sady x86-64-v3."
 
-#: src/widgets/tools/tools-releases-box.vala:172
+#: src/widgets/tools/tools-releases-box.vala:179
 msgid "64-bit ARM build. Choose this only on ARM64 hardware."
 msgstr "64-bitový ARM build. Vyberte ho iba na hardvéri ARM64."
 
-#: src/widgets/tools/tools-releases-box.vala:174
+#: src/widgets/tools/tools-releases-box.vala:181
 msgid "32-bit x86 build. Choose this only when a 32-bit runner is required."
 msgstr ""
 "32-bitový x86 build. Vyberte ho iba vtedy, keď je potrebný 32-bitový runner."
 
-#: src/widgets/tools/tools-releases-box.vala:177
+#: src/widgets/tools/tools-releases-box.vala:184
 msgid ""
 "64-bit build with WoW64 support for running 32-bit Windows applications."
 msgstr ""
 "64-bitový build s podporou WoW64 na spúšťanie 32-bitových aplikácií Windows."
 
-#: src/widgets/tools/tools-releases-box.vala:179
+#: src/widgets/tools/tools-releases-box.vala:186
 msgid "The provider's recommended build for most systems."
 msgstr "Poskytovateľom odporúčaný build pre väčšinu systémov."
 
-#: src/widgets/tools/tools-releases-box.vala:181
+#: src/widgets/tools/tools-releases-box.vala:188
 #, c-format
 msgid "Select the %s build variant."
 msgstr "Vyberte variant buildu %s."
 
-#: src/widgets/tools/tools-releases-box.vala:254
-#: src/widgets/tools/tools-releases-box.vala:258
+#: src/widgets/tools/tools-releases-box.vala:261
+#: src/widgets/tools/tools-releases-box.vala:265
 #, fuzzy
 msgid "Check for new releases"
 msgstr "Kontrolovať nové verzie"
 
-#: src/widgets/tools/tools-releases-box.vala:267
+#: src/widgets/tools/tools-releases-box.vala:274
 #, fuzzy
 msgid "Open repository"
 msgstr "Otvoriť adresár nástroja"
 
-#: src/widgets/tools/tools-releases-box.vala:278
+#: src/widgets/tools/tools-releases-box.vala:285
 msgid "Choose which architecture or build variant to show."
 msgstr "Vyberte, ktorú architektúru alebo variant buildu zobraziť."
 
-#: src/widgets/tools/tools-releases-box.vala:307
+#: src/widgets/tools/tools-releases-box.vala:314
+#: src/widgets/tools/tools-releases-box.vala:1147
 #, fuzzy
 msgid "Load More"
 msgstr "Načíst viac"
 
-#: src/widgets/tools/tools-releases-box.vala:346
-#: src/widgets/tools/tools-releases-box.vala:439
-#: src/widgets/tools/tools-releases-box.vala:783
+#: src/widgets/tools/tools-releases-box.vala:353
+#: src/widgets/tools/tools-releases-box.vala:453
+#: src/widgets/tools/tools-releases-box.vala:801
+#: src/widgets/tools/tools-releases-box.vala:1110
 #, fuzzy
 msgid "Loading releases"
 msgstr "Načítání"
 
-#: src/widgets/tools/tools-releases-box.vala:355
-#: src/widgets/tools/tools-releases-box.vala:453
-#: src/widgets/tools/tools-releases-box.vala:1126
+#: src/widgets/tools/tools-releases-box.vala:362
+#: src/widgets/tools/tools-releases-box.vala:468
+#: src/widgets/tools/tools-releases-box.vala:1178
 #, fuzzy
 msgid "No releases found"
 msgstr "Nenašli sa žiadne verzie"
 
-#: src/widgets/tools/tools-releases-box.vala:356
-#: src/widgets/tools/tools-releases-box.vala:831
-#: src/widgets/tools/tools-releases-box.vala:844
+#: src/widgets/tools/tools-releases-box.vala:363
+#: src/widgets/tools/tools-releases-box.vala:853
+#: src/widgets/tools/tools-releases-box.vala:866
 msgid "No releases match the current filter."
 msgstr "Žiadne verzie nezodpovedajú aktuálnemu filtru."
 
-#: src/widgets/tools/tools-releases-box.vala:360
-#, fuzzy
-msgid "Retry"
-msgstr "Retro"
-
-#: src/widgets/tools/tools-releases-box.vala:366
-#: src/widgets/tools/tools-releases-box.vala:540
+#: src/widgets/tools/tools-releases-box.vala:373
+#: src/widgets/tools/tools-releases-box.vala:556
 msgid "Failed to Fetch Releases"
 msgstr "Nepodarilo sa načítať verzie"
 
-#: src/widgets/tools/tools-releases-box.vala:481
-#: src/widgets/tools/tools-releases-box.vala:819
+#: src/widgets/tools/tools-releases-box.vala:497
+#: src/widgets/tools/tools-releases-box.vala:841
+#: src/widgets/tools/tools-releases-box.vala:1142
 #, fuzzy
 msgid "Releases loaded"
 msgstr "Nenašli sa žiadne verzie"
 
-#: src/widgets/tools/tools-releases-box.vala:840
+#: src/widgets/tools/tools-releases-box.vala:862
 msgid "No compatible variants are available for this system."
 msgstr "Pre tento systém nie sú dostupné kompatibilné varianty."
 
-#: src/widgets/tools/tools-releases-box.vala:937
+#: src/widgets/tools/tools-releases-box.vala:975
 #, fuzzy, c-format
 msgid "Last updated: %s"
 msgstr "Naposledy aktualizované: %s"
