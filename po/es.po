@@ -5215,7 +5215,7 @@ msgstr "_Donar"
 
 #: src/widgets/header/header-box.vala:55
 msgid "_About ProtonPlus"
-msgstr "Sobre ProtonPlus"
+msgstr "_Sobre ProtonPlus"
 
 #: src/widgets/header/header-box.vala:57
 #, fuzzy

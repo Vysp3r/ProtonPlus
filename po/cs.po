@@ -5314,7 +5314,7 @@ msgstr "Hlavní nabídka"
 
 #: src/widgets/header/header-box.vala:51
 msgid "_Preferences"
-msgstr "Předvolby"
+msgstr "_Předvolby"
 
 #: src/widgets/header/header-box.vala:53
 msgid "_Keyboard Shortcuts"

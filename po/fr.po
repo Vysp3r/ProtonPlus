@@ -5132,7 +5132,7 @@ msgstr "Menu principal"
 
 #: src/widgets/header/header-box.vala:51
 msgid "_Preferences"
-msgstr "Préférences"
+msgstr "_Préférences"
 
 #: src/widgets/header/header-box.vala:53
 msgid "_Keyboard Shortcuts"

@@ -5134,7 +5134,7 @@ msgstr "_Skróty klawiszowe"
 
 #: src/widgets/header/header-box.vala:54
 msgid "_Donate"
-msgstr "Przekaż darowiznę"
+msgstr "_Przekaż darowiznę"
 
 #: src/widgets/header/header-box.vala:55
 msgid "_About ProtonPlus"

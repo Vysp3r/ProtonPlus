@@ -5,11 +5,17 @@ namespace ProtonPlus.Widgets.Tools {
     }
 
     public class STLReleaseRow : ReleaseRow {
+        bool install_request_in_progress = false;
+
         public STLReleaseRow (Services.InstallJob job) {
             base (job);
         }
 
         protected override void install_button_clicked () {
+            if (install_request_in_progress)
+                return;
+            install_request_in_progress = true;
+
             dependency_check.begin ((obj, res) => {
                 var result = dependency_check.end (res);
 
@@ -22,6 +28,9 @@ namespace ProtonPlus.Widgets.Tools {
                             _ ("Installation will be canceled.")
                         )
                     );
+                    alert_dialog.closed.connect (() => {
+                        install_request_in_progress = false;
+                    });
                     ProtonPlus.Widgets.Window.present_dialog_for_controller (alert_dialog, (Gtk.Window) this.get_root ());
 
                     return;
@@ -98,11 +107,19 @@ namespace ProtonPlus.Widgets.Tools {
 
             var installation_continued = false;
             alert_dialog.response.connect ((response) => {
-                if (response != "install" || installation_continued)
+                if (response != "install") {
+                    install_request_in_progress = false;
+                    return;
+                }
+                if (installation_continued)
                     return;
 
                 installation_continued = true;
                 external_install_check ();
+            });
+            alert_dialog.closed.connect (() => {
+                if (!installation_continued)
+                    install_request_in_progress = false;
             });
             ProtonPlus.Widgets.Window.present_dialog_for_controller (alert_dialog, (Gtk.Window) this.get_root ());
         }
@@ -128,15 +145,25 @@ namespace ProtonPlus.Widgets.Tools {
 
                 var installation_started = false;
                 alert_dialog.response.connect ((response) => {
-                    if (response != "yes" || installation_started)
+                    if (response != "yes") {
+                        install_request_in_progress = false;
+                        return;
+                    }
+                    if (installation_started)
                         return;
 
                     installation_started = true;
                     base.install_button_clicked ();
+                    install_request_in_progress = false;
+                });
+                alert_dialog.closed.connect (() => {
+                    if (!installation_started)
+                        install_request_in_progress = false;
                 });
                 ProtonPlus.Widgets.Window.present_dialog_for_controller (alert_dialog, (Gtk.Window) this.get_root ());
             } else {
                 base.install_button_clicked ();
+                install_request_in_progress = false;
             }
         }
     }

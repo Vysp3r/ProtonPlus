@@ -5388,7 +5388,7 @@ msgstr "Основное меню"
 
 #: src/widgets/header/header-box.vala:51
 msgid "_Preferences"
-msgstr "Настройки"
+msgstr "_Настройки"
 
 #: src/widgets/header/header-box.vala:53
 msgid "_Keyboard Shortcuts"
@@ -5724,7 +5724,7 @@ msgstr "Не удалось загрузить сохранённые напом
 #, c-format
 msgid "Steam needs to restart before this change takes effect."
 msgid_plural "Steam needs to restart before these %u changes take effect."
-msgstr[0] "Steam необходимо перезапустить, чтобы это изменение вступило в силу."
+msgstr[0] "Steam необходимо перезапустить, чтобы это %u изменение вступило в силу."
 msgstr[1] "Steam необходимо перезапустить, чтобы эти %u изменения вступили в силу."
 msgstr[2] "Steam необходимо перезапустить, чтобы эти %u изменений вступили в силу."
 

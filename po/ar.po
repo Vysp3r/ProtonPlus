@@ -5297,15 +5297,15 @@ msgstr "القائمة الرئيسية"
 
 #: src/widgets/header/header-box.vala:51
 msgid "_Preferences"
-msgstr "التفضيلات"
+msgstr "_التفضيلات"
 
 #: src/widgets/header/header-box.vala:53
 msgid "_Keyboard Shortcuts"
-msgstr "اختصارات لوحة المفاتيح"
+msgstr "_اختصارات لوحة المفاتيح"
 
 #: src/widgets/header/header-box.vala:54
 msgid "_Donate"
-msgstr "تبرع"
+msgstr "_تبرع"
 
 #: src/widgets/header/header-box.vala:55
 msgid "_About ProtonPlus"
@@ -5313,7 +5313,7 @@ msgstr "_حول بروتون بلس"
 
 #: src/widgets/header/header-box.vala:57
 msgid "_Exit"
-msgstr "خروج"
+msgstr "_خروج"
 
 #: src/widgets/header/header-downloads-indicator.vala:34
 msgid "Active downloads"

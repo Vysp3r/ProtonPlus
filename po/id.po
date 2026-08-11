@@ -5185,7 +5185,7 @@ msgstr "_Preferensi"
 
 #: src/widgets/header/header-box.vala:53
 msgid "_Keyboard Shortcuts"
-msgstr "Pintasan Keyboard"
+msgstr "_Pintasan Keyboard"
 
 #: src/widgets/header/header-box.vala:54
 #, fuzzy
@@ -5194,7 +5194,7 @@ msgstr "Donasi"
 
 #: src/widgets/header/header-box.vala:55
 msgid "_About ProtonPlus"
-msgstr "Tentang ProtonPlus"
+msgstr "_Tentang ProtonPlus"
 
 #: src/widgets/header/header-box.vala:57
 #, fuzzy
