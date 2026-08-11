@@ -4,26 +4,36 @@ namespace ProtonPlus.Widgets.Introduction {
 
     class Controller : Gtk.Box {
         public Controller () {
-            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 10);
+            Object (orientation: Gtk.Orientation.VERTICAL);
             hexpand = true;
             vexpand = true;
-            valign = Gtk.Align.CENTER;
-            margin_top = 16;
-            margin_bottom = 16;
-            margin_start = 16;
-            margin_end = 16;
+
+            var scrolled = new Gtk.ScrolledWindow () {
+                hscrollbar_policy = Gtk.PolicyType.NEVER,
+                vscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
+                hexpand = true,
+                vexpand = true
+            };
+
+            var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 10);
+            content.hexpand = true;
+            content.vexpand = true;
+            content.valign = Gtk.Align.CENTER;
+            content.margin_top = 16;
+            content.margin_bottom = 16;
+            content.margin_start = 16;
+            content.margin_end = 16;
 
             var image = new Gtk.Image.from_icon_name ("gamepad-symbolic");
             image.pixel_size = 56;
-            this.append (image);
+            content.append (image);
 
             var title_label = new Gtk.Label (_("Controller support"));
             title_label.add_css_class ("title-1");
             title_label.wrap = true;
             title_label.justify = Gtk.Justification.CENTER;
-            title_label.width_chars = 25;
             title_label.max_width_chars = 25;
-            this.append (title_label);
+            content.append (title_label);
 
             var feature_rows = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
             feature_rows.set_hexpand (true);
@@ -54,20 +64,41 @@ namespace ProtonPlus.Widgets.Introduction {
 
             feature_rows.append (row0);
             feature_rows.append (row1);
-            this.append (feature_rows);
+
+            var responsive = new Adw.BreakpointBin ();
+            responsive.set_child (feature_rows);
+
+            var narrow = new Adw.Breakpoint (new Adw.BreakpointCondition.length (
+                Adw.BreakpointConditionLengthType.MAX_WIDTH, 420, Adw.LengthUnit.PX
+            ));
+            narrow.apply.connect (() => {
+                row0.set_orientation (Gtk.Orientation.VERTICAL);
+                row0.set_homogeneous (false);
+                row1.set_orientation (Gtk.Orientation.VERTICAL);
+                row1.set_homogeneous (false);
+            });
+            narrow.unapply.connect (() => {
+                row0.set_orientation (Gtk.Orientation.HORIZONTAL);
+                row0.set_homogeneous (true);
+                row1.set_orientation (Gtk.Orientation.HORIZONTAL);
+                row1.set_homogeneous (true);
+            });
+            responsive.add_breakpoint (narrow);
+
+            content.append (responsive);
+            scrolled.set_child (content);
+            this.append (scrolled);
         }
 
         private Gtk.Widget create_feature (string title, string description) {
             var feature = new Gtk.Box (Gtk.Orientation.VERTICAL, 2);
             feature.set_valign (Gtk.Align.START);
             feature.hexpand = true;
-            feature.vexpand = true;
 
             var title_label = new Gtk.Label (title);
             title_label.add_css_class ("heading");
             title_label.set_xalign (0);
             title_label.set_wrap (true);
-            title_label.set_width_chars (15);
             title_label.set_max_width_chars (15);
             feature.append (title_label);
 
@@ -76,7 +107,6 @@ namespace ProtonPlus.Widgets.Introduction {
             description_label.add_css_class ("dim-label");
             description_label.set_xalign (0);
             description_label.set_wrap (true);
-            description_label.set_width_chars (28);
             description_label.set_max_width_chars (28);
             feature.append (description_label);
 

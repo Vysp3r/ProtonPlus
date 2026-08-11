@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 21:37-0400\n"
+"POT-Creation-Date: 2026-08-10 22:14-0400\n"
 "PO-Revision-Date: 2026-08-10 22:01+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -2205,7 +2205,8 @@ msgstr "Chinesisch (Traditionell)"
 
 #: src/models/launcher.vala:277
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr "Vulkan-basierte Implementierung von Direct3D 8, 9, 10 und 11 für Linux/Wine."
+msgstr ""
+"Vulkan-basierte Implementierung von Direct3D 8, 9, 10 und 11 für Linux/Wine."
 
 #: src/models/launcher.vala:279
 msgid ""
@@ -2217,11 +2218,14 @@ msgstr ""
 
 #: src/models/launcher.vala:281
 msgid "Compatibility tools by Valve for running Windows software on Linux."
-msgstr "Kompatibilitätswerkzeuge von Valve zum Ausführen von Windows-Software unter Linux."
+msgstr ""
+"Kompatibilitätswerkzeuge von Valve zum Ausführen von Windows-Software unter "
+"Linux."
 
 #: src/models/launcher.vala:283
 msgid "Compatibility tools for running Windows software on Linux."
-msgstr "Kompatibilitätswerkzeuge zum Ausführen von Windows-Software unter Linux."
+msgstr ""
+"Kompatibilitätswerkzeuge zum Ausführen von Windows-Software unter Linux."
 
 #: src/models/launchers/faugus-launcher.vala:78
 msgid ""
@@ -2678,7 +2682,7 @@ msgid "Tool"
 msgstr "Werkzeug"
 
 #: src/widgets/games/games-box.vala:227
-#: src/widgets/introduction/controller.vala:37
+#: src/widgets/introduction/controller.vala:49
 msgid "Actions"
 msgstr "Aktionen"
 
@@ -5712,15 +5716,15 @@ msgstr ""
 "Spielen unter Linux einfach zu verwalten, zu installieren und zu "
 "aktualisieren."
 
-#: src/widgets/introduction/controller.vala:20
+#: src/widgets/introduction/controller.vala:31
 msgid "Controller support"
 msgstr "Controller-Unterstützung"
 
-#: src/widgets/introduction/controller.vala:35
+#: src/widgets/introduction/controller.vala:45
 msgid "Navigation"
 msgstr "Navigation"
 
-#: src/widgets/introduction/controller.vala:36
+#: src/widgets/introduction/controller.vala:46
 msgid ""
 "Use the D-pad or sticks to move through pages, dialogs, and menus. Switch "
 "sections with the shoulder buttons."
@@ -5728,7 +5732,7 @@ msgstr ""
 "Navigieren Sie mit dem Steuerkreuz oder den Sticks durch Seiten, Dialoge und "
 "Menüs. Wechseln Sie Bereiche mit den Schultertasten."
 
-#: src/widgets/introduction/controller.vala:40
+#: src/widgets/introduction/controller.vala:50
 msgid ""
 "Use the face buttons for Confirm, Back, Search, and Filter. Hints match your "
 "controller's button labels."
@@ -5736,22 +5740,22 @@ msgstr ""
 "Verwenden Sie die Aktionstasten für Bestätigen, Zurück, Suchen und Filtern. "
 "Die Hinweise entsprechen den Tastenbeschriftungen Ihres Controllers."
 
-#: src/widgets/introduction/controller.vala:47
+#: src/widgets/introduction/controller.vala:57
 msgid "Preferences"
 msgstr "Einstellungen"
 
-#: src/widgets/introduction/controller.vala:42
+#: src/widgets/introduction/controller.vala:58
 msgid ""
 "Choose the Confirm button and enable controller vibration in Preferences."
 msgstr ""
 "Wählen Sie die Bestätigungstaste aus und aktivieren Sie die Controller-"
 "Vibration in den Einstellungen."
 
-#: src/widgets/introduction/controller.vala:51
+#: src/widgets/introduction/controller.vala:61
 msgid "Text input"
 msgstr "Texteingabe"
 
-#: src/widgets/introduction/controller.vala:52
+#: src/widgets/introduction/controller.vala:62
 msgid ""
 "On Steam Deck, focus a text field and press Steam + X. Other systems may "
 "require a physical or system keyboard."

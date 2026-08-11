@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 21:37-0400\n"
+"POT-Creation-Date: 2026-08-10 22:14-0400\n"
 "PO-Revision-Date: 2026-04-20 06:09+0000\n"
 "Last-Translator: Xarishark <Xarishark@outlook.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/protonplus/"
@@ -2548,7 +2548,7 @@ msgid "Tool"
 msgstr ""
 
 #: src/widgets/games/games-box.vala:227
-#: src/widgets/introduction/controller.vala:39
+#: src/widgets/introduction/controller.vala:49
 msgid "Actions"
 msgstr ""
 
@@ -5211,40 +5211,40 @@ msgid ""
 "for running Windows games on Linux."
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:20
+#: src/widgets/introduction/controller.vala:31
 msgid "Controller support"
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:35
+#: src/widgets/introduction/controller.vala:45
 msgid "Navigation"
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:36
+#: src/widgets/introduction/controller.vala:46
 msgid ""
 "Use the D-pad or sticks to move through pages, dialogs, and menus. Switch "
 "sections with the shoulder buttons."
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:40
+#: src/widgets/introduction/controller.vala:50
 msgid ""
 "Use the face buttons for Confirm, Back, Search, and Filter. Hints match your "
 "controller's button labels."
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:47
+#: src/widgets/introduction/controller.vala:57
 msgid "Preferences"
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:48
+#: src/widgets/introduction/controller.vala:58
 msgid ""
 "Choose the Confirm button and enable controller vibration in Preferences."
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:51
+#: src/widgets/introduction/controller.vala:61
 msgid "Text input"
 msgstr ""
 
-#: src/widgets/introduction/controller.vala:52
+#: src/widgets/introduction/controller.vala:62
 msgid ""
 "On Steam Deck, focus a text field and press Steam + X. Other systems may "
 "require a physical or system keyboard."

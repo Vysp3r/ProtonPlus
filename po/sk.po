@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-10 21:37-0400\n"
+"POT-Creation-Date: 2026-08-10 22:14-0400\n"
 "PO-Revision-Date: 2026-08-09 00:00+0000\n"
 "Last-Translator: GitHub Copilot\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/protonplus/"
@@ -2702,7 +2702,7 @@ msgid "Tool"
 msgstr "Nástroj"
 
 #: src/widgets/games/games-box.vala:227
-#: src/widgets/introduction/controller.vala:39
+#: src/widgets/introduction/controller.vala:49
 msgid "Actions"
 msgstr "Akcie"
 
@@ -5709,15 +5709,15 @@ msgstr ""
 "ProtonPlus vám pomáha jednoducho spravovať, inštalovať a aktualizovať "
 "kompatibilitné vrstvy na spúšťanie hier pre Windows v Linuxe."
 
-#: src/widgets/introduction/controller.vala:20
+#: src/widgets/introduction/controller.vala:31
 msgid "Controller support"
 msgstr "Podpora ovládačov"
 
-#: src/widgets/introduction/controller.vala:35
+#: src/widgets/introduction/controller.vala:45
 msgid "Navigation"
 msgstr "Navigácia"
 
-#: src/widgets/introduction/controller.vala:36
+#: src/widgets/introduction/controller.vala:46
 msgid ""
 "Use the D-pad or sticks to move through pages, dialogs, and menus. Switch "
 "sections with the shoulder buttons."
@@ -5725,7 +5725,7 @@ msgstr ""
 "Na pohyb medzi stránkami, dialógmi a ponukami použite D-pad alebo páčky. "
 "Sekcie prepínajte ramennými tlačidlami."
 
-#: src/widgets/introduction/controller.vala:40
+#: src/widgets/introduction/controller.vala:50
 msgid ""
 "Use the face buttons for Confirm, Back, Search, and Filter. Hints match your "
 "controller's button labels."
@@ -5733,22 +5733,22 @@ msgstr ""
 "Na Potvrdiť, Späť, Hľadať a Filter používajte predné tlačidlá. Nápovedy "
 "zodpovedajú popisom tlačidiel vášho ovládača."
 
-#: src/widgets/introduction/controller.vala:47
+#: src/widgets/introduction/controller.vala:57
 #, fuzzy
 msgid "Preferences"
 msgstr "Předvolby"
 
-#: src/widgets/introduction/controller.vala:48
+#: src/widgets/introduction/controller.vala:58
 msgid ""
 "Choose the Confirm button and enable controller vibration in Preferences."
 msgstr ""
 "V Predvoľbách zvoľte potvrdzovacie tlačidlo a povoľte vibrácie ovládača."
 
-#: src/widgets/introduction/controller.vala:51
+#: src/widgets/introduction/controller.vala:61
 msgid "Text input"
 msgstr "Zadávanie textu"
 
-#: src/widgets/introduction/controller.vala:52
+#: src/widgets/introduction/controller.vala:62
 msgid ""
 "On Steam Deck, focus a text field and press Steam + X. Other systems may "
 "require a physical or system keyboard."
