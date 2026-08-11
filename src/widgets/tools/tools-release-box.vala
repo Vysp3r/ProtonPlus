@@ -140,7 +140,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             title_label.set_label (job.title);
             desc_text.set_markdown (job.release.description);
-            desc_label.set_label (job.release.release_date ?? "");
+            desc_label.set_label (Utils.format_timestamp (job.release.release_date));
 
             if (show_games && steam_launcher != null)
             content_stack.set_visible_child_name ("games");

@@ -1,20 +1,30 @@
 namespace ProtonPlus.Widgets.Tools {
     public class GroupBox : Gtk.Box, Utils.ControllerDirectionalFocus {
-        public signal void tool_selected (Models.Tool tool);
+        public signal void tool_expansion_changed (Models.Tool tool, bool expanded);
         public Gtk.Box header_title { get; private set; }
         Gtk.ListBox list_box;
+        Gtk.ScrolledWindow scrolled;
         Gtk.Stack stack;
         Adw.StatusPage status_page;
         weak Gtk.Widget? controller_up_target;
+        Adw.ExpanderRow? expanded_row;
+        Models.Tool? expanded_tool;
+        ReleasesBox? releases_section;
+        Gtk.Box? releases_host;
+        bool changing_expansion = false;
+        uint visibility_change_generation = 0;
 
         private Filter _filter = Filter.ALL;
         public Filter filter {
             get { return _filter; }
             set {
+                visibility_change_generation++;
                 _filter = value;
                 list_box.invalidate_filter ();
                 update_status_page ();
                 update_visibility ();
+                collapse_if_hidden ();
+                update_release_section_boundary ();
             }
         }
 
@@ -22,10 +32,13 @@ namespace ProtonPlus.Widgets.Tools {
         public string search_text {
             get { return _search_text; }
             set {
+                visibility_change_generation++;
                 _search_text = value;
                 list_box.invalidate_filter ();
                 update_status_page ();
                 update_visibility ();
+                collapse_if_hidden ();
+                update_release_section_boundary ();
             }
         }
 
@@ -72,7 +85,7 @@ namespace ProtonPlus.Widgets.Tools {
             });
             group.installed_state_refreshed.connect (() => refresh ());
 
-            var scrolled = new Gtk.ScrolledWindow () {
+            scrolled = new Gtk.ScrolledWindow () {
                 child = list_box,
                 vexpand = true,
                 hscrollbar_policy = Gtk.PolicyType.NEVER,
@@ -123,12 +136,41 @@ namespace ProtonPlus.Widgets.Tools {
         public bool controller_focus_direction (
             Object focused_object, Utils.ControllerNavigationDirection direction
         ) {
-            if (direction != Utils.ControllerNavigationDirection.UP)
+            var focused = focused_object as Gtk.Widget;
+            var focused_row = find_row_ancestor (focused) as Adw.ExpanderRow;
+            if (focused_row == null)
                 return false;
 
-            var focused = focused_object as Gtk.Widget;
-            var focused_row = find_row_ancestor (focused);
-            if (focused_row == null || focused_row != find_first_visible_row ())
+            bool in_release_section = releases_section != null && focused != null &&
+                (focused == releases_section || ((!) focused).is_ancestor ((!) releases_section));
+            if (in_release_section)
+                return false;
+
+            if (direction == Utils.ControllerNavigationDirection.RIGHT) {
+                if (!focused_row.expanded)
+                    focused_row.expanded = true;
+                return true;
+            }
+
+            if (direction == Utils.ControllerNavigationDirection.LEFT) {
+                if (focused_row.expanded)
+                    focused_row.expanded = false;
+                return true;
+            }
+
+            if (direction == Utils.ControllerNavigationDirection.DOWN &&
+                focused_row == expanded_row && releases_section != null)
+                return ((!) releases_section).focus_first_controller_target ();
+
+            if (direction == Utils.ControllerNavigationDirection.UP ||
+                direction == Utils.ControllerNavigationDirection.DOWN) {
+                var adjacent = find_adjacent_visible_row (focused_row, direction);
+                if (adjacent != null)
+                    return ((!) adjacent).grab_focus ();
+            }
+
+            if (direction != Utils.ControllerNavigationDirection.UP ||
+                focused_row != find_first_visible_row ())
                 return false;
 
             return controller_up_target != null &&
@@ -136,6 +178,22 @@ namespace ProtonPlus.Widgets.Tools {
                 ((!) controller_up_target).is_visible () &&
                 ((!) controller_up_target).is_sensitive () &&
                 ((!) controller_up_target).grab_focus ();
+        }
+
+        Adw.ExpanderRow? find_adjacent_visible_row (
+            Adw.ExpanderRow row, Utils.ControllerNavigationDirection direction
+        ) {
+            Gtk.Widget? child = direction == Utils.ControllerNavigationDirection.UP
+                ? row.get_prev_sibling () : row.get_next_sibling ();
+            while (child != null) {
+                if (child is Adw.ExpanderRow && child.get_mapped () &&
+                    child.is_visible () && child.get_child_visible () &&
+                    child.is_sensitive () && child.get_focusable ())
+                    return (Adw.ExpanderRow) child;
+                child = direction == Utils.ControllerNavigationDirection.UP
+                    ? child.get_prev_sibling () : child.get_next_sibling ();
+            }
+            return null;
         }
 
         Gtk.ListBoxRow? find_row_ancestor (Gtk.Widget? widget) {
@@ -217,20 +275,23 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public void refresh () {
+            visibility_change_generation++;
             refresh_tool_state_pills ();
             list_box.invalidate_filter ();
             list_box.invalidate_sort ();
             update_status_page ();
             update_visibility ();
+            collapse_if_hidden ();
+            update_release_section_boundary ();
         }
 
         void refresh_tool_state_pills () {
             var child = list_box.get_first_child ();
             while (child != null) {
-                var row = child as Adw.ActionRow;
+                var row = child as Adw.ExpanderRow;
                 if (row != null) {
-                    var tool = row.get_data<Models.Tool> ("tool");
-                    var state_pill = row.get_data<Gtk.Label> ("state-pill");
+                    var tool = ((!) row).get_data<Models.Tool> ("tool");
+                    var state_pill = ((!) row).get_data<Gtk.Label> ("state-pill");
                     if (tool != null && state_pill != null)
                         update_tool_state_pill (state_pill, tool);
                 }
@@ -238,16 +299,29 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
-        Adw.ActionRow create_tool_card (Models.Tool tool) {
+        Adw.ExpanderRow create_tool_card (Models.Tool tool) {
             var icon = new Gtk.Image.from_icon_name ("screwdriver-wrench-symbolic");
 
-            var row = new Adw.ActionRow () {
+            var row = new Adw.ExpanderRow () {
                 title = tool.title,
                 subtitle = tool.description,
-                activatable = true,
+                title_lines = 1,
+                subtitle_lines = 2,
             };
-            row.activated.connect (() => tool_selected (tool));
+            row.update_property (
+                Gtk.AccessibleProperty.LABEL,
+                "%s. %s".printf (tool.title, tool.description),
+                -1
+            );
+            update_expanded_accessibility (row);
             row.add_prefix (icon);
+
+            // Keep one lightweight host per row so the reusable release section
+            // can move without dynamically adding and removing expander rows.
+            var release_host = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            row.set_data ("inline-release-host", release_host);
+            row.add_row (release_host);
+            row.notify["expanded"].connect (() => on_row_expanded_changed (row, tool));
 
             if (tool is Models.Tools.ProviderTool) {
                 var provider_tool = (Models.Tools.ProviderTool) tool;
@@ -270,6 +344,198 @@ namespace ProtonPlus.Widgets.Tools {
             update_tool_state_pill (state_pill, tool);
 
             return row;
+        }
+
+        void on_row_expanded_changed (Adw.ExpanderRow row, Models.Tool tool) {
+            update_expanded_accessibility (row);
+            if (changing_expansion)
+                return;
+
+            if (row.expanded) {
+                if (expanded_row != null && expanded_row != row)
+                    collapse_expanded_tool (false);
+                expanded_row = row;
+                expanded_tool = tool;
+                tool_expansion_changed (tool, true);
+            } else if (expanded_row == row) {
+                var root = get_root ();
+                var focused = root?.get_focus ();
+                bool focus_was_inside = releases_section != null && focused != null &&
+                    (((!) focused) == releases_section ||
+                     ((!) focused).is_ancestor ((!) releases_section));
+                detach_release_section ();
+                expanded_row = null;
+                expanded_tool = null;
+                if (focus_was_inside)
+                    row.grab_focus ();
+                tool_expansion_changed (tool, false);
+            }
+        }
+
+        void update_expanded_accessibility (Adw.ExpanderRow row) {
+            row.update_state (Gtk.AccessibleState.EXPANDED, row.expanded, -1);
+        }
+
+        public bool contains_tool (Models.Tool tool) {
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                if (child.get_data<Models.Tool> ("tool") == tool)
+                    return true;
+                child = child.get_next_sibling ();
+            }
+            return false;
+        }
+
+        public bool is_expanded_tool (Models.Tool tool) {
+            return expanded_tool == tool && expanded_row != null && ((!) expanded_row).expanded;
+        }
+
+        public bool expand_tool (Models.Tool tool) {
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                if (child.get_data<Models.Tool> ("tool") == tool && child is Adw.ExpanderRow) {
+                    var row = (Adw.ExpanderRow) child;
+                    if (!row.expanded)
+                        row.expanded = true;
+                    else if (expanded_row != row) {
+                        expanded_row = row;
+                        expanded_tool = tool;
+                        tool_expansion_changed (tool, true);
+                    }
+                    return true;
+                }
+                child = child.get_next_sibling ();
+            }
+            return false;
+        }
+
+        public void attach_release_section (Models.Tool tool, ReleasesBox section) {
+            if (!is_expanded_tool (tool) || expanded_row == null)
+                return;
+
+            detach_release_section ();
+            var host = ((!) expanded_row).get_data<Gtk.Box> ("inline-release-host");
+            if (host == null)
+                return;
+
+            // A stale group callback must not leave the shared section parented
+            // when another row takes ownership of it.
+            var current_parent = section.get_parent () as Gtk.Box;
+            if (current_parent != null)
+                ((!) current_parent).remove (section);
+            ((!) host).append (section);
+            releases_section = section;
+            releases_host = host;
+            section.set_controller_up_target ((!) expanded_row);
+            section.set_controller_down_target (find_adjacent_visible_row (
+                (!) expanded_row, Utils.ControllerNavigationDirection.DOWN
+            ));
+        }
+
+        void detach_release_section () {
+            if (releases_section == null)
+                return;
+
+            var section = (!) releases_section;
+            var host = releases_host;
+            releases_section = null;
+            releases_host = null;
+            if (host != null && section.get_parent () == host)
+                ((!) host).remove (section);
+        }
+
+        public void collapse_expanded_tool (bool restore_focus = true) {
+            if (expanded_row == null)
+                return;
+
+            var row = (!) expanded_row;
+            var tool = expanded_tool;
+            detach_release_section ();
+            changing_expansion = true;
+            row.expanded = false;
+            update_expanded_accessibility (row);
+            changing_expansion = false;
+            expanded_row = null;
+            expanded_tool = null;
+            if (restore_focus)
+                row.grab_focus ();
+            if (tool != null)
+                tool_expansion_changed ((!) tool, false);
+        }
+
+        public Gtk.Widget? get_expanded_row () {
+            return expanded_row;
+        }
+
+        public double get_scroll_position () {
+            return scrolled.get_vadjustment ().get_value ();
+        }
+
+        public void restore_scroll_position (double position) {
+            Idle.add (() => {
+                var adjustment = scrolled.get_vadjustment ();
+                var maximum = double.max (
+                    adjustment.lower, adjustment.upper - adjustment.page_size
+                );
+                adjustment.set_value (double.min (
+                    maximum, double.max (adjustment.lower, position)
+                ));
+                return Source.REMOVE;
+            });
+        }
+
+        public void focus_release_widget (Gtk.Widget widget, bool center = true) {
+            widget.grab_focus ();
+            if (!center)
+                return;
+            Idle.add (() => {
+                Graphene.Rect bounds;
+                if (widget.compute_bounds (list_box, out bounds)) {
+                    var adjustment = scrolled.get_vadjustment ();
+                    var maximum = double.max (adjustment.lower,
+                        adjustment.upper - adjustment.page_size);
+                    var value = bounds.origin.y -
+                        ((adjustment.page_size - bounds.size.height) / 2.0);
+                    adjustment.set_value (double.min (maximum,
+                        double.max (adjustment.lower, value)));
+                }
+                return Source.REMOVE;
+            });
+        }
+
+        void collapse_if_hidden () {
+            if (expanded_row == null)
+                return;
+            if (!filter_func ((Gtk.ListBoxRow) (!) expanded_row)) {
+                var root = get_root ();
+                var focused = root?.get_focus ();
+                var hidden_row = (!) expanded_row;
+                bool replace_focus = focused != null &&
+                    (focused == hidden_row || ((!) focused).is_ancestor (hidden_row));
+                collapse_expanded_tool (false);
+                if (!replace_focus)
+                    return;
+                var expected_generation = visibility_change_generation;
+                Idle.add (() => {
+                    if (expected_generation != visibility_change_generation ||
+                        expanded_row != null)
+                        return Source.REMOVE;
+                    var target = find_first_visible_row ();
+                    if (target != null)
+                        ((!) target).grab_focus ();
+                    else if (controller_up_target != null)
+                        ((!) controller_up_target).grab_focus ();
+                    return Source.REMOVE;
+                });
+            }
+        }
+
+        void update_release_section_boundary () {
+            if (releases_section == null || expanded_row == null)
+                return;
+            ((!) releases_section).set_controller_down_target (find_adjacent_visible_row (
+                (!) expanded_row, Utils.ControllerNavigationDirection.DOWN
+            ));
         }
 
         void update_tool_state_pill (Gtk.Label pill, Models.Tool tool) {
@@ -296,8 +562,13 @@ namespace ProtonPlus.Widgets.Tools {
             if (tool == null)
             return true;
 
-            if (search_text != "" && !tool.title.down ().contains (search_text.down ()))
-            return false;
+            var expanded = tool == expanded_tool && releases_section != null;
+            var has_release_match = expanded &&
+                ((!) releases_section).has_release_title_match (search_text);
+            if (!InlineReleaseInteractionState.matches_filter (
+                search_text, tool.title, expanded, has_release_match
+            ))
+                return false;
 
             if (Globals.SETTINGS != null && !Globals.SETTINGS.get_boolean ("show-legacy-tools") && tool.legacy)
             return false;

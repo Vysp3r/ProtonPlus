@@ -272,6 +272,7 @@ namespace ProtonPlus.Widgets {
                 header_box.set_presentation
             );
             header_box.download_selected.connect ((job) => {
+                header_box.select_launcher (job.tool.group.launcher);
                 main_box.navigate_to_download (job);
             });
 

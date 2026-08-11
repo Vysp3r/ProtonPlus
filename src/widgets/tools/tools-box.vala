@@ -13,7 +13,6 @@ namespace ProtonPlus.Widgets.Tools {
 
         Adw.NavigationView navigation_view { get; set; }
         Adw.NavigationPage groups_page { get; set; }
-        Adw.NavigationPage releases_page { get; set; }
         Adw.NavigationPage release_page { get; set; }
         Adw.NavigationPage migrate_page { get; set; }
         Gtk.Button refresh_button { get; set; }
@@ -33,15 +32,15 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Box root_page_box { get; set; }
         Gtk.Box root_title_box { get; set; }
         Gtk.Box root_actions_box { get; set; }
-        Header.Presentation releases_presentation { get; set; }
         Header.Presentation release_presentation { get; set; }
         Header.Presentation migrate_presentation { get; set; }
         ulong background_updates_changed_handler = 0;
         ulong show_legacy_tools_changed_handler = 0;
-        ulong releases_back_handler = 0;
-        ulong releases_back_widget_handler = 0;
         ulong release_back_handler = 0;
         ulong migrate_back_handler = 0;
+        GroupBox? expanded_group;
+        Services.InstallJob? pending_download_job;
+        InlineReleaseInteractionState interaction_state = new InlineReleaseInteractionState ();
 
         public signal void toast_sent (string title);
         public signal void header_presentation_changed (Header.Presentation? presentation);
@@ -120,7 +119,6 @@ namespace ProtonPlus.Widgets.Tools {
             });
 
             groups_page = new Adw.NavigationPage.with_tag (root_page_box, _ ("Tools"), "groups");
-            releases_page = new Adw.NavigationPage.with_tag (releases_box, _ ("Downloads"), "releases");
             release_page = new Adw.NavigationPage.with_tag (release_box, _ ("Details"), "release");
             migrate_page = new Adw.NavigationPage.with_tag (migrate_box, _ ("Migrate"), "migrate");
 
@@ -128,7 +126,6 @@ namespace ProtonPlus.Widgets.Tools {
                 vexpand = true
             };
             navigation_view.add (groups_page);
-            navigation_view.add (releases_page);
             navigation_view.add (release_page);
             navigation_view.add (migrate_page);
 
@@ -136,6 +133,9 @@ namespace ProtonPlus.Widgets.Tools {
                 valign = Gtk.Align.CENTER,
                 visible = false
             };
+            open_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Open release page"), -1
+            );
             open_button.clicked.connect (() => {
                 if (current_job != null && current_job.release.page_url != null) {
                     Utils.System.open_uri (current_job.release.page_url);
@@ -169,12 +169,15 @@ namespace ProtonPlus.Widgets.Tools {
                 valign = Gtk.Align.CENTER
             };
             refresh_button.set_tooltip_text (_ ("Check for updates"));
+            refresh_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Check for updates"), -1
+            );
             refresh_button.clicked.connect (on_refresh_clicked);
 
             search_entry = new Gtk.SearchEntry () {
                 valign = Gtk.Align.CENTER,
                 placeholder_text = _ ("Search"),
-                width_request = 400,
+                width_request = 280,
             };
             Utils.TextInputMetadataPolicy.apply (search_entry, Utils.TextInputFieldKind.SEARCH);
             search_entry.search_changed.connect (() => {
@@ -208,6 +211,9 @@ namespace ProtonPlus.Widgets.Tools {
                 popover = search_popover
             };
             search_button.set_tooltip_text (_ ("Search"));
+            search_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Search"), -1
+            );
             Window.register_popover_for_controller (search_popover, search_button, search_entry);
 
             filter_button = new Gtk.MenuButton () {
@@ -215,6 +221,9 @@ namespace ProtonPlus.Widgets.Tools {
                 icon_name = "filter-2-symbolic"
             };
             filter_button.set_tooltip_text (_ ("Filter"));
+            filter_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Filter"), -1
+            );
 
             all_filter_button = new Gtk.CheckButton.with_label (_ ("All"));
             all_filter_button.active = true;
@@ -281,19 +290,6 @@ namespace ProtonPlus.Widgets.Tools {
             };
             center_box.append (center_stack);
 
-            releases_presentation = new Header.Presentation (releases_box.header_title);
-            releases_back_handler = releases_presentation.back_requested.connect (() => {
-                controller_navigate_back ();
-            });
-            releases_back_widget_handler = releases_presentation.back_widget_changed.connect ((widget) => {
-                releases_box.set_controller_up_target (widget);
-            });
-            releases_presentation.add_end_action (releases_box.variant_box);
-            releases_presentation.add_end_action (releases_box.repository_button);
-            releases_presentation.add_end_action (search_button);
-            releases_presentation.add_end_action (filter_button);
-            releases_presentation.add_end_action (releases_box.refresh_button);
-
             release_presentation = new Header.Presentation (release_box.header_box);
             release_back_handler = release_presentation.back_requested.connect (() => {
                 controller_navigate_back ();
@@ -322,11 +318,9 @@ namespace ProtonPlus.Widgets.Tools {
                                                  && Globals.SETTINGS.get_boolean ("background-updates");
                 refresh_button.set_visible (
                     visible_child != "release"
-                    && visible_child != "releases"
                     && visible_child != "migrate"
                     && !background_updates_enabled
                 );
-                releases_box.set_header_controls_visible (visible_child == "releases");
                 migrate_box.games_button.set_visible (visible_child == "migrate");
                 migrate_box.migrate_button.set_visible (visible_child == "migrate");
                 update_open_button_visibility ();
@@ -354,14 +348,17 @@ namespace ProtonPlus.Widgets.Tools {
             });
 
             navigation_view.popped.connect ((page) => {
-                search_entry.set_text ("");
-                if (page.get_tag () == "releases")
+                if (page.get_tag () == "release") {
                     refresh_group_boxes ();
+                    restore_current_release_focus ();
+                }
             });
 
             navigation_view.notify_property ("visible-page");
 
             groups_stack.notify["visible-child"].connect (() => {
+                if (expanded_group != null && groups_stack.get_visible_child () != expanded_group)
+                    collapse_current_expansion (false);
                 if (get_visible_page_tag () == "groups")
                     update_root_heading ();
             });
@@ -384,14 +381,9 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public override void dispose () {
-            if (releases_back_handler != 0) {
-                releases_presentation.disconnect (releases_back_handler);
-                releases_back_handler = 0;
-            }
-            if (releases_back_widget_handler != 0) {
-                releases_presentation.disconnect (releases_back_widget_handler);
-                releases_back_widget_handler = 0;
-            }
+            collapse_current_expansion (false);
+            pending_download_job = null;
+            current_job = null;
             if (release_back_handler != 0) {
                 release_presentation.disconnect (release_back_handler);
                 release_back_handler = 0;
@@ -462,8 +454,6 @@ namespace ProtonPlus.Widgets.Tools {
 
         public Header.Presentation? get_header_presentation () {
             switch (get_visible_page_tag ()) {
-                case "releases":
-                    return releases_presentation;
                 case "release":
                     return release_presentation;
                 case "migrate":
@@ -510,6 +500,69 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
+        GroupBox? find_group_for_tool (Models.Tool tool) {
+            var child = groups_stack.get_first_child ();
+            while (child != null) {
+                var group_box = child as GroupBox;
+                if (group_box != null && ((!) group_box).contains_tool (tool))
+                    return group_box;
+                child = child.get_next_sibling ();
+            }
+            return null;
+        }
+
+        void collapse_current_expansion (bool restore_focus) {
+            var group_box = expanded_group;
+            if (group_box == null)
+                return;
+            interaction_state.clear_navigation ((!) group_box);
+            ((!) group_box).collapse_expanded_tool (restore_focus);
+            if (expanded_group == group_box)
+                expanded_group = null;
+            interaction_state.collapse ((!) group_box);
+            releases_box.clear_selected_tool ();
+        }
+
+        void focus_download_job (Services.InstallJob job, GroupBox group_box) {
+            if (expanded_group != group_box || !group_box.is_expanded_tool (job.tool) ||
+                !releases_box.is_showing_tool (job.tool))
+                return;
+
+            var row = releases_box.focus_job_row (job, true);
+            if (row != null)
+                group_box.focus_release_widget ((!) row);
+            else {
+                var fallback = group_box.get_expanded_row ();
+                if (fallback != null)
+                    ((!) fallback).grab_focus ();
+            }
+        }
+
+        void restore_current_release_focus () {
+            if (current_job == null || expanded_group == null)
+                return;
+            var job = (!) current_job;
+            var group_box = (!) expanded_group;
+            double scroll_position;
+            if (!interaction_state.restore_navigation (group_box, job, out scroll_position))
+                return;
+            Idle.add (() => {
+                if (get_visible_page_tag () != "groups" || expanded_group != group_box ||
+                    !group_box.is_expanded_tool (job.tool))
+                    return Source.REMOVE;
+                var row = releases_box.focus_job_row (job);
+                if (row != null)
+                    group_box.focus_release_widget ((!) row, false);
+                else {
+                    var fallback = group_box.get_expanded_row ();
+                    if (fallback != null)
+                        ((!) fallback).grab_focus ();
+                }
+                group_box.restore_scroll_position (scroll_position);
+                return Source.REMOVE;
+            });
+        }
+
         string get_visible_page_tag () {
             return navigation_view.get_visible_page ().get_tag () ?? "groups";
         }
@@ -546,14 +599,11 @@ namespace ProtonPlus.Widgets.Tools {
                 case "groups":
                     reset_to_root ();
                     break;
-                case "releases":
-                    navigation_view.replace ({ groups_page, releases_page });
-                    break;
                 case "release":
-                    navigation_view.replace ({ groups_page, releases_page, release_page });
+                    navigation_view.replace ({ groups_page, release_page });
                     break;
                 case "migrate":
-                    navigation_view.replace ({ groups_page, releases_page, release_page, migrate_page });
+                    navigation_view.replace ({ groups_page, release_page, migrate_page });
                     break;
                 default:
                     warning ("Unknown Tools navigation page: %s", tag);
@@ -564,6 +614,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         public void show_groups_page () {
             reset_to_root ();
+            collapse_current_expansion (true);
             search_entry.set_text ("");
             all_filter_button.active = true;
             refresh_group_boxes ();
@@ -604,11 +655,15 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public bool controller_navigate_back () {
+            if (get_visible_page_tag () == "groups" && expanded_group != null) {
+                collapse_current_expansion (true);
+                return true;
+            }
             return pop_page ();
         }
 
         public bool controller_can_navigate_back () {
-            return get_visible_page_tag () != "groups";
+            return get_visible_page_tag () != "groups" || expanded_group != null;
         }
 
         public bool controller_can_switch_page () {
@@ -648,11 +703,30 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public void show_download (Services.InstallJob job) {
-            navigate_to_canonical_page ("releases");
-            releases_box.focus_job.begin (job);
+            navigate_to_canonical_page ("groups");
+            pending_download_job = job;
+            var group_box = find_group_for_tool (job.tool);
+            if (group_box == null) {
+                pending_download_job = null;
+                return;
+            }
+            groups_stack.set_visible_child ((!) group_box);
+            if (((!) group_box).is_expanded_tool (job.tool) && releases_box.is_showing_tool (job.tool)) {
+                if (releases_box.is_loading_tool (job.tool))
+                    return;
+                pending_download_job = null;
+                focus_download_job (job, (!) group_box);
+                return;
+            }
+            if (!((!) group_box).expand_tool (job.tool))
+                pending_download_job = null;
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {
+            collapse_current_expansion (false);
+            releases_box.clear_selected_tool ();
+            pending_download_job = null;
+            current_job = null;
             current_launcher = launcher;
 
             Gtk.Widget? child;
@@ -664,7 +738,9 @@ namespace ProtonPlus.Widgets.Tools {
                 var group_box = new GroupBox (group, search_button);
                 group_box.filter = current_filter;
                 group_box.search_text = search_entry.get_text ();
-                group_box.tool_selected.connect (set_selected_tool);
+                group_box.tool_expansion_changed.connect ((tool, expanded) => {
+                    on_tool_expansion_changed (group_box, tool, expanded);
+                });
                 groups_stack.add_titled_with_icon (group_box, group.title.down (), group.title, "layer-group-symbolic");
             }
 
@@ -673,22 +749,52 @@ namespace ProtonPlus.Widgets.Tools {
             reset_to_root ();
         }
 
-        void set_selected_tool (Models.Tool tool) {
-            push_page (releases_page);
+        void on_tool_expansion_changed (GroupBox group_box, Models.Tool tool, bool expanded) {
+            if (!expanded) {
+                interaction_state.collapse (group_box);
+                interaction_state.clear_navigation (group_box);
+                if (expanded_group == group_box) {
+                    if (pending_download_job != null && ((!) pending_download_job).tool == tool)
+                        pending_download_job = null;
+                    releases_box.clear_selected_tool ();
+                    expanded_group = null;
+                }
+                return;
+            }
+
+            var previous_group = interaction_state.expanded_owner as GroupBox;
+            interaction_state.expand (group_box);
+            if (previous_group != null && previous_group != group_box)
+                ((!) previous_group).collapse_expanded_tool (false);
+
+            expanded_group = group_box;
+            group_box.attach_release_section (tool, releases_box);
+            releases_box.filter = current_filter;
+            releases_box.search_text = search_entry.get_text ();
             releases_box.set_selected_tool.begin (tool, (obj, result) => {
-                if (!releases_box.set_selected_tool.end (result) ||
-                    get_visible_page_tag () != "releases")
+                bool loaded = releases_box.set_selected_tool.end (result);
+                if (expanded_group != group_box || !group_box.is_expanded_tool (tool) ||
+                    !releases_box.is_showing_tool (tool))
                     return;
 
-                var root = get_root ();
-                var focused = root?.get_focus ();
-                if (focused == null || !((!) focused).get_mapped () ||
-                    focused == groups_stack || ((!) focused).is_ancestor (groups_stack))
-                    releases_box.focus_first_controller_target ();
+                if (pending_download_job != null && ((!) pending_download_job).tool == tool) {
+                    var target = (!) pending_download_job;
+                    pending_download_job = null;
+                    focus_download_job (target, group_box);
+                    return;
+                }
+
+                if (!loaded)
+                    return;
             });
         }
 
         void set_selected_job (Services.InstallJob job, bool show_games = false) {
+            if (expanded_group != null && ((!) expanded_group).is_expanded_tool (job.tool)) {
+                interaction_state.remember_navigation (
+                    (!) expanded_group, job, ((!) expanded_group).get_scroll_position ()
+                );
+            }
             current_job = job;
 
             release_box.set_selected_job (job, show_games);

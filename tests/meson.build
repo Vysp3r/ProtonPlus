@@ -9,6 +9,7 @@ test_sources = files(
     'controller-surface-policy-test.vala',
     'games-action-policy-test.vala',
     'release-row-presentation-test.vala',
+    'inline-release-request-guard-test.vala',
     'games-collection-test.vala',
     'cpu-capabilities-test.vala',
     'variant-compatibility-test.vala',

@@ -138,6 +138,10 @@ namespace ProtonPlus.Widgets.Header {
             launchers_button.button_clicked ();
         }
 
+        public bool select_launcher (Models.Launcher launcher) {
+            return launchers_button.select_launcher (launcher);
+        }
+
         public override void dispose () {
             if (current_presentation != null)
                 ((!) current_presentation).attach_back_widget (null);

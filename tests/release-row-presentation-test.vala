@@ -135,6 +135,16 @@ namespace AppTests.ReleaseRowPresentationTest {
         assert (failed_removal.show_open_folder && failed_removal.show_delete);
     }
 
+    private void test_readable_timestamp () {
+        const string raw = "2026-08-11T18:55:19-04:00";
+        var formatted = ProtonPlus.Utils.format_timestamp (raw);
+        assert (formatted != raw);
+        assert (!formatted.contains ("T"));
+        assert (formatted.contains ("2026"));
+        assert (formatted.contains ("·"));
+        assert (ProtonPlus.Utils.format_timestamp ("not-a-date") == "not-a-date");
+    }
+
     private void test_disposal_during_active_job_disconnects_callbacks () {
         var launcher = new Launcher (
             "Fixture", Launcher.InstallationTypes.SYSTEM, "", {}, "fixture"
@@ -178,6 +188,7 @@ namespace AppTests.ReleaseRowPresentationTest {
         Test.add_func ("/release-row-presentation/removing", test_removing);
         Test.add_func ("/release-row-presentation/cancellation", test_cancellation);
         Test.add_func ("/release-row-presentation/failed-operations", test_failed_operations_restore_actual_state);
+        Test.add_func ("/release-row-presentation/readable-timestamp", test_readable_timestamp);
         Test.add_func (
             "/release-row-presentation/dispose-active-job",
             test_disposal_during_active_job_disconnects_callbacks

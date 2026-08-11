@@ -25,6 +25,7 @@ namespace ProtonPlus.Widgets.Tools {
         SimpleAction delete_action;
         SimpleAction open_release_page_action;
         weak Gtk.Widget? controller_up_target;
+        weak Gtk.Widget? controller_down_target;
 
         ReleaseRowJobSignalBinding job_signal_binding;
         uint progress_pulse_timeout_id = 0;
@@ -32,7 +33,7 @@ namespace ProtonPlus.Widgets.Tools {
         public ReleaseRow (Services.InstallJob job) {
             Object (
                 title: job.title,
-                subtitle: job.release.release_date,
+                subtitle: Utils.format_timestamp (job.release.release_date),
                 subtitle_lines: 2,
                 title_lines: 1,
                 activatable: true
@@ -66,7 +67,9 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void create_primary_button () {
-            primary_content = new Adw.ButtonContent ();
+            primary_content = new Adw.ButtonContent () {
+                can_shrink = true
+            };
             primary_button = new Gtk.Button () {
                 child = primary_content,
                 valign = Gtk.Align.CENTER
@@ -237,6 +240,10 @@ namespace ProtonPlus.Widgets.Tools {
             controller_up_target = target;
         }
 
+        public void set_controller_down_target (Gtk.Widget? target) {
+            controller_down_target = target;
+        }
+
         public bool controller_focus_direction (
             Object focused_object,
             Utils.ControllerNavigationDirection direction
@@ -268,7 +275,14 @@ namespace ProtonPlus.Widgets.Tools {
                     ((!) controller_up_target).is_sensitive () &&
                     ((!) controller_up_target).grab_focus ();
 
-            return focus_next_list_control ();
+            if (focus_next_list_control ())
+                return true;
+
+            return controller_down_target != null &&
+                ((!) controller_down_target).get_mapped () &&
+                ((!) controller_down_target).is_visible () &&
+                ((!) controller_down_target).is_sensitive () &&
+                ((!) controller_down_target).grab_focus ();
         }
 
         ReleaseRow? find_adjacent_release (
@@ -296,7 +310,7 @@ namespace ProtonPlus.Widgets.Tools {
                         sibling.grab_focus ();
                 sibling = sibling.get_next_sibling ();
             }
-            return grab_focus ();
+            return false;
         }
 
         bool focus_horizontal (
@@ -600,9 +614,6 @@ namespace ProtonPlus.Widgets.Tools {
 
             if (supports_update_check ())
                 details.add (_("Rolling release"));
-            if (job.selected_variant_name != null &&
-                job.selected_variant_name != "")
-                details.add (_("Variant: %s").printf (job.selected_variant_name));
 
             var usage_count = job.tool.group.launcher
                 .get_compatibility_tool_usage_count (job.get_usage_identifier ());
@@ -613,7 +624,7 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             var status = string.joinv (" · ", details.to_array ());
-            var date = job.release.release_date;
+            var date = Utils.format_timestamp (job.release.release_date);
             set_subtitle (date != "" ? "%s\n%s".printf (date, status) : status);
             update_property (
                 Gtk.AccessibleProperty.DESCRIPTION, status, -1

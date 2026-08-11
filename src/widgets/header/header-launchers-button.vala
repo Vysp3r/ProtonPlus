@@ -77,6 +77,19 @@ namespace ProtonPlus.Widgets.Header {
             }
         }
 
+        public bool select_launcher (Models.Launcher launcher) {
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                var row = child as Gtk.ListBoxRow;
+                if (row != null && ((!) row).get_data<Models.Launcher> ("launcher") == launcher) {
+                    list_box_row_activated ((!) row);
+                    return true;
+                }
+                child = child.get_next_sibling ();
+            }
+            return false;
+        }
+
         void list_box_row_activated (Gtk.ListBoxRow? row) {
             if (row == null)
             return;
