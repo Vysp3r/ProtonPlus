@@ -26,6 +26,23 @@ namespace ProtonPlus.Widgets.Main {
         private Adw.Dialog? active_restart_dialog = null;
         private bool persistence_toast_shown = false;
         private bool load_warning_shown = false;
+        private Header.Presentation? current_header_presentation;
+        private ulong tools_header_handler_id = 0;
+        private ulong games_header_handler_id = 0;
+        private bool view_switcher_bar_ready = false;
+
+        private bool _narrow_navigation = false;
+        public bool narrow_navigation {
+            get { return _narrow_navigation; }
+            set {
+                if (_narrow_navigation == value)
+                    return;
+                _narrow_navigation = value;
+                update_view_switcher_bar ();
+            }
+        }
+
+        public signal void header_presentation_changed (Header.Presentation? presentation);
 
         public Box (Services.SteamRestartManager? restart_manager = null,
             Services.SteamRestartOrchestrator? restart_orchestrator = null,
@@ -36,8 +53,14 @@ namespace ProtonPlus.Widgets.Main {
 
             tools_box = new Tools.Box ();
             tools_box.toast_sent.connect (send_toast);
+            tools_header_handler_id = tools_box.header_presentation_changed.connect (() => {
+                update_header_presentation ();
+            });
 
             games_box = new Games.Box ();
+            games_header_handler_id = games_box.header_presentation_changed.connect (() => {
+                update_header_presentation ();
+            });
 
             mangohud_box = new MangoHud.Box ();
 
@@ -61,6 +84,8 @@ namespace ProtonPlus.Widgets.Main {
             view_switcher_bar = new Adw.ViewSwitcherBar ();
             view_switcher_bar.set_stack (view_stack);
             view_switcher_bar.set_reveal (false);
+            view_switcher_bar_ready = true;
+            update_view_switcher_bar ();
 
             add_view_switcher_reset_controller (view_switcher);
             add_view_switcher_reset_controller (view_switcher_bar);
@@ -275,6 +300,15 @@ namespace ProtonPlus.Widgets.Main {
         }
 
         public override void dispose () {
+            view_switcher_bar_ready = false;
+            if (tools_header_handler_id != 0) {
+                tools_box.disconnect (tools_header_handler_id);
+                tools_header_handler_id = 0;
+            }
+            if (games_header_handler_id != 0) {
+                games_box.disconnect (games_header_handler_id);
+                games_header_handler_id = 0;
+            }
             cancel_steam_restart ();
             if (active_restart_dialog != null)
                 active_restart_dialog.close ();
@@ -380,6 +414,30 @@ namespace ProtonPlus.Widgets.Main {
             }
 
             previous_view_name = view_stack.get_visible_child_name ();
+            update_header_presentation ();
+        }
+
+        void update_header_presentation () {
+            Header.Presentation? presentation = null;
+            switch (view_stack.get_visible_child_name ()) {
+                case "tools":
+                    presentation = tools_box.get_header_presentation ();
+                    break;
+                case "games":
+                    presentation = games_box.get_header_presentation ();
+                    break;
+            }
+            current_header_presentation = presentation;
+            update_view_switcher_bar ();
+            header_presentation_changed (presentation);
+        }
+
+        void update_view_switcher_bar () {
+            if (!view_switcher_bar_ready)
+                return;
+            view_switcher_bar.set_reveal (
+                narrow_navigation && current_header_presentation == null
+            );
         }
 
         void reset_visible_page () {

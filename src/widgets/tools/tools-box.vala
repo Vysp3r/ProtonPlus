@@ -16,14 +16,12 @@ namespace ProtonPlus.Widgets.Tools {
         Adw.NavigationPage releases_page { get; set; }
         Adw.NavigationPage release_page { get; set; }
         Adw.NavigationPage migrate_page { get; set; }
-        Gtk.Button back_button { get; set; }
         Gtk.Button refresh_button { get; set; }
         Gtk.Button open_button { get; set; }
         Gtk.Button migrate_button { get; set; }
         Gtk.SearchEntry search_entry { get; set; }
         Gtk.MenuButton search_button { get; set; }
         Gtk.MenuButton filter_button { get; set; }
-        Adw.HeaderBar header_bar { get; set; }
         Gtk.ActionBar action_bar { get; set; }
         Gtk.CheckButton all_filter_button { get; set; }
         Adw.ViewStack groups_stack { get; set; }
@@ -32,10 +30,21 @@ namespace ProtonPlus.Widgets.Tools {
         MigrateBox migrate_box { get; set; }
         Adw.ViewSwitcher switcher { get; set; }
         Adw.ViewStack center_stack { get; set; }
+        Gtk.Box root_page_box { get; set; }
+        Gtk.Box root_title_box { get; set; }
+        Gtk.Box root_actions_box { get; set; }
+        Header.Presentation releases_presentation { get; set; }
+        Header.Presentation release_presentation { get; set; }
+        Header.Presentation migrate_presentation { get; set; }
         ulong background_updates_changed_handler = 0;
         ulong show_legacy_tools_changed_handler = 0;
+        ulong releases_back_handler = 0;
+        ulong releases_back_widget_handler = 0;
+        ulong release_back_handler = 0;
+        ulong migrate_back_handler = 0;
 
         public signal void toast_sent (string title);
+        public signal void header_presentation_changed (Header.Presentation? presentation);
 
         private Filter _current_filter = Filter.ALL;
         public Filter current_filter {
@@ -61,6 +70,26 @@ namespace ProtonPlus.Widgets.Tools {
             groups_stack = new Adw.ViewStack () {
                 vexpand = true
             };
+
+            root_title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
+                hexpand = true
+            };
+            root_actions_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+            var root_heading = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+            root_heading.append (root_title_box);
+            root_heading.append (root_actions_box);
+            var root_heading_clamp = new Adw.Clamp () {
+                maximum_size = 975,
+                margin_top = 12,
+                margin_start = 12,
+                margin_end = 12,
+                child = root_heading
+            };
+            root_page_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
+                vexpand = true
+            };
+            root_page_box.append (root_heading_clamp);
+            root_page_box.append (groups_stack);
 
             releases_box = new ReleasesBox ();
             releases_box.job_selected.connect ((job) => {
@@ -90,7 +119,7 @@ namespace ProtonPlus.Widgets.Tools {
                 }
             });
 
-            groups_page = new Adw.NavigationPage.with_tag (groups_stack, _ ("Tools"), "groups");
+            groups_page = new Adw.NavigationPage.with_tag (root_page_box, _ ("Tools"), "groups");
             releases_page = new Adw.NavigationPage.with_tag (releases_box, _ ("Downloads"), "releases");
             release_page = new Adw.NavigationPage.with_tag (release_box, _ ("Details"), "release");
             migrate_page = new Adw.NavigationPage.with_tag (migrate_box, _ ("Migrate"), "migrate");
@@ -102,15 +131,6 @@ namespace ProtonPlus.Widgets.Tools {
             navigation_view.add (releases_page);
             navigation_view.add (release_page);
             navigation_view.add (migrate_page);
-
-            back_button = new Gtk.Button.from_icon_name ("go-previous-symbolic") {
-                valign = Gtk.Align.CENTER,
-                visible = false
-            };
-            back_button.add_css_class ("flat");
-            back_button.set_tooltip_text (_ ("Back"));
-            back_button.clicked.connect (() => controller_navigate_back ());
-            releases_box.set_controller_up_target (back_button);
 
             open_button = new Gtk.Button.from_icon_name ("globe-symbolic") {
                 valign = Gtk.Align.CENTER,
@@ -261,29 +281,41 @@ namespace ProtonPlus.Widgets.Tools {
             };
             center_box.append (center_stack);
 
-            header_bar = new Adw.HeaderBar () {
-                show_start_title_buttons = false,
-                show_end_title_buttons = false,
-                show_title = false
-            };
-            header_bar.pack_start (back_button);
-            header_bar.pack_end (refresh_button);
-            header_bar.pack_end (releases_box.refresh_button);
-            header_bar.pack_end (filter_button);
-            header_bar.pack_end (search_button);
-            header_bar.pack_end (open_button);
-            header_bar.pack_end (migrate_button);
-            header_bar.pack_end (migrate_box.games_button);
-            header_bar.pack_end (migrate_box.migrate_button);
-            header_bar.pack_end (releases_box.repository_button);
-            header_bar.pack_end (releases_box.variant_box);
+            releases_presentation = new Header.Presentation (releases_box.header_title);
+            releases_back_handler = releases_presentation.back_requested.connect (() => {
+                controller_navigate_back ();
+            });
+            releases_back_widget_handler = releases_presentation.back_widget_changed.connect ((widget) => {
+                releases_box.set_controller_up_target (widget);
+            });
+            releases_presentation.add_end_action (releases_box.variant_box);
+            releases_presentation.add_end_action (releases_box.repository_button);
+            releases_presentation.add_end_action (search_button);
+            releases_presentation.add_end_action (filter_button);
+            releases_presentation.add_end_action (releases_box.refresh_button);
+
+            release_presentation = new Header.Presentation (release_box.header_box);
+            release_back_handler = release_presentation.back_requested.connect (() => {
+                controller_navigate_back ();
+            });
+            release_presentation.add_end_action (open_button);
+            release_presentation.add_end_action (migrate_button);
+
+            var migrate_title = new Adw.WindowTitle (_ ("Migrate"), "");
+            migrate_presentation = new Header.Presentation (migrate_title);
+            migrate_back_handler = migrate_presentation.back_requested.connect (() => {
+                controller_navigate_back ();
+            });
+            migrate_presentation.add_end_action (migrate_box.games_button);
+            migrate_presentation.add_end_action (migrate_box.migrate_button);
 
             action_bar = new Gtk.ActionBar ();
             action_bar.set_center_widget (center_box);
 
             navigation_view.notify["visible-page"].connect (() => {
                 var visible_child = get_visible_page_tag ();
-                back_button.set_visible (visible_child != "groups");
+                if (visible_child != "groups")
+                    clear_root_heading ();
                 search_button.set_visible (visible_child != "release" && visible_child != "migrate");
                 filter_button.set_visible (visible_child != "release" && visible_child != "migrate");
                 var background_updates_enabled = Globals.SETTINGS != null
@@ -294,7 +326,6 @@ namespace ProtonPlus.Widgets.Tools {
                     && visible_child != "migrate"
                     && !background_updates_enabled
                 );
-                update_header_title ();
                 releases_box.set_header_controls_visible (visible_child == "releases");
                 migrate_box.games_button.set_visible (visible_child == "migrate");
                 migrate_box.migrate_button.set_visible (visible_child == "migrate");
@@ -316,6 +347,10 @@ namespace ProtonPlus.Widgets.Tools {
                     center_stack.set_visible (false);
                     action_bar.set_visible (false);
                 }
+
+                header_presentation_changed (get_header_presentation ());
+                if (visible_child == "groups")
+                    update_root_heading ();
             });
 
             navigation_view.popped.connect ((page) => {
@@ -326,7 +361,10 @@ namespace ProtonPlus.Widgets.Tools {
 
             navigation_view.notify_property ("visible-page");
 
-            groups_stack.notify["visible-child"].connect (update_header_title);
+            groups_stack.notify["visible-child"].connect (() => {
+                if (get_visible_page_tag () == "groups")
+                    update_root_heading ();
+            });
 
             release_box.stack_switcher.stack.notify["visible-child-name"].connect (() => {
                 update_open_button_visibility ();
@@ -336,7 +374,6 @@ namespace ProtonPlus.Widgets.Tools {
                 update_open_button_visibility ();
             });
 
-            append (header_bar);
             append (navigation_view);
             append (action_bar);
 
@@ -347,6 +384,22 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public override void dispose () {
+            if (releases_back_handler != 0) {
+                releases_presentation.disconnect (releases_back_handler);
+                releases_back_handler = 0;
+            }
+            if (releases_back_widget_handler != 0) {
+                releases_presentation.disconnect (releases_back_widget_handler);
+                releases_back_widget_handler = 0;
+            }
+            if (release_back_handler != 0) {
+                release_presentation.disconnect (release_back_handler);
+                release_back_handler = 0;
+            }
+            if (migrate_back_handler != 0) {
+                migrate_presentation.disconnect (migrate_back_handler);
+                migrate_back_handler = 0;
+            }
             if (Globals.SETTINGS != null) {
                 if (background_updates_changed_handler != 0) {
                     Globals.SETTINGS.disconnect (background_updates_changed_handler);
@@ -386,22 +439,38 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
-        void update_header_title () {
-            Gtk.Widget? title_widget = null;
-            var visible_child = get_visible_page_tag ();
+        void clear_box (Gtk.Box box) {
+            Gtk.Widget? child;
+            while ((child = box.get_first_child ()) != null)
+                box.remove ((!) child);
+        }
 
-            if (visible_child == "groups") {
-                var group_box = groups_stack.get_visible_child () as GroupBox;
-                if (group_box != null)
-                    title_widget = group_box.header_title;
-            } else if (visible_child == "releases") {
-                title_widget = releases_box.header_title;
-            } else if (visible_child == "release") {
-                title_widget = release_box.header_box;
+        void clear_root_heading () {
+            clear_box (root_title_box);
+            clear_box (root_actions_box);
+        }
+
+        void update_root_heading () {
+            clear_root_heading ();
+            var group_box = groups_stack.get_visible_child () as GroupBox;
+            if (group_box != null)
+                root_title_box.append (((!) group_box).header_title);
+            root_actions_box.append (refresh_button);
+            root_actions_box.append (filter_button);
+            root_actions_box.append (search_button);
+        }
+
+        public Header.Presentation? get_header_presentation () {
+            switch (get_visible_page_tag ()) {
+                case "releases":
+                    return releases_presentation;
+                case "release":
+                    return release_presentation;
+                case "migrate":
+                    return migrate_presentation;
+                default:
+                    return null;
             }
-
-            header_bar.set_title_widget (title_widget);
-            header_bar.set_show_title (title_widget != null);
         }
 
         void refresh_groups_for_legacy_tools () {

@@ -14,6 +14,7 @@ namespace ProtonPlus.Widgets.Header {
         private ulong download_added_handler = 0;
         private ulong download_removed_handler = 0;
         private ulong speed_limit_changed_handler = 0;
+        private bool global_header_visible = true;
 
         public DownloadsIndicator () {
             Object (orientation: Gtk.Orientation.HORIZONTAL, spacing: 0);
@@ -144,7 +145,7 @@ namespace ProtonPlus.Widgets.Header {
         private void update_badge () {
             var count = entries.size;
             badge.set_label (count.to_string ());
-            set_visible (count > 0);
+            set_visible (global_header_visible && count > 0);
             if (count > 0)
                 icon.add_css_class ("downloads-indicator-active");
             else
@@ -153,6 +154,11 @@ namespace ProtonPlus.Widgets.Header {
 
             if (count == 0)
                 downloads_popover.popdown ();
+        }
+
+        public void set_global_header_visible (bool visible) {
+            global_header_visible = visible;
+            update_badge ();
         }
 
         private void update_limit_label (int64 speed_limit_bps) {

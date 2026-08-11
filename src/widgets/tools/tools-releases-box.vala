@@ -296,7 +296,7 @@ namespace ProtonPlus.Widgets.Tools {
             append (clamp);
         }
 
-        public void set_controller_up_target (Gtk.Widget target) {
+        public void set_controller_up_target (Gtk.Widget? target) {
             controller_up_target = target;
         }
 

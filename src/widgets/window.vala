@@ -77,6 +77,7 @@ namespace ProtonPlus.Widgets {
         Adw.BreakpointBin responsive { get; set; }
         ControllerHintBar controller_hint_bar { get; set; }
         ulong controller_presentation_handler = 0;
+        ulong header_presentation_handler = 0;
         bool navigation_breakpoint_added = false;
 
         private Services.SteamRestartManager restart_manager;
@@ -234,6 +235,10 @@ namespace ProtonPlus.Widgets {
         }
 
         private void build_ui () {
+            if (header_presentation_handler != 0) {
+                main_box.disconnect (header_presentation_handler);
+                header_presentation_handler = 0;
+            }
             navigation_breakpoint_added = false;
             header_box = new Header.Box ();
             header_box.set_controller_mode_active (
@@ -263,6 +268,9 @@ namespace ProtonPlus.Widgets {
 
             main_box = new Main.Box (restart_manager, restart_orchestrator);
             main_box.view_switcher_bar.set_visible (false);
+            header_presentation_handler = main_box.header_presentation_changed.connect (
+                header_box.set_presentation
+            );
             header_box.download_selected.connect ((job) => {
                 main_box.navigate_to_download (job);
             });
@@ -297,15 +305,13 @@ namespace ProtonPlus.Widgets {
                     Adw.LengthUnit.SP
                 )
             );
-            var no_title = Value (typeof (Gtk.Widget));
-            no_title.set_object (null);
+            var narrow = Value (typeof (bool));
+            narrow.set_boolean (true);
             navigation_breakpoint.add_setter (
-                header_box.header_bar, "title-widget", no_title
+                header_box, "narrow-navigation", narrow
             );
-            var revealed = Value (typeof (bool));
-            revealed.set_boolean (true);
             navigation_breakpoint.add_setter (
-                main_box.view_switcher_bar, "reveal", revealed
+                main_box, "narrow-navigation", narrow
             );
 
             responsive.add_breakpoint (navigation_breakpoint);
@@ -367,6 +373,10 @@ namespace ProtonPlus.Widgets {
         }
 
         public override void dispose () {
+            if (header_presentation_handler != 0) {
+                main_box.disconnect (header_presentation_handler);
+                header_presentation_handler = 0;
+            }
             if (controller_presentation_handler != 0) {
                 controller_manager.disconnect (controller_presentation_handler);
                 controller_presentation_handler = 0;

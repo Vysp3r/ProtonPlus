@@ -5,7 +5,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Button clear_button;
         Gtk.Button apply_button;
         Gtk.MenuButton selection_button;
-        Adw.HeaderBar header_bar { get; set; }
+        public Header.Presentation header_presentation { get; private set; }
         Adw.Clamp content_clamp { get; set; }
         Gtk.ScrolledWindow scrolled_window { get; set; }
         CompatibilityToolRow compatibility_tool_row { get; set; }
@@ -20,6 +20,7 @@ namespace ProtonPlus.Widgets.Games {
         LaunchOptionsEditor.LaunchOptionCapabilityResolver capability_resolver;
         Gee.HashMap<string, Models.CompatibilityTool> compatibility_tools_by_id;
         Utils.GpuVendor gpu_vendor = Utils.GpuVendor.UNKNOWN;
+        ulong header_back_handler = 0;
 
         public string get_selection_text () {
             return rows.length == 1 ? _("1 game selected") : _("%u games selected").printf (rows.length);
@@ -114,19 +115,24 @@ namespace ProtonPlus.Widgets.Games {
             scrolled_window.set_vexpand (true);
             scrolled_window.set_child (content_clamp);
 
-            header_bar = new Adw.HeaderBar () {
-                show_start_title_buttons = false,
-                show_end_title_buttons = false,
-                show_title = true,
-                title_widget = selection_button
-            };
             var action_buttons = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
             action_buttons.append (clear_button);
             action_buttons.append (apply_button);
-            header_bar.pack_end (action_buttons);
+            header_presentation = new Header.Presentation (selection_button);
+            header_back_handler = header_presentation.back_requested.connect (() => {
+                back_requested ();
+            });
+            header_presentation.add_end_action (action_buttons);
 
-            append (header_bar);
             append (scrolled_window);
+        }
+
+        public override void dispose () {
+            if (header_back_handler != 0) {
+                header_presentation.disconnect (header_back_handler);
+                header_back_handler = 0;
+            }
+            base.dispose ();
         }
 
         public Gtk.Widget get_controller_initial_focus () {

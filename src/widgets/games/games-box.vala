@@ -45,6 +45,8 @@ namespace ProtonPlus.Widgets.Games {
         bool updating_selection_toggle = false;
         bool mass_edit_cleanup_pending = false;
 
+        public signal void header_presentation_changed (Header.Presentation? presentation);
+
         construct {
             image = new Gtk.Image ();
 
@@ -293,6 +295,10 @@ namespace ProtonPlus.Widgets.Games {
                 if (page == mass_edit_page)
                     cleanup_mass_edit_exit ();
             });
+            navigation_view.notify["visible-page"].connect (() => {
+                header_presentation_changed (get_header_presentation ());
+            });
+            navigation_view.notify_property ("visible-page");
 
             expression = new Gtk.PropertyExpression (typeof (Models.CompatibilityTool), null, "display_title");
 
@@ -628,6 +634,12 @@ namespace ProtonPlus.Widgets.Games {
 
         public string get_controller_page_id () {
             return "games:%s".printf (navigation_view.get_visible_page ().get_tag () ?? "list");
+        }
+
+        public Header.Presentation? get_header_presentation () {
+            if (navigation_view.get_visible_page () == mass_edit_page)
+                return mass_edit_view.header_presentation;
+            return null;
         }
 
         public Object? get_controller_page_root () {
