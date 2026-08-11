@@ -14,6 +14,7 @@ int main (string[] args) {
     AppTests.ControllerTextInputPolicyTest.register_tests ();
     AppTests.ControllerNavigationPolicyTest.register_tests ();
     AppTests.ControllerSurfacePolicyTest.register_tests ();
+    AppTests.ApplicationActionTest.register_tests ();
     AppTests.GameActionPolicyTest.register_tests ();
     AppTests.ReleaseRowPresentationTest.register_tests ();
     AppTests.InlineReleaseRequestGuardTest.register_tests ();

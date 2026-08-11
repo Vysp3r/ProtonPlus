@@ -31,14 +31,24 @@ namespace ProtonPlus.Widgets.Games {
 
             this.selection_button = selection_button;
 
-            clear_button = new Gtk.Button.from_icon_name ("eraser-symbolic");
+            clear_button = new Gtk.Button.from_icon_name ("edit-clear-all-symbolic");
             clear_button.add_css_class ("destructive-action");
             clear_button.set_tooltip_text (_("Clear the current launch options"));
+            clear_button.update_property (
+                Gtk.AccessibleProperty.LABEL,
+                _("Clear the current launch options"),
+                -1
+            );
             clear_button.clicked.connect (clear_button_clicked);
 
-            apply_button = new Gtk.Button.from_icon_name ("floppy-disk-symbolic");
+            apply_button = new Gtk.Button.from_icon_name ("document-save-symbolic");
             apply_button.add_css_class ("suggested-action");
             apply_button.set_tooltip_text (_("Apply the current modification"));
+            apply_button.update_property (
+                Gtk.AccessibleProperty.LABEL,
+                _("Apply the current modification"),
+                -1
+            );
             apply_button.clicked.connect (apply_button_clicked);
 
             compatibility_tool_group = new Adw.PreferencesGroup ();

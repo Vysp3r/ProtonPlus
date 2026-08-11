@@ -20,7 +20,11 @@ namespace ProtonPlus.Widgets.Preferences {
                 var open_token_url_button = new Gtk.Button.from_icon_name ("globe-symbolic");
                 open_token_url_button.add_css_class ("flat");
                 open_token_url_button.set_tooltip_text (_("Open token creation page"));
-                open_token_url_button.set_size_request (-1, 25);
+                open_token_url_button.update_property (
+                    Gtk.AccessibleProperty.LABEL,
+                    _("Open token creation page"),
+                    -1
+                );
                 open_token_url_button.set_valign (Gtk.Align.CENTER);
                 open_token_url_button.clicked.connect (() => {
                     Utils.System.open_uri (this.token_url);

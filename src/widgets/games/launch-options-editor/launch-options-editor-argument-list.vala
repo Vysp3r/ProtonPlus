@@ -19,6 +19,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 css_classes = { "flat" }
             };
             apply_button.set_tooltip_text (_("Apply argument edit"));
+            apply_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Apply argument edit"), -1
+            );
             apply_button.clicked.connect (apply_pending_text);
             add_suffix (apply_button);
 
@@ -27,6 +30,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 css_classes = { "flat" }
             };
             remove_button.set_tooltip_text (_("Remove argument"));
+            remove_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Remove argument"), -1
+            );
             remove_button.clicked.connect (() => remove_requested ());
             add_suffix (remove_button);
 
@@ -89,6 +95,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 css_classes = { "flat" }
             };
             add_button.set_tooltip_text (add_action_row.title);
+            add_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Add custom argument"), -1
+            );
             add_button.clicked.connect (add_empty_argument);
             add_action_row.add_suffix (add_button);
             add_action_row.add_css_class ("property");

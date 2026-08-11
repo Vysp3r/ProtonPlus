@@ -43,6 +43,7 @@ namespace ProtonPlus.Widgets.Main {
         }
 
         public signal void header_presentation_changed (Header.Presentation? presentation);
+        public signal void search_availability_changed (bool available);
 
         public Box (Services.SteamRestartManager? restart_manager = null,
             Services.SteamRestartOrchestrator? restart_orchestrator = null,
@@ -55,11 +56,13 @@ namespace ProtonPlus.Widgets.Main {
             tools_box.toast_sent.connect (send_toast);
             tools_header_handler_id = tools_box.header_presentation_changed.connect (() => {
                 update_header_presentation ();
+                search_availability_changed (search_available ());
             });
 
             games_box = new Games.Box ();
             games_header_handler_id = games_box.header_presentation_changed.connect (() => {
                 update_header_presentation ();
+                search_availability_changed (search_available ());
             });
 
             mangohud_box = new MangoHud.Box ();
@@ -140,6 +143,7 @@ namespace ProtonPlus.Widgets.Main {
         public void set_selected_launcher (Models.Launcher launcher) {
             tools_box.set_selected_launcher (launcher);
             games_box.set_selected_launcher (launcher);
+            search_availability_changed (search_available ());
         }
 
         public void navigate_to_download (Services.InstallJob job) {
@@ -415,6 +419,7 @@ namespace ProtonPlus.Widgets.Main {
 
             previous_view_name = view_stack.get_visible_child_name ();
             update_header_presentation ();
+            search_availability_changed (search_available ());
         }
 
         void update_header_presentation () {
@@ -547,6 +552,17 @@ namespace ProtonPlus.Widgets.Main {
         public bool controller_open_search () {
             var shortcuts = get_visible_controller_shortcuts ();
             return shortcuts != null && shortcuts.controller_open_search ();
+        }
+
+        public bool search_available () {
+            switch (view_stack.get_visible_child_name ()) {
+            case "tools":
+                return tools_box.search_available ();
+            case "games":
+                return games_box.search_available ();
+            default:
+                return false;
+            }
         }
 
         public bool controller_open_filter () {

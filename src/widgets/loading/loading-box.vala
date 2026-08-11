@@ -124,7 +124,7 @@ namespace ProtonPlus.Widgets.Loading {
         }
 
         Gtk.Box create_bug_box () {
-            retry_button = create_icon_button (_ ("Retry loading"), "arrow-rotate-symbolic", true);
+            retry_button = create_icon_button (_ ("Retry loading"), "view-refresh-symbolic", true);
             retry_button.clicked.connect (() => {
                 load.begin ();
             });
@@ -187,7 +187,7 @@ namespace ProtonPlus.Widgets.Loading {
 
             var third_label = new Gtk.Label (_ ("Important: Run the launcher once to initialize it properly."));
 
-            var check_button = create_icon_button (_ ("Check again"), "arrow-rotate-symbolic", true);
+            var check_button = create_icon_button (_ ("Check again"), "view-refresh-symbolic", true);
             check_button.clicked.connect (() => {
                 load.begin ();
             });

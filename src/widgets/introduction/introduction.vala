@@ -50,11 +50,19 @@ namespace ProtonPlus.Widgets.Introduction {
             prev_button = new Gtk.Button.from_icon_name ("go-previous-symbolic");
             prev_button.add_css_class ("circular");
             prev_button.valign = Gtk.Align.CENTER;
+            prev_button.set_tooltip_text (_("Previous Page"));
+            prev_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Previous Page"), -1
+            );
             prev_button.clicked.connect (on_prev_clicked);
 
             next_button = new Gtk.Button.from_icon_name ("go-next-symbolic");
             next_button.add_css_class ("circular");
             next_button.valign = Gtk.Align.CENTER;
+            next_button.set_tooltip_text (_("Next Page"));
+            next_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Next Page"), -1
+            );
             next_button.clicked.connect (on_next_clicked);
 
             carousel_row.append (prev_button);

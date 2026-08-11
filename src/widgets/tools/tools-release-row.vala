@@ -123,6 +123,9 @@ namespace ProtonPlus.Widgets.Tools {
             };
             progress_button.add_css_class ("flat");
             progress_button.set_tooltip_text (_("Show installation details"));
+            progress_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Show installation details"), -1
+            );
             progress_button.clicked.connect (progress_button_clicked);
 
             step_label = new Gtk.Label ("") { halign = Gtk.Align.START };
@@ -545,7 +548,7 @@ namespace ProtonPlus.Widgets.Tools {
         void configure_primary_action (ReleaseRowPrimaryAction action) {
             switch (action) {
             case ReleaseRowPrimaryAction.INSTALL:
-                primary_content.set_icon_name ("download-2-symbolic");
+                primary_content.set_icon_name ("system-software-install-symbolic");
                 primary_content.set_label (_("Install"));
                 primary_button.set_tooltip_text (_("Install %s").printf (job.title));
                 primary_button.update_property (
@@ -565,7 +568,7 @@ namespace ProtonPlus.Widgets.Tools {
                 );
                 break;
             case ReleaseRowPrimaryAction.RETRY:
-                primary_content.set_icon_name ("arrow-rotate-symbolic");
+                primary_content.set_icon_name ("view-refresh-symbolic");
                 primary_content.set_label (_("Retry"));
                 primary_button.set_tooltip_text (_("Retry %s").printf (get_title ()));
                 primary_button.update_property (

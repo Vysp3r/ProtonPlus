@@ -134,8 +134,9 @@ namespace ProtonPlus.Widgets.Tools {
                 visible = false
             };
             open_button.update_property (
-                Gtk.AccessibleProperty.LABEL, _("Open release page"), -1
+                Gtk.AccessibleProperty.LABEL, _("Open Release Page"), -1
             );
+            open_button.set_tooltip_text (_("Open Release Page"));
             open_button.clicked.connect (() => {
                 if (current_job != null && current_job.release.page_url != null) {
                     Utils.System.open_uri (current_job.release.page_url);
@@ -204,10 +205,18 @@ namespace ProtonPlus.Widgets.Tools {
 
             var search_popover = new Gtk.Popover ();
             search_popover.set_child (search_popover_box);
+            search_entry.stop_search.connect (() => {
+                if (search_entry.get_text () != "") {
+                    search_entry.set_text ("");
+                    return;
+                }
+                search_popover.popdown ();
+                search_button.grab_focus ();
+            });
 
             search_button = new Gtk.MenuButton () {
                 valign = Gtk.Align.CENTER,
-                icon_name = "magnifying-glass-symbolic",
+                icon_name = "edit-find-symbolic",
                 popover = search_popover
             };
             search_button.set_tooltip_text (_ ("Search"));
@@ -475,9 +484,13 @@ namespace ProtonPlus.Widgets.Tools {
         void update_open_button_visibility () {
             var visible_child = get_visible_page_tag ();
             if (current_job != null && current_job.release.page_url != null)
-                open_button.set_tooltip_text (current_job.release.page_url);
+                open_button.update_property (
+                    Gtk.AccessibleProperty.DESCRIPTION,
+                    current_job.release.page_url,
+                    -1
+                );
             else
-                open_button.set_tooltip_text (null);
+                open_button.reset_property (Gtk.AccessibleProperty.DESCRIPTION);
             open_button.set_visible (
                 visible_child == "release"
                 && current_job != null
@@ -683,6 +696,11 @@ namespace ProtonPlus.Widgets.Tools {
                 search_button.is_sensitive ();
         }
 
+        public bool search_available () {
+            return get_visible_page_tag () == "groups" &&
+                search_button.is_visible () && search_button.is_sensitive ();
+        }
+
         public bool controller_can_open_filter () {
             return filter_button.get_mapped () && filter_button.is_visible () &&
                 filter_button.is_sensitive ();
@@ -692,6 +710,11 @@ namespace ProtonPlus.Widgets.Tools {
             if (!controller_can_open_search ())
                 return false;
             search_button.popup ();
+            Idle.add (() => {
+                if (search_entry.get_mapped ())
+                    search_entry.grab_focus ();
+                return Source.REMOVE;
+            });
             return true;
         }
 

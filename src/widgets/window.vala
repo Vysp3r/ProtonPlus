@@ -78,7 +78,10 @@ namespace ProtonPlus.Widgets {
         ControllerHintBar controller_hint_bar { get; set; }
         ulong controller_presentation_handler = 0;
         ulong header_presentation_handler = 0;
+        ulong search_availability_handler = 0;
         bool navigation_breakpoint_added = false;
+        bool main_content_visible = false;
+        SimpleAction search_action;
 
         private Services.SteamRestartManager restart_manager;
         private Services.SteamRestartOrchestrator restart_orchestrator;
@@ -96,6 +99,12 @@ namespace ProtonPlus.Widgets {
             var navigate_back_action = new SimpleAction ("navigate-back", null);
             navigate_back_action.activate.connect ((parameter) => controller_manager.navigate_application_back ());
             add_action (navigate_back_action);
+            search_action = new SimpleAction ("search", null);
+            search_action.activate.connect ((parameter) => {
+                main_box.controller_open_search ();
+            });
+            search_action.set_enabled (false);
+            add_action (search_action);
 
             build_ui ();
             controller_manager.start ();
@@ -239,7 +248,13 @@ namespace ProtonPlus.Widgets {
                 main_box.disconnect (header_presentation_handler);
                 header_presentation_handler = 0;
             }
+            if (search_availability_handler != 0) {
+                main_box.disconnect (search_availability_handler);
+                search_availability_handler = 0;
+            }
             navigation_breakpoint_added = false;
+            main_content_visible = false;
+            search_action.set_enabled (false);
             header_box = new Header.Box ();
             header_box.set_controller_mode_active (
                 controller_manager.presentation_state.controller_mode_active
@@ -258,6 +273,8 @@ namespace ProtonPlus.Widgets {
                 );
                 main_box.initialize (launchers);
                 toolbar_view.set_content (main_box);
+                main_content_visible = true;
+                search_action.set_enabled (main_box.search_available ());
                 main_box.view_switcher_bar.set_visible (true);
                 add_navigation_breakpoint ();
 
@@ -270,6 +287,11 @@ namespace ProtonPlus.Widgets {
             main_box.view_switcher_bar.set_visible (false);
             header_presentation_handler = main_box.header_presentation_changed.connect (
                 header_box.set_presentation
+            );
+            search_availability_handler = main_box.search_availability_changed.connect (
+                (available) => search_action.set_enabled (
+                    main_content_visible && available
+                )
             );
             header_box.download_selected.connect ((job) => {
                 header_box.select_launcher (job.tool.group.launcher);
@@ -333,6 +355,8 @@ namespace ProtonPlus.Widgets {
         }
 
         public void reload () {
+            main_content_visible = false;
+            search_action.set_enabled (false);
             toolbar_view.set_content (loading_box);
 
             loading_box.load.begin ();

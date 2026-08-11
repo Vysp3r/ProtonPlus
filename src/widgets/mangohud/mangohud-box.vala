@@ -48,11 +48,16 @@ namespace ProtonPlus.Widgets.MangoHud {
 
             var action_bar = new Gtk.ActionBar ();
             action_bar.set_center_widget (switcher);
-            var save_button = new Gtk.Button.from_icon_name ("floppy-disk-symbolic") {
+            var save_button = new Gtk.Button.from_icon_name ("document-save-symbolic") {
                 valign = Gtk.Align.CENTER
             };
             save_button.add_css_class ("suggested-action");
             save_button.set_tooltip_text (_ ("Save the current configuration"));
+            save_button.update_property (
+                Gtk.AccessibleProperty.LABEL,
+                _("Save the current configuration"),
+                -1
+            );
             save_button.clicked.connect (() => {
                 config.save ();
                 saved ();

@@ -9,6 +9,10 @@ namespace ProtonPlus.Widgets.Preferences {
             delete_button.add_css_class ("flat");
             delete_button.add_css_class ("destructive-action");
             delete_button.set_valign (Gtk.Align.CENTER);
+            delete_button.set_tooltip_text (_("Delete cache"));
+            delete_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Delete cache"), -1
+            );
             delete_button.clicked.connect (() => delete_cache.begin ());
 
             spinner = new Adw.Spinner ();

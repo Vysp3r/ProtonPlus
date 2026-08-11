@@ -74,6 +74,10 @@ namespace ProtonPlus.Widgets.Tools {
 
             check_button = new Gtk.CheckButton ();
             check_button.set_size_request (26, 26);
+            check_button.set_tooltip_text (_("Select all games"));
+            check_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Select all games"), -1
+            );
             check_button.toggled.connect (() => {
                 var is_active = check_button.get_active ();
                 var child = list_box.get_first_child ();

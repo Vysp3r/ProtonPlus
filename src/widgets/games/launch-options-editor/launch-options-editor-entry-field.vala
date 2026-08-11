@@ -19,7 +19,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             apply_button = new Gtk.Button.from_icon_name ("object-select-symbolic");
             apply_button.set_valign (Gtk.Align.CENTER);
             apply_button.add_css_class ("flat");
-            apply_button.set_tooltip_text (this.tooltip_text);
+            apply_button.set_tooltip_text (_("Apply Edit"));
+            apply_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Apply Edit"), -1
+            );
             apply_button.clicked.connect (apply_pending_text);
             add_suffix (apply_button);
 

@@ -101,7 +101,7 @@ namespace ProtonPlus.Widgets.Games {
             empty_status_page = new Adw.StatusPage () {
                 title = _("No games found"),
                 description = _("Try a different search term or filter."),
-                icon_name = "magnifying-glass-symbolic"
+                icon_name = "edit-find-symbolic"
             };
 
             list_stack = new Gtk.Stack () {
@@ -493,6 +493,9 @@ namespace ProtonPlus.Widgets.Games {
                 visible = false,
                 css_classes = { "flat" }
             };
+            filter_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Filter Games"), -1
+            );
             Window.register_popover_for_controller (
                 filter_popover, filter_button, all_filter_check
             );
@@ -509,10 +512,19 @@ namespace ProtonPlus.Widgets.Games {
             );
             search_entry.add_css_class ("flat");
             search_entry.changed.connect (schedule_search_filter);
+            search_entry.stop_search.connect (() => {
+                if (search_entry.get_text () != "")
+                    search_entry.set_text ("");
+            });
 
             check_button = new Gtk.CheckButton () {
                 tooltip_text = _("Select all visible games")
             };
+            check_button.update_property (
+                Gtk.AccessibleProperty.LABEL,
+                _("Select all visible games"),
+                -1
+            );
             check_button.toggled.connect (() => {
                 if (!updating_selection_toggle)
                     games.select_all_visible (check_button.get_active ());
@@ -673,7 +685,7 @@ namespace ProtonPlus.Widgets.Games {
                 empty_status_page.set_description (
                     _("Try a different search term or clear the search.")
                 );
-                empty_status_page.set_icon_name ("magnifying-glass-symbolic");
+                empty_status_page.set_icon_name ("edit-find-symbolic");
             } else if (!all_filter_check.active) {
                 empty_status_page.set_title (_("No games match this filter"));
                 empty_status_page.set_description (
@@ -1007,6 +1019,11 @@ namespace ProtonPlus.Widgets.Games {
             return navigation_view.get_visible_page () == list_page &&
                 search_entry.get_mapped () && search_entry.is_visible () &&
                 search_entry.is_sensitive ();
+        }
+
+        public bool search_available () {
+            return navigation_view.get_visible_page () == list_page &&
+                games_card.is_visible () && search_entry.is_sensitive ();
         }
 
         public bool controller_can_open_filter () {

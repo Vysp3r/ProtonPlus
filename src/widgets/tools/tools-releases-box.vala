@@ -271,8 +271,9 @@ namespace ProtonPlus.Widgets.Tools {
                 visible = false
             };
             repository_button.update_property (
-                Gtk.AccessibleProperty.LABEL, _("Open repository"), -1
+                Gtk.AccessibleProperty.LABEL, _("Open Repository"), -1
             );
+            repository_button.set_tooltip_text (_("Open Repository"));
             repository_button.clicked.connect (() => {
                 if (current_tool != null && current_tool.repository_url != "")
                     Utils.System.open_uri (current_tool.repository_url);
@@ -361,7 +362,7 @@ namespace ProtonPlus.Widgets.Tools {
             status_page = new Adw.StatusPage () {
                 title = _("No releases found"),
                 description = _("No releases match the current filter."),
-                icon_name = "magnifying-glass-symbolic"
+                icon_name = "edit-find-symbolic"
             };
 
             error_retry_button = new Gtk.Button.with_label (_("Retry")) {
@@ -890,7 +891,16 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private void update_repository_button (Models.Tool tool) {
-            repository_button.set_tooltip_text (tool.repository_url);
+            if (tool.repository_url != "")
+                repository_button.update_property (
+                    Gtk.AccessibleProperty.DESCRIPTION,
+                    tool.repository_url,
+                    -1
+                );
+            else
+                repository_button.reset_property (
+                    Gtk.AccessibleProperty.DESCRIPTION
+                );
             repository_button.set_visible (tool.repository_url != "");
         }
 

@@ -96,7 +96,7 @@ namespace ProtonPlus.Widgets.Tools {
             status_page = new Adw.StatusPage () {
                 title = _ ("No tools found"),
                 description = _ ("No tools match the current filter."),
-                icon_name = "magnifying-glass-symbolic"
+                icon_name = "edit-find-symbolic"
             };
 
             stack = new Gtk.Stack () {
@@ -226,7 +226,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (search_text.strip () != "") {
                 status_page.set_title (_ ("No matching tools"));
                 status_page.set_description (_ ("Try a different search term or clear the search."));
-                status_page.set_icon_name ("magnifying-glass-symbolic");
+                status_page.set_icon_name ("edit-find-symbolic");
                 return;
             }
 
@@ -249,7 +249,7 @@ namespace ProtonPlus.Widgets.Tools {
                 default:
                     status_page.set_title (_ ("No tools found"));
                     status_page.set_description (_ ("No tools are available in this group."));
-                    status_page.set_icon_name ("magnifying-glass-symbolic");
+                    status_page.set_icon_name ("edit-find-symbolic");
                     break;
             }
         }

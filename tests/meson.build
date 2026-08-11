@@ -7,6 +7,7 @@ test_sources = files(
     'controller-text-input-policy-test.vala',
     'controller-navigation-policy-test.vala',
     'controller-surface-policy-test.vala',
+    'application-action-test.vala',
     'games-action-policy-test.vala',
     'release-row-presentation-test.vala',
     'inline-release-request-guard-test.vala',

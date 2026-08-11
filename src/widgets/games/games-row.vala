@@ -36,6 +36,9 @@ namespace ProtonPlus.Widgets.Games {
                 tooltip_text = _("Select game"),
                 focusable = false
             };
+            check_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Select game"), -1
+            );
             append (check_button);
             navigation_image = new Gtk.Image.from_icon_name ("go-next-symbolic") {
                 tooltip_text = _("Modify Game")
@@ -50,6 +53,11 @@ namespace ProtonPlus.Widgets.Games {
                 "selected", check_button, "active",
                 BindingFlags.BIDIRECTIONAL | BindingFlags.SYNC_CREATE
             );
+            check_button.update_property (
+                Gtk.AccessibleProperty.LABEL,
+                _("Select %s").printf (item.game.name),
+                -1
+            );
             update_accessibility (false);
         }
 
@@ -58,6 +66,9 @@ namespace ProtonPlus.Widgets.Games {
             selected_binding = null;
             item = null;
             check_button.set_active (false);
+            check_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Select game"), -1
+            );
             reset_property (Gtk.AccessibleProperty.LABEL);
             reset_property (Gtk.AccessibleProperty.DESCRIPTION);
         }
@@ -337,6 +348,9 @@ namespace ProtonPlus.Widgets.Games {
                 tooltip_text = _("Select game"),
                 focusable = false
             };
+            select_check_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Select game"), -1
+            );
             title_label = compact_label (true);
             title_label.add_css_class ("heading");
             tool_label = compact_label (true);
@@ -380,6 +394,11 @@ namespace ProtonPlus.Widgets.Games {
                 "selected", select_check_button, "active",
                 BindingFlags.BIDIRECTIONAL | BindingFlags.SYNC_CREATE
             );
+            select_check_button.update_property (
+                Gtk.AccessibleProperty.LABEL,
+                _("Select %s").printf (item.game.name),
+                -1
+            );
             tool_title_handler = item.notify["tool-title"].connect (refresh_tool_title);
             title_label.set_label (item.game.name);
             title_label.set_tooltip_text (item.game.name);
@@ -403,6 +422,9 @@ namespace ProtonPlus.Widgets.Games {
             tool_label.set_label ("");
             prefix_label.set_label ("");
             select_check_button.set_active (false);
+            select_check_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Select game"), -1
+            );
             reset_property (Gtk.AccessibleProperty.LABEL);
             reset_property (Gtk.AccessibleProperty.DESCRIPTION);
         }

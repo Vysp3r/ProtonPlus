@@ -37,7 +37,10 @@ namespace ProtonPlus.Widgets.Header {
 
             menu_button = new Gtk.MenuButton ();
             menu_button.set_tooltip_text (_("Main Menu"));
-            menu_button.set_icon_name ("bars-symbolic");
+            menu_button.set_icon_name ("open-menu-symbolic");
+            menu_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Main Menu"), -1
+            );
             menu_button.set_menu_model (menu);
             var menu_popover = menu_button.get_popover ();
             if (menu_popover != null)
@@ -49,6 +52,9 @@ namespace ProtonPlus.Widgets.Header {
             };
             back_button.add_css_class ("flat");
             back_button.set_tooltip_text (_ ("Back"));
+            back_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Back"), -1
+            );
             back_button.clicked.connect (() => current_presentation?.request_back ());
 
             header_bar = new Adw.HeaderBar ();
@@ -70,13 +76,22 @@ namespace ProtonPlus.Widgets.Header {
 
         void rebuild_menu () {
             menu.remove_all ();
-            menu.append (_("_Preferences"), "app.preferences");
+            var settings_section = new Menu ();
+            settings_section.append (_("_Preferences"), "app.preferences");
+            menu.append_section (null, settings_section);
+
+            var help_section = new Menu ();
             if (!controller_mode_active)
-                menu.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
-            menu.append (_("_Donate"), "app.donate");
-            menu.append (_("_About ProtonPlus"), "app.about");
+                help_section.append (_("_Keyboard Shortcuts"), "win.show-help-overlay");
+            help_section.append (_("_Help"), "app.help");
+            menu.append_section (null, help_section);
+
+            var application_section = new Menu ();
+            application_section.append (_("_Donate"), "app.donate");
+            application_section.append (_("_About ProtonPlus"), "app.about");
             if (controller_mode_active)
-                menu.append (_("_Exit"), "app.quit");
+                application_section.append (_("_Exit"), "app.quit");
+            menu.append_section (null, application_section);
         }
 
         public void initialize (Gee.LinkedList<Models.Launcher> launchers,

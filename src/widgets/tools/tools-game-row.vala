@@ -12,6 +12,14 @@ namespace ProtonPlus.Widgets.Tools {
 
             select_check_button = new Gtk.CheckButton ();
             select_check_button.set_size_request (30, 0);
+            select_check_button.set_tooltip_text (
+                _("Select %s").printf (game.name)
+            );
+            select_check_button.update_property (
+                Gtk.AccessibleProperty.LABEL,
+                _("Select %s").printf (game.name),
+                -1
+            );
             select_check_button.bind_property ("active", this, "selected", GLib.BindingFlags.BIDIRECTIONAL | GLib.BindingFlags.SYNC_CREATE);
 
             title_label = new Gtk.Label (game.name);
