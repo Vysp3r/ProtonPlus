@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-09 21:45-0400\n"
+"POT-Creation-Date: 2026-08-10 20:48-0400\n"
 "PO-Revision-Date: 2026-08-10 19:51+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
@@ -150,71 +150,76 @@ msgid "🐛 Fixed Faugus launcher not being detected under Flatpak"
 msgstr "🐛 Исправлено обнаружение Faugus в Flatpak"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:97
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:139
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:156
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:206
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:240
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:255
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:337
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:380
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:393
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:407
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:439
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:451
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:501
+#, fuzzy
+msgid "🐛 Fixed controllers not working under Flatpak"
+msgstr "🐛 Исправлено отображение иконок при работе в Flatpak"
+
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:98
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:140
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:157
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:207
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:241
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:256
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:338
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:381
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:394
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:408
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:440
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:452
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:502
 msgid "🌐 Updated German localization"
 msgstr "🌐 Обновлена немецкая локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:104
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:105
 msgid "✨ Improved how ProtonPlus finds Steam compatibility tools"
 msgstr "✨ Улучшен поиск инструментов совместимости Steam в ProtonPlus"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:105
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:106
 msgid "✨ Improved mass editing and controller navigation in the Games tab"
 msgstr ""
 "✨ Улучшены массовое редактирование и навигация по вкладке «Игры» с "
 "контроллера"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:106
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:107
 msgid "🐛 Fixed compatibility tool installation for some Steam setups"
 msgstr ""
 "🐛 Исправлена установка инструментов совместимости для некоторых "
 "конфигураций Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:107
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:108
 msgid "🐛 Fixed tool usage counts and game lists when moving to another tool"
 msgstr ""
 "🐛 Исправлен подсчёт использования инструментов и списки игр при смене "
 "инструмента"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:108
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:109
 msgid ""
 "🐛 Fixed tool installation on some Linux systems and improved archive safety"
 msgstr ""
 "🐛 Исправлена установка инструментов на некоторых системах Linux и улучшена "
 "безопасность архивов"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:109
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:110
 msgid "🐛 Fixed translations missing from the AppImage version"
 msgstr "🐛 Исправлено отсутствие переводов в версии AppImage"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:110
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:111
 msgid "🌐 Updated Czech and Slovak translations"
 msgstr "🌐 Обновлены чешский и словацкий переводы"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:117
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:118
 msgid "✨ Added Faugus Launcher support"
 msgstr "✨ Добавлена поддержка Faugus Launcher"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:118
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:119
 msgid "✨ Added CPU-aware x86-64 and ARM64 variant selection"
 msgstr "✨ Добавлен выбор варианта x86-64 и ARM64 с учётом архитектуры CPU"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:119
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:120
 msgid "✨ Added scheduled background updates and notifications"
 msgstr "✨ Добавлены фоновые обновления по расписанию и уведомления"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:120
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:121
 msgid ""
 "✨ Added controller navigation with contextual hints, optional haptic "
 "feedback, and a first-run guide"
@@ -222,15 +227,15 @@ msgstr ""
 "✨ Добавлена навигация с контроллера, контекстные подсказки, вибрация и "
 "руководство для новичков"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:121
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:122
 msgid "✨ Added Breeze Light, Breeze Dark, SteamOS, and OLED themes"
 msgstr "✨ Добавлены темы Breeze Light, Breeze Dark, SteamOS и OLED"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:122
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:123
 msgid "✨ Added a built-in MangoHud editor and proxy settings"
 msgstr "✨ Добавлены встроенный редактор MangoHud и настройки прокси"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:123
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:124
 msgid ""
 "✨ Added Steam shortcut creation and guided Steam restarts, including "
 "SteamOS Gaming Mode"
@@ -238,19 +243,19 @@ msgstr ""
 "✨ Добавлены создание ярлыков и управляемые перезапуски Steam, включая "
 "SteamOS Gaming Mode"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:124
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:125
 msgid "✨ Added default Steam compatibility prefix migration"
 msgstr "✨ Добавлен перенос стандартного префикса совместимости Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:125
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:126
 msgid "✨ Added an active downloads indicator"
 msgstr "✨ Добавлен индикатор активных загрузок"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:126
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:127
 msgid "✨ Added ARM64 Flatpak support"
 msgstr "✨ Добавлена поддержка ARM64 Flatpak"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:127
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:128
 msgid ""
 "✨ Reworked the launch options editor with hardware-aware options and exact "
 "command previews"
@@ -258,7 +263,7 @@ msgstr ""
 "✨ Переработан редактор параметров запуска с учётом оборудования и точным "
 "предпросмотром команды"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:128
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:129
 msgid ""
 "✨ Preserved custom and unknown safe launch options during single-game and "
 "mass edits"
@@ -266,7 +271,7 @@ msgstr ""
 "✨ Сохранены пользовательские и неизвестные параметры запуска при правке "
 "одной или нескольких игр"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:129
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:130
 msgid ""
 "✨ Improved Games and Tools navigation, search, filtering, selection, and "
 "repository links"
@@ -274,12 +279,13 @@ msgstr ""
 "✨ Улучшены навигация, поиск, фильтрация, выбор и ссылки на репозитории в "
 "разделах «Игры» и «Инструменты»"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:130
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:131
 msgid ""
 "✨ Improved stable release selection, Latest handling, and variant selection"
-msgstr "✨ Улучшен выбор стабильных версий, работа с «Latest» и выбор вариантов"
+msgstr ""
+"✨ Улучшен выбор стабильных версий, работа с «Latest» и выбор вариантов"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:131
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:132
 msgid ""
 "✨ Improved downloads and tool updates with timeout recovery, archive "
 "checks, preserved settings, and safer rollback"
@@ -287,15 +293,16 @@ msgstr ""
 "✨ Улучшены загрузки и обновления инструментов с восстановлением после тайм-"
 "аута, проверкой архивов, сохранением настроек и более безопасным откатом"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:132
-msgid "✨ Improved Steam multi-user, VDF, and shortcut handling"
-msgstr "✨ Улучшена работа с многопользовательским режимом Steam, VDF и ярлыками"
-
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:133
+msgid "✨ Improved Steam multi-user, VDF, and shortcut handling"
+msgstr ""
+"✨ Улучшена работа с многопользовательским режимом Steam, VDF и ярлыками"
+
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:134
 msgid "✨ Improved command-line validation and error reporting"
 msgstr "✨ Улучшена проверка командной строки и отчётность об ошибках"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:134
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:135
 msgid ""
 "🐛 Fixed custom executable launches and kept the app usable when some Steam "
 "data cannot be loaded"
@@ -303,7 +310,7 @@ msgstr ""
 "🐛 Исправлен запуск пользовательских исполняемых файлов, приложение остаётся "
 "работоспособным при невозможности загрузки некоторых данных Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:135
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:136
 msgid ""
 "🐛 Fixed release and installation issues affecting Proton-TKG, Proton-"
 "CachyOS, DXVK, VKD3D, Lutris, and Steam Tinker Launch"
@@ -311,151 +318,151 @@ msgstr ""
 "🐛 Исправлены проблемы установки и релизов для Proton-TKG, Proton-CachyOS, "
 "DXVK, VKD3D, Lutris и Steam Tinker Launch"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:136
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:335
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:137
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:336
 msgid "🌐 Added Arabic localization"
 msgstr "🌐 Добавлена арабская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:137
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:138
 msgid "🌐 Added Slovak localization"
 msgstr "🌐 Добавлена словацкая локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:138
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:139
 msgid "🌐 Updated Simplified Chinese localization"
 msgstr "🌐 Обновлён упрощённый китайский перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:140
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:285
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:303
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:376
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:141
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:286
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:304
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:377
 msgid "🌐 Updated Italian localization"
 msgstr "🌐 Обновлена итальянская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:147
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:148
 msgid "🐛 Fixed Proton-GE RTSP download"
 msgstr "🐛 Исправлена загрузка Proton-GE RTSP"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:154
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:155
 msgid "🐛 Fixed Proton-GE downloading wrong version"
 msgstr "🐛 Исправлена загрузка неверной версии Proton-GE"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:155
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:156
 msgid "🐛 Fixed yad check for Steam Tinker Launch"
 msgstr "🐛 Исправлена проверка yad для Steam Tinker Launch"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:157
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:181
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:209
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:243
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:282
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:338
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:353
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:384
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:408
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:421
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:438
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:450
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:500
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:526
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:158
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:182
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:210
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:244
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:283
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:339
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:354
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:385
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:409
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:422
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:439
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:451
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:501
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:527
 msgid "🌐 Updated Chinese localization"
 msgstr "🌐 Обновлён китайский перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:158
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:210
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:224
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:242
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:256
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:286
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:302
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:340
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:377
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:423
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:440
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:452
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:491
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:517
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:545
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:159
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:211
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:225
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:243
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:257
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:287
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:303
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:341
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:378
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:424
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:441
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:453
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:492
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:518
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:546
 msgid "🌐 Updated Portuguese localization"
 msgstr "🌐 Обновлена португальская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:159
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:189
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:207
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:306
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:160
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:190
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:208
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:307
 msgid "🌐 Updated Polish localization"
 msgstr "🌐 Обновлена польская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:160
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:208
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:241
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:283
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:307
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:493
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:502
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:161
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:209
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:242
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:284
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:308
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:494
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:503
 msgid "🌐 Updated French localization"
 msgstr "🌐 Обновлена французская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:161
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:179
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:191
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:214
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:308
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:162
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:180
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:192
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:215
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:309
 msgid "🌐 Updated Ukrainian localization"
 msgstr "🌐 Обновлена украинская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:162
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:180
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:190
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:213
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:244
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:284
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:301
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:339
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:354
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:544
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:163
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:181
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:191
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:214
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:245
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:285
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:302
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:340
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:355
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:545
 msgid "🌐 Updated Spanish localization"
 msgstr "🌐 Обновлена испанская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:163
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:164
 msgid "🌐 Updated Greek localization"
 msgstr "🌐 Обновлена греческая локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:164
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:211
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:165
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:212
 msgid "🌐 Updated Japanese localization"
 msgstr "🌐 Обновлена японская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:171
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:172
 msgid "✨ Added a new \"Downloads\" tab"
 msgstr "✨ Добавлена новая вкладка «Загрузки»"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:172
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:173
 msgid "✨ Added more launch options"
 msgstr "✨ Добавлено больше параметров запуска"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:173
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:174
 msgid "✨ Added a \"Run custom executable\" button"
 msgstr "✨ Добавлена кнопка «Запустить пользовательский исполняемый файл»"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:174
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:175
 msgid "✨ Added a SteamOS theme and an OLED theme"
 msgstr "✨ Добавлена тема SteamOS и тема OLED"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:175
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:176
 msgid "🐛 Fixed DXVK-Sarek"
 msgstr "🐛 Исправлен DXVK-Sarek"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:176
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:177
 msgid "🐛 Fixed tool usage count to account for default tool"
 msgstr ""
 "🐛 Исправлен подсчёт использования инструментов с учётом инструмента по "
 "умолчанию"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:177
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:178
 msgid "🐛 Fixed tool usage count to account for non-steam games"
 msgstr "🐛 Исправлен подсчёт использования инструментов с учётом не-Steam игр"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:178
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:179
 msgid ""
 "🐛 Fixed an error that occured when installing a tool in any launcher except "
 "for Steam"
@@ -463,101 +470,101 @@ msgstr ""
 "🐛 Исправлена ошибка, возникавшая при установке инструмента в любом "
 "лаунчере, кроме Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:188
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:189
 msgid "🐛 Fixed launchers not being detected on certain distro"
 msgstr "🐛 Исправлена проблема обнаружения лаунчеров в некоторых дистрибутивах"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:198
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:199
 msgid ""
 "✨ Improved the launch options, mass edit and default compatibility tool view"
 msgstr ""
 "✨ Улучшены параметры запуска, массовое редактирование и отображение "
 "инструмента совместимости по умолчанию"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:199
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:200
 msgid "✨ Removed Proton-Sarek"
 msgstr "✨ Удалён Proton-Sarek"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:200
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:201
 msgid "🐛 Fixed a few typos"
 msgstr "🐛 Исправлены некоторые опечатки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:201
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:202
 msgid "🐛 Fixed broken icons"
 msgstr "🐛 Исправлены сломанные иконки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:202
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:203
 msgid "🐛 Fixed XDG base directory specification"
 msgstr "🐛 Исправлена спецификация базовых каталогов XDG"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:203
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:204
 msgid "🐛 Fixed Proton-CachyOS (Temporary fix)"
 msgstr "🐛 Исправлен Proton-CachyOS (временное решение)"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:204
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:205
 msgid "🐛 Fixed Latest releases for Bottles"
 msgstr "🐛 Исправлены версии Latest для Bottles"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:205
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:206
 msgid "🐛 Fixed updates not preserving symlink for user_settings.py"
 msgstr "🐛 Исправлено обновление, не сохраняющее симлинк для user_settings.py"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:212
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:336
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:378
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:422
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:492
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:213
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:337
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:379
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:423
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:493
 msgid "🌐 Updated Indonesian localization"
 msgstr "🌐 Обновлена индонезийская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:221
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:222
 msgid "✨ Added CLI support"
 msgstr "✨ Добавлена поддержка CLI"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:222
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:223
 msgid "🐛 Fixed Lutris install directory for Proton runners"
 msgstr "🐛 Исправлен каталог установки Lutris для сред запуска Proton"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:223
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:224
 msgid "🐛 Fixed unnecessary re-downloads of the same runner as an \"update\""
 msgstr ""
-"🐛 Исправлены повторные загрузки одной и той же среды запуска как «обновление"
-"»"
+"🐛 Исправлены повторные загрузки одной и той же среды запуска как "
+"«обновление»"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:225
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:226
 msgid "🌐 Added Vietnamese localization"
 msgstr "🌐 Добавлена вьетнамская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:232
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:233
 msgid "✨ Added DW-Proton Latest"
 msgstr "✨ Добавлен DW-Proton Latest"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:233
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:234
 msgid "✨ Added Proton-Sarek Latest"
 msgstr "✨ Добавлен Proton-Sarek Latest"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:234
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:235
 msgid "✨ Added Proton-Sarek (Async) Latest"
 msgstr "✨ Добавлен Proton-Sarek (Async) Latest"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:235
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:236
 msgid "✨ Added Proton-EM Latest"
 msgstr "✨ Добавлен Proton-EM Latest"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:236
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:237
 msgid "✨ Added Proton-GE RTSP Latest"
 msgstr "✨ Добавлен Proton-GE RTSP Latest"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:237
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:238
 msgid "🐛 Fixed network error not being displayed when they should"
 msgstr "🐛 Исправлено отображение сетевых ошибок"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:238
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:239
 msgid "🐛 Fixed \"Unknown error\" dialog appearing on successful update"
 msgstr ""
 "🐛 Исправлено появление диалога «Неизвестная ошибка» при успешном обновлении"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:239
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:240
 msgid ""
 "🐛 Fixed \"Games\" tab runners not refreshing when installing/removing a "
 "runner"
@@ -565,148 +572,149 @@ msgstr ""
 "🐛 Исправлено отсутствие обновления сред запуска на вкладке «Игры» при "
 "установке/удалении среды запуска"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:245
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:319
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:246
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:320
 msgid "🌐 Updated Czech localization"
 msgstr "🌐 Обновлена чешская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:246
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:304
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:247
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:305
 msgid "🌐 Updated Arabic localization"
 msgstr "🌐 Обновлена арабская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:247
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:248
 msgid "🌐 Added Georgian localization"
 msgstr "🌐 Добавлена грузинская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:254
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:255
 msgid "✨ Added DW-Proton"
 msgstr "✨ Добавлен DW-Proton"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:263
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:264
 msgid "✨ Migrate user_settings.py on update"
 msgstr "✨ Перенос user_settings.py при обновлении"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:264
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:265
 msgid "✨ Added a button to open runners install directory"
 msgstr "✨ Добавлена кнопка для открытия каталога установки сред запуска"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:265
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:266
 msgid "✨ Added a basic cache system for downloaded runners"
 msgstr "✨ Добавлена базовая система кэширования загруженных сред запуска"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:266
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:267
 msgid "✨ Improved new user experience"
 msgstr "✨ Улучшен интерфейс для новых пользователей"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:267
-msgid "✨ Added API limit/connection issue warning dialog"
-msgstr "✨ Добавлен диалог предупреждения о лимите API/проблемах с подключением"
-
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:268
+msgid "✨ Added API limit/connection issue warning dialog"
+msgstr ""
+"✨ Добавлен диалог предупреждения о лимите API/проблемах с подключением"
+
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:269
 msgid "✨ Improved \"Runners\" tab filters"
 msgstr "✨ Улучшены фильтры на вкладке «Среды запуска»"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:269
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:270
 msgid "✨ Added preferences dialog"
 msgstr "✨ Добавлен диалог настроек"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:270
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:271
 msgid "✨ Added report button to error dialogs"
 msgstr "✨ Добавлена кнопка отправки отчёта в диалоги ошибок"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:271
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:272
 msgid "✨ Added GitHub/GitLab access token"
 msgstr "✨ Добавлен токен доступа GitHub/GitLab"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:272
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:273
 msgid "✨ Added release date under release name"
 msgstr "✨ Добавлена дата релиза под названием версии"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:273
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:274
 msgid "🐛 Fixed possible negative remaining download time"
 msgstr "🐛 Исправлено возможное отрицательное оставшееся время загрузки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:274
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:275
 msgid "🐛 Fixed select/unselect all"
 msgstr "🐛 Исправлен выбор/снятие выбора всех"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:275
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:276
 msgid "🐛 Fixed Proton-CachyOS not downloading the good version"
 msgstr "🐛 Исправлена загрузка неправильной версии Proton-CachyOS"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:276
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:277
 msgid "🐛 Fixed invalid files from being downloaded"
 msgstr "🐛 Исправлена загрузка недопустимых файлов"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:277
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:278
 msgid "🐛 Fixed Wine-Proton invalid download url"
 msgstr "🐛 Исправлен недопустимый URL загрузки Wine-Proton"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:278
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:279
 msgid "🐛 Fixed SteamTinkerLaunch download issue"
 msgstr "🐛 Исправлена проблема загрузки SteamTinkerLaunch"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:279
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:280
 msgid "🐛 Fixed Proton-GE Latest version check issue"
 msgstr "🐛 Исправлена проблема проверки версии Proton-GE Latest"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:280
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:281
 msgid "🐛 Fixed Proton-CachyOS invalid directory name"
 msgstr "🐛 Исправлено недопустимое имя каталога Proton-CachyOS"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:281
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:282
 msgid "🌐 Added Japanese localization"
 msgstr "🌐 Добавлена японская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:287
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:320
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:379
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:288
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:321
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:380
 msgid "🌐 Updated Russian localization"
 msgstr "🌐 Обновлена русская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:294
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:295
 msgid "✨ Added a search bar in the \"Games\" tab"
 msgstr "✨ Добавлена строка поиска на вкладке «Игры»"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:295
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:296
 msgid "✨ Added a way to see the speed and remaining time of downloads"
 msgstr ""
 "✨ Добавлена возможность просмотра скорости и оставшегося времени загрузки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:296
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:297
 msgid "✨ Added Wine runners to Bottles"
 msgstr "✨ Добавлены среды запуска Wine в Bottles"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:297
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:298
 msgid "✨ Update runtime to GNOME 49"
 msgstr "✨ Обновлено время выполнения до GNOME 49"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:298
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:299
 msgid "🐛 Fixed icons issue"
 msgstr "🐛 Исправлена проблема с иконками"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:299
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:300
 msgid "🐛 Fixed Proton-GE RTSP"
 msgstr "🐛 Исправлен Proton-GE RTSP"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:300
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:301
 msgid "🐛 Fixed error when cancelling install during extraction"
 msgstr "🐛 Исправлена ошибка при отмене установки во время распаковки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:305
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:306
 msgid "🌐 Updated Finnish localization"
 msgstr "🌐 Обновлена финская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:315
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:316
 msgid "🐛 Fixed launchers loading issue"
 msgstr "🐛 Исправлена проблема загрузки лаунчеров"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:316
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:317
 msgid "🐛 Fixed possible parsing issue"
 msgstr "🐛 Исправлена возможная проблема парсинга"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:317
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:318
 msgid ""
 "🐛 Fixed force exit not working in the warning dialog when closing the "
 "application"
@@ -714,269 +722,270 @@ msgstr ""
 "🐛 Исправлена неработающая принудительная остановка в диалоге предупреждения "
 "при закрытии приложения"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:318
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:319
 msgid "🐛 Fixed application freezing in a certain scenario"
 msgstr "🐛 Исправлено зависание приложения в определённых сценариях"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:327
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:328
 msgid "✨ Added non-steam games support"
 msgstr "✨ Добавлена поддержка не-Steam игр"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:328
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:329
 msgid "✨ Added an update indicator"
 msgstr "✨ Добавлен индикатор обновлений"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:329
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:330
 msgid "✨ Added a way to see the games prefix"
 msgstr "✨ Добавлена возможность просмотра префикса игр"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:330
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:331
 msgid "✨ Added a sticky filter bar to the \"Runners\" tab"
 msgstr "✨ Добавлена закреплённая панель фильтров на вкладке «Среды запуска»"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:331
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:332
 msgid "✨ Added a way to see which runners are used"
 msgstr "✨ Добавлена возможность просмотра используемых сред запуска"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:332
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:333
 msgid "✨ Improve Proton-GE Latest handling"
 msgstr "✨ Улучшена обработка Proton-GE Latest"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:333
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:334
 msgid "🐛 Fixed a launcher loading issue"
 msgstr "🐛 Исправлена проблема загрузки лаунчера"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:334
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:335
 msgid "🌐 Added Ukrainian localization"
 msgstr "🌐 Добавлена украинская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:341
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:381
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:342
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:382
 msgid "🌐 Updated Dutch localization"
 msgstr "🌐 Обновлена голландская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:348
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:349
 msgid "✨ Delete cache on exit"
 msgstr "✨ Удаление кэша при выходе"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:349
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:350
 msgid "🐛 Fixed runners not downloading for HGL"
 msgstr "🐛 Исправлена проблема загрузки сред запуска для HGL"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:350
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:351
 msgid "🐛 Fixed recursive copy error"
 msgstr "🐛 Исправлена ошибка рекурсивного копирования"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:351
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:352
 msgid "🐛 Fixed icons not showing up when running under Flatpak"
 msgstr "🐛 Исправлено отображение иконок при работе в Flatpak"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:352
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:353
 msgid "🐛 Fixed WineZGUI Flatpak not appearing in launcher list"
 msgstr "🐛 Исправлено отображение WineZGUI Flatpak в списке лаунчеров"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:361
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:362
 msgid "✨ Added Proton-GE Latest"
 msgstr "✨ Добавлен Proton-GE Latest"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:362
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:363
 msgid "✨ Added WineZGUI support"
 msgstr "✨ Добавлена поддержка WineZGUI"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:363
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:364
 msgid "✨ Added a profile switch button"
 msgstr "✨ Добавлена кнопка переключения профилей"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:364
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:365
 msgid "✨ Made the runners dynamic"
 msgstr "✨ Сделаны среды запуска динамическими"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:365
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:366
 msgid "✨ Added a loading screen"
 msgstr "✨ Добавлен экран загрузки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:366
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:367
 msgid "✨ Updated donation button link"
 msgstr "✨ Обновлена ссылка кнопки пожертвования"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:367
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:368
 msgid "✨ Made the game list sort-able via the header"
 msgstr "✨ Сделана сортировка списка игр по заголовку"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:368
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:369
 msgid "✨ Added a shortcut to open protontricks"
 msgstr "✨ Добавлен ярлык для открытия protontricks"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:369
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:370
 msgid "🐛 Fixed \"Load more\" scrolling to top after clicking it"
 msgstr "🐛 Исправлена прокрутка вверх при нажатии «Загрузить ещё»"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:370
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:371
 msgid "🐛 Fixed SteamTinkerLaunch from being duplicated"
 msgstr "🐛 Исправлено дублирование SteamTinkerLaunch"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:371
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:372
 msgid "🐛 Fixed launch options parsing issue"
 msgstr "🐛 Исправлена проблема парсинга параметров запуска"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:372
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:373
 msgid ""
 "🐛 Fixed Steam shortcut not using system language to launch the application"
 msgstr ""
 "🐛 Исправлен ярлык Steam для запуска приложения, не использовавший системный "
 "язык"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:373
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:374
 msgid "🐛 Fixed issue with incorrectly identifying Steam shortcut"
 msgstr "🐛 Исправлена проблема неправильной идентификации ярлыка Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:374
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:375
 msgid "🐛 Fixed crash when CompatToolMapping is missing in config.vdf"
 msgstr "🐛 Исправлен вылет при отсутствии CompatToolMapping в config.vdf"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:375
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:376
 msgid "🐛 Fixed incorrect insertion position when launch options are missing"
-msgstr "🐛 Исправлена неверная позиция вставки при отсутствии параметров запуска"
+msgstr ""
+"🐛 Исправлена неверная позиция вставки при отсутствии параметров запуска"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:382
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:383
 msgid "🌐 Updated Bosnian localization"
 msgstr "🌐 Обновлена боснийская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:383
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:384
 msgid "🌐 Updated Serbian localization"
 msgstr "🌐 Обновлена сербская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:391
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:392
 msgid "🐛 Fix games being duplicated when switching tab back and forth"
 msgstr "🐛 Исправлено дублирование игр при переключении вкладок"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:392
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:393
 msgid "🌐 Update Polish localization"
 msgstr "🌐 Обновлена польская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:400
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:401
 msgid "💄 Improved UI/UX"
 msgstr "💄 Улучшен UI/UX"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:401
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:402
 msgid "💄 Refined the game library list header"
 msgstr "💄 Улучшен заголовок списка библиотеки игр"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:402
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:403
 msgid "💄 Improved dropdown's in game library"
 msgstr "💄 Улучшены выпадающие списки в библиотеке игр"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:403
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:404
 msgid "🐛 Removed Proton Kron4ek"
 msgstr "🐛 Удалён Proton Kron4ek"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:404
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:405
 msgid "🐛 Fix issue related to the new custom dropdown's"
 msgstr ""
 "🐛 Исправлена проблема, связанная с новыми пользовательскими выпадающими "
 "списками"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:405
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:406
 msgid "🐛 Fix changing compatibility tool not working in certain cases"
 msgstr "🐛 Исправлена смена инструмента совместимости в некоторых случаях"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:406
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:407
 msgid "🌐 Update Czech localization"
 msgstr "🌐 Обновлена чешская локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:415
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:416
 msgid "✨ Added an header to the library game list"
 msgstr "✨ Добавлен заголовок к списку игр в библиотеке"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:416
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:417
 msgid "✨ Added a donation button"
 msgstr "✨ Добавлена кнопка пожертвования"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:417
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:418
 msgid "🐛 Fix compatibility tool detection"
 msgstr "🐛 Исправлено обнаружение инструментов совместимости"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:418
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:419
 msgid "🐛 Change DXVK Sarek naming scheme"
 msgstr "🐛 Изменена схема именования DXVK Sarek"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:419
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:420
 msgid "🐛 Fix library loading issue"
 msgstr "🐛 Исправлена проблема загрузки библиотеки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:420
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:421
 msgid "🐛 Fix a crash"
 msgstr "🐛 Исправлен вылет"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:430
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:437
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:431
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:438
 msgid "🐛 Fix Steam profile detection"
 msgstr "🐛 Исправлено обнаружение профиля Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:447
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:448
 msgid "✨ Added the ability to manage launch options of games"
 msgstr "✨ Добавлена возможность управления параметрами запуска игр"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:448
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:449
 msgid "✨ Added a way to open the install/prefix directory of games"
 msgstr "✨ Добавлена возможность открытия каталога установки/префикса игр"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:449
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:450
 msgid ""
 "✨ Added the ability to set the default compatibility tool for Steam games"
 msgstr ""
 "✨ Добавлена возможность установки инструмента совместимости по умолчанию "
 "для игр Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:459
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:460
 msgid "🐛 Fixed ProtonDB logo not appearing with light theme"
 msgstr "🐛 Исправлено отображение логотипа ProtonDB в светлой теме"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:460
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:461
 msgid "🐛 Fixed shortcut button not working properly"
 msgstr "🐛 Исправлена работа кнопки ярлыка"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:461
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:462
 msgid "✨ Made the games be sorted by name by default"
 msgstr "✨ Сделана сортировка игр по имени по умолчанию"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:462
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:463
 msgid "✨ Made it possible to unselect a game by clicking on it"
 msgstr "✨ Добавлена возможность снять выбор игры, щёлкнув по ней"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:463
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:464
 msgid "✨ Added a way to select/unselect all the games"
 msgstr "✨ Добавлена возможность выбора/снятия выбора всех игр"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:464
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:465
 msgid "✨ Added a way to sort by game name and sort by compatbility tool name"
 msgstr ""
 "✨ Добавлена сортировка по имени игры и по имени инструмента совместимости"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:471
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:472
 msgid "🐛 Fixed Proton Kron4ek"
 msgstr "🐛 Исправлен Proton Kron4ek"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:478
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:479
 msgid "✨ Added support for Proton Kron4ek"
 msgstr "✨ Добавлена поддержка Proton Kron4ek"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:479
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:480
 msgid "✨ Added a way to add a shortcut of ProtonPlus in Steam"
 msgstr "✨ Добавлена возможность добавления ярлыка ProtonPlus в Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:480
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:481
 msgid "✨ Added a way to see if a compatibility tool is used or not for Steam"
 msgstr ""
 "✨ Добавлена возможность просмотра использования инструментов совместимости "
 "для Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:481
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:482
 msgid "✨ Added the ability to change the compatibility tool of Steam games"
 msgstr ""
 "✨ Добавлена возможность изменения инструмента совместимости для игр Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:482
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:483
 msgid ""
 "✨ Added the ability to change the compatibility tool of multiple Steam game "
 "at the same time"
@@ -984,326 +993,305 @@ msgstr ""
 "✨ Добавлена возможность изменения инструмента совместимости для нескольких "
 "игр Steam одновременно"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:483
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:484
 msgid "🐛 Fix UI freeze when installing/removing STL"
 msgstr "🐛 Исправлена зависание интерфейса при установке/удалении STL"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:484
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:485
 msgid "💄 Improved the UX of most of the dialogs"
 msgstr "💄 Улучшен UX большинства диалогов"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:509
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:510
 msgid "✨ Added support for Proton EM"
 msgstr "✨ Добавлена поддержка Proton EM"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:516
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:517
 msgid "🐛 Fix only Steam showing up"
 msgstr "🐛 Исправлено отображение только Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:524
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:525
 msgid "🐛 Added check for inactive Steam installations"
 msgstr "🐛 Добавлена проверка неактивных установок Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:525
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:526
 msgid "🧑‍💻 Updated runtime to GNOME 48"
 msgstr "🧑‍💻 Обновлено время выполнения до GNOME 48"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:533
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:534
 msgid "✨ Added Proton CachyOS for Bottles"
 msgstr "✨ Добавлен Proton CachyOS для Bottles"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:534
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:535
 msgid "✨ Re-ordered runners"
 msgstr "✨ Изменён порядок сред запуска"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:535
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:536
 msgid "✨ Removed deprecated runners"
 msgstr "✨ Удалены устаревшие среды запуска"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:536
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:561
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:569
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:619
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:715
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:537
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:562
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:570
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:620
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:716
 msgid "🌐 Updated German translation"
 msgstr "🌐 Обновлён немецкий перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:543
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:544
 msgid "✨ Added support for Proton CachyOS"
 msgstr "✨ Добавлена поддержка Proton CachyOS"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:552
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:553
 msgid "🐛 Fix some DXVK runners using the wrong name"
 msgstr "🐛 Исправлено неправильное имя некоторых сред запуска DXVK"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:553
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:554
 msgid "🌐 Fix typo in German localization"
 msgstr "🌐 Исправлена опечатка в немецкой локализации"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:560
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:561
 msgid "🐛 Fix HGL support"
 msgstr "🐛 Исправлена поддержка HGL"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:568
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:569
 msgid "🐛 Fix Proton-Sarek install issues"
 msgstr "🐛 Исправлены проблемы установки Proton-Sarek"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:570
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:571
 msgid "🌐 Updated Czech translation"
 msgstr "🌐 Обновлён чешский перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:577
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:578
 msgid "🐛 Fixed libadwaita version minimum requirement"
 msgstr "🐛 Исправлено минимальное требование версии libadwaita"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:584
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:585
 msgid "✨ Added a way to view the description of each release"
 msgstr "✨ Добавлена возможность просмотра описания каждого релиза"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:585
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:586
 msgid "✨ Added support for DXVK Sarek"
 msgstr "✨ Добавлена поддержка DXVK Sarek"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:586
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:587
 msgid "✨ Added support for Proton in Lutris (without using Steam)"
 msgstr "✨ Добавлена поддержка Proton в Lutris (без использования Steam)"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:587
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:588
 msgid "🐛 Fixed installed only filter"
 msgstr "🐛 Исправлен фильтр «Только установленные»"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:588
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:678
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:589
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:679
 msgid "🧑‍💻 Backend improvements"
 msgstr "🧑‍💻 Улучшения бэкенда"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:589
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:645
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:653
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:662
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:670
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:679
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:694
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:705
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:590
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:646
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:654
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:663
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:671
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:680
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:695
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:706
 msgid "🌐 Updated localization"
 msgstr "🌐 Обновлена локализация"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:596
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:597
 msgid "💄 Switched app icon to PNG format due to poor SVG support in KDE"
 msgstr "💄 Иконка приложения переведена в PNG из-за плохой поддержки SVG в KDE"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:603
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:604
 msgid "🐛 Fix for Proton-Sarek support"
 msgstr "🐛 Исправление поддержки Proton-Sarek"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:610
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:611
 msgid "✨ Added support for Proton-Sarek"
 msgstr "✨ Добавлена поддержка Proton-Sarek"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:611
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:612
 msgid "💄 Updated the application icon"
 msgstr "💄 Обновлена иконка приложения"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:612
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:613
 msgid "🌐 Updated Swedish translation"
 msgstr "🌐 Обновлён шведский перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:626
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:627
 msgid "✨ Added support for Steam Tinker Launch"
 msgstr "✨ Добавлена поддержка Steam Tinker Launch"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:627
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:628
 msgid "✨ Made Ctrl-Q quit the application"
 msgstr "✨ Добавлен выход из приложения по Ctrl-Q"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:628
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:629
 msgid "✨ The window now remembers the last-used size"
 msgstr "✨ Окно теперь запоминает последний использованный размер"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:629
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:630
 msgid "💄 Improved UI polish and consistency"
 msgstr "💄 Улучшена полировка и согласованность интерфейса"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:630
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:631
 msgid "🌐 Made it easier to translate the application"
 msgstr "🌐 Упрощён перевод приложения"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:631
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:632
 msgid "🌐 Added Swedish translation"
 msgstr "🌐 Добавлен шведский перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:638
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:639
 msgid "🐛 Fix appdata"
 msgstr "🐛 Исправлены данные приложения"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:652
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:653
 msgid "✨ Added Proton-GE RTSP to Steam"
 msgstr "✨ Добавлен Proton-GE RTSP в Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:660
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:661
 msgid "🐛 Fixed installed only infinite loading"
 msgstr "🐛 Исправлена бесконечная загрузка фильтра «Только установленные»"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:661
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:662
 msgid "🐛 Fixed GitLab downloads not working"
 msgstr "🐛 Исправлена неработающая загрузка с GitLab"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:669
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:670
 msgid "🐛 Fixed missing Bottles icon"
 msgstr "🐛 Исправлено отсутствие иконки Bottles"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:677
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:678
 msgid "💄 Modernised the UI"
 msgstr "💄 Модернизирован интерфейс"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:686
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:687
 msgid "✨ Added an installed only filter"
 msgstr "✨ Добавлен фильтр «Только установленные»"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:687
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:688
 msgid "✨ Added Kron4ek builds and Proton-tkg to HGL"
 msgstr "✨ Добавлены сборки Kron4ek и Proton-tkg в HGL"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:688
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:689
 msgid "✨ Added VKD3D support for Lutris"
 msgstr "✨ Добавлена поддержка VKD3D для Lutris"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:689
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:690
 msgid "✨ Added Kron4ek Wine-Builds Staging"
 msgstr "✨ Добавлены Kron4ek Wine-Builds Staging"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:690
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:691
 msgid "✨ Added DXVK GPL+Async (Ph42oN)"
 msgstr "✨ Добавлен DXVK GPL+Async (Ph42oN)"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:691
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:692
 msgid "💄 Added description to groups"
 msgstr "💄 Добавлено описание групп"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:692
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:693
 msgid "💄 Improved Steam Deck experience"
 msgstr "💄 Улучшен опыт использования на Steam Deck"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:693
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:694
 msgid "🧑‍💻 General improvements"
 msgstr "🧑‍💻 Общие улучшения"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:701
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:702
 msgid "📝 Updated README, appdata and preview image"
 msgstr "📝 Обновлены README, данные приложения и превью"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:702
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:703
 msgid "🐛 Fix Flathub download link"
 msgstr "🐛 Исправлена ссылка загрузки на Flathub"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:703
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:704
 msgid "♻️ Update delete dialog"
 msgstr "♻️ Обновлён диалог удаления"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:704
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:705
 msgid "✨ Added the ability to download older versions"
 msgstr "✨ Добавлена возможность загрузки старых версий"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:712
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:713
 msgid "🍱 Replaced the preview video"
 msgstr "🍱 Заменено превью видео"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:713
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:714
 msgid "🐛 Fixed Proton Tkg"
 msgstr "🐛 Исправлен Proton Tkg"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:714
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:715
 msgid "🐛 Fixed install directories creation"
 msgstr "🐛 Исправлено создание каталогов установки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:721
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:722
 msgid ""
 "I disabled Proton-Tkg (Steam) for now. I will re-add it for the next update."
 msgstr ""
 "Я временно отключил Proton-Tkg (Steam). Я добавлю его снова в следующем "
 "обновлении."
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:723
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:724
 msgid "🍱 Updated the preview images and video"
 msgstr "🍱 Обновлены превью и видео"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:724
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:725
 msgid "💄 Updated the UI"
 msgstr "💄 Обновлён интерфейс"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:725
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:735
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:726
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:736
 msgid "⚡️ Backend optimization"
 msgstr "⚡️ Оптимизация бэкенда"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:732
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:733
 msgid "🍱 Change preview video file format to webm"
 msgstr "🍱 Изменён формат превью видео на webm"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:733
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:734
 msgid "🌐 Fixed README typo and added Czech translation"
 msgstr "🌐 Исправлена опечатка в README и добавлен чешский перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:734
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:735
 msgid "🌐 Added German translation"
 msgstr "🌐 Добавлен немецкий перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:742
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:743
 msgid "✨ Added a tasks queue system"
 msgstr "✨ Добавлена система очереди задач"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:743
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:744
 msgid "💄 Updated the installer UI"
 msgstr "💄 Обновлён интерфейс установщика"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:744
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:745
 msgid "🐛 Fix window always being able to be closed"
 msgstr "🐛 Исправлено постоянное закрытие окна"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:745
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:746
 msgid "🐛 Fix preferences page being empty"
 msgstr "🐛 Исправлена пустая страница настроек"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:746
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:747
 msgid "🐛 Fix Steam install message"
 msgstr "🐛 Исправлено сообщение установки Steam"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:747
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:748
 msgid "📝 Updated Flathub download logo"
 msgstr "📝 Обновлён логотип загрузки Flathub"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:754
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:755
 msgid "✨ Complete UI Overhaul"
 msgstr "✨ Полная переработка интерфейса"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:755
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:756
 msgid "🧑‍💻 Project Refactor"
 msgstr "🧑‍💻 Рефакторинг проекта"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:762
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:763
 msgid "✨ Added support for Bottles"
 msgstr "✨ Добавлена поддержка Bottles"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:763
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:772
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:785
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:799
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:809
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:821
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:832
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:841
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:852
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:861
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:878
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:896
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:913
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:931
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:947
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:955
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:975
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:984
-msgid "🔨 Update appdata"
-msgstr "🔨 Обновлены данные приложения"
 
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:764
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:773
@@ -1316,299 +1304,320 @@ msgstr "🔨 Обновлены данные приложения"
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:853
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:862
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:879
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:898
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:915
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:897
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:914
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:932
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:948
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:960
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:956
 #: data/com.vysp3r.ProtonPlus.metainfo.xml.in:976
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:992
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1015
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1035
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:985
+msgid "🔨 Update appdata"
+msgstr "🔨 Обновлены данные приложения"
+
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:765
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:774
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:787
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:801
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:811
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:823
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:834
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:843
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:854
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:863
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:880
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:899
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:916
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:933
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:949
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:961
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:977
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:993
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1016
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1036
 msgid "💬 Update the release notes"
 msgstr "💬 Обновлены примечания к выпуску"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:771
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:772
 msgid "✨ Added support for Heroic Games Launcher"
 msgstr "✨ Добавлена поддержка Heroic Games Launcher"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:780
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:781
 msgid "✨ Updated the About window"
 msgstr "✨ Обновлено окно «О программе»"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:781
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:782
 msgid "🎨 Added utilities for folders and files"
 msgstr "🎨 Добавлены утилиты для папок и файлов"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:782
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:783
 msgid "🎨 Migrated preferences system to GLib.Settings"
 msgstr "🎨 Система настроек перенесена на GLib.Settings"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:783
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:784
 msgid "✨ Implementated cancelation dialog when downloading"
 msgstr "✨ Реализован диалог отмены при загрузке"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:784
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:785
 msgid "🔧 Modified filesystem permissions scopes"
 msgstr "🔧 Изменены области разрешений файловой системы"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:793
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:794
 msgid "🐛 Fixed installer tool switching"
 msgstr "🐛 Исправлено переключение инструментов установщика"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:794
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:818
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:795
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:819
 msgid "🔇 Remove debug log"
 msgstr "🔇 Удалён отладочный журнал"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:795
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:796
 msgid "💄 Updated icons"
 msgstr "💄 Обновлены иконки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:796
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:797
 msgid "🐛 Fixed tools and releases not being locked when needed"
 msgstr "🐛 Исправлена блокировка инструментов и релизов при необходимости"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:797
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:798
 msgid "🐛 Fixed progress bar not being hidden when needed"
 msgstr "🐛 Исправлено скрытие индикатора выполнения при необходимости"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:798
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:799
 msgid "🌐 Updated translation files"
 msgstr "🌐 Обновлены файлы переводов"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:807
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:808
 msgid "🐛 Fix flathub manifest"
 msgstr "🐛 Исправлен манифест Flathub"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:808
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:809
 msgid "🌐 Added missing russian translations"
 msgstr "🌐 Добавлены недостающие русские переводы"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:817
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:818
 msgid "✨ Add warning for gamescope compatibility issues"
 msgstr "✨ Добавлено предупреждение о проблемах совместимости gamescope"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:819
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:820
 msgid "🐛 Fix download getting canceled randomly"
 msgstr "🐛 Исправлена случайная отмена загрузки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:820
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:821
 msgid "🌐 Added missing translations"
 msgstr "🌐 Добавлены недостающие переводы"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:829
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:830
 msgid "🐛 Fix directory creation"
 msgstr "🐛 Исправлено создание каталогов"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:830
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:831
 msgid "🐛 Fix releases not always changing"
 msgstr "🐛 Исправлена непостоянная смена релизов"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:831
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:832
 msgid "✨ Added Proton Tkg"
 msgstr "✨ Добавлен Proton Tkg"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:840
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:841
 msgid "🌐 Add missing translations"
 msgstr "🌐 Добавлены недостающие переводы"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:849
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:895
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:912
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:930
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1023
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1047
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:850
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:896
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:913
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:931
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1024
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1048
 msgid "📝 Update README.md"
 msgstr "📝 Обновлён README.md"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:850
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:851
 msgid "🌐 Add Chinese(Simplified) Translation"
 msgstr "🌐 Добавлен упрощённый китайский перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:851
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:852
 msgid "🐛 Fix translation"
 msgstr "🐛 Исправлен перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:860
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:861
 msgid "🐛 Correct desktop file exec"
 msgstr "🐛 Исправлен exec в .desktop файле"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:869
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:870
 msgid "🌐 Add Indonesian translation"
 msgstr "🌐 Добавлен индонезийский перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:870
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:871
 msgid "🌐 Add Brazilian Portuguese (pt-BR) translation"
 msgstr "🌐 Добавлен бразильский португальский (pt-BR) перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:871
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:872
 msgid "💄 Lock dialogs to main window"
 msgstr "💄 Диалоги закреплены за главным окном"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:872
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:873
 msgid "📝 Fix README.md typo"
 msgstr "📝 Исправлена опечатка в README.md"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:873
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:874
 msgid "📝 Add desktop-file-utils link to README.md"
 msgstr "📝 Добавлена ссылка на desktop-file-utils в README.md"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:874
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:942
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:875
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:943
 msgid "🐛 Fix possible crash scenario"
 msgstr "🐛 Исправлен возможный сценарий вылета"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:875
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:908
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:939
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:973
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:876
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:909
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:940
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:974
 msgid "🧑‍💻 Project refactor"
 msgstr "🧑‍💻 Рефакторинг проекта"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:876
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:877
 msgid "🐛 Fix tool renaming"
 msgstr "🐛 Исправлено переименование инструментов"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:877
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:878
 msgid "🐛 Fix download not working on some machine"
 msgstr "🐛 Исправлена неработающая загрузка на некоторых машинах"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:886
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:887
 msgid "🔨 Correct desktop file category"
 msgstr "🔨 Исправлена категория в .desktop файле"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:887
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:888
 msgid "🌐 Adding a Russian translation"
 msgstr "🌐 Добавлен русский перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:888
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:889
 msgid "🌐 Added spanish translation"
 msgstr "🌐 Добавлен испанский перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:889
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:890
 msgid "🐛 Fix installed tools not showing up properly"
 msgstr "🐛 Исправлено отображение установленных инструментов"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:890
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:891
 msgid "🐛 Fix buttons being clickable when switching tool"
 msgstr "🐛 Исправлена кликабельность кнопок при переключении инструмента"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:891
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:892
 msgid "🧱 Rename InstallTool to Installer"
 msgstr "🧱 Переименован InstallTool в Installer"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:892
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:893
 msgid "⚰️ Remove dead code from Release"
 msgstr "⚰️ Удалён мёртвый код из Release"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:893
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:894
 msgid "🚸 Added a tooltip in About"
 msgstr "🚸 Добавлена подсказка в окне «О программе»"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:894
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:895
 msgid "🌐 Add missing translation"
 msgstr "🌐 Добавлен недостающий перевод"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:897
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:914
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:898
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:915
 msgid "🔨 Update meson"
 msgstr "🔨 Обновлён Meson"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:905
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:906
 msgid "✨ Add localization system"
 msgstr "✨ Добавлена система локализации"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:906
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:907
 msgid "🚸 Added more tooltips"
 msgstr "🚸 Добавлено больше подсказок"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:907
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:908
 msgid "🚸 Update About for better UX"
 msgstr "🚸 Обновлено окно «О программе» для улучшения UX"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:909
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:910
 msgid "🐛 Fix styles localization"
 msgstr "🐛 Исправлена локализация стилей"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:910
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:911
 msgid "✨ Added remember last launcher preference"
 msgstr "✨ Добавлена настройка запоминания последнего лаунчера"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:911
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:929
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:912
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:930
 msgid "🍱 Update preview images"
 msgstr "🍱 Обновлены превью"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:922
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:923
 msgid "💄 Fix ListBox CSS missing"
 msgstr "💄 Исправлено отсутствие CSS ListBox"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:923
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:924
 msgid "🚚 Renamed HomeInfo to AboutTool"
 msgstr "🚚 Переименован HomeInfo в AboutTool"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:924
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:925
 msgid "💄 Update Home layout"
 msgstr "💄 Обновлён макет главной"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:925
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:926
 msgid "🧑‍💻 Refactor ProtonMessageDialog"
 msgstr "🧑‍💻 Рефакторинг ProtonMessageDialog"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:926
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:927
 msgid "🚚 Rename Selector to InstallTool"
 msgstr "🚚 Переименован Selector в InstallTool"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:927
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:928
 msgid "🐛 Fix Adw-Critical error"
 msgstr "🐛 Исправлена критическая ошибка Adw"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:928
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:929
 msgid "🐛 Fix crash on tool delete"
 msgstr "🐛 Исправлен вылет при удалении инструмента"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:940
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:941
 msgid "🐛 Fix ListBox missing scrollbar"
 msgstr "🐛 Исправлено отсутствие полосы прокрутки в ListBox"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:941
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:942
 msgid "✨ Add launcher cleanup utility"
 msgstr "✨ Добавлена утилита очистки лаунчеров"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:943
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:944
 msgid "➖ Remove Posix dependency"
 msgstr "➖ Удалена зависимость Posix"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:944
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:945
 msgid "🐛 Fix button always being active"
 msgstr "🐛 Исправлена постоянная активность кнопки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:945
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:946
 msgid "🧑‍💻 Add new message dialog widget"
 msgstr "🧑‍💻 Добавлен виджет диалога сообщений"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:946
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:947
 msgid "🐛 Fix useless log showing up"
 msgstr "🐛 Исправлено отображение бесполезного журнала"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:956
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:957
 msgid "🐛 Fix tool renaming for nothing"
 msgstr "🐛 Исправлено переименование инструмента"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:957
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:958
 msgid "🐛 Fix selector window freezing"
 msgstr "🐛 Исправлено зависание окна выбора"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:958
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:959
 msgid "🐛 Fix Gtk-Critical errors"
 msgstr "🐛 Исправлены критические ошибки Gtk"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:959
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:960
 msgid "🐛 Fix buttons being active by default in selector"
 msgstr "🐛 Исправлена активность кнопок по умолчанию в окне выбора"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:966
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:967
 msgid ""
 "For stability reasons, I've decided to disable Bottles and Heroic Games "
 "Launcher support for now. I also disabled Proton Tkg for the same reasons."
@@ -1616,57 +1625,57 @@ msgstr ""
 "По соображениям стабильности я решил временно отключить поддержку Bottles и "
 "Heroic Games Launcher. Я также отключил Proton Tkg по тем же причинам."
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:969
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:970
 msgid "✨ Add NorthstarProton compatibility tool"
 msgstr "✨ Добавлен инструмент совместимости NorthstarProton"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:970
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:971
 msgid "🐛 Fix NorthstarProton not showing up"
 msgstr "🐛 Исправлено отображение NorthstarProton"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:971
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:985
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:972
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:986
 msgid "🔨 Update flatpak config"
 msgstr "🔨 Обновлена конфигурация Flatpak"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:972
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:973
 msgid "💬 Renamed tools in a uniform way"
 msgstr "💬 Инструменты переименованы единообразно"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:974
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:975
 msgid "🚸 Add error message to selector"
 msgstr "🚸 Добавлено сообщение об ошибке в окно выбора"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:982
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:983
 msgid "We are now officialy on Flathub!"
 msgstr "Теперь мы официально на Flathub!"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:986
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:987
 msgid "🍱 Update symbolic icon"
 msgstr "🍱 Обновлена символьная иконка"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:987
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:988
 msgid "🍱 Add icon"
 msgstr "🍱 Добавлена иконка"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:988
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:989
 msgid "🔨 Update .desktop"
 msgstr "🔨 Обновлён .desktop"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:989
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1004
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:990
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1005
 msgid "🍱 Update the preview image"
 msgstr "🍱 Обновлено превью"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:990
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:991
 msgid "🍱 Add a preview image"
 msgstr "🍱 Добавлено превью"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:991
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:992
 msgid "🐛 Fix install button always being clickable"
 msgstr "🐛 Исправлена постоянная кликабельность кнопки установки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:998
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:999
 msgid ""
 "The new naming convention for extracted directories is basically making sure "
 "each installed tools is easily recognizable to make it easier to manage them."
@@ -1674,129 +1683,129 @@ msgstr ""
 "Новое соглашение об именовании извлечённых каталогов гарантирует, что каждый "
 "установленный инструмент легко узнаваем для упрощения управления ими."
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1000
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1001
 msgid "Naming convention: Tool name + Tool version"
 msgstr "Соглашение об именовании: Имя инструмента + Версия инструмента"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1001
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1002
 msgid "Example: GE-Proton | GE-Proton7-41"
 msgstr "Пример: GE-Proton | GE-Proton7-41"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1003
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1004
 msgid "✏️ Fix typo in the release notes"
 msgstr "✏️ Исправлена опечатка в примечаниях к выпуску"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1005
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1012
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1006
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1013
 msgid "⚰️ Remove unused custom widget"
 msgstr "⚰️ Удалён неиспользуемый пользовательский виджет"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1006
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1007
 msgid "🚧 Add notifications tab"
 msgstr "🚧 Добавлена вкладка уведомлений"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1007
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1008
 msgid "💄 Update selector window components to Libadwaita"
 msgstr "💄 Обновлены компоненты окна выбора до Libadwaita"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1008
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1009
 msgid "🧱 Separate Release from CompatibilityTool"
 msgstr "🧱 Отделен Release от CompatibilityTool"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1009
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1010
 msgid "🧱 Rename CompatibilityTool to Tool"
 msgstr "🧱 Переименован CompatibilityTool в Tool"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1010
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1011
 msgid "⚰️ Remove unused file"
 msgstr "⚰️ Удалён неиспользуемый файл"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1011
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1012
 msgid "💄 Update home message dialog to libadwaita"
 msgstr "💄 Обновлён диалог сообщений главной до Libadwaita"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1013
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1014
 msgid "✨ Added a naming convention extracted directories"
 msgstr "✨ Добавлено соглашение об именовании извлечённых каталогов"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1014
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1015
 msgid "🚚 Rename compatibilitytool to tool"
 msgstr "🚚 Переименован compatibilitytool в tool"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1021
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1022
 msgid "ProtonPlus now requires Libadwaita version 1.2 or higher."
 msgstr "ProtonPlus теперь требует Libadwaita версии 1.2 или выше."
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1024
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1025
 msgid "🐛 Fix Preferences window default siz"
 msgstr "🐛 Исправлен размер окна настроек по умолчанию"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1025
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1026
 msgid "💄 Move main window to Libadwaita"
 msgstr "💄 Главное окно перенесено на Libadwaita"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1026
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1027
 msgid "💄 Move about window to Libadwaita"
 msgstr "💄 Окно «О программе» перенесено на Libadwaita"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1027
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1029
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1028
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1030
 msgid "⚰️ Remove dead code"
 msgstr "⚰️ Удалён мёртвый код"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1028
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1029
 msgid "💄 Update main window components to Libadwaita"
 msgstr "💄 Обновлены компоненты главного окна до Libadwaita"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1030
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1031
 msgid "💄 Add an effect when extracting a tool"
 msgstr "💄 Добавлен эффект при извлечении инструмента"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1031
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1032
 msgid "🐛 Fix label not showing up"
 msgstr "🐛 Исправлено отображение метки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1032
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1033
 msgid "🐛 Fix wrong label showing up"
 msgstr "🐛 Исправлено отображение неправильной метки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1033
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1034
 msgid "💄 Update preferences window to Libadwaita"
 msgstr "💄 Окно настроек обновлено до Libadwaita"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1034
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1035
 msgid "⬆️ Update the runtime version"
 msgstr "⬆️ Обновлена версия среды выполнения"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1042
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1043
 msgid "🐛 Fix Steam not showing up on fresh install"
 msgstr "🐛 Исправлено отображение Steam при свежей установке"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1043
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1044
 msgid "🐛 Fix Kron4ek Wine-Builds Vanilla not showing properly"
 msgstr "🐛 Исправлено отображение Kron4ek Wine-Builds Vanilla"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1044
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1045
 msgid "🐛 Fix installed tools showing files"
 msgstr "🐛 Исправлено отображение файлов в установленных инструментах"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1045
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1046
 msgid "🐛 Fix selector closing after an installation"
 msgstr "🐛 Исправлено закрытие окна выбора после установки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1046
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1047
 msgid "🐛 Fix extraction not always working"
 msgstr "🐛 Исправлена непостоянная работа распаковки"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1048
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1049
 msgid "🐛 Fix Lutris DXVK not showing up"
 msgstr "🐛 Исправлено отображение Lutris DXVK"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1055
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1056
 msgid "🎉 Initial release"
 msgstr "🎉 Первоначальный выпуск"
 
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1056
+#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1057
 msgid "📝 Create pull request template"
 msgstr "📝 Создан шаблон запроса на включение"
 
@@ -2622,8 +2631,8 @@ msgstr[1] "Изменить %d выбранные игры все сразу"
 msgstr[2] "Изменить %d выбранных игр все сразу"
 
 #: src/widgets/games/games-mass-edit-button.vala:79
-#: src/widgets/tools/tools-stl-release-row.vala:13
-#: src/widgets/tools/tools-stl-release-row.vala:90 src/widgets/window.vala:296
+#: src/widgets/tools/tools-stl-release-row.vala:24
+#: src/widgets/tools/tools-stl-release-row.vala:133 src/widgets/window.vala:296
 msgid "Warning"
 msgstr "Предупреждение"
 
@@ -2696,7 +2705,8 @@ msgstr ""
 #: src/widgets/games/games-mass-edit-view.vala:306
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
-msgstr "Выбранные параметры запуска неполны или не поддерживаются для этих игр."
+msgstr ""
+"Выбранные параметры запуска неполны или не поддерживаются для этих игр."
 
 #: src/widgets/games/games-mass-edit-view.vala:307
 msgid "Launch options cannot be applied"
@@ -3845,7 +3855,8 @@ msgstr "Выбранная сборка Proton не заявляет о подд
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:363
 msgid ""
 "The selected Proton build does not advertise its DXVK low-latency option."
-msgstr "Выбранная сборка Proton не заявляет о своей опции низкой задержки DXVK."
+msgstr ""
+"Выбранная сборка Proton не заявляет о своей опции низкой задержки DXVK."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:364
 msgid ""
@@ -3957,7 +3968,8 @@ msgstr "Принудительный драйвер Vulkan"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-amd-icd.vala:25
 msgid "Override system-wide Vulkan driver preference for this game"
-msgstr "Переопределить общесистемные предпочтения драйвера Vulkan для этой игры"
+msgstr ""
+"Переопределить общесистемные предпочтения драйвера Vulkan для этой игры"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:11
 msgid "Argument"
@@ -4180,7 +4192,8 @@ msgstr "Показать точную команду, которая будет 
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-preview-field.vala:59
 msgid "Raw or unrecognized content needs attention before saving."
-msgstr "Сырое или нераспознанное содержимое требует внимания перед сохранением."
+msgstr ""
+"Сырое или нераспознанное содержимое требует внимания перед сохранением."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:11
 msgid "Enabled (Enforce)"
@@ -4953,7 +4966,8 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
 msgid ""
 "Requires a compatible Proton-CachyOS build and game support for Anti-Lag 2"
-msgstr "Требуется совместимая сборка Proton-CachyOS и поддержка игры Anti-Lag 2"
+msgstr ""
+"Требуется совместимая сборка Proton-CachyOS и поддержка игры Anti-Lag 2"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
 msgid ""
@@ -5429,7 +5443,8 @@ msgid "Limit: %s/s"
 msgstr "Лимит: %s/с"
 
 #: src/widgets/header/header-downloads-indicator.vala:217
-#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:152
+#: src/widgets/tools/tools-remove-dialog.vala:26
+#: src/widgets/tools/tools-stl-release-row.vala:102 src/widgets/window.vala:152
 #: src/widgets/window.vala:303
 msgid "Cancel"
 msgstr "Отмена"
@@ -5724,11 +5739,14 @@ msgstr "Не удалось загрузить сохранённые напом
 #, c-format
 msgid "Steam needs to restart before this change takes effect."
 msgid_plural "Steam needs to restart before these %u changes take effect."
-msgstr[0] "Steam необходимо перезапустить, чтобы это %u изменение вступило в силу."
-msgstr[1] "Steam необходимо перезапустить, чтобы эти %u изменения вступили в силу."
-msgstr[2] "Steam необходимо перезапустить, чтобы эти %u изменений вступили в силу."
+msgstr[0] ""
+"Steam необходимо перезапустить, чтобы это %u изменение вступило в силу."
+msgstr[1] ""
+"Steam необходимо перезапустить, чтобы эти %u изменения вступили в силу."
+msgstr[2] ""
+"Steam необходимо перезапустить, чтобы эти %u изменений вступили в силу."
 
-#: src/widgets/main/main-box.vala:203
+#: src/widgets/main/main-box.vala:201
 msgid ""
 "Save your progress and close any running games before continuing. In SteamOS "
 "Gaming Mode, Steam, running games, and ProtonPlus will close while Steam "
@@ -5738,82 +5756,82 @@ msgstr ""
 "SteamOS Gaming Mode Steam, запущенные игры и ProtonPlus будут закрыты во "
 "время перезапуска Steam."
 
-#: src/widgets/main/main-box.vala:204
+#: src/widgets/main/main-box.vala:202
 #: src/widgets/main/steam-restart-dialog.vala:8
 msgid "Restart Steam?"
 msgstr "Перезапустить Steam?"
 
-#: src/widgets/main/main-box.vala:205 src/widgets/main/main-box.vala:256
+#: src/widgets/main/main-box.vala:203 src/widgets/main/main-box.vala:254
 #: src/widgets/main/steam-restart-dialog.vala:28
 msgid "Later"
 msgstr "Позже"
 
-#: src/widgets/main/main-box.vala:206
+#: src/widgets/main/main-box.vala:204
 #: src/widgets/main/steam-restart-banner.vala:13
 #: src/widgets/main/steam-restart-banner.vala:21
 msgid "Restart Steam"
 msgstr "Перезапустить Steam"
 
-#: src/widgets/main/main-box.vala:260
+#: src/widgets/main/main-box.vala:258
 msgid "Try Again"
 msgstr "Попробовать снова"
 
-#: src/widgets/main/main-box.vala:286 src/widgets/tools/tools-box.vala:636
+#: src/widgets/main/main-box.vala:284 src/widgets/tools/tools-box.vala:636
 msgid "Checking for updates"
 msgstr "Проверка на наличие обновлений"
 
-#: src/widgets/main/main-box.vala:297 src/widgets/tools/tools-box.vala:644
+#: src/widgets/main/main-box.vala:295 src/widgets/tools/tools-box.vala:644
 msgid "Can't update while a game is running"
 msgstr "Невозможно обновить, пока запущена игра"
 
-#: src/widgets/main/main-box.vala:300 src/widgets/tools/tools-box.vala:647
+#: src/widgets/main/main-box.vala:298 src/widgets/tools/tools-box.vala:647
 msgid "Nothing to update"
 msgstr "Обновлять нечего."
 
-#: src/widgets/main/main-box.vala:304 src/widgets/tools/tools-box.vala:651
+#: src/widgets/main/main-box.vala:302 src/widgets/tools/tools-box.vala:651
 msgid "Everything is now up-to-date"
 msgstr "Теперь все в актуальном состоянии"
 
-#: src/widgets/main/main-box.vala:307 src/widgets/tools/tools-box.vala:654
+#: src/widgets/main/main-box.vala:305 src/widgets/tools/tools-box.vala:654
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Не удалось проверить обновления (причина: %s)"
 
-#: src/widgets/main/main-box.vala:314
+#: src/widgets/main/main-box.vala:312
 msgid "Update started"
 msgstr "Обновление начато"
 
-#: src/widgets/main/main-box.vala:316
+#: src/widgets/main/main-box.vala:314
 msgid "Download started"
 msgstr "Загрузка запущена"
 
-#: src/widgets/main/main-box.vala:322
+#: src/widgets/main/main-box.vala:320
 msgid "Download finished"
 msgstr "Загрузка завершена"
 
-#: src/widgets/main/main-box.vala:324
+#: src/widgets/main/main-box.vala:322
 msgid "Download canceled"
 msgstr "Загрузка отменена"
 
-#: src/widgets/main/main-box.vala:330
+#: src/widgets/main/main-box.vala:328
 msgid "Download failed"
 msgstr "Загрузка не удалась"
 
-#: src/widgets/main/main-box.vala:336 src/widgets/main/main-box.vala:338
+#: src/widgets/main/main-box.vala:334 src/widgets/main/main-box.vala:336
 msgid "Update finished"
 msgstr "Обновление завершено"
 
-#: src/widgets/main/main-box.vala:336
+#: src/widgets/main/main-box.vala:334
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "%s теперь обновлен."
 
-#: src/widgets/main/main-box.vala:338
+#: src/widgets/main/main-box.vala:336
 #, c-format
 msgid "%s is already up-to-date"
 msgstr "%s уже обновлён"
 
-#: src/widgets/main/main-box.vala:343
+#: src/widgets/main/main-box.vala:341
 msgid "Deleted"
 msgstr "Удалено"
 
@@ -6749,7 +6767,8 @@ msgstr "Показывать устаревшие инструменты"
 
 #: src/widgets/preferences/preferences-dialog.vala:132
 msgid "Display older tools that are no longer actively maintained"
-msgstr "Показывать старые инструменты, которые больше не поддерживаются активно"
+msgstr ""
+"Показывать старые инструменты, которые больше не поддерживаются активно"
 
 #. Launchers Page
 #: src/widgets/preferences/preferences-dialog.vala:140
@@ -6828,7 +6847,7 @@ msgstr "SteamOS"
 #: src/widgets/preferences/preferences-dialog.vala:392
 #: src/widgets/preferences/preferences-dialog.vala:397
 #: src/widgets/preferences/preferences-dialog.vala:402
-#: src/widgets/tools/tools-stl-release-row.vala:98
+#: src/widgets/tools/tools-stl-release-row.vala:141
 msgid "Yes"
 msgstr "Да"
 
@@ -6841,7 +6860,7 @@ msgstr "Да"
 #: src/widgets/preferences/preferences-dialog.vala:392
 #: src/widgets/preferences/preferences-dialog.vala:397
 #: src/widgets/preferences/preferences-dialog.vala:402
-#: src/widgets/tools/tools-stl-release-row.vala:97
+#: src/widgets/tools/tools-stl-release-row.vala:140
 msgid "No"
 msgstr "Нет"
 
@@ -7041,7 +7060,8 @@ msgstr "Нет используемых инструментов"
 
 #: src/widgets/tools/tools-group-box.vala:183
 msgid "No games currently use a tool from this group."
-msgstr "Ни одна игра в настоящее время не использует инструмент из этой группы."
+msgstr ""
+"Ни одна игра в настоящее время не использует инструмент из этой группы."
 
 #: src/widgets/tools/tools-group-box.vala:187
 msgid "No unused tools"
@@ -7327,20 +7347,39 @@ msgstr ""
 "ProtonPlus столкнулся с проблемой при попытке удалить этот инструмент "
 "совместимости из вашей системы."
 
-#: src/widgets/tools/tools-stl-release-row.vala:15
+#: src/widgets/tools/tools-stl-release-row.vala:26
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr "Для %s вам не хватает следующих зависимостей:"
 
-#: src/widgets/tools/tools-stl-release-row.vala:17
+#: src/widgets/tools/tools-stl-release-row.vala:28
 msgid "Installation will be canceled."
 msgstr "Установка будет отменена."
 
-#: src/widgets/tools/tools-stl-release-row.vala:36
+#: src/widgets/tools/tools-stl-release-row.vala:55
 msgid "Check this to also delete your configuration files."
 msgstr "Отметить для удаления файлов конфигурации."
 
-#: src/widgets/tools/tools-stl-release-row.vala:92
+#: src/widgets/tools/tools-stl-release-row.vala:98
+#, fuzzy
+msgid "SteamTinkerLaunch may not work"
+msgstr "Steam Tinker Launch"
+
+#: src/widgets/tools/tools-stl-release-row.vala:99
+msgid ""
+"YAD 15 is currently incompatible with SteamTinkerLaunch. SteamTinkerLaunch "
+"may fail to start even if ProtonPlus installs it successfully.\n"
+"\n"
+"This is a SteamTinkerLaunch compatibility issue, not a ProtonPlus "
+"installation problem."
+msgstr ""
+
+#: src/widgets/tools/tools-stl-release-row.vala:103
+#, fuzzy
+msgid "Install Anyway"
+msgstr "Установить %s"
+
+#: src/widgets/tools/tools-stl-release-row.vala:135
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
@@ -7349,7 +7388,7 @@ msgstr ""
 "Похоже, что в настоящее время у вас установлена другая версия %s, которая не "
 "была установлена программой ProtonPlus."
 
-#: src/widgets/tools/tools-stl-release-row.vala:93
+#: src/widgets/tools/tools-stl-release-row.vala:136
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Хотите ли вы переустановить это с помощью ProtonPlus?"
 
