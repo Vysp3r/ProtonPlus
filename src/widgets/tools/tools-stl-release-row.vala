@@ -1,4 +1,9 @@
 namespace ProtonPlus.Widgets.Tools {
+    private class STLDependencyCheckResult : Object {
+        public string missing_dependencies { get; set; default = ""; }
+        public bool has_incompatible_yad { get; set; default = false; }
+    }
+
     public class STLReleaseRow : ReleaseRow {
         public STLReleaseRow (Services.InstallJob job) {
             base (job);
@@ -6,19 +11,24 @@ namespace ProtonPlus.Widgets.Tools {
 
         protected override void install_button_clicked () {
             dependency_check.begin ((obj, res) => {
-                var missing_dependencies = dependency_check.end (res);
+                var result = dependency_check.end (res);
 
-                if (missing_dependencies != "") {
+                if (result.missing_dependencies != "") {
                     var alert_dialog = new Main.WarningDialog (
                         _ ("Warning"),
                         "%s\n\n%s\n%s".printf (
                             _ ("You are missing the following dependencies for %s:").printf (title),
-                            missing_dependencies,
+                            result.missing_dependencies,
                             _ ("Installation will be canceled.")
                         )
                     );
                     ProtonPlus.Widgets.Window.present_dialog_for_controller (alert_dialog, (Gtk.Window) this.get_root ());
 
+                    return;
+                }
+
+                if (result.has_incompatible_yad) {
+                    show_yad_compatibility_warning ();
                     return;
                 }
 
@@ -41,44 +51,60 @@ namespace ProtonPlus.Widgets.Tools {
             dialog.set_extra_child (remove_config_check);
         }
 
-        async string dependency_check () {
-            var missing_dependencies = "";
-
-            if (Globals.IS_STEAM_OS)
-                return missing_dependencies;
-
-            var yad_installed = false;
+        async STLDependencyCheckResult dependency_check () {
+            var result = new STLDependencyCheckResult ();
+            var yad_status = Services.SteamTinkerLaunchYadCompatibility.Status.UNKNOWN;
             if (yield Utils.System.check_dependency ("yad")) {
-                yad_installed = true;
-                string yad_version_output = (yield Utils.System.run_command ("yad --version")).stdout;
-
-                float version = 0.0f;
-                try {
-                    var regex = new Regex ("""(\d+[.,]\d+)\s*\(GTK\+""");
-                    MatchInfo match_info;
-                    if (regex.match (yad_version_output, 0, out match_info)) {
-                        version = float.parse (match_info.fetch (1).replace (",", "."));
-                    }
-                    yad_installed = version >= 7.2;
-                } catch (Error e) {
-                    warning ("Could not determine the installed YAD version: %s", e.message);
-                    yad_installed = false;
-                }
+                var yad_version = yield Utils.System.run_command ("yad --version");
+                if (yad_version.exit_status == 0)
+                    yad_status = Services.SteamTinkerLaunchYadCompatibility.classify_version_output (yad_version.stdout);
             }
 
-            if (!yad_installed)
-                missing_dependencies += "yad >= 7.2\n";
+            result.has_incompatible_yad =
+                yad_status == Services.SteamTinkerLaunchYadCompatibility.Status.INCOMPATIBLE_15;
+
+            // SteamOS supplies SteamTinkerLaunch's runtime dependencies, but
+            // its host YAD version still needs the compatibility warning.
+            if (Globals.IS_STEAM_OS)
+                return result;
+
+            if (yad_status == Services.SteamTinkerLaunchYadCompatibility.Status.UNKNOWN ||
+                yad_status == Services.SteamTinkerLaunchYadCompatibility.Status.TOO_OLD)
+                result.missing_dependencies += "yad >= 7.2\n";
 
             if (!(yield Utils.System.check_dependency ("awk")) && !(yield Utils.System.check_dependency ("gawk")))
-                missing_dependencies += "awk/gawk\n";
+                result.missing_dependencies += "awk/gawk\n";
 
             string[] dependencies = { "git", "pgrep", "unzip", "wget", "xdotool", "xprop", "xrandr", "xxd", "xwininfo" };
             foreach (var dependency in dependencies) {
                 if (!(yield Utils.System.check_dependency (dependency)))
-                    missing_dependencies += "%s\n".printf (dependency);
+                    result.missing_dependencies += "%s\n".printf (dependency);
             }
 
-            return missing_dependencies;
+            return result;
+        }
+
+        void show_yad_compatibility_warning () {
+            var alert_dialog = new Adw.AlertDialog (
+                _ ("SteamTinkerLaunch may not work"),
+                _ ("YAD 15 is currently incompatible with SteamTinkerLaunch. SteamTinkerLaunch may fail to start even if ProtonPlus installs it successfully.\n\nThis is a SteamTinkerLaunch compatibility issue, not a ProtonPlus installation problem.")
+            );
+
+            alert_dialog.add_response ("cancel", _ ("Cancel"));
+            alert_dialog.add_response ("install", _ ("Install Anyway"));
+            alert_dialog.set_default_response ("cancel");
+            alert_dialog.set_close_response ("cancel");
+            alert_dialog.set_response_appearance ("install", Adw.ResponseAppearance.SUGGESTED);
+
+            var installation_continued = false;
+            alert_dialog.response.connect ((response) => {
+                if (response != "install" || installation_continued)
+                    return;
+
+                installation_continued = true;
+                external_install_check ();
+            });
+            ProtonPlus.Widgets.Window.present_dialog_for_controller (alert_dialog, (Gtk.Window) this.get_root ());
         }
 
         void external_install_check () {
