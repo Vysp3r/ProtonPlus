@@ -12,6 +12,7 @@ namespace ProtonPlus.Widgets.Games {
         public bool is_non_steam { get; private set; }
         public bool has_install_directory { get; private set; }
         public bool has_prefix_directory { get; private set; }
+        public uint prefix { get; private set; }
         public string tool_title { get; private set; }
         public bool selected { get; set; default = false; }
 
@@ -31,6 +32,7 @@ namespace ProtonPlus.Widgets.Games {
             has_prefix_directory = FileUtils.test (
                 game.prefixdir, FileTest.IS_DIR
             );
+            prefix = game.prefix;
             tool_title = resolve_tool_title ();
 
             compatibility_tool_handler = game.notify["compatibility-tool"].connect (
@@ -94,13 +96,18 @@ namespace ProtonPlus.Widgets.Games {
         public Gtk.FilterListModel filtered_model { get; private set; }
         public Gtk.SortListModel sorted_model { get; private set; }
         public Gtk.MultiSelection selection_model { get; private set; }
+        public Gtk.StringSorter name_sorter { get; private set; }
+        public Gtk.NumericSorter prefix_sorter { get; private set; }
+        public Gtk.Sorter tool_sorter { get; private set; }
         public uint64 generation { get; private set; default = 0; }
 
         public signal void state_changed ();
 
         Gtk.CustomFilter filter;
-        Gtk.CustomSorter sorter;
+        Gtk.Sorter sorter;
         Gee.HashMap<GameListItem, ulong> selection_handlers;
+        Gee.HashMap<GameListItem, ulong> sort_value_handlers;
+        ulong sorter_changed_handler = 0;
         string query = "";
         GameFilterMode filter_mode = GameFilterMode.ALL;
 
@@ -111,25 +118,38 @@ namespace ProtonPlus.Widgets.Games {
                 return item != null && ((!) item).matches (query, filter_mode);
             });
             filtered_model = new Gtk.FilterListModel (store, filter);
-            sorter = new Gtk.CustomSorter ((object_a, object_b) => {
-                var a = (GameListItem) object_a;
-                var b = (GameListItem) object_b;
-                var result = strcmp (a.game.name, b.game.name);
+
+            name_sorter = new Gtk.StringSorter (new Gtk.PropertyExpression (
+                typeof (GameListItem), null, "normalized-name"
+            ));
+            prefix_sorter = new Gtk.NumericSorter (new Gtk.PropertyExpression (
+                typeof (GameListItem), null, "prefix"
+            ));
+            tool_sorter = new Gtk.CustomSorter ((object_a, object_b) => {
+                var result = ((GameListItem) object_a).tool_title.casefold ().collate (
+                    ((GameListItem) object_b).tool_title.casefold ()
+                );
                 if (result < 0)
                     return Gtk.Ordering.SMALLER;
                 if (result > 0)
                     return Gtk.Ordering.LARGER;
                 return Gtk.Ordering.EQUAL;
             });
+            sorter = name_sorter;
             sorted_model = new Gtk.SortListModel (filtered_model, sorter);
             selection_model = new Gtk.MultiSelection (sorted_model);
             selection_handlers = new Gee.HashMap<GameListItem, ulong> ();
+            sort_value_handlers = new Gee.HashMap<GameListItem, ulong> ();
+            connect_sorter ();
         }
 
         public void replace (List<Models.Game> games) {
             foreach (var entry in selection_handlers.entries)
                 entry.key.disconnect (entry.value);
             selection_handlers.clear ();
+            foreach (var entry in sort_value_handlers.entries)
+                entry.key.disconnect (entry.value);
+            sort_value_handlers.clear ();
             selection_model.unselect_all ();
             store.remove_all ();
 
@@ -140,10 +160,28 @@ namespace ProtonPlus.Widgets.Games {
                     state_changed ();
                 });
                 selection_handlers.set (item, handler_id);
+                var sort_handler_id = item.notify["tool-title"].connect (() => {
+                    tool_sorter.changed (Gtk.SorterChange.DIFFERENT);
+                });
+                sort_value_handlers.set (item, sort_handler_id);
                 store.append (item);
             }
 
             generation++;
+            sync_visible_selection ();
+            state_changed ();
+        }
+
+        public void set_sorter (Gtk.Sorter sorter) {
+            if (this.sorter == sorter)
+                return;
+            if (sorter_changed_handler != 0) {
+                this.sorter.disconnect (sorter_changed_handler);
+                sorter_changed_handler = 0;
+            }
+            this.sorter = sorter;
+            sorted_model.set_sorter (sorter);
+            connect_sorter ();
             sync_visible_selection ();
             state_changed ();
         }
@@ -232,10 +270,24 @@ namespace ProtonPlus.Widgets.Games {
             }
         }
 
+        void connect_sorter () {
+            sorter_changed_handler = sorter.changed.connect (() => {
+                sync_visible_selection ();
+                state_changed ();
+            });
+        }
+
         public override void dispose () {
             foreach (var entry in selection_handlers.entries)
                 entry.key.disconnect (entry.value);
             selection_handlers.clear ();
+            foreach (var entry in sort_value_handlers.entries)
+                entry.key.disconnect (entry.value);
+            sort_value_handlers.clear ();
+            if (sorter_changed_handler != 0) {
+                sorter.disconnect (sorter_changed_handler);
+                sorter_changed_handler = 0;
+            }
             base.dispose ();
         }
     }

@@ -123,7 +123,8 @@ namespace ProtonPlus.Widgets.Header {
             }
 
             if (!narrow_navigation && global_view_switcher != null &&
-                ((!) global_view_switcher).get_parent () == null)
+                (((!) global_view_switcher).get_parent () == null ||
+                 header_bar.get_title_widget () == global_view_switcher))
                 header_bar.set_title_widget ((!) global_view_switcher);
             else
                 header_bar.set_title_widget (null);

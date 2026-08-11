@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-11 16:54-0400\n"
+"POT-Creation-Date: 2026-08-11 17:33-0400\n"
 "PO-Revision-Date: 2026-04-20 06:09+0000\n"
 "Last-Translator: Xarishark <Xarishark@outlook.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/protonplus/"
@@ -2474,7 +2474,7 @@ msgid "Search"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-box.vala:470 src/widgets/tools/tools-box.vala:217
+#: src/widgets/games/games-box.vala:483 src/widgets/tools/tools-box.vala:217
 #: src/widgets/tools/tools-box.vala:438
 msgid "Filter"
 msgstr ""
@@ -2545,7 +2545,7 @@ msgstr ""
 msgid "Top face button"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:100 src/widgets/games/games-box.vala:662
+#: src/widgets/games/games-box.vala:100 src/widgets/games/games-box.vala:675
 #: src/widgets/tools/tools-release-box.vala:102
 msgid "No games found"
 msgstr ""
@@ -2554,118 +2554,118 @@ msgstr ""
 msgid "Try a different search term or filter."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:134
+#: src/widgets/games/games-box.vala:128
 #: src/widgets/tools/tools-stl-release-row.vala:24
 #: src/widgets/tools/tools-stl-release-row.vala:133 src/widgets/window.vala:348
 msgid "Warning"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:135
+#: src/widgets/games/games-box.vala:129
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:180 src/widgets/games/games-box.vala:183
-#: src/widgets/games/games-box.vala:223 src/widgets/main/main-box.vala:70
+#: src/widgets/games/games-box.vala:178 src/widgets/games/games-box.vala:181
+#: src/widgets/games/games-box.vala:221 src/widgets/main/main-box.vala:70
 msgid "Games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:230
+#: src/widgets/games/games-box.vala:228
 msgid "Prefix"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:237
+#: src/widgets/games/games-box.vala:235
 msgid "Tool"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:244
+#: src/widgets/games/games-box.vala:242
 #: src/widgets/introduction/controller.vala:49
 msgid "Actions"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:437 src/widgets/tools/tools-box.vala:219
+#: src/widgets/games/games-box.vala:450 src/widgets/tools/tools-box.vala:219
 msgid "All"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:440
-#: src/widgets/games/games-collection.vala:70
+#: src/widgets/games/games-box.vala:453
+#: src/widgets/games/games-collection.vala:72
 #: src/widgets/games/games-mass-edit-view.vala:173
 msgid "Native"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:442
+#: src/widgets/games/games-box.vala:455
 msgid "Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:482
+#: src/widgets/games/games-box.vala:495
 msgid "Search games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:492
+#: src/widgets/games/games-box.vala:505
 msgid "Select all visible games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:536
+#: src/widgets/games/games-box.vala:549
 msgid "Steam games couldn’t be loaded"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:537
+#: src/widgets/games/games-box.vala:550
 msgid ""
 "Steam’s library or profile data is missing or invalid. Finish setting up "
 "Steam, then restart ProtonPlus. Tools and other launchers remain available."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:547
+#: src/widgets/games/games-box.vala:560
 msgid "Unsupported launcher"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:549
+#: src/widgets/games/games-box.vala:562
 #, c-format
 msgid "%s is currently not supported."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:550
+#: src/widgets/games/games-box.vala:563
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:594
-#: src/widgets/games/games-collection.vala:76
+#: src/widgets/games/games-box.vala:607
+#: src/widgets/games/games-collection.vala:78
 #: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:637
+#: src/widgets/games/games-box.vala:650
 msgid "Filter: Native"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:639
+#: src/widgets/games/games-box.vala:652
 msgid "Filter: Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:641
+#: src/widgets/games/games-box.vala:654
 msgid "Filter: All games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:650
+#: src/widgets/games/games-box.vala:663
 msgid "No matching games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:652
+#: src/widgets/games/games-box.vala:665
 #: src/widgets/tools/tools-group-box.vala:170
 msgid "Try a different search term or clear the search."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:656
+#: src/widgets/games/games-box.vala:669
 msgid "No games match this filter"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:658
+#: src/widgets/games/games-box.vala:671
 msgid "Choose All games to see your complete library."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:664
+#: src/widgets/games/games-box.vala:677
 msgid "No games are available for this launcher."
 msgstr ""
 
@@ -2795,7 +2795,7 @@ msgstr ""
 msgid "Browse game install directory"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:144 src/widgets/games/games-row.vala:506
+#: src/widgets/games/games-row.vala:144 src/widgets/games/games-row.vala:505
 msgid "Browse prefix directory"
 msgstr ""
 

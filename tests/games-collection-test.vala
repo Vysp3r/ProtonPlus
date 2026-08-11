@@ -38,6 +38,59 @@ namespace AppTests.GameCollectionTest {
         assert (collection.item_at (0).game.name == "Alpha");
     }
 
+    private void test_column_sorters_and_tool_refresh () {
+        var zulu = fixture_game ("Zulu", false, 2);
+        zulu.launcher.compatibility_tools.add (new CompatibilityTool (
+            "Alpha Tool", "alpha-tool"
+        ));
+        zulu.compatibility_tool = "alpha-tool";
+        var alpha = fixture_game ("Alpha", false, 3);
+        alpha.launcher.compatibility_tools.add (new CompatibilityTool (
+            "Middle Tool", "middle-tool"
+        ));
+        alpha.compatibility_tool = "middle-tool";
+        var bravo = fixture_game ("Bravo", false, 1);
+        bravo.launcher.compatibility_tools.add (new CompatibilityTool (
+            "Zulu Tool", "zulu-tool"
+        ));
+        bravo.compatibility_tool = "zulu-tool";
+
+        var collection = new GameCollection ();
+        collection.replace (game_list ({ zulu, alpha, bravo }));
+        assert (collection.item_at (0).game.name == "Alpha");
+
+        collection.set_sorter (collection.prefix_sorter);
+        assert (collection.item_at (0).game.name == "Bravo");
+        assert (collection.item_at (1).game.name == "Zulu");
+        assert (collection.item_at (2).game.name == "Alpha");
+
+        var selected = collection.item_at (1);
+        selected.selected = true;
+        collection.prefix_sorter.set_sort_order (Gtk.SortType.DESCENDING);
+        assert (collection.item_at (0).game.name == "Alpha");
+        assert (collection.item_at (1).game.name == "Zulu");
+        assert (collection.item_at (2).game.name == "Bravo");
+        assert (selected.selected);
+        assert (collection.selected_visible_count () == 1);
+
+        collection.set_sorter (collection.tool_sorter);
+        assert (collection.item_at (0).game.name == "Zulu");
+        assert (collection.item_at (1).game.name == "Alpha");
+        assert (collection.item_at (2).game.name == "Bravo");
+        assert (selected.selected);
+        assert (collection.selected_visible_count () == 1);
+
+        var bravo_item = collection.item_at (2);
+        bravo.launcher.compatibility_tools.add (new CompatibilityTool (
+            "Aardvark Tool", "aardvark-tool"
+        ));
+        bravo.compatibility_tool = "aardvark-tool";
+        bravo_item.refresh_tool_title ();
+        assert (collection.item_at (0).game.name == "Bravo");
+        assert (selected.selected);
+        assert (collection.selected_visible_count () == 1);
+    }
+
     private void test_filtered_selection_is_preserved () {
         var collection = new GameCollection ();
         collection.replace (game_list ({
@@ -89,6 +142,7 @@ namespace AppTests.GameCollectionTest {
 
     public void register_tests () {
         Test.add_func ("/games-collection/filter-and-sort", test_filter_and_sort_projection);
+        Test.add_func ("/games-collection/column-sorters", test_column_sorters_and_tool_refresh);
         Test.add_func ("/games-collection/filtered-selection", test_filtered_selection_is_preserved);
         Test.add_func ("/games-collection/model-replacement", test_model_replacement_drops_stale_selection);
         Test.add_func ("/games-collection/long-title-and-empty", test_long_title_and_empty_results);

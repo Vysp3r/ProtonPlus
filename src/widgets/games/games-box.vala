@@ -55,10 +55,6 @@ namespace ProtonPlus.Widgets.Games {
             };
 
             games = new GameCollection ();
-            games.state_changed.connect (() => {
-                update_empty_state ();
-                update_selection_controls ();
-            });
             narrow_rows = new Gee.HashMap<GameListItem, GameRow> ();
             wide_selection_cells = new Gee.HashMap<GameListItem, GameSelectionCell> ();
             wide_action_cells = new Gee.HashMap<GameListItem, GameActions> ();
@@ -140,6 +136,10 @@ namespace ProtonPlus.Widgets.Games {
             build_selection_popover ();
             build_filter_popover ();
             build_search_toolbar ();
+            games.state_changed.connect (() => {
+                update_empty_state ();
+                update_selection_controls ();
+            });
 
             games_card = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
                 hexpand = true,
@@ -221,18 +221,21 @@ namespace ProtonPlus.Widgets.Games {
                 _("Games"), create_text_factory (GameTextCellKind.TITLE)
             );
             title_column.set_expand (true);
+            title_column.set_sorter (games.name_sorter);
             view.append_column (title_column);
 
             var prefix_column = new Gtk.ColumnViewColumn (
                 _("Prefix"), create_text_factory (GameTextCellKind.PREFIX)
             );
             prefix_column.set_expand (false);
+            prefix_column.set_sorter (games.prefix_sorter);
             view.append_column (prefix_column);
 
             var tool_column = new Gtk.ColumnViewColumn (
                 _("Tool"), create_text_factory (GameTextCellKind.TOOL)
             );
             tool_column.set_expand (true);
+            tool_column.set_sorter (games.tool_sorter);
             view.append_column (tool_column);
 
             var actions_column = new Gtk.ColumnViewColumn (
@@ -240,6 +243,11 @@ namespace ProtonPlus.Widgets.Games {
             );
             actions_column.set_expand (false);
             view.append_column (actions_column);
+
+            view.sort_by_column (title_column, Gtk.SortType.ASCENDING);
+            var view_sorter = view.get_sorter ();
+            if (view_sorter != null)
+                games.set_sorter ((!) view_sorter);
             return view;
         }
 
