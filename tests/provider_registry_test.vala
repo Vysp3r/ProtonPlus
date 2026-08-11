@@ -114,6 +114,11 @@ namespace AppTests.ProviderRegistryTest {
         legacy_endpoints[0] = "changed";
         assert (registry.get_by_id ("dw-proton").legacy_endpoints[0] ==
                 "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases");
+
+        var alternate_formats = registry.get_by_id ("proton-ge").get_variants ()[0].alternate_formats;
+        alternate_formats[0] = "changed";
+        assert (registry.get_by_id ("proton-ge").get_variants ()[0].alternate_formats[0] ==
+                "$release_name");
     }
 
     private void test_duplicate_provider_validation () {
@@ -128,7 +133,10 @@ namespace AppTests.ProviderRegistryTest {
             "https://example.test/releases", "https://example.test/source", 1,
             {
                 new VariantDefinition ("duplicate", "", "", true),
-                new VariantDefinition ("duplicate", "second", "$release_name", true)
+                new VariantDefinition (
+                    "duplicate", "second", "$release_name", true, null,
+                    { "", "$release_name", "$release_name-alt", "$release_name-alt" }
+                )
             },
             { InstallLayout.template ("default", "$release_name") }
         );
@@ -137,6 +145,8 @@ namespace AppTests.ProviderRegistryTest {
         assert (has_message (registry, "variant ID is duplicated: duplicate"));
         assert (has_message (registry, "variant name is empty"));
         assert (has_message (registry, "variant format is empty"));
+        assert (has_message (registry, "variant alternate format is empty: duplicate"));
+        assert (has_message (registry, "variant asset format is duplicated: duplicate"));
         assert (has_message (registry, "more than one default variant is configured"));
 
         var missing_default = new ProviderDefinition (

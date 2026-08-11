@@ -17,6 +17,7 @@ namespace AppTests.ProviderSourceTest {
         Test.add_func ("/providers/github-compatible/default-variant-assets", test_github_compatible_default_variant_assets);
         Test.add_func ("/providers/default-asset/fail-closed", test_missing_default_asset_fails_closed);
         Test.add_func ("/providers/single-archive/fallback", test_single_archive_fallback);
+        Test.add_func ("/providers/github/alternate-variant-format", test_github_alternate_variant_format);
         Test.add_func ("/providers/github-compatible/stable-release-policy", test_github_compatible_stable_release_policy);
         Test.add_func ("/providers/github-compatible/validation-and-skipped-releases", test_github_compatible_validation_and_skipped_releases);
         Test.add_func ("/providers/invalid-response-codes", test_invalid_response_codes);
@@ -324,6 +325,50 @@ namespace AppTests.ProviderSourceTest {
         var release = result.require_page ().releases[0];
         assert (release.asset.name == "renamed.tar.gz");
         assert (release.variants[0].download_url == release.asset.download_url);
+    }
+
+    private void test_github_alternate_variant_format () {
+        var alternate_definition = new ProviderDefinition (
+            Category.PROTON,
+            SourceType.GITHUB,
+            "alternate-format",
+            "Alternate format",
+            "",
+            "https://example.test/releases",
+            "https://example.test/source",
+            1,
+            {
+                new VariantDefinition (
+                    "x86", "x86", "$release_name-x86_64", true,
+                    null, { "$release_name" }
+                )
+            },
+            { InstallLayout.template ("default", "$release_name") }
+        );
+
+        var base_response = "[{\"id\":42,\"tag_name\":\"v1\",\"assets\":[{\"name\":\"v1.tar.gz\",\"browser_download_url\":\"https://example.test/v1.tar.gz\"}]}]";
+        var base_result = new GitHubReleaseSource ().parse_response (
+            alternate_definition, base_response, 1, 25
+        );
+        assert (base_result.succeeded);
+        assert (base_result.require_page ().releases.size == 1);
+        assert (base_result.require_page ().releases[0].variants[0].download_url == "https://example.test/v1.tar.gz");
+
+        var suffixed_response = "[{\"id\":43,\"tag_name\":\"v2\",\"assets\":[{\"name\":\"v2-x86_64.tar.gz\",\"browser_download_url\":\"https://example.test/v2-x86_64.tar.gz\"}]}]";
+        var suffixed_result = new GitHubReleaseSource ().parse_response (
+            alternate_definition, suffixed_response, 1, 25
+        );
+        assert (suffixed_result.succeeded);
+        assert (suffixed_result.require_page ().releases.size == 1);
+        assert (suffixed_result.require_page ().releases[0].variants[0].download_url == "https://example.test/v2-x86_64.tar.gz");
+
+        var both_response = "[{\"id\":44,\"tag_name\":\"v3\",\"assets\":[{\"name\":\"v3.tar.gz\",\"browser_download_url\":\"https://example.test/v3.tar.gz\"},{\"name\":\"v3-x86_64.tar.gz\",\"browser_download_url\":\"https://example.test/v3-x86_64.tar.gz\"}]}]";
+        var both_result = new GitHubReleaseSource ().parse_response (
+            alternate_definition, both_response, 1, 25
+        );
+        assert (both_result.succeeded);
+        assert (both_result.require_page ().releases.size == 1);
+        assert (both_result.require_page ().releases[0].asset.name == "v3-x86_64.tar.gz");
     }
 
     private void test_github_compatible_stable_release_policy () {

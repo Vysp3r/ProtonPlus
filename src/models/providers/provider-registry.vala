@@ -148,6 +148,14 @@ namespace ProtonPlus.Models.Providers {
                     messages.add ("variant name is empty");
                 if (variant.format == "")
                     messages.add ("variant format is empty");
+                var asset_formats = new HashSet<string> ();
+                asset_formats.add (variant.format);
+                foreach (var alternate_format in variant.alternate_formats) {
+                    if (alternate_format == "")
+                        messages.add ("variant alternate format is empty: %s".printf (variant.id));
+                    if (!asset_formats.add (alternate_format))
+                        messages.add ("variant asset format is duplicated: %s".printf (variant.id));
+                }
                 if (variant.is_default)
                     default_count++;
 

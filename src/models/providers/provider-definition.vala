@@ -31,19 +31,44 @@ namespace ProtonPlus.Models.Providers {
         public string format { get; private set; }
         public bool is_default { get; private set; }
         public VariantCompatibility compatibility { get; private set; }
+        private string[] alternate_format_values;
+
+        public string[] alternate_formats {
+            owned get { return copy_strings (alternate_format_values); }
+        }
 
         public VariantDefinition (
             string id,
             string name,
             string format,
             bool is_default,
-            VariantCompatibility? compatibility = null
+            VariantCompatibility? compatibility = null,
+            string[]? alternate_formats = null
         ) {
             this.id = id;
             this.name = name;
             this.format = format;
             this.is_default = is_default;
             this.compatibility = compatibility != null ? compatibility.copy () : VariantCompatibility.unspecified ();
+            this.alternate_format_values = copy_strings (alternate_formats);
+        }
+
+        public string[] get_asset_formats () {
+            var formats = new string[alternate_format_values.length + 1];
+            formats[0] = format;
+            for (var index = 0; index < alternate_format_values.length; index++)
+                formats[index + 1] = alternate_format_values[index];
+            return formats;
+        }
+
+        private static string[] copy_strings (string[]? values) {
+            if (values == null)
+                return {};
+
+            var copied = new string[values.length];
+            for (var index = 0; index < values.length; index++)
+                copied[index] = values[index];
+            return copied;
         }
     }
 
@@ -271,7 +296,8 @@ namespace ProtonPlus.Models.Providers {
             for (var index = 0; index < values.length; index++) {
                 var value = values[index];
                 copied[index] = new VariantDefinition (
-                    value.id, value.name, value.format, value.is_default, value.compatibility
+                    value.id, value.name, value.format, value.is_default,
+                    value.compatibility, value.alternate_formats
                 );
             }
             return copied;
