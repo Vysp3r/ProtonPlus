@@ -34,6 +34,8 @@ namespace AppTests.FaugusLauncherTest {
     public void register_tests () {
         Test.add_func ("/faugus/identities-and-detection", test_identities_and_detection);
         Test.add_func ("/faugus/groups-providers-and-layouts", test_groups_providers_and_layouts);
+        Test.add_func ("/faugus/symlinked-target-initializes", test_symlinked_target_initializes);
+        Test.add_func ("/faugus/unavailable-symlink-does-not-abort", test_unavailable_symlink_does_not_abort);
         Test.add_func ("/faugus/shared-installed-state-and-operations", test_shared_installed_state_and_operations);
         Test.add_func ("/faugus/bulk-updates-deduplicate-shared-targets", test_bulk_updates_deduplicate_shared_targets);
         Test.add_func ("/faugus/lifecycle-receipt-uses-shared-steam-target", test_lifecycle_receipt_uses_shared_steam_target);
@@ -247,6 +249,82 @@ namespace AppTests.FaugusLauncherTest {
         assert (faugus_ge != null);
         assert (((!) faugus_ge).get_directory_name ("GE-Proton10.1") == steam_ge.get_directory_name ("GE-Proton10.1"));
         assert (((!) faugus_ge).get_directory_name ("GE-Proton10-1") == steam_ge.get_directory_name ("GE-Proton10-1"));
+
+        assert (delete_directory (root));
+    }
+
+    private void test_symlinked_target_initializes () {
+        var root = temporary_directory ();
+        var home = Path.build_filename (root, "home");
+        var host_data = Path.build_filename (root, "host-data");
+        var config = Path.build_filename (root, "config");
+        var data = Path.build_filename (root, "data");
+        var state = Path.build_filename (root, "state");
+        var native_root = Path.build_filename (host_data, "Steam");
+        var flatpak_tools = Path.build_filename (root, "flatpak-steam", "compatibilitytools.d");
+        var linked_tools = Path.build_filename (native_root, "compatibilitytools.d");
+        assert (Utils.Filesystem.create_directory (Path.build_filename (config, "faugus-launcher")));
+        assert (Utils.Filesystem.create_directory (native_root));
+        assert (Utils.Filesystem.create_directory (flatpak_tools));
+        assert (Posix.symlink (flatpak_tools, linked_tools) == 0);
+
+        var launcher = faugus (Launcher.InstallationTypes.SYSTEM, home, host_data, config, data, state);
+        assert (initialize_launcher (launcher));
+        assert (launcher.groups.length == 1);
+        assert (FileUtils.test (linked_tools, FileTest.IS_DIR));
+        try {
+            assert (FileUtils.read_link (linked_tools) == flatpak_tools);
+        } catch (FileError e) {
+            critical ("Could not read Faugus target symlink: %s", e.message);
+            assert_not_reached ();
+        }
+        var was_flatpak = Globals.IS_FLATPAK;
+        Globals.IS_FLATPAK = true;
+        var target_error = launcher.get_install_target_error (linked_tools);
+        Globals.IS_FLATPAK = was_flatpak;
+        assert (target_error == null);
+
+        assert (delete_directory (root));
+    }
+
+    private void test_unavailable_symlink_does_not_abort () {
+        var root = temporary_directory ();
+        var home = Path.build_filename (root, "home");
+        var host_data = Path.build_filename (root, "host-data");
+        var config = Path.build_filename (root, "config");
+        var data = Path.build_filename (root, "data");
+        var state = Path.build_filename (root, "state");
+        var native_root = Path.build_filename (host_data, "Steam");
+        var linked_tools = Path.build_filename (native_root, "compatibilitytools.d");
+        assert (Utils.Filesystem.create_directory (Path.build_filename (config, "faugus-launcher")));
+        assert (Utils.Filesystem.create_directory (native_root));
+        assert (Posix.symlink (Path.build_filename (root, "unavailable-flatpak-tools"), linked_tools) == 0);
+
+        var launcher = faugus (Launcher.InstallationTypes.SYSTEM, home, host_data, config, data, state);
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*Could not inspect directory*compatibilitytools.d*");
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*Could not prepare group directory*faugus-system*");
+        assert (initialize_launcher (launcher));
+        Test.assert_expected_messages ();
+        assert (launcher.groups.length == 1);
+        assert (launcher.groups[0].id == "proton");
+        assert (FileUtils.test (linked_tools, FileTest.IS_SYMLINK));
+        assert (!FileUtils.test (linked_tools, FileTest.IS_DIR));
+
+        var runner = provider_tool (launcher.groups[0], definition ("proton-ge"));
+        var job = new InstallJob (
+            release ("Fixture Runner", "fixture-release-id", "fixture-tag"),
+            runner
+        );
+        var was_flatpak = Globals.IS_FLATPAK;
+        Globals.IS_FLATPAK = true;
+        var validation = new StandardArchiveWorkflow ().validate_install (job, false);
+        Globals.IS_FLATPAK = was_flatpak;
+        assert (validation == ReturnCode.FILESYSTEM_ERROR);
+        assert (job.error_message != null);
+        assert (((!) job.error_message).contains (linked_tools));
+        assert (((!) job.error_message).contains (
+            "flatpak override --user --filesystem=\"$HOME/.local/share/Steam/compatibilitytools.d\" com.vysp3r.ProtonPlus"
+        ));
 
         assert (delete_directory (root));
     }

@@ -5,6 +5,12 @@ namespace ProtonPlus.Services {
         private ArchiveWorkflowSupport archive_support = new ArchiveWorkflowSupport ();
 
         public override ReturnCode validate_install (InstallJob job, bool replace_existing) {
+            var install_parent = Path.get_dirname (job.install_location);
+            var target_error = job.tool.group.launcher.get_install_target_error (install_parent);
+            if (target_error != null) {
+                job.error_message = (!) target_error;
+                return ReturnCode.FILESYSTEM_ERROR;
+            }
             if (FileUtils.test (job.install_location, FileTest.EXISTS) && !replace_existing)
                 return ReturnCode.RUNNER_ALREADY_INSTALLED;
             return ReturnCode.RUNNER_INSTALLED;
