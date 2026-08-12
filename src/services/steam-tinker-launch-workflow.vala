@@ -80,8 +80,19 @@ namespace ProtonPlus.Services {
                 return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
             }
 
+            var system_installation_exists = yield system_installation_available ();
+            var operation_kind = job.state == InstallJob.State.BUSY_UPDATING
+                ? CompatibilityProcessOperationKind.UPDATE
+                : replace_existing ? CompatibilityProcessOperationKind.REPLACEMENT
+                : CompatibilityProcessOperationKind.INSTALL;
+            var guard_code = yield InstallationService.instance.check_final_process_state (
+                job, operation_kind, true
+            );
+            if (guard_code != ReturnCode.RUNNER_INSTALLED)
+                return yield archive_support.complete_attempt (guard_code, archive);
+
             var previous_registration_removed = false;
-            if (yield system_installation_available ()) {
+            if (system_installation_exists) {
                 var unregister_previous = yield run_command ("steamtinkerlaunch compat del");
                 if (!command_succeeded (unregister_previous)) {
                     report_command_failure ("unregister previous compatibility tool", unregister_previous);
@@ -202,6 +213,19 @@ namespace ProtonPlus.Services {
             var context = get_context (job);
             if (context == null)
                 return ReturnCode.INVALID_CONFIGURATION;
+            var remove_location = context.user_requested_removal
+                ? context.manual_remove_location : context.base_location;
+            var has_mutation = FileUtils.test (context.binary_location, FileTest.IS_REGULAR) ||
+                FileUtils.test (context.link_location, FileTest.EXISTS) ||
+                FileUtils.test (remove_location, FileTest.EXISTS) ||
+                (context.remove_config && FileUtils.test (context.config_location, FileTest.EXISTS));
+            if (has_mutation) {
+                var guard_code = yield InstallationService.instance.check_final_process_state (
+                    job, CompatibilityProcessOperationKind.REMOVAL, true
+                );
+                if (guard_code != ReturnCode.RUNNER_INSTALLED)
+                    return guard_code;
+            }
             if (FileUtils.test (context.binary_location, FileTest.IS_REGULAR)) {
                 var unregister = yield execute_steam_tinker_launch (context.binary_location, "compat del");
                 if (!command_succeeded (unregister)) {
@@ -220,8 +244,6 @@ namespace ProtonPlus.Services {
                     !Utils.Filesystem.delete_file (context.link_location))
                     return ReturnCode.FILESYSTEM_ERROR;
             }
-            var remove_location = context.user_requested_removal
-                ? context.manual_remove_location : context.base_location;
             if (FileUtils.test (remove_location, FileTest.EXISTS)) {
                 if (!FileUtils.test (remove_location, FileTest.IS_DIR) ||
                     !yield Utils.Filesystem.delete_directory (remove_location))

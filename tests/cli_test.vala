@@ -50,8 +50,26 @@ namespace AppTests.CliTest {
     }
 
     private class EmptyCompatibilityProcessQuery : Object, CompatibilityProcessQueryBackend {
-        public Gee.List<CompatibilityProcessRecord> query_processes () {
-            return new Gee.ArrayList<CompatibilityProcessRecord> ();
+        public async CompatibilityProcessInspectionResult inspect_processes () {
+            return CompatibilityProcessInspectionResult.clear ();
+        }
+    }
+
+    private class TargetCompatibilityProcessQuery : Object, CompatibilityProcessQueryBackend {
+        private string target;
+
+        public TargetCompatibilityProcessQuery (string target) {
+            this.target = target;
+        }
+
+        public async CompatibilityProcessInspectionResult inspect_processes () {
+            var executable = Path.build_filename (target, "files", "bin", "wine-preloader");
+            var argv = new Gee.ArrayList<string> ();
+            argv.add (executable);
+            argv.add ("/games/game.EXE");
+            var records = new Gee.ArrayList<CompatibilityProcessRecord> ();
+            records.add (new CompatibilityProcessRecord (5150, executable, argv));
+            return CompatibilityProcessInspectionResult.clear (records);
         }
     }
 
@@ -114,6 +132,7 @@ namespace AppTests.CliTest {
         Test.add_func ("/cli/bulk-update-restores-backup-only-installation", test_bulk_update_restores_backup_only_installation);
         Test.add_func ("/cli/bulk-update-retains-backup-beside-primary", test_bulk_update_retains_backup_beside_primary);
         Test.add_func ("/cli/steam-lifecycle-receipts", test_steam_lifecycle_receipts);
+        Test.add_func ("/cli/uninstall-uses-target-aware-process-policy", test_uninstall_uses_target_aware_process_policy);
     }
 
     private int run_cli (string[] args, ProtonPlus.CLI.Handler? supplied_handler = null,
@@ -363,6 +382,40 @@ namespace AppTests.CliTest {
             ));
             assert (output.stderr_text == "");
             assert (recorder.receipts.size == 2);
+        } finally {
+            InstallationService.reset_lifecycle_configuration_for_tests ();
+            SteamConfigurationService.reset_configuration ();
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_uninstall_uses_target_aware_process_policy () {
+        var root = temporary_directory ();
+        InstallationService.reset_lifecycle_configuration_for_tests ();
+        SteamConfigurationService.reset_configuration ();
+
+        try {
+            ProviderTool runner;
+            var launcher = setup_launcher (
+                root, "fixture-guarded", "Fixture Guarded",
+                release ("v1", "v1", "https://fixtures.invalid/guarded.zip"),
+                out runner
+            );
+            var installation = seed_managed_installation (
+                runner, "Fixture Guarded Latest", "Fixture-Guarded", "Fixture Guarded Latest"
+            );
+            InstallationService.instance.configure_compatibility_process_guard (
+                new CompatibilityProcessGuard (new TargetCompatibilityProcessQuery (installation))
+            );
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var handler = new FixtureHandler (
+                launcher_list (launcher), FixtureJobBehavior.NORMAL, output
+            );
+
+            assert (run_cli ({ "protonplus", "uninstall", launcher.instance_id,
+                runner.provider_id, "all" }, handler) == 1);
+            assert (FileUtils.test (installation, FileTest.IS_DIR));
+            assert (output.stderr_text.contains (get_return_code_message (ReturnCode.RUNNERS_IN_USE)));
         } finally {
             InstallationService.reset_lifecycle_configuration_for_tests ();
             SteamConfigurationService.reset_configuration ();

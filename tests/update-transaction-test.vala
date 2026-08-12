@@ -73,8 +73,25 @@ namespace AppTests.UpdateTransactionTest {
     }
 
     private class EmptyCompatibilityProcessQuery : Object, CompatibilityProcessQueryBackend {
-        public Gee.List<CompatibilityProcessRecord> query_processes () {
-            return new Gee.ArrayList<CompatibilityProcessRecord> ();
+        public async CompatibilityProcessInspectionResult inspect_processes () {
+            return CompatibilityProcessInspectionResult.clear ();
+        }
+    }
+
+    private class TargetCompatibilityProcessQuery : Object, CompatibilityProcessQueryBackend {
+        private string target;
+
+        public TargetCompatibilityProcessQuery (string target) {
+            this.target = target;
+        }
+
+        public async CompatibilityProcessInspectionResult inspect_processes () {
+            var executable = Path.build_filename (target, "proton");
+            var argv = new Gee.ArrayList<string> ();
+            argv.add (executable);
+            var records = new Gee.ArrayList<CompatibilityProcessRecord> ();
+            records.add (new CompatibilityProcessRecord (9090, executable, argv));
+            return CompatibilityProcessInspectionResult.clear (records);
         }
     }
 
@@ -93,6 +110,7 @@ namespace AppTests.UpdateTransactionTest {
         Test.add_func ("/update-transaction/stable-variant-id-survives-release-display-name-change", test_stable_variant_id_survives_release_display_name_change);
         Test.add_func ("/update-transaction/bulk-updates-skip-incompatible-targets", test_bulk_updates_skip_incompatible_targets);
         Test.add_func ("/update-transaction/background-update-records-steam-receipt", test_background_update_records_steam_receipt);
+        Test.add_func ("/update-transaction/bulk-update-uses-target-aware-process-policy", test_bulk_update_uses_target_aware_process_policy);
     }
 
     private string create_temp_directory () {
@@ -158,6 +176,17 @@ namespace AppTests.UpdateTransactionTest {
 
     private ReturnCode update_specific_runner (ProviderTool runner) {
         return update_specific_runner_with_coordinator (runner, new FixtureCoordinator ());
+    }
+
+    private ReturnCode service_update_specific_runner (ProviderTool runner) {
+        var loop = new MainLoop ();
+        ReturnCode result = ReturnCode.FILESYSTEM_ERROR;
+        InstallationService.instance.update_specific_runner.begin (runner, (obj, response) => {
+            result = InstallationService.instance.update_specific_runner.end (response);
+            loop.quit ();
+        });
+        loop.run ();
+        return result;
     }
 
     private ReturnCode update_specific_runner_with_coordinator (
@@ -787,6 +816,74 @@ namespace AppTests.UpdateTransactionTest {
             loop.run ();
             assert (result == ReturnCode.NOTHING_TO_UPDATE);
             assert (recorder.receipts.size == 1);
+        } finally {
+            InstallationService.reset_lifecycle_configuration_for_tests ();
+            Globals.CPU_CAPABILITIES = previous_capabilities;
+            Globals.CACHE_PATH = previous_cache;
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_bulk_update_uses_target_aware_process_policy () {
+        var root = create_temp_directory ();
+        var cache = Path.build_filename (root, "cache");
+        var tools = Path.build_filename (root, "tools");
+        var previous_cache = Globals.CACHE_PATH;
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CACHE_PATH = cache;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (
+            CpuArchitecture.X86_64, X86_64Level.BASELINE
+        );
+        InstallationService.reset_lifecycle_configuration_for_tests ();
+
+        try {
+            assert (ProtonPlus.Utils.Filesystem.create_directory (cache));
+            var url = "https://fixtures.invalid/bulk-guard.zip";
+            var release = new Release (
+                "v2", "", "", new Models.Assets.Asset ("runner.zip", url), "", 0,
+                "bulk-v2", "v2"
+            );
+            release.variants.add (new Models.Variant (
+                "standard", "default", "", true, url
+            ));
+            assert (ProtonPlus.Utils.Filesystem.create_directory (tools));
+            assert (ProtonPlus.Utils.Filesystem.create_directory (
+                Path.build_filename (tools, "compatibilitytools.d")
+            ));
+            var launcher = new Launcher (
+                "Fixture", Launcher.InstallationTypes.SYSTEM, "", { tools }
+            );
+            var group = new Group (
+                "Proton", "", "/compatibilitytools.d", launcher, "proton"
+            );
+            group.tools = new Gee.LinkedList<Models.Tool> ();
+            launcher.groups = { group };
+            var definition = new ProviderDefinition (
+                Category.PROTON, SourceType.GITHUB, "fixture-bulk-guard", "Fixture Runner", "",
+                "https://example.test/releases", "https://example.test/source", 1,
+                { new VariantDefinition ("standard", "default", "$release_name", true) },
+                { InstallLayout.template ("default", "$release_name") }
+            );
+            var runner = new ProviderTool.with_catalog (
+                definition, new StaticReleaseSource (release), group,
+                InstallLayout.template ("default", "$release_name")
+            );
+            group.tools.add (runner);
+            seed_latest_installation (runner, "v1");
+            var location = Path.build_filename (
+                runner.group.launcher.directory, "compatibilitytools.d",
+                "%s Latest".printf (runner.title)
+            );
+            create_file (Path.build_filename (location, "old-marker"), "preserved\n");
+            InstallationService.instance.configure_compatibility_process_guard (
+                new CompatibilityProcessGuard (new TargetCompatibilityProcessQuery (location))
+            );
+
+            var result = service_update_specific_runner (runner);
+            assert (result == ReturnCode.RUNNERS_IN_USE);
+            assert (ProtonPlus.Utils.Filesystem.get_file_content (
+                Path.build_filename (location, "old-marker")
+            ) == "preserved\n");
         } finally {
             InstallationService.reset_lifecycle_configuration_for_tests ();
             Globals.CPU_CAPABILITIES = previous_capabilities;

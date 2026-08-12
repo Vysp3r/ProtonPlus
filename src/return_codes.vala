@@ -12,6 +12,7 @@ namespace ProtonPlus {
         RELEASES_LOADED,
         NOTHING_TO_UPDATE,
         RUNNERS_IN_USE,
+        PROCESS_INSPECTION_FAILED,
         RUNNERS_UPDATED,
         RUNNER_UPDATED,
         RUNNER_INSTALLED,
@@ -66,6 +67,8 @@ namespace ProtonPlus {
             return _ ("The selected variant is not compatible with this system.");
         case ReturnCode.RUNNERS_IN_USE:
             return _ ("A compatibility tool is currently in use. Close the running game and try again.");
+        case ReturnCode.PROCESS_INSPECTION_FAILED:
+            return _ ("Running compatibility tools could not be checked. Try again before changing an installed tool.");
         default:
             return _ ("The operation could not be completed.");
         }

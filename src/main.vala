@@ -4,6 +4,9 @@ namespace ProtonPlus {
             Globals.load ();
             Globals.setupLanguage ();
             Notify.init (Config.APP_NAME);
+            ProtonPlus.Services.InstallationService.instance.configure_compatibility_process_guard (
+                new ProtonPlus.Services.CompatibilityProcessGuard.for_package (Globals.IS_FLATPAK)
+            );
 
             var migration_manager = new ProtonPlus.Services.Migrations.Manager ();
             migration_manager.check_and_migrate_sync (Config.APP_VERSION);

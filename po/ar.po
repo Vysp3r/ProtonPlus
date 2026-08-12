@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-12 14:12-0400\n"
+"POT-Creation-Date: 2026-08-12 16:23-0400\n"
 "PO-Revision-Date: 2026-02-03 11:54+0000\n"
 "Last-Translator: Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/protonplus/"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "ProtonPlus"
 msgstr "بروتون بلس"
 
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:238
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:241
 msgid "A modern compatibility tools manager"
 msgstr "مدير لأدوات التوافق بطابع حديث"
 
@@ -305,28 +305,28 @@ msgstr "الوقت المتوقع: %s"
 msgid "ETA: --"
 msgstr "الوقت المتوقع: --"
 
-#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:700
+#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:726
 #, fuzzy
 msgid "Updating"
 msgstr "جاري التحديث"
 
 #: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:315
-#: src/widgets/tools/tools-release-row.vala:696
+#: src/widgets/tools/tools-release-row.vala:722
 #, fuzzy
 msgid "Installing"
 msgstr "جاري التثبيت"
 
-#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:823
+#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:849
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%dh %dm %ds"
 
-#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:827
+#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:853
 #, c-format
 msgid "%dm %ds"
 msgstr "%dm %ds"
 
-#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:828
+#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:854
 #, c-format
 msgid "%ds"
 msgstr "%ds"
@@ -501,7 +501,7 @@ msgstr ""
 "توزيعة Steamأداة توافق لـ"
 
 #: src/models/providers/definitions/proton.vala:35
-#: src/widgets/tools/tools-release-row.vala:680
+#: src/widgets/tools/tools-release-row.vala:706
 #, fuzzy
 msgid "Recommended"
 msgstr "مُدوَرة"
@@ -584,71 +584,71 @@ msgstr ""
 "أداة Steam لتخصيص سهل عبر واجهة رسومية لأدوات التوافق الأخرى، لكل من ألعاب "
 "ويندوز ولينكس الأصلية."
 
-#: src/return_codes.vala:34
+#: src/return_codes.vala:35
 msgid "The request could not be completed."
 msgstr "لم يتم إكمال الطلب"
 
-#: src/return_codes.vala:36
+#: src/return_codes.vala:37
 msgid "The required data is invalid or incomplete."
 msgstr "البيانات المطلوبة غير صحيحة أو غير كاملة"
 
-#: src/return_codes.vala:38
+#: src/return_codes.vala:39
 msgid "The download failed."
 msgstr "فشل التنزيل."
 
-#: src/return_codes.vala:40
+#: src/return_codes.vala:41
 msgid "A filesystem operation failed."
 msgstr "فشلت عملية في نظام الملفات"
 
-#: src/return_codes.vala:42
+#: src/return_codes.vala:43
 msgid "This compatibility tool is already being processed."
 msgstr "يجري معالجة أداة التوافق هذه مسبقاً"
 
-#: src/return_codes.vala:44
+#: src/return_codes.vala:45
 msgid "This compatibility tool is already installed."
 msgstr "أداة التوافق هذه مثبتة مسبقاً"
 
-#: src/return_codes.vala:46
+#: src/return_codes.vala:47
 msgid "This compatibility tool is not installed."
 msgstr "أداة التوافق هذه غير مثبتة."
 
-#: src/return_codes.vala:48
+#: src/return_codes.vala:49
 msgid "This compatibility tool is not configured correctly."
 msgstr "أداة التوافق هذه تم يتم تهيئتها بشكل صحيح"
 
-#: src/return_codes.vala:50
+#: src/return_codes.vala:51
 msgid "This operation is not supported for this compatibility tool."
 msgstr "العملية غير مدعومة لأداة التوافق هذه"
 
-#: src/return_codes.vala:54
+#: src/return_codes.vala:55
 msgid "Unable to reach the API."
 msgstr "لم نستطع الوصول لواجهة برمجة التطبيقات(API)."
 
-#: src/return_codes.vala:56
+#: src/return_codes.vala:57
 msgid "API limit reached."
 msgstr "تم الوصول إلى الحد الأقصى لواجهة برمجة التطبيقات (API)"
 
-#: src/return_codes.vala:58
+#: src/return_codes.vala:59
 msgid "Invalid access token."
 msgstr "الرمز المميز للوصول (access token) غير صالح."
 
-#: src/return_codes.vala:60
+#: src/return_codes.vala:61
 msgid "A secure connection could not be established."
 msgstr "لم نتمكن من الإتصال بشكل آمن"
 
-#: src/return_codes.vala:62
+#: src/return_codes.vala:63
 msgid "This archive format is not supported."
 msgstr "صيغة الأرشيف هذه غير مدعومة"
 
-#: src/return_codes.vala:64
+#: src/return_codes.vala:65
 msgid "The archive could not be extracted."
 msgstr "لم نتمكن من إستخراج الأرشيف"
 
-#: src/return_codes.vala:66
+#: src/return_codes.vala:67
 msgid "The selected variant is not compatible with this system."
 msgstr "الإصدار المحدد غير متوافق مع هذا النظام."
 
-#: src/return_codes.vala:68
+#: src/return_codes.vala:69
 msgid ""
 "A compatibility tool is currently in use. Close the running game and try "
 "again."
@@ -656,11 +656,17 @@ msgstr ""
 "توجد أداة توافق قيد الإستخدام حالياً. أغلق اللعبة الجاري تشغيلها ثم حاول مرة "
 "أخرى."
 
-#: src/return_codes.vala:70
+#: src/return_codes.vala:71
+msgid ""
+"Running compatibility tools could not be checked. Try again before changing "
+"an installed tool."
+msgstr ""
+
+#: src/return_codes.vala:73
 msgid "The operation could not be completed."
 msgstr "لم يتم التمكن من إكمال العملية."
 
-#: src/services/installation-service.vala:345
+#: src/services/installation-service.vala:403
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
@@ -722,15 +728,15 @@ msgstr ""
 msgid "The download timed out. Check your connection and try again."
 msgstr "انتهت مهلة التنزيل. تحقق من اتصالك ثم حاول مرى أخرى."
 
-#: src/widgets/application.vala:240
+#: src/widgets/application.vala:243
 msgid "Website"
 msgstr "موقع الويب"
 
-#: src/widgets/application.vala:245
+#: src/widgets/application.vala:248
 msgid "translator-credits"
 msgstr "حقوق المترجم"
 
-#: src/widgets/application.vala:246
+#: src/widgets/application.vala:249
 msgid "Special thanks to"
 msgstr "شكر خاص"
 
@@ -881,7 +887,7 @@ msgstr "جرب لفظ بحث آخر أو تصفية مختلفة."
 
 #: src/widgets/games/games-box.vala:198
 #: src/widgets/tools/tools-stl-release-row.vala:29
-#: src/widgets/tools/tools-stl-release-row.vala:163 src/widgets/window.vala:374
+#: src/widgets/tools/tools-stl-release-row.vala:162 src/widgets/window.vala:374
 msgid "Warning"
 msgstr "تحذير"
 
@@ -1023,8 +1029,8 @@ msgid "Game Actions"
 msgstr "الإجراءات"
 
 #: src/widgets/games/games-extra-button.vala:87
-#: src/widgets/tools/tools-release-row.vala:199
-#: src/widgets/tools/tools-release-row.vala:486
+#: src/widgets/tools/tools-release-row.vala:201
+#: src/widgets/tools/tools-release-row.vala:506
 #, fuzzy, c-format
 msgid "Actions for %s"
 msgstr "الإجراءات"
@@ -3875,9 +3881,9 @@ msgstr "المُحدّدون"
 
 #: src/widgets/header/header-downloads-indicator.vala:231
 #: src/widgets/header/header-downloads-indicator.vala:233
-#: src/widgets/tools/tools-release-row.vala:158
+#: src/widgets/tools/tools-release-row.vala:160
 #: src/widgets/tools/tools-remove-dialog.vala:26
-#: src/widgets/tools/tools-stl-release-row.vala:118 src/widgets/window.vala:173
+#: src/widgets/tools/tools-stl-release-row.vala:117 src/widgets/window.vala:173
 #: src/widgets/window.vala:381
 msgid "Cancel"
 msgstr "إلغاء"
@@ -3885,25 +3891,25 @@ msgstr "إلغاء"
 #: src/widgets/header/header-downloads-indicator.vala:284
 #: src/widgets/header/header-downloads-indicator.vala:286
 #: src/widgets/header/header-downloads-indicator.vala:288
-#: src/widgets/tools/tools-release-row.vala:466
-#: src/widgets/tools/tools-release-row.vala:736
+#: src/widgets/tools/tools-release-row.vala:486
+#: src/widgets/tools/tools-release-row.vala:762
 msgid "Cancelling"
 msgstr "يتم الإلغاء"
 
 #: src/widgets/header/header-downloads-indicator.vala:311
-#: src/widgets/tools/tools-release-row.vala:739
+#: src/widgets/tools/tools-release-row.vala:765
 msgid "Downloading"
 msgstr "جاري التنزيل"
 
 #: src/widgets/header/header-downloads-indicator.vala:313
-#: src/widgets/tools/tools-release-row.vala:741
+#: src/widgets/tools/tools-release-row.vala:767
 msgid "Extracting"
 msgstr "...جاري الإستخراج"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
-#: src/widgets/tools/tools-release-row.vala:704
-#: src/widgets/tools/tools-release-row.vala:745
-#: src/widgets/tools/tools-release-row.vala:750
+#: src/widgets/tools/tools-release-row.vala:730
+#: src/widgets/tools/tools-release-row.vala:771
+#: src/widgets/tools/tools-release-row.vala:776
 msgid "Removing"
 msgstr "جاري الحذف"
 
@@ -5304,13 +5310,13 @@ msgstr "SteamOS"
 
 #: src/widgets/preferences/preferences-dialog.vala:322
 #: src/widgets/preferences/preferences-dialog.vala:325
-#: src/widgets/tools/tools-stl-release-row.vala:171
+#: src/widgets/tools/tools-stl-release-row.vala:170
 msgid "Yes"
 msgstr "نعم"
 
 #: src/widgets/preferences/preferences-dialog.vala:322
 #: src/widgets/preferences/preferences-dialog.vala:325
-#: src/widgets/tools/tools-stl-release-row.vala:170
+#: src/widgets/tools/tools-stl-release-row.vala:169
 msgid "No"
 msgstr "لا"
 
@@ -5361,9 +5367,9 @@ msgstr "البرامج المٌشغلة المكتشفة"
 
 #: src/widgets/preferences/preferences-dialog.vala:406
 #: src/widgets/tools/tools-box.vala:189
-#: src/widgets/tools/tools-group-box.vala:729
-#: src/widgets/tools/tools-release-row.vala:689
-#: src/widgets/tools/tools-release-row.vala:693
+#: src/widgets/tools/tools-group-box.vala:728
+#: src/widgets/tools/tools-release-row.vala:715
+#: src/widgets/tools/tools-release-row.vala:719
 msgid "Installed"
 msgstr "مُثبَت"
 
@@ -5529,22 +5535,22 @@ msgstr "كل أداة من هذه المجموعة قيد الإستخدام ح�
 msgid "No tools are available in this group."
 msgstr "لا توجد ادوات متوفرة في هذه المجموعة."
 
-#: src/widgets/tools/tools-group-box.vala:464
-#: src/widgets/tools/tools-group-box.vala:468
+#: src/widgets/tools/tools-group-box.vala:463
+#: src/widgets/tools/tools-group-box.vala:467
 #, fuzzy
 msgid "Tool Actions"
 msgstr "الإجراءات"
 
-#: src/widgets/tools/tools-group-box.vala:500
+#: src/widgets/tools/tools-group-box.vala:499
 msgid "Recommended compatibility tool"
 msgstr "أداة التوافق المستحسنة"
 
-#: src/widgets/tools/tools-group-box.vala:725
+#: src/widgets/tools/tools-group-box.vala:724
 #, fuzzy
 msgid "Used by games"
 msgstr "يستخدم بواسطة لعبة واحدة"
 
-#: src/widgets/tools/tools-group-box.vala:726
+#: src/widgets/tools/tools-group-box.vala:725
 msgid ""
 "One or more releases of this tool is installed and currently used by one or "
 "more games"
@@ -5552,7 +5558,7 @@ msgstr ""
 "واحد أو أكثر من إصدار لأداة التوافق هذه مثبت و مستخدم حالياً بواسطة واحدة أو "
 "أكثر من الألعاب"
 
-#: src/widgets/tools/tools-group-box.vala:730
+#: src/widgets/tools/tools-group-box.vala:729
 msgid ""
 "One or more releases of this tool is installed, but not currently used by "
 "any games"
@@ -5634,124 +5640,124 @@ msgstr "اختر"
 msgid "No Games Use This Tool"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:125
 #: src/widgets/tools/tools-release-row.vala:127
+#: src/widgets/tools/tools-release-row.vala:129
 msgid "Show installation details"
 msgstr "أظهر تفاصيل التثبيت"
 
-#: src/widgets/tools/tools-release-row.vala:132
+#: src/widgets/tools/tools-release-row.vala:134
 msgid "Speed: 0 KB/s"
 msgstr "السرعة: 0 كب/ث"
 
-#: src/widgets/tools/tools-release-row.vala:135
-#: src/widgets/tools/tools-release-row.vala:814
+#: src/widgets/tools/tools-release-row.vala:137
+#: src/widgets/tools/tools-release-row.vala:840
 msgid "Remaining time: --"
 msgstr "الوقت المتبقي: --"
 
-#: src/widgets/tools/tools-release-row.vala:196
+#: src/widgets/tools/tools-release-row.vala:198
 #, fuzzy
 msgid "Release Actions"
 msgstr "الإجراءات"
 
-#: src/widgets/tools/tools-release-row.vala:445
+#: src/widgets/tools/tools-release-row.vala:465
 #, c-format
 msgid "Step: %s"
 msgstr "خطوة: %s"
 
-#: src/widgets/tools/tools-release-row.vala:448
+#: src/widgets/tools/tools-release-row.vala:468
 #, fuzzy, c-format
 msgid "%s for %s"
 msgstr "الإجراءات"
 
-#: src/widgets/tools/tools-release-row.vala:453
+#: src/widgets/tools/tools-release-row.vala:473
 #, fuzzy, c-format
 msgid "Progress for %s"
 msgstr "الإجراءات"
 
-#: src/widgets/tools/tools-release-row.vala:510
-#: src/widgets/tools/tools-release-row.vala:513
+#: src/widgets/tools/tools-release-row.vala:530
+#: src/widgets/tools/tools-release-row.vala:533
 #, fuzzy
 msgid "Latest"
 msgstr "لاحقاً"
 
-#: src/widgets/tools/tools-release-row.vala:569
-#: src/widgets/tools/tools-release-row.vala:572
+#: src/widgets/tools/tools-release-row.vala:595
+#: src/widgets/tools/tools-release-row.vala:598
 #, c-format
 msgid "Install %s"
 msgstr "تثبيت %s"
 
-#: src/widgets/tools/tools-release-row.vala:578
-#: src/widgets/tools/tools-release-row.vala:635
+#: src/widgets/tools/tools-release-row.vala:604
+#: src/widgets/tools/tools-release-row.vala:661
 #: src/widgets/tools/tools-releases-box.vala:476
 #: src/widgets/tools/tools-releases-box.vala:488
 #, fuzzy
 msgid "Retry"
 msgstr "Retro"
 
-#: src/widgets/tools/tools-release-row.vala:579
-#: src/widgets/tools/tools-release-row.vala:582
+#: src/widgets/tools/tools-release-row.vala:605
+#: src/widgets/tools/tools-release-row.vala:608
 #, fuzzy, c-format
 msgid "Retry %s"
 msgstr "Retro"
 
-#: src/widgets/tools/tools-release-row.vala:593
+#: src/widgets/tools/tools-release-row.vala:619
 #, fuzzy, c-format
 msgid "Cancelling %s"
 msgstr "يتم الإلغاء"
 
-#: src/widgets/tools/tools-release-row.vala:594
+#: src/widgets/tools/tools-release-row.vala:620
 #, fuzzy, c-format
 msgid "Cancel %s"
 msgstr "إلغاء"
 
-#: src/widgets/tools/tools-release-row.vala:619
+#: src/widgets/tools/tools-release-row.vala:645
 #, fuzzy
 msgid "_Changelog"
 msgstr "سجل التغيير"
 
-#: src/widgets/tools/tools-release-row.vala:622
+#: src/widgets/tools/tools-release-row.vala:648
 #, fuzzy
 msgid "Open Release Page"
 msgstr "إفتح صفحة إنشاء token"
 
-#: src/widgets/tools/tools-release-row.vala:627
+#: src/widgets/tools/tools-release-row.vala:653
 msgid "_Games Using This Tool"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:637
+#: src/widgets/tools/tools-release-row.vala:663
 #, fuzzy
 msgid "Update"
 msgstr "التحديثات"
 
-#: src/widgets/tools/tools-release-row.vala:638
+#: src/widgets/tools/tools-release-row.vala:664
 #, fuzzy
 msgid "_Check for Updates"
 msgstr "تحقق من التحديثات"
 
-#: src/widgets/tools/tools-release-row.vala:642
+#: src/widgets/tools/tools-release-row.vala:668
 #, fuzzy
 msgid "_Open Folder"
 msgstr "مجلد المخرجات"
 
-#: src/widgets/tools/tools-release-row.vala:644
+#: src/widgets/tools/tools-release-row.vala:670
 #, fuzzy
 msgid "_Delete…"
 msgstr "حذف"
 
-#: src/widgets/tools/tools-release-row.vala:682
+#: src/widgets/tools/tools-release-row.vala:708
 msgid "Failed"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:690
+#: src/widgets/tools/tools-release-row.vala:716
 #, fuzzy
 msgid "Update available"
 msgstr "فشلت مجموعة التحديث"
 
-#: src/widgets/tools/tools-release-row.vala:709
+#: src/widgets/tools/tools-release-row.vala:735
 msgid "Unavailable for the selected variant"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:714
+#: src/widgets/tools/tools-release-row.vala:740
 #, fuzzy, c-format
 msgid "In use by %i game"
 msgid_plural "In use by %i games"
@@ -5762,36 +5768,36 @@ msgstr[3] "مُستخدمة بواسطة %i لعبة"
 msgstr[4] "مُستخدمة بواسطة %i لعبة"
 msgstr[5] "مُستخدمة بواسطة %i لعبة"
 
-#: src/widgets/tools/tools-release-row.vala:728
+#: src/widgets/tools/tools-release-row.vala:754
 #, fuzzy, c-format
 msgid "%s. Open Release Details"
 msgstr "إفتح صفحة إنشاء token"
 
-#: src/widgets/tools/tools-release-row.vala:729
+#: src/widgets/tools/tools-release-row.vala:755
 #, fuzzy
 msgid "Open Release Details"
 msgstr "إفتح صفحة إنشاء token"
 
-#: src/widgets/tools/tools-release-row.vala:743
+#: src/widgets/tools/tools-release-row.vala:769
 msgid "Moving"
 msgstr "جاري النقل"
 
-#: src/widgets/tools/tools-release-row.vala:748
+#: src/widgets/tools/tools-release-row.vala:774
 #, fuzzy
 msgid "Preparing update"
 msgstr "جاري التجهيز"
 
-#: src/widgets/tools/tools-release-row.vala:751
+#: src/widgets/tools/tools-release-row.vala:777
 #, fuzzy
 msgid "Preparing installation"
 msgstr "إلغاء التثبيت"
 
-#: src/widgets/tools/tools-release-row.vala:805
+#: src/widgets/tools/tools-release-row.vala:831
 #, c-format
 msgid "Speed: %s/s"
 msgstr "السرعة: %s\\ث"
 
-#: src/widgets/tools/tools-release-row.vala:811
+#: src/widgets/tools/tools-release-row.vala:837
 #, c-format
 msgid "Remaining time: %s"
 msgstr "الوقت المتبقي: %s"
@@ -5990,12 +5996,12 @@ msgstr "سيتم إلغاء التثبيت."
 msgid "Check this to also delete your configuration files."
 msgstr "حدد هنا لحذف ملفات التخصيص الخاص بك أيضاً"
 
-#: src/widgets/tools/tools-stl-release-row.vala:114
+#: src/widgets/tools/tools-stl-release-row.vala:113
 #, fuzzy
 msgid "SteamTinkerLaunch may not work"
 msgstr "Steam Tinker Launch"
 
-#: src/widgets/tools/tools-stl-release-row.vala:115
+#: src/widgets/tools/tools-stl-release-row.vala:114
 msgid ""
 "YAD 15 is currently incompatible with SteamTinkerLaunch. SteamTinkerLaunch "
 "may fail to start even if ProtonPlus installs it successfully.\n"
@@ -6004,19 +6010,19 @@ msgid ""
 "installation problem."
 msgstr ""
 
-#: src/widgets/tools/tools-stl-release-row.vala:119
+#: src/widgets/tools/tools-stl-release-row.vala:118
 #, fuzzy
 msgid "Install Anyway"
 msgstr "تثبيت %s"
 
-#: src/widgets/tools/tools-stl-release-row.vala:165
+#: src/widgets/tools/tools-stl-release-row.vala:164
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr " يبدو بان لديك حالياً نسخة أخرى من %s ليست مثبتة بواسطة بروتون بلس"
 
-#: src/widgets/tools/tools-stl-release-row.vala:166
+#: src/widgets/tools/tools-stl-release-row.vala:165
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "هل تريد إعادة تثبيتها بواسطة بروتون بلس؟"
 

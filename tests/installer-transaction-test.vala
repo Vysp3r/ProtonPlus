@@ -98,6 +98,26 @@ namespace AppTests.InstallerTransactionTest {
         }
     }
 
+    private class SequentialProcessQuery : Object, CompatibilityProcessQueryBackend {
+        private Gee.ArrayList<CompatibilityProcessInspectionResult> results =
+            new Gee.ArrayList<CompatibilityProcessInspectionResult> ();
+        public int calls { get; private set; default = 0; }
+
+        public SequentialProcessQuery (
+            CompatibilityProcessInspectionResult initial,
+            CompatibilityProcessInspectionResult final_result
+        ) {
+            results.add (initial);
+            results.add (final_result);
+        }
+
+        public async CompatibilityProcessInspectionResult inspect_processes () {
+            var index = int.min (calls, results.size - 1);
+            calls++;
+            return results[index];
+        }
+    }
+
     public void register_tests () {
         Test.add_func ("/installer-transaction/stages-promotes-cleans-and-writes-metadata", test_stages_promotes_and_writes_metadata);
         Test.add_func ("/installer-transaction/canceled-download-cleans-private-workspace", test_canceled_download_cleans_workspace);
@@ -123,6 +143,9 @@ namespace AppTests.InstallerTransactionTest {
         Test.add_func ("/installer-transaction/incompatible-variant-stops-before-download", test_incompatible_variant_stops_before_download);
         Test.add_func ("/installer-transaction/incompatible-variant-stops-update-install", test_incompatible_variant_stops_update_install);
         Test.add_func ("/installer-transaction/records-completed-steam-workflow-and-persistence-failure", test_records_completed_steam_workflow_and_persistence_failure);
+        Test.add_func ("/installer-transaction/final-active-check-preserves-original-and-cleans-staging", test_final_active_check_preserves_original_and_cleans_staging);
+        Test.add_func ("/installer-transaction/final-unknown-check-preserves-original-and-cleans-staging", test_final_unknown_check_preserves_original_and_cleans_staging);
+        Test.add_func ("/installer-transaction/final-removal-check-preserves-original", test_final_removal_check_preserves_original);
     }
 
     private string temporary_directory () {
@@ -468,6 +491,106 @@ namespace AppTests.InstallerTransactionTest {
         assert (install (second_persistence) == ReturnCode.RUNNER_INSTALLED);
         assert (recorder.calls == 5);
         assert (second_persistence.steam_restart_warning != null);
+        InstallationService.reset_lifecycle_configuration_for_tests ();
+        assert (delete_directory (root));
+    }
+
+    private CompatibilityProcessInspectionResult active_process_at (string location) {
+        var argv = new Gee.ArrayList<string> ();
+        var executable = Path.build_filename (location, "files", "bin", "wine64-preloader");
+        argv.add (executable);
+        argv.add ("/games/GAME.EXE");
+        var processes = new Gee.ArrayList<CompatibilityProcessRecord> ();
+        processes.add (new CompatibilityProcessRecord (4242, executable, argv));
+        return CompatibilityProcessInspectionResult.clear (processes);
+    }
+
+    private void assert_final_install_rejection (bool unknown) {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        assert (ProtonPlus.Utils.Filesystem.create_directory (location));
+        ProtonPlus.Utils.Filesystem.create_file (
+            Path.build_filename (location, "marker.txt"), "previous runner\n"
+        );
+        var launcher = new RestartTargetLauncher (root);
+        var recorder = new RecordingRestartChange ();
+        var query = new SequentialProcessQuery (
+            CompatibilityProcessInspectionResult.clear (),
+            unknown
+                ? CompatibilityProcessInspectionResult.unknown ("fixture final inspection failure")
+                : active_process_at (location)
+        );
+        InstallationService.instance.configure_compatibility_process_guard (
+            new CompatibilityProcessGuard (query)
+        );
+        InstallationService.instance.configure_steam_change_recorder (recorder);
+        var history_events = 0;
+        var history_handler = ProtonPlus.Utils.DownloadManager.instance.download_finished.connect (
+            (finished_job, success) => { history_events++; }
+        );
+        var job = new FixtureJob (
+            runner (tools, ArchiveInstallRequirement.STANDARD, launcher),
+            location,
+            fixture_archive (root)
+        );
+
+        var expected = unknown ? ReturnCode.PROCESS_INSPECTION_FAILED : ReturnCode.RUNNERS_IN_USE;
+        assert (install (job, true) == expected);
+        assert (query.calls == 2);
+        assert (job.download_calls == 1);
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename (location, "marker.txt")
+        ) == "previous runner\n");
+        assert (history_events == 0);
+        assert (recorder.calls == 0);
+        assert (ProtonPlus.Utils.DownloadManager.instance.active_downloads.size == 0);
+        no_entries (tools, ".protonplus-stage-");
+        no_entries (tools, ".protonplus-previous-");
+        no_entries (cache, ".protonplus-install-");
+
+        ProtonPlus.Utils.DownloadManager.instance.disconnect (history_handler);
+        InstallationService.reset_lifecycle_configuration_for_tests ();
+        assert (delete_directory (root));
+    }
+
+    private void test_final_active_check_preserves_original_and_cleans_staging () {
+        assert_final_install_rejection (false);
+    }
+
+    private void test_final_unknown_check_preserves_original_and_cleans_staging () {
+        assert_final_install_rejection (true);
+    }
+
+    private void test_final_removal_check_preserves_original () {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        assert (ProtonPlus.Utils.Filesystem.create_directory (location));
+        ProtonPlus.Utils.Filesystem.create_file (
+            Path.build_filename (location, "marker.txt"), "previous runner\n"
+        );
+        var launcher = new RestartTargetLauncher (root);
+        var recorder = new RecordingRestartChange ();
+        var query = new SequentialProcessQuery (
+            CompatibilityProcessInspectionResult.clear (), active_process_at (location)
+        );
+        InstallationService.instance.configure_compatibility_process_guard (
+            new CompatibilityProcessGuard (query)
+        );
+        InstallationService.instance.configure_steam_change_recorder (recorder);
+        var job = new FixtureJob (
+            runner (tools, ArchiveInstallRequirement.STANDARD, launcher),
+            location,
+            fixture_archive (root)
+        );
+
+        assert (remove (job) == ReturnCode.RUNNERS_IN_USE);
+        assert (query.calls == 2);
+        assert (FileUtils.test (location, FileTest.IS_DIR));
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename (location, "marker.txt")
+        ) == "previous runner\n");
+        assert (recorder.calls == 0);
+
         InstallationService.reset_lifecycle_configuration_for_tests ();
         assert (delete_directory (root));
     }
