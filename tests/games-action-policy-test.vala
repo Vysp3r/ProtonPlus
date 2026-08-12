@@ -93,6 +93,15 @@ namespace AppTests.GameActionPolicyTest {
     }
 
     private void test_collection_controller_boundaries () {
+        assert (GameControllerNavigationPolicy.top_boundary_uses_sort_header (
+            GameFocusLane.SELECTION
+        ));
+        assert (GameControllerNavigationPolicy.top_boundary_uses_sort_header (
+            GameFocusLane.ROW
+        ));
+        assert (!GameControllerNavigationPolicy.top_boundary_uses_sort_header (
+            GameFocusLane.PRIMARY_ACTION
+        ));
         assert (GameControllerNavigationPolicy.top_boundary_uses_selection (
             GameFocusLane.SELECTION
         ));
@@ -102,6 +111,10 @@ namespace AppTests.GameActionPolicyTest {
         assert (GameControllerNavigationPolicy.boundary_action (
             true, false, ProtonPlus.Utils.ControllerNavigationDirection.DOWN
         ) == GameCollectionBoundaryAction.FOCUS_FIRST_GAME);
+        assert (GameControllerNavigationPolicy.boundary_action (
+            true, false, ProtonPlus.Utils.ControllerNavigationDirection.DOWN,
+            true
+        ) == GameCollectionBoundaryAction.FOCUS_FIRST_SORT_HEADER);
         assert (GameControllerNavigationPolicy.boundary_action (
             true, false, ProtonPlus.Utils.ControllerNavigationDirection.UP
         ) == GameCollectionBoundaryAction.NONE);
@@ -138,6 +151,42 @@ namespace AppTests.GameActionPolicyTest {
         ));
     }
 
+    private void test_sort_header_controller_navigation () {
+        assert (GameControllerNavigationPolicy.sort_header_action (
+            0, 3, ProtonPlus.Utils.ControllerNavigationDirection.UP
+        ) == GameSortHeaderNavigationAction.FOCUS_TOOLBAR);
+        assert (GameControllerNavigationPolicy.sort_header_action (
+            1, 3, ProtonPlus.Utils.ControllerNavigationDirection.DOWN
+        ) == GameSortHeaderNavigationAction.FOCUS_FIRST_GAME);
+        assert (GameControllerNavigationPolicy.sort_header_action (
+            1, 3, ProtonPlus.Utils.ControllerNavigationDirection.LEFT
+        ) == GameSortHeaderNavigationAction.PREVIOUS_HEADER);
+        assert (GameControllerNavigationPolicy.sort_header_action (
+            1, 3, ProtonPlus.Utils.ControllerNavigationDirection.RIGHT
+        ) == GameSortHeaderNavigationAction.NEXT_HEADER);
+        assert (GameControllerNavigationPolicy.sort_header_action (
+            0, 3, ProtonPlus.Utils.ControllerNavigationDirection.LEFT
+        ) == GameSortHeaderNavigationAction.NONE);
+        assert (GameControllerNavigationPolicy.sort_header_action (
+            2, 3, ProtonPlus.Utils.ControllerNavigationDirection.RIGHT
+        ) == GameSortHeaderNavigationAction.NONE);
+        assert (GameControllerNavigationPolicy.sort_header_action (
+            -1, 3, ProtonPlus.Utils.ControllerNavigationDirection.UP
+        ) == GameSortHeaderNavigationAction.NONE);
+    }
+
+    private void test_sort_header_direction_toggle () {
+        assert (GameControllerNavigationPolicy.next_sort_direction (
+            false, Gtk.SortType.DESCENDING
+        ) == Gtk.SortType.ASCENDING);
+        assert (GameControllerNavigationPolicy.next_sort_direction (
+            true, Gtk.SortType.ASCENDING
+        ) == Gtk.SortType.DESCENDING);
+        assert (GameControllerNavigationPolicy.next_sort_direction (
+            true, Gtk.SortType.DESCENDING
+        ) == Gtk.SortType.ASCENDING);
+    }
+
     private void test_action_target_rebind () {
         var first = fixture_item ("First", 1);
         var second = fixture_item ("Second", 2);
@@ -165,6 +214,8 @@ namespace AppTests.GameActionPolicyTest {
         Test.add_func ("/games-actions/activation-mode", test_row_activation_modes);
         Test.add_func ("/games-actions/controller-boundaries", test_collection_controller_boundaries);
         Test.add_func ("/games-actions/controller-action-focus", test_controller_action_focus_eligibility);
+        Test.add_func ("/games-actions/sort-header-navigation", test_sort_header_controller_navigation);
+        Test.add_func ("/games-actions/sort-header-direction", test_sort_header_direction_toggle);
         Test.add_func ("/games-actions/rebind", test_action_target_rebind);
     }
 }

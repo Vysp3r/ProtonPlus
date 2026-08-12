@@ -58,8 +58,13 @@ namespace ProtonPlus.Services {
 
             var workflow = select_workflow (job);
             var had_durable_state = has_removable_state (job);
-            var guard_code = compatibility_process_guard.check ();
+            var operation_context = process_operation_context (
+                job, CompatibilityProcessOperationKind.REMOVAL, had_durable_state
+            );
+            var inspection = yield compatibility_process_guard.inspect (operation_context);
+            var guard_code = process_inspection_return_code (inspection, operation_context);
             if (guard_code != ReturnCode.RUNNER_INSTALLED) {
+                report_process_inspection_result (inspection);
                 active_removal_locations.remove (job.install_location);
                 return guard_code;
             }
@@ -279,9 +284,16 @@ namespace ProtonPlus.Services {
             bool replace_existing,
             bool record_change
         ) {
-            var guard_code = compatibility_process_guard.check ();
-            if (guard_code != ReturnCode.RUNNER_INSTALLED)
+            var operation_kind = updating_operation_kind (job, replace_existing);
+            var operation_context = process_operation_context (
+                job, operation_kind, mutates_existing_destination (job, workflow, replace_existing)
+            );
+            var inspection = yield compatibility_process_guard.inspect (operation_context);
+            var guard_code = process_inspection_return_code (inspection, operation_context);
+            if (guard_code != ReturnCode.RUNNER_INSTALLED) {
+                report_process_inspection_result (inspection);
                 return guard_code;
+            }
             var updating = job.state == InstallJob.State.BUSY_UPDATING;
             job.begin_operation ();
             if (!updating)
@@ -299,7 +311,8 @@ namespace ProtonPlus.Services {
             if (success)
                 workflow.finalize_install_success (job);
             Utils.DownloadManager.instance.remove_download (job);
-            Utils.DownloadManager.instance.add_to_history (job, success);
+            if (code != ReturnCode.RUNNERS_IN_USE && code != ReturnCode.PROCESS_INSPECTION_FAILED)
+                Utils.DownloadManager.instance.add_to_history (job, success);
             if (!updating)
                 job.finish_operation ();
             if (success && record_change) {
@@ -309,6 +322,105 @@ namespace ProtonPlus.Services {
                     : Models.SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED);
             }
             return code;
+        }
+
+        internal async ReturnCode check_final_process_state (
+            InstallJob job,
+            CompatibilityProcessOperationKind operation_kind,
+            bool mutates_existing_destination
+        ) {
+            /* This closes the long download/extract/stage window.  It cannot
+             * provide kernel-level locking against a process starting in the
+             * final instructions between this snapshot and the mutation. */
+            var context = process_operation_context (
+                job, operation_kind, mutates_existing_destination
+            );
+            var inspection = yield compatibility_process_guard.inspect (context);
+            var code = process_inspection_return_code (inspection, context);
+            if (code != ReturnCode.RUNNER_INSTALLED)
+                report_process_inspection_result (inspection);
+            return code;
+        }
+
+        private ReturnCode process_inspection_return_code (
+            CompatibilityProcessInspectionResult inspection,
+            CompatibilityProcessOperationContext context
+        ) {
+            switch (inspection.status) {
+            case CompatibilityProcessInspectionStatus.ACTIVE:
+                return ReturnCode.RUNNERS_IN_USE;
+            case CompatibilityProcessInspectionStatus.UNKNOWN:
+                return context.mutates_existing_destination
+                    ? ReturnCode.PROCESS_INSPECTION_FAILED : ReturnCode.RUNNER_INSTALLED;
+            default:
+                return ReturnCode.RUNNER_INSTALLED;
+            }
+        }
+
+        private bool mutates_existing_destination (
+            InstallJob job,
+            InstallationWorkflow workflow,
+            bool replace_existing
+        ) {
+            if (workflow != standard_archive_workflow)
+                return true;
+            return replace_existing && (
+                FileUtils.test (job.install_location, FileTest.EXISTS) ||
+                FileUtils.test (job.install_location, FileTest.IS_SYMLINK)
+            );
+        }
+
+        private CompatibilityProcessOperationKind updating_operation_kind (
+            InstallJob job,
+            bool replace_existing
+        ) {
+            if (job.state == InstallJob.State.BUSY_UPDATING)
+                return CompatibilityProcessOperationKind.UPDATE;
+            return replace_existing
+                ? CompatibilityProcessOperationKind.REPLACEMENT
+                : CompatibilityProcessOperationKind.INSTALL;
+        }
+
+        private CompatibilityProcessOperationContext process_operation_context (
+            InstallJob job,
+            CompatibilityProcessOperationKind operation_kind,
+            bool mutates_existing_destination
+        ) {
+            var launcher = job.tool.group.launcher;
+            return new CompatibilityProcessOperationContext (
+                operation_kind,
+                job.install_location,
+                launcher.family_id,
+                launcher.instance_id,
+                launcher.tool_target_family_id,
+                launcher.tool_target_id,
+                mutates_existing_destination
+            );
+        }
+
+        private void report_process_inspection_result (
+            CompatibilityProcessInspectionResult inspection,
+            bool continuing = false
+        ) {
+            if (inspection.status == CompatibilityProcessInspectionStatus.ACTIVE &&
+                inspection.blocker != null) {
+                var blocker = (!) inspection.blocker;
+                debug (
+                    "Compatibility process %d blocks this operation: %s",
+                    blocker.pid, "%s (%s)".printf (
+                        blocker.executable_path,
+                        inspection.blocker_reason.to_string ()
+                    )
+                );
+                return;
+            }
+            if (inspection.status == CompatibilityProcessInspectionStatus.UNKNOWN) {
+                debug (
+                    "%s process inspection failure: %s",
+                    continuing ? "Ignoring for a new destination" : "Blocking on",
+                    inspection.inspection_error ?? "unknown error"
+                );
+            }
         }
 
         private bool has_removable_state (InstallJob job) {

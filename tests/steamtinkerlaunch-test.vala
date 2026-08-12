@@ -48,6 +48,25 @@ namespace AppTests.SteamTinkerLaunchTest {
         }
     }
 
+    private class SequentialProcessQuery : Object, ProtonPlus.Services.CompatibilityProcessQueryBackend {
+        private ProtonPlus.Services.CompatibilityProcessInspectionResult first;
+        private ProtonPlus.Services.CompatibilityProcessInspectionResult second;
+        public int calls { get; private set; default = 0; }
+
+        public SequentialProcessQuery (
+            ProtonPlus.Services.CompatibilityProcessInspectionResult first,
+            ProtonPlus.Services.CompatibilityProcessInspectionResult second
+        ) {
+            this.first = first;
+            this.second = second;
+        }
+
+        public async ProtonPlus.Services.CompatibilityProcessInspectionResult inspect_processes () {
+            calls++;
+            return calls == 1 ? first : second;
+        }
+    }
+
     private class CommandFailureWorkflow : ProtonPlus.Services.SteamTinkerLaunchWorkflow {
         private string failure_fragment;
         private bool system_available;
@@ -81,6 +100,7 @@ namespace AppTests.SteamTinkerLaunchTest {
         Test.add_func ("/steamtinkerlaunch/compat-add-failure-restores-external-and-managed-installs", test_compat_add_failure_restores_external_and_managed_installs);
         Test.add_func ("/steamtinkerlaunch/system-compat-del-failure-stops-before-backups", test_system_compat_del_failure_stops_before_backups);
         Test.add_func ("/steamtinkerlaunch/remove-compat-del-failure-preserves-installation", test_remove_compat_del_failure_preserves_installation);
+        Test.add_func ("/steamtinkerlaunch/final-process-check-preserves-installations", test_final_process_check_preserves_installations);
         Test.add_func ("/steamtinkerlaunch/finalization-uses-launcher-capabilities", test_finalization_uses_launcher_capabilities);
         Test.add_func ("/steamtinkerlaunch/yad-version-classification", test_yad_version_classification);
     }
@@ -282,6 +302,65 @@ namespace AppTests.SteamTinkerLaunchTest {
         assert (FileUtils.test (base_location, FileTest.IS_DIR));
         assert (FileUtils.test (binary, FileTest.IS_REGULAR));
         assert (FileUtils.test (link, FileTest.IS_SYMLINK));
+        assert (delete_directory (root));
+    }
+
+    private void test_final_process_check_preserves_installations () {
+        var root = temporary_directory ();
+        var cache = Path.build_filename (root, "cache");
+        var tools = Path.build_filename (root, "tools");
+        var base_location = Path.build_filename (root, ".local", "share", "steamtinkerlaunch");
+        var external = Path.build_filename (root, "SteamTinkerLaunch");
+        Globals.CACHE_PATH = cache;
+        assert (ProtonPlus.Utils.Filesystem.create_directory (cache));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (base_location));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (external));
+        ProtonPlus.Utils.Filesystem.create_file (
+            Path.build_filename (base_location, "marker.txt"), "previous managed\n"
+        );
+        ProtonPlus.Utils.Filesystem.create_file (
+            Path.build_filename (external, "marker.txt"), "previous external\n"
+        );
+        var launcher = new RecordingLauncher (tools);
+        var recorder = new RecordingRestartChange ();
+        var job = new FixtureJob (tool (tools, launcher), root, fixture_archive (root));
+        assert (ProtonPlus.Services.InstallationService.instance
+            .detect_steam_tinker_launch_external_installations (job));
+
+        var argv = new Gee.ArrayList<string> ();
+        var executable = Path.build_filename (base_location, "steamtinkerlaunch");
+        argv.add (executable);
+        var records = new Gee.ArrayList<ProtonPlus.Services.CompatibilityProcessRecord> ();
+        records.add (new ProtonPlus.Services.CompatibilityProcessRecord (7331, executable, argv));
+        var query = new SequentialProcessQuery (
+            ProtonPlus.Services.CompatibilityProcessInspectionResult.clear (),
+            ProtonPlus.Services.CompatibilityProcessInspectionResult.clear (records)
+        );
+        ProtonPlus.Services.InstallationService.instance.configure_compatibility_process_guard (
+            new ProtonPlus.Services.CompatibilityProcessGuard (query)
+        );
+        ProtonPlus.Services.InstallationService.instance.configure_steam_change_recorder (recorder);
+        var history_events = 0;
+        var history_handler = ProtonPlus.Utils.DownloadManager.instance.download_finished.connect (
+            (finished_job, success) => { history_events++; }
+        );
+
+        assert (install_replacement (job) == ReturnCode.RUNNERS_IN_USE);
+        assert (query.calls == 2);
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename (base_location, "marker.txt")
+        ) == "previous managed\n");
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename (external, "marker.txt")
+        ) == "previous external\n");
+        assert (history_events == 0);
+        assert (recorder.receipts.size == 0);
+        no_entries (root, ".protonplus-stl-external-");
+        no_entries (Path.get_dirname (base_location), ".protonplus-stl-stage-");
+        no_entries (cache, ".protonplus-stl-");
+
+        ProtonPlus.Utils.DownloadManager.instance.disconnect (history_handler);
+        ProtonPlus.Services.InstallationService.reset_lifecycle_configuration_for_tests ();
         assert (delete_directory (root));
     }
 

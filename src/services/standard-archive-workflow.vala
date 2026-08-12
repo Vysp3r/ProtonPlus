@@ -69,6 +69,19 @@ namespace ProtonPlus.Services {
                 return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
             }
 
+            var destination_exists = FileUtils.test (job.install_location, FileTest.EXISTS) ||
+                FileUtils.test (job.install_location, FileTest.IS_SYMLINK);
+            if (destination_exists && replace_existing) {
+                var operation_kind = job.state == InstallJob.State.BUSY_UPDATING
+                    ? CompatibilityProcessOperationKind.UPDATE
+                    : CompatibilityProcessOperationKind.REPLACEMENT;
+                var guard_code = yield InstallationService.instance.check_final_process_state (
+                    job, operation_kind, true
+                );
+                if (guard_code != ReturnCode.RUNNER_INSTALLED)
+                    return yield archive_support.complete_attempt (guard_code, archive);
+            }
+
             if (FileUtils.test (job.install_location, FileTest.EXISTS)) {
                 if (!replace_existing)
                     return yield archive_support.complete_attempt (ReturnCode.RUNNER_ALREADY_INSTALLED, archive);
@@ -116,6 +129,11 @@ namespace ProtonPlus.Services {
             job.step = InstallJob.Step.REMOVING;
             if (!FileUtils.test (job.install_location, FileTest.IS_DIR))
                 return ReturnCode.RUNNER_REMOVED;
+            var guard_code = yield InstallationService.instance.check_final_process_state (
+                job, CompatibilityProcessOperationKind.REMOVAL, true
+            );
+            if (guard_code != ReturnCode.RUNNER_INSTALLED)
+                return guard_code;
             return (yield Utils.Filesystem.delete_directory (job.install_location))
                 ? ReturnCode.RUNNER_REMOVED : ReturnCode.FILESYSTEM_ERROR;
         }

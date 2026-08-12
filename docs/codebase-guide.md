@@ -160,6 +160,13 @@ the result, restores the previous installation on failed replacement, writes
 metadata, and cleans owned temporary paths. `SteamTinkerLaunchWorkflow` is a
 separate transaction because its layout and lifecycle materially differ.
 
+Operations that can change an existing compatibility tool perform a second
+asynchronous, target-aware process check at the workflow's final mutation
+boundary, after download and staging but before moving or deleting installed
+state. This minimizes the check-to-mutation race; it cannot provide
+kernel-level locking against a compatibility process starting in the final few
+instructions between the snapshot and the filesystem mutation.
+
 ### Steam configuration and restart lifecycle
 
 Steam-owned files have a separate safety boundary:

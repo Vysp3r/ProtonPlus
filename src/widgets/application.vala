@@ -93,6 +93,9 @@ namespace ProtonPlus.Widgets {
             Globals.load ();
             Globals.setupLanguage ();
             Notify.init (Config.APP_NAME);
+            ProtonPlus.Services.InstallationService.instance.configure_compatibility_process_guard (
+                new ProtonPlus.Services.CompatibilityProcessGuard.for_package (Globals.IS_FLATPAK)
+            );
 
             /* This graph belongs to the GUI process, not individual rebuilt
              * windows.  CLI execution never instantiates Application. */
