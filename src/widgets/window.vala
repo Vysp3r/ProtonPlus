@@ -120,6 +120,10 @@ namespace ProtonPlus.Widgets {
             dialog.present (parent);
         }
 
+        public bool focus_launcher_selector () {
+            return header_box.focus_launchers ();
+        }
+
         public static void register_popover_for_controller (Gtk.Popover popover,
             Gtk.Widget opener, Gtk.Widget? initial_focus = null) {
             new ControllerPopoverRegistration (popover, opener, initial_focus).start ();

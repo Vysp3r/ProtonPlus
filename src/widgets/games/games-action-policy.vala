@@ -4,6 +4,20 @@ namespace ProtonPlus.Widgets.Games {
         TOGGLE_SELECTION
     }
 
+    public enum GameCollectionBoundaryAction {
+        NONE,
+        FOCUS_TOOLBAR,
+        FOCUS_FIRST_GAME
+    }
+
+    public enum GameFocusLane {
+        SELECTION,
+        ROW,
+        FIRST_ACTION,
+        PRIMARY_ACTION,
+        SECONDARY_ACTION
+    }
+
     public enum GameAntiCheatState {
         LOADING,
         SUPPORTED,
@@ -86,6 +100,40 @@ namespace ProtonPlus.Widgets.Games {
         static bool is_known_anticheat_state (GameAntiCheatState state) {
             return state != GameAntiCheatState.LOADING &&
                 state != GameAntiCheatState.UNKNOWN;
+        }
+    }
+
+    public class GameControllerNavigationPolicy : Object {
+        public static bool top_boundary_uses_selection (GameFocusLane lane) {
+            return lane == GameFocusLane.SELECTION;
+        }
+
+        public static GameFocusLane action_lane (bool secondary_action) {
+            return secondary_action
+                ? GameFocusLane.SECONDARY_ACTION
+                : GameFocusLane.PRIMARY_ACTION;
+        }
+
+        public static bool can_attempt_action_focus (
+            bool mapped, bool visible, bool sensitive) {
+            return mapped && visible && sensitive;
+        }
+
+        public static GameCollectionBoundaryAction boundary_action (
+            bool focused_in_toolbar, bool focused_in_collection,
+            Utils.ControllerNavigationDirection direction) {
+            if (focused_in_toolbar &&
+                direction == Utils.ControllerNavigationDirection.DOWN)
+                return GameCollectionBoundaryAction.FOCUS_FIRST_GAME;
+
+            if (!focused_in_collection)
+                return GameCollectionBoundaryAction.NONE;
+
+            if (direction == Utils.ControllerNavigationDirection.UP)
+                return GameCollectionBoundaryAction.FOCUS_TOOLBAR;
+            if (direction == Utils.ControllerNavigationDirection.DOWN)
+                return GameCollectionBoundaryAction.FOCUS_FIRST_GAME;
+            return GameCollectionBoundaryAction.NONE;
         }
     }
 

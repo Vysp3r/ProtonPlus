@@ -92,6 +92,52 @@ namespace AppTests.GameActionPolicyTest {
             GameRowActivation.TOGGLE_SELECTION);
     }
 
+    private void test_collection_controller_boundaries () {
+        assert (GameControllerNavigationPolicy.top_boundary_uses_selection (
+            GameFocusLane.SELECTION
+        ));
+        assert (!GameControllerNavigationPolicy.top_boundary_uses_selection (
+            GameFocusLane.PRIMARY_ACTION
+        ));
+        assert (GameControllerNavigationPolicy.boundary_action (
+            true, false, ProtonPlus.Utils.ControllerNavigationDirection.DOWN
+        ) == GameCollectionBoundaryAction.FOCUS_FIRST_GAME);
+        assert (GameControllerNavigationPolicy.boundary_action (
+            true, false, ProtonPlus.Utils.ControllerNavigationDirection.UP
+        ) == GameCollectionBoundaryAction.NONE);
+        assert (GameControllerNavigationPolicy.boundary_action (
+            false, true, ProtonPlus.Utils.ControllerNavigationDirection.DOWN
+        ) == GameCollectionBoundaryAction.FOCUS_FIRST_GAME);
+        assert (GameControllerNavigationPolicy.boundary_action (
+            false, true, ProtonPlus.Utils.ControllerNavigationDirection.UP
+        ) == GameCollectionBoundaryAction.FOCUS_TOOLBAR);
+        assert (GameControllerNavigationPolicy.boundary_action (
+            false, true, ProtonPlus.Utils.ControllerNavigationDirection.RIGHT
+        ) == GameCollectionBoundaryAction.NONE);
+        assert (GameControllerNavigationPolicy.boundary_action (
+            false, false, ProtonPlus.Utils.ControllerNavigationDirection.DOWN
+        ) == GameCollectionBoundaryAction.NONE);
+    }
+
+    private void test_controller_action_focus_eligibility () {
+        assert (GameControllerNavigationPolicy.action_lane (false) ==
+            GameFocusLane.PRIMARY_ACTION);
+        assert (GameControllerNavigationPolicy.action_lane (true) ==
+            GameFocusLane.SECONDARY_ACTION);
+        assert (GameControllerNavigationPolicy.can_attempt_action_focus (
+            true, true, true
+        ));
+        assert (!GameControllerNavigationPolicy.can_attempt_action_focus (
+            false, true, true
+        ));
+        assert (!GameControllerNavigationPolicy.can_attempt_action_focus (
+            true, false, true
+        ));
+        assert (!GameControllerNavigationPolicy.can_attempt_action_focus (
+            true, true, false
+        ));
+    }
+
     private void test_action_target_rebind () {
         var first = fixture_item ("First", 1);
         var second = fixture_item ("Second", 2);
@@ -117,6 +163,8 @@ namespace AppTests.GameActionPolicyTest {
         Test.add_func ("/games-actions/folders-only", test_non_steam_launcher_folders_only);
         Test.add_func ("/games-actions/delayed-anticheat", test_delayed_anticheat_status);
         Test.add_func ("/games-actions/activation-mode", test_row_activation_modes);
+        Test.add_func ("/games-actions/controller-boundaries", test_collection_controller_boundaries);
+        Test.add_func ("/games-actions/controller-action-focus", test_controller_action_focus_eligibility);
         Test.add_func ("/games-actions/rebind", test_action_target_rebind);
     }
 }

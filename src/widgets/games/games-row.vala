@@ -1,5 +1,7 @@
 namespace ProtonPlus.Widgets.Games {
-    public delegate bool GameVerticalFocusRequest (GameListItem item, int delta);
+    public delegate bool GameVerticalFocusRequest (
+        GameListItem item, int delta, GameFocusLane lane
+    );
     public delegate bool GamePeerFocusRequest (GameListItem item);
     public delegate void GameActivationRequest (GameListItem item);
 
@@ -16,16 +18,13 @@ namespace ProtonPlus.Widgets.Games {
         Binding? selected_binding;
         GameListItem? item;
         unowned GameVerticalFocusRequest vertical_focus;
-        unowned GamePeerFocusRequest actions_focus;
-        unowned GameActivationRequest activation_request;
+        unowned GamePeerFocusRequest row_focus;
 
         public GameSelectionCell (GameVerticalFocusRequest vertical_focus,
-            GamePeerFocusRequest actions_focus,
-            GameActivationRequest activation_request) {
+            GamePeerFocusRequest row_focus) {
             Object (orientation: Gtk.Orientation.HORIZONTAL);
             this.vertical_focus = vertical_focus;
-            this.actions_focus = actions_focus;
-            this.activation_request = activation_request;
+            this.row_focus = row_focus;
 
             set_focusable (true);
             set_halign (Gtk.Align.CENTER);
@@ -58,7 +57,7 @@ namespace ProtonPlus.Widgets.Games {
                 _("Select %s").printf (item.game.name),
                 -1
             );
-            update_accessibility (false);
+            update_accessibility ();
         }
 
         public void unbind () {
@@ -83,11 +82,11 @@ namespace ProtonPlus.Widgets.Games {
             if (item == null)
                 return false;
             if (direction == Utils.ControllerNavigationDirection.UP)
-                return vertical_focus ((!) item, -1);
+                return vertical_focus ((!) item, -1, GameFocusLane.SELECTION);
             if (direction == Utils.ControllerNavigationDirection.DOWN)
-                return vertical_focus ((!) item, 1);
+                return vertical_focus ((!) item, 1, GameFocusLane.SELECTION);
             if (direction == Utils.ControllerNavigationDirection.RIGHT)
-                return actions_focus ((!) item);
+                return row_focus ((!) item);
             if (direction == Utils.ControllerNavigationDirection.LEFT)
                 return grab_focus ();
             return false;
@@ -96,7 +95,98 @@ namespace ProtonPlus.Widgets.Games {
         public void set_selection_mode (bool selection_mode) {
             navigation_image.set_opacity (selection_mode ? 0.0 : 1.0);
             navigation_image.set_can_target (!selection_mode);
-            update_accessibility (selection_mode);
+        }
+
+        public bool controller_activate (Object focused) {
+            if (item == null)
+                return false;
+            ((!) item).selected = !((!) item).selected;
+            return true;
+        }
+
+        void update_accessibility () {
+            if (item == null)
+                return;
+            update_property (
+                Gtk.AccessibleProperty.LABEL, ((!) item).game.name,
+                Gtk.AccessibleProperty.DESCRIPTION,
+                _("Toggle selection for %s").printf (((!) item).game.name),
+                -1
+            );
+        }
+    }
+
+    public class GameTitleCell : Gtk.Box, Utils.ControllerDirectionalFocus,
+        Utils.ControllerActivationHandler {
+        Gtk.Label label;
+        GameListItem? item;
+        unowned GameVerticalFocusRequest vertical_focus;
+        unowned GamePeerFocusRequest selection_focus;
+        unowned GamePeerFocusRequest actions_focus;
+        unowned GameActivationRequest activation_request;
+
+        public GameTitleCell (GameVerticalFocusRequest vertical_focus,
+            GamePeerFocusRequest selection_focus,
+            GamePeerFocusRequest actions_focus,
+            GameActivationRequest activation_request) {
+            Object (orientation: Gtk.Orientation.HORIZONTAL);
+            this.vertical_focus = vertical_focus;
+            this.selection_focus = selection_focus;
+            this.actions_focus = actions_focus;
+            this.activation_request = activation_request;
+            set_focusable (true);
+            set_margin_start (6);
+            set_margin_end (6);
+            set_valign (Gtk.Align.CENTER);
+
+            label = new Gtk.Label (null) {
+                xalign = 0,
+                halign = Gtk.Align.FILL,
+                hexpand = true,
+                ellipsize = Pango.EllipsizeMode.END
+            };
+            append (label);
+        }
+
+        public void bind (GameListItem item) {
+            unbind ();
+            this.item = item;
+            label.set_label (item.game.name);
+            label.set_tooltip_text (item.game.name);
+            update_property (
+                Gtk.AccessibleProperty.LABEL, item.game.name,
+                Gtk.AccessibleProperty.DESCRIPTION,
+                _("Modify %s").printf (item.game.name),
+                -1
+            );
+        }
+
+        public void unbind () {
+            item = null;
+            label.set_label ("");
+            label.set_tooltip_text (null);
+            reset_property (Gtk.AccessibleProperty.LABEL);
+            reset_property (Gtk.AccessibleProperty.DESCRIPTION);
+        }
+
+        public GameListItem? get_item () {
+            return item;
+        }
+
+        public bool controller_focus_direction (
+            Object focused_object, Utils.ControllerNavigationDirection direction
+        ) {
+            if (item == null)
+                return false;
+            if (direction == Utils.ControllerNavigationDirection.UP)
+                return vertical_focus ((!) item, -1, GameFocusLane.ROW);
+            if (direction == Utils.ControllerNavigationDirection.DOWN)
+                return vertical_focus ((!) item, 1, GameFocusLane.ROW);
+            if (direction == Utils.ControllerNavigationDirection.LEFT)
+                return selection_focus ((!) item);
+            if (direction == Utils.ControllerNavigationDirection.RIGHT)
+                return actions_focus ((!) item);
+            return false;
         }
 
         public bool controller_activate (Object focused) {
@@ -104,19 +194,6 @@ namespace ProtonPlus.Widgets.Games {
                 return false;
             activation_request ((!) item);
             return true;
-        }
-
-        void update_accessibility (bool selection_mode) {
-            if (item == null)
-                return;
-            update_property (
-                Gtk.AccessibleProperty.LABEL, ((!) item).game.name,
-                Gtk.AccessibleProperty.DESCRIPTION,
-                selection_mode
-                    ? _("Toggle selection for %s").printf (((!) item).game.name)
-                    : _("Modify %s").printf (((!) item).game.name),
-                -1
-            );
         }
     }
 
@@ -182,7 +259,8 @@ namespace ProtonPlus.Widgets.Games {
 
     }
 
-    public class GameActions : Gtk.Box, Utils.ControllerDirectionalFocus {
+    public class GameActions : Gtk.Box, Utils.ControllerDirectionalFocus,
+        Utils.ControllerActivationHandler {
         Gtk.Button launch_button;
         ExtraButton extra_button;
         GameActionTarget target;
@@ -261,6 +339,16 @@ namespace ProtonPlus.Widgets.Games {
             return focus_action (null, true);
         }
 
+        public bool focus_lane (GameFocusLane lane) {
+            if (lane == GameFocusLane.FIRST_ACTION)
+                return focus_first_action ();
+            if (lane == GameFocusLane.PRIMARY_ACTION)
+                return focus_candidate (launch_button);
+            if (lane == GameFocusLane.SECONDARY_ACTION)
+                return focus_candidate (extra_button.button);
+            return false;
+        }
+
         public bool controller_focus_direction (
             Object focused_object, Utils.ControllerNavigationDirection direction
         ) {
@@ -269,10 +357,14 @@ namespace ProtonPlus.Widgets.Games {
             var focused = focused_object as Gtk.Widget;
             if (focused == null)
                 return false;
+            var action = find_action_ancestor ((!) focused);
+            var lane = GameControllerNavigationPolicy.action_lane (
+                action == extra_button.button
+            );
             if (direction == Utils.ControllerNavigationDirection.UP)
-                return vertical_focus ((!) target.item, -1);
+                return vertical_focus ((!) target.item, -1, lane);
             if (direction == Utils.ControllerNavigationDirection.DOWN)
-                return vertical_focus ((!) target.item, 1);
+                return vertical_focus ((!) target.item, 1, lane);
             if (direction == Utils.ControllerNavigationDirection.RIGHT) {
                 if (focus_action ((!) focused, true))
                     return true;
@@ -286,15 +378,39 @@ namespace ProtonPlus.Widgets.Games {
             return false;
         }
 
+        public bool controller_activate (Object focused_object) {
+            if (target.item == null)
+                return false;
+            var focused = focused_object as Gtk.Widget;
+            if (focused == null)
+                return false;
+            var action = find_action_ancestor ((!) focused);
+            if (action == launch_button) {
+                launch_button.activate ();
+                return true;
+            }
+            if (action == extra_button.button) {
+                extra_button.button.popup ();
+                return true;
+            }
+            return false;
+        }
+
+        bool focus_candidate (Gtk.Widget candidate) {
+            return GameControllerNavigationPolicy.can_attempt_action_focus (
+                candidate.get_mapped (), candidate.is_visible (),
+                candidate.is_sensitive ()
+            ) && candidate.grab_focus ();
+        }
+
         bool focus_action (Gtk.Widget? focused, bool forward) {
             Gtk.Widget? action = find_action_ancestor (focused);
             Gtk.Widget? candidate = action == null
                 ? (forward ? get_first_child () : get_last_child ())
                 : (forward ? action.get_next_sibling () : action.get_prev_sibling ());
             while (candidate != null) {
-                if (candidate.get_mapped () && candidate.is_visible () &&
-                    candidate.is_sensitive () && candidate.get_focusable ())
-                    return candidate.grab_focus ();
+                if (focus_candidate (candidate))
+                    return true;
                 candidate = forward
                     ? candidate.get_next_sibling () : candidate.get_prev_sibling ();
             }
@@ -444,6 +560,11 @@ namespace ProtonPlus.Widgets.Games {
             return actions.focus_first_action ();
         }
 
+        public bool focus_lane (GameFocusLane lane) {
+            return lane == GameFocusLane.SELECTION || lane == GameFocusLane.ROW
+                ? grab_focus () : actions.focus_lane (lane);
+        }
+
         public void set_selection_mode (bool selection_mode) {
             actions.set_selection_mode (selection_mode);
             navigation_image.set_visible (!selection_mode);
@@ -463,8 +584,8 @@ namespace ProtonPlus.Widgets.Games {
             );
         }
 
-        bool on_vertical_focus (GameListItem item, int delta) {
-            return vertical_focus (item, delta);
+        bool on_vertical_focus (GameListItem item, int delta, GameFocusLane lane) {
+            return vertical_focus (item, delta, lane);
         }
 
         bool focus_selection (GameListItem item) {
@@ -480,9 +601,9 @@ namespace ProtonPlus.Widgets.Games {
             if (focused == null)
                 return false;
             if (direction == Utils.ControllerNavigationDirection.UP)
-                return vertical_focus ((!) item, -1);
+                return vertical_focus ((!) item, -1, GameFocusLane.SELECTION);
             if (direction == Utils.ControllerNavigationDirection.DOWN)
-                return vertical_focus ((!) item, 1);
+                return vertical_focus ((!) item, 1, GameFocusLane.SELECTION);
             if (direction == Utils.ControllerNavigationDirection.RIGHT)
                 return actions.focus_first_action ();
             if (direction == Utils.ControllerNavigationDirection.LEFT)

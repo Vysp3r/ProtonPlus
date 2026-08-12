@@ -153,6 +153,13 @@ namespace ProtonPlus.Widgets.Header {
             launchers_button.button_clicked ();
         }
 
+        public bool focus_launchers () {
+            return launchers_button.get_mapped () &&
+                launchers_button.is_visible () &&
+                launchers_button.is_sensitive () &&
+                launchers_button.grab_focus ();
+        }
+
         public bool select_launcher (Models.Launcher launcher) {
             return launchers_button.select_launcher (launcher);
         }

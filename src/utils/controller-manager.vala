@@ -1638,12 +1638,18 @@ namespace ProtonPlus.Utils {
 
         Gtk.Widget? get_scrolled_content (Gtk.ScrolledWindow scrolled) {
             var content = scrolled.get_child ();
-            /* Non-scrollable children such as Gtk.ListBox are wrapped in a
+            /* Native GtkScrollable children such as GtkColumnView and
+             * GtkListView own their adjustment coordinate space and focus
+             * scrolling.  Their realized children use viewport coordinates,
+             * so comparing those bounds with adjustment values can move the
+             * focused item out of view. */
+            if (!(content is Gtk.Viewport))
+                return null;
+
+            /* Non-scrollable children such as GtkListBox are wrapped in a
              * GtkViewport.  Adjustment values use the viewport child's
              * coordinates, not the viewport's already-scrolled coordinates. */
-            if (content is Gtk.Viewport)
-                content = ((Gtk.Viewport) content).get_child ();
-            return content;
+            return ((Gtk.Viewport) content).get_child ();
         }
 
         void reveal_adjustment (Gtk.Adjustment adjustment, double start, double end) {

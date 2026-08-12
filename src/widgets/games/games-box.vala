@@ -1,7 +1,56 @@
 namespace ProtonPlus.Widgets.Games {
+    public delegate bool GameBoundaryFocusRequest ();
+
+    class GameListControllerBox : Gtk.Box, Utils.ControllerDirectionalFocus {
+        Gtk.Widget toolbar;
+        Gtk.Widget wide_view;
+        Gtk.Widget narrow_view;
+        unowned GameBoundaryFocusRequest toolbar_focus;
+        unowned GameBoundaryFocusRequest first_game_focus;
+
+        public GameListControllerBox (Gtk.Widget toolbar, Gtk.Widget wide_view,
+            Gtk.Widget narrow_view, GameBoundaryFocusRequest toolbar_focus,
+            GameBoundaryFocusRequest first_game_focus) {
+            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 12);
+            this.toolbar = toolbar;
+            this.wide_view = wide_view;
+            this.narrow_view = narrow_view;
+            this.toolbar_focus = toolbar_focus;
+            this.first_game_focus = first_game_focus;
+        }
+
+        public bool controller_focus_direction (
+            Object focused_object, Utils.ControllerNavigationDirection direction
+        ) {
+            var focused = focused_object as Gtk.Widget;
+            if (focused == null)
+                return false;
+
+            var action = GameControllerNavigationPolicy.boundary_action (
+                is_inside_widget ((!) focused, toolbar),
+                is_inside_widget ((!) focused, wide_view) ||
+                    is_inside_widget ((!) focused, narrow_view),
+                direction
+            );
+            switch (action) {
+            case GameCollectionBoundaryAction.FOCUS_TOOLBAR:
+                return toolbar_focus ();
+            case GameCollectionBoundaryAction.FOCUS_FIRST_GAME:
+                return first_game_focus ();
+            default:
+                return false;
+            }
+        }
+
+        bool is_inside_widget (Gtk.Widget focused, Gtk.Widget ancestor) {
+            return focused == ancestor || focused.is_ancestor (ancestor);
+        }
+    }
+
     public class Box : Gtk.Box, Utils.ControllerNavigationHost,
         Utils.ControllerPageShortcuts {
         const int NARROW_VIEW_WIDTH = 700;
+        const int FOCUS_BIND_MAX_ATTEMPTS = 8;
 
         bool error { get; set; }
         bool invalid { get; set; }
@@ -13,6 +62,7 @@ namespace ProtonPlus.Widgets.Games {
         MassEditButton mass_edit_button;
         Gtk.SearchEntry search_entry;
         Gtk.CheckButton check_button;
+        Gtk.Box toolbar;
         Gtk.Box games_card;
         Adw.NavigationView navigation_view;
         Adw.NavigationPage list_page;
@@ -40,6 +90,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Label selection_popover_title;
         Gee.HashMap<GameListItem, GameRow> narrow_rows;
         Gee.HashMap<GameListItem, GameSelectionCell> wide_selection_cells;
+        Gee.HashMap<GameListItem, GameTitleCell> wide_title_cells;
         Gee.HashMap<GameListItem, GameActions> wide_action_cells;
         GameListItem? last_focused_item;
         string search_query = "";
@@ -60,6 +111,7 @@ namespace ProtonPlus.Widgets.Games {
             games = new GameCollection ();
             narrow_rows = new Gee.HashMap<GameListItem, GameRow> ();
             wide_selection_cells = new Gee.HashMap<GameListItem, GameSelectionCell> ();
+            wide_title_cells = new Gee.HashMap<GameListItem, GameTitleCell> ();
             wide_action_cells = new Gee.HashMap<GameListItem, GameActions> ();
 
             wide_view = build_wide_view ();
@@ -166,13 +218,17 @@ namespace ProtonPlus.Widgets.Games {
             };
             games_card.add_css_class ("card");
             games_card.add_css_class ("transparent-card");
-            games_card.append (build_toolbar ());
+            toolbar = build_toolbar ();
+            games_card.append (toolbar);
             games_card.append (overlay);
 
             set_orientation (Gtk.Orientation.VERTICAL);
             set_spacing (0);
 
-            var games_page_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12) {
+            var games_page_box = new GameListControllerBox (
+                toolbar, wide_view, narrow_view,
+                focus_games_toolbar, focus_first_visible_game
+            ) {
                 hexpand = true,
                 vexpand = true
             };
@@ -237,7 +293,7 @@ namespace ProtonPlus.Widgets.Games {
             view.append_column (selection_column);
 
             var title_column = new Gtk.ColumnViewColumn (
-                _("Games"), create_text_factory (GameTextCellKind.TITLE)
+                _("Games"), create_title_factory ()
             );
             title_column.set_expand (false);
             title_column.set_sorter (games.name_sorter);
@@ -337,7 +393,7 @@ namespace ProtonPlus.Widgets.Games {
                 list_item.set_focusable (false);
                 list_item.set_selectable (false);
                 list_item.set_child (new GameSelectionCell (
-                    focus_wide_relative, focus_wide_actions, activate_game_item
+                    focus_wide_relative, focus_wide_title
                 ));
             });
             factory.bind.connect ((object) => {
@@ -362,6 +418,45 @@ namespace ProtonPlus.Widgets.Games {
             factory.teardown.connect ((object) => {
                 var list_item = (Gtk.ListItem) object;
                 var cell = list_item.get_child () as GameSelectionCell;
+                cell?.unbind ();
+                list_item.set_child (null);
+            });
+            return factory;
+        }
+
+        Gtk.SignalListItemFactory create_title_factory () {
+            var factory = new Gtk.SignalListItemFactory ();
+            factory.setup.connect ((object) => {
+                var list_item = (Gtk.ListItem) object;
+                list_item.set_activatable (true);
+                list_item.set_focusable (false);
+                list_item.set_selectable (false);
+                list_item.set_child (new GameTitleCell (
+                    focus_wide_relative, focus_wide_selection,
+                    focus_wide_actions, activate_game_item
+                ));
+            });
+            factory.bind.connect ((object) => {
+                var list_item = (Gtk.ListItem) object;
+                var item = list_item.get_item () as GameListItem;
+                var cell = list_item.get_child () as GameTitleCell;
+                if (item == null || cell == null)
+                    return;
+                ((!) cell).bind ((!) item);
+                wide_title_cells.set ((!) item, (!) cell);
+            });
+            factory.unbind.connect ((object) => {
+                var cell = ((Gtk.ListItem) object).get_child () as GameTitleCell;
+                if (cell == null)
+                    return;
+                var item = ((!) cell).get_item ();
+                if (item != null && wide_title_cells.get ((!) item) == cell)
+                    wide_title_cells.unset ((!) item);
+                ((!) cell).unbind ();
+            });
+            factory.teardown.connect ((object) => {
+                var list_item = (Gtk.ListItem) object;
+                var cell = list_item.get_child () as GameTitleCell;
                 cell?.unbind ();
                 list_item.set_child (null);
             });
@@ -405,7 +500,7 @@ namespace ProtonPlus.Widgets.Games {
                 list_item.set_focusable (false);
                 list_item.set_selectable (false);
                 list_item.set_child (new GameActions (
-                    focus_wide_relative, focus_wide_selection
+                    focus_wide_relative, focus_wide_title
                 ));
             });
             factory.bind.connect ((object) => {
@@ -811,7 +906,9 @@ namespace ProtonPlus.Widgets.Games {
             if (focused_item != null) {
                 var position = games.position_of ((!) focused_item);
                 if (position >= 0)
-                    schedule_item_focus ((uint) position, false);
+                    schedule_item_focus (
+                        (uint) position, GameFocusLane.SELECTION
+                    );
             }
         }
 
@@ -827,6 +924,10 @@ namespace ProtonPlus.Widgets.Games {
                 if (focused == entry.value || ((!) focused).is_ancestor (entry.value))
                     return entry.key;
             }
+            foreach (var entry in wide_title_cells.entries) {
+                if (focused == entry.value || ((!) focused).is_ancestor (entry.value))
+                    return entry.key;
+            }
             foreach (var entry in wide_action_cells.entries) {
                 if (focused == entry.value || ((!) focused).is_ancestor (entry.value))
                     return entry.key;
@@ -834,26 +935,40 @@ namespace ProtonPlus.Widgets.Games {
             return null;
         }
 
-        bool focus_narrow_relative (GameListItem item, int delta) {
-            return focus_relative (item, delta, false);
+        bool focus_narrow_relative (GameListItem item, int delta,
+            GameFocusLane lane) {
+            return focus_relative (item, delta, lane);
         }
 
-        bool focus_wide_relative (GameListItem item, int delta) {
-            return focus_relative (item, delta, false);
+        bool focus_wide_relative (GameListItem item, int delta,
+            GameFocusLane lane) {
+            return focus_relative (item, delta, lane);
         }
 
-        bool focus_relative (GameListItem item, int delta, bool actions) {
+        bool focus_relative (GameListItem item, int delta, GameFocusLane lane) {
             var position = games.position_of (item);
             if (position < 0)
                 return false;
             var target = position + delta;
-            if (target < 0)
+            if (target < 0) {
+                if (GameControllerNavigationPolicy.top_boundary_uses_selection (lane))
+                    return check_button.grab_focus ();
                 return search_entry.grab_focus ();
-            if (target >= games.visible_count ())
-                return delta > 0 && mass_edit_button.get_visible ()
-                    && mass_edit_button.grab_focus ();
+            }
+            if (target >= games.visible_count ()) {
+                if (delta <= 0)
+                    return false;
+                if (mass_edit_button.get_visible () && mass_edit_button.grab_focus ())
+                    return true;
+                return focus_launcher_selector ();
+            }
             last_focused_item = games.item_at ((uint) target);
-            return focus_item ((uint) target, actions);
+            return focus_item ((uint) target, lane);
+        }
+
+        bool focus_launcher_selector () {
+            var window = get_root () as Window;
+            return window != null && ((!) window).focus_launcher_selector ();
         }
 
         bool focus_wide_actions (GameListItem item) {
@@ -861,7 +976,19 @@ namespace ProtonPlus.Widgets.Games {
             if (actions != null)
                 return ((!) actions).focus_first_action ();
             var position = games.position_of (item);
-            return position >= 0 && focus_item ((uint) position, true);
+            return position >= 0 && focus_item (
+                (uint) position, GameFocusLane.FIRST_ACTION
+            );
+        }
+
+        bool focus_wide_title (GameListItem item) {
+            var cell = wide_title_cells.get (item);
+            if (cell != null)
+                return ((!) cell).grab_focus ();
+            var position = games.position_of (item);
+            return position >= 0 && focus_item (
+                (uint) position, GameFocusLane.ROW
+            );
         }
 
         bool focus_wide_selection (GameListItem item) {
@@ -869,53 +996,91 @@ namespace ProtonPlus.Widgets.Games {
             return cell != null && ((!) cell).grab_focus ();
         }
 
-        bool focus_item (uint position, bool actions) {
+        bool focus_item (uint position, GameFocusLane lane) {
             var item = games.item_at (position);
             if (item == null)
                 return false;
-            if (narrow_view_active) {
-                var row = narrow_rows.get ((!) item);
-                if (row != null)
-                    return ((!) row).grab_focus ();
-                narrow_view.scroll_to (position, Gtk.ListScrollFlags.FOCUS, null);
-            } else {
-                if (actions) {
-                    var action_cell = wide_action_cells.get ((!) item);
-                    if (action_cell != null)
-                        return ((!) action_cell).focus_first_action ();
-                } else {
-                    var selection_cell = wide_selection_cells.get ((!) item);
-                    if (selection_cell != null)
-                        return ((!) selection_cell).grab_focus ();
-                }
-                wide_view.scroll_to (
-                    position, null, Gtk.ListScrollFlags.FOCUS, null
-                );
+            bool focus_ready;
+            if (try_focus_bound_item (
+                (!) item, lane, narrow_view_active, out focus_ready
+            )) {
+                scroll_collection_to (position, narrow_view_active);
+                return true;
             }
-            schedule_item_focus (position, actions);
+            if (focus_ready)
+                return false;
+            schedule_item_focus (position, lane);
             return true;
         }
 
-        void schedule_item_focus (uint position, bool actions) {
+        bool try_focus_bound_item (GameListItem item, GameFocusLane lane,
+            bool narrow, out bool focus_ready) {
+            if (narrow) {
+                var row = narrow_rows.get (item);
+                focus_ready = row != null && ((!) row).get_mapped ();
+                return focus_ready && ((!) row).focus_lane (lane);
+            }
+            if (lane == GameFocusLane.ROW) {
+                var cell = wide_title_cells.get (item);
+                focus_ready = cell != null && ((!) cell).get_mapped ();
+                return focus_ready && ((!) cell).grab_focus ();
+            }
+            if (lane != GameFocusLane.SELECTION) {
+                var cell = wide_action_cells.get (item);
+                focus_ready = cell != null && ((!) cell).get_mapped ();
+                return focus_ready && ((!) cell).focus_lane (lane);
+            }
+            var cell = wide_selection_cells.get (item);
+            focus_ready = cell != null && ((!) cell).get_mapped ();
+            return focus_ready && ((!) cell).grab_focus ();
+        }
+
+        void scroll_collection_to (uint position, bool narrow) {
+            if (narrow) {
+                narrow_view.scroll_to (
+                    position, Gtk.ListScrollFlags.NONE, null
+                );
+            } else {
+                wide_view.scroll_to (
+                    position, null, Gtk.ListScrollFlags.NONE, null
+                );
+            }
+        }
+
+        void schedule_item_focus (uint position, GameFocusLane lane) {
             cancel_focus_idle ();
             var expected_generation = games.generation;
             var expected_item = games.item_at (position);
+            if (expected_item == null)
+                return;
             var expected_narrow = narrow_view_active;
-            focus_idle_id = Idle.add (() => {
+            scroll_collection_to (position, expected_narrow);
+            schedule_item_focus_attempt (
+                position, lane, expected_generation, (!) expected_item,
+                expected_narrow, 0
+            );
+        }
+
+        void schedule_item_focus_attempt (uint position, GameFocusLane lane,
+            uint64 expected_generation, GameListItem expected_item,
+            bool expected_narrow, int attempt) {
+            focus_idle_id = Timeout.add (attempt == 0 ? 1 : 16, () => {
                 focus_idle_id = 0;
-                if (expected_item == null || games.generation != expected_generation ||
+                if (games.generation != expected_generation ||
                     narrow_view_active != expected_narrow ||
                     games.item_at (position) != expected_item)
                     return Source.REMOVE;
-                if (expected_narrow) {
-                    var row = narrow_rows.get ((!) expected_item);
-                    row?.grab_focus ();
-                } else if (actions) {
-                    var cell = wide_action_cells.get ((!) expected_item);
-                    cell?.focus_first_action ();
-                } else {
-                    var cell = wide_selection_cells.get ((!) expected_item);
-                    cell?.grab_focus ();
+                bool focus_ready;
+                if (try_focus_bound_item (
+                    expected_item, lane, expected_narrow, out focus_ready
+                )) {
+                    scroll_collection_to (position, expected_narrow);
+                } else if (!focus_ready && attempt < FOCUS_BIND_MAX_ATTEMPTS) {
+                    scroll_collection_to (position, expected_narrow);
+                    schedule_item_focus_attempt (
+                        position, lane, expected_generation, expected_item,
+                        expected_narrow, attempt + 1
+                    );
                 }
                 return Source.REMOVE;
             });
@@ -930,7 +1095,19 @@ namespace ProtonPlus.Widgets.Games {
 
         bool focus_last_visible_game () {
             var count = games.visible_count ();
-            return count > 0 && focus_item (count - 1, false);
+            return count > 0 && focus_item (
+                count - 1, GameFocusLane.SELECTION
+            );
+        }
+
+        bool focus_first_visible_game () {
+            return games.visible_count () > 0 && focus_item (
+                0, GameFocusLane.SELECTION
+            );
+        }
+
+        bool focus_games_toolbar () {
+            return search_entry.grab_focus ();
         }
 
         public void show_games_list_page () {
@@ -1002,7 +1179,7 @@ namespace ProtonPlus.Widgets.Games {
             if (last_focused_item != null) {
                 var position = games.position_of ((!) last_focused_item);
                 if (position >= 0) {
-                    focus_item ((uint) position, false);
+                    focus_item ((uint) position, GameFocusLane.SELECTION);
                     if (narrow_view_active)
                         return narrow_rows.get ((!) last_focused_item);
                     return wide_selection_cells.get ((!) last_focused_item);
