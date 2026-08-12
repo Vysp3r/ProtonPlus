@@ -769,6 +769,9 @@ namespace ProtonPlus.Widgets.Tools {
                 group_box.tool_expansion_changed.connect ((tool, expanded) => {
                     on_tool_expansion_changed (group_box, tool, expanded);
                 });
+                group_box.tool_actions_requested.connect ((tool, actions_button) => {
+                    on_tool_actions_requested (group_box, tool, actions_button);
+                });
                 group_box.clear_search_requested.connect (() => {
                     search_entry.set_text ("");
                     search_button.grab_focus ();
@@ -807,6 +810,16 @@ namespace ProtonPlus.Widgets.Tools {
             group_box.attach_release_section (tool, releases_box);
             releases_box.filter = current_filter;
             releases_box.search_text = search_entry.get_text ();
+            if (releases_box.is_showing_tool (tool)) {
+                if (pending_download_job != null &&
+                    ((!) pending_download_job).tool == tool &&
+                    !releases_box.is_loading_tool (tool)) {
+                    var target = (!) pending_download_job;
+                    pending_download_job = null;
+                    focus_download_job (target, group_box);
+                }
+                return;
+            }
             releases_box.set_selected_tool.begin (tool, (obj, result) => {
                 bool loaded = releases_box.set_selected_tool.end (result);
                 if (expanded_group != group_box || !group_box.is_expanded_tool (tool) ||
@@ -823,6 +836,20 @@ namespace ProtonPlus.Widgets.Tools {
                 if (!loaded)
                     return;
             });
+        }
+
+        void on_tool_actions_requested (
+            GroupBox group_box, Models.Tool tool, Gtk.MenuButton actions_button
+        ) {
+            if (expanded_group != null &&
+                (!group_box.is_expanded_tool (tool) || expanded_group != group_box))
+                collapse_current_expansion (false);
+
+            releases_box.filter = current_filter;
+            releases_box.search_text = search_entry.get_text ();
+            releases_box.attach_actions_button (actions_button);
+            if (!releases_box.is_showing_tool (tool))
+                releases_box.set_selected_tool.begin (tool);
         }
 
         void set_selected_job (Services.InstallJob job, bool show_games = false) {

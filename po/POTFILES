@@ -1,6 +1,5 @@
 # This file is generated automatically. Do not edit.
 data/com.vysp3r.ProtonPlus.desktop.in
-data/com.vysp3r.ProtonPlus.metainfo.xml.in
 data/ui/gtk/help-overlay.ui
 src/cli/cli.vala
 src/globals.vala

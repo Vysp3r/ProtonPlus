@@ -271,10 +271,7 @@ namespace ProtonPlus.Widgets {
             loading_box.loaded.connect ((launchers) => {
                 this.launchers = launchers;
 
-                header_box.initialize (
-                    launchers,
-                    navigation_breakpoint_added ? null : main_box.view_switcher
-                );
+                header_box.initialize (launchers, main_box.view_switcher);
                 main_box.initialize (launchers);
                 toolbar_view.set_content (main_box);
                 main_content_visible = true;
@@ -405,6 +402,10 @@ namespace ProtonPlus.Widgets {
             if (header_presentation_handler != 0) {
                 main_box.disconnect (header_presentation_handler);
                 header_presentation_handler = 0;
+            }
+            if (search_availability_handler != 0) {
+                main_box.disconnect (search_availability_handler);
+                search_availability_handler = 0;
             }
             if (controller_presentation_handler != 0) {
                 controller_manager.disconnect (controller_presentation_handler);

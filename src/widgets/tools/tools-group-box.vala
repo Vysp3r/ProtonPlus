@@ -1,6 +1,10 @@
 namespace ProtonPlus.Widgets.Tools {
-    public class GroupBox : Gtk.Box, Utils.ControllerDirectionalFocus {
+    public class GroupBox : Gtk.Box, Utils.ControllerDirectionalFocus,
+        Utils.ControllerActivationHandler {
         public signal void tool_expansion_changed (Models.Tool tool, bool expanded);
+        public signal void tool_actions_requested (
+            Models.Tool tool, Gtk.MenuButton actions_button
+        );
         public signal void clear_search_requested ();
         public signal void reset_filter_requested ();
         public Gtk.Box header_title { get; private set; }
@@ -161,10 +165,24 @@ namespace ProtonPlus.Widgets.Tools {
             if (in_release_section)
                 return false;
 
+            var actions_button = focused_row.get_data<Gtk.MenuButton> (
+                "tool-actions-button"
+            );
+            bool in_tool_actions = actions_button != null && focused != null &&
+                (focused == actions_button ||
+                 ((!) focused).is_ancestor ((!) actions_button));
+            if (in_tool_actions)
+                return focus_from_tool_actions (
+                    focused_row, (!) actions_button, direction
+                );
+
             if (direction == Utils.ControllerNavigationDirection.RIGHT) {
-                if (!focused_row.expanded)
-                    focused_row.expanded = true;
-                return true;
+                return actions_button != null &&
+                    ((!) actions_button).get_mapped () &&
+                    ((!) actions_button).is_visible () &&
+                    ((!) actions_button).is_sensitive () &&
+                    ((!) actions_button).get_can_focus () &&
+                    ((!) actions_button).grab_focus ();
             }
 
             if (direction == Utils.ControllerNavigationDirection.LEFT) {
@@ -188,6 +206,65 @@ namespace ProtonPlus.Widgets.Tools {
                 focused_row != find_first_visible_row ())
                 return false;
 
+            return controller_up_target != null &&
+                ((!) controller_up_target).get_mapped () &&
+                ((!) controller_up_target).is_visible () &&
+                ((!) controller_up_target).is_sensitive () &&
+                ((!) controller_up_target).grab_focus ();
+        }
+
+        public bool controller_activate (Object focused_object) {
+            var focused = focused_object as Gtk.Widget;
+            var row = find_expander_row_ancestor (focused);
+            if (row == null || focused == null)
+                return false;
+
+            var actions_button = ((!) row).get_data<Gtk.MenuButton> (
+                "tool-actions-button"
+            );
+            if (actions_button != null &&
+                (focused == actions_button ||
+                 ((!) focused).is_ancestor ((!) actions_button))) {
+                ((!) actions_button).popup ();
+                return true;
+            }
+
+            ((!) row).expanded = !((!) row).expanded;
+            return true;
+        }
+
+        bool focus_from_tool_actions (
+            Adw.ExpanderRow row, Gtk.MenuButton actions_button,
+            Utils.ControllerNavigationDirection direction
+        ) {
+            if (direction == Utils.ControllerNavigationDirection.LEFT)
+                return row.grab_focus ();
+            if (direction == Utils.ControllerNavigationDirection.RIGHT)
+                return actions_button.grab_focus ();
+            if (direction == Utils.ControllerNavigationDirection.DOWN &&
+                row == expanded_row && releases_section != null)
+                return ((!) releases_section).focus_first_controller_target ();
+            if (direction != Utils.ControllerNavigationDirection.UP &&
+                direction != Utils.ControllerNavigationDirection.DOWN)
+                return false;
+
+            var adjacent = find_adjacent_visible_row (row, direction);
+            if (adjacent != null) {
+                var adjacent_actions = ((!) adjacent).get_data<Gtk.MenuButton> (
+                    "tool-actions-button"
+                );
+                if (adjacent_actions != null &&
+                    ((!) adjacent_actions).get_mapped () &&
+                    ((!) adjacent_actions).is_visible () &&
+                    ((!) adjacent_actions).is_sensitive () &&
+                    ((!) adjacent_actions).get_can_focus () &&
+                    ((!) adjacent_actions).grab_focus ())
+                    return true;
+                return ((!) adjacent).grab_focus ();
+            }
+
+            if (direction != Utils.ControllerNavigationDirection.UP)
+                return false;
             return controller_up_target != null &&
                 ((!) controller_up_target).get_mapped () &&
                 ((!) controller_up_target).is_visible () &&
@@ -326,10 +403,8 @@ namespace ProtonPlus.Widgets.Tools {
             var icon = new Gtk.Image.from_icon_name ("screwdriver-wrench-symbolic");
 
             var row = new Adw.ExpanderRow () {
-                title = tool.title,
-                subtitle = tool.description,
-                title_lines = 1,
-                subtitle_lines = 2,
+                title = "",
+                subtitle = "",
             };
             row.update_property (
                 Gtk.AccessibleProperty.LABEL,
@@ -337,7 +412,56 @@ namespace ProtonPlus.Widgets.Tools {
                 -1
             );
             update_expanded_accessibility (row);
-            row.add_prefix (icon);
+
+            var title_label = new Gtk.Label (tool.title) {
+                halign = Gtk.Align.START,
+                xalign = 0.0f,
+                ellipsize = Pango.EllipsizeMode.END,
+                css_classes = { "title-4" }
+            };
+            var description_label = new Gtk.Label (tool.description) {
+                halign = Gtk.Align.START,
+                xalign = 0.0f,
+                wrap = true,
+                wrap_mode = Pango.WrapMode.WORD_CHAR,
+                lines = 2,
+                css_classes = { "dim-label" }
+            };
+            var pill_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6) {
+                halign = Gtk.Align.START,
+                margin_top = 6,
+                margin_bottom = 6
+            };
+
+            var text_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
+                hexpand = true
+            };
+            text_box.append (title_label);
+            text_box.append (description_label);
+            text_box.append (pill_box);
+
+            var content_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
+                hexpand = true
+            };
+            content_box.append (icon);
+            content_box.append (text_box);
+            row.add_prefix (content_box);
+
+            var actions_button = new Gtk.MenuButton () {
+                icon_name = "view-more-symbolic",
+                valign = Gtk.Align.CENTER,
+                tooltip_text = _("More options")
+            };
+            actions_button.update_property (
+                Gtk.AccessibleProperty.LABEL,
+                "%s — %s".printf (_("More options"), tool.title),
+                -1
+            );
+            actions_button.set_create_popup_func (() => {
+                tool_actions_requested (tool, actions_button);
+            });
+            row.set_data ("tool-actions-button", actions_button);
+            row.add_suffix (actions_button);
 
             // Keep one lightweight host per row so the reusable release section
             // can move without dynamically adding and removing expander rows.
@@ -355,7 +479,7 @@ namespace ProtonPlus.Widgets.Tools {
                     if (provider_tool.tag == "Recommended")
                         pill.set_tooltip_text (_ ("Recommended compatibility tool"));
 
-                    row.add_suffix (pill);
+                    pill_box.append (pill);
                 }
 
             }
@@ -363,7 +487,7 @@ namespace ProtonPlus.Widgets.Tools {
             var state_pill = new Gtk.Label ("");
             state_pill.set_valign (Gtk.Align.CENTER);
             row.set_data ("state-pill", state_pill);
-            row.add_suffix (state_pill);
+            pill_box.append (state_pill);
             update_tool_state_pill (state_pill, tool);
 
             return row;
@@ -449,6 +573,11 @@ namespace ProtonPlus.Widgets.Tools {
             ((!) host).append (section);
             releases_section = section;
             releases_host = host;
+            var actions_button = ((!) expanded_row).get_data<Gtk.MenuButton> (
+                "tool-actions-button"
+            );
+            if (actions_button != null)
+                section.attach_actions_button ((!) actions_button);
             section.set_controller_up_target ((!) expanded_row);
             section.set_controller_down_target (find_adjacent_visible_row (
                 (!) expanded_row, Utils.ControllerNavigationDirection.DOWN
@@ -578,6 +707,20 @@ namespace ProtonPlus.Widgets.Tools {
             } else {
                 pill.set_visible (false);
             }
+
+            var pill_box = pill.get_parent () as Gtk.Box;
+            if (pill_box == null)
+                return;
+            bool has_visible_pill = false;
+            var child = ((!) pill_box).get_first_child ();
+            while (child != null) {
+                if (child.get_visible ()) {
+                    has_visible_pill = true;
+                    break;
+                }
+                child = child.get_next_sibling ();
+            }
+            ((!) pill_box).set_visible (has_visible_pill);
         }
 
         bool filter_func (Gtk.ListBoxRow row) {

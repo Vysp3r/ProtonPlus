@@ -208,6 +208,16 @@ namespace ProtonPlus.Widgets.Games {
             return count;
         }
 
+        public uint selected_count () {
+            uint count = 0;
+            for (uint i = 0; i < store.get_n_items (); i++) {
+                var item = store.get_item (i) as GameListItem;
+                if (item != null && ((!) item).selected)
+                    count++;
+            }
+            return count;
+        }
+
         public GameListItem[] selected_items () {
             var selected = new Gee.ArrayList<GameListItem> ();
             for (uint i = 0; i < store.get_n_items (); i++) {

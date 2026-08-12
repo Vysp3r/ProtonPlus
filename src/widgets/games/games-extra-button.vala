@@ -4,6 +4,8 @@ namespace ProtonPlus.Widgets.Games {
         GameActionTarget target;
         GameActionAvailability? availability;
         Gtk.PopoverMenu actions_popover;
+        Gtk.Button anticheat_button;
+        Gtk.Label anticheat_button_label;
         SimpleAction custom_executable_action;
         SimpleAction open_install_directory_action;
         SimpleAction open_prefix_directory_action;
@@ -34,9 +36,23 @@ namespace ProtonPlus.Widgets.Games {
                 action_group, "open-protondb", open_protondb
             );
             open_anticheat_action = create_action (
-                action_group, "open-anticheat", open_anticheat
+                action_group, "open-anticheat", open_anticheat_from_popover
             );
             button.insert_action_group ("game", action_group);
+
+            anticheat_button_label = new Gtk.Label (null) {
+                hexpand = true,
+                xalign = 0
+            };
+            anticheat_button = new Gtk.Button () {
+                action_name = "game.open-anticheat",
+                child = anticheat_button_label,
+                has_frame = false,
+                hexpand = true,
+                tooltip_text = "AreWeAntiCheatYet"
+            };
+            anticheat_button.add_css_class ("flat");
+            anticheat_button.add_css_class ("model");
 
             actions_popover = new Gtk.PopoverMenu.from_model (new Menu ());
             actions_popover.closed.connect (() => {
@@ -80,6 +96,8 @@ namespace ProtonPlus.Widgets.Games {
             availability = null;
             button.set_sensitive (false);
             button.set_visible (false);
+            if (anticheat_button.get_parent () != null)
+                actions_popover.remove_child (anticheat_button);
             actions_popover.set_menu_model (new Menu ());
             button.reset_property (Gtk.AccessibleProperty.LABEL);
         }
@@ -124,10 +142,20 @@ namespace ProtonPlus.Widgets.Games {
                 menu.append (_("Open in Proton_tricks"), "game.open-protontricks");
             if (current.show_protondb)
                 menu.append (_("Open Proton_DB"), "game.open-protondb");
-            if (current.show_anticheat)
-                menu.append (anticheat_label (current.anticheat_state),
-                    "game.open-anticheat");
+            if (current.show_anticheat) {
+                var anticheat_item = new MenuItem (null, null);
+                anticheat_item.set_attribute ("custom", "s", "anticheat");
+                menu.append_item (anticheat_item);
+                anticheat_button_label.set_label (
+                    anticheat_label (current.anticheat_state)
+                );
+                anticheat_button.set_sensitive (current.enable_anticheat);
+            }
+            if (anticheat_button.get_parent () != null)
+                actions_popover.remove_child (anticheat_button);
             actions_popover.set_menu_model (menu);
+            if (current.show_anticheat)
+                actions_popover.add_child (anticheat_button, "anticheat");
             button.set_sensitive (current.has_secondary_actions);
             button.set_visible (current.has_secondary_actions);
         }
@@ -167,7 +195,7 @@ namespace ProtonPlus.Widgets.Games {
                 status = _("Unknown");
                 break;
             }
-            return _("Anti-Cheat: %s — _AreWeAntiCheatYet").printf (status);
+            return _("Anti-Cheat: %s").printf (status);
         }
 
         void open_custom_executable () {
@@ -298,6 +326,11 @@ namespace ProtonPlus.Widgets.Games {
                     )
                 );
             }
+        }
+
+        void open_anticheat_from_popover () {
+            actions_popover.popdown ();
+            open_anticheat ();
         }
 
         void disconnect_anticheat () {

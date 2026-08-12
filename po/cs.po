@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-11 21:30-0400\n"
+"POT-Creation-Date: 2026-08-12 12:25-0400\n"
 "PO-Revision-Date: 2026-08-10 11:51+0000\n"
 "Last-Translator: AsciiWolf <mail@asciiwolf.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
@@ -19,1827 +19,12 @@ msgstr ""
 "X-Generator: Weblate 2026.9.dev0\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:7
 msgid "ProtonPlus"
 msgstr "ProtonPlus"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:238
 msgid "A modern compatibility tools manager"
 msgstr "Moderní správce nástrojů kompatibility"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:8
-msgid "Manage Proton, Wine, DXVK, and VKD3D tools for Linux game launchers"
-msgstr ""
-"Spravujte nástroje Proton, Wine, DXVK a VKD3D pro linuxové spouštěče her"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:10
-msgid ""
-"ProtonPlus helps you install, update, remove, and organize Windows "
-"compatibility tools used by Steam and other Linux game launchers."
-msgstr ""
-"ProtonPlus vám pomáhá instalovat, aktualizovat, odebírat a organizovat "
-"nástroje kompatibility pro Windows používané službou Steam a dalšími "
-"linuxovými spouštěči her."
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:14
-msgid "Manage Proton, Wine, DXVK, VKD3D, and related compatibility tools"
-msgstr ""
-"Spravujte Proton, Wine, DXVK, VKD3D a související nástroje kompatibility"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:15
-msgid ""
-"Support Steam, Faugus Launcher, Lutris, Heroic Games Launcher, Bottles, and "
-"WineZGUI"
-msgstr ""
-"Podpora pro Steam, Faugus Launcher, Lutris, Heroic Games Launcher, Bottles a "
-"WineZGUI"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:16
-msgid "Browse Steam games, change compatibility tools, and edit launch options"
-msgstr ""
-"Procházejte hry na Steamu, měňte nástroje kompatibility a upravujte možnosti "
-"spuštění"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:17
-msgid ""
-"Track downloads and updates, with cancellation and desktop notifications"
-msgstr "Sledujte stahování a aktualizace, včetně zrušení a oznámení na ploše"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:18
-msgid ""
-"Use the command-line interface to list, install, update, and uninstall tools"
-msgstr ""
-"Použijte rozhraní příkazové řádky pro výpis, instalaci, aktualizaci a "
-"odinstalaci nástrojů"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:23
-msgid "Vysp3r"
-msgstr "Vysp3r"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:27
-msgid "Proton"
-msgstr "Proton"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:28
-#: src/widgets/mangohud/mangohud-extras-page.vala:94
-msgid "Wine"
-msgstr "Wine"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:29
-msgid "Steam"
-msgstr "Steam"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:30
-msgid "Faugus"
-msgstr "Faugus"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:31
-msgid "Lutris"
-msgstr "Lutris"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:32
-msgid "Heroic"
-msgstr "Heroic"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:33
-msgid "Bottles"
-msgstr "Bottles"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:34
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1275
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
-msgid "DXVK"
-msgstr "DXVK"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:35
-msgid "VKD3D"
-msgstr "VKD3D"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:36
-msgid "Steam Tinker Launch"
-msgstr "Steam Tinker Launch"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:74
-msgid "The tools interface of ProtonPlus."
-msgstr "Rozhraní nástrojů ProtonPlus."
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:78
-msgid "The releases interface of ProtonPlus."
-msgstr "Rozhraní vydání ProtonPlus."
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:82
-msgid "The games interface of ProtonPlus."
-msgstr "Rozhraní her ProtonPlus."
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:86
-msgid "The mass edit interface of ProtonPlus."
-msgstr "Rozhraní hromadných úprav v ProtonPlus."
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:94
-msgid "✨ Improved the introduction screen on smaller windows"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:95
-msgid ""
-"✨ Added a warning when YAD 15 may prevent SteamTinkerLaunch from working"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:96
-#, fuzzy
-msgid "🐛 Fixed new Proton-GE x86-64 releases not being detected"
-msgstr "🐛 Opraveno nezamykání nástrojů a vydání, když to bylo potřeba"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:97
-#, fuzzy
-msgid "🐛 Fixed DW-Proton not using GitHub releases"
-msgstr "🐛 Opraven Proton Kron4ek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:98
-msgid ""
-"🐛 Fixed inaccessible Faugus folders preventing ProtonPlus from starting"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:99
-#, fuzzy
-msgid ""
-"🐛 Fixed SteamTinkerLaunch installations sometimes starting more than once"
-msgstr "🐛 Opraven problém se stahováním SteamTinkerLaunch"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:100
-#, fuzzy
-msgid "🐛 Fixed some tool descriptions not being translated"
-msgstr "🐛 Opraveno nezobrazování síťových chyb, když se měly zobrazit"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:101
-#, fuzzy
-msgid ""
-"🌐 Updated Czech, German, Russian, Simplified Chinese, Swedish, and "
-"Ukrainian localizations"
-msgstr "🌐 Aktualizována zjednodušená čínská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:108
-msgid "✨ Added AppImage builds for AArch64 systems"
-msgstr "✨ Přidány sestavení AppImage pro systémy AArch64"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:109
-msgid "✨ Added a configurable download speed limit"
-msgstr "✨ Přidán nastavitelný limit rychlosti stahování"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:110
-msgid "🐛 Fixed Faugus launcher not being detected under Flatpak"
-msgstr "🐛 Opraveno rozpoznání spouštěče Faugus pod Flatpakem"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:111
-#, fuzzy
-msgid "🐛 Fixed controllers not working under Flatpak"
-msgstr "🐛 Opraveno nezobrazování ikon při běhu pod Flatpakem"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:112
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:154
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:171
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:221
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:255
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:270
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:352
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:395
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:408
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:422
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:454
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:466
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:516
-msgid "🌐 Updated German localization"
-msgstr "🌐 Aktualizována německá lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:119
-msgid "✨ Improved how ProtonPlus finds Steam compatibility tools"
-msgstr ""
-"✨ Vylepšen způsob, jakým ProtonPlus vyhledává nástroje kompatibility pro "
-"Steam"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:120
-msgid "✨ Improved mass editing and controller navigation in the Games tab"
-msgstr "✨ Vylepšeny hromadné úpravy a navigace ovladačem na kartě Hry"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:121
-msgid "🐛 Fixed compatibility tool installation for some Steam setups"
-msgstr ""
-"🐛 Opravena instalace nástrojů kompatibility pro některá nastavení Steamu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:122
-msgid "🐛 Fixed tool usage counts and game lists when moving to another tool"
-msgstr ""
-"🐛 Opraveno počítání použití nástroje a seznamy her při přechodu na jiný "
-"nástroj"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:123
-msgid ""
-"🐛 Fixed tool installation on some Linux systems and improved archive safety"
-msgstr ""
-"🐛 Opravena instalace nástrojů na některých linuxových systémech a vylepšeno "
-"zabezpečení archivu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:124
-msgid "🐛 Fixed translations missing from the AppImage version"
-msgstr "🐛 Přidány chybějící překlady do AppImage verze"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:125
-msgid "🌐 Updated Czech and Slovak translations"
-msgstr "🌐 Aktualizovány české a slovenské překlady"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:132
-msgid "✨ Added Faugus Launcher support"
-msgstr "✨ Přidána podpora Faugus Launcheru"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:133
-msgid "✨ Added CPU-aware x86-64 and ARM64 variant selection"
-msgstr "✨ Přidán výběr variant x86-64 a ARM64 s ohledem na CPU"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:134
-msgid "✨ Added scheduled background updates and notifications"
-msgstr "✨ Přidány plánované aktualizace na pozadí a oznámení"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:135
-msgid ""
-"✨ Added controller navigation with contextual hints, optional haptic "
-"feedback, and a first-run guide"
-msgstr ""
-"✨ Přidána navigace ovladačem s kontextovými nápovědami, volitelnou "
-"haptickou odezvou a průvodcem prvním spuštěním"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:136
-msgid "✨ Added Breeze Light, Breeze Dark, SteamOS, and OLED themes"
-msgstr "✨ Přidány motivy Breeze Light, Breeze Dark, SteamOS a OLED"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:137
-msgid "✨ Added a built-in MangoHud editor and proxy settings"
-msgstr "✨ Přidán vestavěný editor MangoHud a nastavení proxy"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:138
-msgid ""
-"✨ Added Steam shortcut creation and guided Steam restarts, including "
-"SteamOS Gaming Mode"
-msgstr ""
-"✨ Přidáno vytváření zástupců ve Steamu a asistované restarty Steamu, včetně "
-"herního režimu SteamOS"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:139
-msgid "✨ Added default Steam compatibility prefix migration"
-msgstr "✨ Přidána migrace výchozího prefixu kompatibility Steamu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:140
-msgid "✨ Added an active downloads indicator"
-msgstr "✨ Přidán indikátor aktivních stahování"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:141
-msgid "✨ Added ARM64 Flatpak support"
-msgstr "✨ Přidána podpora Flatpaku pro ARM64"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:142
-msgid ""
-"✨ Reworked the launch options editor with hardware-aware options and exact "
-"command previews"
-msgstr ""
-"✨ Přepracován editor možností spuštění s volbami podle hardwaru a přesnými "
-"náhledy příkazů"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:143
-msgid ""
-"✨ Preserved custom and unknown safe launch options during single-game and "
-"mass edits"
-msgstr ""
-"✨ Zachovány vlastní i neznámé bezpečné možnosti spuštění při úpravách jedné "
-"hry i hromadných úpravách"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:144
-msgid ""
-"✨ Improved Games and Tools navigation, search, filtering, selection, and "
-"repository links"
-msgstr ""
-"✨ Vylepšena navigace, vyhledávání, filtrování, výběr a odkazy na repozitáře "
-"v Hrách a Nástrojích"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:145
-msgid ""
-"✨ Improved stable release selection, Latest handling, and variant selection"
-msgstr ""
-"✨ Vylepšen výběr stabilních vydání, zpracování nejnovějších verzí a výběr "
-"variant"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:146
-msgid ""
-"✨ Improved downloads and tool updates with timeout recovery, archive "
-"checks, preserved settings, and safer rollback"
-msgstr ""
-"✨ Vylepšené stahování a aktualizace nástrojů s obnovou po vypršení časového "
-"limitu, kontrolami archivů, zachováním nastavení a bezpečnějším vrácením zpět"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:147
-msgid "✨ Improved Steam multi-user, VDF, and shortcut handling"
-msgstr "✨ Vylepšena práce s více uživateli Steamu, VDF a zástupci"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:148
-msgid "✨ Improved command-line validation and error reporting"
-msgstr "✨ Vylepšena validace příkazové řádky a hlášení chyb"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:149
-msgid ""
-"🐛 Fixed custom executable launches and kept the app usable when some Steam "
-"data cannot be loaded"
-msgstr ""
-"🐛 Opraveno spouštění vlastních spustitelných souborů a aplikace zůstává "
-"použitelná i tehdy, když nelze načíst některá data Steamu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:150
-msgid ""
-"🐛 Fixed release and installation issues affecting Proton-TKG, Proton-"
-"CachyOS, DXVK, VKD3D, Lutris, and Steam Tinker Launch"
-msgstr ""
-"🐛 Opraveny problémy vydání a instalace ovlivňující Proton-TKG, Proton-"
-"CachyOS, DXVK, VKD3D, Lutris a Steam Tinker Launch"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:151
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:350
-msgid "🌐 Added Arabic localization"
-msgstr "🌐 Přidána arabská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:152
-msgid "🌐 Added Slovak localization"
-msgstr "🌐 Přidána slovenská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:153
-msgid "🌐 Updated Simplified Chinese localization"
-msgstr "🌐 Aktualizována zjednodušená čínská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:155
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:300
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:318
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:391
-msgid "🌐 Updated Italian localization"
-msgstr "🌐 Aktualizována italská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:162
-msgid "🐛 Fixed Proton-GE RTSP download"
-msgstr "🐛 Opraveno stahování Proton-GE RTSP"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:169
-msgid "🐛 Fixed Proton-GE downloading wrong version"
-msgstr "🐛 Opraveno stahování špatné verze Proton-GE"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:170
-msgid "🐛 Fixed yad check for Steam Tinker Launch"
-msgstr "🐛 Opravena kontrola yad pro Steam Tinker Launch"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:172
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:196
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:224
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:258
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:297
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:353
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:368
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:399
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:423
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:436
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:453
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:465
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:515
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:541
-msgid "🌐 Updated Chinese localization"
-msgstr "🌐 Aktualizována čínská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:173
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:225
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:239
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:257
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:271
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:301
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:317
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:355
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:392
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:438
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:455
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:467
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:506
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:532
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:560
-msgid "🌐 Updated Portuguese localization"
-msgstr "🌐 Aktualizována portugalská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:174
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:204
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:222
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:321
-msgid "🌐 Updated Polish localization"
-msgstr "🌐 Aktualizována polská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:175
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:223
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:256
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:298
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:322
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:508
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:517
-msgid "🌐 Updated French localization"
-msgstr "🌐 Aktualizována francouzská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:176
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:194
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:206
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:229
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:323
-msgid "🌐 Updated Ukrainian localization"
-msgstr "🌐 Aktualizována ukrajinská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:177
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:195
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:205
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:228
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:259
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:299
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:316
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:354
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:369
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:559
-msgid "🌐 Updated Spanish localization"
-msgstr "🌐 Aktualizována španělská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:178
-msgid "🌐 Updated Greek localization"
-msgstr "🌐 Aktualizována řecká lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:179
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:226
-msgid "🌐 Updated Japanese localization"
-msgstr "🌐 Aktualizována japonská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:186
-msgid "✨ Added a new \"Downloads\" tab"
-msgstr "✨ Přidána nová karta \"Stahování\""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:187
-msgid "✨ Added more launch options"
-msgstr "✨ Přidány další možnosti spuštění"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:188
-msgid "✨ Added a \"Run custom executable\" button"
-msgstr "✨ Přidáno tlačítko \"Spustit vlastní spustitelný soubor\""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:189
-msgid "✨ Added a SteamOS theme and an OLED theme"
-msgstr "✨ Přidán motiv SteamOS a motiv OLED"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:190
-msgid "🐛 Fixed DXVK-Sarek"
-msgstr "🐛 Opraven DXVK-Sarek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:191
-msgid "🐛 Fixed tool usage count to account for default tool"
-msgstr "🐛 Opraveno počítání použití nástroje se započtením výchozího nástroje"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:192
-msgid "🐛 Fixed tool usage count to account for non-steam games"
-msgstr "🐛 Opraveno počítání použití nástroje se započtením her mimo Steam"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:193
-msgid ""
-"🐛 Fixed an error that occured when installing a tool in any launcher except "
-"for Steam"
-msgstr ""
-"🐛 Opravena chyba, která nastávala při instalaci nástroje v jakémkoli "
-"spouštěči kromě Steamu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:203
-msgid "🐛 Fixed launchers not being detected on certain distro"
-msgstr "🐛 Opraveno nerozpoznání spouštěčů na některých distribucích"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:213
-msgid ""
-"✨ Improved the launch options, mass edit and default compatibility tool view"
-msgstr ""
-"✨ Vylepšeny možnosti spuštění, hromadné úpravy a zobrazení výchozího "
-"nástroje kompatibility"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:214
-msgid "✨ Removed Proton-Sarek"
-msgstr "✨ Odebrán Proton-Sarek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:215
-msgid "🐛 Fixed a few typos"
-msgstr "🐛 Opraveno několik překlepů"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:216
-msgid "🐛 Fixed broken icons"
-msgstr "🐛 Opraveny rozbité ikony"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:217
-msgid "🐛 Fixed XDG base directory specification"
-msgstr "🐛 Opravena specifikace základních adresářů XDG"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:218
-msgid "🐛 Fixed Proton-CachyOS (Temporary fix)"
-msgstr "🐛 Opraven Proton-CachyOS (dočasná oprava)"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:219
-msgid "🐛 Fixed Latest releases for Bottles"
-msgstr "🐛 Opravena vydání Latest pro Bottles"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:220
-msgid "🐛 Fixed updates not preserving symlink for user_settings.py"
-msgstr "🐛 Opraveno, že aktualizace nezachovávaly symlink pro user_settings.py"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:227
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:351
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:393
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:437
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:507
-msgid "🌐 Updated Indonesian localization"
-msgstr "🌐 Aktualizována indonéská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:236
-msgid "✨ Added CLI support"
-msgstr "✨ Přidána podpora CLI"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:237
-msgid "🐛 Fixed Lutris install directory for Proton runners"
-msgstr "🐛 Opraven instalační adresář Lutris pro Proton běhové vrstvy"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:238
-msgid "🐛 Fixed unnecessary re-downloads of the same runner as an \"update\""
-msgstr ""
-"🐛 Opraveny zbytečné opakované stažení stejné běhové vrstvy jako "
-"\"aktualizace\""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:240
-msgid "🌐 Added Vietnamese localization"
-msgstr "🌐 Přidána vietnamská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:247
-msgid "✨ Added DW-Proton Latest"
-msgstr "✨ Přidán DW-Proton Latest"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:248
-msgid "✨ Added Proton-Sarek Latest"
-msgstr "✨ Přidán Proton-Sarek Latest"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:249
-msgid "✨ Added Proton-Sarek (Async) Latest"
-msgstr "✨ Přidán Proton-Sarek (Async) Latest"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:250
-msgid "✨ Added Proton-EM Latest"
-msgstr "✨ Přidán Proton-EM Latest"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:251
-msgid "✨ Added Proton-GE RTSP Latest"
-msgstr "✨ Přidán Proton-GE RTSP Latest"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:252
-msgid "🐛 Fixed network error not being displayed when they should"
-msgstr "🐛 Opraveno nezobrazování síťových chyb, když se měly zobrazit"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:253
-msgid "🐛 Fixed \"Unknown error\" dialog appearing on successful update"
-msgstr ""
-"🐛 Opraveno zobrazování dialogu \"Neznámá chyba\" při úspěšné aktualizaci"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:254
-msgid ""
-"🐛 Fixed \"Games\" tab runners not refreshing when installing/removing a "
-"runner"
-msgstr ""
-"🐛 Opraveno neobnovování běhových vrstev na kartě \"Hry\" při instalaci/"
-"odstranění běhové vrstvy"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:260
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:334
-msgid "🌐 Updated Czech localization"
-msgstr "🌐 Aktualizována česká lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:261
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:319
-msgid "🌐 Updated Arabic localization"
-msgstr "🌐 Aktualizována arabská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:262
-msgid "🌐 Added Georgian localization"
-msgstr "🌐 Přidána gruzínská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:269
-msgid "✨ Added DW-Proton"
-msgstr "✨ Přidán DW-Proton"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:278
-msgid "✨ Migrate user_settings.py on update"
-msgstr "✨ Přidána migrace user_settings.py při aktualizaci"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:279
-msgid "✨ Added a button to open runners install directory"
-msgstr "✨ Přidáno tlačítko pro otevření instalačního adresáře běhových vrstev"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:280
-msgid "✨ Added a basic cache system for downloaded runners"
-msgstr "✨ Přidán základní systém mezipaměti pro stažené běhové vrstvy"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:281
-msgid "✨ Improved new user experience"
-msgstr "✨ Vylepšeno prostředí pro nové uživatele"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:282
-msgid "✨ Added API limit/connection issue warning dialog"
-msgstr "✨ Přidán varovný dialog pro limity API/problémy s připojením"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:283
-msgid "✨ Improved \"Runners\" tab filters"
-msgstr "✨ Vylepšeny filtry na kartě \"Běhové vrstvy\""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:284
-msgid "✨ Added preferences dialog"
-msgstr "✨ Přidán dialog předvoleb"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:285
-msgid "✨ Added report button to error dialogs"
-msgstr "✨ Přidáno tlačítko pro nahlášení do dialogů chyb"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:286
-msgid "✨ Added GitHub/GitLab access token"
-msgstr "✨ Přidán přístupový token GitHub/GitLab"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:287
-msgid "✨ Added release date under release name"
-msgstr "✨ Přidáno datum vydání pod názvem vydání"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:288
-msgid "🐛 Fixed possible negative remaining download time"
-msgstr "🐛 Opravena možnost záporného zbývajícího času stahování"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:289
-msgid "🐛 Fixed select/unselect all"
-msgstr "🐛 Opraveno vybrat/odznačit vše"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:290
-msgid "🐛 Fixed Proton-CachyOS not downloading the good version"
-msgstr "🐛 Opraveno, že Proton-CachyOS nestahoval správnou verzi"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:291
-msgid "🐛 Fixed invalid files from being downloaded"
-msgstr "🐛 Opraveno stahování neplatných souborů"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:292
-msgid "🐛 Fixed Wine-Proton invalid download url"
-msgstr "🐛 Opravena neplatná adresa stahování Wine-Protonu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:293
-msgid "🐛 Fixed SteamTinkerLaunch download issue"
-msgstr "🐛 Opraven problém se stahováním SteamTinkerLaunch"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:294
-msgid "🐛 Fixed Proton-GE Latest version check issue"
-msgstr "🐛 Opraven problém s kontrolou verze Proton-GE Latest"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:295
-msgid "🐛 Fixed Proton-CachyOS invalid directory name"
-msgstr "🐛 Opraven neplatný název adresáře Proton-CachyOS"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:296
-msgid "🌐 Added Japanese localization"
-msgstr "🌐 Přidána japonská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:302
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:335
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:394
-msgid "🌐 Updated Russian localization"
-msgstr "🌐 Aktualizována ruská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:309
-msgid "✨ Added a search bar in the \"Games\" tab"
-msgstr "✨ Přidán vyhledávací panel na kartě \"Hry\""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:310
-msgid "✨ Added a way to see the speed and remaining time of downloads"
-msgstr "✨ Přidána možnost zobrazit rychlost a zbývající čas stahování"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:311
-msgid "✨ Added Wine runners to Bottles"
-msgstr "✨ Přidány Wine běhové vrstvy do Bottles"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:312
-msgid "✨ Update runtime to GNOME 49"
-msgstr "✨ Aktualizováno runtime na GNOME 49"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:313
-msgid "🐛 Fixed icons issue"
-msgstr "🐛 Opraven problém s ikonami"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:314
-msgid "🐛 Fixed Proton-GE RTSP"
-msgstr "🐛 Opraven Proton-GE RTSP"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:315
-msgid "🐛 Fixed error when cancelling install during extraction"
-msgstr "🐛 Opravena chyba při rušení instalace během rozbalování"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:320
-msgid "🌐 Updated Finnish localization"
-msgstr "🌐 Aktualizována finská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:330
-msgid "🐛 Fixed launchers loading issue"
-msgstr "🐛 Opraven problém s načítáním spouštěčů"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:331
-msgid "🐛 Fixed possible parsing issue"
-msgstr "🐛 Opraven možný problém při parsování"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:332
-msgid ""
-"🐛 Fixed force exit not working in the warning dialog when closing the "
-"application"
-msgstr ""
-"🐛 Opraveno nefungující vynucené ukončení ve varovném dialogu při zavírání "
-"aplikace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:333
-msgid "🐛 Fixed application freezing in a certain scenario"
-msgstr "🐛 Opraveno zamrzání aplikace v určitém scénáři"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:342
-msgid "✨ Added non-steam games support"
-msgstr "✨ Přidána podpora her mimo Steam"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:343
-msgid "✨ Added an update indicator"
-msgstr "✨ Přidán indikátor aktualizací"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:344
-msgid "✨ Added a way to see the games prefix"
-msgstr "✨ Přidána možnost zobrazit prefix hry"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:345
-msgid "✨ Added a sticky filter bar to the \"Runners\" tab"
-msgstr "✨ Přidán připnutý panel filtrů na kartu \"Běhové vrstvy\""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:346
-msgid "✨ Added a way to see which runners are used"
-msgstr "✨ Přidána možnost vidět, které běhové vrstvy se používají"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:347
-msgid "✨ Improve Proton-GE Latest handling"
-msgstr "✨ Vylepšena práce s Proton-GE Latest"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:348
-msgid "🐛 Fixed a launcher loading issue"
-msgstr "🐛 Opraven problém s načítáním spouštěče"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:349
-msgid "🌐 Added Ukrainian localization"
-msgstr "🌐 Přidána ukrajinská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:356
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:396
-msgid "🌐 Updated Dutch localization"
-msgstr "🌐 Aktualizována nizozemská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:363
-msgid "✨ Delete cache on exit"
-msgstr "✨ Smazání mezipaměti při ukončení"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:364
-msgid "🐛 Fixed runners not downloading for HGL"
-msgstr "🐛 Opraveno nestahování běhových vrstev pro HGL"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:365
-msgid "🐛 Fixed recursive copy error"
-msgstr "🐛 Opravena chyba rekurzivního kopírování"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:366
-msgid "🐛 Fixed icons not showing up when running under Flatpak"
-msgstr "🐛 Opraveno nezobrazování ikon při běhu pod Flatpakem"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:367
-msgid "🐛 Fixed WineZGUI Flatpak not appearing in launcher list"
-msgstr "🐛 Opraveno nezobrazování WineZGUI Flatpak v seznamu spouštěčů"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:376
-msgid "✨ Added Proton-GE Latest"
-msgstr "✨ Přidán Proton-GE Latest"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:377
-msgid "✨ Added WineZGUI support"
-msgstr "✨ Přidána podpora WineZGUI"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:378
-msgid "✨ Added a profile switch button"
-msgstr "✨ Přidáno tlačítko pro přepnutí profilu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:379
-msgid "✨ Made the runners dynamic"
-msgstr "✨ Běhové vrstvy jsou nyní dynamické"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:380
-msgid "✨ Added a loading screen"
-msgstr "✨ Přidána načítací obrazovka"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:381
-msgid "✨ Updated donation button link"
-msgstr "✨ Aktualizován odkaz tlačítka pro příspěvek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:382
-msgid "✨ Made the game list sort-able via the header"
-msgstr "✨ Seznam her lze nyní řadit přes záhlaví"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:383
-msgid "✨ Added a shortcut to open protontricks"
-msgstr "✨ Přidána zkratka pro otevření protontricks"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:384
-msgid "🐛 Fixed \"Load more\" scrolling to top after clicking it"
-msgstr "🐛 Opraveno posunutí nahoru po kliknutí na \"Načíst více\""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:385
-msgid "🐛 Fixed SteamTinkerLaunch from being duplicated"
-msgstr "🐛 Opraveno duplikování SteamTinkerLaunch"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:386
-msgid "🐛 Fixed launch options parsing issue"
-msgstr "🐛 Opraven problém při parsování možností spuštění"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:387
-msgid ""
-"🐛 Fixed Steam shortcut not using system language to launch the application"
-msgstr ""
-"🐛 Opraveno, že zástupce ve Steamu nepoužíval při spuštění aplikace "
-"systémový jazyk"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:388
-msgid "🐛 Fixed issue with incorrectly identifying Steam shortcut"
-msgstr "🐛 Opraven problém s nesprávnou identifikací zástupce ve Steamu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:389
-msgid "🐛 Fixed crash when CompatToolMapping is missing in config.vdf"
-msgstr "🐛 Opraven pád při chybějícím CompatToolMapping v config.vdf"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:390
-msgid "🐛 Fixed incorrect insertion position when launch options are missing"
-msgstr ""
-"🐛 Opravena nesprávná pozice vložení při chybějících možnostech spuštění"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:397
-msgid "🌐 Updated Bosnian localization"
-msgstr "🌐 Aktualizována bosenská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:398
-msgid "🌐 Updated Serbian localization"
-msgstr "🌐 Aktualizována srbská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:406
-msgid "🐛 Fix games being duplicated when switching tab back and forth"
-msgstr "🐛 Opraveno duplikování her při přepínání karet tam a zpět"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:407
-msgid "🌐 Update Polish localization"
-msgstr "🌐 Aktualizována polská lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:415
-msgid "💄 Improved UI/UX"
-msgstr "💄 Vylepšeno UI/UX"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:416
-msgid "💄 Refined the game library list header"
-msgstr "💄 Vyladěno záhlaví seznamu knihovny her"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:417
-msgid "💄 Improved dropdown's in game library"
-msgstr "💄 Vylepšeny rozbalovací nabídky v knihovně her"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:418
-msgid "🐛 Removed Proton Kron4ek"
-msgstr "🐛 Odebrán Proton Kron4ek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:419
-msgid "🐛 Fix issue related to the new custom dropdown's"
-msgstr ""
-"🐛 Opraven problém související s novými vlastními rozbalovacími nabídkami"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:420
-msgid "🐛 Fix changing compatibility tool not working in certain cases"
-msgstr ""
-"🐛 Opraveno nefunkční přepínání nástroje kompatibility v některých případech"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:421
-msgid "🌐 Update Czech localization"
-msgstr "🌐 Aktualizována česká lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:430
-msgid "✨ Added an header to the library game list"
-msgstr "✨ Přidáno záhlaví do seznamu her v knihovně"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:431
-msgid "✨ Added a donation button"
-msgstr "✨ Přidáno tlačítko pro příspěvek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:432
-msgid "🐛 Fix compatibility tool detection"
-msgstr "🐛 Opravena detekce nástroje kompatibility"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:433
-msgid "🐛 Change DXVK Sarek naming scheme"
-msgstr "🐛 Změněno schéma pojmenování DXVK Sarek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:434
-msgid "🐛 Fix library loading issue"
-msgstr "🐛 Opraven problém s načítáním knihovny"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:435
-msgid "🐛 Fix a crash"
-msgstr "🐛 Opraven pád"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:445
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:452
-msgid "🐛 Fix Steam profile detection"
-msgstr "🐛 Opravena detekce profilu Steam"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:462
-msgid "✨ Added the ability to manage launch options of games"
-msgstr "✨ Přidána možnost spravovat možnosti spuštění her"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:463
-msgid "✨ Added a way to open the install/prefix directory of games"
-msgstr "✨ Přidána možnost otevřít instalační/prefixový adresář her"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:464
-msgid ""
-"✨ Added the ability to set the default compatibility tool for Steam games"
-msgstr ""
-"✨ Přidána možnost nastavit výchozí nástroj kompatibility pro hry na Steamu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:474
-msgid "🐛 Fixed ProtonDB logo not appearing with light theme"
-msgstr "🐛 Opraveno nezobrazení loga ProtonDB ve světlém motivu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:475
-msgid "🐛 Fixed shortcut button not working properly"
-msgstr "🐛 Opraveno nefunkční tlačítko zástupce"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:476
-msgid "✨ Made the games be sorted by name by default"
-msgstr "✨ Hry se nyní ve výchozím stavu řadí podle názvu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:477
-msgid "✨ Made it possible to unselect a game by clicking on it"
-msgstr "✨ Přidána možnost odznačit hru kliknutím"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:478
-msgid "✨ Added a way to select/unselect all the games"
-msgstr "✨ Přidána možnost vybrat/odznačit všechny hry"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:479
-msgid "✨ Added a way to sort by game name and sort by compatbility tool name"
-msgstr ""
-"✨ Přidána možnost řazení podle názvu hry a názvu nástroje kompatibility"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:486
-msgid "🐛 Fixed Proton Kron4ek"
-msgstr "🐛 Opraven Proton Kron4ek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:493
-msgid "✨ Added support for Proton Kron4ek"
-msgstr "✨ Přidána podpora pro Proton Kron4ek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:494
-msgid "✨ Added a way to add a shortcut of ProtonPlus in Steam"
-msgstr "✨ Přidána možnost přidat zástupce ProtonPlus do Steamu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:495
-msgid "✨ Added a way to see if a compatibility tool is used or not for Steam"
-msgstr ""
-"✨ Přidána možnost zjistit, zda je pro Steam používán nástroj kompatibility"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:496
-msgid "✨ Added the ability to change the compatibility tool of Steam games"
-msgstr "✨ Přidána možnost změnit nástroj kompatibility u her na Steamu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:497
-msgid ""
-"✨ Added the ability to change the compatibility tool of multiple Steam game "
-"at the same time"
-msgstr ""
-"✨ Přidána možnost změnit nástroj kompatibility více her na Steamu najednou"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:498
-msgid "🐛 Fix UI freeze when installing/removing STL"
-msgstr "🐛 Opraveno zamrzání UI při instalaci/odebírání STL"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:499
-msgid "💄 Improved the UX of most of the dialogs"
-msgstr "💄 Vylepšena UX většiny dialogů"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:524
-msgid "✨ Added support for Proton EM"
-msgstr "✨ Přidána podpora pro Proton EM"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:531
-msgid "🐛 Fix only Steam showing up"
-msgstr "🐛 Opraveno zobrazování pouze Steamu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:539
-msgid "🐛 Added check for inactive Steam installations"
-msgstr "🐛 Přidána kontrola neaktivních instalací Steamu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:540
-msgid "🧑‍💻 Updated runtime to GNOME 48"
-msgstr "🧑‍💻 Runtime aktualizován na GNOME 48"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:548
-msgid "✨ Added Proton CachyOS for Bottles"
-msgstr "✨ Přidán Proton CachyOS pro Bottles"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:549
-msgid "✨ Re-ordered runners"
-msgstr "✨ Běhové vrstvy byly nově seřazeny"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:550
-msgid "✨ Removed deprecated runners"
-msgstr "✨ Odebrány zastaralé běhové vrstvy"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:551
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:576
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:584
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:634
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:730
-msgid "🌐 Updated German translation"
-msgstr "🌐 Aktualizován německý překlad"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:558
-msgid "✨ Added support for Proton CachyOS"
-msgstr "✨ Přidána podpora pro Proton CachyOS"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:567
-msgid "🐛 Fix some DXVK runners using the wrong name"
-msgstr "🐛 Opraveno, že některé DXVK běhové vrstvy používaly špatný název"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:568
-msgid "🌐 Fix typo in German localization"
-msgstr "🌐 Opraven překlep v německé lokalizaci"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:575
-msgid "🐛 Fix HGL support"
-msgstr "🐛 Opravena podpora HGL"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:583
-msgid "🐛 Fix Proton-Sarek install issues"
-msgstr "🐛 Opraveny problémy s instalací Proton-Sarek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:585
-msgid "🌐 Updated Czech translation"
-msgstr "🌐 Aktualizován český překlad"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:592
-msgid "🐛 Fixed libadwaita version minimum requirement"
-msgstr "🐛 Opraven minimální požadavek na verzi libadwaita"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:599
-msgid "✨ Added a way to view the description of each release"
-msgstr "✨ Přidána možnost zobrazit popis každého vydání"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:600
-msgid "✨ Added support for DXVK Sarek"
-msgstr "✨ Přidána podpora pro DXVK Sarek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:601
-msgid "✨ Added support for Proton in Lutris (without using Steam)"
-msgstr "✨ Přidána podpora Protonu v Lutris (bez použití Steamu)"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:602
-msgid "🐛 Fixed installed only filter"
-msgstr "🐛 Opraven filtr pouze nainstalované"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:603
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:693
-msgid "🧑‍💻 Backend improvements"
-msgstr "🧑‍💻 Vylepšení backendu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:604
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:660
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:668
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:677
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:685
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:694
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:709
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:720
-msgid "🌐 Updated localization"
-msgstr "🌐 Aktualizována lokalizace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:611
-msgid "💄 Switched app icon to PNG format due to poor SVG support in KDE"
-msgstr ""
-"💄 Ikona aplikace převedena do formátu PNG kvůli slabé podpoře SVG v KDE"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:618
-msgid "🐛 Fix for Proton-Sarek support"
-msgstr "🐛 Oprava podpory Proton-Sarek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:625
-msgid "✨ Added support for Proton-Sarek"
-msgstr "✨ Přidána podpora Proton-Sarek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:626
-msgid "💄 Updated the application icon"
-msgstr "💄 Aktualizována ikona aplikace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:627
-msgid "🌐 Updated Swedish translation"
-msgstr "🌐 Aktualizován švédský překlad"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:641
-msgid "✨ Added support for Steam Tinker Launch"
-msgstr "✨ Přidána podpora Steam Tinker Launch"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:642
-msgid "✨ Made Ctrl-Q quit the application"
-msgstr "✨ Ctrl-Q nyní ukončí aplikaci"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:643
-msgid "✨ The window now remembers the last-used size"
-msgstr "✨ Okno si nyní pamatuje naposledy použitou velikost"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:644
-msgid "💄 Improved UI polish and consistency"
-msgstr "💄 Vylepšena uhlazenost a konzistence UI"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:645
-msgid "🌐 Made it easier to translate the application"
-msgstr "🌐 Zjednodušeno překládání aplikace"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:646
-msgid "🌐 Added Swedish translation"
-msgstr "🌐 Přidán švédský překlad"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:653
-msgid "🐛 Fix appdata"
-msgstr "🐛 Opraven appdata"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:667
-msgid "✨ Added Proton-GE RTSP to Steam"
-msgstr "✨ Přidán Proton-GE RTSP do Steamu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:675
-msgid "🐛 Fixed installed only infinite loading"
-msgstr "🐛 Opraveno nekonečné načítání filtru pouze nainstalované"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:676
-msgid "🐛 Fixed GitLab downloads not working"
-msgstr "🐛 Opraveno nefunkční stahování z GitLabu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:684
-msgid "🐛 Fixed missing Bottles icon"
-msgstr "🐛 Opravena chybějící ikona Bottles"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:692
-msgid "💄 Modernised the UI"
-msgstr "💄 Modernizováno UI"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:701
-msgid "✨ Added an installed only filter"
-msgstr "✨ Přidán filtr pouze nainstalované"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:702
-msgid "✨ Added Kron4ek builds and Proton-tkg to HGL"
-msgstr "✨ Přidány buildy Kron4ek a Proton-tkg do HGL"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:703
-msgid "✨ Added VKD3D support for Lutris"
-msgstr "✨ Přidána podpora VKD3D pro Lutris"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:704
-msgid "✨ Added Kron4ek Wine-Builds Staging"
-msgstr "✨ Přidán Kron4ek Wine-Builds Staging"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:705
-msgid "✨ Added DXVK GPL+Async (Ph42oN)"
-msgstr "✨ Přidán DXVK GPL+Async (Ph42oN)"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:706
-msgid "💄 Added description to groups"
-msgstr "💄 Přidány popisy ke skupinám"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:707
-msgid "💄 Improved Steam Deck experience"
-msgstr "💄 Vylepšena zkušenost na Steam Decku"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:708
-msgid "🧑‍💻 General improvements"
-msgstr "🧑‍💻 Obecná vylepšení"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:716
-msgid "📝 Updated README, appdata and preview image"
-msgstr "📝 Aktualizovány README, appdata a náhledový obrázek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:717
-msgid "🐛 Fix Flathub download link"
-msgstr "🐛 Opraven odkaz na stažení z Flathubu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:718
-msgid "♻️ Update delete dialog"
-msgstr "♻️ Aktualizován dialog smazání"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:719
-msgid "✨ Added the ability to download older versions"
-msgstr "✨ Přidána možnost stahovat starší verze"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:727
-msgid "🍱 Replaced the preview video"
-msgstr "🍱 Nahrazeno náhledové video"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:728
-msgid "🐛 Fixed Proton Tkg"
-msgstr "🐛 Opraven Proton Tkg"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:729
-msgid "🐛 Fixed install directories creation"
-msgstr "🐛 Opravena tvorba instalačních adresářů"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:736
-msgid ""
-"I disabled Proton-Tkg (Steam) for now. I will re-add it for the next update."
-msgstr ""
-"Prozatím jsem vypnul Proton-Tkg (Steam). V příští aktualizaci jej znovu "
-"přidám."
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:738
-msgid "🍱 Updated the preview images and video"
-msgstr "🍱 Aktualizovány náhledové obrázky a video"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:739
-msgid "💄 Updated the UI"
-msgstr "💄 Aktualizováno UI"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:740
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:750
-msgid "⚡️ Backend optimization"
-msgstr "⚡️ Optimalizace backendu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:747
-msgid "🍱 Change preview video file format to webm"
-msgstr "🍱 Změněn formát náhledového videa na webm"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:748
-msgid "🌐 Fixed README typo and added Czech translation"
-msgstr "🌐 Opraven překlep v README a přidán český překlad"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:749
-msgid "🌐 Added German translation"
-msgstr "🌐 Přidán německý překlad"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:757
-msgid "✨ Added a tasks queue system"
-msgstr "✨ Přidán systém fronty úloh"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:758
-msgid "💄 Updated the installer UI"
-msgstr "💄 Aktualizováno UI instalátoru"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:759
-msgid "🐛 Fix window always being able to be closed"
-msgstr "🐛 Opraveno, že okno šlo vždy zavřít"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:760
-msgid "🐛 Fix preferences page being empty"
-msgstr "🐛 Opravena prázdná stránka předvoleb"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:761
-msgid "🐛 Fix Steam install message"
-msgstr "🐛 Opravena instalační zpráva Steamu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:762
-msgid "📝 Updated Flathub download logo"
-msgstr "📝 Aktualizováno logo stažení z Flathubu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:769
-msgid "✨ Complete UI Overhaul"
-msgstr "✨ Kompletní přepracování UI"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:770
-msgid "🧑‍💻 Project Refactor"
-msgstr "🧑‍💻 Refaktoring projektu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:777
-msgid "✨ Added support for Bottles"
-msgstr "✨ Přidána podpora Bottles"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:778
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:787
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:800
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:814
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:824
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:836
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:847
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:856
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:867
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:876
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:893
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:911
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:928
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:946
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:962
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:970
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:990
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:999
-msgid "🔨 Update appdata"
-msgstr "🔨 Aktualizován appdata"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:779
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:788
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:801
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:815
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:825
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:837
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:848
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:857
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:868
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:877
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:894
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:913
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:930
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:947
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:963
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:975
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:991
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1007
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1030
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1050
-msgid "💬 Update the release notes"
-msgstr "💬 Aktualizovány poznámky k vydání"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:786
-msgid "✨ Added support for Heroic Games Launcher"
-msgstr "✨ Přidána podpora Heroic Games Launcheru"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:795
-msgid "✨ Updated the About window"
-msgstr "✨ Aktualizováno okno O aplikaci"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:796
-msgid "🎨 Added utilities for folders and files"
-msgstr "🎨 Přidány utility pro složky a soubory"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:797
-msgid "🎨 Migrated preferences system to GLib.Settings"
-msgstr "🎨 Systém předvoleb migrován na GLib.Settings"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:798
-msgid "✨ Implementated cancelation dialog when downloading"
-msgstr "✨ Přidán dialog zrušení při stahování"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:799
-msgid "🔧 Modified filesystem permissions scopes"
-msgstr "🔧 Upraveny rozsahy oprávnění souborového systému"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:808
-msgid "🐛 Fixed installer tool switching"
-msgstr "🐛 Opraveno přepínání nástroje v instalátoru"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:809
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:833
-msgid "🔇 Remove debug log"
-msgstr "🔇 Odebrán debug log"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:810
-msgid "💄 Updated icons"
-msgstr "💄 Aktualizovány ikony"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:811
-msgid "🐛 Fixed tools and releases not being locked when needed"
-msgstr "🐛 Opraveno nezamykání nástrojů a vydání, když to bylo potřeba"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:812
-msgid "🐛 Fixed progress bar not being hidden when needed"
-msgstr "🐛 Opraveno neschovávání progress baru, když to bylo potřeba"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:813
-msgid "🌐 Updated translation files"
-msgstr "🌐 Aktualizovány soubory překladu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:822
-msgid "🐛 Fix flathub manifest"
-msgstr "🐛 Opraven manifest Flathubu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:823
-msgid "🌐 Added missing russian translations"
-msgstr "🌐 Přidány chybějící ruské překlady"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:832
-msgid "✨ Add warning for gamescope compatibility issues"
-msgstr "✨ Přidáno varování pro problémy kompatibility Gamescope"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:834
-msgid "🐛 Fix download getting canceled randomly"
-msgstr "🐛 Opraveno náhodné rušení stahování"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:835
-msgid "🌐 Added missing translations"
-msgstr "🌐 Přidány chybějící překlady"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:844
-msgid "🐛 Fix directory creation"
-msgstr "🐛 Opravena tvorba adresáře"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:845
-msgid "🐛 Fix releases not always changing"
-msgstr "🐛 Opraveno, že se vydání ne vždy měnila"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:846
-msgid "✨ Added Proton Tkg"
-msgstr "✨ Přidán Proton Tkg"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:855
-msgid "🌐 Add missing translations"
-msgstr "🌐 Přidat chybějící překlady"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:864
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:910
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:927
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:945
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1038
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1062
-msgid "📝 Update README.md"
-msgstr "📝 Aktualizováno README.md"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:865
-msgid "🌐 Add Chinese(Simplified) Translation"
-msgstr "🌐 Přidán čínský (zjednodušený) překlad"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:866
-msgid "🐛 Fix translation"
-msgstr "🐛 Opraven překlad"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:875
-msgid "🐛 Correct desktop file exec"
-msgstr "🐛 Opravena položka Exec v desktop souboru"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:884
-msgid "🌐 Add Indonesian translation"
-msgstr "🌐 Přidán indonéský překlad"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:885
-msgid "🌐 Add Brazilian Portuguese (pt-BR) translation"
-msgstr "🌐 Přidán brazilský portugalský (pt-BR) překlad"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:886
-msgid "💄 Lock dialogs to main window"
-msgstr "💄 Dialogy uzamčeny k hlavnímu oknu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:887
-msgid "📝 Fix README.md typo"
-msgstr "📝 Opraven překlep v README.md"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:888
-msgid "📝 Add desktop-file-utils link to README.md"
-msgstr "📝 Přidán odkaz desktop-file-utils do README.md"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:889
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:957
-msgid "🐛 Fix possible crash scenario"
-msgstr "🐛 Opraven možný scénář pádu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:890
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:923
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:954
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:988
-msgid "🧑‍💻 Project refactor"
-msgstr "🧑‍💻 Refaktoring projektu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:891
-msgid "🐛 Fix tool renaming"
-msgstr "🐛 Opraveno přejmenování nástroje"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:892
-msgid "🐛 Fix download not working on some machine"
-msgstr "🐛 Opraveno nefunkční stahování na některých strojích"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:901
-msgid "🔨 Correct desktop file category"
-msgstr "🔨 Opravena kategorie desktop souboru"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:902
-msgid "🌐 Adding a Russian translation"
-msgstr "🌐 Přidání ruského překladu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:903
-msgid "🌐 Added spanish translation"
-msgstr "🌐 Přidán španělský překlad"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:904
-msgid "🐛 Fix installed tools not showing up properly"
-msgstr "🐛 Opraveno nesprávné zobrazování nainstalovaných nástrojů"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:905
-msgid "🐛 Fix buttons being clickable when switching tool"
-msgstr "🐛 Opraveno klikání na tlačítka při přepínání nástroje"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:906
-msgid "🧱 Rename InstallTool to Installer"
-msgstr "🧱 InstallTool přejmenován na Installer"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:907
-msgid "⚰️ Remove dead code from Release"
-msgstr "⚰️ Odebrán mrtvý kód z Release"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:908
-msgid "🚸 Added a tooltip in About"
-msgstr "🚸 Přidán tooltip v O aplikaci"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:909
-msgid "🌐 Add missing translation"
-msgstr "🌐 Přidat chybějící překlad"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:912
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:929
-msgid "🔨 Update meson"
-msgstr "🔨 Aktualizován meson"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:920
-msgid "✨ Add localization system"
-msgstr "✨ Přidán lokalizační systém"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:921
-msgid "🚸 Added more tooltips"
-msgstr "🚸 Přidány další tooltipy"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:922
-msgid "🚸 Update About for better UX"
-msgstr "🚸 Aktualizováno O aplikaci pro lepší UX"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:924
-msgid "🐛 Fix styles localization"
-msgstr "🐛 Opravena lokalizace stylů"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:925
-msgid "✨ Added remember last launcher preference"
-msgstr "✨ Přidána volba pamatovat si poslední launcher"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:926
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:944
-msgid "🍱 Update preview images"
-msgstr "🍱 Aktualizovány náhledové obrázky"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:937
-msgid "💄 Fix ListBox CSS missing"
-msgstr "💄 Opravena chybějící CSS pro ListBox"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:938
-msgid "🚚 Renamed HomeInfo to AboutTool"
-msgstr "🚚 HomeInfo přejmenováno na AboutTool"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:939
-msgid "💄 Update Home layout"
-msgstr "💄 Aktualizováno rozložení Home"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:940
-msgid "🧑‍💻 Refactor ProtonMessageDialog"
-msgstr "🧑‍💻 Refaktoring ProtonMessageDialog"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:941
-msgid "🚚 Rename Selector to InstallTool"
-msgstr "🚚 Selector přejmenován na InstallTool"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:942
-msgid "🐛 Fix Adw-Critical error"
-msgstr "🐛 Opravena chyba Adw-Critical"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:943
-msgid "🐛 Fix crash on tool delete"
-msgstr "🐛 Opraven pád při smazání nástroje"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:955
-msgid "🐛 Fix ListBox missing scrollbar"
-msgstr "🐛 Opraven chybějící posuvník v ListBoxu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:956
-msgid "✨ Add launcher cleanup utility"
-msgstr "✨ Přidán nástroj pro čištění spouštěčů"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:958
-msgid "➖ Remove Posix dependency"
-msgstr "➖ Odebrána závislost na Posix"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:959
-msgid "🐛 Fix button always being active"
-msgstr "🐛 Opraveno tlačítko, které bylo vždy aktivní"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:960
-msgid "🧑‍💻 Add new message dialog widget"
-msgstr "🧑‍💻 Přidán nový widget dialogu zpráv"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:961
-msgid "🐛 Fix useless log showing up"
-msgstr "🐛 Opraveno zobrazování zbytečného logu"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:971
-msgid "🐛 Fix tool renaming for nothing"
-msgstr "🐛 Opraveno zbytečné přejmenování nástroje"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:972
-msgid "🐛 Fix selector window freezing"
-msgstr "🐛 Opraveno zamrzání okna výběru"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:973
-msgid "🐛 Fix Gtk-Critical errors"
-msgstr "🐛 Opraveny chyby Gtk-Critical"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:974
-msgid "🐛 Fix buttons being active by default in selector"
-msgstr "🐛 Opraveno výchozí aktivní tlačítko ve výběru"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:981
-msgid ""
-"For stability reasons, I've decided to disable Bottles and Heroic Games "
-"Launcher support for now. I also disabled Proton Tkg for the same reasons."
-msgstr ""
-"Z důvodu stability jsem se rozhodl prozatím vypnout podporu Bottles a Heroic "
-"Games Launcheru. Ze stejných důvodů jsem vypnul i Proton Tkg."
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:984
-msgid "✨ Add NorthstarProton compatibility tool"
-msgstr "✨ Přidán nástroj kompatibility NorthstarProton"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:985
-msgid "🐛 Fix NorthstarProton not showing up"
-msgstr "🐛 Opraveno nezobrazování NorthstarProton"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:986
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1000
-msgid "🔨 Update flatpak config"
-msgstr "🔨 Aktualizována konfigurace Flatpaku"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:987
-msgid "💬 Renamed tools in a uniform way"
-msgstr "💬 Nástroje byly přejmenovány jednotným způsobem"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:989
-msgid "🚸 Add error message to selector"
-msgstr "🚸 Přidána chybová zpráva do výběru"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:997
-msgid "We are now officialy on Flathub!"
-msgstr "Teď jsme oficiálně na Flathubu!"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1001
-msgid "🍱 Update symbolic icon"
-msgstr "🍱 Aktualizována symbolická ikona"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1002
-msgid "🍱 Add icon"
-msgstr "🍱 Přidána ikona"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1003
-msgid "🔨 Update .desktop"
-msgstr "🔨 Aktualizován soubor .desktop"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1004
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1019
-msgid "🍱 Update the preview image"
-msgstr "🍱 Aktualizován náhledový obrázek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1005
-msgid "🍱 Add a preview image"
-msgstr "🍱 Přidán náhledový obrázek"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1006
-msgid "🐛 Fix install button always being clickable"
-msgstr "🐛 Opraveno tlačítko instalace, které bylo vždy klikatelné"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1013
-msgid ""
-"The new naming convention for extracted directories is basically making sure "
-"each installed tools is easily recognizable to make it easier to manage them."
-msgstr ""
-"Nová konvence pojmenování rozbalených adresářů v podstatě zajišťuje, aby byl "
-"každý nainstalovaný nástroj snadno rozpoznatelný, což usnadní jejich správu."
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1015
-msgid "Naming convention: Tool name + Tool version"
-msgstr "Konvence pojmenování: Název nástroje + Verze nástroje"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1016
-msgid "Example: GE-Proton | GE-Proton7-41"
-msgstr "Příklad: GE-Proton | GE-Proton7-41"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1018
-msgid "✏️ Fix typo in the release notes"
-msgstr "✏️ Opraven překlep v poznámkách k vydání"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1020
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1027
-msgid "⚰️ Remove unused custom widget"
-msgstr "⚰️ Odebrán nepoužívaný vlastní widget"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1021
-msgid "🚧 Add notifications tab"
-msgstr "🚧 Přidána karta oznámení"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1022
-msgid "💄 Update selector window components to Libadwaita"
-msgstr "💄 Aktualizovány komponenty okna výběru na Libadwaita"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1023
-msgid "🧱 Separate Release from CompatibilityTool"
-msgstr "🧱 Oddělen Release od CompatibilityTool"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1024
-msgid "🧱 Rename CompatibilityTool to Tool"
-msgstr "🧱 Přejmenován CompatibilityTool na Tool"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1025
-msgid "⚰️ Remove unused file"
-msgstr "⚰️ Odebrán nepoužívaný soubor"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1026
-msgid "💄 Update home message dialog to libadwaita"
-msgstr "💄 Aktualizován domovský dialog zpráv na libadwaita"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1028
-msgid "✨ Added a naming convention extracted directories"
-msgstr "✨ Přidána konvence pojmenování rozbalených adresářů"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1029
-msgid "🚚 Rename compatibilitytool to tool"
-msgstr "🚚 Přejmenován compatibilitytool na tool"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1036
-msgid "ProtonPlus now requires Libadwaita version 1.2 or higher."
-msgstr "ProtonPlus nyní vyžaduje Libadwaita verze 1.2 nebo vyšší."
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1039
-msgid "🐛 Fix Preferences window default siz"
-msgstr "🐛 Opravena výchozí velikost okna Předvolby"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1040
-msgid "💄 Move main window to Libadwaita"
-msgstr "💄 Hlavní okno přesunuto na Libadwaita"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1041
-msgid "💄 Move about window to Libadwaita"
-msgstr "💄 Okno O aplikaci přesunuto na Libadwaita"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1042
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1044
-msgid "⚰️ Remove dead code"
-msgstr "⚰️ Odebrán mrtvý kód"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1043
-msgid "💄 Update main window components to Libadwaita"
-msgstr "💄 Aktualizovány komponenty hlavního okna na Libadwaita"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1045
-msgid "💄 Add an effect when extracting a tool"
-msgstr "💄 Přidán efekt při rozbalování nástroje"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1046
-msgid "🐛 Fix label not showing up"
-msgstr "🐛 Opraveno nezobrazování popisku"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1047
-msgid "🐛 Fix wrong label showing up"
-msgstr "🐛 Opraveno zobrazování nesprávného popisku"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1048
-msgid "💄 Update preferences window to Libadwaita"
-msgstr "💄 Aktualizováno okno předvoleb na Libadwaita"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1049
-msgid "⬆️ Update the runtime version"
-msgstr "⬆️ Aktualizována verze runtime"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1057
-msgid "🐛 Fix Steam not showing up on fresh install"
-msgstr "🐛 Opraveno, že se Steam nezobrazil po čerstvé instalaci"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1058
-msgid "🐛 Fix Kron4ek Wine-Builds Vanilla not showing properly"
-msgstr "🐛 Opraveno nesprávné zobrazení Kron4ek Wine-Builds Vanilla"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1059
-msgid "🐛 Fix installed tools showing files"
-msgstr "🐛 Opraveno zobrazování souborů místo nainstalovaných nástrojů"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1060
-msgid "🐛 Fix selector closing after an installation"
-msgstr "🐛 Opraveno zavírání výběru po instalaci"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1061
-msgid "🐛 Fix extraction not always working"
-msgstr "🐛 Opraveno, že rozbalení nefungovalo vždy"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1063
-msgid "🐛 Fix Lutris DXVK not showing up"
-msgstr "🐛 Opraveno nezobrazování Lutris DXVK"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1070
-msgid "🎉 Initial release"
-msgstr "🎉 První vydání"
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1071
-msgid "📝 Create pull request template"
-msgstr "📝 Vytvořena šablona pull requestu"
 
 #: data/ui/gtk/help-overlay.ui:11
 msgctxt "shortcut window"
@@ -2115,26 +300,26 @@ msgstr "ETA: %s"
 msgid "ETA: --"
 msgstr "ETA: --"
 
-#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:675
+#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:680
 msgid "Updating"
 msgstr "Aktualizuje se"
 
 #: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:315
-#: src/widgets/tools/tools-release-row.vala:671
+#: src/widgets/tools/tools-release-row.vala:676
 msgid "Installing"
 msgstr "Instaluje se"
 
-#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:792
+#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:797
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%dh %dm %ds"
 
-#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:796
+#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:801
 #, c-format
 msgid "%dm %ds"
 msgstr "%dm %ds"
 
-#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:797
+#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:802
 #, c-format
 msgid "%ds"
 msgstr "%ds"
@@ -2312,7 +497,7 @@ msgstr ""
 "pro Windows s vylepšeními oproti výchozímu Protonu od Valve."
 
 #: src/models/providers/definitions/proton.vala:35
-#: src/widgets/tools/tools-release-row.vala:654
+#: src/widgets/tools/tools-release-row.vala:659
 msgid "Recommended"
 msgstr "Doporučené"
 
@@ -2560,8 +745,8 @@ msgstr "Otevřít"
 msgid "Back"
 msgstr "Zpět"
 
-#: src/widgets/controller-hint-bar.vala:117 src/widgets/window.vala:170
-#: src/widgets/window.vala:377
+#: src/widgets/controller-hint-bar.vala:117 src/widgets/window.vala:174
+#: src/widgets/window.vala:378
 msgid "Exit"
 msgstr "Ukončit"
 
@@ -2609,7 +794,7 @@ msgid "Search"
 msgstr "Hledat"
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-box.vala:508 src/widgets/tools/tools-box.vala:240
+#: src/widgets/games/games-box.vala:602 src/widgets/tools/tools-box.vala:240
 #: src/widgets/tools/tools-box.vala:242 src/widgets/tools/tools-box.vala:444
 msgid "Filter"
 msgstr "Filtr"
@@ -2680,21 +865,21 @@ msgstr "Horní"
 msgid "Top face button"
 msgstr "Horní čelní tlačítko"
 
-#: src/widgets/games/games-box.vala:103 src/widgets/games/games-box.vala:716
+#: src/widgets/games/games-box.vala:155 src/widgets/games/games-box.vala:810
 msgid "No games found"
 msgstr "Nebyly nalezeny žádné hry"
 
-#: src/widgets/games/games-box.vala:104
+#: src/widgets/games/games-box.vala:156
 msgid "Try a different search term or filter."
 msgstr "Zkuste jiný hledaný výraz nebo filtr."
 
-#: src/widgets/games/games-box.vala:146
+#: src/widgets/games/games-box.vala:198
 #: src/widgets/tools/tools-stl-release-row.vala:29
-#: src/widgets/tools/tools-stl-release-row.vala:163 src/widgets/window.vala:373
+#: src/widgets/tools/tools-stl-release-row.vala:163 src/widgets/window.vala:374
 msgid "Warning"
 msgstr "Varování"
 
-#: src/widgets/games/games-box.vala:147
+#: src/widgets/games/games-box.vala:199
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
@@ -2702,56 +887,56 @@ msgstr ""
 "Před použitím funkce hromadné úpravy se prosím ujistěte, že jste vybrali "
 "alespoň jednu hru."
 
-#: src/widgets/games/games-box.vala:196 src/widgets/games/games-box.vala:199
-#: src/widgets/games/games-box.vala:240 src/widgets/main/main-box.vala:73
+#: src/widgets/games/games-box.vala:251 src/widgets/games/games-box.vala:254
+#: src/widgets/games/games-box.vala:295 src/widgets/main/main-box.vala:73
 msgid "Games"
 msgstr "Hry"
 
-#: src/widgets/games/games-box.vala:247
+#: src/widgets/games/games-box.vala:302
 msgid "Prefix"
 msgstr "Prefix"
 
-#: src/widgets/games/games-box.vala:254
+#: src/widgets/games/games-box.vala:309
 msgid "Tool"
 msgstr "Nástroj"
 
-#: src/widgets/games/games-box.vala:261
+#: src/widgets/games/games-box.vala:316
 #: src/widgets/introduction/controller.vala:49
 msgid "Actions"
 msgstr "Akce"
 
-#: src/widgets/games/games-box.vala:475 src/widgets/tools/tools-box.vala:245
+#: src/widgets/games/games-box.vala:569 src/widgets/tools/tools-box.vala:245
 msgid "All"
 msgstr "Vše"
 
-#: src/widgets/games/games-box.vala:478
+#: src/widgets/games/games-box.vala:572
 #: src/widgets/games/games-collection.vala:72
 #: src/widgets/games/games-mass-edit-view.vala:178
 msgid "Native"
 msgstr "Nativní"
 
-#: src/widgets/games/games-box.vala:480
+#: src/widgets/games/games-box.vala:574
 msgid "Non-Steam"
 msgstr "Mimo Steam"
 
-#: src/widgets/games/games-box.vala:513
+#: src/widgets/games/games-box.vala:607
 #, fuzzy
 msgid "Filter Games"
 msgstr "Filtr: Všechny hry"
 
-#: src/widgets/games/games-box.vala:523
+#: src/widgets/games/games-box.vala:617
 msgid "Search games"
 msgstr "Hledat hry"
 
-#: src/widgets/games/games-box.vala:537 src/widgets/games/games-box.vala:541
+#: src/widgets/games/games-box.vala:631 src/widgets/games/games-box.vala:635
 msgid "Select all visible games"
 msgstr "Vybrat všechny viditelné hry"
 
-#: src/widgets/games/games-box.vala:586
+#: src/widgets/games/games-box.vala:680
 msgid "Steam games couldn’t be loaded"
 msgstr "Hry ze Steamu se nepodařilo načíst"
 
-#: src/widgets/games/games-box.vala:587
+#: src/widgets/games/games-box.vala:681
 msgid ""
 "Steam’s library or profile data is missing or invalid. Finish setting up "
 "Steam, then restart ProtonPlus. Tools and other launchers remain available."
@@ -2760,161 +945,161 @@ msgstr ""
 "nastavení Steamu a potom restartujte ProtonPlus. Nástroje a další spouštěče "
 "zůstanou dostupné."
 
-#: src/widgets/games/games-box.vala:597
+#: src/widgets/games/games-box.vala:691
 msgid "Unsupported launcher"
 msgstr "Nepodporovaný spouštěč"
 
-#: src/widgets/games/games-box.vala:599
+#: src/widgets/games/games-box.vala:693
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s není momentálně podporováno."
 
-#: src/widgets/games/games-box.vala:600
+#: src/widgets/games/games-box.vala:694
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 "Pokud chcete, abych urychlil vývoj, nezapomeňte mi projevit svou podporu!"
 
-#: src/widgets/games/games-box.vala:644
+#: src/widgets/games/games-box.vala:738
 #: src/widgets/games/games-collection.vala:78
 #: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
 msgstr "Výchozí"
 
-#: src/widgets/games/games-box.vala:687
+#: src/widgets/games/games-box.vala:781
 msgid "Filter: Native"
 msgstr "Filtr: Nativní"
 
-#: src/widgets/games/games-box.vala:689
+#: src/widgets/games/games-box.vala:783
 msgid "Filter: Non-Steam"
 msgstr "Filtr: Mimo Steam"
 
-#: src/widgets/games/games-box.vala:691
+#: src/widgets/games/games-box.vala:785
 msgid "Filter: All games"
 msgstr "Filtr: Všechny hry"
 
-#: src/widgets/games/games-box.vala:700
+#: src/widgets/games/games-box.vala:794
 msgid "No matching games"
 msgstr "Žádné odpovídající hry"
 
-#: src/widgets/games/games-box.vala:702
-#: src/widgets/tools/tools-group-box.vala:246
-#: src/widgets/tools/tools-releases-box.vala:721
+#: src/widgets/games/games-box.vala:796
+#: src/widgets/tools/tools-group-box.vala:323
+#: src/widgets/tools/tools-releases-box.vala:725
 msgid "Try a different search term or clear the search."
 msgstr "Zkuste jiný hledaný výraz nebo vymažte hledání."
 
-#: src/widgets/games/games-box.vala:705
-#: src/widgets/tools/tools-group-box.vala:248
-#: src/widgets/tools/tools-releases-box.vala:723
+#: src/widgets/games/games-box.vala:799
+#: src/widgets/tools/tools-group-box.vala:325
+#: src/widgets/tools/tools-releases-box.vala:727
 #, fuzzy
 msgid "Clear Search"
 msgstr "Hledat"
 
-#: src/widgets/games/games-box.vala:708
+#: src/widgets/games/games-box.vala:802
 msgid "No games match this filter"
 msgstr "Tomuto filtru neodpovídají žádné hry"
 
-#: src/widgets/games/games-box.vala:710
+#: src/widgets/games/games-box.vala:804
 msgid "Choose All games to see your complete library."
 msgstr "Zvolte Všechny hry, abyste viděli celou knihovnu."
 
-#: src/widgets/games/games-box.vala:713
-#: src/widgets/tools/tools-group-box.vala:255
-#: src/widgets/tools/tools-releases-box.vala:729
+#: src/widgets/games/games-box.vala:807
+#: src/widgets/tools/tools-group-box.vala:332
+#: src/widgets/tools/tools-releases-box.vala:733
 #, fuzzy
 msgid "Reset Filters"
 msgstr "Filtry"
 
-#: src/widgets/games/games-box.vala:718
+#: src/widgets/games/games-box.vala:812
 msgid "No games are available for this launcher."
 msgstr "Pro tento spouštěč nejsou k dispozici žádné hry."
 
-#: src/widgets/games/games-extra-button.vala:53
+#: src/widgets/games/games-extra-button.vala:69
 #, fuzzy
 msgid "Game Actions"
 msgstr "Akce"
 
-#: src/widgets/games/games-extra-button.vala:71
-#: src/widgets/tools/tools-release-row.vala:194
-#: src/widgets/tools/tools-release-row.vala:474
+#: src/widgets/games/games-extra-button.vala:87
+#: src/widgets/tools/tools-release-row.vala:199
+#: src/widgets/tools/tools-release-row.vala:479
 #, fuzzy, c-format
 msgid "Actions for %s"
 msgstr "Akce"
 
-#: src/widgets/games/games-extra-button.vala:118
+#: src/widgets/games/games-extra-button.vala:136
 #, fuzzy
 msgid "_Run Custom Executable…"
 msgstr "Spustit vlastní spustitelný soubor"
 
-#: src/widgets/games/games-extra-button.vala:120
+#: src/widgets/games/games-extra-button.vala:138
 #, fuzzy
 msgid "Open _Game Folder"
 msgstr "Výstupní složka"
 
-#: src/widgets/games/games-extra-button.vala:122
+#: src/widgets/games/games-extra-button.vala:140
 #, fuzzy
 msgid "Open _Prefix Folder"
 msgstr "Otevřít ve webovém prohlížeči"
 
-#: src/widgets/games/games-extra-button.vala:124
+#: src/widgets/games/games-extra-button.vala:142
 #, fuzzy
 msgid "Open in Proton_tricks"
 msgstr "Otevřít v protontricks"
 
-#: src/widgets/games/games-extra-button.vala:126
+#: src/widgets/games/games-extra-button.vala:144
 #, fuzzy
 msgid "Open Proton_DB"
 msgstr "Otevřít ProtonDB stránku"
 
-#: src/widgets/games/games-extra-button.vala:149
+#: src/widgets/games/games-extra-button.vala:177
 #, fuzzy
 msgid "Supported"
 msgstr "Podporovaný spouštěč"
 
-#: src/widgets/games/games-extra-button.vala:152
+#: src/widgets/games/games-extra-button.vala:180
 msgid "Running"
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:155
+#: src/widgets/games/games-extra-button.vala:183
 msgid "Planned"
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:158
+#: src/widgets/games/games-extra-button.vala:186
 msgid "Broken"
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:161
+#: src/widgets/games/games-extra-button.vala:189
 msgid "Denied"
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:164
-#: src/widgets/tools/tools-releases-box.vala:1339
+#: src/widgets/games/games-extra-button.vala:192
+#: src/widgets/tools/tools-releases-box.vala:1327
 #, fuzzy
 msgid "Loading…"
 msgstr "Načítání"
 
-#: src/widgets/games/games-extra-button.vala:167
+#: src/widgets/games/games-extra-button.vala:195
 msgid "Unknown"
 msgstr "Neznámé"
 
-#: src/widgets/games/games-extra-button.vala:170
+#: src/widgets/games/games-extra-button.vala:198
 #, c-format
-msgid "Anti-Cheat: %s — _AreWeAntiCheatYet"
+msgid "Anti-Cheat: %s"
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:182
+#: src/widgets/games/games-extra-button.vala:210
 msgid "Select executable"
 msgstr "Vybrat spustitelný soubor"
 
-#: src/widgets/games/games-extra-button.vala:186
+#: src/widgets/games/games-extra-button.vala:214
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr "Spustitelné (*.exe, *.msi, *.msu)"
 
-#: src/widgets/games/games-extra-button.vala:216
+#: src/widgets/games/games-extra-button.vala:244
 msgid "Compatibility Tool Not Found"
 msgstr "Nástroj kompatibility nebyl nalezen"
 
-#: src/widgets/games/games-extra-button.vala:217
+#: src/widgets/games/games-extra-button.vala:245
 #, c-format
 msgid ""
 "The compatibility tool required for %s is missing from your system. Please "
@@ -2923,16 +1108,16 @@ msgstr ""
 "Nástroj kompatibility požadovaný pro %s ve vašem systému chybí. Ujistěte se, "
 "že je správně nainstalován."
 
-#: src/widgets/games/games-extra-button.vala:235
+#: src/widgets/games/games-extra-button.vala:263
 #, c-format
 msgid "Exit status: %d"
 msgstr "Návratový kód: %d"
 
-#: src/widgets/games/games-extra-button.vala:241
+#: src/widgets/games/games-extra-button.vala:269
 msgid "Custom Executable Failed"
 msgstr "Spuštění vlastního souboru selhalo"
 
-#: src/widgets/games/games-extra-button.vala:242
+#: src/widgets/games/games-extra-button.vala:270
 #, c-format
 msgid "The custom executable for %s could not be launched."
 msgstr "Vlastní spustitelný soubor pro %s se nepodařilo spustit."
@@ -3055,35 +1240,35 @@ msgstr ""
 "problémy s přístupem k souborům."
 
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
-#: src/widgets/games/games-row.vala:70 src/widgets/games/games-row.vala:348
-#: src/widgets/games/games-row.vala:352 src/widgets/games/games-row.vala:426
+#: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:470
+#: src/widgets/games/games-row.vala:474 src/widgets/games/games-row.vala:548
 #, fuzzy
 msgid "Select game"
 msgstr "Vybrat"
 
-#: src/widgets/games/games-row.vala:44 src/widgets/games/games-row.vala:364
+#: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:486
 #, fuzzy
 msgid "Modify Game"
 msgstr "Upravit hru"
 
-#: src/widgets/games/games-row.vala:58 src/widgets/games/games-row.vala:399
+#: src/widgets/games/games-row.vala:63 src/widgets/games/games-row.vala:521
 #: src/widgets/tools/tools-game-row.vala:15
 #: src/widgets/tools/tools-game-row.vala:19
 #, fuzzy, c-format
 msgid "Select %s"
 msgstr "Vybrat"
 
-#: src/widgets/games/games-row.vala:116 src/widgets/games/games-row.vala:460
+#: src/widgets/games/games-row.vala:119 src/widgets/games/games-row.vala:587
 #, c-format
 msgid "Toggle selection for %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:117 src/widgets/games/games-row.vala:461
+#: src/widgets/games/games-row.vala:165 src/widgets/games/games-row.vala:588
 #, c-format
 msgid "Modify %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:233 src/widgets/games/games-row.vala:236
+#: src/widgets/games/games-row.vala:317 src/widgets/games/games-row.vala:320
 #, fuzzy, c-format
 msgid "Launch %s"
 msgstr "Spoušteče"
@@ -3728,6 +1913,8 @@ msgid "Use GPU-specific compatibility toggles for %s hardware."
 msgstr "Použít přepínače kompatibility specifické pro GPU u hardwaru %s."
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:19
+#: src/widgets/tools/tools-group-box.vala:453
+#: src/widgets/tools/tools-group-box.vala:457
 msgid "More options"
 msgstr "Více informací"
 
@@ -5118,6 +3305,11 @@ msgstr "Limit snímků DXVK"
 msgid "Caps the frame rate with DXVK's built-in limiter."
 msgstr "Omezí snímkovou frekvenci vestavěným limiterem DXVK."
 
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1275
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
+msgid "DXVK"
+msgstr "DXVK"
+
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
 msgid "Asynchronous pipeline compilation"
 msgstr "Asynchronní kompilace pipeline"
@@ -5690,35 +3882,35 @@ msgstr "Limit: %s/s"
 
 #: src/widgets/header/header-downloads-indicator.vala:231
 #: src/widgets/header/header-downloads-indicator.vala:233
-#: src/widgets/tools/tools-release-row.vala:158
+#: src/widgets/tools/tools-release-row.vala:163
 #: src/widgets/tools/tools-remove-dialog.vala:26
-#: src/widgets/tools/tools-stl-release-row.vala:118 src/widgets/window.vala:169
-#: src/widgets/window.vala:380
+#: src/widgets/tools/tools-stl-release-row.vala:118 src/widgets/window.vala:173
+#: src/widgets/window.vala:381
 msgid "Cancel"
 msgstr "Zrušit"
 
 #: src/widgets/header/header-downloads-indicator.vala:284
 #: src/widgets/header/header-downloads-indicator.vala:286
 #: src/widgets/header/header-downloads-indicator.vala:288
-#: src/widgets/tools/tools-release-row.vala:454
-#: src/widgets/tools/tools-release-row.vala:705
+#: src/widgets/tools/tools-release-row.vala:459
+#: src/widgets/tools/tools-release-row.vala:710
 msgid "Cancelling"
 msgstr "Ruší se"
 
 #: src/widgets/header/header-downloads-indicator.vala:311
-#: src/widgets/tools/tools-release-row.vala:708
+#: src/widgets/tools/tools-release-row.vala:713
 msgid "Downloading"
 msgstr "Stahuje se"
 
 #: src/widgets/header/header-downloads-indicator.vala:313
-#: src/widgets/tools/tools-release-row.vala:710
+#: src/widgets/tools/tools-release-row.vala:715
 msgid "Extracting"
 msgstr "Rozbaluje se"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
-#: src/widgets/tools/tools-release-row.vala:679
-#: src/widgets/tools/tools-release-row.vala:714
+#: src/widgets/tools/tools-release-row.vala:684
 #: src/widgets/tools/tools-release-row.vala:719
+#: src/widgets/tools/tools-release-row.vala:724
 msgid "Removing"
 msgstr "Odebírá se"
 
@@ -6053,23 +4245,23 @@ msgstr "Restartovat Steam"
 msgid "Try Again"
 msgstr "Zkusit znovu"
 
-#: src/widgets/main/main-box.vala:332 src/widgets/tools/tools-box.vala:847
+#: src/widgets/main/main-box.vala:332 src/widgets/tools/tools-box.vala:874
 msgid "Checking for updates"
 msgstr "Kontrolují se aktualizace..."
 
-#: src/widgets/main/main-box.vala:343 src/widgets/tools/tools-box.vala:855
+#: src/widgets/main/main-box.vala:343 src/widgets/tools/tools-box.vala:882
 msgid "Can't update while a game is running"
 msgstr "Během spuštěné hry nelze aktualizovat"
 
-#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:858
+#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:885
 msgid "Nothing to update"
 msgstr "Nic k aktualizaci."
 
-#: src/widgets/main/main-box.vala:350 src/widgets/tools/tools-box.vala:862
+#: src/widgets/main/main-box.vala:350 src/widgets/tools/tools-box.vala:889
 msgid "Everything is now up-to-date"
 msgstr "Vše je nyní aktuální."
 
-#: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:865
+#: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:892
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Aktualizace se nepodařilo zkontrolovat (Důvod: %s)"
@@ -6458,6 +4650,10 @@ msgstr "DX API"
 #: src/widgets/mangohud/mangohud-extras-page.vala:92
 msgid "FEX Stats"
 msgstr "Statistiky FEX"
+
+#: src/widgets/mangohud/mangohud-extras-page.vala:94
+msgid "Wine"
+msgstr "Wine"
 
 #. Options subsection
 #: src/widgets/mangohud/mangohud-extras-page.vala:99
@@ -7178,14 +5374,14 @@ msgstr "Nalezené spouštěče"
 
 #: src/widgets/preferences/preferences-dialog.vala:406
 #: src/widgets/tools/tools-box.vala:248
-#: src/widgets/tools/tools-group-box.vala:574
-#: src/widgets/tools/tools-release-row.vala:664
-#: src/widgets/tools/tools-release-row.vala:668
+#: src/widgets/tools/tools-group-box.vala:703
+#: src/widgets/tools/tools-release-row.vala:669
+#: src/widgets/tools/tools-release-row.vala:673
 msgid "Installed"
 msgstr "Nainstalováno"
 
 #: src/widgets/preferences/preferences-dialog.vala:407
-#: src/widgets/tools/tools-release-row.vala:661
+#: src/widgets/tools/tools-release-row.vala:666
 msgid "Not installed"
 msgstr "Nenainstalováno"
 
@@ -7320,56 +5516,56 @@ msgstr "Vyhledávání je aktivní"
 msgid "Filter is active"
 msgstr "Filtr je aktivní"
 
-#: src/widgets/tools/tools-group-box.vala:101
-#: src/widgets/tools/tools-group-box.vala:273
+#: src/widgets/tools/tools-group-box.vala:105
+#: src/widgets/tools/tools-group-box.vala:350
 msgid "No tools found"
 msgstr "Nebyly nalezeny žádné nástroje"
 
-#: src/widgets/tools/tools-group-box.vala:102
+#: src/widgets/tools/tools-group-box.vala:106
 msgid "No tools match the current filter."
 msgstr "Žádné nástroje neodpovídají aktuálnímu filtru."
 
-#: src/widgets/tools/tools-group-box.vala:245
+#: src/widgets/tools/tools-group-box.vala:322
 msgid "No matching tools"
 msgstr "Žádné odpovídající nástroje"
 
-#: src/widgets/tools/tools-group-box.vala:258
+#: src/widgets/tools/tools-group-box.vala:335
 msgid "No installed tools"
 msgstr "Žádné nainstalované nástroje"
 
-#: src/widgets/tools/tools-group-box.vala:259
+#: src/widgets/tools/tools-group-box.vala:336
 msgid "Install a compatibility tool to see it here."
 msgstr "Nainstalujte nástroj kompatibility, aby se zde zobrazil."
 
-#: src/widgets/tools/tools-group-box.vala:263
+#: src/widgets/tools/tools-group-box.vala:340
 msgid "No tools in use"
 msgstr "Žádné používané nástroje"
 
-#: src/widgets/tools/tools-group-box.vala:264
+#: src/widgets/tools/tools-group-box.vala:341
 msgid "No games currently use a tool from this group."
 msgstr "Žádná hra momentálně nepoužívá nástroj z této skupiny."
 
-#: src/widgets/tools/tools-group-box.vala:268
+#: src/widgets/tools/tools-group-box.vala:345
 msgid "No unused tools"
 msgstr "Žádné nepoužité nástroje"
 
-#: src/widgets/tools/tools-group-box.vala:269
+#: src/widgets/tools/tools-group-box.vala:346
 msgid "Every tool in this group is currently in use."
 msgstr "Každý nástroj v této skupině je momentálně používán."
 
-#: src/widgets/tools/tools-group-box.vala:274
+#: src/widgets/tools/tools-group-box.vala:351
 msgid "No tools are available in this group."
 msgstr "V této skupině nejsou dostupné žádné nástroje."
 
-#: src/widgets/tools/tools-group-box.vala:356
+#: src/widgets/tools/tools-group-box.vala:480
 msgid "Recommended compatibility tool"
 msgstr "Doporučený nástroj kompatibility"
 
-#: src/widgets/tools/tools-group-box.vala:569
+#: src/widgets/tools/tools-group-box.vala:698
 msgid "In use"
 msgstr "Používáno"
 
-#: src/widgets/tools/tools-group-box.vala:570
+#: src/widgets/tools/tools-group-box.vala:699
 msgid ""
 "One or more releases of this tool is installed and currently used by one or "
 "more games"
@@ -7377,7 +5573,7 @@ msgstr ""
 "Jedno nebo více vydání tohoto nástroje je nainstalováno a momentálně je "
 "používá jedna nebo více her"
 
-#: src/widgets/tools/tools-group-box.vala:575
+#: src/widgets/tools/tools-group-box.vala:704
 msgid ""
 "One or more releases of this tool is installed, but not currently used by "
 "any games"
@@ -7433,128 +5629,123 @@ msgstr "Seznam změn"
 msgid "Used By"
 msgstr "Používá"
 
-#: src/widgets/tools/tools-release-row.vala:71
+#: src/widgets/tools/tools-release-row.vala:76
 #, fuzzy
 msgid "Open Release Details"
 msgstr "Otevřít stránku pro vytvoření tokenu"
 
-#: src/widgets/tools/tools-release-row.vala:125
-#: src/widgets/tools/tools-release-row.vala:127
+#: src/widgets/tools/tools-release-row.vala:130
+#: src/widgets/tools/tools-release-row.vala:132
 msgid "Show installation details"
 msgstr "Zobrazit podrobnosti instalace"
 
-#: src/widgets/tools/tools-release-row.vala:132
+#: src/widgets/tools/tools-release-row.vala:137
 msgid "Speed: 0 KB/s"
 msgstr "Rychlost: 0 KB/s"
 
-#: src/widgets/tools/tools-release-row.vala:135
-#: src/widgets/tools/tools-release-row.vala:783
+#: src/widgets/tools/tools-release-row.vala:140
+#: src/widgets/tools/tools-release-row.vala:788
 msgid "Remaining time: --"
 msgstr "Zbývající čas: --"
 
-#: src/widgets/tools/tools-release-row.vala:191
+#: src/widgets/tools/tools-release-row.vala:196
 #, fuzzy
 msgid "Release Actions"
 msgstr "Akce"
 
-#: src/widgets/tools/tools-release-row.vala:433
+#: src/widgets/tools/tools-release-row.vala:438
 #, c-format
 msgid "Step: %s"
 msgstr "Krok: %s"
 
-#: src/widgets/tools/tools-release-row.vala:436
+#: src/widgets/tools/tools-release-row.vala:441
 #, fuzzy, c-format
 msgid "%s for %s"
 msgstr "Akce"
 
-#: src/widgets/tools/tools-release-row.vala:441
+#: src/widgets/tools/tools-release-row.vala:446
 #, fuzzy, c-format
 msgid "Progress for %s"
 msgstr "Akce"
 
-#: src/widgets/tools/tools-release-row.vala:499
+#: src/widgets/tools/tools-release-row.vala:504
 #, fuzzy
 msgid "Latest"
 msgstr "Později"
 
-#: src/widgets/tools/tools-release-row.vala:555
-#, fuzzy
-msgid "Install"
-msgstr "Nainstalováno"
-
-#: src/widgets/tools/tools-release-row.vala:556
-#: src/widgets/tools/tools-release-row.vala:559
+#: src/widgets/tools/tools-release-row.vala:561
+#: src/widgets/tools/tools-release-row.vala:564
 #, c-format
 msgid "Install %s"
 msgstr "Nainstalovat %s"
 
-#: src/widgets/tools/tools-release-row.vala:565
+#: src/widgets/tools/tools-release-row.vala:570
 #, fuzzy
 msgid "Update"
 msgstr "Aktualizace"
 
-#: src/widgets/tools/tools-release-row.vala:566
-#: src/widgets/tools/tools-release-row.vala:569
+#: src/widgets/tools/tools-release-row.vala:571
+#: src/widgets/tools/tools-release-row.vala:574
 #, fuzzy, c-format
 msgid "Update %s"
 msgstr "Aktualizace"
 
-#: src/widgets/tools/tools-release-row.vala:575
-#: src/widgets/tools/tools-releases-box.vala:442
-#: src/widgets/tools/tools-releases-box.vala:454
+#: src/widgets/tools/tools-release-row.vala:580
+#: src/widgets/tools/tools-releases-box.vala:443
+#: src/widgets/tools/tools-releases-box.vala:455
 #, fuzzy
 msgid "Retry"
 msgstr "Retro"
 
-#: src/widgets/tools/tools-release-row.vala:576
-#: src/widgets/tools/tools-release-row.vala:579
+#: src/widgets/tools/tools-release-row.vala:581
+#: src/widgets/tools/tools-release-row.vala:584
 #, fuzzy, c-format
 msgid "Retry %s"
 msgstr "Retro"
 
-#: src/widgets/tools/tools-release-row.vala:590
+#: src/widgets/tools/tools-release-row.vala:595
 #, fuzzy, c-format
 msgid "Cancelling %s"
 msgstr "Ruší se"
 
-#: src/widgets/tools/tools-release-row.vala:591
+#: src/widgets/tools/tools-release-row.vala:596
 #, fuzzy, c-format
 msgid "Cancel %s"
 msgstr "Zrušit"
 
-#: src/widgets/tools/tools-release-row.vala:614
+#: src/widgets/tools/tools-release-row.vala:619
 #, fuzzy
 msgid "_Check for Updates"
 msgstr "Zkontrolovat aktualizace"
 
-#: src/widgets/tools/tools-release-row.vala:616
+#: src/widgets/tools/tools-release-row.vala:621
 #, fuzzy
 msgid "_Open Folder"
 msgstr "Výstupní složka"
 
-#: src/widgets/tools/tools-release-row.vala:618
+#: src/widgets/tools/tools-release-row.vala:623
 #, fuzzy
 msgid "_Delete…"
 msgstr "Smazat"
 
-#: src/widgets/tools/tools-release-row.vala:620
+#: src/widgets/tools/tools-release-row.vala:625
 msgid "Open _Release Page"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:656
+#: src/widgets/tools/tools-release-row.vala:661
 msgid "Failed"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:665
+#: src/widgets/tools/tools-release-row.vala:670
 #, fuzzy
 msgid "Update available"
 msgstr "Hromadná aktualizace selhala"
 
-#: src/widgets/tools/tools-release-row.vala:684
+#: src/widgets/tools/tools-release-row.vala:689
 msgid "Unavailable for the selected variant"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:689
+#: src/widgets/tools/tools-release-row.vala:694
 #, fuzzy, c-format
 msgid "In use by %i game"
 msgid_plural "In use by %i games"
@@ -7562,40 +5753,40 @@ msgstr[0] "Používá %i hra"
 msgstr[1] "Používají %i hry"
 msgstr[2] "Používá %i her"
 
-#: src/widgets/tools/tools-release-row.vala:698
+#: src/widgets/tools/tools-release-row.vala:703
 #, fuzzy, c-format
 msgid "%s. Open Release Details"
 msgstr "Otevřít stránku pro vytvoření tokenu"
 
-#: src/widgets/tools/tools-release-row.vala:712
+#: src/widgets/tools/tools-release-row.vala:717
 msgid "Moving"
 msgstr "Přesouvá se"
 
-#: src/widgets/tools/tools-release-row.vala:717
+#: src/widgets/tools/tools-release-row.vala:722
 #, fuzzy
 msgid "Preparing update"
 msgstr "Připravuje se"
 
-#: src/widgets/tools/tools-release-row.vala:720
+#: src/widgets/tools/tools-release-row.vala:725
 #, fuzzy
 msgid "Preparing installation"
 msgstr "Zrušit instalaci"
 
-#: src/widgets/tools/tools-release-row.vala:774
+#: src/widgets/tools/tools-release-row.vala:779
 #, c-format
 msgid "Speed: %s/s"
 msgstr "Rychlost: %s/s"
 
-#: src/widgets/tools/tools-release-row.vala:780
+#: src/widgets/tools/tools-release-row.vala:785
 #, c-format
 msgid "Remaining time: %s"
 msgstr "Zbývající čas: %s"
 
-#: src/widgets/tools/tools-releases-box.vala:242
+#: src/widgets/tools/tools-releases-box.vala:239
 msgid "Standard 64-bit build for most Intel and AMD PCs."
 msgstr "Standardní 64bitový build pro většinu počítačů s Intel a AMD."
 
-#: src/widgets/tools/tools-releases-box.vala:244
+#: src/widgets/tools/tools-releases-box.vala:241
 msgid ""
 "Optimized 64-bit build for Intel and AMD CPUs that support the x86-64-v3 "
 "instruction set."
@@ -7603,130 +5794,132 @@ msgstr ""
 "Optimalizovaný 64bitový build pro CPU Intel a AMD, které podporují "
 "instrukční sadu x86-64-v3."
 
-#: src/widgets/tools/tools-releases-box.vala:247
+#: src/widgets/tools/tools-releases-box.vala:244
 msgid "64-bit ARM build. Choose this only on ARM64 hardware."
 msgstr "64bitový ARM build. Zvolte jej pouze na hardwaru ARM64."
 
-#: src/widgets/tools/tools-releases-box.vala:249
+#: src/widgets/tools/tools-releases-box.vala:246
 msgid "32-bit x86 build. Choose this only when a 32-bit runner is required."
 msgstr ""
 "32bitový x86 build. Zvolte jej jen když je vyžadována 32bitová běhová vrstva."
 
-#: src/widgets/tools/tools-releases-box.vala:252
+#: src/widgets/tools/tools-releases-box.vala:249
 msgid ""
 "64-bit build with WoW64 support for running 32-bit Windows applications."
 msgstr ""
 "64bitový build s podporou WoW64 pro spouštění 32bitových aplikací Windows."
 
-#: src/widgets/tools/tools-releases-box.vala:254
+#: src/widgets/tools/tools-releases-box.vala:251
 msgid "The provider's recommended build for most systems."
 msgstr "Poskytovatelem doporučený build pro většinu systémů."
 
-#: src/widgets/tools/tools-releases-box.vala:256
+#: src/widgets/tools/tools-releases-box.vala:253
 #, c-format
 msgid "Select the %s build variant."
 msgstr "Vyberte variantu buildu %s."
 
-#: src/widgets/tools/tools-releases-box.vala:329
-#: src/widgets/tools/tools-releases-box.vala:332
+#: src/widgets/tools/tools-releases-box.vala:318
+#: src/widgets/tools/tools-releases-box.vala:326
+#: src/widgets/tools/tools-releases-box.vala:1182
 msgid "Check for new releases"
 msgstr "Zkontrolovat nová vydání"
 
+#: src/widgets/tools/tools-releases-box.vala:332
 #: src/widgets/tools/tools-releases-box.vala:341
 #: src/widgets/tools/tools-releases-box.vala:343
 #, fuzzy
 msgid "Open Repository"
 msgstr "Otevřít adresář prefixu"
 
-#: src/widgets/tools/tools-releases-box.vala:353
+#: src/widgets/tools/tools-releases-box.vala:354
 msgid "Choose which architecture or build variant to show."
 msgstr "Vyberte, kterou architekturu nebo variantu buildu zobrazit."
 
-#: src/widgets/tools/tools-releases-box.vala:382
-#: src/widgets/tools/tools-releases-box.vala:1380
+#: src/widgets/tools/tools-releases-box.vala:383
+#: src/widgets/tools/tools-releases-box.vala:1368
 msgid "Load More"
 msgstr "Načíst více"
 
-#: src/widgets/tools/tools-releases-box.vala:421
-#: src/widgets/tools/tools-releases-box.vala:540
-#: src/widgets/tools/tools-releases-box.vala:1016
-#: src/widgets/tools/tools-releases-box.vala:1340
+#: src/widgets/tools/tools-releases-box.vala:422
+#: src/widgets/tools/tools-releases-box.vala:542
+#: src/widgets/tools/tools-releases-box.vala:1004
+#: src/widgets/tools/tools-releases-box.vala:1328
 #, fuzzy
 msgid "Loading releases"
 msgstr "Načítání"
 
-#: src/widgets/tools/tools-releases-box.vala:430
-#: src/widgets/tools/tools-releases-box.vala:558
-#: src/widgets/tools/tools-releases-box.vala:738
+#: src/widgets/tools/tools-releases-box.vala:431
+#: src/widgets/tools/tools-releases-box.vala:560
+#: src/widgets/tools/tools-releases-box.vala:742
 #, fuzzy
 msgid "No releases available"
 msgstr "Chyba: Nejsou dostupná žádná vydání\n"
 
-#: src/widgets/tools/tools-releases-box.vala:431
-#: src/widgets/tools/tools-releases-box.vala:739
+#: src/widgets/tools/tools-releases-box.vala:432
+#: src/widgets/tools/tools-releases-box.vala:743
 #, fuzzy
 msgid "Check again for new releases."
 msgstr "Zkontrolovat nová vydání"
 
-#: src/widgets/tools/tools-releases-box.vala:435
-#: src/widgets/tools/tools-releases-box.vala:741
+#: src/widgets/tools/tools-releases-box.vala:436
+#: src/widgets/tools/tools-releases-box.vala:745
 #, fuzzy
 msgid "Refresh"
 msgstr "Obnovovací frekvence*"
 
-#: src/widgets/tools/tools-releases-box.vala:448
-#: src/widgets/tools/tools-releases-box.vala:661
+#: src/widgets/tools/tools-releases-box.vala:449
+#: src/widgets/tools/tools-releases-box.vala:665
 msgid "Failed to Fetch Releases"
 msgstr "Selhalo získávání vydáních"
 
-#: src/widgets/tools/tools-releases-box.vala:453
+#: src/widgets/tools/tools-releases-box.vala:454
 #, fuzzy
 msgid "Couldn’t load releases"
 msgstr "Chyba: Nepodařilo se načíst vydání: %s\n"
 
-#: src/widgets/tools/tools-releases-box.vala:588
-#: src/widgets/tools/tools-releases-box.vala:1065
-#: src/widgets/tools/tools-releases-box.vala:1375
+#: src/widgets/tools/tools-releases-box.vala:590
+#: src/widgets/tools/tools-releases-box.vala:1051
+#: src/widgets/tools/tools-releases-box.vala:1363
 #, fuzzy
 msgid "Releases loaded"
 msgstr "Nebyla nalezena žádná vydání"
 
-#: src/widgets/tools/tools-releases-box.vala:654
+#: src/widgets/tools/tools-releases-box.vala:658
 msgid "Couldn’t load more releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:655
+#: src/widgets/tools/tools-releases-box.vala:659
 msgid "Couldn’t refresh releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:720
+#: src/widgets/tools/tools-releases-box.vala:724
 #, fuzzy
 msgid "No matching releases"
 msgstr "Žádné odpovídající hry"
 
-#: src/widgets/tools/tools-releases-box.vala:726
+#: src/widgets/tools/tools-releases-box.vala:730
 #, fuzzy
 msgid "No releases match this filter"
 msgstr "Tomuto filtru neodpovídají žádné hry"
 
-#: src/widgets/tools/tools-releases-box.vala:727
+#: src/widgets/tools/tools-releases-box.vala:731
 msgid "Reset the filters to see all releases."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:732
+#: src/widgets/tools/tools-releases-box.vala:736
 #, fuzzy
 msgid "No compatible releases"
 msgstr "Načítání"
 
-#: src/widgets/tools/tools-releases-box.vala:733
+#: src/widgets/tools/tools-releases-box.vala:737
 msgid "No compatible variants are available for this system."
 msgstr "Pro tento systém nejsou dostupné žádné kompatibilní varianty."
 
-#: src/widgets/tools/tools-releases-box.vala:1018
+#: src/widgets/tools/tools-releases-box.vala:1181
 msgid "Refreshing…"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:1202
+#: src/widgets/tools/tools-releases-box.vala:1192
 #, c-format
 msgid "Last updated: %s"
 msgstr "Naposledy aktualizováno: %s"
@@ -7810,17 +6003,21 @@ msgstr ""
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr "Chcete ji znovu nainstalovat s ProtonPlus?"
 
-#: src/widgets/window.vala:168
+#: src/widgets/window.vala:172
 msgid "Do you want to exit?"
 msgstr "Chcete skončit?"
 
-#: src/widgets/window.vala:374
+#: src/widgets/window.vala:375
 msgid ""
 "The application is currently downloading a tool.\n"
 "Exiting the application early may cause issues."
 msgstr ""
 "Aplikace právě stahuje nástroj.\n"
 "Předčasné ukončení aplikace může způsobit problémy."
+
+#, fuzzy
+#~ msgid "Install"
+#~ msgstr "Nainstalováno"
 
 #~ msgid "Clear the current launch options"
 #~ msgstr "Vymazat aktuální možnosti spuštění"

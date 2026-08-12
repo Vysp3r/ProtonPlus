@@ -95,7 +95,7 @@ namespace ProtonPlus.Widgets.Header {
         }
 
         public void initialize (Gee.LinkedList<Models.Launcher> launchers,
-            Adw.ViewSwitcher? view_switcher) {
+            Adw.ViewSwitcher view_switcher) {
             launchers_button.initialize (launchers);
             global_view_switcher = view_switcher;
             update_title_widget ();

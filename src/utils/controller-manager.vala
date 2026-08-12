@@ -614,7 +614,8 @@ namespace ProtonPlus.Utils {
             if (highlighted == null)
                 return;
 
-            ((!) highlighted).add_css_class ("controller-focus");
+            if (!uses_native_focus_highlight ((!) highlighted))
+                ((!) highlighted).add_css_class ("controller-focus");
             highlight_visible_handler = ((!) highlighted).notify["visible"].connect (() => sync_highlight ());
             highlight_unmap_handler = ((!) highlighted).unmap.connect (() => clear_highlight ());
             highlight_destroy_handler = ((!) highlighted).destroy.connect (() => clear_highlight ());
@@ -636,6 +637,16 @@ namespace ProtonPlus.Utils {
             highlight_unmap_handler = 0;
             highlight_destroy_handler = 0;
             highlighted = null;
+        }
+
+        bool uses_native_focus_highlight (Gtk.Widget widget) {
+            Gtk.Widget? current = widget;
+            while (current != null) {
+                if (current is Gtk.SearchEntry)
+                    return true;
+                current = current.get_parent ();
+            }
+            return false;
         }
 
         void sync_highlight () {

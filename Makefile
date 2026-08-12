@@ -3,7 +3,9 @@
 gen-potfiles:
 	@set -e; { \
 		printf '%s\n' '# This file is generated automatically. Do not edit.'; \
-		find data -type f \( -name '*.in' -o -name '*.ui' \) -not -path '*/build/*'; \
+		find data -type f \( -name '*.in' -o -name '*.ui' \) \
+			-not -path '*/build/*' \
+			-not -path 'data/com.vysp3r.ProtonPlus.metainfo.xml.in'; \
 		find src -type f -name '*.vala' -not -path '*/build/*'; \
 	} | LC_ALL=C sort > po/POTFILES.tmp
 	@mv po/POTFILES.tmp po/POTFILES

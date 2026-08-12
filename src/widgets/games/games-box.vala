@@ -217,7 +217,6 @@ namespace ProtonPlus.Widgets.Games {
                 overflow = Gtk.Overflow.HIDDEN
             };
             games_card.add_css_class ("card");
-            games_card.add_css_class ("transparent-card");
             toolbar = build_toolbar ();
             games_card.append (toolbar);
             games_card.append (overlay);
@@ -279,7 +278,7 @@ namespace ProtonPlus.Widgets.Games {
             var view = new Gtk.ColumnView (games.selection_model) {
                 hexpand = true,
                 vexpand = true,
-                show_column_separators = true,
+                show_column_separators = false,
                 show_row_separators = true,
                 single_click_activate = true
             };
@@ -820,14 +819,17 @@ namespace ProtonPlus.Widgets.Games {
 
         void update_selection_controls () {
             var visible_count = games.visible_count ();
-            var selected_count = games.selected_visible_count ();
-            set_selection_mode (games.selected_items ().length > 0);
+            var selected_visible_count = games.selected_visible_count ();
+            var selected_count = games.selected_count ();
+            set_selection_mode (selected_count > 0);
             updating_selection_toggle = true;
             check_button.set_inconsistent (
-                selected_count > 0 && selected_count < visible_count
+                selected_visible_count > 0 &&
+                    selected_visible_count < visible_count
             );
             check_button.set_active (
-                visible_count > 0 && selected_count == visible_count
+                visible_count > 0 &&
+                    selected_visible_count == visible_count
             );
             updating_selection_toggle = false;
             mass_edit_button.set_selected_count ((int) selected_count);

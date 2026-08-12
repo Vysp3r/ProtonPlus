@@ -23,11 +23,12 @@ if desktop_utils.found()
     test('Validate desktop file', desktop_utils, args: [desktop_file])
 endif
 
-appstream_file = i18n.merge_file(
-    input: 'com.vysp3r.ProtonPlus.metainfo.xml.in',
-    output: 'com.vysp3r.ProtonPlus.metainfo.xml',
-    po_dir: '../po',
-    install: true,
+# Keep AppStream metadata in its source language instead of merging gettext
+# catalogs into the installed document.
+appstream_file = files('com.vysp3r.ProtonPlus.metainfo.xml.in')
+install_data(
+    appstream_file,
+    rename: 'com.vysp3r.ProtonPlus.metainfo.xml',
     install_dir: get_option('datadir') / 'metainfo',
 )
 

@@ -27,8 +27,9 @@ namespace ProtonPlus.Widgets.Games {
             this.row_focus = row_focus;
 
             set_focusable (true);
-            set_halign (Gtk.Align.CENTER);
+            set_halign (Gtk.Align.START);
             set_valign (Gtk.Align.CENTER);
+            set_margin_start (9);
             set_margin_top (4);
             set_margin_bottom (4);
             check_button = new Gtk.CheckButton () {
@@ -38,11 +39,16 @@ namespace ProtonPlus.Widgets.Games {
             check_button.update_property (
                 Gtk.AccessibleProperty.LABEL, _("Select game"), -1
             );
+            var navigation_spacer = new Gtk.Image.from_icon_name ("go-next-symbolic") {
+                opacity = 0.0,
+                can_target = false
+            };
             append (check_button);
             navigation_image = new Gtk.Image.from_icon_name ("go-next-symbolic") {
                 tooltip_text = _("Modify Game")
             };
             append (navigation_image);
+            append (navigation_spacer);
         }
 
         public void bind (GameListItem item) {

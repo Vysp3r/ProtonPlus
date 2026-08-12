@@ -22,6 +22,7 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Popover info_popover;
         Gtk.MenuButton actions_button;
         Gtk.PopoverMenu actions_popover;
+        Gtk.SizeGroup action_button_size_group;
         SimpleAction check_updates_action;
         SimpleAction open_folder_action;
         SimpleAction delete_action;
@@ -54,6 +55,10 @@ namespace ProtonPlus.Widgets.Tools {
             create_progress_button ();
             create_cancel_button ();
             create_actions_menu ();
+
+            action_button_size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.BOTH);
+            action_button_size_group.add_widget (primary_button);
+            action_button_size_group.add_widget (actions_button);
 
             input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
                 margin_end = 12,
@@ -552,7 +557,7 @@ namespace ProtonPlus.Widgets.Tools {
             switch (action) {
             case ReleaseRowPrimaryAction.INSTALL:
                 primary_content.set_icon_name ("folder-download-symbolic");
-                primary_content.set_label (_("Install"));
+                primary_content.set_label ("");
                 primary_button.set_tooltip_text (_("Install %s").printf (job.title));
                 primary_button.update_property (
                     Gtk.AccessibleProperty.LABEL,

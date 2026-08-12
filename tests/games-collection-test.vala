@@ -105,6 +105,7 @@ namespace AppTests.GameCollectionTest {
         collection.set_filter ("bravo", GameFilterMode.ALL);
         assert (collection.visible_count () == 1);
         assert (collection.selected_visible_count () == 1);
+        assert (collection.selected_count () == 2);
         assert (collection.selected_items ().length == 2);
         assert (collection.selected_items ()[0].game.name == "Alpha");
         assert (collection.selected_items ()[1].game.name == "Bravo");
@@ -112,6 +113,7 @@ namespace AppTests.GameCollectionTest {
         collection.select_all_visible (false);
         assert (alpha.selected);
         assert (!bravo.selected);
+        assert (collection.selected_count () == 1);
         collection.set_filter ("", GameFilterMode.ALL);
         assert (collection.selected_visible_count () == 1);
     }
