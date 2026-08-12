@@ -147,13 +147,14 @@ namespace AppTests.SteamSessionTest {
         processes.add (anchor (target.data_root, 42, 1 * 1000 * 1000, "-gamepadui -steamos3 -steamdeck"));
         backend.native_query = new NativeProcessQuery (true, processes);
         var service = new SteamSessionService (backend);
-        assert (service.inspect (target).session_mode == SteamSessionMode.STEAMOS_GAMING_MODE);
-
-        processes.clear ();
-        processes.add (anchor (target.data_root));
+        /* Steam's UI flags are also valid in ordinary desktop sessions; only
+         * the session environment proves that a Gaming Mode handoff is safe. */
         assert (service.inspect (target).session_mode == SteamSessionMode.UNKNOWN);
 
         backend.gaming_mode = true;
+        assert (service.inspect (target).session_mode == SteamSessionMode.STEAMOS_GAMING_MODE);
+
+        processes.clear ();
         backend.native_query = new NativeProcessQuery (true);
         assert (service.inspect (target).session_mode == SteamSessionMode.STEAMOS_GAMING_MODE);
     }
