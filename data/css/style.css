@@ -221,15 +221,6 @@ row.controller-focus {
     padding: 6px 0;
 }
 
-.tools-release-row label.title {
-    font-size: 1.15em;
-    line-height: 1.1;
-}
-
-.tools-release-row label.subtitle {
-    line-height: 1.15;
-}
-
 .tools-release-row-input-box {
     background-color: transparent;
 }

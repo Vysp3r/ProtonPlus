@@ -1,7 +1,8 @@
 namespace ProtonPlus.Widgets.Tools {
     public class ReleaseRow : Adw.ActionRow, Utils.ControllerDirectionalFocus,
-        ReleaseRowJobSignalTarget {
-        public signal void job_selected (Services.InstallJob job);
+        Utils.ControllerActivationHandler, ReleaseRowJobSignalTarget {
+        public signal void changelog_requested (Services.InstallJob job);
+        public signal void games_requested (Services.InstallJob job);
 
         protected Services.InstallJob job { get; set; }
         protected bool action_request_in_progress { get; private set; default = false; }
@@ -23,6 +24,9 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.PopoverMenu actions_popover;
         Gtk.SizeGroup action_button_size_group;
         SimpleAction update_action;
+        SimpleAction changelog_action;
+        SimpleAction games_action;
+        SimpleAction open_release_page_action;
         SimpleAction open_folder_action;
         SimpleAction delete_action;
         weak Gtk.Widget? controller_up_target;
@@ -40,7 +44,7 @@ namespace ProtonPlus.Widgets.Tools {
             Object (
                 title: release_display_title (job),
                 subtitle: Utils.format_timestamp (job.release.release_date),
-                subtitle_lines: 2,
+                subtitle_lines: 1,
                 title_lines: 1,
                 activatable: true
             );
@@ -48,7 +52,7 @@ namespace ProtonPlus.Widgets.Tools {
             this.release_action_available = release_action_available;
             add_css_class ("tools-release-row");
 
-            activated.connect (row_activated);
+            activated.connect (request_release_details);
 
             create_primary_button ();
             create_progress_button ();
@@ -162,6 +166,19 @@ namespace ProtonPlus.Widgets.Tools {
 
         void create_actions_menu () {
             var action_group = new SimpleActionGroup ();
+            changelog_action = new SimpleAction ("changelog", null);
+            changelog_action.activate.connect (changelog_action_activated);
+            action_group.add_action (changelog_action);
+            games_action = new SimpleAction ("games", null);
+            games_action.activate.connect (games_action_activated);
+            action_group.add_action (games_action);
+            open_release_page_action = new SimpleAction (
+                "open-release-page", null
+            );
+            open_release_page_action.activate.connect (
+                open_release_page_action_activated
+            );
+            action_group.add_action (open_release_page_action);
             update_action = new SimpleAction ("update", null);
             update_action.activate.connect (update_action_activated);
             action_group.add_action (update_action);
@@ -192,8 +209,24 @@ namespace ProtonPlus.Widgets.Tools {
             Window.register_popover_for_controller (actions_popover, actions_button);
         }
 
-        void row_activated () {
-            job_selected (job);
+        void changelog_action_activated (Variant? parameter) {
+            request_release_details ();
+        }
+
+        void request_release_details () {
+            if (!row_disposed)
+                changelog_requested (job);
+        }
+
+        void games_action_activated (Variant? parameter) {
+            games_requested (job);
+        }
+
+        void open_release_page_action_activated (Variant? parameter) {
+            if (action_request_in_progress || row_disposed ||
+                job.release.page_url == null)
+                return;
+            Utils.System.open_uri (job.release.page_url);
         }
 
         void progress_button_clicked () {
@@ -269,6 +302,23 @@ namespace ProtonPlus.Widgets.Tools {
             return false;
         }
 
+        public bool controller_activate (Object focused_object) {
+            var focused = focused_object as Gtk.Widget;
+            if (focused == null)
+                return false;
+
+            var action = find_action_ancestor ((!) focused);
+            if (action == actions_button) {
+                actions_button.popup ();
+                return true;
+            }
+            if (action != null)
+                return ((!) action).activate ();
+
+            request_release_details ();
+            return true;
+        }
+
         bool focus_vertical (Utils.ControllerNavigationDirection direction) {
             var adjacent = find_adjacent_release (direction);
             if (adjacent != null)
@@ -332,12 +382,8 @@ namespace ProtonPlus.Widgets.Tools {
             } else {
                 if (focused == this)
                     return grab_focus ();
-                if (action != null) {
-                    var previous = find_focusable_action ((!) action, false);
-                    return previous != null
-                        ? ((!) previous).grab_focus ()
-                        : grab_focus ();
-                }
+                if (action != null)
+                    return grab_focus ();
             }
             return false;
         }
@@ -573,6 +619,11 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void rebuild_actions_menu (ReleaseRowPresentation presentation) {
+            changelog_action.set_enabled (!action_request_in_progress);
+            games_action.set_enabled (!action_request_in_progress);
+            open_release_page_action.set_enabled (
+                job.release.page_url != null && !action_request_in_progress
+            );
             update_action.set_enabled (
                 presentation.show_update_action && !action_request_in_progress
             );
@@ -584,18 +635,35 @@ namespace ProtonPlus.Widgets.Tools {
             );
 
             var menu = new Menu ();
+            var details_section = new Menu ();
+            details_section.append (_("_Changelog"), "release.changelog");
+            if (job.release.page_url != null) {
+                details_section.append (
+                    _("Open Release Page"), "release.open-release-page"
+                );
+            }
+            if (job.tool.group.launcher is Models.Launchers.Steam) {
+                details_section.append (
+                    _("_Games Using This Tool"), "release.games"
+                );
+            }
+            menu.append_section (null, details_section);
+
+            var management_section = new Menu ();
             if (presentation.show_update_action) {
                 var label = retry_action == ReleaseRowRetryAction.UPDATE
                     ? _("Retry")
                     : presentation.update_available
                         ? _("Update")
                         : _("_Check for Updates");
-                menu.append (label, "release.update");
+                management_section.append (label, "release.update");
             }
             if (presentation.show_open_folder)
-                menu.append (_("_Open Folder"), "release.open-folder");
+                management_section.append (_("_Open Folder"), "release.open-folder");
             if (presentation.show_delete)
-                menu.append (_("_Delete…"), "release.delete");
+                management_section.append (_("_Delete…"), "release.delete");
+            if (management_section.get_n_items () > 0)
+                menu.append_section (null, management_section);
             actions_popover.set_menu_model (menu);
 
             actions_button.set_visible (presentation.show_menu);
@@ -671,7 +739,7 @@ namespace ProtonPlus.Widgets.Tools {
             var date = Utils.format_timestamp (job.release.release_date);
             set_subtitle (
                 date != "" && status != ""
-                    ? "%s\n%s".printf (date, status)
+                    ? "%s · %s".printf (date, status)
                     : date != "" ? date : status
             );
             update_property (

@@ -11,7 +11,6 @@ namespace ProtonPlus.Utils {
         if (date == null)
             return (!) timestamp;
 
-        return ((!) date).to_local ().format ("%b %e, %Y · %H:%M")
-            .replace ("  ", " ").strip ();
+        return ((!) date).to_local ().format ("%d-%m-%Y %H:%M");
     }
 }

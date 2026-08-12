@@ -424,8 +424,7 @@ namespace ProtonPlus.Widgets.Tools {
             var title_label = new Gtk.Label (tool.title) {
                 halign = Gtk.Align.START,
                 xalign = 0.0f,
-                ellipsize = Pango.EllipsizeMode.END,
-                css_classes = { "title-4" }
+                ellipsize = Pango.EllipsizeMode.END
             };
             var description_label = new Gtk.Label (tool.description) {
                 halign = Gtk.Align.START,
@@ -433,7 +432,7 @@ namespace ProtonPlus.Widgets.Tools {
                 wrap = true,
                 wrap_mode = Pango.WrapMode.WORD_CHAR,
                 lines = 2,
-                css_classes = { "dim-label" }
+                css_classes = { "subtitle", "dim-label" }
             };
             var metadata_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6) {
                 halign = Gtk.Align.START,

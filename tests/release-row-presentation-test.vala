@@ -44,7 +44,7 @@ namespace AppTests.ReleaseRowPresentationTest {
         var current = presentation (InstallJob.State.NOT_INSTALLED);
         assert (current.primary_action == ReleaseRowPrimaryAction.INSTALL);
         assert (!current.installed && !current.busy);
-        assert (!current.show_menu);
+        assert (current.show_menu);
 
         assert (!current.show_update_action);
     }
@@ -97,7 +97,7 @@ namespace AppTests.ReleaseRowPresentationTest {
         assert (current.primary_action == ReleaseRowPrimaryAction.PROGRESS);
         assert (current.busy && !current.progress_indeterminate);
         assert (current.show_cancel && current.cancel_enabled);
-        assert (!current.show_menu && !current.show_delete);
+        assert (current.show_menu && !current.show_delete);
     }
 
     private void test_extracting_and_moving () {
@@ -111,7 +111,7 @@ namespace AppTests.ReleaseRowPresentationTest {
             );
             assert (current.primary_action == ReleaseRowPrimaryAction.PROGRESS);
             assert (current.progress_indeterminate);
-            assert (current.show_cancel && !current.show_menu);
+            assert (current.show_cancel && current.show_menu);
         }
     }
 
@@ -122,7 +122,7 @@ namespace AppTests.ReleaseRowPresentationTest {
         );
         assert (current.primary_action == ReleaseRowPrimaryAction.PROGRESS);
         assert (current.progress_indeterminate);
-        assert (!current.show_cancel && !current.show_menu);
+        assert (!current.show_cancel && current.show_menu);
     }
 
     private void test_cancellation () {
@@ -131,7 +131,7 @@ namespace AppTests.ReleaseRowPresentationTest {
             InstallJob.Step.DOWNLOADING, false, false, true
         );
         assert (current.show_cancel && !current.cancel_enabled);
-        assert (!current.show_menu);
+        assert (current.show_menu);
     }
 
     private void test_failed_operations_restore_actual_state () {
@@ -167,7 +167,7 @@ namespace AppTests.ReleaseRowPresentationTest {
         );
         assert (unavailable.unavailable);
         assert (unavailable.primary_action == ReleaseRowPrimaryAction.NONE);
-        assert (!unavailable.show_menu);
+        assert (unavailable.show_menu);
 
         var installed = presentation (
             InstallJob.State.UP_TO_DATE, InstallJob.Step.NOTHING,
@@ -183,8 +183,10 @@ namespace AppTests.ReleaseRowPresentationTest {
         var formatted = ProtonPlus.Utils.format_timestamp (raw);
         assert (formatted != raw);
         assert (!formatted.contains ("T"));
-        assert (formatted.contains ("2026"));
-        assert (formatted.contains ("·"));
+        assert (Regex.match_simple (
+            "^[0-9]{2}-[0-9]{2}-[0-9]{4} [0-9]{2}:[0-9]{2}$",
+            formatted
+        ));
         assert (ProtonPlus.Utils.format_timestamp ("not-a-date") == "not-a-date");
     }
 

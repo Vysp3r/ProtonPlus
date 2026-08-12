@@ -7,7 +7,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-12 13:49-0400\n"
+"POT-Creation-Date: 2026-08-12 14:12-0400\n"
 "PO-Revision-Date: 2026-08-05 16:05+0200\n"
 "Last-Translator: Youseffo13 <>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/protonplus/"
@@ -299,26 +299,26 @@ msgstr "Tempo Stimato: %s"
 msgid "ETA: --"
 msgstr "Tempo Stimato: --"
 
-#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:652
+#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:700
 msgid "Updating"
 msgstr "Aggiornamento in corso"
 
 #: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:315
-#: src/widgets/tools/tools-release-row.vala:648
+#: src/widgets/tools/tools-release-row.vala:696
 msgid "Installing"
 msgstr "Installazione in corso"
 
-#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:775
+#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:823
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%dh %dm %ds"
 
-#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:779
+#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:827
 #, c-format
 msgid "%dm %ds"
 msgstr "%dm %ds"
 
-#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:780
+#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:828
 #, c-format
 msgid "%ds"
 msgstr "%ds"
@@ -501,7 +501,7 @@ msgstr ""
 "predefinito di Valve."
 
 #: src/models/providers/definitions/proton.vala:35
-#: src/widgets/tools/tools-release-row.vala:632
+#: src/widgets/tools/tools-release-row.vala:680
 #, fuzzy
 msgid "Recommended"
 msgstr "Arrotondato"
@@ -808,14 +808,14 @@ msgid "Switch section or page"
 msgstr "Cambia a un altro profilo"
 
 #: src/widgets/controller-hint-bar.vala:145
-#: src/widgets/tools/tools-box.vala:172 src/widgets/tools/tools-box.vala:214
-#: src/widgets/tools/tools-box.vala:216 src/widgets/tools/tools-box.vala:419
+#: src/widgets/tools/tools-box.vala:129 src/widgets/tools/tools-box.vala:171
+#: src/widgets/tools/tools-box.vala:173 src/widgets/tools/tools-box.vala:353
 msgid "Search"
 msgstr "Cerca"
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-box.vala:602 src/widgets/tools/tools-box.vala:224
-#: src/widgets/tools/tools-box.vala:226 src/widgets/tools/tools-box.vala:429
+#: src/widgets/games/games-box.vala:602 src/widgets/tools/tools-box.vala:181
+#: src/widgets/tools/tools-box.vala:183 src/widgets/tools/tools-box.vala:363
 msgid "Filter"
 msgstr "Filtra"
 
@@ -933,7 +933,7 @@ msgstr "Strumento"
 msgid "Actions"
 msgstr "Azioni"
 
-#: src/widgets/games/games-box.vala:569 src/widgets/tools/tools-box.vala:229
+#: src/widgets/games/games-box.vala:569 src/widgets/tools/tools-box.vala:186
 msgid "All"
 msgstr "Tutti"
 
@@ -1009,13 +1009,13 @@ msgstr "Nessun gioco corrispondente"
 
 #: src/widgets/games/games-box.vala:796
 #: src/widgets/tools/tools-group-box.vala:333
-#: src/widgets/tools/tools-releases-box.vala:798
+#: src/widgets/tools/tools-releases-box.vala:799
 msgid "Try a different search term or clear the search."
 msgstr "Prova un termine di ricerca diverso o svuota la ricerca."
 
 #: src/widgets/games/games-box.vala:799
 #: src/widgets/tools/tools-group-box.vala:335
-#: src/widgets/tools/tools-releases-box.vala:800
+#: src/widgets/tools/tools-releases-box.vala:801
 #, fuzzy
 msgid "Clear Search"
 msgstr "Cerca"
@@ -1030,7 +1030,7 @@ msgstr "Scegli Tutti i giochi per vedere la tua libreria completa."
 
 #: src/widgets/games/games-box.vala:807
 #: src/widgets/tools/tools-group-box.vala:342
-#: src/widgets/tools/tools-releases-box.vala:806
+#: src/widgets/tools/tools-releases-box.vala:807
 #, fuzzy
 msgid "Reset Filters"
 msgstr "Filtri"
@@ -1045,8 +1045,8 @@ msgid "Game Actions"
 msgstr "Azioni"
 
 #: src/widgets/games/games-extra-button.vala:87
-#: src/widgets/tools/tools-release-row.vala:184
-#: src/widgets/tools/tools-release-row.vala:460
+#: src/widgets/tools/tools-release-row.vala:199
+#: src/widgets/tools/tools-release-row.vala:486
 #, fuzzy, c-format
 msgid "Actions for %s"
 msgstr "Azioni"
@@ -1098,7 +1098,7 @@ msgid "Denied"
 msgstr ""
 
 #: src/widgets/games/games-extra-button.vala:192
-#: src/widgets/tools/tools-releases-box.vala:1434
+#: src/widgets/tools/tools-releases-box.vala:1440
 #, fuzzy
 msgid "Loading…"
 msgstr "Caricamento in corso"
@@ -3985,7 +3985,7 @@ msgstr "Limitatori"
 
 #: src/widgets/header/header-downloads-indicator.vala:231
 #: src/widgets/header/header-downloads-indicator.vala:233
-#: src/widgets/tools/tools-release-row.vala:156
+#: src/widgets/tools/tools-release-row.vala:158
 #: src/widgets/tools/tools-remove-dialog.vala:26
 #: src/widgets/tools/tools-stl-release-row.vala:118 src/widgets/window.vala:173
 #: src/widgets/window.vala:381
@@ -3995,25 +3995,25 @@ msgstr "Annulla"
 #: src/widgets/header/header-downloads-indicator.vala:284
 #: src/widgets/header/header-downloads-indicator.vala:286
 #: src/widgets/header/header-downloads-indicator.vala:288
-#: src/widgets/tools/tools-release-row.vala:440
-#: src/widgets/tools/tools-release-row.vala:688
+#: src/widgets/tools/tools-release-row.vala:466
+#: src/widgets/tools/tools-release-row.vala:736
 msgid "Cancelling"
 msgstr "Annullamento in corso"
 
 #: src/widgets/header/header-downloads-indicator.vala:311
-#: src/widgets/tools/tools-release-row.vala:691
+#: src/widgets/tools/tools-release-row.vala:739
 msgid "Downloading"
 msgstr "Download in corso"
 
 #: src/widgets/header/header-downloads-indicator.vala:313
-#: src/widgets/tools/tools-release-row.vala:693
+#: src/widgets/tools/tools-release-row.vala:741
 msgid "Extracting"
 msgstr "Estrazione in corso"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
-#: src/widgets/tools/tools-release-row.vala:656
-#: src/widgets/tools/tools-release-row.vala:697
-#: src/widgets/tools/tools-release-row.vala:702
+#: src/widgets/tools/tools-release-row.vala:704
+#: src/widgets/tools/tools-release-row.vala:745
+#: src/widgets/tools/tools-release-row.vala:750
 msgid "Removing"
 msgstr "Rimozione in corso"
 
@@ -4280,7 +4280,7 @@ msgstr "OK"
 #. Tools Page
 #: src/widgets/main/main-box.vala:72
 #: src/widgets/preferences/preferences-dialog.vala:65
-#: src/widgets/tools/tools-box.vala:113
+#: src/widgets/tools/tools-box.vala:104
 msgid "Tools"
 msgstr "Strumenti"
 
@@ -4336,23 +4336,23 @@ msgstr "Riavvia Steam"
 msgid "Try Again"
 msgstr "Riprova"
 
-#: src/widgets/main/main-box.vala:332 src/widgets/tools/tools-box.vala:839
+#: src/widgets/main/main-box.vala:332 src/widgets/tools/tools-box.vala:762
 msgid "Checking for updates"
 msgstr "Controllo aggiornamenti"
 
-#: src/widgets/main/main-box.vala:343 src/widgets/tools/tools-box.vala:847
+#: src/widgets/main/main-box.vala:343 src/widgets/tools/tools-box.vala:770
 msgid "Can't update while a game is running"
 msgstr "Impossibile aggiornare mentre un gioco è in esecuzione"
 
-#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:850
+#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:773
 msgid "Nothing to update"
 msgstr "Niente da aggiornare"
 
-#: src/widgets/main/main-box.vala:350 src/widgets/tools/tools-box.vala:854
+#: src/widgets/main/main-box.vala:350 src/widgets/tools/tools-box.vala:777
 msgid "Everything is now up-to-date"
 msgstr "Tutto è ora aggiornato"
 
-#: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:857
+#: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:780
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Impossibile verificare aggiornamenti (Motivo: %s)"
@@ -5471,10 +5471,10 @@ msgid "Detected Launchers"
 msgstr "Launcher Rilevati"
 
 #: src/widgets/preferences/preferences-dialog.vala:406
-#: src/widgets/tools/tools-box.vala:232
-#: src/widgets/tools/tools-group-box.vala:752
-#: src/widgets/tools/tools-release-row.vala:641
-#: src/widgets/tools/tools-release-row.vala:645
+#: src/widgets/tools/tools-box.vala:189
+#: src/widgets/tools/tools-group-box.vala:729
+#: src/widgets/tools/tools-release-row.vala:689
+#: src/widgets/tools/tools-release-row.vala:693
 msgid "Installed"
 msgstr "Installati"
 
@@ -5573,44 +5573,29 @@ msgstr "Proxy manuale"
 msgid "Proxy mode"
 msgstr "Modalità proxy"
 
-#: src/widgets/tools/tools-box.vala:114
-#: src/widgets/tools/tools-release-changelog.vala:95
-#: src/widgets/tools/tools-release-changelog.vala:106
-msgid "Details"
-msgstr "Dettagli"
-
-#: src/widgets/tools/tools-box.vala:115 src/widgets/tools/tools-box.vala:139
-#: src/widgets/tools/tools-box.vala:300
+#: src/widgets/tools/tools-box.vala:105 src/widgets/tools/tools-box.vala:250
 #: src/widgets/tools/tools-migrate-box.vala:43
+#: src/widgets/tools/tools-release-games-dialog.vala:20
 msgid "Migrate"
 msgstr "Migra"
 
-#: src/widgets/tools/tools-box.vala:129 src/widgets/tools/tools-box.vala:131
-#, fuzzy
-msgid "Open Release Page"
-msgstr "Apri pagina creazione token"
-
-#: src/widgets/tools/tools-box.vala:147
-msgid "Migrate selected games to another tool"
-msgstr "Migra i giochi selezionati verso un altro strumento"
-
-#: src/widgets/tools/tools-box.vala:164 src/widgets/tools/tools-box.vala:166
+#: src/widgets/tools/tools-box.vala:121 src/widgets/tools/tools-box.vala:123
 msgid "Check for updates"
 msgstr "Verifica aggiornamenti"
 
-#: src/widgets/tools/tools-box.vala:235
+#: src/widgets/tools/tools-box.vala:192
 msgid "Used"
 msgstr "Usati"
 
-#: src/widgets/tools/tools-box.vala:238
+#: src/widgets/tools/tools-box.vala:195
 msgid "Unused"
 msgstr "Non usati"
 
-#: src/widgets/tools/tools-box.vala:416
+#: src/widgets/tools/tools-box.vala:350
 msgid "Search is active"
 msgstr "La ricerca è attiva"
 
-#: src/widgets/tools/tools-box.vala:426
+#: src/widgets/tools/tools-box.vala:360
 msgid "Filter is active"
 msgstr "Il filtro è attivo"
 
@@ -5655,22 +5640,22 @@ msgstr "Ogni strumento in questo gruppo è attualmente in uso."
 msgid "No tools are available in this group."
 msgstr "Nessuno strumento è disponibile in questo gruppo."
 
-#: src/widgets/tools/tools-group-box.vala:469
-#: src/widgets/tools/tools-group-box.vala:473
+#: src/widgets/tools/tools-group-box.vala:464
+#: src/widgets/tools/tools-group-box.vala:468
 #, fuzzy
 msgid "Tool Actions"
 msgstr "Azioni"
 
-#: src/widgets/tools/tools-group-box.vala:505
+#: src/widgets/tools/tools-group-box.vala:500
 msgid "Recommended compatibility tool"
 msgstr "Strumento di compatibilità raccomandato"
 
-#: src/widgets/tools/tools-group-box.vala:747
+#: src/widgets/tools/tools-group-box.vala:725
 #, fuzzy
 msgid "Used by games"
 msgstr "Usato da 1 gioco."
 
-#: src/widgets/tools/tools-group-box.vala:748
+#: src/widgets/tools/tools-group-box.vala:726
 msgid ""
 "One or more releases of this tool is installed and currently used by one or "
 "more games"
@@ -5678,7 +5663,7 @@ msgstr ""
 "Una o più release di questo strumento sono installate e attualmente usate da "
 "uno o più giochi"
 
-#: src/widgets/tools/tools-group-box.vala:753
+#: src/widgets/tools/tools-group-box.vala:730
 msgid ""
 "One or more releases of this tool is installed, but not currently used by "
 "any games"
@@ -5714,175 +5699,212 @@ msgstr ""
 "compatibilità. Il problema potrebbe dipendere da permessi mancanti o da "
 "problemi di accesso ai file."
 
-#: src/widgets/tools/tools-release-box.vala:55
-#: src/widgets/tools/tools-release-box.vala:57
-#: src/widgets/tools/tools-release-box.vala:77
+#: src/widgets/tools/tools-release-changelog-dialog.vala:4
+#, fuzzy, c-format
+msgid "Changelog for %s"
+msgstr "Registro delle modifiche"
+
+#: src/widgets/tools/tools-release-changelog-dialog.vala:7
+msgid "Changelog"
+msgstr "Registro delle modifiche"
+
+#: src/widgets/tools/tools-release-changelog-dialog.vala:16
+#, fuzzy
+msgid "No Changelog Available"
+msgstr "Errore: Nessuna release disponibile\n"
+
+#: src/widgets/tools/tools-release-changelog.vala:95
+#: src/widgets/tools/tools-release-changelog.vala:106
+msgid "Details"
+msgstr "Dettagli"
+
+#: src/widgets/tools/tools-release-games-dialog.vala:11
+#, fuzzy, c-format
+msgid "Games using %s"
+msgstr "Azioni"
+
+#: src/widgets/tools/tools-release-games-dialog.vala:14
+msgid "Games Using This Tool"
+msgstr ""
+
+#: src/widgets/tools/tools-release-games-dialog.vala:29
+msgid "Migrate selected games to another tool"
+msgstr "Migra i giochi selezionati verso un altro strumento"
+
+#: src/widgets/tools/tools-release-games-dialog.vala:46
+#: src/widgets/tools/tools-release-games-dialog.vala:48
+#: src/widgets/tools/tools-release-games-dialog.vala:67
 #, fuzzy
 msgid "Select all games"
 msgstr "Seleziona tutti"
 
-#: src/widgets/tools/tools-release-box.vala:105
+#: src/widgets/tools/tools-release-games-dialog.vala:108
 msgid "No Games Use This Tool"
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:118
-msgid "Changelog"
-msgstr "Registro delle modifiche"
-
-#: src/widgets/tools/tools-release-box.vala:119
-#, fuzzy
-msgid "Used By"
-msgstr "Utilizzato da"
-
-#: src/widgets/tools/tools-release-row.vala:123
 #: src/widgets/tools/tools-release-row.vala:125
+#: src/widgets/tools/tools-release-row.vala:127
 msgid "Show installation details"
 msgstr "Mostra dettagli installazione"
 
-#: src/widgets/tools/tools-release-row.vala:130
+#: src/widgets/tools/tools-release-row.vala:132
 msgid "Speed: 0 KB/s"
 msgstr "Velocità: 0 KB/s"
 
-#: src/widgets/tools/tools-release-row.vala:133
-#: src/widgets/tools/tools-release-row.vala:766
+#: src/widgets/tools/tools-release-row.vala:135
+#: src/widgets/tools/tools-release-row.vala:814
 msgid "Remaining time: --"
 msgstr "Tempo rimanente: --"
 
-#: src/widgets/tools/tools-release-row.vala:181
+#: src/widgets/tools/tools-release-row.vala:196
 #, fuzzy
 msgid "Release Actions"
 msgstr "Azioni"
 
-#: src/widgets/tools/tools-release-row.vala:419
+#: src/widgets/tools/tools-release-row.vala:445
 #, c-format
 msgid "Step: %s"
 msgstr "Passaggio: %s"
 
-#: src/widgets/tools/tools-release-row.vala:422
+#: src/widgets/tools/tools-release-row.vala:448
 #, fuzzy, c-format
 msgid "%s for %s"
 msgstr "Azioni"
 
-#: src/widgets/tools/tools-release-row.vala:427
+#: src/widgets/tools/tools-release-row.vala:453
 #, fuzzy, c-format
 msgid "Progress for %s"
 msgstr "Azioni"
 
-#: src/widgets/tools/tools-release-row.vala:484
-#: src/widgets/tools/tools-release-row.vala:487
+#: src/widgets/tools/tools-release-row.vala:510
+#: src/widgets/tools/tools-release-row.vala:513
 #, fuzzy
 msgid "Latest"
 msgstr "Più tardi"
 
-#: src/widgets/tools/tools-release-row.vala:543
-#: src/widgets/tools/tools-release-row.vala:546
+#: src/widgets/tools/tools-release-row.vala:569
+#: src/widgets/tools/tools-release-row.vala:572
 #, c-format
 msgid "Install %s"
 msgstr "Installa %s"
 
-#: src/widgets/tools/tools-release-row.vala:552
-#: src/widgets/tools/tools-release-row.vala:589
-#: src/widgets/tools/tools-releases-box.vala:475
-#: src/widgets/tools/tools-releases-box.vala:487
+#: src/widgets/tools/tools-release-row.vala:578
+#: src/widgets/tools/tools-release-row.vala:635
+#: src/widgets/tools/tools-releases-box.vala:476
+#: src/widgets/tools/tools-releases-box.vala:488
 #, fuzzy
 msgid "Retry"
 msgstr "Retro"
 
-#: src/widgets/tools/tools-release-row.vala:553
-#: src/widgets/tools/tools-release-row.vala:556
+#: src/widgets/tools/tools-release-row.vala:579
+#: src/widgets/tools/tools-release-row.vala:582
 #, fuzzy, c-format
 msgid "Retry %s"
 msgstr "Retro"
 
-#: src/widgets/tools/tools-release-row.vala:567
+#: src/widgets/tools/tools-release-row.vala:593
 #, fuzzy, c-format
 msgid "Cancelling %s"
 msgstr "Annullamento in corso"
 
-#: src/widgets/tools/tools-release-row.vala:568
+#: src/widgets/tools/tools-release-row.vala:594
 #, fuzzy, c-format
 msgid "Cancel %s"
 msgstr "Annulla"
 
-#: src/widgets/tools/tools-release-row.vala:591
+#: src/widgets/tools/tools-release-row.vala:619
+#, fuzzy
+msgid "_Changelog"
+msgstr "Registro delle modifiche"
+
+#: src/widgets/tools/tools-release-row.vala:622
+#, fuzzy
+msgid "Open Release Page"
+msgstr "Apri pagina creazione token"
+
+#: src/widgets/tools/tools-release-row.vala:627
+msgid "_Games Using This Tool"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:637
 #, fuzzy
 msgid "Update"
 msgstr "Aggiornamenti"
 
-#: src/widgets/tools/tools-release-row.vala:592
+#: src/widgets/tools/tools-release-row.vala:638
 #, fuzzy
 msgid "_Check for Updates"
 msgstr "Verifica aggiornamenti"
 
-#: src/widgets/tools/tools-release-row.vala:596
+#: src/widgets/tools/tools-release-row.vala:642
 #, fuzzy
 msgid "_Open Folder"
 msgstr "Cartella di Output"
 
-#: src/widgets/tools/tools-release-row.vala:598
+#: src/widgets/tools/tools-release-row.vala:644
 #, fuzzy
 msgid "_Delete…"
 msgstr "Elimina"
 
-#: src/widgets/tools/tools-release-row.vala:634
+#: src/widgets/tools/tools-release-row.vala:682
 msgid "Failed"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:642
+#: src/widgets/tools/tools-release-row.vala:690
 #, fuzzy
 msgid "Update available"
 msgstr "Aggiornamento in blocco non riuscito"
 
-#: src/widgets/tools/tools-release-row.vala:661
+#: src/widgets/tools/tools-release-row.vala:709
 msgid "Unavailable for the selected variant"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:666
+#: src/widgets/tools/tools-release-row.vala:714
 #, fuzzy, c-format
 msgid "In use by %i game"
 msgid_plural "In use by %i games"
 msgstr[0] "Usato da %i gioco"
 msgstr[1] "Usato da %i giochi"
 
-#: src/widgets/tools/tools-release-row.vala:680
+#: src/widgets/tools/tools-release-row.vala:728
 #, fuzzy, c-format
 msgid "%s. Open Release Details"
 msgstr "Apri pagina creazione token"
 
-#: src/widgets/tools/tools-release-row.vala:681
+#: src/widgets/tools/tools-release-row.vala:729
 #, fuzzy
 msgid "Open Release Details"
 msgstr "Apri pagina creazione token"
 
-#: src/widgets/tools/tools-release-row.vala:695
+#: src/widgets/tools/tools-release-row.vala:743
 msgid "Moving"
 msgstr "Spostamento in Corso"
 
-#: src/widgets/tools/tools-release-row.vala:700
+#: src/widgets/tools/tools-release-row.vala:748
 #, fuzzy
 msgid "Preparing update"
 msgstr "Preparazione in corso"
 
-#: src/widgets/tools/tools-release-row.vala:703
+#: src/widgets/tools/tools-release-row.vala:751
 #, fuzzy
 msgid "Preparing installation"
 msgstr "Annulla installazione"
 
-#: src/widgets/tools/tools-release-row.vala:757
+#: src/widgets/tools/tools-release-row.vala:805
 #, c-format
 msgid "Speed: %s/s"
 msgstr "Velocità: %s/s"
 
-#: src/widgets/tools/tools-release-row.vala:763
+#: src/widgets/tools/tools-release-row.vala:811
 #, c-format
 msgid "Remaining time: %s"
 msgstr "Tempo rimanente: %s"
 
-#: src/widgets/tools/tools-releases-box.vala:254
+#: src/widgets/tools/tools-releases-box.vala:255
 msgid "Standard 64-bit build for most Intel and AMD PCs."
 msgstr "Build standard a 64 bit per la maggior parte dei PC Intel e AMD."
 
-#: src/widgets/tools/tools-releases-box.vala:256
+#: src/widgets/tools/tools-releases-box.vala:257
 msgid ""
 "Optimized 64-bit build for Intel and AMD CPUs that support the x86-64-v3 "
 "instruction set."
@@ -5890,137 +5912,137 @@ msgstr ""
 "Build ottimizzata a 64 bit per CPU Intel e AMD che supportano il set di "
 "istruzioni x86-64-v3."
 
-#: src/widgets/tools/tools-releases-box.vala:259
+#: src/widgets/tools/tools-releases-box.vala:260
 msgid "64-bit ARM build. Choose this only on ARM64 hardware."
 msgstr "Build ARM a 64 bit. Sceglila solo su hardware ARM64."
 
-#: src/widgets/tools/tools-releases-box.vala:261
+#: src/widgets/tools/tools-releases-box.vala:262
 msgid "32-bit x86 build. Choose this only when a 32-bit runner is required."
 msgstr ""
 "Build x86 a 32 bit. Sceglila solo quando è richiesto un runner a 32 bit."
 
-#: src/widgets/tools/tools-releases-box.vala:264
+#: src/widgets/tools/tools-releases-box.vala:265
 msgid ""
 "64-bit build with WoW64 support for running 32-bit Windows applications."
 msgstr ""
 "Build a 64 bit con supporto WoW64 per eseguire applicazioni Windows a 32 bit."
 
-#: src/widgets/tools/tools-releases-box.vala:266
+#: src/widgets/tools/tools-releases-box.vala:267
 msgid "The provider's recommended build for most systems."
 msgstr "La build consigliata dal provider per la maggior parte dei sistemi."
 
-#: src/widgets/tools/tools-releases-box.vala:268
+#: src/widgets/tools/tools-releases-box.vala:269
 #, c-format
 msgid "Select the %s build variant."
 msgstr "Seleziona la variante della build %s."
 
-#: src/widgets/tools/tools-releases-box.vala:333
-#: src/widgets/tools/tools-releases-box.vala:341
-#: src/widgets/tools/tools-releases-box.vala:1289
+#: src/widgets/tools/tools-releases-box.vala:334
+#: src/widgets/tools/tools-releases-box.vala:342
+#: src/widgets/tools/tools-releases-box.vala:1290
 msgid "Check for new releases"
 msgstr "Verifica nuove release"
 
-#: src/widgets/tools/tools-releases-box.vala:347
-#: src/widgets/tools/tools-releases-box.vala:356
-#: src/widgets/tools/tools-releases-box.vala:358
+#: src/widgets/tools/tools-releases-box.vala:348
+#: src/widgets/tools/tools-releases-box.vala:357
+#: src/widgets/tools/tools-releases-box.vala:359
 #, fuzzy
 msgid "Open Repository"
 msgstr "Apri cartella del prefix"
 
-#: src/widgets/tools/tools-releases-box.vala:369
+#: src/widgets/tools/tools-releases-box.vala:370
 msgid "Choose which architecture or build variant to show."
 msgstr "Scegli quale architettura o variante della build mostrare."
 
-#: src/widgets/tools/tools-releases-box.vala:372
-#: src/widgets/tools/tools-releases-box.vala:384
+#: src/widgets/tools/tools-releases-box.vala:373
+#: src/widgets/tools/tools-releases-box.vala:385
 msgid "Build"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:415
-#: src/widgets/tools/tools-releases-box.vala:1475
+#: src/widgets/tools/tools-releases-box.vala:416
+#: src/widgets/tools/tools-releases-box.vala:1481
 msgid "Load More"
 msgstr "Carica Altro"
 
-#: src/widgets/tools/tools-releases-box.vala:454
-#: src/widgets/tools/tools-releases-box.vala:614
-#: src/widgets/tools/tools-releases-box.vala:1109
-#: src/widgets/tools/tools-releases-box.vala:1435
+#: src/widgets/tools/tools-releases-box.vala:455
+#: src/widgets/tools/tools-releases-box.vala:615
+#: src/widgets/tools/tools-releases-box.vala:1110
+#: src/widgets/tools/tools-releases-box.vala:1441
 #, fuzzy
 msgid "Loading releases"
 msgstr "Caricamento in corso"
 
-#: src/widgets/tools/tools-releases-box.vala:463
-#: src/widgets/tools/tools-releases-box.vala:632
-#: src/widgets/tools/tools-releases-box.vala:815
+#: src/widgets/tools/tools-releases-box.vala:464
+#: src/widgets/tools/tools-releases-box.vala:633
+#: src/widgets/tools/tools-releases-box.vala:816
 #, fuzzy
 msgid "No releases available"
 msgstr "Errore: Nessuna release disponibile\n"
 
-#: src/widgets/tools/tools-releases-box.vala:464
-#: src/widgets/tools/tools-releases-box.vala:816
+#: src/widgets/tools/tools-releases-box.vala:465
+#: src/widgets/tools/tools-releases-box.vala:817
 #, fuzzy
 msgid "Check again for new releases."
 msgstr "Verifica nuove release"
 
-#: src/widgets/tools/tools-releases-box.vala:468
-#: src/widgets/tools/tools-releases-box.vala:818
+#: src/widgets/tools/tools-releases-box.vala:469
+#: src/widgets/tools/tools-releases-box.vala:819
 #, fuzzy
 msgid "Refresh"
 msgstr "Frequenza di aggiornamento*"
 
-#: src/widgets/tools/tools-releases-box.vala:481
-#: src/widgets/tools/tools-releases-box.vala:738
+#: src/widgets/tools/tools-releases-box.vala:482
+#: src/widgets/tools/tools-releases-box.vala:739
 msgid "Failed to Fetch Releases"
 msgstr "Recupero release fallito"
 
-#: src/widgets/tools/tools-releases-box.vala:486
+#: src/widgets/tools/tools-releases-box.vala:487
 #, fuzzy
 msgid "Couldn’t load releases"
 msgstr "Errore: Caricamento delle release fallito: %s\n"
 
-#: src/widgets/tools/tools-releases-box.vala:662
-#: src/widgets/tools/tools-releases-box.vala:1156
-#: src/widgets/tools/tools-releases-box.vala:1470
+#: src/widgets/tools/tools-releases-box.vala:663
+#: src/widgets/tools/tools-releases-box.vala:1157
+#: src/widgets/tools/tools-releases-box.vala:1476
 #, fuzzy
 msgid "Releases loaded"
 msgstr "Nessuna release trovata"
 
-#: src/widgets/tools/tools-releases-box.vala:731
+#: src/widgets/tools/tools-releases-box.vala:732
 msgid "Couldn’t load more releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:732
+#: src/widgets/tools/tools-releases-box.vala:733
 msgid "Couldn’t refresh releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:797
+#: src/widgets/tools/tools-releases-box.vala:798
 #, fuzzy
 msgid "No matching releases"
 msgstr "Nessun gioco corrispondente"
 
-#: src/widgets/tools/tools-releases-box.vala:803
+#: src/widgets/tools/tools-releases-box.vala:804
 #, fuzzy
 msgid "No releases match this filter"
 msgstr "Nessun gioco corrisponde a questo filtro"
 
-#: src/widgets/tools/tools-releases-box.vala:804
+#: src/widgets/tools/tools-releases-box.vala:805
 msgid "Reset the filters to see all releases."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:809
+#: src/widgets/tools/tools-releases-box.vala:810
 #, fuzzy
 msgid "No compatible releases"
 msgstr "Caricamento in corso"
 
-#: src/widgets/tools/tools-releases-box.vala:810
+#: src/widgets/tools/tools-releases-box.vala:811
 msgid "No compatible variants are available for this system."
 msgstr "Non sono disponibili varianti compatibili per questo sistema."
 
-#: src/widgets/tools/tools-releases-box.vala:1288
+#: src/widgets/tools/tools-releases-box.vala:1289
 msgid "Refreshing…"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:1299
+#: src/widgets/tools/tools-releases-box.vala:1300
 #, c-format
 msgid "Last updated: %s"
 msgstr "Ultimo aggiornamento: %s"
@@ -6112,6 +6134,10 @@ msgid ""
 msgstr ""
 "L'applicazione sta scaricando uno strumento.\n"
 "Uscire dall'applicazione prima del completamento potrebbe causare problemi."
+
+#, fuzzy
+#~ msgid "Used By"
+#~ msgstr "Utilizzato da"
 
 #~ msgid "In use"
 #~ msgstr "In uso"

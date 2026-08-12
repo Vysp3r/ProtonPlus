@@ -126,7 +126,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         public bool show_menu {
             get {
-                return show_update_action || show_open_folder || show_delete;
+                return true;
             }
         }
 

@@ -173,7 +173,8 @@ namespace ProtonPlus.Widgets.Tools {
     }
 
     public class ReleasesBox : Gtk.Box, Utils.ControllerDirectionalFocus {
-        public signal void job_selected (Services.InstallJob job);
+        public signal void changelog_requested (Services.InstallJob job);
+        public signal void games_requested (Services.InstallJob job);
         public signal void clear_search_requested ();
         public signal void reset_filter_requested ();
 
@@ -1401,7 +1402,12 @@ namespace ProtonPlus.Widgets.Tools {
             );
             row.set_controller_down_target (controller_down_target);
             row.set_data ("job", job);
-            row.job_selected.connect ((selected_job) => job_selected (selected_job));
+            row.changelog_requested.connect ((selected_job) => {
+                changelog_requested (selected_job);
+            });
+            row.games_requested.connect ((selected_job) => {
+                games_requested (selected_job);
+            });
             list_box.append (row);
         }
 
