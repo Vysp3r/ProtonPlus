@@ -614,7 +614,8 @@ namespace ProtonPlus.Utils {
             if (highlighted == null)
                 return;
 
-            ((!) highlighted).add_css_class ("controller-focus");
+            if (!uses_native_focus_highlight ((!) highlighted))
+                ((!) highlighted).add_css_class ("controller-focus");
             highlight_visible_handler = ((!) highlighted).notify["visible"].connect (() => sync_highlight ());
             highlight_unmap_handler = ((!) highlighted).unmap.connect (() => clear_highlight ());
             highlight_destroy_handler = ((!) highlighted).destroy.connect (() => clear_highlight ());
@@ -636,6 +637,16 @@ namespace ProtonPlus.Utils {
             highlight_unmap_handler = 0;
             highlight_destroy_handler = 0;
             highlighted = null;
+        }
+
+        bool uses_native_focus_highlight (Gtk.Widget widget) {
+            Gtk.Widget? current = widget;
+            while (current != null) {
+                if (current is Gtk.SearchEntry)
+                    return true;
+                current = current.get_parent ();
+            }
+            return false;
         }
 
         void sync_highlight () {
@@ -1196,9 +1207,14 @@ namespace ProtonPlus.Utils {
             var list_view = find_list_view_ancestor (
                 focused, get_direction_input_root (focused, get_active_surface ())
             );
+            var activation_handler = find_controller_activation_handler (
+                focused, root
+            );
             var redirected_target = find_controller_activation_target (focused, root);
             var succeeded = false;
-            if (redirected_target != null) {
+            if (activation_handler != null) {
+                succeeded = ((!) activation_handler).controller_activate (focused);
+            } else if (redirected_target != null) {
                 succeeded = ((!) redirected_target).activate ();
             } else if (list_view != null) {
                 /* Controller navigation moves GTK focus between list items
@@ -1225,6 +1241,20 @@ namespace ProtonPlus.Utils {
                 schedule_page_focus_restore ();
             refresh_presentation ();
             return succeeded;
+        }
+
+        ControllerActivationHandler? find_controller_activation_handler (
+            Gtk.Widget focused, Gtk.Widget root
+        ) {
+            Gtk.Widget? current = focused;
+            while (current != null) {
+                if (current is ControllerActivationHandler)
+                    return (ControllerActivationHandler) current;
+                if (current == root)
+                    break;
+                current = current.get_parent ();
+            }
+            return null;
         }
 
         Gtk.Widget? find_controller_activation_target (
@@ -1619,12 +1649,18 @@ namespace ProtonPlus.Utils {
 
         Gtk.Widget? get_scrolled_content (Gtk.ScrolledWindow scrolled) {
             var content = scrolled.get_child ();
-            /* Non-scrollable children such as Gtk.ListBox are wrapped in a
+            /* Native GtkScrollable children such as GtkColumnView and
+             * GtkListView own their adjustment coordinate space and focus
+             * scrolling.  Their realized children use viewport coordinates,
+             * so comparing those bounds with adjustment values can move the
+             * focused item out of view. */
+            if (!(content is Gtk.Viewport))
+                return null;
+
+            /* Non-scrollable children such as GtkListBox are wrapped in a
              * GtkViewport.  Adjustment values use the viewport child's
              * coordinates, not the viewport's already-scrolled coordinates. */
-            if (content is Gtk.Viewport)
-                content = ((Gtk.Viewport) content).get_child ();
-            return content;
+            return ((Gtk.Viewport) content).get_child ();
         }
 
         void reveal_adjustment (Gtk.Adjustment adjustment, double start, double end) {

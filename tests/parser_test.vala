@@ -91,8 +91,7 @@ namespace AppTests.ParserTest {
             .build_command_preview_markup ("VAR=\"hello world\" %command% <unsafe>");
 
         assert (markup.contains ("<tt>"));
-        assert (markup.contains ("foreground='#79c0ff'"));
-        assert (markup.contains ("foreground='#ff938a'"));
+        assert (!markup.contains ("foreground="));
         assert (markup.contains ("VAR=&quot;hello world&quot;"));
         assert (markup.contains ("&lt;unsafe&gt;"));
 

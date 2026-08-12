@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-11 15:38-0400\n"
+"POT-Creation-Date: 2026-08-12 14:12-0400\n"
 "PO-Revision-Date: 2026-02-16 17:22-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -18,1757 +18,11 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:7
 msgid "ProtonPlus"
 msgstr ""
 
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:232
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:238
 msgid "A modern compatibility tools manager"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:8
-msgid "Manage Proton, Wine, DXVK, and VKD3D tools for Linux game launchers"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:10
-msgid ""
-"ProtonPlus helps you install, update, remove, and organize Windows "
-"compatibility tools used by Steam and other Linux game launchers."
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:14
-msgid "Manage Proton, Wine, DXVK, VKD3D, and related compatibility tools"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:15
-msgid ""
-"Support Steam, Faugus Launcher, Lutris, Heroic Games Launcher, Bottles, and "
-"WineZGUI"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:16
-msgid "Browse Steam games, change compatibility tools, and edit launch options"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:17
-msgid ""
-"Track downloads and updates, with cancellation and desktop notifications"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:18
-msgid ""
-"Use the command-line interface to list, install, update, and uninstall tools"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:23
-msgid "Vysp3r"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:27
-msgid "Proton"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:28
-#: src/widgets/mangohud/mangohud-extras-page.vala:94
-msgid "Wine"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:29
-msgid "Steam"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:30
-msgid "Faugus"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:31
-msgid "Lutris"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:32
-msgid "Heroic"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:33
-msgid "Bottles"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:34
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1275
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
-msgid "DXVK"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:35
-msgid "VKD3D"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:36
-msgid "Steam Tinker Launch"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:74
-msgid "The tools interface of ProtonPlus."
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:78
-msgid "The releases interface of ProtonPlus."
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:82
-msgid "The games interface of ProtonPlus."
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:86
-msgid "The mass edit interface of ProtonPlus."
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:94
-msgid "✨ Improved the introduction screen on smaller windows"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:95
-msgid ""
-"✨ Added a warning when YAD 15 may prevent SteamTinkerLaunch from working"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:96
-msgid "🐛 Fixed new Proton-GE x86-64 releases not being detected"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:97
-msgid "🐛 Fixed access to DW-Proton releases"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:98
-msgid ""
-"🐛 Fixed inaccessible Faugus folders preventing ProtonPlus from starting"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:99
-msgid ""
-"🐛 Fixed SteamTinkerLaunch installations sometimes starting more than once"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:100
-msgid "🐛 Fixed some tool descriptions not being translated"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:101
-msgid ""
-"🌐 Updated Czech, German, Russian, Simplified Chinese, Swedish, and "
-"Ukrainian localizations"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:108
-msgid "✨ Added AppImage builds for AArch64 systems"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:109
-msgid "✨ Added a configurable download speed limit"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:110
-msgid "🐛 Fixed Faugus launcher not being detected under Flatpak"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:111
-msgid "🐛 Fixed controllers not working under Flatpak"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:112
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:154
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:171
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:221
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:255
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:270
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:352
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:395
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:408
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:422
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:454
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:466
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:516
-msgid "🌐 Updated German localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:119
-msgid "✨ Improved how ProtonPlus finds Steam compatibility tools"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:120
-msgid "✨ Improved mass editing and controller navigation in the Games tab"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:121
-msgid "🐛 Fixed compatibility tool installation for some Steam setups"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:122
-msgid "🐛 Fixed tool usage counts and game lists when moving to another tool"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:123
-msgid ""
-"🐛 Fixed tool installation on some Linux systems and improved archive safety"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:124
-msgid "🐛 Fixed translations missing from the AppImage version"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:125
-msgid "🌐 Updated Czech and Slovak translations"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:132
-msgid "✨ Added Faugus Launcher support"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:133
-msgid "✨ Added CPU-aware x86-64 and ARM64 variant selection"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:134
-msgid "✨ Added scheduled background updates and notifications"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:135
-msgid ""
-"✨ Added controller navigation with contextual hints, optional haptic "
-"feedback, and a first-run guide"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:136
-msgid "✨ Added Breeze Light, Breeze Dark, SteamOS, and OLED themes"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:137
-msgid "✨ Added a built-in MangoHud editor and proxy settings"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:138
-msgid ""
-"✨ Added Steam shortcut creation and guided Steam restarts, including "
-"SteamOS Gaming Mode"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:139
-msgid "✨ Added default Steam compatibility prefix migration"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:140
-msgid "✨ Added an active downloads indicator"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:141
-msgid "✨ Added ARM64 Flatpak support"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:142
-msgid ""
-"✨ Reworked the launch options editor with hardware-aware options and exact "
-"command previews"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:143
-msgid ""
-"✨ Preserved custom and unknown safe launch options during single-game and "
-"mass edits"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:144
-msgid ""
-"✨ Improved Games and Tools navigation, search, filtering, selection, and "
-"repository links"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:145
-msgid ""
-"✨ Improved stable release selection, Latest handling, and variant selection"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:146
-msgid ""
-"✨ Improved downloads and tool updates with timeout recovery, archive "
-"checks, preserved settings, and safer rollback"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:147
-msgid "✨ Improved Steam multi-user, VDF, and shortcut handling"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:148
-msgid "✨ Improved command-line validation and error reporting"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:149
-msgid ""
-"🐛 Fixed custom executable launches and kept the app usable when some Steam "
-"data cannot be loaded"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:150
-msgid ""
-"🐛 Fixed release and installation issues affecting Proton-TKG, Proton-"
-"CachyOS, DXVK, VKD3D, Lutris, and Steam Tinker Launch"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:151
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:350
-msgid "🌐 Added Arabic localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:152
-msgid "🌐 Added Slovak localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:153
-msgid "🌐 Updated Simplified Chinese localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:155
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:300
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:318
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:391
-msgid "🌐 Updated Italian localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:162
-msgid "🐛 Fixed Proton-GE RTSP download"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:169
-msgid "🐛 Fixed Proton-GE downloading wrong version"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:170
-msgid "🐛 Fixed yad check for Steam Tinker Launch"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:172
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:196
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:224
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:258
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:297
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:353
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:368
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:399
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:423
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:436
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:453
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:465
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:515
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:541
-msgid "🌐 Updated Chinese localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:173
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:225
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:239
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:257
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:271
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:301
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:317
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:355
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:392
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:438
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:455
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:467
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:506
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:532
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:560
-msgid "🌐 Updated Portuguese localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:174
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:204
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:222
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:321
-msgid "🌐 Updated Polish localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:175
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:223
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:256
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:298
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:322
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:508
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:517
-msgid "🌐 Updated French localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:176
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:194
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:206
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:229
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:323
-msgid "🌐 Updated Ukrainian localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:177
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:195
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:205
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:228
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:259
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:299
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:316
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:354
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:369
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:559
-msgid "🌐 Updated Spanish localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:178
-msgid "🌐 Updated Greek localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:179
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:226
-msgid "🌐 Updated Japanese localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:186
-msgid "✨ Added a new \"Downloads\" tab"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:187
-msgid "✨ Added more launch options"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:188
-msgid "✨ Added a \"Run custom executable\" button"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:189
-msgid "✨ Added a SteamOS theme and an OLED theme"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:190
-msgid "🐛 Fixed DXVK-Sarek"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:191
-msgid "🐛 Fixed tool usage count to account for default tool"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:192
-msgid "🐛 Fixed tool usage count to account for non-steam games"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:193
-msgid ""
-"🐛 Fixed an error that occured when installing a tool in any launcher except "
-"for Steam"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:203
-msgid "🐛 Fixed launchers not being detected on certain distro"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:213
-msgid ""
-"✨ Improved the launch options, mass edit and default compatibility tool view"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:214
-msgid "✨ Removed Proton-Sarek"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:215
-msgid "🐛 Fixed a few typos"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:216
-msgid "🐛 Fixed broken icons"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:217
-msgid "🐛 Fixed XDG base directory specification"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:218
-msgid "🐛 Fixed Proton-CachyOS (Temporary fix)"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:219
-msgid "🐛 Fixed Latest releases for Bottles"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:220
-msgid "🐛 Fixed updates not preserving symlink for user_settings.py"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:227
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:351
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:393
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:437
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:507
-msgid "🌐 Updated Indonesian localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:236
-msgid "✨ Added CLI support"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:237
-msgid "🐛 Fixed Lutris install directory for Proton runners"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:238
-msgid "🐛 Fixed unnecessary re-downloads of the same runner as an \"update\""
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:240
-msgid "🌐 Added Vietnamese localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:247
-msgid "✨ Added DW-Proton Latest"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:248
-msgid "✨ Added Proton-Sarek Latest"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:249
-msgid "✨ Added Proton-Sarek (Async) Latest"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:250
-msgid "✨ Added Proton-EM Latest"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:251
-msgid "✨ Added Proton-GE RTSP Latest"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:252
-msgid "🐛 Fixed network error not being displayed when they should"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:253
-msgid "🐛 Fixed \"Unknown error\" dialog appearing on successful update"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:254
-msgid ""
-"🐛 Fixed \"Games\" tab runners not refreshing when installing/removing a "
-"runner"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:260
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:334
-msgid "🌐 Updated Czech localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:261
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:319
-msgid "🌐 Updated Arabic localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:262
-msgid "🌐 Added Georgian localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:269
-msgid "✨ Added DW-Proton"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:278
-msgid "✨ Migrate user_settings.py on update"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:279
-msgid "✨ Added a button to open runners install directory"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:280
-msgid "✨ Added a basic cache system for downloaded runners"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:281
-msgid "✨ Improved new user experience"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:282
-msgid "✨ Added API limit/connection issue warning dialog"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:283
-msgid "✨ Improved \"Runners\" tab filters"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:284
-msgid "✨ Added preferences dialog"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:285
-msgid "✨ Added report button to error dialogs"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:286
-msgid "✨ Added GitHub/GitLab access token"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:287
-msgid "✨ Added release date under release name"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:288
-msgid "🐛 Fixed possible negative remaining download time"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:289
-msgid "🐛 Fixed select/unselect all"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:290
-msgid "🐛 Fixed Proton-CachyOS not downloading the good version"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:291
-msgid "🐛 Fixed invalid files from being downloaded"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:292
-msgid "🐛 Fixed Wine-Proton invalid download url"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:293
-msgid "🐛 Fixed SteamTinkerLaunch download issue"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:294
-msgid "🐛 Fixed Proton-GE Latest version check issue"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:295
-msgid "🐛 Fixed Proton-CachyOS invalid directory name"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:296
-msgid "🌐 Added Japanese localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:302
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:335
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:394
-msgid "🌐 Updated Russian localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:309
-msgid "✨ Added a search bar in the \"Games\" tab"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:310
-msgid "✨ Added a way to see the speed and remaining time of downloads"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:311
-msgid "✨ Added Wine runners to Bottles"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:312
-msgid "✨ Update runtime to GNOME 49"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:313
-msgid "🐛 Fixed icons issue"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:314
-msgid "🐛 Fixed Proton-GE RTSP"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:315
-msgid "🐛 Fixed error when cancelling install during extraction"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:320
-msgid "🌐 Updated Finnish localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:330
-msgid "🐛 Fixed launchers loading issue"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:331
-msgid "🐛 Fixed possible parsing issue"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:332
-msgid ""
-"🐛 Fixed force exit not working in the warning dialog when closing the "
-"application"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:333
-msgid "🐛 Fixed application freezing in a certain scenario"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:342
-msgid "✨ Added non-steam games support"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:343
-msgid "✨ Added an update indicator"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:344
-msgid "✨ Added a way to see the games prefix"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:345
-msgid "✨ Added a sticky filter bar to the \"Runners\" tab"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:346
-msgid "✨ Added a way to see which runners are used"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:347
-msgid "✨ Improve Proton-GE Latest handling"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:348
-msgid "🐛 Fixed a launcher loading issue"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:349
-msgid "🌐 Added Ukrainian localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:356
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:396
-msgid "🌐 Updated Dutch localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:363
-msgid "✨ Delete cache on exit"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:364
-msgid "🐛 Fixed runners not downloading for HGL"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:365
-msgid "🐛 Fixed recursive copy error"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:366
-msgid "🐛 Fixed icons not showing up when running under Flatpak"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:367
-msgid "🐛 Fixed WineZGUI Flatpak not appearing in launcher list"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:376
-msgid "✨ Added Proton-GE Latest"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:377
-msgid "✨ Added WineZGUI support"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:378
-msgid "✨ Added a profile switch button"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:379
-msgid "✨ Made the runners dynamic"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:380
-msgid "✨ Added a loading screen"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:381
-msgid "✨ Updated donation button link"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:382
-msgid "✨ Made the game list sort-able via the header"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:383
-msgid "✨ Added a shortcut to open protontricks"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:384
-msgid "🐛 Fixed \"Load more\" scrolling to top after clicking it"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:385
-msgid "🐛 Fixed SteamTinkerLaunch from being duplicated"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:386
-msgid "🐛 Fixed launch options parsing issue"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:387
-msgid ""
-"🐛 Fixed Steam shortcut not using system language to launch the application"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:388
-msgid "🐛 Fixed issue with incorrectly identifying Steam shortcut"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:389
-msgid "🐛 Fixed crash when CompatToolMapping is missing in config.vdf"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:390
-msgid "🐛 Fixed incorrect insertion position when launch options are missing"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:397
-msgid "🌐 Updated Bosnian localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:398
-msgid "🌐 Updated Serbian localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:406
-msgid "🐛 Fix games being duplicated when switching tab back and forth"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:407
-msgid "🌐 Update Polish localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:415
-msgid "💄 Improved UI/UX"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:416
-msgid "💄 Refined the game library list header"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:417
-msgid "💄 Improved dropdown's in game library"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:418
-msgid "🐛 Removed Proton Kron4ek"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:419
-msgid "🐛 Fix issue related to the new custom dropdown's"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:420
-msgid "🐛 Fix changing compatibility tool not working in certain cases"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:421
-msgid "🌐 Update Czech localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:430
-msgid "✨ Added an header to the library game list"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:431
-msgid "✨ Added a donation button"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:432
-msgid "🐛 Fix compatibility tool detection"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:433
-msgid "🐛 Change DXVK Sarek naming scheme"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:434
-msgid "🐛 Fix library loading issue"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:435
-msgid "🐛 Fix a crash"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:445
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:452
-msgid "🐛 Fix Steam profile detection"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:462
-msgid "✨ Added the ability to manage launch options of games"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:463
-msgid "✨ Added a way to open the install/prefix directory of games"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:464
-msgid ""
-"✨ Added the ability to set the default compatibility tool for Steam games"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:474
-msgid "🐛 Fixed ProtonDB logo not appearing with light theme"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:475
-msgid "🐛 Fixed shortcut button not working properly"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:476
-msgid "✨ Made the games be sorted by name by default"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:477
-msgid "✨ Made it possible to unselect a game by clicking on it"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:478
-msgid "✨ Added a way to select/unselect all the games"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:479
-msgid "✨ Added a way to sort by game name and sort by compatbility tool name"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:486
-msgid "🐛 Fixed Proton Kron4ek"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:493
-msgid "✨ Added support for Proton Kron4ek"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:494
-msgid "✨ Added a way to add a shortcut of ProtonPlus in Steam"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:495
-msgid "✨ Added a way to see if a compatibility tool is used or not for Steam"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:496
-msgid "✨ Added the ability to change the compatibility tool of Steam games"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:497
-msgid ""
-"✨ Added the ability to change the compatibility tool of multiple Steam game "
-"at the same time"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:498
-msgid "🐛 Fix UI freeze when installing/removing STL"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:499
-msgid "💄 Improved the UX of most of the dialogs"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:524
-msgid "✨ Added support for Proton EM"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:531
-msgid "🐛 Fix only Steam showing up"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:539
-msgid "🐛 Added check for inactive Steam installations"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:540
-msgid "🧑‍💻 Updated runtime to GNOME 48"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:548
-msgid "✨ Added Proton CachyOS for Bottles"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:549
-msgid "✨ Re-ordered runners"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:550
-msgid "✨ Removed deprecated runners"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:551
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:576
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:584
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:634
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:730
-msgid "🌐 Updated German translation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:558
-msgid "✨ Added support for Proton CachyOS"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:567
-msgid "🐛 Fix some DXVK runners using the wrong name"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:568
-msgid "🌐 Fix typo in German localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:575
-msgid "🐛 Fix HGL support"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:583
-msgid "🐛 Fix Proton-Sarek install issues"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:585
-msgid "🌐 Updated Czech translation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:592
-msgid "🐛 Fixed libadwaita version minimum requirement"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:599
-msgid "✨ Added a way to view the description of each release"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:600
-msgid "✨ Added support for DXVK Sarek"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:601
-msgid "✨ Added support for Proton in Lutris (without using Steam)"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:602
-msgid "🐛 Fixed installed only filter"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:603
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:693
-msgid "🧑‍💻 Backend improvements"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:604
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:660
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:668
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:677
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:685
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:694
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:709
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:720
-msgid "🌐 Updated localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:611
-msgid "💄 Switched app icon to PNG format due to poor SVG support in KDE"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:618
-msgid "🐛 Fix for Proton-Sarek support"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:625
-msgid "✨ Added support for Proton-Sarek"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:626
-msgid "💄 Updated the application icon"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:627
-msgid "🌐 Updated Swedish translation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:641
-msgid "✨ Added support for Steam Tinker Launch"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:642
-msgid "✨ Made Ctrl-Q quit the application"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:643
-msgid "✨ The window now remembers the last-used size"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:644
-msgid "💄 Improved UI polish and consistency"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:645
-msgid "🌐 Made it easier to translate the application"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:646
-msgid "🌐 Added Swedish translation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:653
-msgid "🐛 Fix appdata"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:667
-msgid "✨ Added Proton-GE RTSP to Steam"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:675
-msgid "🐛 Fixed installed only infinite loading"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:676
-msgid "🐛 Fixed GitLab downloads not working"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:684
-msgid "🐛 Fixed missing Bottles icon"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:692
-msgid "💄 Modernised the UI"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:701
-msgid "✨ Added an installed only filter"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:702
-msgid "✨ Added Kron4ek builds and Proton-tkg to HGL"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:703
-msgid "✨ Added VKD3D support for Lutris"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:704
-msgid "✨ Added Kron4ek Wine-Builds Staging"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:705
-msgid "✨ Added DXVK GPL+Async (Ph42oN)"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:706
-msgid "💄 Added description to groups"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:707
-msgid "💄 Improved Steam Deck experience"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:708
-msgid "🧑‍💻 General improvements"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:716
-msgid "📝 Updated README, appdata and preview image"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:717
-msgid "🐛 Fix Flathub download link"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:718
-msgid "♻️ Update delete dialog"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:719
-msgid "✨ Added the ability to download older versions"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:727
-msgid "🍱 Replaced the preview video"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:728
-msgid "🐛 Fixed Proton Tkg"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:729
-msgid "🐛 Fixed install directories creation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:736
-msgid ""
-"I disabled Proton-Tkg (Steam) for now. I will re-add it for the next update."
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:738
-msgid "🍱 Updated the preview images and video"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:739
-msgid "💄 Updated the UI"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:740
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:750
-msgid "⚡️ Backend optimization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:747
-msgid "🍱 Change preview video file format to webm"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:748
-msgid "🌐 Fixed README typo and added Czech translation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:749
-msgid "🌐 Added German translation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:757
-msgid "✨ Added a tasks queue system"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:758
-msgid "💄 Updated the installer UI"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:759
-msgid "🐛 Fix window always being able to be closed"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:760
-msgid "🐛 Fix preferences page being empty"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:761
-msgid "🐛 Fix Steam install message"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:762
-msgid "📝 Updated Flathub download logo"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:769
-msgid "✨ Complete UI Overhaul"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:770
-msgid "🧑‍💻 Project Refactor"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:777
-msgid "✨ Added support for Bottles"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:778
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:787
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:800
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:814
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:824
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:836
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:847
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:856
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:867
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:876
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:893
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:911
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:928
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:946
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:962
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:970
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:990
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:999
-msgid "🔨 Update appdata"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:779
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:788
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:801
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:815
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:825
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:837
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:848
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:857
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:868
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:877
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:894
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:913
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:930
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:947
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:963
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:975
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:991
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1007
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1030
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1050
-msgid "💬 Update the release notes"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:786
-msgid "✨ Added support for Heroic Games Launcher"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:795
-msgid "✨ Updated the About window"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:796
-msgid "🎨 Added utilities for folders and files"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:797
-msgid "🎨 Migrated preferences system to GLib.Settings"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:798
-msgid "✨ Implementated cancelation dialog when downloading"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:799
-msgid "🔧 Modified filesystem permissions scopes"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:808
-msgid "🐛 Fixed installer tool switching"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:809
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:833
-msgid "🔇 Remove debug log"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:810
-msgid "💄 Updated icons"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:811
-msgid "🐛 Fixed tools and releases not being locked when needed"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:812
-msgid "🐛 Fixed progress bar not being hidden when needed"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:813
-msgid "🌐 Updated translation files"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:822
-msgid "🐛 Fix flathub manifest"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:823
-msgid "🌐 Added missing russian translations"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:832
-msgid "✨ Add warning for gamescope compatibility issues"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:834
-msgid "🐛 Fix download getting canceled randomly"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:835
-msgid "🌐 Added missing translations"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:844
-msgid "🐛 Fix directory creation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:845
-msgid "🐛 Fix releases not always changing"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:846
-msgid "✨ Added Proton Tkg"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:855
-msgid "🌐 Add missing translations"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:864
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:910
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:927
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:945
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1038
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1062
-msgid "📝 Update README.md"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:865
-msgid "🌐 Add Chinese(Simplified) Translation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:866
-msgid "🐛 Fix translation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:875
-msgid "🐛 Correct desktop file exec"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:884
-msgid "🌐 Add Indonesian translation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:885
-msgid "🌐 Add Brazilian Portuguese (pt-BR) translation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:886
-msgid "💄 Lock dialogs to main window"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:887
-msgid "📝 Fix README.md typo"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:888
-msgid "📝 Add desktop-file-utils link to README.md"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:889
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:957
-msgid "🐛 Fix possible crash scenario"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:890
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:923
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:954
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:988
-msgid "🧑‍💻 Project refactor"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:891
-msgid "🐛 Fix tool renaming"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:892
-msgid "🐛 Fix download not working on some machine"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:901
-msgid "🔨 Correct desktop file category"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:902
-msgid "🌐 Adding a Russian translation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:903
-msgid "🌐 Added spanish translation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:904
-msgid "🐛 Fix installed tools not showing up properly"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:905
-msgid "🐛 Fix buttons being clickable when switching tool"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:906
-msgid "🧱 Rename InstallTool to Installer"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:907
-msgid "⚰️ Remove dead code from Release"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:908
-msgid "🚸 Added a tooltip in About"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:909
-msgid "🌐 Add missing translation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:912
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:929
-msgid "🔨 Update meson"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:920
-msgid "✨ Add localization system"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:921
-msgid "🚸 Added more tooltips"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:922
-msgid "🚸 Update About for better UX"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:924
-msgid "🐛 Fix styles localization"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:925
-msgid "✨ Added remember last launcher preference"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:926
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:944
-msgid "🍱 Update preview images"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:937
-msgid "💄 Fix ListBox CSS missing"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:938
-msgid "🚚 Renamed HomeInfo to AboutTool"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:939
-msgid "💄 Update Home layout"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:940
-msgid "🧑‍💻 Refactor ProtonMessageDialog"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:941
-msgid "🚚 Rename Selector to InstallTool"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:942
-msgid "🐛 Fix Adw-Critical error"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:943
-msgid "🐛 Fix crash on tool delete"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:955
-msgid "🐛 Fix ListBox missing scrollbar"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:956
-msgid "✨ Add launcher cleanup utility"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:958
-msgid "➖ Remove Posix dependency"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:959
-msgid "🐛 Fix button always being active"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:960
-msgid "🧑‍💻 Add new message dialog widget"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:961
-msgid "🐛 Fix useless log showing up"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:971
-msgid "🐛 Fix tool renaming for nothing"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:972
-msgid "🐛 Fix selector window freezing"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:973
-msgid "🐛 Fix Gtk-Critical errors"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:974
-msgid "🐛 Fix buttons being active by default in selector"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:981
-msgid ""
-"For stability reasons, I've decided to disable Bottles and Heroic Games "
-"Launcher support for now. I also disabled Proton Tkg for the same reasons."
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:984
-msgid "✨ Add NorthstarProton compatibility tool"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:985
-msgid "🐛 Fix NorthstarProton not showing up"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:986
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1000
-msgid "🔨 Update flatpak config"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:987
-msgid "💬 Renamed tools in a uniform way"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:989
-msgid "🚸 Add error message to selector"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:997
-msgid "We are now officialy on Flathub!"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1001
-msgid "🍱 Update symbolic icon"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1002
-msgid "🍱 Add icon"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1003
-msgid "🔨 Update .desktop"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1004
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1019
-msgid "🍱 Update the preview image"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1005
-msgid "🍱 Add a preview image"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1006
-msgid "🐛 Fix install button always being clickable"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1013
-msgid ""
-"The new naming convention for extracted directories is basically making sure "
-"each installed tools is easily recognizable to make it easier to manage them."
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1015
-msgid "Naming convention: Tool name + Tool version"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1016
-msgid "Example: GE-Proton | GE-Proton7-41"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1018
-msgid "✏️ Fix typo in the release notes"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1020
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1027
-msgid "⚰️ Remove unused custom widget"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1021
-msgid "🚧 Add notifications tab"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1022
-msgid "💄 Update selector window components to Libadwaita"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1023
-msgid "🧱 Separate Release from CompatibilityTool"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1024
-msgid "🧱 Rename CompatibilityTool to Tool"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1025
-msgid "⚰️ Remove unused file"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1026
-msgid "💄 Update home message dialog to libadwaita"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1028
-msgid "✨ Added a naming convention extracted directories"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1029
-msgid "🚚 Rename compatibilitytool to tool"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1036
-msgid "ProtonPlus now requires Libadwaita version 1.2 or higher."
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1039
-msgid "🐛 Fix Preferences window default siz"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1040
-msgid "💄 Move main window to Libadwaita"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1041
-msgid "💄 Move about window to Libadwaita"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1042
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1044
-msgid "⚰️ Remove dead code"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1043
-msgid "💄 Update main window components to Libadwaita"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1045
-msgid "💄 Add an effect when extracting a tool"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1046
-msgid "🐛 Fix label not showing up"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1047
-msgid "🐛 Fix wrong label showing up"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1048
-msgid "💄 Update preferences window to Libadwaita"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1049
-msgid "⬆️ Update the runtime version"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1057
-msgid "🐛 Fix Steam not showing up on fresh install"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1058
-msgid "🐛 Fix Kron4ek Wine-Builds Vanilla not showing properly"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1059
-msgid "🐛 Fix installed tools showing files"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1060
-msgid "🐛 Fix selector closing after an installation"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1061
-msgid "🐛 Fix extraction not always working"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1063
-msgid "🐛 Fix Lutris DXVK not showing up"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1070
-msgid "🎉 Initial release"
-msgstr ""
-
-#: data/com.vysp3r.ProtonPlus.metainfo.xml.in:1071
-msgid "📝 Create pull request template"
 msgstr ""
 
 #: data/ui/gtk/help-overlay.ui:11
@@ -1783,7 +37,37 @@ msgstr ""
 
 #: data/ui/gtk/help-overlay.ui:20
 msgctxt "shortcut window"
+msgid "Preferences"
+msgstr ""
+
+#: data/ui/gtk/help-overlay.ui:26
+msgctxt "shortcut window"
+msgid "Help"
+msgstr ""
+
+#: data/ui/gtk/help-overlay.ui:32
+msgctxt "shortcut window"
 msgid "Quit"
+msgstr ""
+
+#: data/ui/gtk/help-overlay.ui:40
+msgctxt "shortcut window"
+msgid "Navigation"
+msgstr ""
+
+#: data/ui/gtk/help-overlay.ui:43
+msgctxt "shortcut window"
+msgid "Go Back"
+msgstr ""
+
+#: data/ui/gtk/help-overlay.ui:51
+msgctxt "shortcut window"
+msgid "Search"
+msgstr ""
+
+#: data/ui/gtk/help-overlay.ui:54
+msgctxt "shortcut window"
+msgid "Search Current View"
 msgstr ""
 
 #: src/cli/cli.vala:128
@@ -2002,36 +286,37 @@ msgstr ""
 msgid "ETA: %s"
 msgstr ""
 
-#: src/cli/cli.vala:716 src/widgets/header/header-downloads-indicator.vala:305
+#: src/cli/cli.vala:716 src/widgets/header/header-downloads-indicator.vala:325
 msgid "ETA: --"
 msgstr ""
 
-#: src/cli/cli.vala:719
+#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:700
 msgid "Updating"
 msgstr ""
 
-#: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:295
+#: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:315
+#: src/widgets/tools/tools-release-row.vala:696
 msgid "Installing"
 msgstr ""
 
-#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:227
+#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:823
 #, c-format
 msgid "%dh %dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:227
+#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:827
 #, c-format
 msgid "%dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:227
+#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:828
 #, c-format
 msgid "%ds"
 msgstr ""
 
 #. System Page
 #: src/globals.vala:31 src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:328
+#: src/widgets/preferences/preferences-dialog.vala:311
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr ""
@@ -2194,6 +479,7 @@ msgid ""
 msgstr ""
 
 #: src/models/providers/definitions/proton.vala:35
+#: src/widgets/tools/tools-release-row.vala:680
 msgid "Recommended"
 msgstr ""
 
@@ -2388,15 +674,15 @@ msgstr ""
 msgid "The download timed out. Check your connection and try again."
 msgstr ""
 
-#: src/widgets/application.vala:234
+#: src/widgets/application.vala:240
 msgid "Website"
 msgstr ""
 
-#: src/widgets/application.vala:239
+#: src/widgets/application.vala:245
 msgid "translator-credits"
 msgstr ""
 
-#: src/widgets/application.vala:240
+#: src/widgets/application.vala:246
 msgid "Special thanks to"
 msgstr ""
 
@@ -2413,12 +699,12 @@ msgid "Open"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:113
-#: src/widgets/tools/tools-box.vala:111
+#: src/widgets/header/header-box.vala:54 src/widgets/header/header-box.vala:56
 msgid "Back"
 msgstr ""
 
-#: src/widgets/controller-hint-bar.vala:117 src/widgets/window.vala:153
-#: src/widgets/window.vala:300
+#: src/widgets/controller-hint-bar.vala:117 src/widgets/window.vala:174
+#: src/widgets/window.vala:378
 msgid "Exit"
 msgstr ""
 
@@ -2460,14 +746,14 @@ msgid "Switch section or page"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:145
-#: src/widgets/tools/tools-box.vala:156 src/widgets/tools/tools-box.vala:190
-#: src/widgets/tools/tools-box.vala:375
+#: src/widgets/tools/tools-box.vala:129 src/widgets/tools/tools-box.vala:171
+#: src/widgets/tools/tools-box.vala:173 src/widgets/tools/tools-box.vala:353
 msgid "Search"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-box.vala:183 src/widgets/tools/tools-box.vala:197
-#: src/widgets/tools/tools-box.vala:385
+#: src/widgets/games/games-box.vala:602 src/widgets/tools/tools-box.vala:181
+#: src/widgets/tools/tools-box.vala:183 src/widgets/tools/tools-box.vala:363
 msgid "Filter"
 msgstr ""
 
@@ -2508,7 +794,7 @@ msgid "Bottom"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:215
-#: src/widgets/preferences/preferences-dialog.vala:40
+#: src/widgets/preferences/preferences-dialog.vala:39
 msgid "Bottom face button"
 msgstr ""
 
@@ -2517,7 +803,7 @@ msgid "Right"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:219
-#: src/widgets/preferences/preferences-dialog.vala:41
+#: src/widgets/preferences/preferences-dialog.vala:40
 msgid "Right face button"
 msgstr ""
 
@@ -2537,295 +823,374 @@ msgstr ""
 msgid "Top face button"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:73 src/widgets/games/games-box.vala:486
-#: src/widgets/tools/tools-release-box.vala:102
+#: src/widgets/games/games-box.vala:155 src/widgets/games/games-box.vala:810
 msgid "No games found"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:74
+#: src/widgets/games/games-box.vala:156
 msgid "Try a different search term or filter."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:132 src/widgets/tools/tools-box.vala:199
-msgid "All"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:136
-#: src/widgets/games/games-mass-edit-view.vala:167
-#: src/widgets/games/games-row.vala:274
-msgid "Native"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:140
-msgid "Non-Steam"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:194
-msgid "Search games"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:203
-msgid "Select all visible games"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:219
-msgid "Prefix"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:223
-msgid "Tool"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:227
-#: src/widgets/introduction/controller.vala:49
-msgid "Actions"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:282 src/widgets/games/games-box.vala:283
-#: src/widgets/main/main-box.vala:46
-msgid "Games"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:322
-msgid "Steam games couldn’t be loaded"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:323
-msgid ""
-"Steam’s library or profile data is missing or invalid. Finish setting up "
-"Steam, then restart ProtonPlus. Tools and other launchers remain available."
-msgstr ""
-
-#: src/widgets/games/games-box.vala:333
-msgid "Unsupported launcher"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:335
-#, c-format
-msgid "%s is currently not supported."
-msgstr ""
-
-#: src/widgets/games/games-box.vala:336
-msgid ""
-"If you want me to speed up the development make sure to show your support!"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:383 src/widgets/games/games-row.vala:271
-#: src/widgets/tools/tools-migrate-box.vala:98
-msgid "Default"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:454
-msgid "Filter: Native"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:456
-msgid "Filter: Non-Steam"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:458
-msgid "Filter: All games"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:478
-msgid "No matching games"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:479
-#: src/widgets/tools/tools-group-box.vala:170
-msgid "Try a different search term or clear the search."
-msgstr ""
-
-#: src/widgets/games/games-box.vala:482
-msgid "No games match this filter"
-msgstr ""
-
-#: src/widgets/games/games-box.vala:483
-msgid "Choose All games to see your complete library."
-msgstr ""
-
-#: src/widgets/games/games-box.vala:487
-msgid "No games are available for this launcher."
-msgstr ""
-
-#: src/widgets/games/games-extra-button.vala:12
-msgid "Open in protontricks"
-msgstr ""
-
-#: src/widgets/games/games-extra-button.vala:16
-msgid "Open ProtonDB page"
-msgstr ""
-
-#: src/widgets/games/games-extra-button.vala:34
-msgid "Extra"
-msgstr ""
-
-#: src/widgets/games/games-extra-button.vala:86
-msgid "Unknown"
-msgstr ""
-
-#: src/widgets/games/games-mass-edit-button.vala:10
-msgid "Modify the selected games"
-msgstr ""
-
-#: src/widgets/games/games-mass-edit-button.vala:13
-msgid "Modify the selected games all at once"
-msgstr ""
-
-#: src/widgets/games/games-mass-edit-button.vala:28
-#, c-format
-msgid "Modify %d selected game"
-msgid_plural "Modify %d selected games"
-msgstr[0] ""
-
-#: src/widgets/games/games-mass-edit-button.vala:31
-#, c-format
-msgid "Modify %d selected game all at once"
-msgid_plural "Modify %d selected games all at once"
-msgstr[0] ""
-
-#: src/widgets/games/games-mass-edit-button.vala:79
-#: src/widgets/tools/tools-stl-release-row.vala:24
-#: src/widgets/tools/tools-stl-release-row.vala:133 src/widgets/window.vala:296
+#: src/widgets/games/games-box.vala:198
+#: src/widgets/tools/tools-stl-release-row.vala:29
+#: src/widgets/tools/tools-stl-release-row.vala:163 src/widgets/window.vala:374
 msgid "Warning"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-button.vala:79
+#: src/widgets/games/games-box.vala:199
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:25
-msgid "1 game selected"
+#: src/widgets/games/games-box.vala:251 src/widgets/games/games-box.vala:254
+#: src/widgets/games/games-box.vala:295 src/widgets/main/main-box.vala:73
+msgid "Games"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:25
+#: src/widgets/games/games-box.vala:302
+msgid "Prefix"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:309
+msgid "Tool"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:316
+#: src/widgets/introduction/controller.vala:49
+msgid "Actions"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:569 src/widgets/tools/tools-box.vala:186
+msgid "All"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:572
+#: src/widgets/games/games-collection.vala:72
+#: src/widgets/games/games-mass-edit-view.vala:178
+msgid "Native"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:574
+msgid "Non-Steam"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:607
+msgid "Filter Games"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:617
+msgid "Search games"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:631 src/widgets/games/games-box.vala:635
+msgid "Select all visible games"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:680
+msgid "Steam games couldn’t be loaded"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:681
+msgid ""
+"Steam’s library or profile data is missing or invalid. Finish setting up "
+"Steam, then restart ProtonPlus. Tools and other launchers remain available."
+msgstr ""
+
+#: src/widgets/games/games-box.vala:691
+msgid "Unsupported launcher"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:693
 #, c-format
-msgid "%u games selected"
+msgid "%s is currently not supported."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:35
-msgid "Clear the current launch options"
-msgstr ""
-
-#: src/widgets/games/games-mass-edit-view.vala:40
-msgid "Apply the current modification"
-msgstr ""
-
-#: src/widgets/games/games-mass-edit-view.vala:51
-msgid "Apply compatibility tool"
-msgstr ""
-
-#: src/widgets/games/games-mass-edit-view.vala:52
-msgid "Set the same tool for every selected game."
-msgstr ""
-
-#: src/widgets/games/games-mass-edit-view.vala:77
-msgid "Apply launch options"
-msgstr ""
-
-#: src/widgets/games/games-mass-edit-view.vala:78
-msgid "Set the same options for every selected Steam game."
-msgstr ""
-
-#: src/widgets/games/games-mass-edit-view.vala:89
+#: src/widgets/games/games-box.vala:694
 msgid ""
-"Enable the sections you want to change. Disabled sections leave the selected "
-"games unchanged."
+"If you want me to speed up the development make sure to show your support!"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:268
-#: src/widgets/games/games-mass-edit-view.vala:279
-msgid "Compatibility tool cannot be applied"
+#: src/widgets/games/games-box.vala:738
+#: src/widgets/games/games-collection.vala:78
+#: src/widgets/tools/tools-migrate-box.vala:98
+msgid "Default"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:269
-msgid "No games were changed because no compatibility tool is selected."
+#: src/widgets/games/games-box.vala:781
+msgid "Filter: Native"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:280
-msgid ""
-"No games were changed because the selected compatibility tool is no longer "
-"available."
+#: src/widgets/games/games-box.vala:783
+msgid "Filter: Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:306
-msgid ""
-"The selected launch options are incomplete or unsupported for these games."
+#: src/widgets/games/games-box.vala:785
+msgid "Filter: All games"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:307
-msgid "Launch options cannot be applied"
+#: src/widgets/games/games-box.vala:794
+msgid "No matching games"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:308
-msgid ""
-"No games were changed because the launch command could not be prepared "
-"safely."
+#: src/widgets/games/games-box.vala:796
+#: src/widgets/tools/tools-group-box.vala:333
+#: src/widgets/tools/tools-releases-box.vala:799
+msgid "Try a different search term or clear the search."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:359
-msgid "Batch Update Failed"
+#: src/widgets/games/games-box.vala:799
+#: src/widgets/tools/tools-group-box.vala:335
+#: src/widgets/tools/tools-releases-box.vala:801
+msgid "Clear Search"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:360
-msgid ""
-"Some games could not be updated with the new compatibility tool or launch "
-"options. This may be due to missing permissions or file access issues."
+#: src/widgets/games/games-box.vala:802
+msgid "No games match this filter"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:289
-msgid "Modify the game"
+#: src/widgets/games/games-box.vala:804
+msgid "Choose All games to see your complete library."
 msgstr ""
 
-#: src/widgets/games/games-row.vala:294
-msgid "Launch custom executable"
+#: src/widgets/games/games-box.vala:807
+#: src/widgets/tools/tools-group-box.vala:342
+#: src/widgets/tools/tools-releases-box.vala:807
+msgid "Reset Filters"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:301
-msgid "Launch game"
+#: src/widgets/games/games-box.vala:812
+msgid "No games are available for this launcher."
 msgstr ""
 
-#: src/widgets/games/games-row.vala:306
-msgid "Browse game install directory"
+#: src/widgets/games/games-extra-button.vala:69
+msgid "Game Actions"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:312
-msgid "Browse prefix directory"
+#: src/widgets/games/games-extra-button.vala:87
+#: src/widgets/tools/tools-release-row.vala:199
+#: src/widgets/tools/tools-release-row.vala:486
+#, c-format
+msgid "Actions for %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:332
+#: src/widgets/games/games-extra-button.vala:136
+msgid "_Run Custom Executable…"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:138
+msgid "Open _Game Folder"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:140
+msgid "Open _Prefix Folder"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:142
+msgid "Open in Proton_tricks"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:144
+msgid "Open Proton_DB"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:177
+msgid "Supported"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:180
+msgid "Running"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:183
+msgid "Planned"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:186
+msgid "Broken"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:189
+msgid "Denied"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:192
+#: src/widgets/tools/tools-releases-box.vala:1440
+msgid "Loading…"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:195
+msgid "Unknown"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:198
+#, c-format
+msgid "Anti-Cheat: %s"
+msgstr ""
+
+#: src/widgets/games/games-extra-button.vala:210
 msgid "Select executable"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:340
+#: src/widgets/games/games-extra-button.vala:214
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:370
+#: src/widgets/games/games-extra-button.vala:244
 msgid "Compatibility Tool Not Found"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:371
+#: src/widgets/games/games-extra-button.vala:245
 #, c-format
 msgid ""
 "The compatibility tool required for %s is missing from your system. Please "
 "ensure it is correctly installed."
 msgstr ""
 
-#: src/widgets/games/games-row.vala:397
+#: src/widgets/games/games-extra-button.vala:263
 #, c-format
 msgid "Exit status: %d"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:402
+#: src/widgets/games/games-extra-button.vala:269
 msgid "Custom Executable Failed"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:403
+#: src/widgets/games/games-extra-button.vala:270
 #, c-format
 msgid "The custom executable for %s could not be launched."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-button.vala:14
+msgid "Modify the selected games"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-button.vala:17
+msgid "Modify the selected games all at once"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-button.vala:27
+#, c-format
+msgid "Modify %d selected game"
+msgid_plural "Modify %d selected games"
+msgstr[0] ""
+
+#: src/widgets/games/games-mass-edit-button.vala:30
+#, c-format
+msgid "Modify %d selected game all at once"
+msgid_plural "Modify %d selected games all at once"
+msgstr[0] ""
+
+#: src/widgets/games/games-mass-edit-view.vala:27
+msgid "1 game selected"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:27
+#, c-format
+msgid "%u games selected"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:37
+#: src/widgets/games/games-mass-edit-view.vala:40
+msgid "Clear Launch Options"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:47
+#: src/widgets/games/games-mass-edit-view.vala:50
+msgid "Apply Changes"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:58
+msgid "Apply compatibility tool"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:59
+msgid "Use the same compatibility tool for all selected games"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:78
+msgid "Apply launch options"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:79
+msgid "Use the same launch options for all selected Steam games"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:93
+msgid ""
+"Choose what to change. Settings that are turned off will remain unchanged."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:279
+#: src/widgets/games/games-mass-edit-view.vala:290
+msgid "Compatibility tool cannot be applied"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:280
+msgid "No games were changed because no compatibility tool is selected."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:291
+msgid ""
+"No games were changed because the selected compatibility tool is no longer "
+"available."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:317
+msgid ""
+"The selected launch options are incomplete or unsupported for these games."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:318
+msgid "Launch options cannot be applied"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:319
+msgid ""
+"No games were changed because the launch command could not be prepared "
+"safely."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:370
+msgid "Batch Update Failed"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:371
+msgid ""
+"Some games could not be updated with the new compatibility tool or launch "
+"options. This may be due to missing permissions or file access issues."
+msgstr ""
+
+#: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
+#: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:470
+#: src/widgets/games/games-row.vala:474 src/widgets/games/games-row.vala:548
+msgid "Select game"
+msgstr ""
+
+#: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:486
+msgid "Modify Game"
+msgstr ""
+
+#: src/widgets/games/games-row.vala:63 src/widgets/games/games-row.vala:521
+#: src/widgets/tools/tools-game-row.vala:15
+#: src/widgets/tools/tools-game-row.vala:19
+#, c-format
+msgid "Select %s"
+msgstr ""
+
+#: src/widgets/games/games-row.vala:119 src/widgets/games/games-row.vala:587
+#, c-format
+msgid "Toggle selection for %s"
+msgstr ""
+
+#: src/widgets/games/games-row.vala:165 src/widgets/games/games-row.vala:588
+#, c-format
+msgid "Modify %s"
+msgstr ""
+
+#: src/widgets/games/games-row.vala:317 src/widgets/games/games-row.vala:320
+#, c-format
+msgid "Launch %s"
 msgstr ""
 
 #: src/widgets/games/games-tool-row.vala:18
@@ -3654,7 +2019,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
-#: src/widgets/preferences/preferences-dialog.vala:391
+#: src/widgets/preferences/preferences-dialog.vala:364
 msgid "Gamescope"
 msgstr ""
 
@@ -3665,7 +2030,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
-#: src/widgets/preferences/preferences-dialog.vala:396
+#: src/widgets/preferences/preferences-dialog.vala:367
 msgid "ScopeBuddy"
 msgstr ""
 
@@ -3882,26 +2247,29 @@ msgid "One exact shell argument. Quotes and escapes are preserved."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:21
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:23
 msgid "Apply argument edit"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:29
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:32
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:34
 msgid "Remove argument"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:82
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:88
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:99
 msgid "Add custom argument"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:83
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:89
 msgid "Add one argument per list entry."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:137
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:146
 msgid "Each custom game argument must be one complete shell argument."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:139
+#: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:148
 msgid "Custom game arguments cannot contain %command%."
 msgstr ""
 
@@ -3922,42 +2290,46 @@ msgid "Search all options"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:123
-msgid "Search launch options"
+msgid "Search Launch Options"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:130
 msgid "Browse"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:129
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:469
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:131
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:471
 msgid "Quick settings"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:129
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:471
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:131
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:473
 msgid "Active options"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:129
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:473
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:131
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:475
 msgid "All options"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:212
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:214
 msgid "Raw command controls"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:213
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:215
 msgid "Change the Steam command placeholder only when a game requires it."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:548
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:550
 msgid "Unable to safely prepare these launch options."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:40
 msgid "Add custom item (Type name and press Enter)..."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:52
+msgid "Add custom item"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:46
@@ -4071,6 +2443,11 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:75
 msgid "Bypass or prefer specific Windows DLLs"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-entry-field.vala:22
+#: src/widgets/games/launch-options-editor/launch-options-editor-entry-field.vala:24
+msgid "Apply Edit"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-preview-field.vala:12
@@ -4666,6 +3043,11 @@ msgstr ""
 msgid "Caps the frame rate with DXVK's built-in limiter."
 msgstr ""
 
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1275
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
+msgid "DXVK"
+msgstr ""
+
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
 msgid "Asynchronous pipeline compilation"
 msgstr ""
@@ -5051,13 +3433,13 @@ msgstr ""
 
 #. Advanced Page
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:40
-#: src/widgets/mangohud/mangohud-box.vala:69
-#: src/widgets/preferences/preferences-dialog.vala:241
+#: src/widgets/mangohud/mangohud-box.vala:74
+#: src/widgets/preferences/preferences-dialog.vala:223
 msgid "Advanced"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
-#: src/widgets/preferences/preferences-dialog.vala:307
+#: src/widgets/preferences/preferences-dialog.vala:290
 msgid "Experimental"
 msgstr ""
 
@@ -5122,94 +3504,111 @@ msgstr ""
 msgid "Add ScopeBuddy arguments"
 msgstr ""
 
-#: src/widgets/header/header-box.vala:25
+#: src/widgets/header/header-box.vala:39 src/widgets/header/header-box.vala:42
 msgid "Main Menu"
 msgstr ""
 
-#: src/widgets/header/header-box.vala:51
+#: src/widgets/header/header-box.vala:80
 msgid "_Preferences"
 msgstr ""
 
-#: src/widgets/header/header-box.vala:53
+#: src/widgets/header/header-box.vala:85
 msgid "_Keyboard Shortcuts"
 msgstr ""
 
-#: src/widgets/header/header-box.vala:54
+#: src/widgets/header/header-box.vala:86
+msgid "_Help"
+msgstr ""
+
+#: src/widgets/header/header-box.vala:90
 msgid "_Donate"
 msgstr ""
 
-#: src/widgets/header/header-box.vala:55
+#: src/widgets/header/header-box.vala:91
 msgid "_About ProtonPlus"
 msgstr ""
 
-#: src/widgets/header/header-box.vala:57
+#: src/widgets/header/header-box.vala:93
 msgid "_Exit"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:34
+#: src/widgets/header/header-downloads-indicator.vala:35
+#: src/widgets/header/header-downloads-indicator.vala:37
 msgid "Active downloads"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:43
-#: src/widgets/tools/tools-box.vala:94
+#: src/widgets/header/header-downloads-indicator.vala:47
 msgid "Downloads"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:152
+#: src/widgets/header/header-downloads-indicator.vala:156
+#: src/widgets/header/header-downloads-indicator.vala:159
 #, c-format
 msgid "%u active download"
 msgid_plural "%u active downloads"
 msgstr[0] ""
 
-#: src/widgets/header/header-downloads-indicator.vala:160
+#: src/widgets/header/header-downloads-indicator.vala:174
 #, c-format
 msgid "Limit: %s/s"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:217
+#: src/widgets/header/header-downloads-indicator.vala:231
+#: src/widgets/header/header-downloads-indicator.vala:233
+#: src/widgets/tools/tools-release-row.vala:158
 #: src/widgets/tools/tools-remove-dialog.vala:26
-#: src/widgets/tools/tools-stl-release-row.vala:102 src/widgets/window.vala:152
-#: src/widgets/window.vala:303
+#: src/widgets/tools/tools-stl-release-row.vala:118 src/widgets/window.vala:173
+#: src/widgets/window.vala:381
 msgid "Cancel"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:267
-#: src/widgets/header/header-downloads-indicator.vala:269
+#: src/widgets/header/header-downloads-indicator.vala:284
+#: src/widgets/header/header-downloads-indicator.vala:286
+#: src/widgets/header/header-downloads-indicator.vala:288
+#: src/widgets/tools/tools-release-row.vala:466
+#: src/widgets/tools/tools-release-row.vala:736
 msgid "Cancelling"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:291
-#: src/widgets/tools/tools-release-row.vala:212
+#: src/widgets/header/header-downloads-indicator.vala:311
+#: src/widgets/tools/tools-release-row.vala:739
 msgid "Downloading"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:293
-#: src/widgets/tools/tools-release-row.vala:212
+#: src/widgets/header/header-downloads-indicator.vala:313
+#: src/widgets/tools/tools-release-row.vala:741
 msgid "Extracting"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:297
-#: src/widgets/tools/tools-release-row.vala:212
+#: src/widgets/header/header-downloads-indicator.vala:317
+#: src/widgets/tools/tools-release-row.vala:704
+#: src/widgets/tools/tools-release-row.vala:745
+#: src/widgets/tools/tools-release-row.vala:750
 msgid "Removing"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:299
+#: src/widgets/header/header-downloads-indicator.vala:319
 msgid "Preparing"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:313
+#: src/widgets/header/header-downloads-indicator.vala:333
 #, c-format
 msgid "ETA: %dh %dm"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:315
+#: src/widgets/header/header-downloads-indicator.vala:335
 #, c-format
 msgid "ETA: %dm %ds"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:316
+#: src/widgets/header/header-downloads-indicator.vala:336
 #, c-format
 msgid "ETA: %ds"
+msgstr ""
+
+#: src/widgets/header/header-launchers-button.vala:40
+#: src/widgets/header/header-launchers-button.vala:42
+msgid "Switch launcher"
 msgstr ""
 
 #: src/widgets/introduction/application.vala:8
@@ -5286,6 +3685,16 @@ msgstr ""
 msgid "Introduction"
 msgstr ""
 
+#: src/widgets/introduction/introduction.vala:53
+#: src/widgets/introduction/introduction.vala:55
+msgid "Previous Page"
+msgstr ""
+
+#: src/widgets/introduction/introduction.vala:62
+#: src/widgets/introduction/introduction.vala:64
+msgid "Next Page"
+msgstr ""
+
 #: src/widgets/introduction/proton.vala:8
 msgid "What is Proton?"
 msgstr ""
@@ -5307,38 +3716,38 @@ msgid ""
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:17
-#: src/widgets/preferences/preferences-dialog.vala:92
+#: src/widgets/preferences/preferences-dialog.vala:77
 msgid "Background updates"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:18
-#: src/widgets/preferences/preferences-dialog.vala:93
+#: src/widgets/preferences/preferences-dialog.vala:78
 msgid "Automatically update the tools in the background"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:24
-#: src/widgets/preferences/preferences-dialog.vala:99
+#: src/widgets/preferences/preferences-dialog.vala:84
 msgid "Set how often to check for updates in the background"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:30
-#: src/widgets/preferences/preferences-dialog.vala:105
-msgid "Check updates on boot"
+#: src/widgets/preferences/preferences-dialog.vala:90
+msgid "Update tools at system startup"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:31
-#: src/widgets/preferences/preferences-dialog.vala:106
-msgid "Check for tool updates when the system starts"
+#: src/widgets/preferences/preferences-dialog.vala:91
+msgid "Automatically check for and install updates when the system starts"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:37
-#: src/widgets/preferences/preferences-dialog.vala:112
-msgid "Check updates on launch"
+#: src/widgets/preferences/preferences-dialog.vala:97
+msgid "Update tools when ProtonPlus starts"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:38
-#: src/widgets/preferences/preferences-dialog.vala:113
-msgid "Update the tools when the application is launched"
+#: src/widgets/preferences/preferences-dialog.vala:98
+msgid "Automatically check for and install updates when ProtonPlus starts"
 msgstr ""
 
 #: src/widgets/introduction/wine.vala:8
@@ -5351,54 +3760,54 @@ msgid ""
 "Linux systems by translating Windows API calls on the fly."
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:53
+#: src/widgets/loading/loading-box.vala:54
 msgid "Loading"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:54
+#: src/widgets/loading/loading-box.vala:55
 msgid "Please wait while we're loading your launchers."
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:58
+#: src/widgets/loading/loading-box.vala:62
 msgid "Taking longer than normal?"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:75
+#: src/widgets/loading/loading-box.vala:84
 msgid "An unexpected error occurred"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:76
+#: src/widgets/loading/loading-box.vala:85
 msgid ""
 "We encountered a problem while loading your application.\n"
 "Please try again or report the problem."
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:88
+#: src/widgets/loading/loading-box.vala:97
 #, c-format
 msgid "Welcome to %s"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:127
+#: src/widgets/loading/loading-box.vala:136
 msgid "Retry loading"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:132
+#: src/widgets/loading/loading-box.vala:141
 msgid "Report issue"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:145
+#: src/widgets/loading/loading-box.vala:161
 msgid "You need a game launcher to use ProtonPlus."
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:147
+#: src/widgets/loading/loading-box.vala:163
 msgid "Install one of these to get started:"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:188
+#: src/widgets/loading/loading-box.vala:204
 msgid "Important: Run the launcher once to initialize it properly."
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:190
+#: src/widgets/loading/loading-box.vala:206
 msgid "Check again"
 msgstr ""
 
@@ -5415,114 +3824,114 @@ msgid "OK"
 msgstr ""
 
 #. Tools Page
-#: src/widgets/main/main-box.vala:45
-#: src/widgets/preferences/preferences-dialog.vala:81
-#: src/widgets/tools/tools-box.vala:93
+#: src/widgets/main/main-box.vala:72
+#: src/widgets/preferences/preferences-dialog.vala:65
+#: src/widgets/tools/tools-box.vala:104
 msgid "Tools"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:48
-#: src/widgets/preferences/preferences-dialog.vala:381
+#: src/widgets/main/main-box.vala:75
+#: src/widgets/preferences/preferences-dialog.vala:358
 msgid "MangoHud"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:152
+#: src/widgets/main/main-box.vala:191
 msgid "Couldn’t save the Steam restart reminder"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:164
+#: src/widgets/main/main-box.vala:203
 msgid "Saved Steam restart reminders couldn’t be loaded"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:200
+#: src/widgets/main/main-box.vala:239
 #, c-format
 msgid "Steam needs to restart before this change takes effect."
 msgid_plural "Steam needs to restart before these %u changes take effect."
 msgstr[0] ""
 
-#: src/widgets/main/main-box.vala:201
+#: src/widgets/main/main-box.vala:240
 msgid ""
 "Save your progress and close any running games before continuing. In SteamOS "
 "Gaming Mode, Steam, running games, and ProtonPlus will close while Steam "
 "restarts."
 msgstr ""
 
-#: src/widgets/main/main-box.vala:202
+#: src/widgets/main/main-box.vala:241
 #: src/widgets/main/steam-restart-dialog.vala:8
 msgid "Restart Steam?"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:203 src/widgets/main/main-box.vala:254
+#: src/widgets/main/main-box.vala:242 src/widgets/main/main-box.vala:293
 #: src/widgets/main/steam-restart-dialog.vala:28
 msgid "Later"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:204
+#: src/widgets/main/main-box.vala:243
 #: src/widgets/main/steam-restart-banner.vala:13
 #: src/widgets/main/steam-restart-banner.vala:21
 msgid "Restart Steam"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:258
+#: src/widgets/main/main-box.vala:297
 msgid "Try Again"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:284 src/widgets/tools/tools-box.vala:636
+#: src/widgets/main/main-box.vala:332 src/widgets/tools/tools-box.vala:762
 msgid "Checking for updates"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:295 src/widgets/tools/tools-box.vala:644
+#: src/widgets/main/main-box.vala:343 src/widgets/tools/tools-box.vala:770
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:298 src/widgets/tools/tools-box.vala:647
+#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:773
 msgid "Nothing to update"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:302 src/widgets/tools/tools-box.vala:651
+#: src/widgets/main/main-box.vala:350 src/widgets/tools/tools-box.vala:777
 msgid "Everything is now up-to-date"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:305 src/widgets/tools/tools-box.vala:654
+#: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:780
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:312
+#: src/widgets/main/main-box.vala:360
 msgid "Update started"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:314
+#: src/widgets/main/main-box.vala:362
 msgid "Download started"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:320
+#: src/widgets/main/main-box.vala:368
 msgid "Download finished"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:322
+#: src/widgets/main/main-box.vala:370
 msgid "Download canceled"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:328
+#: src/widgets/main/main-box.vala:376
 msgid "Download failed"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:334 src/widgets/main/main-box.vala:336
+#: src/widgets/main/main-box.vala:395 src/widgets/main/main-box.vala:397
 msgid "Update finished"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:334
+#: src/widgets/main/main-box.vala:395
 #, c-format
 msgid "%s is now up-to-date"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:336
+#: src/widgets/main/main-box.vala:397
 #, c-format
 msgid "%s is already up-to-date"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:341
+#: src/widgets/main/main-box.vala:402
 msgid "Deleted"
 msgstr ""
 
@@ -5776,14 +4185,15 @@ msgid "Extras"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-box.vala:55
+#: src/widgets/mangohud/mangohud-box.vala:58
 msgid "Save the current configuration"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-box.vala:75
+#: src/widgets/mangohud/mangohud-box.vala:80
 msgid "Preview"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-box.vala:81
+#: src/widgets/mangohud/mangohud-box.vala:86
 msgid "Show vkcube"
 msgstr ""
 
@@ -5838,6 +4248,10 @@ msgstr ""
 msgid "FEX Stats"
 msgstr ""
 
+#: src/widgets/mangohud/mangohud-extras-page.vala:94
+msgid "Wine"
+msgstr ""
+
 #. Options subsection
 #: src/widgets/mangohud/mangohud-extras-page.vala:99
 msgid "HUD Version"
@@ -5890,7 +4304,7 @@ msgid "Media Info"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:130
-#: src/widgets/preferences/preferences-dialog.vala:268
+#: src/widgets/preferences/preferences-dialog.vala:251
 msgid "Network"
 msgstr ""
 
@@ -5938,15 +4352,17 @@ msgstr ""
 msgid "Output Folder"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:178
+#: src/widgets/mangohud/mangohud-extras-page.vala:175
+#: src/widgets/mangohud/mangohud-extras-page.vala:177
+#: src/widgets/mangohud/mangohud-extras-page.vala:182
 msgid "Select Output Folder"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:190
+#: src/widgets/mangohud/mangohud-extras-page.vala:194
 msgid "Autoupload Results"
 msgstr ""
 
-#: src/widgets/mangohud/mangohud-extras-page.vala:191
+#: src/widgets/mangohud/mangohud-extras-page.vala:195
 msgid "Log Versioning"
 msgstr ""
 
@@ -6317,17 +4733,18 @@ msgstr ""
 msgid "Hide by default"
 msgstr ""
 
-#: src/widgets/preferences/preferences-access-token-row.vala:6
-msgid "Enter an access token to reduce your chances of being rate limited"
-msgstr ""
-
-#: src/widgets/preferences/preferences-access-token-row.vala:11
+#: src/widgets/preferences/preferences-access-token-row.vala:9
 #, c-format
 msgid "%s access token"
 msgstr ""
 
-#: src/widgets/preferences/preferences-access-token-row.vala:22
-msgid "Open token creation page"
+#: src/widgets/preferences/preferences-access-token-row.vala:10
+msgid "Enter an access token to reduce your chances of being rate limited"
+msgstr ""
+
+#: src/widgets/preferences/preferences-access-token-row.vala:19
+#, c-format
+msgid "Open %s Token Page"
 msgstr ""
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:15
@@ -6350,11 +4767,13 @@ msgstr ""
 msgid "Update frequency"
 msgstr ""
 
-#: src/widgets/preferences/preferences-delete-cache-row.vala:16
+#: src/widgets/preferences/preferences-delete-cache-row.vala:12
+#: src/widgets/preferences/preferences-delete-cache-row.vala:14
+#: src/widgets/preferences/preferences-delete-cache-row.vala:20
 msgid "Delete cache"
 msgstr ""
 
-#: src/widgets/preferences/preferences-delete-cache-row.vala:17
+#: src/widgets/preferences/preferences-delete-cache-row.vala:21
 msgid "Removes all cached information and temporary downloads"
 msgstr ""
 
@@ -6367,193 +4786,193 @@ msgstr ""
 msgid "Appearance"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:35
+#: src/widgets/preferences/preferences-dialog.vala:33
 msgid "Controller"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:43
+#: src/widgets/preferences/preferences-dialog.vala:34
+msgid "Configure controller buttons and vibration"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:42
 msgid "Confirm button"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:44
+#: src/widgets/preferences/preferences-dialog.vala:43
 msgid "Choose which face button activates the selected control"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:57
+#: src/widgets/preferences/preferences-dialog.vala:56
 msgid "Controller vibration"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:58
+#: src/widgets/preferences/preferences-dialog.vala:57
 msgid "Use subtle vibration for controller actions and navigation limits"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:65
-msgid "Help"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:68
-msgid "Show Introduction"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:87
+#: src/widgets/preferences/preferences-dialog.vala:71
 msgid "Updates"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:119
+#: src/widgets/preferences/preferences-dialog.vala:72
+msgid "Choose when installed tools are checked and updated"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:104
 msgid "Migrate default prefix"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:120
+#: src/widgets/preferences/preferences-dialog.vala:105
 msgid "Automatically migrate the default prefix when updating"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:126
+#: src/widgets/preferences/preferences-dialog.vala:111
 msgid "Behavior"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:131
+#: src/widgets/preferences/preferences-dialog.vala:116
 msgid "Show legacy tools"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:132
+#: src/widgets/preferences/preferences-dialog.vala:117
 msgid "Display older tools that are no longer actively maintained"
 msgstr ""
 
 #. Launchers Page
-#: src/widgets/preferences/preferences-dialog.vala:140
+#: src/widgets/preferences/preferences-dialog.vala:124
 msgid "Launchers"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:174
+#: src/widgets/preferences/preferences-dialog.vala:158
 msgid "Default compatibility tool"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:175
+#: src/widgets/preferences/preferences-dialog.vala:159
 msgid "The compatibility tool games will use by default"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:201
+#: src/widgets/preferences/preferences-dialog.vala:184
 msgid "Selected profile"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:202
+#: src/widgets/preferences/preferences-dialog.vala:185
 msgid "Currently selected profile for Steam"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:247
+#: src/widgets/preferences/preferences-dialog.vala:229
 msgid "API Tokens"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:276
+#: src/widgets/preferences/preferences-dialog.vala:230
+msgid "Optional tokens increase GitHub and GitLab request limits"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:259
 msgid "Proxy URL"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:279
+#: src/widgets/preferences/preferences-dialog.vala:262
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:286
+#: src/widgets/preferences/preferences-dialog.vala:269
 msgid "Download speed limit"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:287
+#: src/widgets/preferences/preferences-dialog.vala:270
 msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:290
+#: src/widgets/preferences/preferences-dialog.vala:273
 msgid "This limit is shared across all active downloads."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:312
+#: src/widgets/preferences/preferences-dialog.vala:295
 msgid "Preview features"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:313
+#: src/widgets/preferences/preferences-dialog.vala:296
 msgid "Enable experimental features for early testing"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:320
+#: src/widgets/preferences/preferences-dialog.vala:302
 msgid "Maintenance"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:334
+#: src/widgets/preferences/preferences-dialog.vala:303
+msgid "Refresh app data or clear cached files"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:317
 msgid "Software Environment"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:339
+#: src/widgets/preferences/preferences-dialog.vala:322
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:340
-#: src/widgets/preferences/preferences-dialog.vala:345
-#: src/widgets/preferences/preferences-dialog.vala:372
-#: src/widgets/preferences/preferences-dialog.vala:377
-#: src/widgets/preferences/preferences-dialog.vala:382
-#: src/widgets/preferences/preferences-dialog.vala:387
-#: src/widgets/preferences/preferences-dialog.vala:392
-#: src/widgets/preferences/preferences-dialog.vala:397
-#: src/widgets/preferences/preferences-dialog.vala:402
-#: src/widgets/tools/tools-stl-release-row.vala:141
+#: src/widgets/preferences/preferences-dialog.vala:322
+#: src/widgets/preferences/preferences-dialog.vala:325
+#: src/widgets/tools/tools-stl-release-row.vala:171
 msgid "Yes"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:340
-#: src/widgets/preferences/preferences-dialog.vala:345
-#: src/widgets/preferences/preferences-dialog.vala:372
-#: src/widgets/preferences/preferences-dialog.vala:377
-#: src/widgets/preferences/preferences-dialog.vala:382
-#: src/widgets/preferences/preferences-dialog.vala:387
-#: src/widgets/preferences/preferences-dialog.vala:392
-#: src/widgets/preferences/preferences-dialog.vala:397
-#: src/widgets/preferences/preferences-dialog.vala:402
-#: src/widgets/tools/tools-stl-release-row.vala:140
+#: src/widgets/preferences/preferences-dialog.vala:322
+#: src/widgets/preferences/preferences-dialog.vala:325
+#: src/widgets/tools/tools-stl-release-row.vala:170
 msgid "No"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:344
+#: src/widgets/preferences/preferences-dialog.vala:325
 msgid "Flatpak"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:349
+#: src/widgets/preferences/preferences-dialog.vala:329
 msgid "Hardware"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:361
-msgid "HWCAPS"
+#: src/widgets/preferences/preferences-dialog.vala:341
+msgid "CPU Features"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:366
+#: src/widgets/preferences/preferences-dialog.vala:342
+msgid "None detected"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:347
 msgid "Dependencies"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:371
+#: src/widgets/preferences/preferences-dialog.vala:352
 msgid "Protontricks"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:376
+#: src/widgets/preferences/preferences-dialog.vala:355
 msgid "Protontricks (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:386
+#: src/widgets/preferences/preferences-dialog.vala:361
 msgid "MangoHud (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:401
+#: src/widgets/preferences/preferences-dialog.vala:370
 msgid "Feral Gamemode"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:406
+#: src/widgets/preferences/preferences-dialog.vala:374
 msgid "Detected Launchers"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:429
-#: src/widgets/tools/tools-box.vala:202
-#: src/widgets/tools/tools-group-box.vala:285
+#: src/widgets/preferences/preferences-dialog.vala:406
+#: src/widgets/tools/tools-box.vala:189
+#: src/widgets/tools/tools-group-box.vala:729
+#: src/widgets/tools/tools-release-row.vala:689
+#: src/widgets/tools/tools-release-row.vala:693
 msgid "Installed"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:429
+#: src/widgets/preferences/preferences-dialog.vala:407
 msgid "Not installed"
 msgstr ""
 
@@ -6561,11 +4980,13 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-#: src/widgets/preferences/preferences-refresh-application-data-row.vala:14
+#: src/widgets/preferences/preferences-refresh-application-data-row.vala:10
+#: src/widgets/preferences/preferences-refresh-application-data-row.vala:12
+#: src/widgets/preferences/preferences-refresh-application-data-row.vala:18
 msgid "Refresh application data"
 msgstr ""
 
-#: src/widgets/preferences/preferences-refresh-application-data-row.vala:15
+#: src/widgets/preferences/preferences-refresh-application-data-row.vala:19
 msgid "Refreshes the launchers, tools and games"
 msgstr ""
 
@@ -6573,37 +4994,37 @@ msgstr ""
 msgid "Manage shortcut"
 msgstr ""
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:30
 msgid "Create shortcut"
 msgstr ""
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:30
 msgid "Delete shortcut"
 msgstr ""
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:32
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr ""
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:32
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr ""
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:55
 msgid "Failed to create shortcut"
 msgstr ""
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:55
 msgid "Failed to delete shortcut"
 msgstr ""
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:58
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:57
 msgid ""
 "ProtonPlus was unable to add the shortcut to Steam. Please ensure Steam is "
 "closed and try again."
 msgstr ""
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:59
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:58
 msgid ""
 "ProtonPlus was unable to remove the shortcut from Steam. This might happen "
 "if Steam is currently running or if the shortcuts file is inaccessible."
@@ -6641,97 +5062,93 @@ msgstr ""
 msgid "Proxy mode"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:95
-#: src/widgets/tools/tools-release-changelog.vala:87
-#: src/widgets/tools/tools-release-changelog.vala:98
-msgid "Details"
-msgstr ""
-
-#: src/widgets/tools/tools-box.vala:96 src/widgets/tools/tools-box.vala:126
+#: src/widgets/tools/tools-box.vala:105 src/widgets/tools/tools-box.vala:250
 #: src/widgets/tools/tools-migrate-box.vala:43
+#: src/widgets/tools/tools-release-games-dialog.vala:20
 msgid "Migrate"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:134
-msgid "Migrate selected games to another tool"
-msgstr ""
-
-#: src/widgets/tools/tools-box.vala:151
+#: src/widgets/tools/tools-box.vala:121 src/widgets/tools/tools-box.vala:123
 msgid "Check for updates"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:205
+#: src/widgets/tools/tools-box.vala:192
 msgid "Used"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:208
+#: src/widgets/tools/tools-box.vala:195
 msgid "Unused"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:372
+#: src/widgets/tools/tools-box.vala:350
 msgid "Search is active"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:382
+#: src/widgets/tools/tools-box.vala:360
 msgid "Filter is active"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:84
-#: src/widgets/tools/tools-group-box.vala:192
+#: src/widgets/tools/tools-group-box.vala:114
+#: src/widgets/tools/tools-group-box.vala:360
 msgid "No tools found"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:85
+#: src/widgets/tools/tools-group-box.vala:115
 msgid "No tools match the current filter."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:169
+#: src/widgets/tools/tools-group-box.vala:332
 msgid "No matching tools"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:177
+#: src/widgets/tools/tools-group-box.vala:345
 msgid "No installed tools"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:178
+#: src/widgets/tools/tools-group-box.vala:346
 msgid "Install a compatibility tool to see it here."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:182
+#: src/widgets/tools/tools-group-box.vala:350
 msgid "No tools in use"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:183
+#: src/widgets/tools/tools-group-box.vala:351
 msgid "No games currently use a tool from this group."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:187
+#: src/widgets/tools/tools-group-box.vala:355
 msgid "No unused tools"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:188
+#: src/widgets/tools/tools-group-box.vala:356
 msgid "Every tool in this group is currently in use."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:193
+#: src/widgets/tools/tools-group-box.vala:361
 msgid "No tools are available in this group."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:259
+#: src/widgets/tools/tools-group-box.vala:464
+#: src/widgets/tools/tools-group-box.vala:468
+msgid "Tool Actions"
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:500
 msgid "Recommended compatibility tool"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:280
-msgid "In use"
+#: src/widgets/tools/tools-group-box.vala:725
+msgid "Used by games"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:281
+#: src/widgets/tools/tools-group-box.vala:726
 msgid ""
 "One or more releases of this tool is installed and currently used by one or "
 "more games"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:286
+#: src/widgets/tools/tools-group-box.vala:730
 msgid ""
 "One or more releases of this tool is installed, but not currently used by "
 "any games"
@@ -6761,177 +5178,320 @@ msgid ""
 "due to missing permissions or file access issues."
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:89
-msgid "Name"
+#: src/widgets/tools/tools-release-changelog-dialog.vala:4
+#, c-format
+msgid "Changelog for %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:103
-msgid "This tool is not used by any games."
-msgstr ""
-
-#: src/widgets/tools/tools-release-box.vala:117
+#: src/widgets/tools/tools-release-changelog-dialog.vala:7
 msgid "Changelog"
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:118
-msgid "Used by"
+#: src/widgets/tools/tools-release-changelog-dialog.vala:16
+msgid "No Changelog Available"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:27
+#: src/widgets/tools/tools-release-changelog.vala:95
+#: src/widgets/tools/tools-release-changelog.vala:106
+msgid "Details"
+msgstr ""
+
+#: src/widgets/tools/tools-release-games-dialog.vala:11
 #, c-format
-msgid "Delete %s"
+msgid "Games using %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:32
-msgid "Cancel installation"
+#: src/widgets/tools/tools-release-games-dialog.vala:14
+msgid "Games Using This Tool"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:41
+#: src/widgets/tools/tools-release-games-dialog.vala:29
+msgid "Migrate selected games to another tool"
+msgstr ""
+
+#: src/widgets/tools/tools-release-games-dialog.vala:46
+#: src/widgets/tools/tools-release-games-dialog.vala:48
+#: src/widgets/tools/tools-release-games-dialog.vala:67
+msgid "Select all games"
+msgstr ""
+
+#: src/widgets/tools/tools-release-games-dialog.vala:108
+msgid "No Games Use This Tool"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:125
+#: src/widgets/tools/tools-release-row.vala:127
 msgid "Show installation details"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:44
+#: src/widgets/tools/tools-release-row.vala:132
 msgid "Speed: 0 KB/s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:45
-#: src/widgets/tools/tools-release-row.vala:226
+#: src/widgets/tools/tools-release-row.vala:135
+#: src/widgets/tools/tools-release-row.vala:814
 msgid "Remaining time: --"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:55
-msgid "Update the runner if a newer version is available"
+#: src/widgets/tools/tools-release-row.vala:196
+msgid "Release Actions"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:60
-#, c-format
-msgid ""
-"Version: %s\n"
-"This is a rolling release.\n"
-"It will always be updated to the latest available version when automatic "
-"updates is activated."
-msgstr ""
-
-#: src/widgets/tools/tools-release-row.vala:64
-msgid "Open tool directory"
-msgstr ""
-
-#: src/widgets/tools/tools-release-row.vala:199
-#, c-format
-msgid "Install %s"
-msgstr ""
-
-#: src/widgets/tools/tools-release-row.vala:211
-msgid "Nothing"
-msgstr ""
-
-#: src/widgets/tools/tools-release-row.vala:212
-msgid "Moving"
-msgstr ""
-
-#: src/widgets/tools/tools-release-row.vala:213
+#: src/widgets/tools/tools-release-row.vala:445
 #, c-format
 msgid "Step: %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:222
+#: src/widgets/tools/tools-release-row.vala:448
 #, c-format
-msgid "Failed to Update %s"
+msgid "%s for %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:222
-msgid "An error occurred while attempting to update the compatibility tool."
+#: src/widgets/tools/tools-release-row.vala:453
+#, c-format
+msgid "Progress for %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:225
+#: src/widgets/tools/tools-release-row.vala:510
+#: src/widgets/tools/tools-release-row.vala:513
+msgid "Latest"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:569
+#: src/widgets/tools/tools-release-row.vala:572
 #, c-format
-msgid "Used by %i game"
-msgid_plural "Used by %i games"
+msgid "Install %s"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:578
+#: src/widgets/tools/tools-release-row.vala:635
+#: src/widgets/tools/tools-releases-box.vala:476
+#: src/widgets/tools/tools-releases-box.vala:488
+msgid "Retry"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:579
+#: src/widgets/tools/tools-release-row.vala:582
+#, c-format
+msgid "Retry %s"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:593
+#, c-format
+msgid "Cancelling %s"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:594
+#, c-format
+msgid "Cancel %s"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:619
+msgid "_Changelog"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:622
+msgid "Open Release Page"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:627
+msgid "_Games Using This Tool"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:637
+msgid "Update"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:638
+msgid "_Check for Updates"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:642
+msgid "_Open Folder"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:644
+msgid "_Delete…"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:682
+msgid "Failed"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:690
+msgid "Update available"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:709
+msgid "Unavailable for the selected variant"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:714
+#, c-format
+msgid "In use by %i game"
+msgid_plural "In use by %i games"
 msgstr[0] ""
 
-#: src/widgets/tools/tools-release-row.vala:226
+#: src/widgets/tools/tools-release-row.vala:728
+#, c-format
+msgid "%s. Open Release Details"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:729
+msgid "Open Release Details"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:743
+msgid "Moving"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:748
+msgid "Preparing update"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:751
+msgid "Preparing installation"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:805
 #, c-format
 msgid "Speed: %s/s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:226
+#: src/widgets/tools/tools-release-row.vala:811
 #, c-format
 msgid "Remaining time: %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:228
-msgid "Installation Failed"
-msgstr ""
-
-#: src/widgets/tools/tools-release-row.vala:228
-#, c-format
-msgid "ProtonPlus could not install %s on your system."
-msgstr ""
-
-#: src/widgets/tools/tools-releases-box.vala:70
+#: src/widgets/tools/tools-releases-box.vala:255
 msgid "Standard 64-bit build for most Intel and AMD PCs."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:72
+#: src/widgets/tools/tools-releases-box.vala:257
 msgid ""
 "Optimized 64-bit build for Intel and AMD CPUs that support the x86-64-v3 "
 "instruction set."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:75
+#: src/widgets/tools/tools-releases-box.vala:260
 msgid "64-bit ARM build. Choose this only on ARM64 hardware."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:77
+#: src/widgets/tools/tools-releases-box.vala:262
 msgid "32-bit x86 build. Choose this only when a 32-bit runner is required."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:80
+#: src/widgets/tools/tools-releases-box.vala:265
 msgid ""
 "64-bit build with WoW64 support for running 32-bit Windows applications."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:82
+#: src/widgets/tools/tools-releases-box.vala:267
 msgid "The provider's recommended build for most systems."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:84
+#: src/widgets/tools/tools-releases-box.vala:269
 #, c-format
 msgid "Select the %s build variant."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:179
+#: src/widgets/tools/tools-releases-box.vala:334
+#: src/widgets/tools/tools-releases-box.vala:342
+#: src/widgets/tools/tools-releases-box.vala:1290
 msgid "Check for new releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:197
+#: src/widgets/tools/tools-releases-box.vala:348
+#: src/widgets/tools/tools-releases-box.vala:357
+#: src/widgets/tools/tools-releases-box.vala:359
+msgid "Open Repository"
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:370
 msgid "Choose which architecture or build variant to show."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:226
+#: src/widgets/tools/tools-releases-box.vala:373
+#: src/widgets/tools/tools-releases-box.vala:385
+msgid "Build"
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:416
+#: src/widgets/tools/tools-releases-box.vala:1481
 msgid "Load More"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:275
-msgid "No releases found"
+#: src/widgets/tools/tools-releases-box.vala:455
+#: src/widgets/tools/tools-releases-box.vala:615
+#: src/widgets/tools/tools-releases-box.vala:1110
+#: src/widgets/tools/tools-releases-box.vala:1441
+msgid "Loading releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:276
-#: src/widgets/tools/tools-releases-box.vala:546
-#: src/widgets/tools/tools-releases-box.vala:559
-msgid "No releases match the current filter."
+#: src/widgets/tools/tools-releases-box.vala:464
+#: src/widgets/tools/tools-releases-box.vala:633
+#: src/widgets/tools/tools-releases-box.vala:816
+msgid "No releases available"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:331
-#: src/widgets/tools/tools-releases-box.vala:512
+#: src/widgets/tools/tools-releases-box.vala:465
+#: src/widgets/tools/tools-releases-box.vala:817
+msgid "Check again for new releases."
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:469
+#: src/widgets/tools/tools-releases-box.vala:819
+msgid "Refresh"
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:482
+#: src/widgets/tools/tools-releases-box.vala:739
 msgid "Failed to Fetch Releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:555
+#: src/widgets/tools/tools-releases-box.vala:487
+msgid "Couldn’t load releases"
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:663
+#: src/widgets/tools/tools-releases-box.vala:1157
+#: src/widgets/tools/tools-releases-box.vala:1476
+msgid "Releases loaded"
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:732
+msgid "Couldn’t load more releases"
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:733
+msgid "Couldn’t refresh releases"
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:798
+msgid "No matching releases"
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:804
+msgid "No releases match this filter"
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:805
+msgid "Reset the filters to see all releases."
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:810
+msgid "No compatible releases"
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:811
 msgid "No compatible variants are available for this system."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:661
+#: src/widgets/tools/tools-releases-box.vala:1289
+msgid "Refreshing…"
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:1300
 #, c-format
 msgid "Last updated: %s"
 msgstr ""
@@ -6966,24 +5526,24 @@ msgid ""
 "tool from your system."
 msgstr ""
 
-#: src/widgets/tools/tools-stl-release-row.vala:26
+#: src/widgets/tools/tools-stl-release-row.vala:31
 #, c-format
 msgid "You are missing the following dependencies for %s:"
 msgstr ""
 
-#: src/widgets/tools/tools-stl-release-row.vala:28
+#: src/widgets/tools/tools-stl-release-row.vala:33
 msgid "Installation will be canceled."
 msgstr ""
 
-#: src/widgets/tools/tools-stl-release-row.vala:55
+#: src/widgets/tools/tools-stl-release-row.vala:64
 msgid "Check this to also delete your configuration files."
 msgstr ""
 
-#: src/widgets/tools/tools-stl-release-row.vala:98
+#: src/widgets/tools/tools-stl-release-row.vala:114
 msgid "SteamTinkerLaunch may not work"
 msgstr ""
 
-#: src/widgets/tools/tools-stl-release-row.vala:99
+#: src/widgets/tools/tools-stl-release-row.vala:115
 msgid ""
 "YAD 15 is currently incompatible with SteamTinkerLaunch. SteamTinkerLaunch "
 "may fail to start even if ProtonPlus installs it successfully.\n"
@@ -6992,26 +5552,26 @@ msgid ""
 "installation problem."
 msgstr ""
 
-#: src/widgets/tools/tools-stl-release-row.vala:103
+#: src/widgets/tools/tools-stl-release-row.vala:119
 msgid "Install Anyway"
 msgstr ""
 
-#: src/widgets/tools/tools-stl-release-row.vala:135
+#: src/widgets/tools/tools-stl-release-row.vala:165
 #, c-format
 msgid ""
 "It looks like you currently have another version of %s which was not "
 "installed by ProtonPlus."
 msgstr ""
 
-#: src/widgets/tools/tools-stl-release-row.vala:136
+#: src/widgets/tools/tools-stl-release-row.vala:166
 msgid "Do you want to reinstall it with ProtonPlus?"
 msgstr ""
 
-#: src/widgets/window.vala:151
+#: src/widgets/window.vala:172
 msgid "Do you want to exit?"
 msgstr ""
 
-#: src/widgets/window.vala:297
+#: src/widgets/window.vala:375
 msgid ""
 "The application is currently downloading a tool.\n"
 "Exiting the application early may cause issues."

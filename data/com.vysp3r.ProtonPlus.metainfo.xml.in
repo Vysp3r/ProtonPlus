@@ -88,6 +88,17 @@
   </screenshots>
 
   <releases>
+    <release version="0.6.4" date="2026-08-12">
+      <description>
+        <ul>
+          <li>✨ Redesigned the interface to adapt better to different window sizes</li>
+          <li>✨ Made tool releases easier to browse without leaving the tools list</li>
+          <li>✨ Added sortable columns and improved selection in the Games view</li>
+          <li>🐛 Improved controller navigation and scrolling in Tools and Games</li>
+          <li>🐛 Improved compatibility with light, dark, and custom themes</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.6.3" date="2026-08-11">
       <description>
         <ul>

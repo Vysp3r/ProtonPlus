@@ -14,6 +14,7 @@ namespace ProtonPlus.Widgets.Header {
         private ulong download_added_handler = 0;
         private ulong download_removed_handler = 0;
         private ulong speed_limit_changed_handler = 0;
+        private bool global_header_visible = true;
 
         public DownloadsIndicator () {
             Object (orientation: Gtk.Orientation.HORIZONTAL, spacing: 0);
@@ -21,7 +22,7 @@ namespace ProtonPlus.Widgets.Header {
             manager = Utils.DownloadManager.instance;
             entries = new Gee.HashMap<Services.InstallJob, DownloadEntry> ();
 
-            icon = new Gtk.Image.from_icon_name ("download-2-symbolic");
+            icon = new Gtk.Image.from_icon_name ("folder-download-symbolic");
             badge = new Gtk.Label ("0");
             badge.add_css_class ("downloads-indicator-badge");
 
@@ -32,6 +33,9 @@ namespace ProtonPlus.Widgets.Header {
             button.set_child (button_content);
             button.add_css_class ("flat");
             button.set_tooltip_text (_("Active downloads"));
+            button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Active downloads"), -1
+            );
             append (button);
 
             downloads_list = new Gtk.ListBox () {
@@ -144,15 +148,25 @@ namespace ProtonPlus.Widgets.Header {
         private void update_badge () {
             var count = entries.size;
             badge.set_label (count.to_string ());
-            set_visible (count > 0);
+            set_visible (global_header_visible && count > 0);
             if (count > 0)
                 icon.add_css_class ("downloads-indicator-active");
             else
                 icon.remove_css_class ("downloads-indicator-active");
             button.set_tooltip_text (ngettext ("%u active download", "%u active downloads", count).printf (count));
+            button.update_property (
+                Gtk.AccessibleProperty.LABEL,
+                ngettext ("%u active download", "%u active downloads", count).printf (count),
+                -1
+            );
 
             if (count == 0)
                 downloads_popover.popdown ();
+        }
+
+        public void set_global_header_visible (bool visible) {
+            global_header_visible = visible;
+            update_badge ();
         }
 
         private void update_limit_label (int64 speed_limit_bps) {
@@ -210,11 +224,14 @@ namespace ProtonPlus.Widgets.Header {
             progress_box.append (status_label);
             progress_box.append (metrics_label);
 
-            cancel_button = new Gtk.Button.from_icon_name ("circle-xmark-symbolic") {
+            cancel_button = new Gtk.Button.from_icon_name ("process-stop-symbolic") {
                 valign = Gtk.Align.CENTER
             };
             cancel_button.add_css_class ("flat");
             cancel_button.set_tooltip_text (_("Cancel"));
+            cancel_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Cancel"), -1
+            );
             cancel_button.clicked.connect (() => {
                 job.canceled = true;
                 update_display ();
@@ -267,6 +284,9 @@ namespace ProtonPlus.Widgets.Header {
                 step_text = _("Cancelling");
                 cancel_button.set_sensitive (false);
                 cancel_button.set_tooltip_text (_("Cancelling"));
+                cancel_button.update_property (
+                    Gtk.AccessibleProperty.LABEL, _("Cancelling"), -1
+                );
             }
 
             var status = step_text;

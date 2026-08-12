@@ -10,7 +10,6 @@ namespace ProtonPlus.Widgets.Preferences {
             shortcut_button.clicked.connect (shortcut_button_clicked);
 
             set_title (_ ("Manage shortcut"));
-            add_prefix (new Gtk.Image.from_icon_name ("bookmark-symbolic"));
             add_suffix (shortcut_button);
         }
 

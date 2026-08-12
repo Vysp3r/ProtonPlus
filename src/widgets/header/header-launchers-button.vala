@@ -37,6 +37,10 @@ namespace ProtonPlus.Widgets.Header {
 
             set_child (button_content);
             add_css_class ("flat");
+            set_tooltip_text (_("Switch launcher"));
+            update_property (
+                Gtk.AccessibleProperty.LABEL, _("Switch launcher"), -1
+            );
         }
 
         public void initialize (Gee.LinkedList<Models.Launcher> launchers) {
@@ -75,6 +79,19 @@ namespace ProtonPlus.Widgets.Header {
 
             popover.popup ();
             }
+        }
+
+        public bool select_launcher (Models.Launcher launcher) {
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                var row = child as Gtk.ListBoxRow;
+                if (row != null && ((!) row).get_data<Models.Launcher> ("launcher") == launcher) {
+                    list_box_row_activated ((!) row);
+                    return true;
+                }
+                child = child.get_next_sibling ();
+            }
+            return false;
         }
 
         void list_box_row_activated (Gtk.ListBoxRow? row) {

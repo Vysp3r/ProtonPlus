@@ -6,7 +6,6 @@ sdk-extensions:
   - org.freedesktop.Sdk.Extension.vala
 command: protonplus
 finish-args:
-  - --require-version=1.16.0
   - --device=dri
   # For controller support
   - --device=input
@@ -51,7 +50,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/Vysp3r/ProtonPlus.git
-        tag: v0.6.3
+        tag: v0.6.4
         x-checker-data:
           type: git
           tag-pattern: ^v(\d+\.\d+\.\d+(?:-[0-9A-Za-z.\-]+)?)$

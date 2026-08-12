@@ -39,6 +39,12 @@ namespace ProtonPlus.Utils {
         public abstract Object? get_controller_activation_target (Object focused);
     }
 
+    /* Composite rows can preserve one semantic activation across adaptive GTK
+     * views while still activating focused child controls normally. */
+    public interface ControllerActivationHandler : Object {
+        public abstract bool controller_activate (Object focused);
+    }
+
     public interface ControllerPageShortcuts : Object {
         public abstract bool controller_can_open_search ();
         public abstract bool controller_can_open_filter ();
@@ -60,10 +66,14 @@ namespace ProtonPlus.Utils {
     }
 
     private class ControllerFocusHistoryEntry : Object {
-        public weak Object? target;
+        WeakRef target_ref;
 
         public ControllerFocusHistoryEntry (Object target) {
-            this.target = target;
+            target_ref = WeakRef (target);
+        }
+
+        public Object? get_target () {
+            return target_ref.get ();
         }
     }
 
@@ -98,7 +108,7 @@ namespace ProtonPlus.Utils {
 
         public Object? recall_focus (string page_id) {
             var entry = focus_history[page_id];
-            return entry?.target;
+            return entry?.get_target ();
         }
 
         public ControllerFocusRestoreRequest begin_restore (string page_id,

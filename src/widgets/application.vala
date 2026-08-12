@@ -23,12 +23,18 @@ namespace ProtonPlus.Widgets {
                 { "donate", this.on_donate_action },
                 { "reload", this.on_reload_action },
                 { "introduction", this.on_introduction_action },
+                { "help", this.on_help_action },
                 { "on_language_change", this.on_language_change },
                 { "quit", this.on_quit_action },
             };
             this.add_action_entries (action_entries, this);
             this.set_accels_for_action ("app.quit", { "<Ctrl>Q" });
             this.set_accels_for_action ("app.preferences", { "<Ctrl>comma" });
+            this.set_accels_for_action ("app.help", { "F1" });
+            this.set_accels_for_action ("win.search", { "<Ctrl>F" });
+            this.set_accels_for_action (
+                "win.show-help-overlay", { "<Ctrl>question" }
+            );
             this.set_accels_for_action ("win.navigate-back", { "<Alt>Left" });
         }
 
@@ -83,10 +89,6 @@ namespace ProtonPlus.Widgets {
             var provider = new Gtk.CssProvider ();
             provider.load_from_resource ("/com/vysp3r/ProtonPlus/style.css");
             add_provider_for_display (display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
-
-            var status_provider = new Gtk.CssProvider ();
-            status_provider.load_from_resource ("/com/vysp3r/ProtonPlus/status.css");
-            add_provider_for_display (display, status_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2);
 
             Globals.load ();
             Globals.setupLanguage ();
@@ -143,6 +145,10 @@ namespace ProtonPlus.Widgets {
                 return;
 
             present_introduction (window);
+        }
+
+        void on_help_action () {
+            on_introduction_action ();
         }
 
         void present_introduction (Window window) {

@@ -11,18 +11,24 @@ namespace ProtonPlus.Widgets.Tools {
             content = new Gtk.Box (Gtk.Orientation.VERTICAL, 8) {
                 margin_start = 12,
                 margin_end = 12,
-                margin_top = 12,
-                margin_bottom = 12,
+                margin_top = 24,
+                margin_bottom = 24,
                 hexpand = true,
                 halign = Gtk.Align.FILL,
                 valign = Gtk.Align.START
+            };
+
+            var clamp = new Adw.Clamp () {
+                maximum_size = 720,
+                tightening_threshold = 600,
+                child = content
             };
 
             var scrolled = new Gtk.ScrolledWindow () {
                 vexpand = true,
                 hscrollbar_policy = Gtk.PolicyType.NEVER,
                 vscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
-                child = content
+                child = clamp
             };
 
             append (scrolled);
@@ -62,7 +68,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private Gtk.Label create_label (string markdown) {
-            return new Gtk.Label ("") {
+            var label = new Gtk.Label ("") {
                 use_markup = true,
                 label = markdown_to_markup (markdown),
                 wrap = true,
@@ -75,6 +81,8 @@ namespace ProtonPlus.Widgets.Tools {
                 halign = Gtk.Align.FILL,
                 valign = Gtk.Align.START
             };
+            label.add_css_class ("body");
+            return label;
         }
 
         private void append_markdown (string markdown) {
@@ -245,19 +253,19 @@ namespace ProtonPlus.Widgets.Tools {
 
             // Alerts: > [!NOTE]
                 var note_alert = new Regex ("^&gt; ?\\[!NOTE\\]$", RegexCompileFlags.MULTILINE | RegexCompileFlags.CASELESS);
-                text = note_alert.replace (text, -1, 0, "  <b><span color=\"#3584e4\">🗒️ Note</span></b>");
+                text = note_alert.replace (text, -1, 0, "  <b>🗒️ Note</b>");
 
                 var tip_alert = new Regex ("^&gt; ?\\[!TIP\\]$", RegexCompileFlags.MULTILINE | RegexCompileFlags.CASELESS);
-                text = tip_alert.replace (text, -1, 0, "  <b><span color=\"#2ec27e\">💡 Tip</span></b>");
+                text = tip_alert.replace (text, -1, 0, "  <b>💡 Tip</b>");
 
                 var important_alert = new Regex ("^&gt; ?\\[!IMPORTANT\\]$", RegexCompileFlags.MULTILINE | RegexCompileFlags.CASELESS);
-                text = important_alert.replace (text, -1, 0, "  <b><span color=\"#9141ac\">❗ Important</span></b>");
+                text = important_alert.replace (text, -1, 0, "  <b>❗ Important</b>");
 
                 var warning_alert = new Regex ("^&gt; ?\\[!WARNING\\]$", RegexCompileFlags.MULTILINE | RegexCompileFlags.CASELESS);
-                text = warning_alert.replace (text, -1, 0, "  <b><span color=\"#e5a50a\">⚠️ Warning</span></b>");
+                text = warning_alert.replace (text, -1, 0, "  <b>⚠️ Warning</b>");
 
                 var caution_alert = new Regex ("^&gt; ?\\[!CAUTION\\]$", RegexCompileFlags.MULTILINE | RegexCompileFlags.CASELESS);
-                text = caution_alert.replace (text, -1, 0, "  <b><span color=\"#e01b24\">🔴 Caution</span></b>");
+                text = caution_alert.replace (text, -1, 0, "  <b>🔴 Caution</b>");
 
             // Blockquotes: > text -> <i>  text</i>
                 var blockquote = new Regex ("^&gt; ?(.*)$", RegexCompileFlags.MULTILINE);

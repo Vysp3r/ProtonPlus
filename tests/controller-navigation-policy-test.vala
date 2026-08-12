@@ -6,6 +6,7 @@ namespace AppTests.ControllerNavigationPolicyTest {
         public string page_id;
         public int back_calls = 0;
         public int switch_calls = 0;
+        public bool root_expanded = false;
         public Gee.HashMap<string, string> parents = new Gee.HashMap<string, string> ();
         public string[] switch_pages = {};
 
@@ -27,6 +28,10 @@ namespace AppTests.ControllerNavigationPolicyTest {
 
         public bool controller_navigate_back () {
             back_calls++;
+            if (page_id == "tools:groups" && root_expanded) {
+                root_expanded = false;
+                return true;
+            }
             if (!parents.has_key (page_id))
                 return false;
             page_id = parents[page_id];
@@ -34,7 +39,7 @@ namespace AppTests.ControllerNavigationPolicyTest {
         }
 
         public bool controller_can_navigate_back () {
-            return parents.has_key (page_id);
+            return root_expanded || parents.has_key (page_id);
         }
 
         public bool controller_can_switch_page () {
@@ -66,7 +71,7 @@ namespace AppTests.ControllerNavigationPolicyTest {
     private void test_modal_back_precedence () {
         var policy = new ControllerNavigationPolicy ();
         var host = new FakeNavigationHost ("tools:release");
-        host.parents["tools:release"] = "tools:releases";
+        host.parents["tools:release"] = "tools:groups";
 
         assert (policy.navigate_back (true, host) == ControllerBackAction.DISMISS_SURFACE);
         assert (host.back_calls == 0);
@@ -77,15 +82,15 @@ namespace AppTests.ControllerNavigationPolicyTest {
         var policy = new ControllerNavigationPolicy ();
         var host = new FakeNavigationHost ("tools:migrate");
         host.parents["tools:migrate"] = "tools:release";
-        host.parents["tools:release"] = "tools:releases";
-        host.parents["tools:releases"] = "tools:groups";
+        host.parents["tools:release"] = "tools:groups";
 
         assert (policy.navigate_back (false, host) == ControllerBackAction.NAVIGATE_APPLICATION);
         assert (host.page_id == "tools:release");
         assert (policy.navigate_back (false, host) == ControllerBackAction.NAVIGATE_APPLICATION);
-        assert (host.page_id == "tools:releases");
-        assert (policy.navigate_back (false, host) == ControllerBackAction.NAVIGATE_APPLICATION);
         assert (host.page_id == "tools:groups");
+        host.root_expanded = true;
+        assert (policy.navigate_back (false, host, true) == ControllerBackAction.NAVIGATE_APPLICATION);
+        assert (!host.root_expanded);
         assert (policy.navigate_back (false, host, true) == ControllerBackAction.REQUEST_EXIT);
         assert (host.page_id == "tools:groups");
     }
@@ -121,6 +126,15 @@ namespace AppTests.ControllerNavigationPolicyTest {
 
         assert (policy.recall_focus ("tools:groups") == tools_target);
         assert (policy.recall_focus ("games:list") == games_target);
+        assert (policy.recall_focus ("tools:release") == null);
+    }
+
+    private void test_destroyed_focus_history_target_is_discarded () {
+        var policy = new ControllerNavigationPolicy ();
+        Object? target = new Object ();
+        policy.remember_focus ("tools:release", target);
+        target = null;
+
         assert (policy.recall_focus ("tools:release") == null);
     }
 
@@ -177,6 +191,7 @@ namespace AppTests.ControllerNavigationPolicyTest {
         Test.add_func ("/controller-navigation/games-back-root-exit", test_games_back_and_root_exit);
         Test.add_func ("/controller-navigation/application-back-never-closes", test_application_back_never_closes);
         Test.add_func ("/controller-navigation/focus-history", test_focus_history_isolated_by_page);
+        Test.add_func ("/controller-navigation/destroyed-focus-history", test_destroyed_focus_history_target_is_discarded);
         Test.add_func ("/controller-navigation/focus-fallback", test_invalid_remembered_target_uses_fallback);
         Test.add_func ("/controller-navigation/switch-restore", test_switch_restores_correct_page);
         Test.add_func ("/controller-navigation/stale-restore", test_stale_restore_is_rejected);

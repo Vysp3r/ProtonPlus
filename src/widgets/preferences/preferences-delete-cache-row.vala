@@ -9,6 +9,10 @@ namespace ProtonPlus.Widgets.Preferences {
             delete_button.add_css_class ("flat");
             delete_button.add_css_class ("destructive-action");
             delete_button.set_valign (Gtk.Align.CENTER);
+            delete_button.set_tooltip_text (_("Delete cache"));
+            delete_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Delete cache"), -1
+            );
             delete_button.clicked.connect (() => delete_cache.begin ());
 
             spinner = new Adw.Spinner ();
@@ -16,6 +20,7 @@ namespace ProtonPlus.Widgets.Preferences {
             set_title (_ ("Delete cache"));
             set_subtitle (_ ("Removes all cached information and temporary downloads"));
             add_suffix (delete_button);
+            set_activatable_widget (delete_button);
         }
 
         async void delete_cache () {

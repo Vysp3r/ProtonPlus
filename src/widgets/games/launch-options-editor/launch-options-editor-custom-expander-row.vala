@@ -48,6 +48,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             add_button.add_css_class ("flat");
             add_button.valign = Gtk.Align.CENTER;
             add_button.set_tooltip_text (add_custom_row.title);
+            add_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Add custom item"), -1
+            );
             add_button.clicked.connect (on_custom_item_added);
             add_custom_row.add_suffix (add_button);
 

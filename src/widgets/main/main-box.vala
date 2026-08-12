@@ -3,6 +3,7 @@ namespace ProtonPlus.Widgets.Main {
         Utils.ControllerPageShortcuts {
         public Adw.ViewStack view_stack { get; set; }
         public Adw.ViewSwitcher view_switcher { get; set; }
+        public Adw.ViewSwitcherBar view_switcher_bar { get; set; }
         Adw.ToastOverlay toast_overlay { get; set; }
 
         string previous_view_name { get; set; }
@@ -25,6 +26,24 @@ namespace ProtonPlus.Widgets.Main {
         private Adw.Dialog? active_restart_dialog = null;
         private bool persistence_toast_shown = false;
         private bool load_warning_shown = false;
+        private Header.Presentation? current_header_presentation;
+        private ulong tools_header_handler_id = 0;
+        private ulong games_header_handler_id = 0;
+        private bool view_switcher_bar_ready = false;
+
+        private bool _narrow_navigation = false;
+        public bool narrow_navigation {
+            get { return _narrow_navigation; }
+            set {
+                if (_narrow_navigation == value)
+                    return;
+                _narrow_navigation = value;
+                update_view_switcher_bar ();
+            }
+        }
+
+        public signal void header_presentation_changed (Header.Presentation? presentation);
+        public signal void search_availability_changed (bool available);
 
         public Box (Services.SteamRestartManager? restart_manager = null,
             Services.SteamRestartOrchestrator? restart_orchestrator = null,
@@ -35,8 +54,16 @@ namespace ProtonPlus.Widgets.Main {
 
             tools_box = new Tools.Box ();
             tools_box.toast_sent.connect (send_toast);
+            tools_header_handler_id = tools_box.header_presentation_changed.connect (() => {
+                update_header_presentation ();
+                search_availability_changed (search_available ());
+            });
 
             games_box = new Games.Box ();
+            games_header_handler_id = games_box.header_presentation_changed.connect (() => {
+                update_header_presentation ();
+                search_availability_changed (search_available ());
+            });
 
             mangohud_box = new MangoHud.Box ();
 
@@ -57,6 +84,30 @@ namespace ProtonPlus.Widgets.Main {
             view_switcher.set_stack (view_stack);
             view_switcher.set_policy (Adw.ViewSwitcherPolicy.WIDE);
 
+            view_switcher_bar = new Adw.ViewSwitcherBar ();
+            view_switcher_bar.set_stack (view_stack);
+            view_switcher_bar.set_reveal (false);
+            view_switcher_bar_ready = true;
+            update_view_switcher_bar ();
+
+            add_view_switcher_reset_controller (view_switcher);
+            add_view_switcher_reset_controller (view_switcher_bar);
+
+            toast_overlay = new Adw.ToastOverlay ();
+            toast_overlay.set_child (view_stack);
+
+            if (restart_manager != null && restart_orchestrator != null)
+                setup_steam_restart_presentation ((!) restart_manager, (!) restart_orchestrator,
+                    restart_notification_sender ?? new LibnotifySteamRestartNotificationSender ());
+            append (toast_overlay);
+
+            Utils.DownloadManager.instance.download_added.connect (on_download_added);
+            Utils.DownloadManager.instance.download_finished.connect (on_download_finished);
+            Utils.DownloadManager.instance.tool_updated.connect (on_tool_updated);
+            Utils.DownloadManager.instance.tool_removed.connect (on_tool_removed);
+        }
+
+        void add_view_switcher_reset_controller (Gtk.Widget switcher) {
             var reset_controller = new Gtk.GestureClick ();
             reset_controller.set_propagation_phase (Gtk.PropagationPhase.CAPTURE);
             reset_controller.pressed.connect ((gesture, n_press, x, y) => {
@@ -76,20 +127,7 @@ namespace ProtonPlus.Widgets.Main {
                     return Source.REMOVE;
                 });
             });
-            view_switcher.add_controller (reset_controller);
-
-            toast_overlay = new Adw.ToastOverlay ();
-            toast_overlay.set_child (view_stack);
-
-            if (restart_manager != null && restart_orchestrator != null)
-                setup_steam_restart_presentation ((!) restart_manager, (!) restart_orchestrator,
-                    restart_notification_sender ?? new LibnotifySteamRestartNotificationSender ());
-            append (toast_overlay);
-
-            Utils.DownloadManager.instance.download_added.connect (on_download_added);
-            Utils.DownloadManager.instance.download_finished.connect (on_download_finished);
-            Utils.DownloadManager.instance.tool_updated.connect (on_tool_updated);
-            Utils.DownloadManager.instance.tool_removed.connect (on_tool_removed);
+            switcher.add_controller (reset_controller);
         }
 
         public void initialize (Gee.LinkedList<Models.Launcher> launchers) {
@@ -105,6 +143,7 @@ namespace ProtonPlus.Widgets.Main {
         public void set_selected_launcher (Models.Launcher launcher) {
             tools_box.set_selected_launcher (launcher);
             games_box.set_selected_launcher (launcher);
+            search_availability_changed (search_available ());
         }
 
         public void navigate_to_download (Services.InstallJob job) {
@@ -265,6 +304,15 @@ namespace ProtonPlus.Widgets.Main {
         }
 
         public override void dispose () {
+            view_switcher_bar_ready = false;
+            if (tools_header_handler_id != 0) {
+                tools_box.disconnect (tools_header_handler_id);
+                tools_header_handler_id = 0;
+            }
+            if (games_header_handler_id != 0) {
+                games_box.disconnect (games_header_handler_id);
+                games_header_handler_id = 0;
+            }
             cancel_steam_restart ();
             if (active_restart_dialog != null)
                 active_restart_dialog.close ();
@@ -325,7 +373,20 @@ namespace ProtonPlus.Widgets.Main {
                 if (job.error_message != null && job.error_message != "") {
                     body = "%s (%s)".printf (job.displayed_title, job.error_message);
                 }
-                send_notification (_ ("Download failed"), body);
+                send_background_notification (_ ("Download failed"), body);
+            }
+        }
+
+        void send_background_notification (string title, string body,
+            string icon = "folder-download-symbolic") {
+            var window = get_root () as Gtk.Window;
+            if (window != null && window.is_active)
+                return;
+            var notification = new Notify.Notification (title, body, icon);
+            try {
+                notification.show ();
+            } catch (Error error) {
+                warning ("Unable to show notification: %s", error.message);
             }
         }
 
@@ -370,6 +431,31 @@ namespace ProtonPlus.Widgets.Main {
             }
 
             previous_view_name = view_stack.get_visible_child_name ();
+            update_header_presentation ();
+            search_availability_changed (search_available ());
+        }
+
+        void update_header_presentation () {
+            Header.Presentation? presentation = null;
+            switch (view_stack.get_visible_child_name ()) {
+                case "tools":
+                    presentation = tools_box.get_header_presentation ();
+                    break;
+                case "games":
+                    presentation = games_box.get_header_presentation ();
+                    break;
+            }
+            current_header_presentation = presentation;
+            update_view_switcher_bar ();
+            header_presentation_changed (presentation);
+        }
+
+        void update_view_switcher_bar () {
+            if (!view_switcher_bar_ready)
+                return;
+            view_switcher_bar.set_reveal (
+                narrow_navigation && current_header_presentation == null
+            );
         }
 
         void reset_visible_page () {
@@ -479,6 +565,17 @@ namespace ProtonPlus.Widgets.Main {
         public bool controller_open_search () {
             var shortcuts = get_visible_controller_shortcuts ();
             return shortcuts != null && shortcuts.controller_open_search ();
+        }
+
+        public bool search_available () {
+            switch (view_stack.get_visible_child_name ()) {
+            case "tools":
+                return tools_box.search_available ();
+            case "games":
+                return games_box.search_available ();
+            default:
+                return false;
+            }
         }
 
         public bool controller_open_filter () {

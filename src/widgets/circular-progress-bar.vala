@@ -56,28 +56,29 @@ namespace ProtonPlus.Widgets {
 
         private Gdk.RGBA get_color_from_string (string str, string? fallback = null) {
             var color = Gdk.RGBA ();
+            if (str == "currentColor" || str == "currentColorAlpha10") {
+                color = get_color ();
+                if (str == "currentColorAlpha10")
+                    color.alpha = 0.1f;
+                return color;
+            }
+
             if (color.parse (str)) {
                 return color;
             }
 
-            if (str == "suggested_action_bg_color") {
-                color.parse ("#3584e4");
-                return color;
-            }
-
-            if (fallback != null) {
-                color.parse (fallback);
-            }
-
-            return color;
+            return fallback != null
+                ? get_color_from_string ((!) fallback)
+                : get_color ();
         }
 
         construct {
             _line_width = 4;
             _fraction = 0;
             _center_fill_color = "rgba(0, 0, 0, 0)";
-            _radius_fill_color = "rgba(0, 0, 0, 0.1)";
-            _progress_fill_color = "suggested_action_bg_color";
+            _radius_fill_color = "currentColorAlpha10";
+            _progress_fill_color = "currentColor";
+            add_css_class ("circular-progress-bar");
         }
 
         public CircularProgressBar () {
@@ -125,14 +126,14 @@ namespace ProtonPlus.Widgets {
             // Radius Fill (Background circle)
             if (radius_filled) {
                 cr.arc (center_x, center_y, delta, 0, 2 * Math.PI);
-                color = get_color_from_string (radius_fill_color, "rgba(0, 0, 0, 0.1)");
+                color = get_color_from_string (radius_fill_color, "currentColorAlpha10");
                 Gdk.cairo_set_source_rgba (cr, color);
                 cr.stroke ();
             }
 
             // Progress/Percentage Fill
             if (_is_pulsing) {
-                color = get_color_from_string (progress_fill_color, "#3584e4");
+                color = get_color_from_string (progress_fill_color, "currentColor");
                 Gdk.cairo_set_source_rgba (cr, color);
                 cr.arc (center_x,
                         center_y,
@@ -141,7 +142,7 @@ namespace ProtonPlus.Widgets {
                         (1.5 + _pulse_offset + 0.5) * Math.PI);
                 cr.stroke ();
             } else if (fraction > 0) {
-                color = get_color_from_string (progress_fill_color, "#3584e4");
+                color = get_color_from_string (progress_fill_color, "currentColor");
                 Gdk.cairo_set_source_rgba (cr, color);
                 if (line_width == 0) {
                     cr.move_to (center_x, center_y);

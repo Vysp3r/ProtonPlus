@@ -14,6 +14,10 @@
     color: var(--accent-blue);
 }
 
+.circular-progress-bar {
+    color: var(--accent-color);
+}
+
 .purple {
     color: var(--accent-purple);
 }
@@ -27,7 +31,7 @@
 }
 
 .list-header {
-    padding: 12px;
+    padding: 6px 12px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     border-bottom: 1px solid var(--card-shade-color);
@@ -42,7 +46,7 @@
 }
 
 .games-filter-active {
-    color: var(--accent-bg-color);
+    color: var(--accent-color);
 }
 
 .list-content {
@@ -75,7 +79,7 @@
 }
 
 .selection-popover-row image {
-    color: var(--accent-bg-color);
+    color: var(--accent-color);
 }
 
 .launch-options-preview-surface {
@@ -149,41 +153,17 @@ menubutton.controller-focus > button {
     opacity: 0.78;
 }
 
-.info-pill, .usage-pill, .tag-pill, .variant-pill, .installed-pill, .in-use-pill {
-    border-radius: 10px;
+.tool-metadata-pill {
+    border-radius: 9999px;
     padding: 2px 8px;
+    color: var(--window-fg-color);
+    background-color: alpha(var(--window-fg-color), 0.12);
     font-size: 0.8em;
-    font-weight: bold;
-    color: #ffffff;
-}
-
-.usage-pill {
-    background-color: #2ec27e;
-}
-
-.info-pill {
-    background-color: #c07434;
-}
-
-.tag-pill {
-    background-color: #3584e4;
-}
-
-.variant-pill {
-    background-color: #6d5db3;
-}
-
-.installed-pill {
-    background-color: #2ec27e;
-}
-
-.in-use-pill {
-    background-color: #c07434;
 }
 
 button.tools-filter-active {
     background-color: alpha(var(--accent-bg-color), 0.14);
-    color: var(--accent-fg-color);
+    color: var(--accent-color);
 }
 
 row.controller-focus {
@@ -225,13 +205,32 @@ row.controller-focus {
     font-weight: bold;
 }
 
+.tools-collection-toolbar {
+    padding: 2px 6px 6px 6px;
+}
+
+.tools-releases-card {
+    margin: 6px 6px 12px 6px;
+}
+
+.tools-release-toolbar {
+    padding: 0 16px;
+}
+
+.tools-release-row {
+    padding: 6px 0;
+}
+
 .tools-release-row-input-box {
-    background-color: var(--window-bg-color);
-    border-radius: 9px;
+    background-color: transparent;
 }
 
 .tools-release-row-input-box button {
     padding: 5px;
+}
+
+.tools-release-install-button {
+    color: inherit;
 }
 
 .downloads-indicator-badge {

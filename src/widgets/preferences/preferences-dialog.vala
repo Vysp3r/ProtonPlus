@@ -24,15 +24,14 @@ namespace ProtonPlus.Widgets.Preferences {
             general_page.add (appearance_group);
 
             var theme_row = new ThemeRow ();
-            theme_row.add_prefix (new Gtk.Image.from_icon_name ("palette-symbolic"));
             appearance_group.add (theme_row);
 
             var language_row = new LanguageRow ();
-            language_row.add_prefix (new Gtk.Image.from_icon_name ("globe-symbolic"));
             appearance_group.add (language_row);
 
             var controller_group = new Adw.PreferencesGroup () {
-                title = _("Controller")
+                title = _("Controller"),
+                description = _("Configure controller buttons and vibration")
             };
             general_page.add (controller_group);
 
@@ -61,21 +60,6 @@ namespace ProtonPlus.Widgets.Preferences {
                 "active", SettingsBindFlags.DEFAULT);
             controller_group.add (controller_haptics_row);
 
-            var help_page = new Adw.PreferencesGroup () {
-                title = _("Help"),
-            };
-            var introduction_btn = new Adw.ButtonRow () {
-                title = _("Show Introduction")
-            };
-            introduction_btn.set_start_icon_name ("help-about-symbolic");
-            introduction_btn.activated.connect (() => {
-                var window = this.get_root () as Window;
-                var dialog = new Introduction.Introduction ();
-                Window.present_dialog_for_controller (dialog, window);
-            });
-            help_page.add (introduction_btn);
-            general_page.add (help_page);
-
             // Tools Page
             var tools_page = new Adw.PreferencesPage () {
                 title = _("Tools"),
@@ -84,7 +68,8 @@ namespace ProtonPlus.Widgets.Preferences {
             add_controller_page (tools_page);
 
             var updates_group = new Adw.PreferencesGroup () {
-                title = _("Updates")
+                title = _("Updates"),
+                description = _("Choose when installed tools are checked and updated")
             };
             tools_page.add (updates_group);
 
@@ -102,15 +87,15 @@ namespace ProtonPlus.Widgets.Preferences {
             updates_group.add (background_updates_frequency_row);
 
             var check_updates_on_boot_row = new Adw.SwitchRow () {
-                title = _("Check updates on boot"),
-                subtitle = _("Check for tool updates when the system starts"),
+                title = _("Update tools at system startup"),
+                subtitle = _("Automatically check for and install updates when the system starts"),
             };
             Globals.SETTINGS.bind ("check-updates-on-boot", check_updates_on_boot_row, "active", SettingsBindFlags.DEFAULT);
             updates_group.add (check_updates_on_boot_row);
 
             var check_updates_on_launch_row = new Adw.SwitchRow () {
-                title = _("Check updates on launch"),
-                subtitle = _("Update the tools when the application is launched"),
+                title = _("Update tools when ProtonPlus starts"),
+                subtitle = _("Automatically check for and install updates when ProtonPlus starts"),
             };
             Globals.SETTINGS.bind ("check-updates-on-launch", check_updates_on_launch_row, "active", SettingsBindFlags.DEFAULT);
             updates_group.add (check_updates_on_launch_row);
@@ -131,7 +116,6 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _("Show legacy tools"),
                 subtitle = _("Display older tools that are no longer actively maintained"),
             };
-            legacy_tools_row.add_prefix (new Gtk.Image.from_icon_name ("box-archive-symbolic"));
             Globals.SETTINGS.bind ("show-legacy-tools", legacy_tools_row, "active", SettingsBindFlags.DEFAULT);
             tools_behavior_group.add (legacy_tools_row);
 
@@ -174,7 +158,6 @@ namespace ProtonPlus.Widgets.Preferences {
                         title = _("Default compatibility tool"),
                         subtitle = _("The compatibility tool games will use by default")
                     };
-                    compatibility_tool_row.add_prefix (new Gtk.Image.from_icon_name ("screwdriver-wrench-symbolic"));
 
                     for (var i = 0; i < (int) compatibility_tools.size; i++) {
                         if (compatibility_tools[i].internal_title == steam_launcher.default_compatibility_tool) {
@@ -201,7 +184,6 @@ namespace ProtonPlus.Widgets.Preferences {
                             title = _("Selected profile"),
                             subtitle = _("Currently selected profile for Steam"),
                         };
-                        profile_row.add_prefix (new Gtk.Image.from_icon_name ("avatar-default-symbolic"));
                         profile_row.set_sensitive (steam_launcher.profiles.length () > 1);
 
                         var shortcut_row = new SteamShortcutRow (steam_launcher.profile);
@@ -244,11 +226,12 @@ namespace ProtonPlus.Widgets.Preferences {
             add_controller_page (advanced_page);
 
             var tokens_group = new Adw.PreferencesGroup () {
-                title = _("API Tokens")
+                title = _("API Tokens"),
+                description = _("Optional tokens increase GitHub and GitLab request limits")
             };
             advanced_page.add (tokens_group);
 
-            var github_access_token_row = new AccessTokenRow (
+            var github_access_token_row = AccessTokenRow.create (
                 "GitHub",
                 "github-symbolic",
                 "https://github.com/settings/tokens"
@@ -256,7 +239,7 @@ namespace ProtonPlus.Widgets.Preferences {
             Globals.SETTINGS.bind ("github-api-key", github_access_token_row, "text", SettingsBindFlags.DEFAULT);
             tokens_group.add (github_access_token_row);
 
-            var gitlab_access_token_row = new AccessTokenRow (
+            var gitlab_access_token_row = AccessTokenRow.create (
                 "GitLab",
                 "gitlab-symbolic",
                 "https://gitlab.com/-/user_settings/personal_access_tokens"
@@ -312,12 +295,12 @@ namespace ProtonPlus.Widgets.Preferences {
                 title = _("Preview features"),
                 subtitle = _("Enable experimental features for early testing"),
             };
-            experimental_features_row.add_prefix (new Gtk.Image.from_icon_name ("flask-symbolic"));
             Globals.SETTINGS.bind ("experimental-features", experimental_features_row, "active", SettingsBindFlags.DEFAULT);
             experimental_group.add (experimental_features_row);
 
             var maintenance_group = new Adw.PreferencesGroup () {
-                title = _("Maintenance")
+                title = _("Maintenance"),
+                description = _("Refresh app data or clear cached files")
             };
             advanced_page.add (maintenance_group);
             maintenance_group.add (new RefreshApplicationDataRow ());
@@ -326,7 +309,7 @@ namespace ProtonPlus.Widgets.Preferences {
             // System Page
             var system_page = new Adw.PreferencesPage () {
                 title = _("System"),
-                icon_name = "dialog-information-symbolic"
+                icon_name = "computer-symbolic"
             };
             add_controller_page (system_page);
 
@@ -335,15 +318,12 @@ namespace ProtonPlus.Widgets.Preferences {
             };
             system_page.add (environment_group);
 
-            environment_group.add (new Adw.ActionRow () {
-                title = _("SteamOS"),
-                subtitle = Globals.IS_STEAM_OS ? _("Yes") : _("No")
-            });
-
-            environment_group.add (new Adw.ActionRow () {
-                title = _("Flatpak"),
-                subtitle = Globals.IS_FLATPAK ? _("Yes") : _("No")
-            });
+            environment_group.add (create_status_row (
+                _("SteamOS"), Globals.IS_STEAM_OS, _("Yes"), _("No")
+            ));
+            environment_group.add (create_status_row (
+                _("Flatpak"), Globals.IS_FLATPAK, _("Yes"), _("No")
+            ));
 
             var hardware_group = new Adw.PreferencesGroup () {
                 title = _("Hardware")
@@ -358,8 +338,9 @@ namespace ProtonPlus.Widgets.Preferences {
             }
 
             hardware_group.add (new Adw.ActionRow () {
-                title = _("HWCAPS"),
-                subtitle = hwcaps_str
+                title = _("CPU Features"),
+                subtitle = hwcaps_str != "" ? hwcaps_str : _("None detected"),
+                subtitle_selectable = true,
             });
 
             var dependencies_group = new Adw.PreferencesGroup () {
@@ -367,40 +348,27 @@ namespace ProtonPlus.Widgets.Preferences {
             };
             system_page.add (dependencies_group);
 
-            dependencies_group.add (new Adw.ActionRow () {
-                title = _("Protontricks"),
-                subtitle = Globals.PROTONTRICKS_INSTALLED ? _("Yes") : _("No")
-            });
-
-            dependencies_group.add (new Adw.ActionRow () {
-                title = _("Protontricks (Flatpak)"),
-                subtitle = Globals.PROTONTRICKS_FLATPAK_INSTALLED ? _("Yes") : _("No")
-            });
-
-            dependencies_group.add (new Adw.ActionRow () {
-                title = _("MangoHud"),
-                subtitle = Globals.MANGOHUD_INSTALLED ? _("Yes") : _("No")
-            });
-
-            dependencies_group.add (new Adw.ActionRow () {
-                title = _("MangoHud (Flatpak)"),
-                subtitle = Globals.MANGOHUD_FLATPAK_INSTALLED ? _("Yes") : _("No")
-            });
-
-            dependencies_group.add (new Adw.ActionRow () {
-                title = _("Gamescope"),
-                subtitle = Globals.GAMESCOPE_INSTALLED ? _("Yes") : _("No")
-            });
-
-            dependencies_group.add (new Adw.ActionRow () {
-                title = _("ScopeBuddy"),
-                subtitle = Globals.SCOPEBUDDY_INSTALLED ? _("Yes") : _("No")
-            });
-
-            dependencies_group.add (new Adw.ActionRow () {
-                title = _("Feral Gamemode"),
-                subtitle = Globals.GAMEMODE_INSTALLED ? _("Yes") : _("No")
-            });
+            dependencies_group.add (create_status_row (
+                _("Protontricks"), Globals.PROTONTRICKS_INSTALLED
+            ));
+            dependencies_group.add (create_status_row (
+                _("Protontricks (Flatpak)"), Globals.PROTONTRICKS_FLATPAK_INSTALLED
+            ));
+            dependencies_group.add (create_status_row (
+                _("MangoHud"), Globals.MANGOHUD_INSTALLED
+            ));
+            dependencies_group.add (create_status_row (
+                _("MangoHud (Flatpak)"), Globals.MANGOHUD_FLATPAK_INSTALLED
+            ));
+            dependencies_group.add (create_status_row (
+                _("Gamescope"), Globals.GAMESCOPE_INSTALLED
+            ));
+            dependencies_group.add (create_status_row (
+                _("ScopeBuddy"), Globals.SCOPEBUDDY_INSTALLED
+            ));
+            dependencies_group.add (create_status_row (
+                _("Feral Gamemode"), Globals.GAMEMODE_INSTALLED
+            ));
 
             var detected_launchers_group = new Adw.PreferencesGroup () {
                 title = _("Detected Launchers")
@@ -424,11 +392,29 @@ namespace ProtonPlus.Widgets.Preferences {
             };
 
             foreach (var launcher in all_launchers) {
-                detected_launchers_group.add (new Adw.ActionRow () {
-                    title = "%s (%s)".printf (launcher.title, launcher.get_installation_type_title ()),
-                    subtitle = launcher.installed ? _("Installed") : _("Not installed")
-                });
+                detected_launchers_group.add (create_status_row (
+                    "%s (%s)".printf (launcher.title, launcher.get_installation_type_title ()),
+                    launcher.installed
+                ));
             }
+        }
+
+        Adw.ActionRow create_status_row (string title, bool available,
+            string? available_label = null, string? unavailable_label = null) {
+            var status_label = new Gtk.Label (
+                available
+                    ? available_label ?? _("Installed")
+                    : unavailable_label ?? _("Not installed")
+            ) {
+                valign = Gtk.Align.CENTER,
+            };
+            status_label.add_css_class ("dim-label");
+
+            var row = new Adw.ActionRow () {
+                title = title,
+            };
+            row.add_suffix (status_label);
+            return row;
         }
 
         void add_controller_page (Adw.PreferencesPage page) {

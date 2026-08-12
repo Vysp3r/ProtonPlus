@@ -62,6 +62,11 @@ namespace ProtonPlus.Widgets {
     }
 
     public class Window : Adw.ApplicationWindow {
+        // Leave room for the launcher, three-page switcher, downloads, and menu.
+        const double NARROW_NAVIGATION_WIDTH = 700;
+        const int MINIMUM_WINDOW_WIDTH = 384;
+        const int MINIMUM_WINDOW_HEIGHT = 360;
+
         public Gee.LinkedList<Models.Launcher> launchers { get; set; }
         Utils.ControllerManager controller_manager { get; set; }
 
@@ -69,8 +74,14 @@ namespace ProtonPlus.Widgets {
         Loading.Box loading_box { get; set; }
         public Main.Box main_box { get; set; }
         Adw.ToolbarView toolbar_view { get; set; }
+        Adw.BreakpointBin responsive { get; set; }
         ControllerHintBar controller_hint_bar { get; set; }
         ulong controller_presentation_handler = 0;
+        ulong header_presentation_handler = 0;
+        ulong search_availability_handler = 0;
+        bool navigation_breakpoint_added = false;
+        bool main_content_visible = false;
+        SimpleAction search_action;
 
         private Services.SteamRestartManager restart_manager;
         private Services.SteamRestartOrchestrator restart_orchestrator;
@@ -88,6 +99,12 @@ namespace ProtonPlus.Widgets {
             var navigate_back_action = new SimpleAction ("navigate-back", null);
             navigate_back_action.activate.connect ((parameter) => controller_manager.navigate_application_back ());
             add_action (navigate_back_action);
+            search_action = new SimpleAction ("search", null);
+            search_action.activate.connect ((parameter) => {
+                main_box.controller_open_search ();
+            });
+            search_action.set_enabled (false);
+            add_action (search_action);
 
             build_ui ();
             controller_manager.start ();
@@ -101,6 +118,10 @@ namespace ProtonPlus.Widgets {
             }
 
             dialog.present (parent);
+        }
+
+        public bool focus_launcher_selector () {
+            return header_box.focus_launchers ();
         }
 
         public static void register_popover_for_controller (Gtk.Popover popover,
@@ -227,6 +248,17 @@ namespace ProtonPlus.Widgets {
         }
 
         private void build_ui () {
+            if (header_presentation_handler != 0) {
+                main_box.disconnect (header_presentation_handler);
+                header_presentation_handler = 0;
+            }
+            if (search_availability_handler != 0) {
+                main_box.disconnect (search_availability_handler);
+                search_availability_handler = 0;
+            }
+            navigation_breakpoint_added = false;
+            main_content_visible = false;
+            search_action.set_enabled (false);
             header_box = new Header.Box ();
             header_box.set_controller_mode_active (
                 controller_manager.presentation_state.controller_mode_active
@@ -242,6 +274,10 @@ namespace ProtonPlus.Widgets {
                 header_box.initialize (launchers, main_box.view_switcher);
                 main_box.initialize (launchers);
                 toolbar_view.set_content (main_box);
+                main_content_visible = true;
+                search_action.set_enabled (main_box.search_available ());
+                main_box.view_switcher_bar.set_visible (true);
+                add_navigation_breakpoint ();
 
                 if (Globals.SETTINGS.get_boolean ("check-updates-on-launch")) {
                     main_box.check_for_updates.begin (launchers);
@@ -249,21 +285,61 @@ namespace ProtonPlus.Widgets {
             });
 
             main_box = new Main.Box (restart_manager, restart_orchestrator);
+            main_box.view_switcher_bar.set_visible (false);
+            header_presentation_handler = main_box.header_presentation_changed.connect (
+                header_box.set_presentation
+            );
+            search_availability_handler = main_box.search_availability_changed.connect (
+                (available) => search_action.set_enabled (
+                    main_content_visible && available
+                )
+            );
             header_box.download_selected.connect ((job) => {
+                header_box.select_launcher (job.tool.group.launcher);
                 main_box.navigate_to_download (job);
             });
 
             toolbar_view = new Adw.ToolbarView ();
             toolbar_view.add_top_bar (header_box);
+            toolbar_view.add_bottom_bar (main_box.view_switcher_bar);
             controller_hint_bar = new ControllerHintBar ();
             controller_hint_bar.update_state (controller_manager.presentation_state);
             toolbar_view.add_bottom_bar (controller_hint_bar);
             toolbar_view.set_content (loading_box);
 
-            set_content (toolbar_view);
+            responsive = new Adw.BreakpointBin ();
+            responsive.set_size_request (
+                MINIMUM_WINDOW_WIDTH, MINIMUM_WINDOW_HEIGHT
+            );
+            responsive.set_child (toolbar_view);
+            set_content (responsive);
             controller_manager.presentation_context_changed ();
 
             loading_box.load.begin ();
+        }
+
+        void add_navigation_breakpoint () {
+            if (navigation_breakpoint_added)
+                return;
+
+            var navigation_breakpoint = new Adw.Breakpoint (
+                new Adw.BreakpointCondition.length (
+                    Adw.BreakpointConditionLengthType.MAX_WIDTH,
+                    NARROW_NAVIGATION_WIDTH,
+                    Adw.LengthUnit.SP
+                )
+            );
+            var narrow = Value (typeof (bool));
+            narrow.set_boolean (true);
+            navigation_breakpoint.add_setter (
+                header_box, "narrow-navigation", narrow
+            );
+            navigation_breakpoint.add_setter (
+                main_box, "narrow-navigation", narrow
+            );
+
+            responsive.add_breakpoint (navigation_breakpoint);
+            navigation_breakpoint_added = true;
         }
 
         public void reload_ui () {
@@ -280,6 +356,8 @@ namespace ProtonPlus.Widgets {
         }
 
         public void reload () {
+            main_content_visible = false;
+            search_action.set_enabled (false);
             toolbar_view.set_content (loading_box);
 
             loading_box.load.begin ();
@@ -321,6 +399,14 @@ namespace ProtonPlus.Widgets {
         }
 
         public override void dispose () {
+            if (header_presentation_handler != 0) {
+                main_box.disconnect (header_presentation_handler);
+                header_presentation_handler = 0;
+            }
+            if (search_availability_handler != 0) {
+                main_box.disconnect (search_availability_handler);
+                search_availability_handler = 0;
+            }
             if (controller_presentation_handler != 0) {
                 controller_manager.disconnect (controller_presentation_handler);
                 controller_presentation_handler = 0;

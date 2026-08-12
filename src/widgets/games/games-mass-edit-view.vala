@@ -5,24 +5,26 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Button clear_button;
         Gtk.Button apply_button;
         Gtk.MenuButton selection_button;
-        Adw.HeaderBar header_bar { get; set; }
+        public Header.Presentation header_presentation { get; private set; }
         Adw.Clamp content_clamp { get; set; }
         Gtk.ScrolledWindow scrolled_window { get; set; }
         CompatibilityToolRow compatibility_tool_row { get; set; }
         Adw.PreferencesGroup compatibility_tool_group { get; set; }
         Adw.PreferencesGroup launch_options_group { get; set; }
-        Gtk.Switch compatibility_tool_switch { get; set; }
-        Gtk.Switch launch_options_switch { get; set; }
+        Adw.SwitchRow compatibility_tool_apply_row { get; set; }
+        Adw.SwitchRow launch_options_apply_row { get; set; }
         LaunchOptionsEditor.Box launch_options_editor { get; set; }
+        Gtk.Revealer launch_options_revealer { get; set; }
         Gtk.Box content_box { get; set; }
         Gtk.Label batch_hint { get; set; }
-        public GameRow[] rows;
+        public GameListItem[] items;
         LaunchOptionsEditor.LaunchOptionCapabilityResolver capability_resolver;
         Gee.HashMap<string, Models.CompatibilityTool> compatibility_tools_by_id;
         Utils.GpuVendor gpu_vendor = Utils.GpuVendor.UNKNOWN;
+        ulong header_back_handler = 0;
 
         public string get_selection_text () {
-            return rows.length == 1 ? _("1 game selected") : _("%u games selected").printf (rows.length);
+            return items.length == 1 ? _("1 game selected") : _("%u games selected").printf (items.length);
         }
 
         public MassEditView (Gtk.MenuButton selection_button) {
@@ -30,34 +32,37 @@ namespace ProtonPlus.Widgets.Games {
 
             this.selection_button = selection_button;
 
-            clear_button = new Gtk.Button.from_icon_name ("eraser-symbolic");
+            clear_button = new Gtk.Button.from_icon_name ("edit-clear-all-symbolic");
             clear_button.add_css_class ("destructive-action");
-            clear_button.set_tooltip_text (_("Clear the current launch options"));
+            clear_button.set_tooltip_text (_("Clear Launch Options"));
+            clear_button.update_property (
+                Gtk.AccessibleProperty.LABEL,
+                _("Clear Launch Options"),
+                -1
+            );
             clear_button.clicked.connect (clear_button_clicked);
 
-            apply_button = new Gtk.Button.from_icon_name ("floppy-disk-symbolic");
+            apply_button = new Gtk.Button.from_icon_name ("document-save-symbolic");
             apply_button.add_css_class ("suggested-action");
-            apply_button.set_tooltip_text (_("Apply the current modification"));
+            apply_button.set_tooltip_text (_("Apply Changes"));
+            apply_button.update_property (
+                Gtk.AccessibleProperty.LABEL,
+                _("Apply Changes"),
+                -1
+            );
             apply_button.clicked.connect (apply_button_clicked);
 
             compatibility_tool_group = new Adw.PreferencesGroup ();
-            compatibility_tool_group.set_margin_bottom (12);
 
-            compatibility_tool_switch = new Gtk.Switch () {
-                valign = Gtk.Align.CENTER
-            };
-
-            var compatibility_tool_header = new Adw.ActionRow () {
+            compatibility_tool_apply_row = new Adw.SwitchRow () {
                 title = _("Apply compatibility tool"),
-                subtitle = _("Set the same tool for every selected game."),
-                activatable_widget = compatibility_tool_switch
+                subtitle = _("Use the same compatibility tool for all selected games")
             };
-            compatibility_tool_header.add_suffix (compatibility_tool_switch);
-            compatibility_tool_group.add (compatibility_tool_header);
+            compatibility_tool_group.add (compatibility_tool_apply_row);
 
-            compatibility_tool_switch.notify["active"].connect (() => {
+            compatibility_tool_apply_row.notify["active"].connect (() => {
                 if (compatibility_tool_row != null)
-                    compatibility_tool_row.set_sensitive (compatibility_tool_switch.active);
+                    compatibility_tool_row.set_visible (compatibility_tool_apply_row.active);
                 refresh_capability_context ();
                 refresh ();
             });
@@ -69,28 +74,29 @@ namespace ProtonPlus.Widgets.Games {
 
             launch_options_group = new Adw.PreferencesGroup ();
 
-            launch_options_switch = new Gtk.Switch () {
-                valign = Gtk.Align.CENTER
-            };
-
-            var launch_options_header = new Adw.ActionRow () {
+            launch_options_apply_row = new Adw.SwitchRow () {
                 title = _("Apply launch options"),
-                subtitle = _("Set the same options for every selected Steam game."),
-                activatable_widget = launch_options_switch
+                subtitle = _("Use the same launch options for all selected Steam games")
             };
-            launch_options_header.add_suffix (launch_options_switch);
-            launch_options_group.add (launch_options_header);
+            launch_options_group.add (launch_options_apply_row);
 
-            launch_options_switch.notify["active"].connect (() => {
-                launch_options_editor.set_sensitive (launch_options_switch.active);
+            launch_options_revealer = new Gtk.Revealer () {
+                transition_type = Gtk.RevealerTransitionType.SLIDE_DOWN,
+                transition_duration = 200,
+                child = launch_options_editor
+            };
+            launch_options_apply_row.notify["active"].connect (() => {
+                launch_options_revealer.set_reveal_child (launch_options_apply_row.active);
                 refresh ();
             });
 
-            batch_hint = new Gtk.Label (_("Enable the sections you want to change. Disabled sections leave the selected games unchanged.")) {
+            batch_hint = new Gtk.Label (_("Choose what to change. Settings that are turned off will remain unchanged.")) {
                 halign = Gtk.Align.START,
                 wrap = true,
                 xalign = 0,
                 css_classes = { "dim-label" },
+                margin_start = 12,
+                margin_end = 12,
                 margin_bottom = 6
             };
 
@@ -98,7 +104,7 @@ namespace ProtonPlus.Widgets.Games {
             content_box.append (batch_hint);
             content_box.append (compatibility_tool_group);
             content_box.append (launch_options_group);
-            content_box.append (launch_options_editor);
+            content_box.append (launch_options_revealer);
 
             content_clamp = new Adw.Clamp ();
             content_clamp.set_maximum_size (975);
@@ -114,39 +120,44 @@ namespace ProtonPlus.Widgets.Games {
             scrolled_window.set_vexpand (true);
             scrolled_window.set_child (content_clamp);
 
-            header_bar = new Adw.HeaderBar () {
-                show_start_title_buttons = false,
-                show_end_title_buttons = false,
-                show_title = true,
-                title_widget = selection_button
-            };
             var action_buttons = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
             action_buttons.append (clear_button);
             action_buttons.append (apply_button);
-            header_bar.pack_end (action_buttons);
+            header_presentation = new Header.Presentation (selection_button);
+            header_back_handler = header_presentation.back_requested.connect (() => {
+                back_requested ();
+            });
+            header_presentation.add_end_action (action_buttons);
 
-            append (header_bar);
             append (scrolled_window);
+        }
+
+        public override void dispose () {
+            if (header_back_handler != 0) {
+                header_presentation.disconnect (header_back_handler);
+                header_back_handler = 0;
+            }
+            base.dispose ();
         }
 
         public Gtk.Widget get_controller_initial_focus () {
             return selection_button;
         }
 
-        public void load (GameRow[] rows, ListStore model, Gtk.PropertyExpression expression) {
-            this.rows = rows;
+        public void load (GameListItem[] items, ListStore model, Gtk.PropertyExpression expression) {
+            this.items = items;
 
             var has_steam_launch_options = false;
-            var all_native = rows.length > 0;
-            var all_steam_linux_runtime_compatible = rows.length > 0;
-            foreach (var row in rows) {
-                if (row.game.launcher is Models.Launchers.Steam)
+            var all_native = items.length > 0;
+            var all_steam_linux_runtime_compatible = items.length > 0;
+            foreach (var item in items) {
+                if (item.game.launcher is Models.Launchers.Steam)
                     has_steam_launch_options = true;
 
-                if (!row.game.is_native)
+                if (!item.game.is_native)
                     all_native = false;
 
-                if (!Models.Launchers.Steam.is_game_steam_linux_runtime_compatible (row.game))
+                if (!Models.Launchers.Steam.is_game_steam_linux_runtime_compatible (item.game))
                     all_steam_linux_runtime_compatible = false;
             }
 
@@ -191,8 +202,8 @@ namespace ProtonPlus.Widgets.Games {
             compatibility_tool_row = new CompatibilityToolRow (filtered_model, expression);
             compatibility_tool_group.add (compatibility_tool_row);
 
-            if (rows.length == 1) {
-                var game = rows[0].game;
+            if (items.length == 1) {
+                var game = items[0].game;
 
                 var filtered_n_items = filtered_model.get_n_items ();
                 for (uint i = 0; i < filtered_n_items; i++) {
@@ -208,8 +219,8 @@ namespace ProtonPlus.Widgets.Games {
             string[] preview_sources = {};
             var common_source = "";
             var sources_match = true;
-            foreach (var row in rows) {
-                var steam_game = row.game as Models.Games.Steam;
+            foreach (var item in items) {
+                var steam_game = item.game as Models.Games.Steam;
                 if (steam_game == null)
                     continue;
                 var source = steam_game.launch_options ?? "";
@@ -224,13 +235,13 @@ namespace ProtonPlus.Widgets.Games {
             launch_options_editor.set_preview_sources (preview_labels, preview_sources);
 
             launch_options_group.set_visible (has_steam_launch_options);
-            launch_options_editor.set_visible (has_steam_launch_options);
+            launch_options_revealer.set_visible (has_steam_launch_options);
 
-            compatibility_tool_switch.set_active (false);
-            launch_options_switch.set_active (false);
+            compatibility_tool_apply_row.set_active (false);
+            launch_options_apply_row.set_active (false);
 
-            compatibility_tool_row.set_sensitive (compatibility_tool_switch.active);
-            launch_options_editor.set_sensitive (launch_options_switch.active);
+            compatibility_tool_row.set_visible (compatibility_tool_apply_row.active);
+            launch_options_revealer.set_reveal_child (launch_options_apply_row.active);
 
             compatibility_tool_row.notify["selected-item"].connect (() => {
                 refresh_capability_context ();
@@ -246,10 +257,10 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void refresh () {
-            var tool_changed = compatibility_tool_switch.active
+            var tool_changed = compatibility_tool_apply_row.active
                                && compatibility_tool_row != null
                                && compatibility_tool_row.get_selected_item () != null;
-            var launch_options_changed = launch_options_switch.active && launch_options_editor.is_dirty;
+            var launch_options_changed = launch_options_apply_row.active && launch_options_editor.is_dirty;
 
             clear_button.set_sensitive (launch_options_editor.is_dirty);
             apply_button.set_sensitive (launch_options_changed || tool_changed);
@@ -257,13 +268,13 @@ namespace ProtonPlus.Widgets.Games {
 
         void clear_button_clicked () {
             launch_options_editor.clear ();
-            launch_options_switch.set_active (true);
+            launch_options_apply_row.set_active (true);
             refresh ();
         }
 
         void apply_button_clicked () {
-            var item = compatibility_tool_row.get_selected_item () as Models.CompatibilityTool;
-            if (compatibility_tool_switch.active && item == null) {
+            var selected_tool = compatibility_tool_row.get_selected_item () as Models.CompatibilityTool;
+            if (compatibility_tool_apply_row.active && selected_tool == null) {
                 var dialog = new Main.ErrorDialog (
                     _("Compatibility tool cannot be applied"),
                     _("No games were changed because no compatibility tool is selected."), ""
@@ -271,10 +282,10 @@ namespace ProtonPlus.Widgets.Games {
                 ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
                 return;
             }
-            if (compatibility_tool_switch.active) {
-                foreach (var row in rows) {
-                    var steam = row.game.launcher as Models.Launchers.Steam;
-                    if (steam != null && !((!) steam).can_assign_compatibility_tool (item.internal_title)) {
+            if (compatibility_tool_apply_row.active) {
+                foreach (var item in items) {
+                    var steam = item.game.launcher as Models.Launchers.Steam;
+                    if (steam != null && !((!) steam).can_assign_compatibility_tool (((!) selected_tool).internal_title)) {
                         var dialog = new Main.ErrorDialog (
                             _("Compatibility tool cannot be applied"),
                             _("No games were changed because the selected compatibility tool is no longer available."), ""
@@ -289,13 +300,13 @@ namespace ProtonPlus.Widgets.Games {
             var invalids = new List<string> ();
             var launch_writes = new Gee.HashMap<Models.Games.Steam, LaunchOptionsEditor.LaunchCommandWriteResult> ();
 
-            if (launch_options_switch.active && launch_options_editor.is_dirty) {
+            if (launch_options_apply_row.active && launch_options_editor.is_dirty) {
                 refresh_capability_context ();
                 /* A batch selection is an intent.  Each Steam game keeps its
                  * own source command and is prepared before any persistent
                  * compatibility-tool or VDF write can occur. */
-                foreach (var row in rows) {
-                    var steam_game = row.game as Models.Games.Steam;
+                foreach (var item in items) {
+                    var steam_game = item.game as Models.Games.Steam;
                     if (steam_game == null)
                         continue;
                     var launch_write = launch_options_editor.prepare_write_for_source (
@@ -313,16 +324,16 @@ namespace ProtonPlus.Widgets.Games {
                 }
             }
 
-            foreach (var row in rows) {
+            foreach (var item in items) {
                 var compatibility_applied = true;
-                if (compatibility_tool_switch.active) {
-                    var success = row.game.change_compatibility_tool (item.internal_title);
+                if (compatibility_tool_apply_row.active) {
+                    var success = item.game.change_compatibility_tool (((!) selected_tool).internal_title);
                     if (!success) {
                         compatibility_applied = false;
-                        if (invalids.find (row.game.name) == null)
-                            invalids.append (row.game.name);
+                        if (invalids.find (item.game.name) == null)
+                            invalids.append (item.game.name);
                     } else {
-                        row.refresh_tool_label ();
+                        item.refresh_tool_title ();
                     }
                 }
 
@@ -332,7 +343,7 @@ namespace ProtonPlus.Widgets.Games {
                 if (!compatibility_applied)
                     continue;
 
-                var steam_game = row.game as Models.Games.Steam;
+                var steam_game = item.game as Models.Games.Steam;
                 if (steam_game != null && launch_writes.has_key (steam_game)) {
                     var launch_write = launch_writes.get (steam_game);
                     if (launch_write == null || !launch_write.requires_persistence)
@@ -340,8 +351,8 @@ namespace ProtonPlus.Widgets.Games {
                     var steam_launcher = (Models.Launchers.Steam) steam_game.launcher;
 
                     var success = steam_game.change_launch_options (launch_write.launch_line, steam_launcher.profile.localconfig_path);
-                    if (!success && invalids.find (row.game.name) == null)
-                        invalids.append (row.game.name);
+                    if (!success && invalids.find (item.game.name) == null)
+                        invalids.append (item.game.name);
                 }
             }
 
@@ -367,28 +378,28 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void refresh_capability_context () {
-            if (rows != null)
+            if (items != null)
                 launch_options_editor.set_capability_context (resolve_launch_option_capabilities ());
         }
 
         LaunchOptionsEditor.LaunchCommandCapabilityContext resolve_launch_option_capabilities () {
-            var runtimes = new Models.CompatibilityToolRuntimeKind[rows.length];
+            var runtimes = new Models.CompatibilityToolRuntimeKind[items.length];
             var selected_tools = new Gee.ArrayList<Models.CompatibilityTool> ();
             var all_tools_known = true;
             var runtime_index = 0;
-            var all_steam = rows.length > 0;
-            foreach (var row in rows) {
-                if (!(row.game is Models.Games.Steam))
+            var all_steam = items.length > 0;
+            foreach (var item in items) {
+                if (!(item.game is Models.Games.Steam))
                     all_steam = false;
             }
 
             Models.CompatibilityTool? proposed = null;
-            if (compatibility_tool_switch.active && compatibility_tool_row != null)
+            if (compatibility_tool_apply_row.active && compatibility_tool_row != null)
                 proposed = compatibility_tool_row.get_selected_item () as Models.CompatibilityTool;
 
             if (proposed != null) {
-                foreach (var row in rows) {
-                    var effective = resolve_effective_tool (row, proposed);
+                foreach (var item in items) {
+                    var effective = resolve_effective_tool (item, proposed);
                     runtimes[runtime_index++] = capability_resolver.runtime_for_tool (effective ?? proposed);
                     if (effective == null || effective.path.strip () == "")
                         all_tools_known = false;
@@ -396,14 +407,14 @@ namespace ProtonPlus.Widgets.Games {
                         selected_tools.add (effective);
                 }
             } else {
-                foreach (var row in rows) {
-                    if (row.game.is_native) {
+                foreach (var item in items) {
+                    if (item.game.is_native) {
                         runtimes[runtime_index++] = Models.CompatibilityToolRuntimeKind.NATIVE;
                         all_tools_known = false;
                         continue;
                     }
-                    var current = compatibility_tools_by_id.get (row.game.compatibility_tool);
-                    var effective = resolve_effective_tool (row, current);
+                    var current = compatibility_tools_by_id.get (item.game.compatibility_tool);
+                    var effective = resolve_effective_tool (item, current);
                     runtimes[runtime_index++] = capability_resolver.runtime_for_tool (effective ?? current);
                     if (effective == null || effective.path.strip () == "")
                         all_tools_known = false;
@@ -427,13 +438,13 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         Models.CompatibilityTool? resolve_effective_tool (
-            GameRow row, Models.CompatibilityTool? selected
+            GameListItem item, Models.CompatibilityTool? selected
         ) {
             if (selected == null || selected.internal_title != "Default"
                 || selected.runtime_kind == Models.CompatibilityToolRuntimeKind.NATIVE)
                 return selected;
 
-            var steam = row.game.launcher as Models.Launchers.Steam;
+            var steam = item.game.launcher as Models.Launchers.Steam;
             return steam?.resolve_effective_compatibility_tool (selected.internal_title);
         }
     }

@@ -172,6 +172,10 @@ namespace ProtonPlus.Widgets.MangoHud {
                 (val) => { this.config.output_folder = val; }, Utils.TextInputFieldKind.PATH_OR_IDENTIFIER);
             var output_folder_btn = new Gtk.Button.from_icon_name ("folder-open-symbolic");
             output_folder_btn.set_valign (Gtk.Align.CENTER);
+            output_folder_btn.set_tooltip_text (_("Select Output Folder"));
+            output_folder_btn.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Select Output Folder"), -1
+            );
             output_folder_row.add_suffix (output_folder_btn);
             output_folder_btn.clicked.connect (() => {
                 var folder_dialog = new Gtk.FileDialog () {

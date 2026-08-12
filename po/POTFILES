@@ -1,6 +1,5 @@
 # This file is generated automatically. Do not edit.
 data/com.vysp3r.ProtonPlus.desktop.in
-data/com.vysp3r.ProtonPlus.metainfo.xml.in
 data/ui/gtk/help-overlay.ui
 src/cli/cli.vala
 src/globals.vala
@@ -106,7 +105,9 @@ src/widgets/application.vala
 src/widgets/circular-progress-bar.vala
 src/widgets/controller-choice-box.vala
 src/widgets/controller-hint-bar.vala
+src/widgets/games/games-action-policy.vala
 src/widgets/games/games-box.vala
+src/widgets/games/games-collection.vala
 src/widgets/games/games-extra-button.vala
 src/widgets/games/games-mass-edit-button.vala
 src/widgets/games/games-mass-edit-view.vala
@@ -166,6 +167,7 @@ src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala
 src/widgets/header/header-box.vala
 src/widgets/header/header-downloads-indicator.vala
 src/widgets/header/header-launchers-button.vala
+src/widgets/header/header-presentation.vala
 src/widgets/introduction/application.vala
 src/widgets/introduction/base.vala
 src/widgets/introduction/controller.vala
@@ -204,8 +206,10 @@ src/widgets/tools/tools-box.vala
 src/widgets/tools/tools-game-row.vala
 src/widgets/tools/tools-group-box.vala
 src/widgets/tools/tools-migrate-box.vala
-src/widgets/tools/tools-release-box.vala
+src/widgets/tools/tools-release-changelog-dialog.vala
 src/widgets/tools/tools-release-changelog.vala
+src/widgets/tools/tools-release-games-dialog.vala
+src/widgets/tools/tools-release-row-presentation.vala
 src/widgets/tools/tools-release-row.vala
 src/widgets/tools/tools-releases-box.vala
 src/widgets/tools/tools-remove-dialog.vala
