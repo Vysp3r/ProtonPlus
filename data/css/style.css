@@ -118,6 +118,16 @@ flowboxchild {
     box-shadow: inset 0 0 0 2px var(--accent-bg-color);
 }
 
+.games-sort-header-focus-proxy.controller-focus {
+    box-shadow: none;
+}
+
+.games-sort-header-controller-focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: -2px;
+    box-shadow: inset 0 0 0 2px alpha(var(--accent-bg-color), 0.3);
+}
+
 button.controller-focus,
 menubutton.controller-focus > button {
     color: var(--accent-fg-color);

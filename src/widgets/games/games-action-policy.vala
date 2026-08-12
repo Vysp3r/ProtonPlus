@@ -7,6 +7,15 @@ namespace ProtonPlus.Widgets.Games {
     public enum GameCollectionBoundaryAction {
         NONE,
         FOCUS_TOOLBAR,
+        FOCUS_FIRST_SORT_HEADER,
+        FOCUS_FIRST_GAME
+    }
+
+    public enum GameSortHeaderNavigationAction {
+        NONE,
+        PREVIOUS_HEADER,
+        NEXT_HEADER,
+        FOCUS_TOOLBAR,
         FOCUS_FIRST_GAME
     }
 
@@ -104,6 +113,10 @@ namespace ProtonPlus.Widgets.Games {
     }
 
     public class GameControllerNavigationPolicy : Object {
+        public static bool top_boundary_uses_sort_header (GameFocusLane lane) {
+            return lane == GameFocusLane.SELECTION || lane == GameFocusLane.ROW;
+        }
+
         public static bool top_boundary_uses_selection (GameFocusLane lane) {
             return lane == GameFocusLane.SELECTION;
         }
@@ -121,10 +134,13 @@ namespace ProtonPlus.Widgets.Games {
 
         public static GameCollectionBoundaryAction boundary_action (
             bool focused_in_toolbar, bool focused_in_collection,
-            Utils.ControllerNavigationDirection direction) {
+            Utils.ControllerNavigationDirection direction,
+            bool prefer_sort_headers = false) {
             if (focused_in_toolbar &&
                 direction == Utils.ControllerNavigationDirection.DOWN)
-                return GameCollectionBoundaryAction.FOCUS_FIRST_GAME;
+                return prefer_sort_headers
+                    ? GameCollectionBoundaryAction.FOCUS_FIRST_SORT_HEADER
+                    : GameCollectionBoundaryAction.FOCUS_FIRST_GAME;
 
             if (!focused_in_collection)
                 return GameCollectionBoundaryAction.NONE;
@@ -134,6 +150,33 @@ namespace ProtonPlus.Widgets.Games {
             if (direction == Utils.ControllerNavigationDirection.DOWN)
                 return GameCollectionBoundaryAction.FOCUS_FIRST_GAME;
             return GameCollectionBoundaryAction.NONE;
+        }
+
+        public static GameSortHeaderNavigationAction sort_header_action (
+            int index, int count,
+            Utils.ControllerNavigationDirection direction) {
+            if (index < 0 || index >= count)
+                return GameSortHeaderNavigationAction.NONE;
+
+            if (direction == Utils.ControllerNavigationDirection.UP)
+                return GameSortHeaderNavigationAction.FOCUS_TOOLBAR;
+            if (direction == Utils.ControllerNavigationDirection.DOWN)
+                return GameSortHeaderNavigationAction.FOCUS_FIRST_GAME;
+            if (direction == Utils.ControllerNavigationDirection.LEFT && index > 0)
+                return GameSortHeaderNavigationAction.PREVIOUS_HEADER;
+            if (direction == Utils.ControllerNavigationDirection.RIGHT &&
+                index + 1 < count)
+                return GameSortHeaderNavigationAction.NEXT_HEADER;
+            return GameSortHeaderNavigationAction.NONE;
+        }
+
+        public static Gtk.SortType next_sort_direction (
+            bool is_primary_column, Gtk.SortType current_direction) {
+            if (!is_primary_column)
+                return Gtk.SortType.ASCENDING;
+            return current_direction == Gtk.SortType.ASCENDING
+                ? Gtk.SortType.DESCENDING
+                : Gtk.SortType.ASCENDING;
         }
     }
 
