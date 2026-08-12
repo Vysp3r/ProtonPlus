@@ -97,7 +97,6 @@ namespace ProtonPlus.Widgets.Tools {
     public enum ReleaseRowPrimaryAction {
         NONE,
         INSTALL,
-        UPDATE,
         RETRY,
         PROGRESS
     }
@@ -121,15 +120,13 @@ namespace ProtonPlus.Widgets.Tools {
         public bool progress_indeterminate { get; private set; }
         public bool show_cancel { get; private set; }
         public bool cancel_enabled { get; private set; }
-        public bool show_check_for_updates { get; private set; }
+        public bool show_update_action { get; private set; }
         public bool show_open_folder { get; private set; }
         public bool show_delete { get; private set; }
-        public bool show_release_page { get; private set; }
 
         public bool show_menu {
             get {
-                return show_check_for_updates || show_open_folder ||
-                    show_delete || show_release_page;
+                return show_update_action || show_open_folder || show_delete;
             }
         }
 
@@ -138,7 +135,6 @@ namespace ProtonPlus.Widgets.Tools {
             Services.InstallJob.Step step,
             bool supports_update_check,
             bool has_installed_directory,
-            bool has_release_page,
             bool cancellation_requested = false,
             bool recommended = false,
             bool in_use = false,
@@ -161,15 +157,12 @@ namespace ProtonPlus.Widgets.Tools {
                 result.primary_action = ReleaseRowPrimaryAction.PROGRESS;
             } else if (!action_available) {
                 result.primary_action = ReleaseRowPrimaryAction.NONE;
-            } else if (retry_action != ReleaseRowRetryAction.NONE) {
+            } else if (retry_action == ReleaseRowRetryAction.INSTALL) {
                 result.primary_action = ReleaseRowPrimaryAction.RETRY;
             } else {
                 switch (state) {
                 case Services.InstallJob.State.NOT_INSTALLED:
                     result.primary_action = ReleaseRowPrimaryAction.INSTALL;
-                    break;
-                case Services.InstallJob.State.UPDATE_AVAILABLE:
-                    result.primary_action = ReleaseRowPrimaryAction.UPDATE;
                     break;
                 default:
                     result.primary_action = ReleaseRowPrimaryAction.NONE;
@@ -187,13 +180,16 @@ namespace ProtonPlus.Widgets.Tools {
             result.cancel_enabled = result.show_cancel && !cancellation_requested;
 
             if (!result.busy) {
-                result.show_check_for_updates =
-                    state == Services.InstallJob.State.UP_TO_DATE &&
-                    supports_update_check && action_available;
+                result.show_update_action = result.installed &&
+                    action_available && (
+                        retry_action == ReleaseRowRetryAction.UPDATE ||
+                        state == Services.InstallJob.State.UPDATE_AVAILABLE ||
+                        (state == Services.InstallJob.State.UP_TO_DATE &&
+                            supports_update_check)
+                    );
                 result.show_open_folder = result.installed &&
                     has_installed_directory;
                 result.show_delete = result.installed;
-                result.show_release_page = has_release_page;
             }
 
             return result;

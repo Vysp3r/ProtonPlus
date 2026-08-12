@@ -153,26 +153,12 @@ menubutton.controller-focus > button {
     opacity: 0.78;
 }
 
-.tag-pill, .installed-pill, .in-use-pill {
-    border-radius: 10px;
+.tool-metadata-pill {
+    border-radius: 9999px;
     padding: 2px 8px;
+    color: var(--window-fg-color);
+    background-color: alpha(var(--window-fg-color), 0.12);
     font-size: 0.8em;
-    font-weight: bold;
-}
-
-.tag-pill {
-    color: var(--accent-fg-color);
-    background-color: var(--accent-bg-color);
-}
-
-.installed-pill {
-    color: var(--success-fg-color);
-    background-color: var(--success-bg-color);
-}
-
-.in-use-pill {
-    color: var(--warning-fg-color);
-    background-color: var(--warning-bg-color);
 }
 
 button.tools-filter-active {
@@ -219,13 +205,41 @@ row.controller-focus {
     font-weight: bold;
 }
 
+.tools-collection-toolbar {
+    padding: 2px 6px 6px 6px;
+}
+
+.tools-releases-card {
+    margin: 6px 6px 12px 6px;
+}
+
+.tools-release-toolbar {
+    padding: 0 16px;
+}
+
+.tools-release-row {
+    padding: 6px 0;
+}
+
+.tools-release-row label.title {
+    font-size: 1.15em;
+    line-height: 1.1;
+}
+
+.tools-release-row label.subtitle {
+    line-height: 1.15;
+}
+
 .tools-release-row-input-box {
-    background-color: var(--window-bg-color);
-    border-radius: 9px;
+    background-color: transparent;
 }
 
 .tools-release-row-input-box button {
     padding: 5px;
+}
+
+.tools-release-install-button {
+    color: inherit;
 }
 
 .downloads-indicator-badge {

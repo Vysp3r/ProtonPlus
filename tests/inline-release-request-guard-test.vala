@@ -153,6 +153,17 @@ namespace AppTests.InlineReleaseRequestGuardTest {
         ) == InlineReleaseEmptyReason.CATALOG);
     }
 
+    private void test_tool_actions_follow_build_selector () {
+        assert (
+            InlineReleasePresentation.actions_placement (false) ==
+            InlineReleaseActionsPlacement.HEADER
+        );
+        assert (
+            InlineReleasePresentation.actions_placement (true) ==
+            InlineReleaseActionsPlacement.TOOLBAR
+        );
+    }
+
     public void register_tests () {
         Test.add_func ("/inline-release-request/select-and-clear", test_select_and_clear);
         Test.add_func ("/inline-release-request/new-selection-invalidates-previous", test_new_selection_invalidates_previous_completion);
@@ -164,5 +175,9 @@ namespace AppTests.InlineReleaseRequestGuardTest {
         Test.add_func ("/inline-release-request/presentation-initial-states", test_presentation_initial_loading_empty_and_error);
         Test.add_func ("/inline-release-request/presentation-load-more-retry", test_presentation_load_more_retry_keeps_content);
         Test.add_func ("/inline-release-request/empty-reason", test_empty_reason_is_specific);
+        Test.add_func (
+            "/inline-release-request/tool-actions-placement",
+            test_tool_actions_follow_build_selector
+        );
     }
 }

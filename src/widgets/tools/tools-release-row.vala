@@ -9,7 +9,6 @@ namespace ProtonPlus.Widgets.Tools {
         protected ReleaseRowRetryAction retry_action { get; private set; default = ReleaseRowRetryAction.NONE; }
 
         Gtk.Box input_box;
-        Gtk.Image disclosure_image;
         Gtk.Button primary_button;
         Adw.ButtonContent primary_content;
         Gtk.Button cancel_button;
@@ -23,10 +22,9 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.MenuButton actions_button;
         Gtk.PopoverMenu actions_popover;
         Gtk.SizeGroup action_button_size_group;
-        SimpleAction check_updates_action;
+        SimpleAction update_action;
         SimpleAction open_folder_action;
         SimpleAction delete_action;
-        SimpleAction open_release_page_action;
         weak Gtk.Widget? controller_up_target;
         weak Gtk.Widget? controller_down_target;
 
@@ -48,6 +46,7 @@ namespace ProtonPlus.Widgets.Tools {
             );
             this.job = job;
             this.release_action_available = release_action_available;
+            add_css_class ("tools-release-row");
 
             activated.connect (row_activated);
 
@@ -71,13 +70,6 @@ namespace ProtonPlus.Widgets.Tools {
             input_box.append (actions_button);
             add_suffix (input_box);
 
-            disclosure_image = new Gtk.Image.from_icon_name ("go-next-symbolic") {
-                valign = Gtk.Align.CENTER,
-                tooltip_text = _("Open Release Details")
-            };
-            disclosure_image.add_css_class ("dim-label");
-            add_suffix (disclosure_image);
-
             job_signal_binding = new ReleaseRowJobSignalBinding (job, this);
 
             refresh_presentation ();
@@ -93,7 +85,8 @@ namespace ProtonPlus.Widgets.Tools {
                 child = primary_content,
                 valign = Gtk.Align.CENTER
             };
-            primary_button.add_css_class ("suggested-action");
+            primary_button.add_css_class ("flat");
+            primary_button.add_css_class ("tools-release-install-button");
             primary_button.clicked.connect (primary_button_clicked);
         }
 
@@ -169,23 +162,15 @@ namespace ProtonPlus.Widgets.Tools {
 
         void create_actions_menu () {
             var action_group = new SimpleActionGroup ();
-            check_updates_action = new SimpleAction ("check-updates", null);
-            check_updates_action.activate.connect (check_updates_action_activated);
-            action_group.add_action (check_updates_action);
+            update_action = new SimpleAction ("update", null);
+            update_action.activate.connect (update_action_activated);
+            action_group.add_action (update_action);
             open_folder_action = new SimpleAction ("open-folder", null);
             open_folder_action.activate.connect (open_folder_action_activated);
             action_group.add_action (open_folder_action);
             delete_action = new SimpleAction ("delete", null);
             delete_action.activate.connect (delete_action_activated);
             action_group.add_action (delete_action);
-            open_release_page_action = new SimpleAction (
-                "open-release-page", null
-            );
-            open_release_page_action.activate.connect (
-                open_release_page_action_activated
-            );
-            action_group.add_action (open_release_page_action);
-
             actions_button = new Gtk.MenuButton () {
                 icon_name = "view-more-symbolic",
                 valign = Gtk.Align.CENTER
@@ -221,8 +206,8 @@ namespace ProtonPlus.Widgets.Tools {
             job.canceled = true;
         }
 
-        void check_updates_action_activated (Variant? parameter) {
-            check_for_updates ();
+        void update_action_activated (Variant? parameter) {
+            request_update ();
         }
 
         void open_folder_action_activated (Variant? parameter) {
@@ -231,10 +216,6 @@ namespace ProtonPlus.Widgets.Tools {
 
         void delete_action_activated (Variant? parameter) {
             request_removal ();
-        }
-
-        void open_release_page_action_activated (Variant? parameter) {
-            open_release_page ();
         }
 
         void actions_popover_closed () {
@@ -490,7 +471,6 @@ namespace ProtonPlus.Widgets.Tools {
                 job.step,
                 supports_update_check (),
                 has_directory,
-                job.release.page_url != "",
                 job.canceled,
                 job.mode != Services.InstallJob.Mode.VERSIONED,
                 usage_count () > 0,
@@ -499,10 +479,13 @@ namespace ProtonPlus.Widgets.Tools {
             );
         }
 
-        static string release_display_title (Services.InstallJob job) {
+        public static string release_display_title (Services.InstallJob job) {
             if (job.steam_tinker_launch_context != null)
                 return _("Latest");
-            return job.release.title != "" ? job.release.title : job.title;
+            var title = job.release.title != "" ? job.release.title : job.title;
+            return job.mode == Services.InstallJob.Mode.LATEST
+                ? _("Latest")
+                : title;
         }
 
         public void set_release_action_available (bool available) {
@@ -535,7 +518,6 @@ namespace ProtonPlus.Widgets.Tools {
             configure_primary_action (presentation.primary_action);
             primary_button.set_visible (
                 presentation.primary_action == ReleaseRowPrimaryAction.INSTALL ||
-                presentation.primary_action == ReleaseRowPrimaryAction.UPDATE ||
                 presentation.primary_action == ReleaseRowPrimaryAction.RETRY
             );
             primary_button.set_sensitive (!action_request_in_progress);
@@ -565,16 +547,6 @@ namespace ProtonPlus.Widgets.Tools {
                     -1
                 );
                 break;
-            case ReleaseRowPrimaryAction.UPDATE:
-                primary_content.set_icon_name ("update-check-symbolic");
-                primary_content.set_label (_("Update"));
-                primary_button.set_tooltip_text (_("Update %s").printf (job.title));
-                primary_button.update_property (
-                    Gtk.AccessibleProperty.LABEL,
-                    _("Update %s").printf (job.title),
-                    -1
-                );
-                break;
             case ReleaseRowPrimaryAction.RETRY:
                 primary_content.set_icon_name ("view-refresh-symbolic");
                 primary_content.set_label (_("Retry"));
@@ -601,8 +573,8 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void rebuild_actions_menu (ReleaseRowPresentation presentation) {
-            check_updates_action.set_enabled (
-                presentation.show_check_for_updates && !action_request_in_progress
+            update_action.set_enabled (
+                presentation.show_update_action && !action_request_in_progress
             );
             open_folder_action.set_enabled (
                 presentation.show_open_folder && !action_request_in_progress
@@ -610,19 +582,20 @@ namespace ProtonPlus.Widgets.Tools {
             delete_action.set_enabled (
                 presentation.show_delete && !action_request_in_progress
             );
-            open_release_page_action.set_enabled (
-                presentation.show_release_page && !action_request_in_progress
-            );
 
             var menu = new Menu ();
-            if (presentation.show_check_for_updates)
-                menu.append (_("_Check for Updates"), "release.check-updates");
+            if (presentation.show_update_action) {
+                var label = retry_action == ReleaseRowRetryAction.UPDATE
+                    ? _("Retry")
+                    : presentation.update_available
+                        ? _("Update")
+                        : _("_Check for Updates");
+                menu.append (label, "release.update");
+            }
             if (presentation.show_open_folder)
                 menu.append (_("_Open Folder"), "release.open-folder");
             if (presentation.show_delete)
                 menu.append (_("_Delete…"), "release.delete");
-            if (presentation.show_release_page)
-                menu.append (_("Open _Release Page"), "release.open-release-page");
             actions_popover.set_menu_model (menu);
 
             actions_button.set_visible (presentation.show_menu);
@@ -663,7 +636,6 @@ namespace ProtonPlus.Widgets.Tools {
                 details.add ((!) operation_error_message);
             switch (job.state) {
             case Services.InstallJob.State.NOT_INSTALLED:
-                details.add (_("Not installed"));
                 break;
             case Services.InstallJob.State.UPDATE_AVAILABLE:
                 details.add (_("Installed"));
@@ -697,10 +669,16 @@ namespace ProtonPlus.Widgets.Tools {
 
             var status = string.joinv (" · ", details.to_array ());
             var date = Utils.format_timestamp (job.release.release_date);
-            set_subtitle (date != "" ? "%s\n%s".printf (date, status) : status);
+            set_subtitle (
+                date != "" && status != ""
+                    ? "%s\n%s".printf (date, status)
+                    : date != "" ? date : status
+            );
             update_property (
                 Gtk.AccessibleProperty.DESCRIPTION,
-                _("%s. Open Release Details").printf (status),
+                status != ""
+                    ? _("%s. Open Release Details").printf (status)
+                    : _("Open Release Details"),
                 -1
             );
         }
@@ -810,13 +788,8 @@ namespace ProtonPlus.Widgets.Tools {
             case ReleaseRowPrimaryAction.INSTALL:
                 install_button_clicked ();
                 break;
-            case ReleaseRowPrimaryAction.UPDATE:
-                begin_update ();
-                break;
             case ReleaseRowPrimaryAction.RETRY:
-                if (retry_action == ReleaseRowRetryAction.UPDATE)
-                    begin_update ();
-                else if (retry_action == ReleaseRowRetryAction.INSTALL)
+                if (retry_action == ReleaseRowRetryAction.INSTALL)
                     install_button_clicked ();
                 break;
             default:
@@ -824,11 +797,11 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
-        void check_for_updates () {
+        void request_update () {
             if (action_request_in_progress || row_disposed)
                 return;
             job.refresh_state ();
-            if (current_presentation ().show_check_for_updates)
+            if (current_presentation ().show_update_action)
                 begin_update ();
         }
 
@@ -885,14 +858,6 @@ namespace ProtonPlus.Widgets.Tools {
             job.refresh_state ();
             if (current_presentation ().show_open_folder)
                 Utils.System.open_path (job.install_location);
-        }
-
-        void open_release_page () {
-            if (action_request_in_progress || row_disposed)
-                return;
-            job.refresh_state ();
-            if (current_presentation ().show_release_page)
-                Utils.System.open_uri (job.release.page_url);
         }
 
         protected virtual void install_button_clicked () {

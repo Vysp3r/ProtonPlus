@@ -30,8 +30,7 @@ namespace ProtonPlus.Widgets.Tools {
         Adw.ViewSwitcher switcher { get; set; }
         Adw.ViewStack center_stack { get; set; }
         Gtk.Box root_page_box { get; set; }
-        Gtk.Box root_title_box { get; set; }
-        Gtk.Box root_actions_box { get; set; }
+        GroupBox? heading_group;
         Header.Presentation release_presentation { get; set; }
         Header.Presentation migrate_presentation { get; set; }
         ulong background_updates_changed_handler = 0;
@@ -70,24 +69,9 @@ namespace ProtonPlus.Widgets.Tools {
                 vexpand = true
             };
 
-            root_title_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
-                hexpand = true
-            };
-            root_actions_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
-            var root_heading = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
-            root_heading.append (root_title_box);
-            root_heading.append (root_actions_box);
-            var root_heading_clamp = new Adw.Clamp () {
-                maximum_size = 975,
-                margin_top = 12,
-                margin_start = 12,
-                margin_end = 12,
-                child = root_heading
-            };
             root_page_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
                 vexpand = true
             };
-            root_page_box.append (root_heading_clamp);
             root_page_box.append (groups_stack);
 
             releases_box = new ReleasesBox ();
@@ -396,6 +380,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         public override void dispose () {
             collapse_current_expansion (false);
+            clear_root_heading ();
             pending_download_job = null;
             current_job = null;
             if (release_back_handler != 0) {
@@ -445,25 +430,21 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
-        void clear_box (Gtk.Box box) {
-            Gtk.Widget? child;
-            while ((child = box.get_first_child ()) != null)
-                box.remove ((!) child);
-        }
-
         void clear_root_heading () {
-            clear_box (root_title_box);
-            clear_box (root_actions_box);
+            if (heading_group != null)
+                ((!) heading_group).clear_header_actions ();
+            heading_group = null;
         }
 
         void update_root_heading () {
             clear_root_heading ();
             var group_box = groups_stack.get_visible_child () as GroupBox;
-            if (group_box != null)
-                root_title_box.append (((!) group_box).header_title);
-            root_actions_box.append (refresh_button);
-            root_actions_box.append (filter_button);
-            root_actions_box.append (search_button);
+            if (group_box == null)
+                return;
+            heading_group = group_box;
+            ((!) group_box).populate_header_actions (
+                refresh_button, filter_button, search_button
+            );
         }
 
         public Header.Presentation? get_header_presentation () {
@@ -752,6 +733,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         public void set_selected_launcher (Models.Launcher launcher) {
             collapse_current_expansion (false);
+            clear_root_heading ();
             releases_box.clear_selected_tool ();
             pending_download_job = null;
             current_job = null;
@@ -768,9 +750,6 @@ namespace ProtonPlus.Widgets.Tools {
                 group_box.search_text = search_entry.get_text ();
                 group_box.tool_expansion_changed.connect ((tool, expanded) => {
                     on_tool_expansion_changed (group_box, tool, expanded);
-                });
-                group_box.tool_actions_requested.connect ((tool, actions_button) => {
-                    on_tool_actions_requested (group_box, tool, actions_button);
                 });
                 group_box.clear_search_requested.connect (() => {
                     search_entry.set_text ("");
@@ -836,20 +815,6 @@ namespace ProtonPlus.Widgets.Tools {
                 if (!loaded)
                     return;
             });
-        }
-
-        void on_tool_actions_requested (
-            GroupBox group_box, Models.Tool tool, Gtk.MenuButton actions_button
-        ) {
-            if (expanded_group != null &&
-                (!group_box.is_expanded_tool (tool) || expanded_group != group_box))
-                collapse_current_expansion (false);
-
-            releases_box.filter = current_filter;
-            releases_box.search_text = search_entry.get_text ();
-            releases_box.attach_actions_button (actions_button);
-            if (!releases_box.is_showing_tool (tool))
-                releases_box.set_selected_tool.begin (tool);
         }
 
         void set_selected_job (Services.InstallJob job, bool show_games = false) {
