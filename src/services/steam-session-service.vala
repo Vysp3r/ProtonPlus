@@ -479,9 +479,6 @@ namespace ProtonPlus.Services {
                 return snapshot (target, SteamSessionState.UNKNOWN, true, anchor.pid, null, null, anchor.executable_path, relaunch, blockers, SteamEvidenceLevel.HEURISTIC, session_mode, diagnostics);
             }
 
-            if (command_identifies_steamos_gaming_mode (anchor.command_line))
-                session_mode = SteamSessionMode.STEAMOS_GAMING_MODE;
-
             var generation = new SteamProcessGeneration (anchor.pid, anchor.start_time_ticks, backend.get_boot_id ());
             var state = SteamSessionState.RUNNING;
             if (runtime_update_transition || is_explicit_updater (anchor)) {
@@ -535,14 +532,6 @@ namespace ProtonPlus.Services {
         ) {
             return new SteamSessionSnapshot (target.id, state, found, pid, generation, instance, executable,
                                              relaunch, blockers, confidence, session_mode, diagnostics);
-        }
-
-        private bool command_identifies_steamos_gaming_mode (string command_line) {
-            foreach (var argument in command_line.down ().split (" ")) {
-                if (argument == "-steamos3" || argument == "-steamdeck")
-                    return true;
-            }
-            return false;
         }
 
         private SteamRelaunchMetadata get_relaunch_metadata (SteamRestartTarget target) {
