@@ -11,18 +11,24 @@ namespace ProtonPlus.Widgets.Tools {
             content = new Gtk.Box (Gtk.Orientation.VERTICAL, 8) {
                 margin_start = 12,
                 margin_end = 12,
-                margin_top = 12,
-                margin_bottom = 12,
+                margin_top = 24,
+                margin_bottom = 24,
                 hexpand = true,
                 halign = Gtk.Align.FILL,
                 valign = Gtk.Align.START
+            };
+
+            var clamp = new Adw.Clamp () {
+                maximum_size = 720,
+                tightening_threshold = 600,
+                child = content
             };
 
             var scrolled = new Gtk.ScrolledWindow () {
                 vexpand = true,
                 hscrollbar_policy = Gtk.PolicyType.NEVER,
                 vscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
-                child = content
+                child = clamp
             };
 
             append (scrolled);
@@ -62,7 +68,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private Gtk.Label create_label (string markdown) {
-            return new Gtk.Label ("") {
+            var label = new Gtk.Label ("") {
                 use_markup = true,
                 label = markdown_to_markup (markdown),
                 wrap = true,
@@ -75,6 +81,8 @@ namespace ProtonPlus.Widgets.Tools {
                 halign = Gtk.Align.FILL,
                 valign = Gtk.Align.START
             };
+            label.add_css_class ("body");
+            return label;
         }
 
         private void append_markdown (string markdown) {

@@ -23,7 +23,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             title_vbox.set_margin_bottom (4);
 
             var title_label = new Gtk.Label (_("GPU vendor options"));
-            title_label.add_css_class ("title-4");
+            title_label.add_css_class ("heading");
             title_label.set_halign (Gtk.Align.START);
 
             desc_label = new Gtk.Label (_("Use GPU-specific compatibility toggles for AMD, NVIDIA and Intel hardware."));

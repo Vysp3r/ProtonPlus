@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-11 20:09-0400\n"
+"POT-Creation-Date: 2026-08-11 21:30-0400\n"
 "PO-Revision-Date: 2026-01-09 12:01+0000\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <https://hosted.weblate.org/projects/protonplus/"
@@ -2075,35 +2075,35 @@ msgstr ""
 msgid "ETA: --"
 msgstr ""
 
-#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:676
+#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:675
 #, fuzzy
 msgid "Updating"
 msgstr "მიმდინარეობს %s-ის განახლება"
 
 #: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:315
-#: src/widgets/tools/tools-release-row.vala:672
+#: src/widgets/tools/tools-release-row.vala:671
 #, fuzzy
 msgid "Installing"
 msgstr "'%s'-ის დაყენება"
 
-#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:793
+#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:792
 #, c-format
 msgid "%dh %dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:797
+#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:796
 #, c-format
 msgid "%dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:798
+#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:797
 #, c-format
 msgid "%ds"
 msgstr ""
 
 #. System Page
 #: src/globals.vala:31 src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:328
+#: src/widgets/preferences/preferences-dialog.vala:311
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr "სისტემა"
@@ -2275,7 +2275,7 @@ msgstr ""
 "გასაშვებად მრავალი გაუმჯობესებით Valve-ის ნაგულისხმევ Proton-თან შედარებით."
 
 #: src/models/providers/definitions/proton.vala:35
-#: src/widgets/tools/tools-release-row.vala:655
+#: src/widgets/tools/tools-release-row.vala:654
 msgid "Recommended"
 msgstr ""
 
@@ -2583,14 +2583,14 @@ msgstr "გადართვა სხვა პროფილზე"
 
 #: src/widgets/controller-hint-bar.vala:145
 #: src/widgets/tools/tools-box.vala:188 src/widgets/tools/tools-box.vala:230
-#: src/widgets/tools/tools-box.vala:232 src/widgets/tools/tools-box.vala:437
+#: src/widgets/tools/tools-box.vala:232 src/widgets/tools/tools-box.vala:434
 #, fuzzy
 msgid "Search"
 msgstr "ძებნის ჩვენება"
 
 #: src/widgets/controller-hint-bar.vala:149
 #: src/widgets/games/games-box.vala:508 src/widgets/tools/tools-box.vala:240
-#: src/widgets/tools/tools-box.vala:242 src/widgets/tools/tools-box.vala:447
+#: src/widgets/tools/tools-box.vala:242 src/widgets/tools/tools-box.vala:444
 msgid "Filter"
 msgstr ""
 
@@ -2631,7 +2631,7 @@ msgid "Bottom"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:215
-#: src/widgets/preferences/preferences-dialog.vala:40
+#: src/widgets/preferences/preferences-dialog.vala:39
 msgid "Bottom face button"
 msgstr ""
 
@@ -2641,7 +2641,7 @@ msgid "Right"
 msgstr "ღია"
 
 #: src/widgets/controller-hint-bar.vala:219
-#: src/widgets/preferences/preferences-dialog.vala:41
+#: src/widgets/preferences/preferences-dialog.vala:40
 msgid "Right face button"
 msgstr ""
 
@@ -2662,7 +2662,6 @@ msgid "Top face button"
 msgstr ""
 
 #: src/widgets/games/games-box.vala:103 src/widgets/games/games-box.vala:716
-#: src/widgets/tools/tools-release-box.vala:106
 #, fuzzy
 msgid "No games found"
 msgstr "პროფილები აღმოჩენილი არაა."
@@ -2710,7 +2709,7 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:478
 #: src/widgets/games/games-collection.vala:72
-#: src/widgets/games/games-mass-edit-view.vala:183
+#: src/widgets/games/games-mass-edit-view.vala:178
 msgid "Native"
 msgstr ""
 
@@ -2784,13 +2783,13 @@ msgid "No matching games"
 msgstr "გაშვების მორგება"
 
 #: src/widgets/games/games-box.vala:702
-#: src/widgets/tools/tools-group-box.vala:245
+#: src/widgets/tools/tools-group-box.vala:246
 #: src/widgets/tools/tools-releases-box.vala:721
 msgid "Try a different search term or clear the search."
 msgstr ""
 
 #: src/widgets/games/games-box.vala:705
-#: src/widgets/tools/tools-group-box.vala:247
+#: src/widgets/tools/tools-group-box.vala:248
 #: src/widgets/tools/tools-releases-box.vala:723
 #, fuzzy
 msgid "Clear Search"
@@ -2805,7 +2804,7 @@ msgid "Choose All games to see your complete library."
 msgstr ""
 
 #: src/widgets/games/games-box.vala:713
-#: src/widgets/tools/tools-group-box.vala:254
+#: src/widgets/tools/tools-group-box.vala:255
 #: src/widgets/tools/tools-releases-box.vala:729
 msgid "Reset Filters"
 msgstr ""
@@ -2820,8 +2819,8 @@ msgid "Game Actions"
 msgstr "გაშვების მორგება"
 
 #: src/widgets/games/games-extra-button.vala:71
-#: src/widgets/tools/tools-release-row.vala:195
-#: src/widgets/tools/tools-release-row.vala:475
+#: src/widgets/tools/tools-release-row.vala:194
+#: src/widgets/tools/tools-release-row.vala:474
 #, fuzzy, c-format
 msgid "Actions for %s"
 msgstr "გაშვების მორგება"
@@ -2947,90 +2946,89 @@ msgid_plural "Modify %d selected games all at once"
 msgstr[0] "მონიშნული თამაშების თავსებადობის ხელსაწყოს ერთდროულად ჩასწორება"
 msgstr[1] "მონიშნული თამაშების თავსებადობის ხელსაწყოს ერთდროულად ჩასწორება"
 
-#: src/widgets/games/games-mass-edit-view.vala:26
+#: src/widgets/games/games-mass-edit-view.vala:27
 msgid "1 game selected"
 msgstr "არჩეულია 1 თამაში"
 
-#: src/widgets/games/games-mass-edit-view.vala:26
+#: src/widgets/games/games-mass-edit-view.vala:27
 #, c-format
 msgid "%u games selected"
 msgstr "მონიშნულია %u თამაში"
 
-#: src/widgets/games/games-mass-edit-view.vala:36
-#: src/widgets/games/games-mass-edit-view.vala:39
+#: src/widgets/games/games-mass-edit-view.vala:37
+#: src/widgets/games/games-mass-edit-view.vala:40
 #, fuzzy
-msgid "Clear the current launch options"
-msgstr "თამაშის გაშვების პარამეტრების შეცვლა"
+msgid "Clear Launch Options"
+msgstr "გაშვების პარამეტრების შეცვლა"
 
-#: src/widgets/games/games-mass-edit-view.vala:46
-#: src/widgets/games/games-mass-edit-view.vala:49
-msgid "Apply the current modification"
-msgstr "მიმდინარე ცვლილების გადატარება"
+#: src/widgets/games/games-mass-edit-view.vala:47
+#: src/widgets/games/games-mass-edit-view.vala:50
+msgid "Apply Changes"
+msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:62
+#: src/widgets/games/games-mass-edit-view.vala:58
 #, fuzzy
 msgid "Apply compatibility tool"
 msgstr "თავსებადობის ხელსაწყო"
 
-#: src/widgets/games/games-mass-edit-view.vala:63
+#: src/widgets/games/games-mass-edit-view.vala:59
 #, fuzzy
-msgid "Set the same tool for every selected game."
+msgid "Use the same compatibility tool for all selected games"
 msgstr "მონიშნული თამაშების თავსებადობის ხელსაწყოს ერთდროულად ჩასწორება"
 
-#: src/widgets/games/games-mass-edit-view.vala:88
+#: src/widgets/games/games-mass-edit-view.vala:78
 #, fuzzy
 msgid "Apply launch options"
 msgstr "გაშვების პარამეტრების შეცვლა"
 
-#: src/widgets/games/games-mass-edit-view.vala:89
+#: src/widgets/games/games-mass-edit-view.vala:79
 #, fuzzy
-msgid "Set the same options for every selected Steam game."
+msgid "Use the same launch options for all selected Steam games"
 msgstr "მონიშნული თამაშების თავსებადობის ხელსაწყოს ერთდროულად ჩასწორება"
 
-#: src/widgets/games/games-mass-edit-view.vala:100
+#: src/widgets/games/games-mass-edit-view.vala:93
 msgid ""
-"Enable the sections you want to change. Disabled sections leave the selected "
-"games unchanged."
+"Choose what to change. Settings that are turned off will remain unchanged."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:284
-#: src/widgets/games/games-mass-edit-view.vala:295
+#: src/widgets/games/games-mass-edit-view.vala:279
+#: src/widgets/games/games-mass-edit-view.vala:290
 #, fuzzy
 msgid "Compatibility tool cannot be applied"
 msgstr "თავსებადობის ხელსაწყო"
 
-#: src/widgets/games/games-mass-edit-view.vala:285
+#: src/widgets/games/games-mass-edit-view.vala:280
 msgid "No games were changed because no compatibility tool is selected."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:296
+#: src/widgets/games/games-mass-edit-view.vala:291
 #, fuzzy
 msgid ""
 "No games were changed because the selected compatibility tool is no longer "
 "available."
 msgstr "აირჩიეთ ნაგულისხმევი თავსებადობის ხელსაწყო"
 
-#: src/widgets/games/games-mass-edit-view.vala:322
+#: src/widgets/games/games-mass-edit-view.vala:317
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:323
+#: src/widgets/games/games-mass-edit-view.vala:318
 #, fuzzy
 msgid "Launch options cannot be applied"
 msgstr "გაშვების მორგება"
 
-#: src/widgets/games/games-mass-edit-view.vala:324
+#: src/widgets/games/games-mass-edit-view.vala:319
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:375
+#: src/widgets/games/games-mass-edit-view.vala:370
 msgid "Batch Update Failed"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:376
+#: src/widgets/games/games-mass-edit-view.vala:371
 msgid ""
 "Some games could not be updated with the new compatibility tool or launch "
 "options. This may be due to missing permissions or file access issues."
@@ -3049,8 +3047,8 @@ msgid "Modify Game"
 msgstr "თამაშის გაშვების პარამეტრების შეცვლა"
 
 #: src/widgets/games/games-row.vala:58 src/widgets/games/games-row.vala:399
-#: src/widgets/tools/tools-game-row.vala:16
-#: src/widgets/tools/tools-game-row.vala:20
+#: src/widgets/tools/tools-game-row.vala:15
+#: src/widgets/tools/tools-game-row.vala:19
 #, fuzzy, c-format
 msgid "Select %s"
 msgstr "ყველას მონიშვნა"
@@ -3913,7 +3911,7 @@ msgstr "მეტი ინფორმაცია"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
-#: src/widgets/preferences/preferences-dialog.vala:391
+#: src/widgets/preferences/preferences-dialog.vala:364
 #, fuzzy
 msgid "Gamescope"
 msgstr "თამაშები"
@@ -3925,7 +3923,7 @@ msgstr "თამაშები"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
-#: src/widgets/preferences/preferences-dialog.vala:396
+#: src/widgets/preferences/preferences-dialog.vala:367
 msgid "ScopeBuddy"
 msgstr ""
 
@@ -4194,39 +4192,39 @@ msgstr "გაშვების მორგება"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:123
 #, fuzzy
-msgid "Search launch options"
+msgid "Search Launch Options"
 msgstr "გაშვების პარამეტრების შეცვლა"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:128
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:130
 msgid "Browse"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:129
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:469
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:131
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:471
 msgid "Quick settings"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:129
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:471
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:131
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:473
 #, fuzzy
 msgid "Active options"
 msgstr "მეტი ინფორმაცია"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:129
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:473
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:131
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:475
 #, fuzzy
 msgid "All options"
 msgstr "მეტი ინფორმაცია"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:212
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:214
 msgid "Raw command controls"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:213
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:215
 msgid "Change the Steam command placeholder only when a game requires it."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:548
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:550
 #, fuzzy
 msgid "Unable to safely prepare these launch options."
 msgstr "თამაშის გაშვების პარამეტრების შეცვლა"
@@ -5347,12 +5345,12 @@ msgstr ""
 #. Advanced Page
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:40
 #: src/widgets/mangohud/mangohud-box.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:241
+#: src/widgets/preferences/preferences-dialog.vala:223
 msgid "Advanced"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
-#: src/widgets/preferences/preferences-dialog.vala:307
+#: src/widgets/preferences/preferences-dialog.vala:290
 msgid "Experimental"
 msgstr ""
 
@@ -5474,7 +5472,7 @@ msgstr ""
 
 #: src/widgets/header/header-downloads-indicator.vala:231
 #: src/widgets/header/header-downloads-indicator.vala:233
-#: src/widgets/tools/tools-release-row.vala:159
+#: src/widgets/tools/tools-release-row.vala:158
 #: src/widgets/tools/tools-remove-dialog.vala:26
 #: src/widgets/tools/tools-stl-release-row.vala:118 src/widgets/window.vala:169
 #: src/widgets/window.vala:380
@@ -5484,27 +5482,27 @@ msgstr "გაუქმება"
 #: src/widgets/header/header-downloads-indicator.vala:284
 #: src/widgets/header/header-downloads-indicator.vala:286
 #: src/widgets/header/header-downloads-indicator.vala:288
-#: src/widgets/tools/tools-release-row.vala:455
-#: src/widgets/tools/tools-release-row.vala:706
+#: src/widgets/tools/tools-release-row.vala:454
+#: src/widgets/tools/tools-release-row.vala:705
 #, fuzzy
 msgid "Cancelling"
 msgstr "გაუქმება"
 
 #: src/widgets/header/header-downloads-indicator.vala:311
-#: src/widgets/tools/tools-release-row.vala:709
+#: src/widgets/tools/tools-release-row.vala:708
 #, fuzzy
 msgid "Downloading"
 msgstr "გადმოწერა"
 
 #: src/widgets/header/header-downloads-indicator.vala:313
-#: src/widgets/tools/tools-release-row.vala:711
+#: src/widgets/tools/tools-release-row.vala:710
 msgid "Extracting"
 msgstr "ამოღება"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
-#: src/widgets/tools/tools-release-row.vala:680
-#: src/widgets/tools/tools-release-row.vala:715
-#: src/widgets/tools/tools-release-row.vala:720
+#: src/widgets/tools/tools-release-row.vala:679
+#: src/widgets/tools/tools-release-row.vala:714
+#: src/widgets/tools/tools-release-row.vala:719
 #, fuzzy
 msgid "Removing"
 msgstr "გადატანა"
@@ -5643,45 +5641,46 @@ msgid ""
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:17
-#: src/widgets/preferences/preferences-dialog.vala:92
+#: src/widgets/preferences/preferences-dialog.vala:77
 #, fuzzy
 msgid "Background updates"
 msgstr "განახლებების შემოწმება"
 
 #: src/widgets/introduction/updates.vala:18
-#: src/widgets/preferences/preferences-dialog.vala:93
+#: src/widgets/preferences/preferences-dialog.vala:78
 msgid "Automatically update the tools in the background"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:24
-#: src/widgets/preferences/preferences-dialog.vala:99
+#: src/widgets/preferences/preferences-dialog.vala:84
 msgid "Set how often to check for updates in the background"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:30
-#: src/widgets/preferences/preferences-dialog.vala:105
-#, fuzzy
-msgid "Check updates on boot"
-msgstr "განახლებების შემოწმება"
+#: src/widgets/preferences/preferences-dialog.vala:90
+msgid "Update tools at system startup"
+msgstr ""
 
 #: src/widgets/introduction/updates.vala:31
-#: src/widgets/preferences/preferences-dialog.vala:106
+#: src/widgets/preferences/preferences-dialog.vala:91
 #, fuzzy
-msgid "Check for tool updates when the system starts"
+msgid "Automatically check for and install updates when the system starts"
 msgstr ""
 "მოხდება, თუ არა დაყენებული 'უახლესი' დამხმარე პროცესების განახლება "
 "აპლიკაციის გაშვებისას"
 
 #: src/widgets/introduction/updates.vala:37
-#: src/widgets/preferences/preferences-dialog.vala:112
-#, fuzzy
-msgid "Check updates on launch"
-msgstr "განახლებების შემოწმება"
+#: src/widgets/preferences/preferences-dialog.vala:97
+msgid "Update tools when ProtonPlus starts"
+msgstr ""
 
 #: src/widgets/introduction/updates.vala:38
-#: src/widgets/preferences/preferences-dialog.vala:113
-msgid "Update the tools when the application is launched"
+#: src/widgets/preferences/preferences-dialog.vala:98
+#, fuzzy
+msgid "Automatically check for and install updates when ProtonPlus starts"
 msgstr ""
+"მოხდება, თუ არა დაყენებული 'უახლესი' დამხმარე პროცესების განახლება "
+"აპლიკაციის გაშვებისას"
 
 #: src/widgets/introduction/wine.vala:8
 msgid "What is Wine?"
@@ -5760,13 +5759,13 @@ msgstr "დიახ"
 
 #. Tools Page
 #: src/widgets/main/main-box.vala:72
-#: src/widgets/preferences/preferences-dialog.vala:81
+#: src/widgets/preferences/preferences-dialog.vala:65
 #: src/widgets/tools/tools-box.vala:129
 msgid "Tools"
 msgstr ""
 
 #: src/widgets/main/main-box.vala:75
-#: src/widgets/preferences/preferences-dialog.vala:381
+#: src/widgets/preferences/preferences-dialog.vala:358
 msgid "MangoHud"
 msgstr ""
 
@@ -5813,23 +5812,23 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:332 src/widgets/tools/tools-box.vala:850
+#: src/widgets/main/main-box.vala:332 src/widgets/tools/tools-box.vala:847
 msgid "Checking for updates"
 msgstr "განახლებების შემოწმება"
 
-#: src/widgets/main/main-box.vala:343 src/widgets/tools/tools-box.vala:858
+#: src/widgets/main/main-box.vala:343 src/widgets/tools/tools-box.vala:855
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:861
+#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:858
 msgid "Nothing to update"
 msgstr "გასაახლებელი არაფერია"
 
-#: src/widgets/main/main-box.vala:350 src/widgets/tools/tools-box.vala:865
+#: src/widgets/main/main-box.vala:350 src/widgets/tools/tools-box.vala:862
 msgid "Everything is now up-to-date"
 msgstr "ახლა ყველაფერი განახლებულია"
 
-#: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:868
+#: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:865
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "განახლებების შემოწმების შეცდომა (მიზეზი: %s)"
@@ -6259,7 +6258,7 @@ msgid "Media Info"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:130
-#: src/widgets/preferences/preferences-dialog.vala:268
+#: src/widgets/preferences/preferences-dialog.vala:251
 msgid "Network"
 msgstr ""
 
@@ -6696,19 +6695,18 @@ msgstr ""
 msgid "Hide by default"
 msgstr ""
 
-#: src/widgets/preferences/preferences-access-token-row.vala:6
-msgid "Enter an access token to reduce your chances of being rate limited"
-msgstr "შეიყვანეთ წვდომის ტოკენი, რომ შეამციროთ შანსები, სიჩქარე შეგეზღუდოთ"
-
-#: src/widgets/preferences/preferences-access-token-row.vala:11
+#: src/widgets/preferences/preferences-access-token-row.vala:9
 #, fuzzy, c-format
 msgid "%s access token"
 msgstr "წვდომის ტოკენი"
 
-#: src/widgets/preferences/preferences-access-token-row.vala:22
-#: src/widgets/preferences/preferences-access-token-row.vala:25
-#, fuzzy
-msgid "Open token creation page"
+#: src/widgets/preferences/preferences-access-token-row.vala:10
+msgid "Enter an access token to reduce your chances of being rate limited"
+msgstr "შეიყვანეთ წვდომის ტოკენი, რომ შეამციროთ შანსები, სიჩქარე შეგეზღუდოთ"
+
+#: src/widgets/preferences/preferences-access-token-row.vala:19
+#, fuzzy, c-format
+msgid "Open %s Token Page"
 msgstr "ProtonDB-ის გვერდის გახსნა"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:15
@@ -6752,208 +6750,206 @@ msgstr "ზოგადი"
 msgid "Appearance"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:35
+#: src/widgets/preferences/preferences-dialog.vala:33
 msgid "Controller"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:43
+#: src/widgets/preferences/preferences-dialog.vala:34
+#, fuzzy
+msgid "Configure controller buttons and vibration"
+msgstr "მეტი ინფორმაცია"
+
+#: src/widgets/preferences/preferences-dialog.vala:42
 msgid "Confirm button"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:44
+#: src/widgets/preferences/preferences-dialog.vala:43
 msgid "Choose which face button activates the selected control"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:57
+#: src/widgets/preferences/preferences-dialog.vala:56
 #, fuzzy
 msgid "Controller vibration"
 msgstr "მეტი ინფორმაცია"
 
-#: src/widgets/preferences/preferences-dialog.vala:58
+#: src/widgets/preferences/preferences-dialog.vala:57
 msgid "Use subtle vibration for controller actions and navigation limits"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:65
-msgid "Help"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:68
-#, fuzzy
-msgid "Show Introduction"
-msgstr "მეტი ინფორმაცია"
-
-#: src/widgets/preferences/preferences-dialog.vala:87
+#: src/widgets/preferences/preferences-dialog.vala:71
 #, fuzzy
 msgid "Updates"
 msgstr "მიმდინარეობს %s-ის განახლება"
 
-#: src/widgets/preferences/preferences-dialog.vala:119
+#: src/widgets/preferences/preferences-dialog.vala:72
+msgid "Choose when installed tools are checked and updated"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:104
 msgid "Migrate default prefix"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:120
+#: src/widgets/preferences/preferences-dialog.vala:105
 msgid "Automatically migrate the default prefix when updating"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:126
+#: src/widgets/preferences/preferences-dialog.vala:111
 msgid "Behavior"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:131
+#: src/widgets/preferences/preferences-dialog.vala:116
 #, fuzzy
 msgid "Show legacy tools"
 msgstr "დაყენებული დამხმარე პროცესების ჩვენება"
 
-#: src/widgets/preferences/preferences-dialog.vala:132
+#: src/widgets/preferences/preferences-dialog.vala:117
 msgid "Display older tools that are no longer actively maintained"
 msgstr ""
 
 #. Launchers Page
-#: src/widgets/preferences/preferences-dialog.vala:140
+#: src/widgets/preferences/preferences-dialog.vala:124
 #, fuzzy
 msgid "Launchers"
 msgstr "გაშვების მორგება"
 
-#: src/widgets/preferences/preferences-dialog.vala:174
+#: src/widgets/preferences/preferences-dialog.vala:158
 #, fuzzy
 msgid "Default compatibility tool"
 msgstr "თავსებადობის ხელსაწყო"
 
-#: src/widgets/preferences/preferences-dialog.vala:175
+#: src/widgets/preferences/preferences-dialog.vala:159
 msgid "The compatibility tool games will use by default"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:201
+#: src/widgets/preferences/preferences-dialog.vala:184
 #, fuzzy
 msgid "Selected profile"
 msgstr "აირჩიეთ პროფილი"
 
-#: src/widgets/preferences/preferences-dialog.vala:202
+#: src/widgets/preferences/preferences-dialog.vala:185
 msgid "Currently selected profile for Steam"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:247
+#: src/widgets/preferences/preferences-dialog.vala:229
 msgid "API Tokens"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:276
+#: src/widgets/preferences/preferences-dialog.vala:230
+msgid "Optional tokens increase GitHub and GitLab request limits"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:259
 msgid "Proxy URL"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:279
+#: src/widgets/preferences/preferences-dialog.vala:262
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:286
+#: src/widgets/preferences/preferences-dialog.vala:269
 #, fuzzy
 msgid "Download speed limit"
 msgstr "გადმოწერა"
 
-#: src/widgets/preferences/preferences-dialog.vala:287
+#: src/widgets/preferences/preferences-dialog.vala:270
 msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:290
+#: src/widgets/preferences/preferences-dialog.vala:273
 msgid "This limit is shared across all active downloads."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:312
+#: src/widgets/preferences/preferences-dialog.vala:295
 msgid "Preview features"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:313
+#: src/widgets/preferences/preferences-dialog.vala:296
 msgid "Enable experimental features for early testing"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:320
+#: src/widgets/preferences/preferences-dialog.vala:302
 #, fuzzy
 msgid "Maintenance"
 msgstr "მთავარი მენიუ"
 
-#: src/widgets/preferences/preferences-dialog.vala:334
+#: src/widgets/preferences/preferences-dialog.vala:303
+msgid "Refresh app data or clear cached files"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:317
 msgid "Software Environment"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:339
+#: src/widgets/preferences/preferences-dialog.vala:322
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:340
-#: src/widgets/preferences/preferences-dialog.vala:345
-#: src/widgets/preferences/preferences-dialog.vala:372
-#: src/widgets/preferences/preferences-dialog.vala:377
-#: src/widgets/preferences/preferences-dialog.vala:382
-#: src/widgets/preferences/preferences-dialog.vala:387
-#: src/widgets/preferences/preferences-dialog.vala:392
-#: src/widgets/preferences/preferences-dialog.vala:397
-#: src/widgets/preferences/preferences-dialog.vala:402
+#: src/widgets/preferences/preferences-dialog.vala:322
+#: src/widgets/preferences/preferences-dialog.vala:325
 #: src/widgets/tools/tools-stl-release-row.vala:171
 msgid "Yes"
 msgstr "დიახ"
 
-#: src/widgets/preferences/preferences-dialog.vala:340
-#: src/widgets/preferences/preferences-dialog.vala:345
-#: src/widgets/preferences/preferences-dialog.vala:372
-#: src/widgets/preferences/preferences-dialog.vala:377
-#: src/widgets/preferences/preferences-dialog.vala:382
-#: src/widgets/preferences/preferences-dialog.vala:387
-#: src/widgets/preferences/preferences-dialog.vala:392
-#: src/widgets/preferences/preferences-dialog.vala:397
-#: src/widgets/preferences/preferences-dialog.vala:402
+#: src/widgets/preferences/preferences-dialog.vala:322
+#: src/widgets/preferences/preferences-dialog.vala:325
 #: src/widgets/tools/tools-stl-release-row.vala:170
 msgid "No"
 msgstr "არა"
 
-#: src/widgets/preferences/preferences-dialog.vala:344
+#: src/widgets/preferences/preferences-dialog.vala:325
 msgid "Flatpak"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:349
+#: src/widgets/preferences/preferences-dialog.vala:329
 msgid "Hardware"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:361
-msgid "HWCAPS"
+#: src/widgets/preferences/preferences-dialog.vala:341
+msgid "CPU Features"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:366
+#: src/widgets/preferences/preferences-dialog.vala:342
+msgid "None detected"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:347
 msgid "Dependencies"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:371
+#: src/widgets/preferences/preferences-dialog.vala:352
 #, fuzzy
 msgid "Protontricks"
 msgstr "გახსნა protontricks-ში"
 
-#: src/widgets/preferences/preferences-dialog.vala:376
+#: src/widgets/preferences/preferences-dialog.vala:355
 msgid "Protontricks (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:386
+#: src/widgets/preferences/preferences-dialog.vala:361
 msgid "MangoHud (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:401
+#: src/widgets/preferences/preferences-dialog.vala:370
 #, fuzzy
 msgid "Feral Gamemode"
 msgstr "თამაშები"
 
-#: src/widgets/preferences/preferences-dialog.vala:406
+#: src/widgets/preferences/preferences-dialog.vala:374
 #, fuzzy
 msgid "Detected Launchers"
 msgstr "მხარდაუჭერელი გამშვები"
 
-#: src/widgets/preferences/preferences-dialog.vala:429
+#: src/widgets/preferences/preferences-dialog.vala:406
 #: src/widgets/tools/tools-box.vala:248
-#: src/widgets/tools/tools-group-box.vala:573
-#: src/widgets/tools/tools-release-row.vala:665
-#: src/widgets/tools/tools-release-row.vala:669
+#: src/widgets/tools/tools-group-box.vala:574
+#: src/widgets/tools/tools-release-row.vala:664
+#: src/widgets/tools/tools-release-row.vala:668
 msgid "Installed"
 msgstr "დაყენებულია"
 
-#: src/widgets/preferences/preferences-dialog.vala:429
-#: src/widgets/tools/tools-release-row.vala:662
+#: src/widgets/preferences/preferences-dialog.vala:407
+#: src/widgets/tools/tools-release-row.vala:661
 #, fuzzy
 msgid "Not installed"
 msgstr "დაყენებულია"
@@ -6978,39 +6974,39 @@ msgstr "გამშვებების/დამხმარე პროც�
 msgid "Manage shortcut"
 msgstr "მალსახმობის შექმნა"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:30
 msgid "Create shortcut"
 msgstr "მალსახმობის შექმნა"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:30
 msgid "Delete shortcut"
 msgstr "მალსახმობის წაშლა"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:32
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Create a shortcut of ProtonPlus in Steam"
 msgstr "ProtonPlus-ის მალსახმობის შექმნა Steam-ში"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:32
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "ProtonPlus-ის მალსახმობის წაშლა Steam-ში"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:55
 #, fuzzy
 msgid "Failed to create shortcut"
 msgstr "მალსახმობის შექმნა"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:56
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:55
 #, fuzzy
 msgid "Failed to delete shortcut"
 msgstr "მალსახმობის წაშლა"
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:58
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:57
 msgid ""
 "ProtonPlus was unable to add the shortcut to Steam. Please ensure Steam is "
 "closed and try again."
 msgstr ""
 
-#: src/widgets/preferences/preferences-steam-shortcut-row.vala:59
+#: src/widgets/preferences/preferences-steam-shortcut-row.vala:58
 msgid ""
 "ProtonPlus was unable to remove the shortcut from Steam. This might happen "
 "if Steam is currently running or if the shortcuts file is inaccessible."
@@ -7050,13 +7046,13 @@ msgid "Proxy mode"
 msgstr ""
 
 #: src/widgets/tools/tools-box.vala:130
-#: src/widgets/tools/tools-release-changelog.vala:87
-#: src/widgets/tools/tools-release-changelog.vala:98
+#: src/widgets/tools/tools-release-changelog.vala:95
+#: src/widgets/tools/tools-release-changelog.vala:106
 msgid "Details"
 msgstr ""
 
 #: src/widgets/tools/tools-box.vala:131 src/widgets/tools/tools-box.vala:155
-#: src/widgets/tools/tools-box.vala:317
+#: src/widgets/tools/tools-box.vala:316
 #: src/widgets/tools/tools-migrate-box.vala:43
 msgid "Migrate"
 msgstr ""
@@ -7083,77 +7079,77 @@ msgstr "გამოყენებულია"
 msgid "Unused"
 msgstr "გამოუყენებელი"
 
-#: src/widgets/tools/tools-box.vala:434
+#: src/widgets/tools/tools-box.vala:431
 #, fuzzy
 msgid "Search is active"
 msgstr "თამაშის ძებნა"
 
-#: src/widgets/tools/tools-box.vala:444
+#: src/widgets/tools/tools-box.vala:441
 msgid "Filter is active"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:100
-#: src/widgets/tools/tools-group-box.vala:272
+#: src/widgets/tools/tools-group-box.vala:101
+#: src/widgets/tools/tools-group-box.vala:273
 #, fuzzy
 msgid "No tools found"
 msgstr "პროფილები აღმოჩენილი არაა."
 
-#: src/widgets/tools/tools-group-box.vala:101
+#: src/widgets/tools/tools-group-box.vala:102
 msgid "No tools match the current filter."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:244
+#: src/widgets/tools/tools-group-box.vala:245
 #, fuzzy
 msgid "No matching tools"
 msgstr "გაშვების მორგება"
 
-#: src/widgets/tools/tools-group-box.vala:257
+#: src/widgets/tools/tools-group-box.vala:258
 #, fuzzy
 msgid "No installed tools"
 msgstr "დაყენებულია"
 
-#: src/widgets/tools/tools-group-box.vala:258
+#: src/widgets/tools/tools-group-box.vala:259
 #, fuzzy
 msgid "Install a compatibility tool to see it here."
 msgstr "თავსებადობის ხელსაწყო"
 
-#: src/widgets/tools/tools-group-box.vala:262
+#: src/widgets/tools/tools-group-box.vala:263
 #, fuzzy
 msgid "No tools in use"
 msgstr "პროფილები აღმოჩენილი არაა."
 
-#: src/widgets/tools/tools-group-box.vala:263
+#: src/widgets/tools/tools-group-box.vala:264
 msgid "No games currently use a tool from this group."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:267
+#: src/widgets/tools/tools-group-box.vala:268
 msgid "No unused tools"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:268
+#: src/widgets/tools/tools-group-box.vala:269
 msgid "Every tool in this group is currently in use."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:273
+#: src/widgets/tools/tools-group-box.vala:274
 msgid "No tools are available in this group."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:355
+#: src/widgets/tools/tools-group-box.vala:356
 #, fuzzy
 msgid "Recommended compatibility tool"
 msgstr "აირჩიეთ სასურველი თავსებადობის ხელსაწყო"
 
-#: src/widgets/tools/tools-group-box.vala:568
+#: src/widgets/tools/tools-group-box.vala:569
 msgid "In use"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:569
+#: src/widgets/tools/tools-group-box.vala:570
 msgid ""
 "One or more releases of this tool is installed and currently used by one or "
 "more games"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:574
+#: src/widgets/tools/tools-group-box.vala:575
 msgid ""
 "One or more releases of this tool is installed, but not currently used by "
 "any games"
@@ -7187,29 +7183,24 @@ msgid ""
 "due to missing permissions or file access issues."
 msgstr ""
 
+#: src/widgets/tools/tools-release-box.vala:55
+#: src/widgets/tools/tools-release-box.vala:57
 #: src/widgets/tools/tools-release-box.vala:77
-#: src/widgets/tools/tools-release-box.vala:79
 #, fuzzy
 msgid "Select all games"
 msgstr "ყველას მონიშვნა"
 
-#: src/widgets/tools/tools-release-box.vala:93
-msgid "Name"
-msgstr "სახელი"
-
-#: src/widgets/tools/tools-release-box.vala:107
-#, fuzzy
-msgid "This tool is not used by any games."
+#: src/widgets/tools/tools-release-box.vala:105
+msgid "No Games Use This Tool"
 msgstr ""
-"იმ დამხმარე პროცესების ჩვენება, რომლებიც არცერთი თამაშის მიერ გამოიყენება"
 
-#: src/widgets/tools/tools-release-box.vala:121
+#: src/widgets/tools/tools-release-box.vala:118
 msgid "Changelog"
 msgstr ""
 
-#: src/widgets/tools/tools-release-box.vala:122
+#: src/widgets/tools/tools-release-box.vala:119
 #, fuzzy
-msgid "Used by"
+msgid "Used By"
 msgstr "გამოყენებულია"
 
 #: src/widgets/tools/tools-release-row.vala:71
@@ -7217,153 +7208,153 @@ msgstr "გამოყენებულია"
 msgid "Open Release Details"
 msgstr "ProtonDB-ის გვერდის გახსნა"
 
-#: src/widgets/tools/tools-release-row.vala:126
-#: src/widgets/tools/tools-release-row.vala:128
+#: src/widgets/tools/tools-release-row.vala:125
+#: src/widgets/tools/tools-release-row.vala:127
 #, fuzzy
 msgid "Show installation details"
 msgstr "დაყენებული დამხმარე პროცესების ჩვენება"
 
-#: src/widgets/tools/tools-release-row.vala:133
+#: src/widgets/tools/tools-release-row.vala:132
 msgid "Speed: 0 KB/s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:136
-#: src/widgets/tools/tools-release-row.vala:784
+#: src/widgets/tools/tools-release-row.vala:135
+#: src/widgets/tools/tools-release-row.vala:783
 msgid "Remaining time: --"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:192
+#: src/widgets/tools/tools-release-row.vala:191
 #, fuzzy
 msgid "Release Actions"
 msgstr "გაშვების მორგება"
 
-#: src/widgets/tools/tools-release-row.vala:434
+#: src/widgets/tools/tools-release-row.vala:433
 #, c-format
 msgid "Step: %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:437
+#: src/widgets/tools/tools-release-row.vala:436
 #, fuzzy, c-format
 msgid "%s for %s"
 msgstr "გაშვების მორგება"
 
-#: src/widgets/tools/tools-release-row.vala:442
+#: src/widgets/tools/tools-release-row.vala:441
 #, fuzzy, c-format
 msgid "Progress for %s"
 msgstr "გაშვების მორგება"
 
-#: src/widgets/tools/tools-release-row.vala:500
+#: src/widgets/tools/tools-release-row.vala:499
 #, fuzzy
 msgid "Latest"
 msgstr "უახლესი"
 
-#: src/widgets/tools/tools-release-row.vala:556
+#: src/widgets/tools/tools-release-row.vala:555
 #, fuzzy
 msgid "Install"
 msgstr "დაყენებულია"
 
-#: src/widgets/tools/tools-release-row.vala:557
-#: src/widgets/tools/tools-release-row.vala:560
+#: src/widgets/tools/tools-release-row.vala:556
+#: src/widgets/tools/tools-release-row.vala:559
 #, c-format
 msgid "Install %s"
 msgstr "'%s'-ის დაყენება"
 
-#: src/widgets/tools/tools-release-row.vala:566
+#: src/widgets/tools/tools-release-row.vala:565
 #, fuzzy
 msgid "Update"
 msgstr "მიმდინარეობს %s-ის განახლება"
 
-#: src/widgets/tools/tools-release-row.vala:567
-#: src/widgets/tools/tools-release-row.vala:570
+#: src/widgets/tools/tools-release-row.vala:566
+#: src/widgets/tools/tools-release-row.vala:569
 #, fuzzy, c-format
 msgid "Update %s"
 msgstr "მიმდინარეობს %s-ის განახლება"
 
-#: src/widgets/tools/tools-release-row.vala:576
-#: src/widgets/tools/tools-releases-box.vala:443
-#: src/widgets/tools/tools-releases-box.vala:455
+#: src/widgets/tools/tools-release-row.vala:575
+#: src/widgets/tools/tools-releases-box.vala:442
+#: src/widgets/tools/tools-releases-box.vala:454
 msgid "Retry"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:577
-#: src/widgets/tools/tools-release-row.vala:580
+#: src/widgets/tools/tools-release-row.vala:576
+#: src/widgets/tools/tools-release-row.vala:579
 #, c-format
 msgid "Retry %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:591
+#: src/widgets/tools/tools-release-row.vala:590
 #, fuzzy, c-format
 msgid "Cancelling %s"
 msgstr "გაუქმება"
 
-#: src/widgets/tools/tools-release-row.vala:592
+#: src/widgets/tools/tools-release-row.vala:591
 #, fuzzy, c-format
 msgid "Cancel %s"
 msgstr "გაუქმება"
 
-#: src/widgets/tools/tools-release-row.vala:615
+#: src/widgets/tools/tools-release-row.vala:614
 #, fuzzy
 msgid "_Check for Updates"
 msgstr "განახლებების შემოწმება"
 
-#: src/widgets/tools/tools-release-row.vala:617
+#: src/widgets/tools/tools-release-row.vala:616
 #, fuzzy
 msgid "_Open Folder"
 msgstr "თამაშები"
 
-#: src/widgets/tools/tools-release-row.vala:619
+#: src/widgets/tools/tools-release-row.vala:618
 #, fuzzy
 msgid "_Delete…"
 msgstr "'%s'-ის წაშლა"
 
-#: src/widgets/tools/tools-release-row.vala:621
+#: src/widgets/tools/tools-release-row.vala:620
 msgid "Open _Release Page"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:657
+#: src/widgets/tools/tools-release-row.vala:656
 msgid "Failed"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:666
+#: src/widgets/tools/tools-release-row.vala:665
 #, fuzzy
 msgid "Update available"
 msgstr "დაყენებული დამხმარე პროცესების ჩვენება"
 
-#: src/widgets/tools/tools-release-row.vala:685
+#: src/widgets/tools/tools-release-row.vala:684
 msgid "Unavailable for the selected variant"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:690
+#: src/widgets/tools/tools-release-row.vala:689
 #, fuzzy, c-format
 msgid "In use by %i game"
 msgid_plural "In use by %i games"
 msgstr[0] "გამოყენებულია %i თამაშის მიერ."
 msgstr[1] "გამოყენებულია %i თამაშის მიერ."
 
-#: src/widgets/tools/tools-release-row.vala:699
+#: src/widgets/tools/tools-release-row.vala:698
 #, fuzzy, c-format
 msgid "%s. Open Release Details"
 msgstr "ProtonDB-ის გვერდის გახსნა"
 
-#: src/widgets/tools/tools-release-row.vala:713
+#: src/widgets/tools/tools-release-row.vala:712
 msgid "Moving"
 msgstr "გადატანა"
 
-#: src/widgets/tools/tools-release-row.vala:718
+#: src/widgets/tools/tools-release-row.vala:717
 #, fuzzy
 msgid "Preparing update"
 msgstr "ახლა ყველაფერი განახლებულია"
 
-#: src/widgets/tools/tools-release-row.vala:721
+#: src/widgets/tools/tools-release-row.vala:720
 msgid "Preparing installation"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:775
+#: src/widgets/tools/tools-release-row.vala:774
 #, c-format
 msgid "Speed: %s/s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:781
+#: src/widgets/tools/tools-release-row.vala:780
 #, c-format
 msgid "Remaining time: %s"
 msgstr ""
@@ -7401,28 +7392,28 @@ msgid "Select the %s build variant."
 msgstr ""
 
 #: src/widgets/tools/tools-releases-box.vala:329
-#: src/widgets/tools/tools-releases-box.vala:333
+#: src/widgets/tools/tools-releases-box.vala:332
 #, fuzzy
 msgid "Check for new releases"
 msgstr "განახლებების შემოწმება"
 
-#: src/widgets/tools/tools-releases-box.vala:342
-#: src/widgets/tools/tools-releases-box.vala:344
+#: src/widgets/tools/tools-releases-box.vala:341
+#: src/widgets/tools/tools-releases-box.vala:343
 #, fuzzy
 msgid "Open Repository"
 msgstr "დამხმარე პროცესის საქაღალდის გახსნა"
 
-#: src/widgets/tools/tools-releases-box.vala:354
+#: src/widgets/tools/tools-releases-box.vala:353
 msgid "Choose which architecture or build variant to show."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:383
+#: src/widgets/tools/tools-releases-box.vala:382
 #: src/widgets/tools/tools-releases-box.vala:1380
 #, fuzzy
 msgid "Load More"
 msgstr "მეტის ჩატვირთვა"
 
-#: src/widgets/tools/tools-releases-box.vala:422
+#: src/widgets/tools/tools-releases-box.vala:421
 #: src/widgets/tools/tools-releases-box.vala:540
 #: src/widgets/tools/tools-releases-box.vala:1016
 #: src/widgets/tools/tools-releases-box.vala:1340
@@ -7430,31 +7421,31 @@ msgstr "მეტის ჩატვირთვა"
 msgid "Loading releases"
 msgstr "იტვირთება"
 
-#: src/widgets/tools/tools-releases-box.vala:431
+#: src/widgets/tools/tools-releases-box.vala:430
 #: src/widgets/tools/tools-releases-box.vala:558
 #: src/widgets/tools/tools-releases-box.vala:738
 #, fuzzy
 msgid "No releases available"
 msgstr "დაყენებული დამხმარე პროცესების ჩვენება"
 
-#: src/widgets/tools/tools-releases-box.vala:432
+#: src/widgets/tools/tools-releases-box.vala:431
 #: src/widgets/tools/tools-releases-box.vala:739
 #, fuzzy
 msgid "Check again for new releases."
 msgstr "განახლებების შემოწმება"
 
-#: src/widgets/tools/tools-releases-box.vala:436
+#: src/widgets/tools/tools-releases-box.vala:435
 #: src/widgets/tools/tools-releases-box.vala:741
 #, fuzzy
 msgid "Refresh"
 msgstr "პროფილების განახლება"
 
-#: src/widgets/tools/tools-releases-box.vala:449
+#: src/widgets/tools/tools-releases-box.vala:448
 #: src/widgets/tools/tools-releases-box.vala:661
 msgid "Failed to Fetch Releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:454
+#: src/widgets/tools/tools-releases-box.vala:453
 #, fuzzy
 msgid "Couldn’t load releases"
 msgstr "გამშვებების ჩატვირთვა შეუძლებელია"
@@ -7594,6 +7585,37 @@ msgid ""
 msgstr ""
 "აპლიკაცია ამჟამად განახლებებს ამოწმებს.\n"
 "აპლიკაციიდან გასვლამ, შეიძლება, პრობლემები გამოიწვიოს."
+
+#, fuzzy
+#~ msgid "Clear the current launch options"
+#~ msgstr "თამაშის გაშვების პარამეტრების შეცვლა"
+
+#~ msgid "Apply the current modification"
+#~ msgstr "მიმდინარე ცვლილების გადატარება"
+
+#, fuzzy
+#~ msgid "Check updates on boot"
+#~ msgstr "განახლებების შემოწმება"
+
+#, fuzzy
+#~ msgid "Check updates on launch"
+#~ msgstr "განახლებების შემოწმება"
+
+#, fuzzy
+#~ msgid "Open token creation page"
+#~ msgstr "ProtonDB-ის გვერდის გახსნა"
+
+#, fuzzy
+#~ msgid "This tool is not used by any games."
+#~ msgstr ""
+#~ "იმ დამხმარე პროცესების ჩვენება, რომლებიც არცერთი თამაშის მიერ გამოიყენება"
+
+#~ msgid "Name"
+#~ msgstr "სახელი"
+
+#, fuzzy
+#~ msgid "Show Introduction"
+#~ msgstr "მეტი ინფორმაცია"
 
 #, fuzzy, c-format
 #~ msgid "Failed to Update %s"

@@ -328,7 +328,6 @@ namespace ProtonPlus.Widgets.Tools {
                 valign = Gtk.Align.CENTER,
                 tooltip_text = _("Check for new releases")
             };
-            refresh_button.add_css_class ("flat");
             refresh_button.update_property (
                 Gtk.AccessibleProperty.LABEL, _("Check for new releases"), -1
             );
@@ -462,7 +461,7 @@ namespace ProtonPlus.Widgets.Tools {
             content_stack.add_named (status_page, "empty");
             content_stack.add_named (error_page, "error");
 
-            tool_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
+            tool_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             controls_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6) {
                 margin_start = 12,
                 margin_end = 12,
@@ -483,7 +482,8 @@ namespace ProtonPlus.Widgets.Tools {
 
             var responsive_controls = new Adw.BreakpointBin () {
                 width_request = 240,
-                height_request = 40
+                height_request = 40,
+                margin_bottom = 12
             };
             responsive_controls.set_child (controls_box);
             var narrow_controls = new Adw.Breakpoint (

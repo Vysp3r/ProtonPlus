@@ -63,8 +63,8 @@ namespace ProtonPlus.Widgets {
 
     public class Window : Adw.ApplicationWindow {
         // Leave room for the launcher, three-page switcher, downloads, and menu.
-        const double NARROW_NAVIGATION_WIDTH = 800;
-        const int MINIMUM_WINDOW_WIDTH = 768;
+        const double NARROW_NAVIGATION_WIDTH = 700;
+        const int MINIMUM_WINDOW_WIDTH = 384;
         const int MINIMUM_WINDOW_HEIGHT = 360;
 
         public Gee.LinkedList<Models.Launcher> launchers { get; set; }

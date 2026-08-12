@@ -20,6 +20,7 @@ namespace ProtonPlus.Widgets.Preferences {
             set_title (_ ("Delete cache"));
             set_subtitle (_ ("Removes all cached information and temporary downloads"));
             add_suffix (delete_button);
+            set_activatable_widget (delete_button);
         }
 
         async void delete_cache () {

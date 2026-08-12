@@ -76,7 +76,8 @@ namespace ProtonPlus.Widgets.Tools {
             header_title.append (title_box);
 
             list_box = new Gtk.ListBox () {
-                selection_mode = Gtk.SelectionMode.NONE
+                selection_mode = Gtk.SelectionMode.NONE,
+                valign = Gtk.Align.START
             };
             list_box.add_css_class ("boxed-list");
             list_box.add_css_class ("tools-tools-card");

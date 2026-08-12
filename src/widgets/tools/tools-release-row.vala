@@ -88,7 +88,6 @@ namespace ProtonPlus.Widgets.Tools {
                 child = primary_content,
                 valign = Gtk.Align.CENTER
             };
-            primary_button.add_css_class ("flat");
             primary_button.add_css_class ("suggested-action");
             primary_button.clicked.connect (primary_button_clicked);
         }
@@ -552,7 +551,7 @@ namespace ProtonPlus.Widgets.Tools {
         void configure_primary_action (ReleaseRowPrimaryAction action) {
             switch (action) {
             case ReleaseRowPrimaryAction.INSTALL:
-                primary_content.set_icon_name ("system-software-install-symbolic");
+                primary_content.set_icon_name ("folder-download-symbolic");
                 primary_content.set_label (_("Install"));
                 primary_button.set_tooltip_text (_("Install %s").printf (job.title));
                 primary_button.update_property (

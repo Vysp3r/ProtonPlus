@@ -120,7 +120,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 title = _("Search all options")
             };
             Utils.TextInputMetadataPolicy.apply (search_entry, Utils.TextInputFieldKind.SEARCH);
-            search_entry.set_tooltip_text (_("Search launch options"));
+            search_entry.set_tooltip_text (_("Search Launch Options"));
+            var search_icon = new Gtk.Image.from_icon_name ("system-search-symbolic");
+            search_entry.add_prefix (search_icon);
             search_entry.changed.connect (refresh_filters);
             group.add (search_entry);
 
@@ -227,7 +229,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var header = new Gtk.Label (LaunchOptionCatalog.category_title (category)) {
                 halign = Gtk.Align.START,
                 xalign = 0,
-                css_classes = { "title-3" }
+                css_classes = { "heading" }
             };
             box.append (header);
             category_boxes.set ((int) category, box);

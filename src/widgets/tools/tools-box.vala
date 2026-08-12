@@ -300,14 +300,13 @@ namespace ProtonPlus.Widgets.Tools {
 
             center_stack = new Adw.ViewStack ();
             center_stack.add_named (switcher, "groups");
-            center_stack.add_named (release_box.stack_switcher, "release");
 
             var center_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
                 halign = Gtk.Align.CENTER
             };
             center_box.append (center_stack);
 
-            release_presentation = new Header.Presentation (release_box.header_box);
+            release_presentation = new Header.Presentation (release_box.header_stack);
             release_back_handler = release_presentation.back_requested.connect (() => {
                 controller_navigate_back ();
             });
@@ -347,10 +346,8 @@ namespace ProtonPlus.Widgets.Tools {
                     center_stack.set_visible (groups_stack.get_pages ().get_n_items () > 1);
                     action_bar.set_visible (groups_stack.get_pages ().get_n_items () > 1);
                 } else if (visible_child == "release") {
-                    center_stack.set_visible_child_name ("release");
-                    var has_multiple_views = release_box.has_multiple_views ();
-                    center_stack.set_visible (has_multiple_views);
-                    action_bar.set_visible (has_multiple_views);
+                    center_stack.set_visible (false);
+                    action_bar.set_visible (false);
                 } else if (visible_child == "migrate") {
                     center_stack.set_visible (false);
                     action_bar.set_visible (false);

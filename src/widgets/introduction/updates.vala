@@ -27,15 +27,15 @@ namespace ProtonPlus.Widgets.Introduction {
             updates_group.add (background_updates_frequency_row);
 
             var check_updates_on_boot_row = new Adw.SwitchRow () {
-                title = _("Check updates on boot"),
-                subtitle = _("Check for tool updates when the system starts"),
+                title = _("Update tools at system startup"),
+                subtitle = _("Automatically check for and install updates when the system starts"),
             };
             Globals.SETTINGS.bind ("check-updates-on-boot", check_updates_on_boot_row, "active", SettingsBindFlags.DEFAULT);
             updates_group.add (check_updates_on_boot_row);
 
             var check_updates_on_launch_row = new Adw.SwitchRow () {
-                title = _("Check updates on launch"),
-                subtitle = _("Update the tools when the application is launched"),
+                title = _("Update tools when ProtonPlus starts"),
+                subtitle = _("Automatically check for and install updates when ProtonPlus starts"),
             };
             Globals.SETTINGS.bind ("check-updates-on-launch", check_updates_on_launch_row, "active", SettingsBindFlags.DEFAULT);
             updates_group.add (check_updates_on_launch_row);

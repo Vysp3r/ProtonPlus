@@ -18,6 +18,7 @@ namespace ProtonPlus.Widgets.Preferences {
             set_title (_ ("Refresh application data"));
             set_subtitle (_ ("Refreshes the launchers, tools and games"));
             add_suffix (refresh_button);
+            set_activatable_widget (refresh_button);
         }
 
         public RefreshApplicationDataRow () {
