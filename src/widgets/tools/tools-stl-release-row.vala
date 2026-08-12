@@ -81,8 +81,7 @@ namespace ProtonPlus.Widgets.Tools {
             var yad_status = Services.SteamTinkerLaunchYadCompatibility.Status.UNKNOWN;
             if (yield Utils.System.check_dependency ("yad")) {
                 var yad_version = yield Utils.System.run_command ("yad --version");
-                if (yad_version.exit_status == 0)
-                    yad_status = Services.SteamTinkerLaunchYadCompatibility.classify_version_output (yad_version.stdout);
+                yad_status = Services.SteamTinkerLaunchYadCompatibility.classify_version_result (yad_version);
             }
 
             result.has_incompatible_yad =
@@ -95,7 +94,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             if (yad_status == Services.SteamTinkerLaunchYadCompatibility.Status.UNKNOWN ||
                 yad_status == Services.SteamTinkerLaunchYadCompatibility.Status.TOO_OLD)
-                result.missing_dependencies += "yad >= 7.2\n";
+                result.missing_dependencies += "yad >= 7.2 (except 15.x)\n";
 
             if (!(yield Utils.System.check_dependency ("awk")) && !(yield Utils.System.check_dependency ("gawk")))
                 result.missing_dependencies += "awk/gawk\n";

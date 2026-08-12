@@ -27,5 +27,11 @@ namespace ProtonPlus.Services {
                 return Status.UNKNOWN;
             }
         }
+
+        public static Status classify_version_result (Utils.CommandResult result) {
+            // Some YAD builds print a valid version but return a nonzero dialog
+            // response code, so the version output remains authoritative.
+            return classify_version_output (result.stdout);
+        }
     }
 }

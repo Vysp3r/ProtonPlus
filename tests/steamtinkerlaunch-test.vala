@@ -100,6 +100,10 @@ namespace AppTests.SteamTinkerLaunchTest {
             Services.SteamTinkerLaunchYadCompatibility.Status.SUPPORTED);
         assert (Services.SteamTinkerLaunchYadCompatibility.classify_version_output ("unknown") ==
             Services.SteamTinkerLaunchYadCompatibility.Status.UNKNOWN);
+
+        var nonzero_version_result = new Utils.CommandResult ("15.0 (GTK+ 3.24.50)\n", "", 252);
+        assert (Services.SteamTinkerLaunchYadCompatibility.classify_version_result (nonzero_version_result) ==
+            Services.SteamTinkerLaunchYadCompatibility.Status.INCOMPATIBLE_15);
     }
 
     private string temporary_directory () { try { return DirUtils.make_tmp ("protonplus-steamtinkerlaunch-test-XXXXXX"); } catch (FileError e) { critical ("Could not create test directory: %s", e.message); assert_not_reached (); } }
