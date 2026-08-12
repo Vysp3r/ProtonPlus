@@ -43,7 +43,7 @@ namespace ProtonPlus.Widgets.Tools {
         ) {
             Object (
                 title: release_display_title (job),
-                subtitle: Utils.format_timestamp (job.release.release_date),
+                subtitle: release_display_timestamp (job),
                 subtitle_lines: 1,
                 title_lines: 1,
                 activatable: true
@@ -534,6 +534,12 @@ namespace ProtonPlus.Widgets.Tools {
                 : title;
         }
 
+        public static string release_display_timestamp (Services.InstallJob job) {
+            return job.mode == Services.InstallJob.Mode.VERSIONED
+                ? Utils.format_timestamp (job.release.release_date)
+                : "";
+        }
+
         public void set_release_action_available (bool available) {
             if (release_action_available == available)
                 return;
@@ -736,7 +742,7 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             var status = string.joinv (" · ", details.to_array ());
-            var date = Utils.format_timestamp (job.release.release_date);
+            var date = release_display_timestamp (job);
             set_subtitle (
                 date != "" && status != ""
                     ? "%s · %s".printf (date, status)

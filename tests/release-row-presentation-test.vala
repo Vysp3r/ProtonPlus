@@ -197,7 +197,7 @@ namespace AppTests.ReleaseRowPresentationTest {
         var group = new Group ("Fixture", "", "", launcher, "fixture");
         var tool = new ProtonPlus.Models.Tools.SteamTinkerLaunch (group);
         var release = new Release (
-            "Fixture release", "", "",
+            "Fixture release", "", "2026-08-11T18:55:19-04:00",
             new ProtonPlus.Models.Assets.Asset (
                 "fixture.zip", "https://example.test/fixture.zip"
             ),
@@ -211,6 +211,8 @@ namespace AppTests.ReleaseRowPresentationTest {
         assert (latest_title != versioned_title);
         assert (!latest_title.contains ("Fixture release"));
         assert (versioned_title == "Fixture release");
+        assert (ReleaseRow.release_display_timestamp (latest) == "");
+        assert (ReleaseRow.release_display_timestamp (versioned) != "");
     }
 
     private void test_disposal_during_active_job_disconnects_callbacks () {
