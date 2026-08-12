@@ -905,7 +905,7 @@ namespace ProtonPlus.Widgets.Tools {
                 if (control == current)
                     continue;
                 if (control.get_mapped () && control.is_visible () &&
-                    control.is_sensitive () && control.get_focusable ())
+                    control.is_sensitive () && control.get_can_focus ())
                     return control;
             }
             return null;

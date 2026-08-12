@@ -129,6 +129,15 @@ namespace AppTests.ControllerNavigationPolicyTest {
         assert (policy.recall_focus ("tools:release") == null);
     }
 
+    private void test_destroyed_focus_history_target_is_discarded () {
+        var policy = new ControllerNavigationPolicy ();
+        Object? target = new Object ();
+        policy.remember_focus ("tools:release", target);
+        target = null;
+
+        assert (policy.recall_focus ("tools:release") == null);
+    }
+
     private void test_invalid_remembered_target_uses_fallback () {
         assert (ControllerNavigationPolicy.choose_focus_target (true, true) ==
             ControllerFocusTargetChoice.REMEMBERED);
@@ -182,6 +191,7 @@ namespace AppTests.ControllerNavigationPolicyTest {
         Test.add_func ("/controller-navigation/games-back-root-exit", test_games_back_and_root_exit);
         Test.add_func ("/controller-navigation/application-back-never-closes", test_application_back_never_closes);
         Test.add_func ("/controller-navigation/focus-history", test_focus_history_isolated_by_page);
+        Test.add_func ("/controller-navigation/destroyed-focus-history", test_destroyed_focus_history_target_is_discarded);
         Test.add_func ("/controller-navigation/focus-fallback", test_invalid_remembered_target_uses_fallback);
         Test.add_func ("/controller-navigation/switch-restore", test_switch_restores_correct_page);
         Test.add_func ("/controller-navigation/stale-restore", test_stale_restore_is_rejected);

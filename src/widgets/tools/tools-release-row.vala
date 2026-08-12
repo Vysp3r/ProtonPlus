@@ -381,7 +381,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             while (child != null) {
                 if (child.get_mapped () && child.is_visible () &&
-                    child.is_sensitive () && child.get_focusable ())
+                    child.is_sensitive () && child.get_can_focus ())
                     return child;
                 child = forward
                     ? child.get_next_sibling ()

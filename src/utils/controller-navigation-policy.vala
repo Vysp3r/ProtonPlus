@@ -66,10 +66,14 @@ namespace ProtonPlus.Utils {
     }
 
     private class ControllerFocusHistoryEntry : Object {
-        public weak Object? target;
+        WeakRef target_ref;
 
         public ControllerFocusHistoryEntry (Object target) {
-            this.target = target;
+            target_ref = WeakRef (target);
+        }
+
+        public Object? get_target () {
+            return target_ref.get ();
         }
     }
 
@@ -104,7 +108,7 @@ namespace ProtonPlus.Utils {
 
         public Object? recall_focus (string page_id) {
             var entry = focus_history[page_id];
-            return entry?.target;
+            return entry?.get_target ();
         }
 
         public ControllerFocusRestoreRequest begin_restore (string page_id,

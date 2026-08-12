@@ -152,7 +152,7 @@ namespace ProtonPlus.Widgets.Tools {
             Object focused_object, Utils.ControllerNavigationDirection direction
         ) {
             var focused = focused_object as Gtk.Widget;
-            var focused_row = find_row_ancestor (focused) as Adw.ExpanderRow;
+            var focused_row = find_expander_row_ancestor (focused);
             if (focused_row == null)
                 return false;
 
@@ -211,11 +211,11 @@ namespace ProtonPlus.Widgets.Tools {
             return null;
         }
 
-        Gtk.ListBoxRow? find_row_ancestor (Gtk.Widget? widget) {
+        Adw.ExpanderRow? find_expander_row_ancestor (Gtk.Widget? widget) {
             Gtk.Widget? current = widget;
             while (current != null && current != list_box) {
-                if (current is Gtk.ListBoxRow)
-                    return (Gtk.ListBoxRow) current;
+                if (current is Adw.ExpanderRow)
+                    return (Adw.ExpanderRow) current;
                 current = current.get_parent ();
             }
             return null;
