@@ -6,10 +6,11 @@ namespace ProtonPlus.Widgets.Loading {
 
         Adw.StatusPage status_page { get; set; }
         Adw.Spinner spinner { get; set; }
-        Gtk.Box bug_box { get; set; }
+        Gtk.FlowBox bug_box { get; set; }
         Gtk.Box welcome_box { get; set; }
         Gtk.Button retry_button { get; set; }
         Gtk.Button report_button { get; set; }
+        uint slow_warning_timeout_id = 0;
 
         public Box () {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
@@ -32,7 +33,6 @@ namespace ProtonPlus.Widgets.Loading {
             content_box.append (welcome_box);
 
             status_page = new Adw.StatusPage ();
-            status_page.add_css_class ("loading-status-page");
             status_page.set_vexpand (true);
             status_page.set_hexpand (true);
             status_page.set_child (content_box);
@@ -45,6 +45,7 @@ namespace ProtonPlus.Widgets.Loading {
                 return;
 
             loading = true;
+            status_page.add_css_class ("loading-status-page");
 
             bug_box.visible = false;
             welcome_box.visible = false;
@@ -53,7 +54,10 @@ namespace ProtonPlus.Widgets.Loading {
             status_page.set_title (_ ("Loading"));
             status_page.set_description (_ ("Please wait while we're loading your launchers."));
 
-            Timeout.add_seconds (15, () => {
+            if (slow_warning_timeout_id != 0)
+                Source.remove (slow_warning_timeout_id);
+            slow_warning_timeout_id = Timeout.add_seconds (15, () => {
+                slow_warning_timeout_id = 0;
                 if (loading) {
                     status_page.set_description (_ ("Taking longer than normal?"));
                     retry_button.visible = false;
@@ -69,6 +73,11 @@ namespace ProtonPlus.Widgets.Loading {
             var success = yield Models.Launcher.get_all (out launchers);
 
             loading = false;
+            status_page.remove_css_class ("loading-status-page");
+            if (slow_warning_timeout_id != 0) {
+                Source.remove (slow_warning_timeout_id);
+                slow_warning_timeout_id = 0;
+            }
 
             if (!success) {
                 status_page.set_icon_name ("bug-symbolic");
@@ -123,7 +132,7 @@ namespace ProtonPlus.Widgets.Loading {
             return button;
         }
 
-        Gtk.Box create_bug_box () {
+        Gtk.FlowBox create_bug_box () {
             retry_button = create_icon_button (_ ("Retry loading"), "view-refresh-symbolic", true);
             retry_button.clicked.connect (() => {
                 load.begin ();
@@ -134,7 +143,14 @@ namespace ProtonPlus.Widgets.Loading {
                 activate_action ("app.report", null);
             });
 
-            var bug_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
+            var bug_box = new Gtk.FlowBox () {
+                column_spacing = 12,
+                row_spacing = 12,
+                max_children_per_line = 2,
+                min_children_per_line = 1,
+                selection_mode = Gtk.SelectionMode.NONE,
+                halign = Gtk.Align.CENTER
+            };
             bug_box.append (retry_button);
             bug_box.append (report_button);
 
@@ -142,9 +158,9 @@ namespace ProtonPlus.Widgets.Loading {
         }
 
         Gtk.Box create_welcome_box () {
-            var first_label = new Gtk.Label (_ ("You need a game launcher to use ProtonPlus."));
+            var first_label = create_wrapping_label (_ ("You need a game launcher to use ProtonPlus."));
 
-            var second_label = new Gtk.Label (_ ("Install one of these to get started:"));
+            var second_label = create_wrapping_label (_ ("Install one of these to get started:"));
 
             var steam_button = create_image_button ("Steam", "steam.svg");
             steam_button.clicked.connect (() => {
@@ -185,7 +201,7 @@ namespace ProtonPlus.Widgets.Loading {
             launchers_box.append (bottles_button);
             launchers_box.append (winezgui_button);
 
-            var third_label = new Gtk.Label (_ ("Important: Run the launcher once to initialize it properly."));
+            var third_label = create_wrapping_label (_ ("Important: Run the launcher once to initialize it properly."));
 
             var check_button = create_icon_button (_ ("Check again"), "view-refresh-symbolic", true);
             check_button.clicked.connect (() => {
@@ -200,6 +216,22 @@ namespace ProtonPlus.Widgets.Loading {
             welcome_box.append (check_button);
 
             return welcome_box;
+        }
+
+        Gtk.Label create_wrapping_label (string text) {
+            return new Gtk.Label (text) {
+                wrap = true,
+                justify = Gtk.Justification.CENTER,
+                max_width_chars = 48
+            };
+        }
+
+        public override void dispose () {
+            if (slow_warning_timeout_id != 0) {
+                Source.remove (slow_warning_timeout_id);
+                slow_warning_timeout_id = 0;
+            }
+            base.dispose ();
         }
     }
 }

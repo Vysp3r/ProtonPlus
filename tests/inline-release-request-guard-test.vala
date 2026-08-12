@@ -82,6 +82,77 @@ namespace AppTests.InlineReleaseRequestGuardTest {
         assert (!state.restore_navigation (tool_a, release_a, out position));
     }
 
+    private void test_presentation_keeps_cached_content_during_refresh () {
+        var presentation = InlineReleasePresentation.evaluate (
+            InlineReleaseRequestKind.REFRESH, true, true, false
+        );
+        assert (presentation.view == InlineReleaseView.LIST);
+        assert (!presentation.show_error_banner);
+
+        presentation = InlineReleasePresentation.evaluate (
+            InlineReleaseRequestKind.REFRESH, false, true, true
+        );
+        assert (presentation.view == InlineReleaseView.LIST);
+        assert (presentation.show_error_banner);
+
+        presentation = InlineReleasePresentation.evaluate (
+            InlineReleaseRequestKind.REFRESH, false, true, true, true
+        );
+        assert (presentation.view == InlineReleaseView.EMPTY);
+        assert (presentation.show_error_banner);
+    }
+
+    private void test_presentation_initial_loading_empty_and_error () {
+        var presentation = InlineReleasePresentation.evaluate (
+            InlineReleaseRequestKind.INITIAL, true, false, false
+        );
+        assert (presentation.view == InlineReleaseView.LOADING);
+
+        presentation = InlineReleasePresentation.evaluate (
+            InlineReleaseRequestKind.INITIAL, false, false, false
+        );
+        assert (presentation.view == InlineReleaseView.EMPTY);
+
+        presentation = InlineReleasePresentation.evaluate (
+            InlineReleaseRequestKind.INITIAL, false, false, true
+        );
+        assert (presentation.view == InlineReleaseView.ERROR);
+        assert (!presentation.show_error_banner);
+
+        presentation = InlineReleasePresentation.evaluate (
+            InlineReleaseRequestKind.INITIAL, false, true, false
+        );
+        assert (presentation.view == InlineReleaseView.LIST);
+    }
+
+    private void test_presentation_load_more_retry_keeps_content () {
+        var presentation = InlineReleasePresentation.evaluate (
+            InlineReleaseRequestKind.LOAD_MORE, true, true, false
+        );
+        assert (presentation.view == InlineReleaseView.LIST);
+
+        presentation = InlineReleasePresentation.evaluate (
+            InlineReleaseRequestKind.LOAD_MORE, false, true, true
+        );
+        assert (presentation.view == InlineReleaseView.LIST);
+        assert (presentation.show_error_banner);
+    }
+
+    private void test_empty_reason_is_specific () {
+        assert (InlineReleasePresentation.empty_reason (
+            "proton", Filter.ALL, true
+        ) == InlineReleaseEmptyReason.SEARCH);
+        assert (InlineReleasePresentation.empty_reason (
+            "", Filter.INSTALLED, true
+        ) == InlineReleaseEmptyReason.FILTER);
+        assert (InlineReleasePresentation.empty_reason (
+            "", Filter.ALL, false
+        ) == InlineReleaseEmptyReason.UNAVAILABLE);
+        assert (InlineReleasePresentation.empty_reason (
+            "", Filter.ALL, true
+        ) == InlineReleaseEmptyReason.CATALOG);
+    }
+
     public void register_tests () {
         Test.add_func ("/inline-release-request/select-and-clear", test_select_and_clear);
         Test.add_func ("/inline-release-request/new-selection-invalidates-previous", test_new_selection_invalidates_previous_completion);
@@ -89,5 +160,9 @@ namespace AppTests.InlineReleaseRequestGuardTest {
         Test.add_func ("/inline-release-request/single-expansion", test_single_expansion_transition);
         Test.add_func ("/inline-release-request/filter-loaded-expansion", test_filter_uses_only_loaded_expansion_matches);
         Test.add_func ("/inline-release-request/navigation-restore", test_navigation_restore_is_owner_and_release_scoped);
+        Test.add_func ("/inline-release-request/presentation-cached-refresh", test_presentation_keeps_cached_content_during_refresh);
+        Test.add_func ("/inline-release-request/presentation-initial-states", test_presentation_initial_loading_empty_and_error);
+        Test.add_func ("/inline-release-request/presentation-load-more-retry", test_presentation_load_more_retry_keeps_content);
+        Test.add_func ("/inline-release-request/empty-reason", test_empty_reason_is_specific);
     }
 }

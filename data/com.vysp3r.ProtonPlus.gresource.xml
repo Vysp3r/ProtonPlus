@@ -12,7 +12,6 @@
         <file alias="winezgui.svg">images/winezgui.svg</file>
         <file alias="com.vysp3r.ProtonPlus.png">icons/hicolor/512x512/apps/com.vysp3r.ProtonPlus.png</file>
         <file alias="style.css">css/style.css</file>
-        <file alias="status.css">css/status.css</file>
         <file alias="steamos.css">css/steamos.css</file>
         <file alias="oled.css">css/oled.css</file>
         <file alias="breeze-dark.css">css/breeze-dark.css</file>

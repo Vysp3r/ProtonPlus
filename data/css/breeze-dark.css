@@ -19,7 +19,8 @@
 
 /* Selection / accent */
 @define-color theme_selected_bg_color_protonplus_breeze #3daee9;
-@define-color theme_selected_fg_color_protonplus_breeze #fcfcfc;
+@define-color theme_selected_fg_color_protonplus_breeze #000000;
+@define-color accent_color_protonplus_breeze #3daee9;
 @define-color theme_hovering_selected_bg_color_protonplus_breeze #3daee9;
 @define-color theme_view_hover_decoration_color_protonplus_breeze #3daee9;
 @define-color theme_view_active_decoration_color_protonplus_breeze #3daee9;
@@ -115,7 +116,7 @@
 /* Accent — Breeze KDE blue */
 @define-color accent_bg_color @theme_selected_bg_color_protonplus_breeze;
 @define-color accent_fg_color @theme_selected_fg_color_protonplus_breeze;
-@define-color accent_color @theme_selected_bg_color_protonplus_breeze;
+@define-color accent_color @accent_color_protonplus_breeze;
 
 /* Window */
 @define-color window_bg_color @theme_bg_color_protonplus_breeze;
@@ -172,10 +173,10 @@
 @define-color destructive_fg_color white;
 @define-color destructive_color @error_color_protonplus_breeze;
 @define-color success_bg_color @success_color_protonplus_breeze;
-@define-color success_fg_color white;
+@define-color success_fg_color black;
 @define-color success_color @success_color_protonplus_breeze;
 @define-color warning_bg_color @warning_color_protonplus_breeze;
-@define-color warning_fg_color white;
+@define-color warning_fg_color black;
 @define-color warning_color @warning_color_protonplus_breeze;
 @define-color error_bg_color @error_color_protonplus_breeze;
 @define-color error_fg_color white;
@@ -185,7 +186,7 @@
 * {
   --accent-bg-color: @theme_selected_bg_color_protonplus_breeze;
   --accent-fg-color: @theme_selected_fg_color_protonplus_breeze;
-  --accent-color: @theme_selected_bg_color_protonplus_breeze;
+  --accent-color: @accent_color_protonplus_breeze;
 
   --window-bg-color: @theme_bg_color_protonplus_breeze;
   --window-fg-color: @theme_fg_color_protonplus_breeze;
@@ -227,10 +228,10 @@
   --destructive-fg-color: #ffffff;
   --destructive-color: @error_color_protonplus_breeze;
   --success-bg-color: @success_color_protonplus_breeze;
-  --success-fg-color: #ffffff;
+  --success-fg-color: #000000;
   --success-color: @success_color_protonplus_breeze;
   --warning-bg-color: @warning_color_protonplus_breeze;
-  --warning-fg-color: #ffffff;
+  --warning-fg-color: #000000;
   --warning-color: @warning_color_protonplus_breeze;
   --error-bg-color: @error_color_protonplus_breeze;
   --error-fg-color: #ffffff;

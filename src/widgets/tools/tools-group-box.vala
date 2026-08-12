@@ -1,11 +1,14 @@
 namespace ProtonPlus.Widgets.Tools {
     public class GroupBox : Gtk.Box, Utils.ControllerDirectionalFocus {
         public signal void tool_expansion_changed (Models.Tool tool, bool expanded);
+        public signal void clear_search_requested ();
+        public signal void reset_filter_requested ();
         public Gtk.Box header_title { get; private set; }
         Gtk.ListBox list_box;
         Gtk.ScrolledWindow scrolled;
         Gtk.Stack stack;
         Adw.StatusPage status_page;
+        Gtk.Button empty_action_button;
         weak Gtk.Widget? controller_up_target;
         Adw.ExpanderRow? expanded_row;
         Models.Tool? expanded_tool;
@@ -98,12 +101,23 @@ namespace ProtonPlus.Widgets.Tools {
                 description = _ ("No tools match the current filter."),
                 icon_name = "edit-find-symbolic"
             };
+            empty_action_button = new Gtk.Button () {
+                halign = Gtk.Align.CENTER,
+                visible = false
+            };
+            empty_action_button.add_css_class ("suggested-action");
+            empty_action_button.clicked.connect (() => {
+                if (search_text.strip () != "")
+                    clear_search_requested ();
+                else if (filter != Filter.ALL)
+                    reset_filter_requested ();
+            });
+            status_page.set_child (empty_action_button);
 
             stack = new Gtk.Stack () {
                 vexpand = true,
                 overflow = Gtk.Overflow.HIDDEN
             };
-            stack.add_css_class ("card");
             stack.add_named (scrolled, "list");
             stack.add_named (status_page, "empty");
 
@@ -219,7 +233,10 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public Object? get_controller_initial_focus () {
-            return find_first_visible_row ();
+            var row = find_first_visible_row ();
+            if (row != null)
+                return row;
+            return empty_action_button.visible ? empty_action_button : null;
         }
 
         void update_status_page () {
@@ -227,9 +244,14 @@ namespace ProtonPlus.Widgets.Tools {
                 status_page.set_title (_ ("No matching tools"));
                 status_page.set_description (_ ("Try a different search term or clear the search."));
                 status_page.set_icon_name ("edit-find-symbolic");
+                empty_action_button.set_label (_ ("Clear Search"));
+                empty_action_button.set_visible (true);
                 return;
             }
 
+            empty_action_button.set_visible (filter != Filter.ALL);
+            if (filter != Filter.ALL)
+                empty_action_button.set_label (_ ("Reset Filters"));
             switch (filter) {
                 case Filter.INSTALLED:
                     status_page.set_title (_ ("No installed tools"));

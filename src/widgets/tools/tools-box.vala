@@ -94,6 +94,14 @@ namespace ProtonPlus.Widgets.Tools {
             releases_box.job_selected.connect ((job) => {
                 set_selected_job (job);
             });
+            releases_box.clear_search_requested.connect (() => {
+                search_entry.set_text ("");
+                search_button.grab_focus ();
+            });
+            releases_box.reset_filter_requested.connect (() => {
+                all_filter_button.active = true;
+                filter_button.grab_focus ();
+            });
 
             release_box = new ReleaseBox ();
 
@@ -763,6 +771,14 @@ namespace ProtonPlus.Widgets.Tools {
                 group_box.search_text = search_entry.get_text ();
                 group_box.tool_expansion_changed.connect ((tool, expanded) => {
                     on_tool_expansion_changed (group_box, tool, expanded);
+                });
+                group_box.clear_search_requested.connect (() => {
+                    search_entry.set_text ("");
+                    search_button.grab_focus ();
+                });
+                group_box.reset_filter_requested.connect (() => {
+                    all_filter_button.active = true;
+                    filter_button.grab_focus ();
                 });
                 groups_stack.add_titled_with_icon (group_box, group.title.down (), group.title, "layer-group-symbolic");
             }

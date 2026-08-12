@@ -12,6 +12,69 @@ namespace ProtonPlus.Widgets.Tools {
         LOAD_MORE
     }
 
+    public enum InlineReleaseView {
+        LOADING,
+        LIST,
+        EMPTY,
+        ERROR
+    }
+
+    public enum InlineReleaseEmptyReason {
+        CATALOG,
+        SEARCH,
+        FILTER,
+        UNAVAILABLE
+    }
+
+    public class InlineReleasePresentation : Object {
+        public InlineReleaseView view { get; private set; }
+        public bool show_error_banner { get; private set; }
+
+        public static InlineReleasePresentation evaluate (
+            InlineReleaseRequestKind kind,
+            bool request_in_progress,
+            bool has_content,
+            bool failed,
+            bool filtered_empty = false
+        ) {
+            var result = new InlineReleasePresentation ();
+            if (request_in_progress) {
+                result.view = kind == InlineReleaseRequestKind.INITIAL || !has_content
+                    ? InlineReleaseView.LOADING
+                    : filtered_empty
+                        ? InlineReleaseView.EMPTY
+                        : InlineReleaseView.LIST;
+                return result;
+            }
+            if (failed) {
+                result.show_error_banner = kind != InlineReleaseRequestKind.INITIAL &&
+                    has_content;
+                result.view = result.show_error_banner
+                    ? filtered_empty
+                        ? InlineReleaseView.EMPTY
+                        : InlineReleaseView.LIST
+                    : InlineReleaseView.ERROR;
+                return result;
+            }
+            result.view = has_content
+                ? InlineReleaseView.LIST
+                : InlineReleaseView.EMPTY;
+            return result;
+        }
+
+        public static InlineReleaseEmptyReason empty_reason (
+            string query, Filter filter, bool compatible
+        ) {
+            if (query.strip () != "")
+                return InlineReleaseEmptyReason.SEARCH;
+            if (filter != Filter.ALL)
+                return InlineReleaseEmptyReason.FILTER;
+            if (!compatible)
+                return InlineReleaseEmptyReason.UNAVAILABLE;
+            return InlineReleaseEmptyReason.CATALOG;
+        }
+    }
+
     public class InlineReleaseInteractionState : Object {
         Object? owner;
         Object? navigation_owner;
@@ -98,6 +161,8 @@ namespace ProtonPlus.Widgets.Tools {
 
     public class ReleasesBox : Gtk.Box, Utils.ControllerDirectionalFocus {
         public signal void job_selected (Services.InstallJob job);
+        public signal void clear_search_requested ();
+        public signal void reset_filter_requested ();
 
         Gtk.Box tool_box { get; set; }
         public Gtk.Label last_updated_label { get; private set; }
@@ -107,6 +172,8 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Stack content_stack { get; set; }
         Adw.StatusPage status_page { get; set; }
         Adw.StatusPage error_page { get; set; }
+        Adw.Banner error_banner { get; set; }
+        Gtk.Button empty_action_button { get; set; }
         Gtk.Button error_retry_button { get; set; }
         Gtk.Box controls_box;
         Gtk.Box primary_controls_box;
@@ -137,6 +204,7 @@ namespace ProtonPlus.Widgets.Tools {
         InlineReleaseRequestKind last_request_kind = InlineReleaseRequestKind.INITIAL;
         bool request_in_progress = false;
         bool error_active = false;
+        bool background_request_started_empty = false;
         bool narrow_controls_active = false;
         string last_announced_state = "";
 
@@ -360,10 +428,17 @@ namespace ProtonPlus.Widgets.Tools {
             };
 
             status_page = new Adw.StatusPage () {
-                title = _("No releases found"),
-                description = _("No releases match the current filter."),
-                icon_name = "edit-find-symbolic"
+                title = _("No releases available"),
+                description = _("Check again for new releases."),
+                icon_name = "box-open-symbolic"
             };
+            empty_action_button = new Gtk.Button () {
+                label = _("Refresh"),
+                halign = Gtk.Align.CENTER
+            };
+            empty_action_button.add_css_class ("suggested-action");
+            empty_action_button.clicked.connect (on_empty_action_clicked);
+            status_page.set_child (empty_action_button);
 
             error_retry_button = new Gtk.Button.with_label (_("Retry")) {
                 halign = Gtk.Align.CENTER
@@ -375,6 +450,12 @@ namespace ProtonPlus.Widgets.Tools {
                 icon_name = "dialog-error-symbolic",
                 child = error_retry_button
             };
+
+            error_banner = new Adw.Banner (_("Couldn’t load releases"));
+            error_banner.set_button_label (_("Retry"));
+            error_banner.set_focusable (true);
+            error_banner.button_clicked.connect (retry_current_request);
+            error_banner.set_revealed (false);
 
             content_stack.add_named (list_box, "list");
             content_stack.add_named (spinner_box, "spinner");
@@ -417,6 +498,7 @@ namespace ProtonPlus.Widgets.Tools {
             responsive_controls.add_breakpoint (narrow_controls);
 
             tool_box.append (responsive_controls);
+            tool_box.append (error_banner);
             tool_box.append (content_stack);
             append (tool_box);
         }
@@ -450,7 +532,11 @@ namespace ProtonPlus.Widgets.Tools {
             refresh_button.sensitive = false;
             set_request_in_progress (true);
             error_active = false;
-            content_stack.set_visible_child_name ("spinner");
+            background_request_started_empty = false;
+            error_banner.set_revealed (false);
+            apply_presentation (InlineReleasePresentation.evaluate (
+                last_request_kind, true, false, false
+            ));
             announce_state (_("Loading releases"));
             reset_load_more_button ();
 
@@ -464,9 +550,12 @@ namespace ProtonPlus.Widgets.Tools {
             var catalog = tool.release_catalog;
             if (catalog == null) {
                 set_request_in_progress (false);
-                content_stack.set_visible_child_name ("empty");
+                update_empty_status ();
+                apply_presentation (InlineReleasePresentation.evaluate (
+                    last_request_kind, false, false, false
+                ));
                 refresh_button.sensitive = true;
-                announce_state (_("No releases found"));
+                announce_state (_("No releases available"));
                 return true;
             }
 
@@ -492,6 +581,7 @@ namespace ProtonPlus.Widgets.Tools {
             load_more_row.visible = catalog.has_more && can_show_provider_release_rows ();
 
             content_stack.set_visible_child_name ("list");
+            error_banner.set_revealed (false);
             apply_selected_variant_to_rows ();
             update_last_updated_label ();
             update_visibility ();
@@ -509,7 +599,9 @@ namespace ProtonPlus.Widgets.Tools {
             refresh_button.sensitive = true;
             set_request_in_progress (false);
             error_active = false;
+            background_request_started_empty = false;
             last_announced_state = "";
+            error_banner.set_revealed (false);
             content_stack.set_visible_child_name ("empty");
         }
 
@@ -551,14 +643,29 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void show_error (ReturnCode code) {
-            error_active = true;
+            var presentation = InlineReleasePresentation.evaluate (
+                last_request_kind, false, has_release_rows (), true,
+                background_request_started_empty
+            );
+            error_active = presentation.view == InlineReleaseView.ERROR;
             error_page.set_description (get_return_code_message (code));
-            content_stack.set_visible_child_name ("error");
-            announce_state (_("Failed to Fetch Releases"));
+            if (presentation.show_error_banner) {
+                var title = last_request_kind == InlineReleaseRequestKind.LOAD_MORE
+                    ? _("Couldn’t load more releases")
+                    : _("Couldn’t refresh releases");
+                error_banner.set_title (title);
+                error_banner.set_revealed (true);
+                announce_state (title);
+            } else {
+                error_banner.set_revealed (false);
+                announce_state (_("Failed to Fetch Releases"));
+            }
+            apply_presentation (presentation);
+            warning ("Release catalog request failed: %s", get_return_code_message (code));
         }
 
         void retry_current_request () {
-            if (current_tool == null)
+            if (current_tool == null || request_in_progress)
                 return;
             if (last_request_kind == InlineReleaseRequestKind.REFRESH)
                 set_selected_tool_forced.begin ((!) current_tool);
@@ -566,6 +673,74 @@ namespace ProtonPlus.Widgets.Tools {
                 on_load_more_clicked.begin ();
             else
                 set_selected_tool.begin ((!) current_tool);
+        }
+
+        void apply_presentation (InlineReleasePresentation presentation) {
+            switch (presentation.view) {
+            case InlineReleaseView.LOADING:
+                content_stack.set_visible_child_name ("spinner");
+                break;
+            case InlineReleaseView.LIST:
+                content_stack.set_visible_child_name ("list");
+                break;
+            case InlineReleaseView.ERROR:
+                content_stack.set_visible_child_name ("error");
+                break;
+            default:
+                content_stack.set_visible_child_name ("empty");
+                break;
+            }
+        }
+
+        void on_empty_action_clicked () {
+            switch (InlineReleasePresentation.empty_reason (
+                search_text, filter, provider_has_compatible_variants
+            )) {
+            case InlineReleaseEmptyReason.SEARCH:
+                clear_search_requested ();
+                break;
+            case InlineReleaseEmptyReason.FILTER:
+                reset_filter_requested ();
+                break;
+            case InlineReleaseEmptyReason.CATALOG:
+                on_refresh_clicked ();
+                break;
+            default:
+                break;
+            }
+        }
+
+        void update_empty_status () {
+            var reason = InlineReleasePresentation.empty_reason (
+                search_text, filter, provider_has_compatible_variants
+            );
+            empty_action_button.set_visible (true);
+            switch (reason) {
+            case InlineReleaseEmptyReason.SEARCH:
+                status_page.set_title (_("No matching releases"));
+                status_page.set_description (_("Try a different search term or clear the search."));
+                status_page.set_icon_name ("edit-find-symbolic");
+                empty_action_button.set_label (_("Clear Search"));
+                break;
+            case InlineReleaseEmptyReason.FILTER:
+                status_page.set_title (_("No releases match this filter"));
+                status_page.set_description (_("Reset the filters to see all releases."));
+                status_page.set_icon_name ("filter-2-symbolic");
+                empty_action_button.set_label (_("Reset Filters"));
+                break;
+            case InlineReleaseEmptyReason.UNAVAILABLE:
+                status_page.set_title (_("No compatible releases"));
+                status_page.set_description (_("No compatible variants are available for this system."));
+                status_page.set_icon_name ("dialog-warning-symbolic");
+                empty_action_button.set_visible (false);
+                break;
+            default:
+                status_page.set_title (_("No releases available"));
+                status_page.set_description (_("Check again for new releases."));
+                status_page.set_icon_name ("box-open-symbolic");
+                empty_action_button.set_label (_("Refresh"));
+                break;
+            }
         }
 
         public bool focus_first_controller_target () {
@@ -577,6 +752,10 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         bool focus_first_content_target () {
+            if (error_banner.get_revealed () && error_banner.get_mapped () &&
+                error_banner.is_sensitive () && error_banner.get_focusable ())
+                return error_banner.grab_focus ();
+
             var child = list_box.get_first_child ();
             while (child != null) {
                 if (child is ReleaseRow && child.get_mapped () &&
@@ -593,6 +772,10 @@ namespace ProtonPlus.Widgets.Tools {
             if (error_retry_button.get_mapped () && error_retry_button.is_visible () &&
                 error_retry_button.is_sensitive ())
                 return error_retry_button.grab_focus ();
+
+            if (empty_action_button.get_mapped () && empty_action_button.is_visible () &&
+                empty_action_button.is_sensitive ())
+                return empty_action_button.grab_focus ();
 
             return controller_up_target != null &&
                 ((!) controller_up_target).get_mapped () &&
@@ -627,7 +810,29 @@ namespace ProtonPlus.Widgets.Tools {
                 return false;
             }
 
-            if (focused == error_retry_button || ((!) focused).is_ancestor (error_retry_button)) {
+            if (focused == error_banner || ((!) focused).is_ancestor (error_banner)) {
+                if (direction == Utils.ControllerNavigationDirection.UP) {
+                    var target = find_inline_control (null, false);
+                    return target != null
+                        ? ((!) target).grab_focus ()
+                        : focus_controller_up_target ();
+                }
+                if (direction == Utils.ControllerNavigationDirection.DOWN) {
+                    var child = list_box.get_first_child ();
+                    while (child != null) {
+                        if (child is ReleaseRow && child.get_mapped () &&
+                            child.is_visible () && child.get_child_visible () &&
+                            child.is_sensitive () && child.get_focusable ())
+                            return child.grab_focus ();
+                        child = child.get_next_sibling ();
+                    }
+                    return focus_controller_down_target ();
+                }
+                return false;
+            }
+
+            if (focused == error_retry_button || ((!) focused).is_ancestor (error_retry_button) ||
+                focused == empty_action_button || ((!) focused).is_ancestor (empty_action_button)) {
                 if (direction == Utils.ControllerNavigationDirection.UP) {
                     var target = find_inline_control (null, false);
                     return target != null
@@ -791,22 +996,38 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private async void set_selected_tool_forced (Models.Tool tool) {
+            if (request_in_progress)
+                return;
             uint request_generation = request_guard.select (tool);
             tool_request_generation = request_generation;
             current_tool = tool;
             last_request_kind = InlineReleaseRequestKind.REFRESH;
+            background_request_started_empty =
+                content_stack.get_visible_child_name () == "empty";
             set_request_in_progress (true);
             error_active = false;
-            content_stack.set_visible_child_name (has_release_rows () ? "list" : "spinner");
+            error_banner.set_revealed (false);
+            var has_cached_content = has_release_rows ();
+            apply_presentation (InlineReleasePresentation.evaluate (
+                last_request_kind, true, has_cached_content, false,
+                background_request_started_empty
+            ));
             refresh_button.sensitive = false;
             announce_state (_("Loading releases"));
+            if (has_cached_content) {
+                last_updated_label.set_label (_("Refreshing…"));
+                last_updated_label.set_visible (!narrow_controls_active);
+            }
             reset_load_more_button ();
             load_more_button.sensitive = false;
 
             var catalog = tool.release_catalog;
             if (catalog == null) {
                 set_request_in_progress (false);
-                content_stack.set_visible_child_name ("empty");
+                update_empty_status ();
+                apply_presentation (InlineReleasePresentation.evaluate (
+                    last_request_kind, false, false, false
+                ));
                 refresh_button.sensitive = true;
                 reset_load_more_button ();
                 return;
@@ -821,6 +1042,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (!result.succeeded) {
                 refresh_button.sensitive = true;
                 reset_load_more_button ();
+                update_last_updated_label ();
                 show_error (result.code);
                 return;
             }
@@ -834,6 +1056,7 @@ namespace ProtonPlus.Widgets.Tools {
             load_more_row.visible = catalog.has_more && can_show_provider_release_rows ();
 
             content_stack.set_visible_child_name ("list");
+            error_banner.set_revealed (false);
             apply_selected_variant_to_rows ();
             update_last_updated_label ();
             update_visibility ();
@@ -850,21 +1073,15 @@ namespace ProtonPlus.Widgets.Tools {
             variant_box.set_visible (false);
 
             var provider_tool = tool as Models.Tools.ProviderTool;
-            if (provider_tool == null) {
-                status_page.set_description (_("No releases match the current filter."));
+            if (provider_tool == null)
                 return;
-            }
 
             displayed_variants = Models.VariantSelector.compatible_variants (
                 provider_tool.variants, Globals.CPU_CAPABILITIES
             );
             provider_has_compatible_variants = displayed_variants.size > 0;
-            if (!provider_has_compatible_variants) {
-                status_page.set_description (_("No compatible variants are available for this system."));
+            if (!provider_has_compatible_variants)
                 return;
-            }
-
-            status_page.set_description (_("No releases match the current filter."));
             selected_variant = Models.VariantSelector.select_variant (
                 displayed_variants, Globals.CPU_CAPABILITIES, get_saved_variant_name (tool)
             );
@@ -1106,13 +1323,16 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private async void on_load_more_clicked () {
-            if (current_tool == null)
+            if (current_tool == null || request_in_progress)
                 return;
 
             Models.Tool tool = current_tool;
             uint request_generation = tool_request_generation;
             last_request_kind = InlineReleaseRequestKind.LOAD_MORE;
+            background_request_started_empty = false;
+            set_request_in_progress (true);
             error_active = false;
+            error_banner.set_revealed (false);
             content_stack.set_visible_child_name ("list");
             refresh_button.sensitive = false;
             load_more_button.sensitive = false;
@@ -1121,6 +1341,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             var catalog = tool.release_catalog;
             if (catalog == null) {
+                set_request_in_progress (false);
                 reset_load_more_button ();
                 refresh_button.sensitive = true;
                 return;
@@ -1130,6 +1351,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             if (!is_current_tool_request (tool, request_generation))
                 return;
+            set_request_in_progress (false);
 
             if (result.succeeded) {
                 foreach (var release in result.releases) {
@@ -1149,6 +1371,7 @@ namespace ProtonPlus.Widgets.Tools {
             reset_load_more_button ();
             refresh_button.sensitive = true;
             update_visibility ();
+            error_banner.set_revealed (false);
             announce_state (_("Releases loaded"));
         }
 
@@ -1184,8 +1407,9 @@ namespace ProtonPlus.Widgets.Tools {
             if (has_visible || (load_more_row != null && load_more_row.visible)) {
                 content_stack.set_visible_child_name ("list");
             } else {
+                update_empty_status ();
                 content_stack.set_visible_child_name ("empty");
-                announce_state (_("No releases found"));
+                announce_state (status_page.get_title ());
             }
         }
 

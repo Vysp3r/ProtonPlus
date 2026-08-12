@@ -245,19 +245,19 @@ namespace ProtonPlus.Widgets.Tools {
 
             // Alerts: > [!NOTE]
                 var note_alert = new Regex ("^&gt; ?\\[!NOTE\\]$", RegexCompileFlags.MULTILINE | RegexCompileFlags.CASELESS);
-                text = note_alert.replace (text, -1, 0, "  <b><span color=\"#3584e4\">🗒️ Note</span></b>");
+                text = note_alert.replace (text, -1, 0, "  <b>🗒️ Note</b>");
 
                 var tip_alert = new Regex ("^&gt; ?\\[!TIP\\]$", RegexCompileFlags.MULTILINE | RegexCompileFlags.CASELESS);
-                text = tip_alert.replace (text, -1, 0, "  <b><span color=\"#2ec27e\">💡 Tip</span></b>");
+                text = tip_alert.replace (text, -1, 0, "  <b>💡 Tip</b>");
 
                 var important_alert = new Regex ("^&gt; ?\\[!IMPORTANT\\]$", RegexCompileFlags.MULTILINE | RegexCompileFlags.CASELESS);
-                text = important_alert.replace (text, -1, 0, "  <b><span color=\"#9141ac\">❗ Important</span></b>");
+                text = important_alert.replace (text, -1, 0, "  <b>❗ Important</b>");
 
                 var warning_alert = new Regex ("^&gt; ?\\[!WARNING\\]$", RegexCompileFlags.MULTILINE | RegexCompileFlags.CASELESS);
-                text = warning_alert.replace (text, -1, 0, "  <b><span color=\"#e5a50a\">⚠️ Warning</span></b>");
+                text = warning_alert.replace (text, -1, 0, "  <b>⚠️ Warning</b>");
 
                 var caution_alert = new Regex ("^&gt; ?\\[!CAUTION\\]$", RegexCompileFlags.MULTILINE | RegexCompileFlags.CASELESS);
-                text = caution_alert.replace (text, -1, 0, "  <b><span color=\"#e01b24\">🔴 Caution</span></b>");
+                text = caution_alert.replace (text, -1, 0, "  <b>🔴 Caution</b>");
 
             // Blockquotes: > text -> <i>  text</i>
                 var blockquote = new Regex ("^&gt; ?(.*)$", RegexCompileFlags.MULTILINE);

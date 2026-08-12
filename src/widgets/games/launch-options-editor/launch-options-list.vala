@@ -172,14 +172,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             if (tokens.size == 0)
                 return Markup.escape_text (_("No launch options configured yet."));
 
-            string[] preview_colors = {
-                "#79c0ff",
-                "#ff938a",
-                "#7ee787",
-                "#d2a8ff",
-                "#e3b341",
-                "#56d4dd"
-            };
             var markup = new StringBuilder ();
             markup.append ("<tt>");
 
@@ -188,7 +180,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     markup.append (" ");
 
                 var escaped_segment = Markup.escape_text (tokens[index].raw);
-                markup.append ("<span foreground='%s'>%s</span>".printf (preview_colors[index % preview_colors.length], escaped_segment));
+                markup.append (escaped_segment);
             }
 
             markup.append ("</tt>");

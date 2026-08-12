@@ -32,6 +32,7 @@ namespace ProtonPlus.Widgets.Tools {
         ReleaseRowJobSignalBinding job_signal_binding;
         uint progress_pulse_timeout_id = 0;
         bool release_action_available;
+        string? operation_error_message = null;
 
         public ReleaseRow (
             Services.InstallJob job,
@@ -459,6 +460,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (row_disposed)
                 return;
             retry_action = ReleaseRowRetryAction.NONE;
+            operation_error_message = null;
             refresh_presentation ();
         }
 
@@ -466,6 +468,8 @@ namespace ProtonPlus.Widgets.Tools {
             if (row_disposed)
                 return;
             set_title (release_display_title (job));
+            retry_action = ReleaseRowRetryAction.NONE;
+            operation_error_message = null;
             actions_button.update_property (
                 Gtk.AccessibleProperty.LABEL,
                 _("Actions for %s").printf (job.title),
@@ -651,6 +655,8 @@ namespace ProtonPlus.Widgets.Tools {
                 details.add (_("Recommended"));
             if (retry_action != ReleaseRowRetryAction.NONE)
                 details.add (_("Failed"));
+            if (operation_error_message != null)
+                details.add ((!) operation_error_message);
             switch (job.state) {
             case Services.InstallJob.State.NOT_INSTALLED:
                 details.add (_("Not installed"));
@@ -824,6 +830,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         void begin_update () {
             retry_action = ReleaseRowRetryAction.NONE;
+            operation_error_message = null;
             update_action_request_state (true);
             run_update (job, this);
         }
@@ -852,14 +859,17 @@ namespace ProtonPlus.Widgets.Tools {
                     !operation_job.canceled
                     ? ReleaseRowRetryAction.UPDATE
                     : ReleaseRowRetryAction.NONE;
+                ((!) row).operation_error_message = ((!) row).retry_action != ReleaseRowRetryAction.NONE
+                    ? get_return_code_message (code)
+                    : null;
                 ((!) row).update_action_request_state (false);
                 if (code != ReturnCode.RUNNER_UPDATED &&
                     code != ReturnCode.NOTHING_TO_UPDATE &&
                     !operation_job.canceled) {
-                    ((!) row).show_error (
-                        _("Failed to Update %s").printf (operation_job.title),
-                        _("An error occurred while attempting to update the compatibility tool."),
-                        code
+                    warning (
+                        "Failed to update %s: %s",
+                        operation_job.title,
+                        operation_job.error_message ?? get_return_code_message (code)
                     );
                 }
             });
@@ -885,6 +895,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (action_request_in_progress || row_disposed)
                 return;
             retry_action = ReleaseRowRetryAction.NONE;
+            operation_error_message = null;
             update_action_request_state (true);
             run_install (job, this);
         }
@@ -903,15 +914,16 @@ namespace ProtonPlus.Widgets.Tools {
                     !operation_job.canceled
                     ? ReleaseRowRetryAction.INSTALL
                     : ReleaseRowRetryAction.NONE;
+                ((!) row).operation_error_message = ((!) row).retry_action != ReleaseRowRetryAction.NONE
+                    ? get_return_code_message (code)
+                    : null;
                 ((!) row).update_action_request_state (false);
                 if (code != ReturnCode.RUNNER_INSTALLED &&
                     !operation_job.canceled) {
-                    ((!) row).show_error (
-                        _("Installation Failed"),
-                        _("ProtonPlus could not install %s on your system.").printf (
-                            operation_job.title
-                        ),
-                        code
+                    warning (
+                        "Failed to install %s: %s",
+                        operation_job.title,
+                        operation_job.error_message ?? get_return_code_message (code)
                     );
                 }
             });
@@ -965,18 +977,5 @@ namespace ProtonPlus.Widgets.Tools {
                 state == Services.InstallJob.State.BUSY_REMOVING;
         }
 
-        void show_error (string title, string description, ReturnCode code) {
-            var root = get_root () as Gtk.Window;
-            if (root == null)
-                return;
-            var dialog = new Main.ErrorDialog (
-                title,
-                description,
-                job.error_message ?? get_return_code_message (code)
-            );
-            ProtonPlus.Widgets.Window.present_dialog_for_controller (
-                dialog, (!) root
-            );
-        }
     }
 }

@@ -373,7 +373,20 @@ namespace ProtonPlus.Widgets.Main {
                 if (job.error_message != null && job.error_message != "") {
                     body = "%s (%s)".printf (job.displayed_title, job.error_message);
                 }
-                send_notification (_ ("Download failed"), body);
+                send_background_notification (_ ("Download failed"), body);
+            }
+        }
+
+        void send_background_notification (string title, string body,
+            string icon = "folder-download-symbolic") {
+            var window = get_root () as Gtk.Window;
+            if (window != null && window.is_active)
+                return;
+            var notification = new Notify.Notification (title, body, icon);
+            try {
+                notification.show ();
+            } catch (Error error) {
+                warning ("Unable to show notification: %s", error.message);
             }
         }
 

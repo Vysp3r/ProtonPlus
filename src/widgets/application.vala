@@ -90,10 +90,6 @@ namespace ProtonPlus.Widgets {
             provider.load_from_resource ("/com/vysp3r/ProtonPlus/style.css");
             add_provider_for_display (display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
-            var status_provider = new Gtk.CssProvider ();
-            status_provider.load_from_resource ("/com/vysp3r/ProtonPlus/status.css");
-            add_provider_for_display (display, status_provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2);
-
             Globals.load ();
             Globals.setupLanguage ();
             Notify.init (Config.APP_NAME);

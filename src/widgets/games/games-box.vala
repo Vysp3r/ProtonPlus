@@ -20,6 +20,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Stack list_stack;
         Gtk.Stack views_stack;
         Adw.StatusPage empty_status_page;
+        Gtk.Button empty_action_button;
         Gtk.ColumnView wide_view;
         Gtk.ColumnViewColumn actions_column;
         Gtk.ListView narrow_view;
@@ -103,6 +104,21 @@ namespace ProtonPlus.Widgets.Games {
                 description = _("Try a different search term or filter."),
                 icon_name = "edit-find-symbolic"
             };
+            empty_action_button = new Gtk.Button () {
+                halign = Gtk.Align.CENTER,
+                visible = false
+            };
+            empty_action_button.add_css_class ("suggested-action");
+            empty_action_button.clicked.connect (() => {
+                if (search_query.strip () != "") {
+                    search_entry.set_text ("");
+                    search_entry.grab_focus ();
+                } else if (!all_filter_check.active) {
+                    all_filter_check.active = true;
+                    filter_button.grab_focus ();
+                }
+            });
+            empty_status_page.set_child (empty_action_button);
 
             list_stack = new Gtk.Stack () {
                 hexpand = true,
@@ -686,18 +702,23 @@ namespace ProtonPlus.Widgets.Games {
                     _("Try a different search term or clear the search.")
                 );
                 empty_status_page.set_icon_name ("edit-find-symbolic");
+                empty_action_button.set_label (_("Clear Search"));
+                empty_action_button.set_visible (true);
             } else if (!all_filter_check.active) {
                 empty_status_page.set_title (_("No games match this filter"));
                 empty_status_page.set_description (
                     _("Choose All games to see your complete library.")
                 );
                 empty_status_page.set_icon_name ("filter-2-symbolic");
+                empty_action_button.set_label (_("Reset Filters"));
+                empty_action_button.set_visible (true);
             } else {
                 empty_status_page.set_title (_("No games found"));
                 empty_status_page.set_description (
                     _("No games are available for this launcher.")
                 );
                 empty_status_page.set_icon_name ("gamepad-symbolic");
+                empty_action_button.set_visible (false);
             }
             list_stack.set_visible_child_name ("empty");
         }
@@ -989,7 +1010,7 @@ namespace ProtonPlus.Widgets.Games {
             }
             var first = games.item_at (0);
             if (first == null)
-                return null;
+                return empty_action_button.visible ? empty_action_button : null;
             if (narrow_view_active)
                 return narrow_rows.get ((!) first);
             return wide_selection_cells.get ((!) first);
