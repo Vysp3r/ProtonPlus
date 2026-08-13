@@ -1,14 +1,13 @@
-# Daniel Rusek <mail@asciiwolf.com>, 2023.
+# Daniel Rusek <mail@asciiwolf.com>, 2023, 2025, 2026.
 # "M.M." <martin.miscikms@gmail.com>, 2025.
-# AsciiWolf <mail@asciiwolf.com>, 2025, 2026.
 # Valentin Ljuba <7fnndt50@anonaddy.me>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-08-10 11:51+0000\n"
-"Last-Translator: AsciiWolf <mail@asciiwolf.com>\n"
+"PO-Revision-Date: 2026-08-13 21:34+0200\n"
+"Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/cs/>\n"
 "Language: cs\n"
@@ -16,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.9.dev0\n"
+"X-Generator: Poedit 3.9\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
 msgid "ProtonPlus"
@@ -59,7 +58,7 @@ msgstr "Navigace"
 #: data/ui/gtk/help-overlay.ui:43
 msgctxt "shortcut window"
 msgid "Go Back"
-msgstr "Jít zpět"
+msgstr "Přejít zpět"
 
 #: data/ui/gtk/help-overlay.ui:51
 msgctxt "shortcut window"
@@ -476,7 +475,7 @@ msgstr "DXVK build s gplasync opravou od Ph42oN."
 
 #: src/models/providers/definitions/dxvk.vala:22
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
-msgstr "DXVK verze, která fungovala před Vulkanem verze 1.3"
+msgstr "Verze DXVK, které fungovaly před Vulkanem verze 1.3."
 
 #: src/models/providers/definitions/proton.vala:7
 msgid ""
@@ -501,7 +500,7 @@ msgstr "Doporučené"
 
 #: src/models/providers/definitions/proton.vala:39
 msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
-msgstr "Upravený Proton s opravami pro různé hry od Dawn Winery"
+msgstr "Upravený Proton s opravami pro různé hry od Dawn Winery :xdd:"
 
 #: src/models/providers/definitions/proton.vala:49
 msgid ""
@@ -590,7 +589,7 @@ msgstr "Požadovaná data jsou neplatná nebo neúplná."
 
 #: src/return_codes.vala:39
 msgid "The download failed."
-msgstr "Stahování selhalo"
+msgstr "Stahování selhalo."
 
 #: src/return_codes.vala:41
 msgid "A filesystem operation failed."
@@ -726,7 +725,10 @@ msgstr "Webové stránky"
 
 #: src/widgets/application.vala:248
 msgid "translator-credits"
-msgstr "Překladatelé"
+msgstr ""
+"Daniel Rusek <mail@asciiwolf.com>\n"
+"M.M. <martin.miscikms@gmail.com>\n"
+"Valentin Ljuba <7fnndt50@anonaddy.me>"
 
 #: src/widgets/application.vala:249
 msgid "Special thanks to"
@@ -1052,7 +1054,7 @@ msgstr "Podporováno"
 
 #: src/widgets/games/games-extra-button.vala:185
 msgid "Running"
-msgstr "Běžící"
+msgstr "Běží"
 
 #: src/widgets/games/games-extra-button.vala:188
 msgid "Planned"
@@ -1064,12 +1066,12 @@ msgstr "Porušeno"
 
 #: src/widgets/games/games-extra-button.vala:194
 msgid "Denied"
-msgstr "Zamítnuto"
+msgstr "Odepřeno"
 
 #: src/widgets/games/games-extra-button.vala:197
 #: src/widgets/tools/tools-releases-box.vala:1440
 msgid "Loading…"
-msgstr "Načítání…"
+msgstr "Načítá se…"
 
 #: src/widgets/games/games-extra-button.vala:200
 msgid "Unknown"
@@ -3975,14 +3977,8 @@ msgid ""
 "On Steam Deck, focus a text field and press Steam + X. Other systems may "
 "require a physical or system keyboard."
 msgstr ""
-"ProtonPlus se automaticky přizpůsobí vstupu z ovladače a zobrazuje "
-"kontextové nápovědy podle popisků tlačítek vašeho ovladače. Stránky, dialogy "
-"a nabídky ovládejte D-padem nebo páčkami; pro akce jako Potvrdit, Zpět, "
-"Hledat a Filtr používejte čelní tlačítka; a sekce přepínejte ramenními "
-"tlačítky. V Předvolbách můžete zvolit potvrzovací tlačítko a zapnout "
-"vibrace. Na Steam Decku označte textové pole a stiskněte Steam + X pro "
-"otevření klávesnice na obrazovce. Ostatní systémy mohou vyžadovat fyzickou "
-"nebo systémovou klávesnici."
+"Na Steam Decku označte textové pole a stiskněte Steam + X. Ostatní systémy "
+"mohou vyžadovat fyzickou nebo systémovou klávesnici."
 
 #: src/widgets/introduction/forks.vala:8
 msgid "Custom Forks & Flavors"
@@ -4225,7 +4221,7 @@ msgstr "Zkusit znovu"
 
 #: src/widgets/main/main-box.vala:332 src/widgets/tools/tools-box.vala:762
 msgid "Checking for updates"
-msgstr "Kontrolují se aktualizace..."
+msgstr "Kontrolují se aktualizace"
 
 #: src/widgets/main/main-box.vala:343 src/widgets/tools/tools-box.vala:770
 msgid "Can't update while a game is running"
@@ -4233,11 +4229,11 @@ msgstr "Během spuštěné hry nelze aktualizovat"
 
 #: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:773
 msgid "Nothing to update"
-msgstr "Nic k aktualizaci."
+msgstr "Nic k aktualizaci"
 
 #: src/widgets/main/main-box.vala:350 src/widgets/tools/tools-box.vala:777
 msgid "Everything is now up-to-date"
-msgstr "Vše je nyní aktuální."
+msgstr "Vše je nyní aktuální"
 
 #: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:780
 #, c-format
@@ -4271,12 +4267,12 @@ msgstr "Aktualizace dokončena"
 #: src/widgets/main/main-box.vala:395
 #, c-format
 msgid "%s is now up-to-date"
-msgstr "%s je již aktuální."
+msgstr "%s je nyní aktuální"
 
 #: src/widgets/main/main-box.vala:397
 #, c-format
 msgid "%s is already up-to-date"
-msgstr "%s je již aktuální."
+msgstr "%s je již aktuální"
 
 #: src/widgets/main/main-box.vala:402
 msgid "Deleted"
@@ -5197,7 +5193,8 @@ msgstr "Aktualizace"
 
 #: src/widgets/preferences/preferences-dialog.vala:72
 msgid "Choose when installed tools are checked and updated"
-msgstr "Vyberte, kdy budou nainstalované nástroje zkontrolovány a aktualizovány"
+msgstr ""
+"Vyberte, kdy budou nainstalované nástroje zkontrolovány a aktualizovány"
 
 #: src/widgets/preferences/preferences-dialog.vala:104
 msgid "Migrate default prefix"
@@ -5715,7 +5712,7 @@ msgstr "Selhalo"
 
 #: src/widgets/tools/tools-release-row.vala:716
 msgid "Update available"
-msgstr "Aktualizace k dispozici"
+msgstr "Je k dispozici aktualizace"
 
 #: src/widgets/tools/tools-release-row.vala:735
 msgid "Unavailable for the selected variant"
@@ -5827,7 +5824,7 @@ msgstr "Načíst více"
 #: src/widgets/tools/tools-releases-box.vala:1110
 #: src/widgets/tools/tools-releases-box.vala:1441
 msgid "Loading releases"
-msgstr "Načítání vydání"
+msgstr "Načítají se vydání"
 
 #: src/widgets/tools/tools-releases-box.vala:464
 #: src/widgets/tools/tools-releases-box.vala:633
@@ -5890,7 +5887,7 @@ msgstr "Pro tento systém nejsou dostupné žádné kompatibilní varianty."
 
 #: src/widgets/tools/tools-releases-box.vala:1289
 msgid "Refreshing…"
-msgstr "Obnovování…"
+msgstr "Obnovuje se…"
 
 #: src/widgets/tools/tools-releases-box.vala:1300
 #, c-format
