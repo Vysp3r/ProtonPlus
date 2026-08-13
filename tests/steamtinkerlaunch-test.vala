@@ -67,6 +67,12 @@ namespace AppTests.SteamTinkerLaunchTest {
         }
     }
 
+    private class EmptyCompatibilityProcessQuery : Object, ProtonPlus.Services.CompatibilityProcessQueryBackend {
+        public async ProtonPlus.Services.CompatibilityProcessInspectionResult inspect_processes () {
+            return ProtonPlus.Services.CompatibilityProcessInspectionResult.clear ();
+        }
+    }
+
     private class CommandFailureWorkflow : ProtonPlus.Services.SteamTinkerLaunchWorkflow {
         private string failure_fragment;
         private bool system_available;
@@ -126,7 +132,15 @@ namespace AppTests.SteamTinkerLaunchTest {
             Services.SteamTinkerLaunchYadCompatibility.Status.INCOMPATIBLE_15);
     }
 
-    private string temporary_directory () { try { return DirUtils.make_tmp ("protonplus-steamtinkerlaunch-test-XXXXXX"); } catch (FileError e) { critical ("Could not create test directory: %s", e.message); assert_not_reached (); } }
+    private string temporary_directory () {
+        ProtonPlus.Services.InstallationService.instance.configure_compatibility_process_guard (
+            new ProtonPlus.Services.CompatibilityProcessGuard (
+                new EmptyCompatibilityProcessQuery ()
+            )
+        );
+        try { return DirUtils.make_tmp ("protonplus-steamtinkerlaunch-test-XXXXXX"); }
+        catch (FileError e) { critical ("Could not create test directory: %s", e.message); assert_not_reached (); }
+    }
     private string fixture_archive (string root) {
         var encoded = ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename ("fixtures", "archives", "steamtinkerlaunch.zip.base64")).strip (); var path = Path.build_filename (root, "steamtinkerlaunch.zip");
         try { FileUtils.set_data (path, Base64.decode (encoded)); } catch (FileError e) { critical ("Could not write archive fixture: %s", e.message); assert_not_reached (); } return path;

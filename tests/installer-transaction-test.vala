@@ -118,6 +118,12 @@ namespace AppTests.InstallerTransactionTest {
         }
     }
 
+    private class EmptyCompatibilityProcessQuery : Object, CompatibilityProcessQueryBackend {
+        public async CompatibilityProcessInspectionResult inspect_processes () {
+            return CompatibilityProcessInspectionResult.clear ();
+        }
+    }
+
     public void register_tests () {
         Test.add_func ("/installer-transaction/stages-promotes-cleans-and-writes-metadata", test_stages_promotes_and_writes_metadata);
         Test.add_func ("/installer-transaction/canceled-download-cleans-private-workspace", test_canceled_download_cleans_workspace);
@@ -237,6 +243,9 @@ namespace AppTests.InstallerTransactionTest {
     private void prepare (out string root, out string cache, out string tools, out string location) {
         root = temporary_directory (); cache = Path.build_filename (root, "cache"); tools = Path.build_filename (root, "tools"); location = Path.build_filename (tools, "Fixture Runner");
         Globals.CACHE_PATH = cache; assert (ProtonPlus.Utils.Filesystem.create_directory (cache));
+        InstallationService.instance.configure_compatibility_process_guard (
+            new CompatibilityProcessGuard (new EmptyCompatibilityProcessQuery ())
+        );
     }
     private string archive_cache_path (string cache, string url) {
         return Path.build_filename (

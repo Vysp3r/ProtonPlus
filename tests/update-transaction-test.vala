@@ -115,6 +115,9 @@ namespace AppTests.UpdateTransactionTest {
 
     private string create_temp_directory () {
         try {
+            InstallationService.instance.configure_compatibility_process_guard (
+                new CompatibilityProcessGuard (new EmptyCompatibilityProcessQuery ())
+            );
             return DirUtils.make_tmp ("protonplus-update-transaction-test-XXXXXX");
         } catch (FileError e) {
             critical ("Could not create test directory: %s", e.message);

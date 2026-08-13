@@ -63,6 +63,10 @@ namespace AppTests.CompatibilityProcessGuardTest {
         Test.add_func ("/compatibility-process-guard/shared-physical-target", test_shared_physical_target);
         Test.add_func ("/compatibility-process-guard/returns-blocker-details", test_returns_blocker_details);
         Test.add_func ("/compatibility-process-guard/flatpak-host-query-success", test_flatpak_host_query_success);
+        Test.add_func ("/compatibility-process-guard/flatpak-unreadable-executable-unrelated-argv", test_flatpak_unreadable_executable_unrelated_argv);
+        Test.add_func ("/compatibility-process-guard/flatpak-unreadable-executable-target-argv", test_flatpak_unreadable_executable_target_argv);
+        Test.add_func ("/compatibility-process-guard/flatpak-unreadable-argv-unrelated-executable", test_flatpak_unreadable_argv_unrelated_executable);
+        Test.add_func ("/compatibility-process-guard/flatpak-indeterminate-runner", test_flatpak_indeterminate_runner);
         Test.add_func ("/compatibility-process-guard/flatpak-completed-empty-scan", test_flatpak_completed_empty_scan);
         Test.add_func ("/compatibility-process-guard/flatpak-empty-output-is-unknown", test_flatpak_empty_output_is_unknown);
         Test.add_func ("/compatibility-process-guard/flatpak-failed-relevant-read", test_flatpak_failed_relevant_read);
@@ -71,10 +75,13 @@ namespace AppTests.CompatibilityProcessGuardTest {
         Test.add_func ("/compatibility-process-guard/native-top-level-proc-failure", test_native_top_level_proc_failure);
         Test.add_func ("/compatibility-process-guard/native-disappearing-process", test_native_disappearing_process);
         Test.add_func ("/compatibility-process-guard/native-empty-cmdline", test_native_empty_cmdline);
-        Test.add_func ("/compatibility-process-guard/native-executable-read-failure", test_native_executable_read_failure);
+        Test.add_func ("/compatibility-process-guard/native-unreadable-executable-unrelated-argv", test_native_unreadable_executable_unrelated_argv);
+        Test.add_func ("/compatibility-process-guard/native-unreadable-executable-target-argv", test_native_unreadable_executable_target_argv);
+        Test.add_func ("/compatibility-process-guard/native-unreadable-argv-unrelated-executable", test_native_unreadable_argv_unrelated_executable);
+        Test.add_func ("/compatibility-process-guard/native-indeterminate-runner", test_native_indeterminate_runner);
         Test.add_func ("/compatibility-process-guard/native-cmdline-read-failure", test_native_cmdline_read_failure);
         Test.add_func ("/compatibility-process-guard/tool-a-blocks-only-tool-a-mutations", test_tool_a_blocks_only_tool_a_mutations);
-        Test.add_func ("/compatibility-process-guard/unknown-blocks-mutations-but-allows-new-destination", test_unknown_blocks_mutations_but_allows_new_destination);
+        Test.add_func ("/compatibility-process-guard/indeterminate-relevant-process-blocks-mutations", test_indeterminate_relevant_process_blocks_mutations);
     }
 
     private uint8[] encode_cmdline (string[] argv) {
@@ -156,6 +163,18 @@ namespace AppTests.CompatibilityProcessGuardTest {
             pid,
             Base64.encode (executable.data),
             Base64.encode (encode_cmdline (argv))
+        );
+    }
+
+    private string flatpak_unreadable_executable_output (int pid, string[] argv) {
+        return "R\t%d\t-\t%s\nS\tOK\n".printf (
+            pid, Base64.encode (encode_cmdline (argv))
+        );
+    }
+
+    private string flatpak_unreadable_argv_output (int pid, string executable) {
+        return "R\t%d\t%s\t-\nS\tOK\n".printf (
+            pid, Base64.encode (executable.data)
         );
     }
 
@@ -362,6 +381,16 @@ namespace AppTests.CompatibilityProcessGuardTest {
             CompatibilityProcessInspectionStatus.CLEAR);
         assert (inspect_records (process, "/tools/Tool B", false).status ==
             CompatibilityProcessInspectionStatus.CLEAR);
+
+        var partial = new CompatibilityProcessRecord.with_unreadable_executable (
+            43,
+            encode_cmdline ({ "/tools/Tool A/proton", "run" }),
+            "fixture executable is unreadable"
+        );
+        assert (inspect_records (partial, "/tools/Tool A").status ==
+            CompatibilityProcessInspectionStatus.ACTIVE);
+        assert (inspect_records (partial, "/tools/Tool B").status ==
+            CompatibilityProcessInspectionStatus.CLEAR);
     }
 
     private void test_path_prefix_boundary () {
@@ -413,6 +442,40 @@ namespace AppTests.CompatibilityProcessGuardTest {
         assert (result.status == CompatibilityProcessInspectionStatus.ACTIVE);
         assert (result.blocker != null && ((!) result.blocker).pid == 501);
         assert (((!) result.blocker).argv[1] == "/opt/Proton/proton");
+    }
+
+    private void test_flatpak_unreadable_executable_unrelated_argv () {
+        var output = flatpak_unreadable_executable_output (
+            502, { "/usr/lib/systemd/systemd", "--user" }
+        );
+        var result = inspect_flatpak (new ProtonPlus.Utils.CommandResult (output, "", 0));
+        assert (result.status == CompatibilityProcessInspectionStatus.CLEAR);
+    }
+
+    private void test_flatpak_unreadable_executable_target_argv () {
+        var output = flatpak_unreadable_executable_output (
+            503, { "/opt/Proton/proton", "run" }
+        );
+        var result = inspect_flatpak (new ProtonPlus.Utils.CommandResult (output, "", 0));
+        assert (result.status == CompatibilityProcessInspectionStatus.ACTIVE);
+        assert (result.blocker != null && ((!) result.blocker).pid == 503);
+        assert (result.blocker_reason == CompatibilityProcessMatchReason.EXECUTABLE_IN_TARGET);
+    }
+
+    private void test_flatpak_unreadable_argv_unrelated_executable () {
+        var output = flatpak_unreadable_argv_output (
+            505, "/usr/lib/systemd/systemd"
+        );
+        var result = inspect_flatpak (new ProtonPlus.Utils.CommandResult (output, "", 0));
+        assert (result.status == CompatibilityProcessInspectionStatus.CLEAR);
+    }
+
+    private void test_flatpak_indeterminate_runner () {
+        var output = flatpak_unreadable_executable_output (504, { "proton", "run" });
+        var result = inspect_flatpak (new ProtonPlus.Utils.CommandResult (output, "", 0));
+        assert (result.status == CompatibilityProcessInspectionStatus.UNKNOWN);
+        assert (result.inspection_error != null &&
+            ((!) result.inspection_error).contains ("executable"));
     }
 
     private void test_flatpak_completed_empty_scan () {
@@ -489,12 +552,61 @@ namespace AppTests.CompatibilityProcessGuardTest {
         }
     }
 
-    private void test_native_executable_read_failure () {
+    private void test_native_unreadable_executable_unrelated_argv () {
         var root = temporary_directory ();
         var process_root = Path.build_filename (root, "4103");
         try {
             assert (ProtonPlus.Utils.Filesystem.create_directory (process_root));
+            write_cmdline (process_root, { "/usr/lib/systemd/systemd", "--user" });
+            ProtonPlus.Utils.Filesystem.create_file (
+                Path.build_filename (process_root, "exe"), "not a symlink"
+            );
+            var result = inspect_native (root);
+            assert (result.status == CompatibilityProcessInspectionStatus.CLEAR);
+        } finally {
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_native_unreadable_executable_target_argv () {
+        var root = temporary_directory ();
+        var process_root = Path.build_filename (root, "4105");
+        try {
+            assert (ProtonPlus.Utils.Filesystem.create_directory (process_root));
             write_cmdline (process_root, { "/opt/Proton/proton", "run" });
+            ProtonPlus.Utils.Filesystem.create_file (
+                Path.build_filename (process_root, "exe"), "not a symlink"
+            );
+            var result = inspect_native (root);
+            assert (result.status == CompatibilityProcessInspectionStatus.ACTIVE);
+            assert (result.blocker != null && ((!) result.blocker).pid == 4105);
+            assert (result.blocker_reason == CompatibilityProcessMatchReason.EXECUTABLE_IN_TARGET);
+        } finally {
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_native_unreadable_argv_unrelated_executable () {
+        var root = temporary_directory ();
+        var process_root = Path.build_filename (root, "4107");
+        try {
+            assert (ProtonPlus.Utils.Filesystem.create_directory (process_root));
+            assert (FileUtils.symlink (
+                "/usr/lib/systemd/systemd", Path.build_filename (process_root, "exe")
+            ) == 0);
+            var result = inspect_native (root);
+            assert (result.status == CompatibilityProcessInspectionStatus.CLEAR);
+        } finally {
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_native_indeterminate_runner () {
+        var root = temporary_directory ();
+        var process_root = Path.build_filename (root, "4106");
+        try {
+            assert (ProtonPlus.Utils.Filesystem.create_directory (process_root));
+            write_cmdline (process_root, { "proton", "run" });
             ProtonPlus.Utils.Filesystem.create_file (
                 Path.build_filename (process_root, "exe"), "not a symlink"
             );
@@ -521,7 +633,7 @@ namespace AppTests.CompatibilityProcessGuardTest {
         }
     }
 
-    private void test_unknown_blocks_mutations_but_allows_new_destination () {
+    private void test_indeterminate_relevant_process_blocks_mutations () {
         var root = temporary_directory ();
         var tools = Path.build_filename (root, "tools");
         var cache = Path.build_filename (root, "cache");
@@ -540,11 +652,16 @@ namespace AppTests.CompatibilityProcessGuardTest {
             Path.build_filename (existing, "marker"), "preserved"
         );
 
-        var unknown = CompatibilityProcessInspectionResult.unknown (
-            "fixture process inspection failure"
+        var indeterminate = new Gee.ArrayList<CompatibilityProcessRecord> ();
+        indeterminate.add (new CompatibilityProcessRecord.with_unreadable_executable (
+            6100, encode_cmdline ({ "proton", "run" }),
+            "fixture process executable is unreadable"
+        ));
+        var observation = CompatibilityProcessInspectionResult.clear (
+            indeterminate
         );
         InstallationService.instance.configure_compatibility_process_guard (
-            new CompatibilityProcessGuard (new FixtureBackend (unknown))
+            new CompatibilityProcessGuard (new FixtureBackend (observation))
         );
 
         var replacement = new FailingDownloadJob (

@@ -59,6 +59,9 @@ namespace ProtonPlus.Services {
         public int pid { get; private set; }
         public string executable_path { get; private set; }
         public Gee.List<string> argv { get; private set; }
+        public bool executable_available { get; private set; default = true; }
+        public bool argv_available { get; private set; default = true; }
+        public string? inspection_error { get; private set; default = null; }
 
         public CompatibilityProcessRecord (
             int pid,
@@ -79,6 +82,40 @@ namespace ProtonPlus.Services {
             uint8[] command_line
         ) {
             this (pid, executable_path, decode_cmdline (command_line));
+        }
+
+        public CompatibilityProcessRecord.with_unreadable_executable (
+            int pid,
+            uint8[] command_line,
+            string inspection_error
+        ) {
+            this (pid, "", decode_cmdline (command_line));
+            executable_available = false;
+            this.inspection_error = inspection_error;
+        }
+
+        public CompatibilityProcessRecord.with_unreadable_argv (
+            int pid,
+            string executable_path,
+            string inspection_error
+        ) {
+            this (pid, executable_path);
+            argv_available = false;
+            this.inspection_error = inspection_error;
+        }
+
+        public CompatibilityProcessRecord.with_unreadable_metadata (
+            int pid,
+            string inspection_error
+        ) {
+            this (pid, "");
+            executable_available = false;
+            argv_available = false;
+            this.inspection_error = inspection_error;
+        }
+
+        public bool has_complete_metadata () {
+            return executable_available && argv_available;
         }
 
         public static Gee.List<string> decode_cmdline (uint8[] command_line) {
@@ -217,27 +254,33 @@ namespace ProtonPlus.Services {
                         continue;
 
                     var root = Path.build_filename (proc_root, name);
-                    uint8[] command_line;
+                    uint8[] command_line = {};
+                    var command_line_available = true;
+                    string? command_line_error = null;
                     try {
                         FileUtils.get_data (Path.build_filename (root, "cmdline"), out command_line);
                     } catch (FileError e) {
                         if (process_has_disappeared (root))
                             continue;
-                        return persistent_process_read_failure (pid, "command line", e);
+                        command_line_available = false;
+                        command_line_error = process_read_failure_message (pid, "command line", e);
                     }
 
                     /* Kernel threads and zombies expose an empty cmdline and
                      * have no meaningful user-space executable to associate
                      * with a compatibility-tool installation. */
-                    if (command_line.length == 0)
+                    if (command_line_available && command_line.length == 0)
                         continue;
-                    if (!CompatibilityProcessRecord.cmdline_is_valid (command_line)) {
-                        return CompatibilityProcessInspectionResult.unknown (
-                            "Process %d returned malformed command-line data.".printf (pid)
-                        );
+                    if (command_line_available &&
+                        !CompatibilityProcessRecord.cmdline_is_valid (command_line)) {
+                        command_line_available = false;
+                        command_line_error =
+                            "Process %d returned malformed command-line data.".printf (pid);
                     }
 
-                    string executable;
+                    var executable = "";
+                    var executable_available = true;
+                    string? executable_error = null;
                     try {
                         executable = FileUtils.read_link (Path.build_filename (root, "exe"));
                     } catch (FileError e) {
@@ -247,30 +290,59 @@ namespace ProtonPlus.Services {
                         /* A process may become a zombie after its non-empty
                          * cmdline was read but before exe.  Rechecking avoids
                          * turning that ordinary transition into UNKNOWN. */
-                        uint8[] retry_command_line;
-                        try {
-                            FileUtils.get_data (
-                                Path.build_filename (root, "cmdline"), out retry_command_line
-                            );
-                        } catch (FileError retry_error) {
-                            if (process_has_disappeared (root))
-                                continue;
-                            return persistent_process_read_failure (
-                                pid, "executable and command line", retry_error
-                            );
+                        if (command_line_available) {
+                            uint8[] retry_command_line;
+                            try {
+                                FileUtils.get_data (
+                                    Path.build_filename (root, "cmdline"), out retry_command_line
+                                );
+                            } catch (FileError retry_error) {
+                                if (process_has_disappeared (root))
+                                    continue;
+                                command_line_available = false;
+                                command_line_error = process_read_failure_message (
+                                    pid, "command line", retry_error
+                                );
+                            }
+                            if (command_line_available) {
+                                if (retry_command_line.length == 0)
+                                    continue;
+                                if (CompatibilityProcessRecord.cmdline_is_valid (retry_command_line))
+                                    command_line = retry_command_line;
+                                else {
+                                    command_line_available = false;
+                                    command_line_error =
+                                        "Process %d returned malformed command-line data.".printf (pid);
+                                }
+                            }
                         }
-                        if (retry_command_line.length == 0)
-                            continue;
-                        return persistent_process_read_failure (pid, "executable", e);
+                        executable_available = false;
+                        executable_error = process_read_failure_message (pid, "executable", e);
                     }
-                    if (!executable.validate ()) {
-                        return CompatibilityProcessInspectionResult.unknown (
-                            "Process %d returned malformed executable data.".printf (pid)
-                        );
+                    if (executable_available && !executable.validate ()) {
+                        executable_available = false;
+                        executable_error =
+                            "Process %d returned malformed executable data.".printf (pid);
                     }
-                    records.add (new CompatibilityProcessRecord.from_cmdline_bytes (
-                        pid, executable, command_line
-                    ));
+                    if (executable_available && command_line_available) {
+                        records.add (new CompatibilityProcessRecord.from_cmdline_bytes (
+                            pid, executable, command_line
+                        ));
+                    } else if (command_line_available) {
+                        records.add (new CompatibilityProcessRecord.with_unreadable_executable (
+                            pid, command_line, (!) executable_error
+                        ));
+                    } else if (executable_available) {
+                        records.add (new CompatibilityProcessRecord.with_unreadable_argv (
+                            pid, executable, (!) command_line_error
+                        ));
+                    } else {
+                        records.add (new CompatibilityProcessRecord.with_unreadable_metadata (
+                            pid, "%s %s".printf (
+                                (!) executable_error, (!) command_line_error
+                            )
+                        ));
+                    }
                 }
                 directory.close (null);
                 return CompatibilityProcessInspectionResult.clear (records);
@@ -298,15 +370,13 @@ namespace ProtonPlus.Services {
             }
         }
 
-        private static CompatibilityProcessInspectionResult persistent_process_read_failure (
+        private static string process_read_failure_message (
             int pid,
             string field,
             FileError error
         ) {
-            return CompatibilityProcessInspectionResult.unknown (
-                "Unable to inspect the %s of same-user process %d: %s".printf (
-                    field, pid, error.message
-                )
+            return "Unable to inspect the %s of same-user process %d: %s".printf (
+                field, pid, error.message
             );
         }
     }
@@ -317,9 +387,10 @@ namespace ProtonPlus.Services {
 
     private class HostFlatpakProcessQuery : Object, FlatpakHostProcessQuery {
         /* Each host record is PID, base64(executable), base64(raw cmdline).
-         * Encoding keeps NUL-separated argv intact across the subprocess
-         * boundary and avoids reconstructing arguments from `ps` output.  A
-         * final status record proves that the entire same-user scan completed. */
+         * A dash marks a per-process field that could not be read.  Encoding
+         * keeps NUL-separated argv intact across the subprocess boundary and
+         * avoids reconstructing arguments from `ps` output.  A final status
+         * record proves that the entire same-user scan completed. */
         private const string QUERY_SCRIPT =
             "current_uid=$(id -u) || exit 70; " +
             "scan_failed=false; " +
@@ -331,22 +402,22 @@ namespace ProtonPlus.Services {
                 "fi; " +
                 "if [ \"$owner\" != \"$current_uid\" ]; then continue; fi; " +
                 "command_line=$(base64 -w 0 \"$process_dir/cmdline\" 2>/dev/null); command_status=$?; " +
-                "if [ \"$command_status\" -ne 0 ]; then " +
-                    "if [ -d \"$process_dir\" ]; then scan_failed=true; fi; continue; " +
-                "fi; " +
-                "if [ -z \"$command_line\" ]; then continue; fi; " +
+                "if [ \"$command_status\" -eq 0 ] && [ -z \"$command_line\" ]; then continue; fi; " +
                 "executable=$(readlink \"$process_dir/exe\" 2>/dev/null); executable_status=$?; " +
                 "if [ \"$executable_status\" -ne 0 ]; then " +
                     "if [ ! -d \"$process_dir\" ]; then continue; fi; " +
-                    "retry_command_line=$(base64 -w 0 \"$process_dir/cmdline\" 2>/dev/null); retry_status=$?; " +
-                    "if [ \"$retry_status\" -ne 0 ]; then " +
-                        "if [ -d \"$process_dir\" ]; then scan_failed=true; fi; continue; " +
+                    "if [ \"$command_status\" -eq 0 ]; then " +
+                        "retry_command_line=$(base64 -w 0 \"$process_dir/cmdline\" 2>/dev/null); retry_status=$?; " +
+                        "if [ \"$retry_status\" -ne 0 ]; then command_status=$retry_status; command_line='-'; " +
+                        "elif [ -z \"$retry_command_line\" ]; then continue; " +
+                        "else command_line=$retry_command_line; fi; " +
                     "fi; " +
-                    "if [ -z \"$retry_command_line\" ]; then continue; fi; " +
-                    "scan_failed=true; continue; " +
+                    "encoded_executable='-'; " +
+                "else " +
+                    "encoded_executable=$(printf '%s' \"$executable\" | base64 -w 0); encode_status=$?; " +
+                    "if [ \"$encode_status\" -ne 0 ]; then encoded_executable='-'; fi; " +
                 "fi; " +
-                "encoded_executable=$(printf '%s' \"$executable\" | base64 -w 0); encode_status=$?; " +
-                "if [ \"$encode_status\" -ne 0 ]; then scan_failed=true; continue; fi; " +
+                "if [ \"$command_status\" -ne 0 ]; then command_line='-'; fi; " +
                 "printf 'R\\t%s\\t%s\\t%s\\n' \"${process_dir##*/}\" \"$encoded_executable\" \"$command_line\" || exit 70; " +
             "done; " +
             "if $scan_failed; then printf 'S\\tFAILED\\n'; exit 71; fi; " +
@@ -435,30 +506,52 @@ namespace ProtonPlus.Services {
                         "The Flatpak host process query returned malformed output."
                     );
                 }
-                uint8[] executable_bytes;
-                if (!decode_base64_field (fields[2], out executable_bytes) ||
-                    executable_bytes.length == 0) {
+                uint8[] executable_bytes = {};
+                var executable_available = fields[2] != "-";
+                if (executable_available &&
+                    (!decode_base64_field (fields[2], out executable_bytes) ||
+                    executable_bytes.length == 0)) {
                     return CompatibilityProcessInspectionResult.unknown (
                         "The Flatpak host process query returned malformed process data."
                     );
                 }
-                uint8[] command_line;
-                if (!decode_base64_field (fields[3], out command_line) ||
+                uint8[] command_line = {};
+                var command_line_available = fields[3] != "-";
+                if (command_line_available &&
+                    (!decode_base64_field (fields[3], out command_line) ||
                     command_line.length == 0 ||
-                    !CompatibilityProcessRecord.cmdline_is_valid (command_line)) {
+                    !CompatibilityProcessRecord.cmdline_is_valid (command_line))) {
                     return CompatibilityProcessInspectionResult.unknown (
                         "The Flatpak host process query returned malformed process data."
                     );
                 }
-                var executable = Utils.Parser.data_to_string (executable_bytes);
-                if (!executable.validate ()) {
+                var executable = executable_available
+                    ? Utils.Parser.data_to_string (executable_bytes) : "";
+                if (executable_available && !executable.validate ()) {
                     return CompatibilityProcessInspectionResult.unknown (
                         "The Flatpak host process query returned malformed executable data."
                     );
                 }
-                records.add (new CompatibilityProcessRecord.from_cmdline_bytes (
-                    pid, executable, command_line
-                ));
+                if (executable_available && command_line_available) {
+                    records.add (new CompatibilityProcessRecord.from_cmdline_bytes (
+                        pid, executable, command_line
+                    ));
+                } else if (command_line_available) {
+                    records.add (new CompatibilityProcessRecord.with_unreadable_executable (
+                        pid, command_line,
+                        "Unable to inspect the executable of same-user host process %d.".printf (pid)
+                    ));
+                } else if (executable_available) {
+                    records.add (new CompatibilityProcessRecord.with_unreadable_argv (
+                        pid, executable,
+                        "Unable to inspect the command line of same-user host process %d.".printf (pid)
+                    ));
+                } else {
+                    records.add (new CompatibilityProcessRecord.with_unreadable_metadata (
+                        pid,
+                        "Unable to inspect the executable and command line of same-user host process %d.".printf (pid)
+                    ));
+                }
             }
             if (!completed) {
                 return CompatibilityProcessInspectionResult.unknown (
@@ -509,6 +602,16 @@ namespace ProtonPlus.Services {
                 if (reason != CompatibilityProcessMatchReason.NONE)
                     return CompatibilityProcessInspectionResult.active (process, reason);
             }
+            foreach (var process in processes) {
+                if (incomplete_evidence_could_associate_with_target (
+                    process, context.installation_path
+                )) {
+                    return CompatibilityProcessInspectionResult.unknown (
+                        process.inspection_error ??
+                        "Process %d returned incomplete process metadata.".printf (process.pid)
+                    );
+                }
+            }
             return CompatibilityProcessInspectionResult.clear ();
         }
 
@@ -535,7 +638,16 @@ namespace ProtonPlus.Services {
             CompatibilityProcessRecord process,
             string installation_path
         ) {
-            if (path_is_within (process.executable_path, installation_path))
+            if (process.executable_available &&
+                path_is_within (process.executable_path, installation_path))
+                return CompatibilityProcessMatchReason.EXECUTABLE_IN_TARGET;
+
+            /* When procfs withholds the executable link, argv[0] is the best
+             * available executable-path evidence.  It remains a distinct token
+             * and receives the same exact target-boundary check. */
+            if (!process.executable_available && process.argv_available &&
+                process.argv.size > 0 &&
+                path_is_within (process.argv[0], installation_path))
                 return CompatibilityProcessMatchReason.EXECUTABLE_IN_TARGET;
 
             /* An argument path supports association only for a recognized
@@ -543,13 +655,48 @@ namespace ProtonPlus.Services {
              * .exe (including one under the tool directory) from becoming a
              * false blocker, while retaining interpreter + runner-script and
              * Wine/Proton + Windows-executable evidence. */
-            if (!is_compatibility_process (process))
+            if (!process.argv_available || !is_compatibility_process (process))
                 return CompatibilityProcessMatchReason.NONE;
             foreach (var argument in process.argv) {
                 if (path_is_within (argument, installation_path))
                     return CompatibilityProcessMatchReason.ARGUMENT_PATH_IN_TARGET;
             }
             return CompatibilityProcessMatchReason.NONE;
+        }
+
+        private static bool incomplete_evidence_could_associate_with_target (
+            CompatibilityProcessRecord process,
+            string installation_path
+        ) {
+            if (process.has_complete_metadata ())
+                return false;
+
+            if (!process.executable_available && !process.argv_available)
+                return true;
+
+            if (!process.executable_available) {
+                /* Absolute runner tokens outside this target identify another
+                 * installation.  A relative runner token does not provide
+                 * enough path evidence to rule this target out. */
+                foreach (var argument in process.argv) {
+                    if (is_runner_token (argument) && !Path.is_absolute (argument))
+                        return true;
+                }
+                return false;
+            }
+
+            /* A missing argv is relevant for interpreters and command wrappers
+             * which can execute a target-owned runner script.  A readable,
+             * unrelated native executable such as systemd is sufficient to
+             * classify the process as unrelated. */
+            return executable_can_launch_runner_argument (process.executable_path);
+        }
+
+        private static bool executable_can_launch_runner_argument (string executable) {
+            var basename = Path.get_basename (executable).ascii_down ();
+            return basename == "env" || basename == "sh" || basename == "bash" ||
+                basename == "dash" || basename == "zsh" || basename == "fish" ||
+                basename == "perl" || basename.has_prefix ("python");
         }
 
         private static bool path_is_within (string candidate, string target) {
