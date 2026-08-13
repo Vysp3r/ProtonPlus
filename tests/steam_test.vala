@@ -450,19 +450,25 @@ namespace AppTests.SteamTest {
         var config_directory = Path.build_filename (root, "config");
         var steamapps_directory = Path.build_filename (root, "steamapps");
         var game_directory = Path.build_filename (steamapps_directory, "common", "FixtureGame");
+        var missing_game_directory = Path.build_filename (steamapps_directory, "common", "MissingGame");
         assert (ProtonPlus.Utils.Filesystem.create_directory (config_directory));
         assert (ProtonPlus.Utils.Filesystem.create_directory (game_directory));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (missing_game_directory));
         assert (ProtonPlus.Utils.Filesystem.modify_file (
             Path.build_filename (config_directory, "config.vdf"),
             "\"InstallConfigStore\" { \"Software\" { \"Valve\" { \"Steam\" { } } } }"
         ));
         assert (ProtonPlus.Utils.Filesystem.modify_file (
             Path.build_filename (steamapps_directory, "libraryfolders.vdf"),
-            "\"libraryfolders\" { \"0\" { \"path\" \"%s\" \"apps\" { \"42\" \"1\" } } }".printf (root)
+            "\"libraryfolders\" { \"0\" { \"path\" \"%s\" \"apps\" { \"42\" \"1\" \"43\" \"1\" } } }".printf (root)
         ));
         assert (ProtonPlus.Utils.Filesystem.modify_file (
             Path.build_filename (steamapps_directory, "appmanifest_42.acf"),
             "\"AppState\" { \"appid\" \"42\" \"name\" \"Fixture Game\" \"installdir\" \"FixtureGame\" }"
+        ));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (steamapps_directory, "appmanifest_43.acf"),
+            "\"AppState\" { \"appid\" \"43\" \"name\" \"Missing Game\" \"installdir\" \"MissingGame\" }"
         ));
 
         var source = new ManualAwacyGameSource ();
@@ -473,27 +479,49 @@ namespace AppTests.SteamTest {
         steam.groups = {};
 
         assert (load_steam_library (steam));
-        assert (steam.games.length () == 1);
-        var game = steam.games.nth_data (0) as ProtonPlus.Models.Games.Steam;
-        assert (game != null);
-        assert (((!) game).awacy_status == null);
+        assert (steam.games.length () == 2);
+        ProtonPlus.Models.Games.Steam? matched_game = null;
+        ProtonPlus.Models.Games.Steam? missing_game = null;
+        foreach (var base_game in steam.games) {
+            var steam_game = base_game as ProtonPlus.Models.Games.Steam;
+            if (steam_game == null)
+                continue;
+            if (((!) steam_game).appid == 42)
+                matched_game = (!) steam_game;
+            else if (((!) steam_game).appid == 43)
+                missing_game = (!) steam_game;
+        }
+        assert (matched_game != null);
+        assert (missing_game != null);
+        assert (((!) matched_game).awacy_status == null);
+        assert (!((!) matched_game).awacy_lookup_complete);
+        assert (!((!) missing_game).awacy_lookup_complete);
 
         while (MainContext.default ().pending ())
             MainContext.default ().iteration (false);
         assert (source.load_count == 1);
-        assert (((!) game).awacy_status == null);
+        assert (((!) matched_game).awacy_status == null);
 
-        var notified = false;
-        ((!) game).notify["awacy-status"].connect (() => {
-            notified = true;
+        var status_notified = false;
+        var missing_complete_notified = false;
+        ((!) matched_game).notify["awacy-status"].connect (() => {
+            status_notified = true;
+        });
+        ((!) missing_game).notify["awacy-lookup-complete"].connect (() => {
+            missing_complete_notified = true;
         });
         source.complete ();
         while (MainContext.default ().pending ())
             MainContext.default ().iteration (false);
 
-        assert (notified);
-        assert (((!) game).awacy_name == "fixture-game");
-        assert (((!) game).awacy_status == "Running");
+        assert (status_notified);
+        assert (missing_complete_notified);
+        assert (((!) matched_game).awacy_name == "fixture-game");
+        assert (((!) matched_game).awacy_status == "Running");
+        assert (((!) matched_game).awacy_lookup_complete);
+        assert (((!) missing_game).awacy_name == null);
+        assert (((!) missing_game).awacy_status == null);
+        assert (((!) missing_game).awacy_lookup_complete);
         assert (delete_directory (root));
     }
 

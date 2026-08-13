@@ -13,6 +13,7 @@ namespace ProtonPlus.Widgets.Games {
         SimpleAction open_protondb_action;
         SimpleAction open_anticheat_action;
         ulong awacy_status_handler = 0;
+        ulong awacy_lookup_complete_handler = 0;
         bool bound = false;
 
         public ExtraButton (GameActionTarget target) {
@@ -80,6 +81,9 @@ namespace ProtonPlus.Widgets.Games {
                 awacy_status_handler = ((!) steam_game).notify["awacy-status"].connect (
                     refresh
                 );
+                awacy_lookup_complete_handler = ((!) steam_game).notify["awacy-lookup-complete"].connect (
+                    refresh
+                );
             }
             refresh ();
             button.update_property (
@@ -116,7 +120,8 @@ namespace ProtonPlus.Widgets.Games {
                 Globals.PROTONTRICKS_INSTALLED ||
                     Globals.PROTONTRICKS_FLATPAK_INSTALLED,
                 steam_game?.awacy_status,
-                steam_game?.awacy_name != null
+                steam_game?.awacy_name != null,
+                steam_game?.awacy_lookup_complete ?? false
             );
 
             var current = (!) availability;
@@ -338,6 +343,10 @@ namespace ProtonPlus.Widgets.Games {
             if (awacy_status_handler != 0 && game != null) {
                 ((!) game).disconnect (awacy_status_handler);
                 awacy_status_handler = 0;
+            }
+            if (awacy_lookup_complete_handler != 0 && game != null) {
+                ((!) game).disconnect (awacy_lookup_complete_handler);
+                awacy_lookup_complete_handler = 0;
             }
         }
 

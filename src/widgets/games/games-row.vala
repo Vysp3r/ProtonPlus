@@ -311,7 +311,8 @@ namespace ProtonPlus.Widgets.Games {
                 Globals.PROTONTRICKS_INSTALLED ||
                     Globals.PROTONTRICKS_FLATPAK_INSTALLED,
                 (item.game as Models.Games.Steam)?.awacy_status,
-                (item.game as Models.Games.Steam)?.awacy_name != null
+                (item.game as Models.Games.Steam)?.awacy_name != null,
+                (item.game as Models.Games.Steam)?.awacy_lookup_complete ?? false
             );
             launch_button.set_visible (availability.show_launch);
             launch_button.set_tooltip_text (_("Launch %s").printf (item.game.name));

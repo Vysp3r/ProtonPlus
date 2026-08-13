@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-13 12:01-0400\n"
+"POT-Creation-Date: 2026-08-13 12:08-0400\n"
 "PO-Revision-Date: 2025-08-21 19:02+0000\n"
 "Last-Translator: Linus Virtanen <linus.virtanen@protonmail.com>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/protonplus/"
@@ -470,7 +470,7 @@ msgstr ""
 msgid "Grant ProtonPlus access, restart it, and try the installation again:"
 msgstr ""
 
-#: src/models/launchers/steam.vala:360
+#: src/models/launchers/steam.vala:363
 #, c-format
 msgid "%s (Unavailable)"
 msgstr ""
@@ -1037,111 +1037,111 @@ msgstr ""
 msgid "No games are available for this launcher."
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:69
+#: src/widgets/games/games-extra-button.vala:70
 #, fuzzy
 msgid "Game Actions"
 msgstr "Käynnistysasetukset"
 
-#: src/widgets/games/games-extra-button.vala:87
+#: src/widgets/games/games-extra-button.vala:91
 #: src/widgets/tools/tools-release-row.vala:201
 #: src/widgets/tools/tools-release-row.vala:506
 #, fuzzy, c-format
 msgid "Actions for %s"
 msgstr "Käynnistysasetukset"
 
-#: src/widgets/games/games-extra-button.vala:136
+#: src/widgets/games/games-extra-button.vala:141
 #, fuzzy
 msgid "_Run Custom Executable…"
 msgstr "Valitse kaikki"
 
-#: src/widgets/games/games-extra-button.vala:138
+#: src/widgets/games/games-extra-button.vala:143
 #, fuzzy
 msgid "Open _Game Folder"
 msgstr "Pelit"
 
-#: src/widgets/games/games-extra-button.vala:140
+#: src/widgets/games/games-extra-button.vala:145
 #, fuzzy
 msgid "Open _Prefix Folder"
 msgstr "Avaa nettiselaimessa"
 
-#: src/widgets/games/games-extra-button.vala:142
+#: src/widgets/games/games-extra-button.vala:147
 #, fuzzy
 msgid "Open in Proton_tricks"
 msgstr "Avaa Protontricks:issä"
 
-#: src/widgets/games/games-extra-button.vala:144
+#: src/widgets/games/games-extra-button.vala:149
 #, fuzzy
 msgid "Open Proton_DB"
 msgstr "Avaa ProtonDB -sivusto"
 
-#: src/widgets/games/games-extra-button.vala:177
+#: src/widgets/games/games-extra-button.vala:182
 #, fuzzy
 msgid "Supported"
 msgstr "Tämä käynnistin ei ole tuettu"
 
-#: src/widgets/games/games-extra-button.vala:180
+#: src/widgets/games/games-extra-button.vala:185
 msgid "Running"
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:183
+#: src/widgets/games/games-extra-button.vala:188
 msgid "Planned"
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:186
+#: src/widgets/games/games-extra-button.vala:191
 msgid "Broken"
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:189
+#: src/widgets/games/games-extra-button.vala:194
 msgid "Denied"
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:192
+#: src/widgets/games/games-extra-button.vala:197
 #: src/widgets/tools/tools-releases-box.vala:1440
 #, fuzzy
 msgid "Loading…"
 msgstr "Ladataan"
 
-#: src/widgets/games/games-extra-button.vala:195
+#: src/widgets/games/games-extra-button.vala:200
 msgid "Unknown"
 msgstr "Tuntematon"
 
-#: src/widgets/games/games-extra-button.vala:198
+#: src/widgets/games/games-extra-button.vala:203
 #, c-format
 msgid "Anti-Cheat: %s"
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:210
+#: src/widgets/games/games-extra-button.vala:215
 #, fuzzy
 msgid "Select executable"
 msgstr "Valitse kaikki"
 
-#: src/widgets/games/games-extra-button.vala:214
+#: src/widgets/games/games-extra-button.vala:219
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:244
+#: src/widgets/games/games-extra-button.vala:249
 #, fuzzy
 msgid "Compatibility Tool Not Found"
 msgstr "Yhteensopivuustyökalu"
 
-#: src/widgets/games/games-extra-button.vala:245
+#: src/widgets/games/games-extra-button.vala:250
 #, c-format
 msgid ""
 "The compatibility tool required for %s is missing from your system. Please "
 "ensure it is correctly installed."
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:263
+#: src/widgets/games/games-extra-button.vala:268
 #, c-format
 msgid "Exit status: %d"
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:269
+#: src/widgets/games/games-extra-button.vala:274
 #, fuzzy
 msgid "Custom Executable Failed"
 msgstr "Valitse kaikki"
 
-#: src/widgets/games/games-extra-button.vala:270
+#: src/widgets/games/games-extra-button.vala:275
 #, c-format
 msgid "The custom executable for %s could not be launched."
 msgstr ""
@@ -1263,35 +1263,35 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
-#: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:470
-#: src/widgets/games/games-row.vala:474 src/widgets/games/games-row.vala:548
+#: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:471
+#: src/widgets/games/games-row.vala:475 src/widgets/games/games-row.vala:549
 #, fuzzy
 msgid "Select game"
 msgstr "Valitse kaikki"
 
-#: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:486
+#: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:487
 #, fuzzy
 msgid "Modify Game"
 msgstr "Muokkaa pelin käynnistysasetuksia"
 
-#: src/widgets/games/games-row.vala:63 src/widgets/games/games-row.vala:521
+#: src/widgets/games/games-row.vala:63 src/widgets/games/games-row.vala:522
 #: src/widgets/tools/tools-game-row.vala:15
 #: src/widgets/tools/tools-game-row.vala:19
 #, fuzzy, c-format
 msgid "Select %s"
 msgstr "Valitse kaikki"
 
-#: src/widgets/games/games-row.vala:119 src/widgets/games/games-row.vala:587
+#: src/widgets/games/games-row.vala:119 src/widgets/games/games-row.vala:588
 #, c-format
 msgid "Toggle selection for %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:165 src/widgets/games/games-row.vala:588
+#: src/widgets/games/games-row.vala:165 src/widgets/games/games-row.vala:589
 #, c-format
 msgid "Modify %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:317 src/widgets/games/games-row.vala:320
+#: src/widgets/games/games-row.vala:318 src/widgets/games/games-row.vala:321
 #, fuzzy, c-format
 msgid "Launch %s"
 msgstr "Käynnistysasetukset"

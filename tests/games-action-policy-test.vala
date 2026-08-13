@@ -15,11 +15,11 @@ namespace AppTests.GameActionPolicyTest {
         bool is_non_steam = false, bool is_native = false,
         bool has_install_directory = true, bool has_prefix_directory = true,
         bool protontricks_available = true, string? anticheat_status = "Supported",
-        bool has_anticheat_page = true) {
+        bool has_anticheat_page = true, bool anticheat_lookup_complete = true) {
         return GameActionAvailability.evaluate (
             is_steam, is_non_steam, is_native, has_install_directory,
             has_prefix_directory, protontricks_available, anticheat_status,
-            has_anticheat_page
+            has_anticheat_page, anticheat_lookup_complete
         );
     }
 
@@ -72,7 +72,7 @@ namespace AppTests.GameActionPolicyTest {
 
     private void test_delayed_anticheat_status () {
         var loading = availability (
-            true, false, false, true, true, true, null, false
+            true, false, false, true, true, true, null, false, false
         );
         assert (loading.show_anticheat);
         assert (!loading.enable_anticheat);
@@ -83,6 +83,12 @@ namespace AppTests.GameActionPolicyTest {
         );
         assert (loaded.enable_anticheat);
         assert (loaded.anticheat_state == GameAntiCheatState.RUNNING);
+
+        var absent = availability (
+            true, false, false, true, true, true, null, false, true
+        );
+        assert (!absent.show_anticheat);
+        assert (!absent.enable_anticheat);
     }
 
     private void test_row_activation_modes () {

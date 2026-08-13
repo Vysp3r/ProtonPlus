@@ -320,14 +320,17 @@ namespace ProtonPlus.Models.Launchers {
 
             foreach (var base_game in games) {
                 var game = base_game as Games.Steam;
-                if (game == null || ((!) game).is_non_steam || !awacy_games.has_key (((!) game).appid))
+                if (game == null || ((!) game).is_non_steam)
                     continue;
 
-                var awacy_game = awacy_games.get (((!) game).appid);
-                if (awacy_game == null)
-                    continue;
-                ((!) game).awacy_name = ((!) awacy_game).name;
-                ((!) game).awacy_status = ((!) awacy_game).status;
+                if (awacy_games.has_key (((!) game).appid)) {
+                    var awacy_game = awacy_games.get (((!) game).appid);
+                    if (awacy_game != null) {
+                        ((!) game).awacy_name = ((!) awacy_game).name;
+                        ((!) game).awacy_status = ((!) awacy_game).status;
+                    }
+                }
+                ((!) game).awacy_lookup_complete = true;
             }
         }
 

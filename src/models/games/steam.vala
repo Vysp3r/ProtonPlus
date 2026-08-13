@@ -114,6 +114,7 @@ namespace ProtonPlus.Models.Games {
         public string library_folder_path { get; set; }
         public string awacy_name { get; set; }
         public string awacy_status { get; set; }
+        public bool awacy_lookup_complete { get; set; default = false; }
         public string launch_options { get; set; }
         public bool is_non_steam { get; set; }
 

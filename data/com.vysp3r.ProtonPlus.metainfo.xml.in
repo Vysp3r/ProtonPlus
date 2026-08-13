@@ -101,6 +101,7 @@
           <li>🐛 Fixed SteamOS Gaming Mode being detected in regular desktop sessions</li>
           <li>🐛 Fixed YAD 15 sometimes not being detected before installing SteamTinkerLaunch</li>
           <li>🐛 Fixed controller access on systems with older Flatpak versions</li>
+          <li>🐛 Fixed Anti-Cheat information getting stuck on Loading for unlisted games</li>
         </ul>
       </description>
     </release>

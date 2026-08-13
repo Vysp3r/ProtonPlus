@@ -61,7 +61,8 @@ namespace ProtonPlus.Widgets.Games {
         public static GameActionAvailability evaluate (bool is_steam,
             bool is_non_steam, bool is_native, bool has_install_directory,
             bool has_prefix_directory, bool protontricks_available,
-            string? anticheat_status, bool has_anticheat_page) {
+            string? anticheat_status, bool has_anticheat_page,
+            bool anticheat_lookup_complete) {
             var result = new GameActionAvailability ();
             result.native_game = is_native;
             result.show_launch = is_steam;
@@ -72,7 +73,8 @@ namespace ProtonPlus.Widgets.Games {
             result.show_protontricks = is_steam && !is_non_steam &&
                 protontricks_available;
             result.show_protondb = is_steam && !is_non_steam;
-            result.show_anticheat = is_steam && !is_non_steam;
+            result.show_anticheat = is_steam && !is_non_steam &&
+                (has_anticheat_page || !anticheat_lookup_complete);
             result.anticheat_state = parse_anticheat_state (anticheat_status);
             result.enable_anticheat = result.show_anticheat &&
                 has_anticheat_page && is_known_anticheat_state (
