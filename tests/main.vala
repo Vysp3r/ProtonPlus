@@ -1,6 +1,7 @@
 using GLib;
 
 int main (string[] args) {
+    Environment.set_variable ("GSETTINGS_BACKEND", "memory", true);
     Test.init (ref args);
     ProtonPlus.Globals.CPU_CAPABILITIES = new ProtonPlus.Models.CpuCapabilities (
         ProtonPlus.Models.CpuArchitecture.X86_64,
