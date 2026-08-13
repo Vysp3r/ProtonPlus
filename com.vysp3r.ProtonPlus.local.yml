@@ -7,7 +7,10 @@ sdk-extensions:
 command: protonplus
 finish-args:
   - --device=dri
-  # For controller support
+  # Preserve controller support on older Flatpak clients, while newer clients
+  # use the narrower input-device permission.
+  - --device=all
+  - --device-if=all:!has-input-device
   - --device=input
   - --share=ipc
   - --share=network
