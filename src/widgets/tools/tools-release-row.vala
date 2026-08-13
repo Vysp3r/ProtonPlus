@@ -1,6 +1,12 @@
 namespace ProtonPlus.Widgets.Tools {
     public class ReleaseRow : Adw.ActionRow, Utils.ControllerDirectionalFocus,
         Utils.ControllerActivationHandler, ReleaseRowJobSignalTarget {
+        private enum ControllerFocusLane {
+            ROW,
+            PRIMARY_ACTION,
+            MORE_ACTIONS
+        }
+
         public signal void changelog_requested (Services.InstallJob job);
         public signal void games_requested (Services.InstallJob job);
 
@@ -30,6 +36,8 @@ namespace ProtonPlus.Widgets.Tools {
         SimpleAction open_folder_action;
         SimpleAction delete_action;
         weak Gtk.Widget? controller_up_target;
+        weak Gtk.Widget? controller_row_up_target;
+        weak Gtk.Widget? controller_action_up_target;
         weak Gtk.Widget? controller_down_target;
 
         ReleaseRowJobSignalBinding job_signal_binding;
@@ -230,7 +238,10 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void progress_button_clicked () {
-            info_popover.popup ();
+            if (info_popover.get_mapped ())
+                info_popover.popdown ();
+            else
+                info_popover.popup ();
         }
 
         void cancel_button_clicked () {
@@ -275,8 +286,14 @@ namespace ProtonPlus.Widgets.Tools {
             });
         }
 
-        public void set_controller_up_target (Gtk.Widget? target) {
-            controller_up_target = target;
+        public void set_controller_up_targets (
+            Gtk.Widget? fallback_target,
+            Gtk.Widget? row_target,
+            Gtk.Widget? action_target
+        ) {
+            controller_up_target = fallback_target;
+            controller_row_up_target = row_target;
+            controller_action_up_target = action_target;
         }
 
         public void set_controller_down_target (Gtk.Widget? target) {
@@ -293,7 +310,7 @@ namespace ProtonPlus.Widgets.Tools {
 
             if (direction == Utils.ControllerNavigationDirection.UP ||
                 direction == Utils.ControllerNavigationDirection.DOWN)
-                return focus_vertical (direction);
+                return focus_vertical ((!) focused, direction);
 
             if (direction == Utils.ControllerNavigationDirection.LEFT ||
                 direction == Utils.ControllerNavigationDirection.RIGHT)
@@ -319,17 +336,23 @@ namespace ProtonPlus.Widgets.Tools {
             return true;
         }
 
-        bool focus_vertical (Utils.ControllerNavigationDirection direction) {
+        bool focus_vertical (
+            Gtk.Widget focused,
+            Utils.ControllerNavigationDirection direction
+        ) {
+            var focus_lane = controller_focus_lane (focused);
             var adjacent = find_adjacent_release (direction);
             if (adjacent != null)
-                return ((!) adjacent).grab_focus ();
+                return ((!) adjacent).focus_controller_lane (focus_lane);
 
-            if (direction == Utils.ControllerNavigationDirection.UP)
-                return controller_up_target != null &&
-                    ((!) controller_up_target).get_mapped () &&
-                    ((!) controller_up_target).is_visible () &&
-                    ((!) controller_up_target).is_sensitive () &&
-                    ((!) controller_up_target).grab_focus ();
+            if (direction == Utils.ControllerNavigationDirection.UP) {
+                var preferred_target = focus_lane != ControllerFocusLane.ROW
+                    ? controller_action_up_target
+                    : controller_row_up_target;
+                if (focus_controller_target (preferred_target))
+                    return true;
+                return focus_controller_target (controller_up_target);
+            }
 
             if (focus_next_list_control ())
                 return true;
@@ -339,6 +362,47 @@ namespace ProtonPlus.Widgets.Tools {
                 ((!) controller_down_target).is_visible () &&
                 ((!) controller_down_target).is_sensitive () &&
                 ((!) controller_down_target).grab_focus ();
+        }
+
+        ControllerFocusLane controller_focus_lane (Gtk.Widget focused) {
+            var action = find_action_ancestor (focused);
+            if (action == actions_button)
+                return ControllerFocusLane.MORE_ACTIONS;
+            if (action != null)
+                return ControllerFocusLane.PRIMARY_ACTION;
+            return ControllerFocusLane.ROW;
+        }
+
+        bool focus_controller_lane (ControllerFocusLane lane) {
+            switch (lane) {
+            case ControllerFocusLane.PRIMARY_ACTION:
+                var primary_action = find_focusable_primary_action ();
+                if (focus_controller_target (primary_action))
+                    return true;
+                break;
+            case ControllerFocusLane.MORE_ACTIONS:
+                if (focus_controller_target (actions_button))
+                    return true;
+                break;
+            default:
+                break;
+            }
+            return grab_focus ();
+        }
+
+        public bool focus_more_actions_controller_target () {
+            return focus_controller_lane (ControllerFocusLane.MORE_ACTIONS);
+        }
+
+        Gtk.Widget? find_focusable_primary_action () {
+            var action = find_focusable_action (null, true);
+            return action != actions_button ? action : null;
+        }
+
+        bool focus_controller_target (Gtk.Widget? target) {
+            return target != null && ((!) target).get_mapped () &&
+                ((!) target).is_visible () && ((!) target).is_sensitive () &&
+                ((!) target).grab_focus ();
         }
 
         ReleaseRow? find_adjacent_release (

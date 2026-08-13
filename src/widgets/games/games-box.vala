@@ -681,6 +681,7 @@ namespace ProtonPlus.Widgets.Games {
                 if (item == null || cell == null)
                     return;
                 ((!) cell).bind ((!) item);
+                ((!) cell).set_selection_mode (selection_mode_active);
                 wide_title_cells.set ((!) item, (!) cell);
             });
             factory.unbind.connect ((object) => {
@@ -1084,6 +1085,8 @@ namespace ProtonPlus.Widgets.Games {
                 row.set_selection_mode (active);
             foreach (var cell in wide_selection_cells.values)
                 cell.set_selection_mode (active);
+            foreach (var cell in wide_title_cells.values)
+                cell.set_selection_mode (active);
             foreach (var actions in wide_action_cells.values)
                 actions.set_selection_mode (active);
         }
@@ -1230,6 +1233,8 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         bool focus_wide_title (GameListItem item) {
+            if (selection_mode_active)
+                return focus_wide_selection (item);
             var cell = wide_title_cells.get (item);
             if (cell != null)
                 return ((!) cell).grab_focus ();
@@ -1263,6 +1268,9 @@ namespace ProtonPlus.Widgets.Games {
 
         bool try_focus_bound_item (GameListItem item, GameFocusLane lane,
             bool narrow, out bool focus_ready) {
+            lane = GameControllerNavigationPolicy.selection_mode_lane (
+                lane, selection_mode_active
+            );
             if (narrow) {
                 var row = narrow_rows.get (item);
                 focus_ready = row != null && ((!) row).get_mapped ();

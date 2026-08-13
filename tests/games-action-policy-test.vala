@@ -143,6 +143,15 @@ namespace AppTests.GameActionPolicyTest {
             GameFocusLane.PRIMARY_ACTION);
         assert (GameControllerNavigationPolicy.action_lane (true) ==
             GameFocusLane.SECONDARY_ACTION);
+        assert (GameControllerNavigationPolicy.selection_mode_lane (
+            GameFocusLane.ROW, true
+        ) == GameFocusLane.SELECTION);
+        assert (GameControllerNavigationPolicy.selection_mode_lane (
+            GameFocusLane.ROW, false
+        ) == GameFocusLane.ROW);
+        assert (GameControllerNavigationPolicy.selection_mode_lane (
+            GameFocusLane.PRIMARY_ACTION, true
+        ) == GameFocusLane.PRIMARY_ACTION);
         assert (GameControllerNavigationPolicy.can_attempt_action_focus (
             true, true, true
         ));

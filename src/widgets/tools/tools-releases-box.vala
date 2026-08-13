@@ -172,7 +172,8 @@ namespace ProtonPlus.Widgets.Tools {
         }
     }
 
-    public class ReleasesBox : Gtk.Box, Utils.ControllerDirectionalFocus {
+    public class ReleasesBox : Gtk.Box, Utils.ControllerDirectionalFocus,
+        Utils.ControllerActivationHandler {
         public signal void changelog_requested (Services.InstallJob job);
         public signal void games_requested (Services.InstallJob job);
         public signal void clear_search_requested ();
@@ -575,17 +576,33 @@ namespace ProtonPlus.Widgets.Tools {
                 variant_box.set_visible (false);
             }
             button.set_visible (current_tool != null);
+            update_release_row_up_targets ();
         }
 
         public void set_controller_up_target (Gtk.Widget? target) {
             controller_up_target = target;
+            update_release_row_up_targets ();
+        }
+
+        void update_release_row_up_targets () {
             var child = list_box.get_first_child ();
             while (child != null) {
                 var row = child as ReleaseRow;
                 if (row != null)
-                    ((!) row).set_controller_up_target (target);
+                    configure_release_row_up_targets ((!) row);
                 child = child.get_next_sibling ();
             }
+        }
+
+        void configure_release_row_up_targets (ReleaseRow row) {
+            Gtk.Widget? row_target = variant_dropdown.get_visible ()
+                ? variant_dropdown : null;
+            Gtk.Widget? action_target = actions_button != null &&
+                ((!) actions_button).get_visible ()
+                ? actions_button : null;
+            row.set_controller_up_targets (
+                controller_up_target, row_target, action_target
+            );
         }
 
         public void set_controller_down_target (Gtk.Widget? target) {
@@ -889,8 +906,13 @@ namespace ProtonPlus.Widgets.Tools {
                 }
                 if (direction == Utils.ControllerNavigationDirection.UP)
                     return focus_controller_up_target ();
-                if (direction == Utils.ControllerNavigationDirection.DOWN)
+                if (direction == Utils.ControllerNavigationDirection.DOWN) {
+                    var actions_control = toolbar_actions_control ();
+                    if (actions_control != null &&
+                        inline_control == actions_control)
+                        return focus_first_release_actions_target ();
                     return focus_first_release_target ();
+                }
                 return false;
             }
 
@@ -947,6 +969,35 @@ namespace ProtonPlus.Widgets.Tools {
                 return true;
 
             return load_more_button.grab_focus ();
+        }
+
+        bool focus_first_release_actions_target () {
+            var child = list_box.get_first_child ();
+            while (child != null) {
+                if (child is ReleaseRow && child.get_mapped () &&
+                    child.is_visible () && child.get_child_visible () &&
+                    child.is_sensitive ())
+                    return ((ReleaseRow) child)
+                        .focus_more_actions_controller_target ();
+                child = child.get_next_sibling ();
+            }
+            return focus_first_release_target ();
+        }
+
+        public bool controller_activate (Object focused_object) {
+            var focused = focused_object as Gtk.Widget;
+            if (focused == null)
+                return false;
+
+            var inline_control = find_inline_control_ancestor ((!) focused);
+            if (inline_control is Gtk.MenuButton) {
+                ((Gtk.MenuButton) inline_control).popup ();
+                return true;
+            }
+            if (inline_control != null)
+                return ((!) inline_control).activate ();
+
+            return ((!) focused).activate ();
         }
 
         bool focus_controller_up_target () {
@@ -1396,10 +1447,7 @@ namespace ProtonPlus.Widgets.Tools {
             } else {
                 row = new ReleaseRow (job, release_action_available);
             }
-            var row_up_target = find_inline_control (null, false);
-            row.set_controller_up_target (
-                row_up_target != null ? (!) row_up_target : controller_up_target
-            );
+            configure_release_row_up_targets (row);
             row.set_controller_down_target (controller_down_target);
             row.set_data ("job", job);
             row.changelog_requested.connect ((selected_job) => {

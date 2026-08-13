@@ -179,6 +179,10 @@ namespace ProtonPlus.Widgets.Games {
             return item;
         }
 
+        public void set_selection_mode (bool selection_mode) {
+            set_focusable (!selection_mode);
+        }
+
         public bool controller_focus_direction (
             Object focused_object, Utils.ControllerNavigationDirection direction
         ) {

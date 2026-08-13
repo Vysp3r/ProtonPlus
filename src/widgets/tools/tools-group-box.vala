@@ -249,8 +249,19 @@ namespace ProtonPlus.Widgets.Tools {
 
         public bool controller_activate (Object focused_object) {
             var focused = focused_object as Gtk.Widget;
+            if (focused == null)
+                return false;
+
+            var header_action = find_header_action_ancestor ((!) focused);
+            if (header_action is Gtk.MenuButton) {
+                ((Gtk.MenuButton) header_action).popup ();
+                return true;
+            }
+            if (header_action != null)
+                return ((!) header_action).activate ();
+
             var row = find_expander_row_ancestor (focused);
-            if (row == null || focused == null)
+            if (row == null)
                 return false;
 
             var actions_button = ((!) row).get_data<Gtk.MenuButton> (
@@ -265,6 +276,16 @@ namespace ProtonPlus.Widgets.Tools {
 
             ((!) row).expanded = !((!) row).expanded;
             return true;
+        }
+
+        Gtk.Widget? find_header_action_ancestor (Gtk.Widget focused) {
+            Gtk.Widget? current = focused;
+            while (current != null && current != header_actions) {
+                if (current.get_parent () == header_actions)
+                    return current;
+                current = current.get_parent ();
+            }
+            return null;
         }
 
         Adw.ExpanderRow? find_adjacent_visible_row (

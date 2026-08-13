@@ -129,6 +129,14 @@ namespace ProtonPlus.Widgets.Games {
                 : GameFocusLane.PRIMARY_ACTION;
         }
 
+        public static GameFocusLane selection_mode_lane (
+            GameFocusLane lane, bool selection_mode
+        ) {
+            return selection_mode && lane == GameFocusLane.ROW
+                ? GameFocusLane.SELECTION
+                : lane;
+        }
+
         public static bool can_attempt_action_focus (
             bool mapped, bool visible, bool sensitive) {
             return mapped && visible && sensitive;
