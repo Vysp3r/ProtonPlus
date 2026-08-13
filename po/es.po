@@ -2,22 +2,22 @@
 # Luis Miguel <luismiguelfm96@gmail.com>, 2025, 2026.
 # Marco Rodriguez <marcorguezhdez@gmail.com>, 2025.
 # Marco Rodriguez <marco@invrs.dev>, 2026.
+# Patricio <pattoperez97@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-04-20 13:09+0000\n"
-"Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
+"PO-Revision-Date: 2026-08-13 18:53+0000\n"
+"Last-Translator: Patricio <pattoperez97@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
 "Language: es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
-#, fuzzy
 msgid "ProtonPlus"
 msgstr "Sobre ProtonPlus"
 
@@ -36,15 +36,14 @@ msgid "Show Shortcuts"
 msgstr "Mostrar atajos"
 
 #: data/ui/gtk/help-overlay.ui:20
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Preferences"
-msgstr "_Preferencias"
+msgstr "Preferencias"
 
 #: data/ui/gtk/help-overlay.ui:26
 msgctxt "shortcut window"
 msgid "Help"
-msgstr ""
+msgstr "Ayuda"
 
 #: data/ui/gtk/help-overlay.ui:32
 msgctxt "shortcut window"
@@ -54,29 +53,27 @@ msgstr "Salir"
 #: data/ui/gtk/help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr ""
+msgstr "Navegar"
 
 #: data/ui/gtk/help-overlay.ui:43
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Go Back"
 msgstr "Atrás"
 
 #: data/ui/gtk/help-overlay.ui:51
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Search"
-msgstr "Mostrar búsqueda"
+msgstr "Buscar"
 
 #: data/ui/gtk/help-overlay.ui:54
 msgctxt "shortcut window"
 msgid "Search Current View"
-msgstr ""
+msgstr "Buscar vista actual"
 
 #: src/cli/cli.vala:128
 #, c-format
 msgid "Error: Unknown command '%s'\n"
-msgstr "Error: comando '%s' es desconocido\n"
+msgstr "Error: Comando desconocido '%s'\n"
 
 #: src/cli/cli.vala:137
 #, fuzzy, c-format
@@ -786,7 +783,7 @@ msgstr ""
 #: src/widgets/controller-hint-bar.vala:126
 #: src/widgets/controller-hint-bar.vala:131
 msgid "Adjust"
-msgstr ""
+msgstr "Ajustar"
 
 #: src/widgets/controller-hint-bar.vala:130
 msgid "Up and down"
@@ -1973,7 +1970,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1313
 #, fuzzy
 msgid "Prefer SDL controller input"
-msgstr "Preferir controlador SDL"
+msgstr "Preferir entrada de control SDL"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:41
 msgid "Workaround for controller detection issues."
@@ -2871,7 +2868,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-log-level.vala:22
 msgid "Adjust how much debugging information VKD3D prints to the terminal."
-msgstr ""
+msgstr "Ajustar cuánta información para depurar VKD3D muestra la terminal."
 
 #: src/widgets/games/launch-options-editor/launch-options-list.vala:173
 msgid "No launch options configured yet."
@@ -3615,15 +3612,15 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1321
 msgid "Adds -vulkan."
-msgstr ""
+msgstr "Añade -vulkan."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1322
 msgid "Adds -dx11."
-msgstr ""
+msgstr "Añade -dx11."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
 msgid "Adds -dx12."
-msgstr ""
+msgstr "Añade -dx12."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1324
 #, fuzzy
@@ -3667,9 +3664,8 @@ msgid "Marks where Steam inserts the game's command."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1332
-#, fuzzy
 msgid "Preserved unrecognized launch options"
-msgstr "Borrar las opciones de lanzamiento actuales"
+msgstr "Preservar las opciones de lanzamiento no reconocidas"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1332
 msgid "Keeps unrecognized, quoted, and opaque shell content exactly as loaded."
@@ -3841,7 +3837,7 @@ msgstr "Moviendo"
 
 #: src/widgets/header/header-downloads-indicator.vala:319
 msgid "Preparing"
-msgstr ""
+msgstr "Preparando"
 
 #: src/widgets/header/header-downloads-indicator.vala:333
 #, c-format
@@ -5704,13 +5700,12 @@ msgid "Moving"
 msgstr "Moviendo"
 
 #: src/widgets/tools/tools-release-row.vala:774
-#, fuzzy
 msgid "Preparing update"
-msgstr "%s está actualizado"
+msgstr "Preparando actualización"
 
 #: src/widgets/tools/tools-release-row.vala:777
 msgid "Preparing installation"
-msgstr ""
+msgstr "Preparando instalación"
 
 #: src/widgets/tools/tools-release-row.vala:831
 #, c-format
