@@ -9,7 +9,6 @@ finish-args:
   - --device=dri
   # Preserve controller support on older Flatpak clients, while newer clients
   # use the narrower input-device permission.
-  - --device=all
   - --device-if=all:!has-input-device
   - --device=input
   - --share=ipc
