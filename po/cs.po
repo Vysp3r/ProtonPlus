@@ -37,13 +37,11 @@ msgid "Show Shortcuts"
 msgstr "Zobrazit zkratky"
 
 #: data/ui/gtk/help-overlay.ui:20
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Preferences"
 msgstr "Předvolby"
 
 #: data/ui/gtk/help-overlay.ui:26
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Help"
 msgstr "Nápověda"
@@ -54,19 +52,16 @@ msgid "Quit"
 msgstr "Ukončit"
 
 #: data/ui/gtk/help-overlay.ui:40
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Navigace"
 
 #: data/ui/gtk/help-overlay.ui:43
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Go Back"
-msgstr "Zpět"
+msgstr "Jít zpět"
 
 #: data/ui/gtk/help-overlay.ui:51
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Hledat"
@@ -74,7 +69,7 @@ msgstr "Hledat"
 #: data/ui/gtk/help-overlay.ui:54
 msgctxt "shortcut window"
 msgid "Search Current View"
-msgstr ""
+msgstr "Prohledat aktuální zobrazení"
 
 #: src/cli/cli.vala:128
 #, c-format
@@ -462,10 +457,13 @@ msgid ""
 "Faugus Launcher uses this folder for Proton installations, but ProtonPlus "
 "cannot access its symlink target:"
 msgstr ""
+"Faugus Launcher používá tuto složku pro instalace Protonu, ale ProtonPlus "
+"nemá přístup k jejímu cílovému symbolickému odkazu:"
 
 #: src/models/launchers/faugus-launcher.vala:85
 msgid "Grant ProtonPlus access, restart it, and try the installation again:"
 msgstr ""
+"Udělte aplikaci ProtonPlus přístup, restartujte ji a zkuste instalaci znovu:"
 
 #: src/models/launchers/steam.vala:363
 #, c-format
@@ -520,7 +518,6 @@ msgstr ""
 "tkg."
 
 #: src/models/providers/definitions/proton.vala:68
-#, fuzzy
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty, adding FSR4 support and Wine "
@@ -528,16 +525,15 @@ msgid ""
 msgstr ""
 "Nástroj kompatibility Steam pro spouštění her pro Windows s vylepšeními "
 "oproti výchozímu Protonu od Valve. Od Etaashe Mathamsetty přidávající "
-"podporu FSR4 a úpravy wine wayland."
+"podporu FSR4 a úpravy Wine Wayland."
 
 #: src/models/providers/definitions/proton.vala:79
-#, fuzzy
 msgid ""
 "Steam compatibility tool based on CachyOS Proton with Wayland improvements, "
 "especially for Windows launcher applications."
 msgstr ""
-"Nástroj kompatibility Steam založený na Proton-GE s dalšími patchi pro "
-"vylepšení kodeků RTSP pro VRChat."
+"Nástroj kompatibility Steam založený na CachyOS Proton s vylepšeními "
+"Waylandu, zejména pro aplikace spouštěčů pro Windows."
 
 #: src/models/providers/definitions/proton.vala:92
 msgid ""
@@ -661,6 +657,8 @@ msgid ""
 "Running compatibility tools could not be checked. Try again before changing "
 "an installed tool."
 msgstr ""
+"Spuštěné nástroje kompatibility se nepodařilo zkontrolovat. Před změnou "
+"nainstalovaného nástroje to zkuste znovu."
 
 #: src/return_codes.vala:73
 msgid "The operation could not be completed."
@@ -926,9 +924,8 @@ msgid "Non-Steam"
 msgstr "Mimo Steam"
 
 #: src/widgets/games/games-box.vala:846
-#, fuzzy
 msgid "Filter Games"
-msgstr "Filtr: Všechny hry"
+msgstr "Filtrovat hry"
 
 #: src/widgets/games/games-box.vala:856
 msgid "Search games"
@@ -997,9 +994,8 @@ msgstr "Zkuste jiný hledaný výraz nebo vymažte hledání."
 #: src/widgets/games/games-box.vala:1038
 #: src/widgets/tools/tools-group-box.vala:335
 #: src/widgets/tools/tools-releases-box.vala:801
-#, fuzzy
 msgid "Clear Search"
-msgstr "Hledat"
+msgstr "Vymazat hledání"
 
 #: src/widgets/games/games-box.vala:1041
 msgid "No games match this filter"
@@ -1012,77 +1008,68 @@ msgstr "Zvolte Všechny hry, abyste viděli celou knihovnu."
 #: src/widgets/games/games-box.vala:1046
 #: src/widgets/tools/tools-group-box.vala:342
 #: src/widgets/tools/tools-releases-box.vala:807
-#, fuzzy
 msgid "Reset Filters"
-msgstr "Filtry"
+msgstr "Resetovat filtry"
 
 #: src/widgets/games/games-box.vala:1051
 msgid "No games are available for this launcher."
 msgstr "Pro tento spouštěč nejsou k dispozici žádné hry."
 
 #: src/widgets/games/games-extra-button.vala:70
-#, fuzzy
 msgid "Game Actions"
-msgstr "Akce"
+msgstr "Akce hry"
 
 #: src/widgets/games/games-extra-button.vala:91
 #: src/widgets/tools/tools-release-row.vala:201
 #: src/widgets/tools/tools-release-row.vala:506
-#, fuzzy, c-format
+#, c-format
 msgid "Actions for %s"
-msgstr "Akce"
+msgstr "Akce pro %s"
 
 #: src/widgets/games/games-extra-button.vala:141
-#, fuzzy
 msgid "_Run Custom Executable…"
-msgstr "Spustit vlastní spustitelný soubor"
+msgstr "_Spustit vlastní spustitelný soubor…"
 
 #: src/widgets/games/games-extra-button.vala:143
-#, fuzzy
 msgid "Open _Game Folder"
-msgstr "Výstupní složka"
+msgstr "Otevřít složku _hry"
 
 #: src/widgets/games/games-extra-button.vala:145
-#, fuzzy
 msgid "Open _Prefix Folder"
-msgstr "Otevřít ve webovém prohlížeči"
+msgstr "Otevřít složku _prefixu"
 
 #: src/widgets/games/games-extra-button.vala:147
-#, fuzzy
 msgid "Open in Proton_tricks"
-msgstr "Otevřít v protontricks"
+msgstr "Otevřít v Proton_tricks"
 
 #: src/widgets/games/games-extra-button.vala:149
-#, fuzzy
 msgid "Open Proton_DB"
-msgstr "Otevřít ProtonDB stránku"
+msgstr "Otevřít Proton_DB"
 
 #: src/widgets/games/games-extra-button.vala:182
-#, fuzzy
 msgid "Supported"
-msgstr "Podporovaný spouštěč"
+msgstr "Podporováno"
 
 #: src/widgets/games/games-extra-button.vala:185
 msgid "Running"
-msgstr ""
+msgstr "Běžící"
 
 #: src/widgets/games/games-extra-button.vala:188
 msgid "Planned"
-msgstr ""
+msgstr "Plánováno"
 
 #: src/widgets/games/games-extra-button.vala:191
 msgid "Broken"
-msgstr ""
+msgstr "Porušeno"
 
 #: src/widgets/games/games-extra-button.vala:194
 msgid "Denied"
-msgstr ""
+msgstr "Zamítnuto"
 
 #: src/widgets/games/games-extra-button.vala:197
 #: src/widgets/tools/tools-releases-box.vala:1440
-#, fuzzy
 msgid "Loading…"
-msgstr "Načítání"
+msgstr "Načítání…"
 
 #: src/widgets/games/games-extra-button.vala:200
 msgid "Unknown"
@@ -1091,7 +1078,7 @@ msgstr "Neznámé"
 #: src/widgets/games/games-extra-button.vala:203
 #, c-format
 msgid "Anti-Cheat: %s"
-msgstr ""
+msgstr "Anti-Cheat: %s"
 
 #: src/widgets/games/games-extra-button.vala:215
 msgid "Select executable"
@@ -1163,38 +1150,36 @@ msgstr "Vybráno %u her"
 
 #: src/widgets/games/games-mass-edit-view.vala:37
 #: src/widgets/games/games-mass-edit-view.vala:40
-#, fuzzy
 msgid "Clear Launch Options"
-msgstr "Hledat možnosti spuštění"
+msgstr "Vymazat možnosti spuštění"
 
 #: src/widgets/games/games-mass-edit-view.vala:47
 #: src/widgets/games/games-mass-edit-view.vala:50
-#, fuzzy
 msgid "Apply Changes"
-msgstr "Používání změn…"
+msgstr "Použít změny"
 
 #: src/widgets/games/games-mass-edit-view.vala:58
 msgid "Apply compatibility tool"
 msgstr "Použít nástroj kompatibility"
 
 #: src/widgets/games/games-mass-edit-view.vala:59
-#, fuzzy
 msgid "Use the same compatibility tool for all selected games"
-msgstr "Nastavit stejný nástroj pro všechny vybrané hry."
+msgstr "Použít stejný nástroj kompatibility pro všechny vybrané hry"
 
 #: src/widgets/games/games-mass-edit-view.vala:78
 msgid "Apply launch options"
 msgstr "Použít možnosti spuštění"
 
 #: src/widgets/games/games-mass-edit-view.vala:79
-#, fuzzy
 msgid "Use the same launch options for all selected Steam games"
-msgstr "Nastavit stejné možnosti pro všechny vybrané hry na Steamu."
+msgstr "Použít stejné možnosti spouštění pro všechny vybrané hry na Steamu"
 
 #: src/widgets/games/games-mass-edit-view.vala:93
 msgid ""
 "Choose what to change. Settings that are turned off will remain unchanged."
 msgstr ""
+"Vyberte, co chcete změnit. Nastavení, která jsou vypnuta, zůstanou beze "
+"změny."
 
 #: src/widgets/games/games-mass-edit-view.vala:279
 #: src/widgets/games/games-mass-edit-view.vala:290
@@ -1248,36 +1233,34 @@ msgstr ""
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
 #: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:471
 #: src/widgets/games/games-row.vala:475 src/widgets/games/games-row.vala:549
-#, fuzzy
 msgid "Select game"
-msgstr "Vybrat"
+msgstr "Vybrat hru"
 
 #: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:487
-#, fuzzy
 msgid "Modify Game"
 msgstr "Upravit hru"
 
 #: src/widgets/games/games-row.vala:63 src/widgets/games/games-row.vala:522
 #: src/widgets/tools/tools-game-row.vala:15
 #: src/widgets/tools/tools-game-row.vala:19
-#, fuzzy, c-format
+#, c-format
 msgid "Select %s"
-msgstr "Vybrat"
+msgstr "Vybrat %s"
 
 #: src/widgets/games/games-row.vala:119 src/widgets/games/games-row.vala:588
 #, c-format
 msgid "Toggle selection for %s"
-msgstr ""
+msgstr "Přepnout výběr pro %s"
 
 #: src/widgets/games/games-row.vala:165 src/widgets/games/games-row.vala:589
 #, c-format
 msgid "Modify %s"
-msgstr ""
+msgstr "Upravit %s"
 
 #: src/widgets/games/games-row.vala:318 src/widgets/games/games-row.vala:321
-#, fuzzy, c-format
+#, c-format
 msgid "Launch %s"
-msgstr "Spoušteče"
+msgstr "Spustit %s"
 
 #: src/widgets/games/games-tool-row.vala:18
 #: src/widgets/tools/tools-migrate-box.vala:18
@@ -2481,7 +2464,6 @@ msgid "Search all options"
 msgstr "Hledat ve všech možnostech"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:123
-#, fuzzy
 msgid "Search Launch Options"
 msgstr "Hledat možnosti spuštění"
 
@@ -2521,9 +2503,8 @@ msgid "Add custom item (Type name and press Enter)..."
 msgstr "Přidat vlastní položku (napište název a stiskněte Enter)..."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:52
-#, fuzzy
 msgid "Add custom item"
-msgstr "Přidat vlastní argument"
+msgstr "Přidat vlastní položku"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:46
 msgid ".NET Framework runtime execution engine"
@@ -2644,9 +2625,8 @@ msgstr "Obejít nebo upřednostnit konkrétní Windows DLL"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-entry-field.vala:22
 #: src/widgets/games/launch-options-editor/launch-options-editor-entry-field.vala:24
-#, fuzzy
 msgid "Apply Edit"
-msgstr "Použít úpravu argumentu"
+msgstr "Použít úpravu"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-preview-field.vala:12
 #: src/widgets/games/launch-options-editor/launch-options-editor-preview-field.vala:60
@@ -3845,9 +3825,8 @@ msgid "_Keyboard Shortcuts"
 msgstr "_Klávesové zkratky"
 
 #: src/widgets/header/header-box.vala:86
-#, fuzzy
 msgid "_Help"
-msgstr "Nápověda"
+msgstr "_Nápověda"
 
 #: src/widgets/header/header-box.vala:90
 msgid "_Donate"
@@ -3939,9 +3918,8 @@ msgstr "ETA: %ds"
 
 #: src/widgets/header/header-launchers-button.vala:40
 #: src/widgets/header/header-launchers-button.vala:42
-#, fuzzy
 msgid "Switch launcher"
-msgstr "Přeskočit launcher"
+msgstr "Přepnout spouštěč"
 
 #: src/widgets/introduction/application.vala:8
 msgid "Welcome to ProtonPlus"
@@ -4039,14 +4017,13 @@ msgstr "Představení"
 
 #: src/widgets/introduction/introduction.vala:53
 #: src/widgets/introduction/introduction.vala:55
-#, fuzzy
 msgid "Previous Page"
-msgstr "Náhled"
+msgstr "Předchozí stránka"
 
 #: src/widgets/introduction/introduction.vala:62
 #: src/widgets/introduction/introduction.vala:64
 msgid "Next Page"
-msgstr ""
+msgstr "Další stránka"
 
 #: src/widgets/introduction/proton.vala:8
 msgid "What is Proton?"
@@ -4090,26 +4067,23 @@ msgstr "Nastavte, jak často se mají na pozadí kontrolovat aktualizace"
 #: src/widgets/introduction/updates.vala:30
 #: src/widgets/preferences/preferences-dialog.vala:90
 msgid "Update tools at system startup"
-msgstr ""
+msgstr "Aktualizovat nástroje při spuštění"
 
 #: src/widgets/introduction/updates.vala:31
 #: src/widgets/preferences/preferences-dialog.vala:91
-#, fuzzy
 msgid "Automatically check for and install updates when the system starts"
-msgstr "Kontrolovat aktualizace nástrojů při startu systému"
+msgstr "Automaticky kontrolovat a instalovat aktualizace při spuštění systému"
 
 #: src/widgets/introduction/updates.vala:37
 #: src/widgets/preferences/preferences-dialog.vala:97
 msgid "Update tools when ProtonPlus starts"
-msgstr ""
+msgstr "Aktualizovat nástroje při spuštění ProtonPlus"
 
 #: src/widgets/introduction/updates.vala:38
 #: src/widgets/preferences/preferences-dialog.vala:98
-#, fuzzy
 msgid "Automatically check for and install updates when ProtonPlus starts"
 msgstr ""
-"ProtonPlus může automaticky kontrolovat a instalovat aktualizace, aby byl "
-"váš herní zážitek plynulý."
+"Automaticky kontrolovat a instalovat aktualizace při spuštění ProtonPlus"
 
 #: src/widgets/introduction/wine.vala:8
 msgid "What is Wine?"
@@ -5150,9 +5124,9 @@ msgid "Enter an access token to reduce your chances of being rate limited"
 msgstr "Zadejte přístupový token, aby se snížila šance na omezení kvóty"
 
 #: src/widgets/preferences/preferences-access-token-row.vala:19
-#, fuzzy, c-format
+#, c-format
 msgid "Open %s Token Page"
-msgstr "Otevřít stránku pro vytvoření tokenu"
+msgstr "Otevřít stránku tokenu %s"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:15
 msgid "1h"
@@ -5198,9 +5172,8 @@ msgid "Controller"
 msgstr "Ovladač"
 
 #: src/widgets/preferences/preferences-dialog.vala:34
-#, fuzzy
 msgid "Configure controller buttons and vibration"
-msgstr "Vibrace ovladače"
+msgstr "Nastavte tlačítka a vibrace ovladače"
 
 #: src/widgets/preferences/preferences-dialog.vala:42
 msgid "Confirm button"
@@ -5224,7 +5197,7 @@ msgstr "Aktualizace"
 
 #: src/widgets/preferences/preferences-dialog.vala:72
 msgid "Choose when installed tools are checked and updated"
-msgstr ""
+msgstr "Vyberte, kdy budou nainstalované nástroje zkontrolovány a aktualizovány"
 
 #: src/widgets/preferences/preferences-dialog.vala:104
 msgid "Migrate default prefix"
@@ -5273,7 +5246,7 @@ msgstr "API tokeny"
 
 #: src/widgets/preferences/preferences-dialog.vala:230
 msgid "Optional tokens increase GitHub and GitLab request limits"
-msgstr ""
+msgstr "Nepovinné tokeny zvyšují limity požadavků GitHubu a GitLabu"
 
 #: src/widgets/preferences/preferences-dialog.vala:259
 msgid "Proxy URL"
@@ -5311,7 +5284,7 @@ msgstr "Údržba"
 
 #: src/widgets/preferences/preferences-dialog.vala:303
 msgid "Refresh app data or clear cached files"
-msgstr ""
+msgstr "Obnovit data aplikace nebo vymazat soubory v mezipaměti"
 
 #: src/widgets/preferences/preferences-dialog.vala:317
 msgid "Software Environment"
@@ -5343,14 +5316,12 @@ msgid "Hardware"
 msgstr "Hardware"
 
 #: src/widgets/preferences/preferences-dialog.vala:341
-#, fuzzy
 msgid "CPU Features"
-msgstr "Funkce:"
+msgstr "Funkce CPU"
 
 #: src/widgets/preferences/preferences-dialog.vala:342
-#, fuzzy
 msgid "None detected"
-msgstr "Automatická detekce"
+msgstr "Žádné detekovány"
 
 #: src/widgets/preferences/preferences-dialog.vala:347
 msgid "Dependencies"
@@ -5547,18 +5518,16 @@ msgstr "V této skupině nejsou dostupné žádné nástroje."
 
 #: src/widgets/tools/tools-group-box.vala:463
 #: src/widgets/tools/tools-group-box.vala:467
-#, fuzzy
 msgid "Tool Actions"
-msgstr "Akce"
+msgstr "Akce nástroje"
 
 #: src/widgets/tools/tools-group-box.vala:499
 msgid "Recommended compatibility tool"
 msgstr "Doporučený nástroj kompatibility"
 
 #: src/widgets/tools/tools-group-box.vala:724
-#, fuzzy
 msgid "Used by games"
-msgstr "Používá 1 hra."
+msgstr "Používáno hrami"
 
 #: src/widgets/tools/tools-group-box.vala:725
 msgid ""
@@ -5605,18 +5574,17 @@ msgstr ""
 "způsobeno chybějícími oprávněními nebo problémy s přístupem k souborům."
 
 #: src/widgets/tools/tools-release-changelog-dialog.vala:4
-#, fuzzy, c-format
+#, c-format
 msgid "Changelog for %s"
-msgstr "Seznam změn"
+msgstr "Seznam změn pro %s"
 
 #: src/widgets/tools/tools-release-changelog-dialog.vala:7
 msgid "Changelog"
 msgstr "Seznam změn"
 
 #: src/widgets/tools/tools-release-changelog-dialog.vala:16
-#, fuzzy
 msgid "No Changelog Available"
-msgstr "Chyba: Nejsou dostupná žádná vydání\n"
+msgstr "Není dostupný žádný seznam změn"
 
 #: src/widgets/tools/tools-release-changelog.vala:95
 #: src/widgets/tools/tools-release-changelog.vala:106
@@ -5624,13 +5592,13 @@ msgid "Details"
 msgstr "Podrobnosti"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:11
-#, fuzzy, c-format
+#, c-format
 msgid "Games using %s"
-msgstr "Akce"
+msgstr "Hry používající %s"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:14
 msgid "Games Using This Tool"
-msgstr ""
+msgstr "Hry používající tento nástroj"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:29
 msgid "Migrate selected games to another tool"
@@ -5639,13 +5607,12 @@ msgstr "Migrovat vybrané hry na jiný nástroj"
 #: src/widgets/tools/tools-release-games-dialog.vala:46
 #: src/widgets/tools/tools-release-games-dialog.vala:48
 #: src/widgets/tools/tools-release-games-dialog.vala:67
-#, fuzzy
 msgid "Select all games"
-msgstr "Vybrat"
+msgstr "Vybrat všechny hry"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:108
 msgid "No Games Use This Tool"
-msgstr ""
+msgstr "Žádné hry nepoužívají tento nástroj"
 
 #: src/widgets/tools/tools-release-row.vala:127
 #: src/widgets/tools/tools-release-row.vala:129
@@ -5662,9 +5629,8 @@ msgid "Remaining time: --"
 msgstr "Zbývající čas: --"
 
 #: src/widgets/tools/tools-release-row.vala:198
-#, fuzzy
 msgid "Release Actions"
-msgstr "Akce"
+msgstr "Akce vydání"
 
 #: src/widgets/tools/tools-release-row.vala:465
 #, c-format
@@ -5672,20 +5638,19 @@ msgid "Step: %s"
 msgstr "Krok: %s"
 
 #: src/widgets/tools/tools-release-row.vala:468
-#, fuzzy, c-format
+#, c-format
 msgid "%s for %s"
-msgstr "Akce"
+msgstr "%s pro %s"
 
 #: src/widgets/tools/tools-release-row.vala:473
-#, fuzzy, c-format
+#, c-format
 msgid "Progress for %s"
-msgstr "Akce"
+msgstr "Postup pro %s"
 
 #: src/widgets/tools/tools-release-row.vala:530
 #: src/widgets/tools/tools-release-row.vala:533
-#, fuzzy
 msgid "Latest"
-msgstr "Později"
+msgstr "Nejnovější"
 
 #: src/widgets/tools/tools-release-row.vala:595
 #: src/widgets/tools/tools-release-row.vala:598
@@ -5697,75 +5662,67 @@ msgstr "Nainstalovat %s"
 #: src/widgets/tools/tools-release-row.vala:661
 #: src/widgets/tools/tools-releases-box.vala:476
 #: src/widgets/tools/tools-releases-box.vala:488
-#, fuzzy
 msgid "Retry"
-msgstr "Retro"
+msgstr "Zkusit znovu"
 
 #: src/widgets/tools/tools-release-row.vala:605
 #: src/widgets/tools/tools-release-row.vala:608
-#, fuzzy, c-format
+#, c-format
 msgid "Retry %s"
-msgstr "Retro"
+msgstr "Zkusit znovu %s"
 
 #: src/widgets/tools/tools-release-row.vala:619
-#, fuzzy, c-format
+#, c-format
 msgid "Cancelling %s"
-msgstr "Ruší se"
+msgstr "Ruší se %s"
 
 #: src/widgets/tools/tools-release-row.vala:620
-#, fuzzy, c-format
+#, c-format
 msgid "Cancel %s"
-msgstr "Zrušit"
+msgstr "Zrušit %s"
 
 #: src/widgets/tools/tools-release-row.vala:645
-#, fuzzy
 msgid "_Changelog"
-msgstr "Seznam změn"
+msgstr "_Seznam změn"
 
 #: src/widgets/tools/tools-release-row.vala:648
-#, fuzzy
 msgid "Open Release Page"
-msgstr "Otevřít stránku pro vytvoření tokenu"
+msgstr "Otevřít stránku vydání"
 
 #: src/widgets/tools/tools-release-row.vala:653
 msgid "_Games Using This Tool"
-msgstr ""
+msgstr "_Hry používající tento nástroj"
 
 #: src/widgets/tools/tools-release-row.vala:663
-#, fuzzy
 msgid "Update"
-msgstr "Aktualizace"
+msgstr "Aktualizovat"
 
 #: src/widgets/tools/tools-release-row.vala:664
-#, fuzzy
 msgid "_Check for Updates"
-msgstr "Zkontrolovat aktualizace"
+msgstr "Zkontrolovat aktualiza_ce"
 
 #: src/widgets/tools/tools-release-row.vala:668
-#, fuzzy
 msgid "_Open Folder"
-msgstr "Výstupní složka"
+msgstr "_Otevřít složku"
 
 #: src/widgets/tools/tools-release-row.vala:670
-#, fuzzy
 msgid "_Delete…"
-msgstr "Smazat"
+msgstr "_Smazat…"
 
 #: src/widgets/tools/tools-release-row.vala:708
 msgid "Failed"
-msgstr ""
+msgstr "Selhalo"
 
 #: src/widgets/tools/tools-release-row.vala:716
-#, fuzzy
 msgid "Update available"
-msgstr "Hromadná aktualizace selhala"
+msgstr "Aktualizace k dispozici"
 
 #: src/widgets/tools/tools-release-row.vala:735
 msgid "Unavailable for the selected variant"
-msgstr ""
+msgstr "Nedostupné pro vybranou variantu"
 
 #: src/widgets/tools/tools-release-row.vala:740
-#, fuzzy, c-format
+#, c-format
 msgid "In use by %i game"
 msgid_plural "In use by %i games"
 msgstr[0] "Používá %i hra"
@@ -5773,28 +5730,25 @@ msgstr[1] "Používají %i hry"
 msgstr[2] "Používá %i her"
 
 #: src/widgets/tools/tools-release-row.vala:754
-#, fuzzy, c-format
+#, c-format
 msgid "%s. Open Release Details"
-msgstr "Otevřít stránku pro vytvoření tokenu"
+msgstr "%s. Otevřít podrobnosti o vydání"
 
 #: src/widgets/tools/tools-release-row.vala:755
-#, fuzzy
 msgid "Open Release Details"
-msgstr "Otevřít stránku pro vytvoření tokenu"
+msgstr "Otevřít podrobnosti o vydání"
 
 #: src/widgets/tools/tools-release-row.vala:769
 msgid "Moving"
 msgstr "Přesouvá se"
 
 #: src/widgets/tools/tools-release-row.vala:774
-#, fuzzy
 msgid "Preparing update"
-msgstr "Připravuje se"
+msgstr "Příprava aktualizace"
 
 #: src/widgets/tools/tools-release-row.vala:777
-#, fuzzy
 msgid "Preparing installation"
-msgstr "Zrušit instalaci"
+msgstr "Příprava instalace"
 
 #: src/widgets/tools/tools-release-row.vala:831
 #, c-format
@@ -5851,9 +5805,8 @@ msgstr "Zkontrolovat nová vydání"
 #: src/widgets/tools/tools-releases-box.vala:348
 #: src/widgets/tools/tools-releases-box.vala:357
 #: src/widgets/tools/tools-releases-box.vala:359
-#, fuzzy
 msgid "Open Repository"
-msgstr "Otevřít adresář prefixu"
+msgstr "Otevřít repozitář"
 
 #: src/widgets/tools/tools-releases-box.vala:370
 msgid "Choose which architecture or build variant to show."
@@ -5862,7 +5815,7 @@ msgstr "Vyberte, kterou architekturu nebo variantu buildu zobrazit."
 #: src/widgets/tools/tools-releases-box.vala:373
 #: src/widgets/tools/tools-releases-box.vala:385
 msgid "Build"
-msgstr ""
+msgstr "Sestavení"
 
 #: src/widgets/tools/tools-releases-box.vala:416
 #: src/widgets/tools/tools-releases-box.vala:1481
@@ -5873,28 +5826,24 @@ msgstr "Načíst více"
 #: src/widgets/tools/tools-releases-box.vala:615
 #: src/widgets/tools/tools-releases-box.vala:1110
 #: src/widgets/tools/tools-releases-box.vala:1441
-#, fuzzy
 msgid "Loading releases"
-msgstr "Načítání"
+msgstr "Načítání vydání"
 
 #: src/widgets/tools/tools-releases-box.vala:464
 #: src/widgets/tools/tools-releases-box.vala:633
 #: src/widgets/tools/tools-releases-box.vala:816
-#, fuzzy
 msgid "No releases available"
-msgstr "Chyba: Nejsou dostupná žádná vydání\n"
+msgstr "Nejsou dostupná žádná vydání"
 
 #: src/widgets/tools/tools-releases-box.vala:465
 #: src/widgets/tools/tools-releases-box.vala:817
-#, fuzzy
 msgid "Check again for new releases."
-msgstr "Zkontrolovat nová vydání"
+msgstr "Zkontrolujte znovu nová vydání."
 
 #: src/widgets/tools/tools-releases-box.vala:469
 #: src/widgets/tools/tools-releases-box.vala:819
-#, fuzzy
 msgid "Refresh"
-msgstr "Obnovovací frekvence*"
+msgstr "Obnovit"
 
 #: src/widgets/tools/tools-releases-box.vala:482
 #: src/widgets/tools/tools-releases-box.vala:739
@@ -5902,43 +5851,38 @@ msgid "Failed to Fetch Releases"
 msgstr "Selhalo získávání vydáních"
 
 #: src/widgets/tools/tools-releases-box.vala:487
-#, fuzzy
 msgid "Couldn’t load releases"
-msgstr "Chyba: Nepodařilo se načíst vydání: %s\n"
+msgstr "Nepodařilo se načíst vydání"
 
 #: src/widgets/tools/tools-releases-box.vala:663
 #: src/widgets/tools/tools-releases-box.vala:1157
 #: src/widgets/tools/tools-releases-box.vala:1476
-#, fuzzy
 msgid "Releases loaded"
-msgstr "Nebyla nalezena žádná vydání"
+msgstr "Vydání načtena"
 
 #: src/widgets/tools/tools-releases-box.vala:732
 msgid "Couldn’t load more releases"
-msgstr ""
+msgstr "Nepodařilo se načíst další vydání"
 
 #: src/widgets/tools/tools-releases-box.vala:733
 msgid "Couldn’t refresh releases"
-msgstr ""
+msgstr "Nepodařilo se aktualizovat vydání"
 
 #: src/widgets/tools/tools-releases-box.vala:798
-#, fuzzy
 msgid "No matching releases"
-msgstr "Žádné odpovídající hry"
+msgstr "Žádná odpovídající vydání"
 
 #: src/widgets/tools/tools-releases-box.vala:804
-#, fuzzy
 msgid "No releases match this filter"
-msgstr "Tomuto filtru neodpovídají žádné hry"
+msgstr "Tomuto filtru neodpovídají žádná vydání"
 
 #: src/widgets/tools/tools-releases-box.vala:805
 msgid "Reset the filters to see all releases."
-msgstr ""
+msgstr "Pro zobrazení všech vydání resetujte filtry."
 
 #: src/widgets/tools/tools-releases-box.vala:810
-#, fuzzy
 msgid "No compatible releases"
-msgstr "Načítání"
+msgstr "Žádná kompatibilní vydání"
 
 #: src/widgets/tools/tools-releases-box.vala:811
 msgid "No compatible variants are available for this system."
@@ -5946,7 +5890,7 @@ msgstr "Pro tento systém nejsou dostupné žádné kompatibilní varianty."
 
 #: src/widgets/tools/tools-releases-box.vala:1289
 msgid "Refreshing…"
-msgstr ""
+msgstr "Obnovování…"
 
 #: src/widgets/tools/tools-releases-box.vala:1300
 #, c-format
@@ -6001,9 +5945,8 @@ msgid "Check this to also delete your configuration files."
 msgstr "Zvolte pro odstranění také konfiguračních souborů."
 
 #: src/widgets/tools/tools-stl-release-row.vala:113
-#, fuzzy
 msgid "SteamTinkerLaunch may not work"
-msgstr "Steam Tinker Launch"
+msgstr "SteamTinkerLaunch nemusí fungovat"
 
 #: src/widgets/tools/tools-stl-release-row.vala:114
 msgid ""
@@ -6013,11 +5956,15 @@ msgid ""
 "This is a SteamTinkerLaunch compatibility issue, not a ProtonPlus "
 "installation problem."
 msgstr ""
+"YAD 15 je momentálně nekompatibilní se SteamTinkerLaunch. SteamTinkerLaunch "
+"se nemusí spustit, i když jej ProtonPlus úspěšně nainstaluje.\n"
+"\n"
+"Toto je problém s kompatibilitou SteamTinkerLaunch, nikoli problém instalace "
+"ProtonPlus."
 
 #: src/widgets/tools/tools-stl-release-row.vala:118
-#, fuzzy
 msgid "Install Anyway"
-msgstr "Nainstalovat %s"
+msgstr "Přesto nainstalovat"
 
 #: src/widgets/tools/tools-stl-release-row.vala:164
 #, c-format

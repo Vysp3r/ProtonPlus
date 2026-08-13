@@ -197,19 +197,18 @@ msgid "Successfully updated %s\n"
 msgstr ""
 
 #: src/cli/cli.vala:451 src/cli/cli.vala:507
-#, fuzzy, c-format
+#, c-format
 msgid "Already up to date: %s\n"
-msgstr "%s já está atualizado."
+msgstr "já está atualizado: %s\n"
 
 #: src/cli/cli.vala:454 src/cli/cli.vala:510
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Failed to update %s: %s\n"
-msgstr "%s já está atualizado."
+msgstr "Erro: Falha ao atualizar %s: %s\n"
 
 #: src/cli/cli.vala:494
-#, fuzzy
 msgid "Already up to date\n"
-msgstr "%s já está atualizado."
+msgstr "já está atualizado.\n"
 
 #: src/cli/cli.vala:519
 #, fuzzy, c-format
@@ -945,9 +944,8 @@ msgstr "Ferramentas"
 
 #: src/widgets/games/games-box.vala:555
 #: src/widgets/introduction/controller.vala:49
-#, fuzzy
 msgid "Actions"
-msgstr "Opções de inicialização"
+msgstr "Ações"
 
 #: src/widgets/games/games-box.vala:808 src/widgets/tools/tools-box.vala:186
 msgid "All"
@@ -1364,6 +1362,8 @@ msgid ""
 "Enables low latency mode in PulseAudio which can reduce audio latency in "
 "some games (60, 90, 120)."
 msgstr ""
+"Ativa o modo de baixa latência no PulseAudio, o que pode reduzir a latência "
+"de áudio em alguns jogos (60, 90, 120)."
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:20
 msgid "MSEC"
@@ -1772,6 +1772,8 @@ msgstr ""
 msgid ""
 "Enables Mesa's GLThread optimization for better performance in some games."
 msgstr ""
+"Ativa a otimização GLThread da Mesa para um melhor desempenho em alguns "
+"jogos."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:103
 msgid "Disable Mesa shader cache"
@@ -2073,6 +2075,9 @@ msgid ""
 "Enables logging for Proton which can help with troubleshooting game issues. "
 "Logs are saved in the game's compatibility data folder."
 msgstr ""
+"Ativa o registro de log para o Proton, o que pode ajudar na resolução de "
+"problemas do jogo. Os logs são salvos na pasta de dados de compatibilidade "
+"do jogo."
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:42
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
@@ -2130,6 +2135,9 @@ msgid ""
 "Enables GPU Virtual Addressing. Aligns Vulkan memory management with native "
 "DX12 behavior to improve texture streaming and stability in open-world games."
 msgstr ""
+"Ativa o Endereçamento Virtual de GPU. Alinha o gerenciamento de memória "
+"Vulkan com o comportamento nativo do DX12 para melhorar o streaming de "
+"texturas e a estabilidade em jogos de mundo aberto."
 
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:36
 msgid "Enable VKD3D Shader Cache"
@@ -2425,9 +2433,8 @@ msgstr "Argumentos de jogo"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:88
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:99
-#, fuzzy
 msgid "Add custom argument"
-msgstr "Argumentos adicionais"
+msgstr "Adicionar argumento personalizado"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:89
 msgid "Add one argument per list entry."
@@ -2476,9 +2483,8 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:131
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:473
-#, fuzzy
 msgid "Active options"
-msgstr "Mais informação"
+msgstr "Opções ativas"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:131
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:475
@@ -2501,7 +2507,7 @@ msgstr "Modificar as opções de inicialização de jogo"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:40
 msgid "Add custom item (Type name and press Enter)..."
-msgstr ""
+msgstr "Adicionar item personalizado (Digite o nome e pressione Enter)..."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:52
 #, fuzzy
@@ -2710,6 +2716,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:17
 msgid "Enables Next-Gen Geometry Culling for better geometry performance."
 msgstr ""
+"Ativa o Next-Gen Geometry Culling para um melhor desempenho de geometria."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:18
 msgid "Graphics Pipeline Library. Drastically reduces shader stuttering."
@@ -2923,6 +2930,9 @@ msgid ""
 "Enables MangoHud for Vulkan through MANGOHUD=1. Use the MangoHud wrapper for "
 "OpenGL; inside Gamescope, use Gamescope's MangoApp support instead."
 msgstr ""
+"Ativa o MangoHud para Vulkan através de MANGOHUD=1. Use o wrapper do "
+"MangoHud para OpenGL; dentro do Gamescope, use o suporte ao MangoApp do "
+"Gamescope em seu lugar."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1234
 msgid "Requires MangoHud; Vulkan only"
@@ -3133,7 +3143,7 @@ msgstr "HDR automático"
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
 msgid "Enables HDR automatically when the display supports it."
-msgstr ""
+msgstr "Ativa o HDR automaticamente quando a tela suportar."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:48
@@ -3307,6 +3317,9 @@ msgid ""
 "that use Reflex markers or waitable swapchains. Intel GPUs, frame "
 "generation, and games without markers are unsupported."
 msgstr ""
+"Ativa a baixa latência do VKD3D-Proton agnóstica a hardware para jogos "
+"Direct3D 12 que usam marcadores Reflex ou swapchains aguardáveis. GPUs "
+"Intel, geração de quadros e jogos sem marcadores não são suportados."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
 msgid ""
@@ -3477,7 +3490,7 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1300
 msgid "Enables Mesa GLThread."
-msgstr ""
+msgstr "Ativa o Mesa GLThread."
 
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1301
 msgid "Mesa shader-cache control"
@@ -3736,9 +3749,8 @@ msgstr "Sair"
 
 #: src/widgets/header/header-downloads-indicator.vala:35
 #: src/widgets/header/header-downloads-indicator.vala:37
-#, fuzzy
 msgid "Active downloads"
-msgstr "Salvar histórico de descarregamentos"
+msgstr "Downloads ativos"
 
 #: src/widgets/header/header-downloads-indicator.vala:47
 #, fuzzy
@@ -4145,9 +4157,9 @@ msgid "Update finished"
 msgstr "Excluir o executador"
 
 #: src/widgets/main/main-box.vala:395
-#, fuzzy, c-format
+#, c-format
 msgid "%s is now up-to-date"
-msgstr "%s já está atualizado."
+msgstr "%s agora está atualizado"
 
 #: src/widgets/main/main-box.vala:397
 #, fuzzy, c-format
@@ -4989,9 +5001,9 @@ msgid "Hide by default"
 msgstr ""
 
 #: src/widgets/preferences/preferences-access-token-row.vala:9
-#, fuzzy, c-format
+#, c-format
 msgid "%s access token"
-msgstr "Token de acesso"
+msgstr "Token de acesso %s"
 
 #: src/widgets/preferences/preferences-access-token-row.vala:10
 msgid "Enter an access token to reduce your chances of being rate limited"
@@ -5004,11 +5016,11 @@ msgstr "Abrir página da ProtonDB"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:15
 msgid "1h"
-msgstr ""
+msgstr "1h"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:16
 msgid "3h"
-msgstr ""
+msgstr "3h"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:17
 msgid "6h"
@@ -5016,7 +5028,7 @@ msgstr ""
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:18
 msgid "12h"
-msgstr ""
+msgstr "12h"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:26
 #, fuzzy
@@ -5449,11 +5461,11 @@ msgid "Select a new tool for the selected games."
 msgstr "Selecionar todos jogos"
 
 #: src/widgets/tools/tools-migrate-box.vala:58
-#, fuzzy, c-format
+#, c-format
 msgid "%d game selected"
 msgid_plural "%d games selected"
-msgstr[0] "%u jogos selecionados"
-msgstr[1] "%u jogos selecionados"
+msgstr[0] "%d jogo selecionado"
+msgstr[1] "%d jogos selecionados"
 
 #: src/widgets/tools/tools-migrate-box.vala:144
 #, fuzzy
@@ -5680,11 +5692,13 @@ msgstr ""
 
 #: src/widgets/tools/tools-releases-box.vala:260
 msgid "64-bit ARM build. Choose this only on ARM64 hardware."
-msgstr ""
+msgstr "Compilação ARM de 64 bits. Escolha isso apenas em hardware ARM64."
 
 #: src/widgets/tools/tools-releases-box.vala:262
 msgid "32-bit x86 build. Choose this only when a 32-bit runner is required."
 msgstr ""
+"Compilação x86 de 32 bits. Escolha isso apenas quando um runner de 32 bits "
+"for necessário."
 
 #: src/widgets/tools/tools-releases-box.vala:265
 msgid ""
@@ -5819,9 +5833,8 @@ msgid "Delete %s?"
 msgstr "Remover %s"
 
 #: src/widgets/tools/tools-remove-dialog.vala:10
-#, fuzzy
 msgid "It will be permanently deleted."
-msgstr "%s será permanentemente deletado."
+msgstr "Será excluído permanentemente."
 
 #: src/widgets/tools/tools-remove-dialog.vala:19
 #, fuzzy, c-format
