@@ -13,7 +13,7 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-12 16:23-0400\n"
+"POT-Creation-Date: 2026-08-13 12:01-0400\n"
 "PO-Revision-Date: 2026-05-15 06:11+0000\n"
 "Last-Translator: Yasmin Stanchese <yasmin@snowfloke.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
@@ -691,7 +691,7 @@ msgstr ""
 msgid "The operation could not be completed."
 msgstr ""
 
-#: src/services/installation-service.vala:403
+#: src/services/installation-service.vala:457
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
@@ -705,9 +705,9 @@ msgid "Extraction failed"
 msgstr "Extraindo"
 
 #: src/services/standard-archive-workflow.vala:59
-#: src/services/standard-archive-workflow.vala:86
+#: src/services/standard-archive-workflow.vala:99
 #: src/services/steam-tinker-launch-workflow.vala:61
-#: src/services/steam-tinker-launch-workflow.vala:97
+#: src/services/steam-tinker-launch-workflow.vala:108
 #, fuzzy
 msgid "Moving failed"
 msgstr "Movendo"
@@ -717,12 +717,12 @@ msgstr "Movendo"
 msgid "Failed to save compatibility tool metadata"
 msgstr "Selecione sua ferramenta de compatibilidade desejada"
 
-#: src/services/standard-archive-workflow.vala:340
+#: src/services/standard-archive-workflow.vala:358
 #, fuzzy
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "Selecione sua ferramenta de compatibilidade desejada"
 
-#: src/services/standard-archive-workflow.vala:357
+#: src/services/standard-archive-workflow.vala:375
 #, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "Ferramenta de compatibilidade"
@@ -736,15 +736,15 @@ msgstr "Ferramenta de compatibilidade"
 msgid "Failed to prepare the SteamTinkerLaunch executable"
 msgstr ""
 
-#: src/services/steam-tinker-launch-workflow.vala:88
-#: src/services/steam-tinker-launch-workflow.vala:144
-#: src/services/steam-tinker-launch-workflow.vala:166
-#: src/services/steam-tinker-launch-workflow.vala:209
+#: src/services/steam-tinker-launch-workflow.vala:99
+#: src/services/steam-tinker-launch-workflow.vala:155
+#: src/services/steam-tinker-launch-workflow.vala:177
+#: src/services/steam-tinker-launch-workflow.vala:233
 #, fuzzy
 msgid "Failed to update SteamTinkerLaunch compatibility registration"
 msgstr "Selecione sua ferramenta de compatibilidade desejada"
 
-#: src/services/steam-tinker-launch-workflow.vala:155
+#: src/services/steam-tinker-launch-workflow.vala:166
 msgid "Failed to initialize SteamTinkerLaunch"
 msgstr ""
 
@@ -834,7 +834,7 @@ msgid "Search"
 msgstr "Mostrar busca"
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-box.vala:602 src/widgets/tools/tools-box.vala:181
+#: src/widgets/games/games-box.vala:841 src/widgets/tools/tools-box.vala:181
 #: src/widgets/tools/tools-box.vala:183 src/widgets/tools/tools-box.vala:363
 msgid "Filter"
 msgstr ""
@@ -906,22 +906,22 @@ msgstr ""
 msgid "Top face button"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:155 src/widgets/games/games-box.vala:810
+#: src/widgets/games/games-box.vala:393 src/widgets/games/games-box.vala:1049
 #, fuzzy
 msgid "No games found"
 msgstr "Nenhum perfil foi encontrado."
 
-#: src/widgets/games/games-box.vala:156
+#: src/widgets/games/games-box.vala:394
 msgid "Try a different search term or filter."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:198
+#: src/widgets/games/games-box.vala:436
 #: src/widgets/tools/tools-stl-release-row.vala:29
 #: src/widgets/tools/tools-stl-release-row.vala:162 src/widgets/window.vala:374
 msgid "Warning"
 msgstr "Aviso"
 
-#: src/widgets/games/games-box.vala:199
+#: src/widgets/games/games-box.vala:437
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
@@ -929,133 +929,133 @@ msgstr ""
 "Por favor certifique-se de selecionar pelo menos um jogo antes de usar a "
 "função de edição em massa."
 
-#: src/widgets/games/games-box.vala:251 src/widgets/games/games-box.vala:254
-#: src/widgets/games/games-box.vala:295 src/widgets/main/main-box.vala:73
+#: src/widgets/games/games-box.vala:490 src/widgets/games/games-box.vala:493
+#: src/widgets/games/games-box.vala:534 src/widgets/main/main-box.vala:73
 msgid "Games"
 msgstr "Jogos"
 
-#: src/widgets/games/games-box.vala:302
+#: src/widgets/games/games-box.vala:541
 msgid "Prefix"
 msgstr "Prefixo"
 
-#: src/widgets/games/games-box.vala:309
+#: src/widgets/games/games-box.vala:548
 #, fuzzy
 msgid "Tool"
 msgstr "Ferramentas"
 
-#: src/widgets/games/games-box.vala:316
+#: src/widgets/games/games-box.vala:555
 #: src/widgets/introduction/controller.vala:49
 #, fuzzy
 msgid "Actions"
 msgstr "Opções de inicialização"
 
-#: src/widgets/games/games-box.vala:569 src/widgets/tools/tools-box.vala:186
+#: src/widgets/games/games-box.vala:808 src/widgets/tools/tools-box.vala:186
 msgid "All"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:572
+#: src/widgets/games/games-box.vala:811
 #: src/widgets/games/games-collection.vala:72
 #: src/widgets/games/games-mass-edit-view.vala:178
 msgid "Native"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:574
+#: src/widgets/games/games-box.vala:813
 #, fuzzy
 msgid "Non-Steam"
 msgstr "SteamOS"
 
-#: src/widgets/games/games-box.vala:607
+#: src/widgets/games/games-box.vala:846
 #, fuzzy
 msgid "Filter Games"
 msgstr "SteamOS"
 
-#: src/widgets/games/games-box.vala:617
+#: src/widgets/games/games-box.vala:856
 #, fuzzy
 msgid "Search games"
 msgstr "Opções de inicialização"
 
-#: src/widgets/games/games-box.vala:631 src/widgets/games/games-box.vala:635
+#: src/widgets/games/games-box.vala:870 src/widgets/games/games-box.vala:874
 msgid "Select all visible games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:680
+#: src/widgets/games/games-box.vala:919
 msgid "Steam games couldn’t be loaded"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:681
+#: src/widgets/games/games-box.vala:920
 msgid ""
 "Steam’s library or profile data is missing or invalid. Finish setting up "
 "Steam, then restart ProtonPlus. Tools and other launchers remain available."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:691
+#: src/widgets/games/games-box.vala:930
 msgid "Unsupported launcher"
 msgstr "Inicializador não suportado"
 
-#: src/widgets/games/games-box.vala:693
+#: src/widgets/games/games-box.vala:932
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s não é suportado atualmente."
 
-#: src/widgets/games/games-box.vala:694
+#: src/widgets/games/games-box.vala:933
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 "Se você quiser que eu acelere o desenvolvimento, certifique-se de mostrar "
 "seu apoio!"
 
-#: src/widgets/games/games-box.vala:738
+#: src/widgets/games/games-box.vala:977
 #: src/widgets/games/games-collection.vala:78
 #: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:781
+#: src/widgets/games/games-box.vala:1020
 msgid "Filter: Native"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:783
+#: src/widgets/games/games-box.vala:1022
 #, fuzzy
 msgid "Filter: Non-Steam"
 msgstr "SteamOS"
 
-#: src/widgets/games/games-box.vala:785
+#: src/widgets/games/games-box.vala:1024
 msgid "Filter: All games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:794
+#: src/widgets/games/games-box.vala:1033
 #, fuzzy
 msgid "No matching games"
 msgstr "Opções de inicialização"
 
-#: src/widgets/games/games-box.vala:796
+#: src/widgets/games/games-box.vala:1035
 #: src/widgets/tools/tools-group-box.vala:333
 #: src/widgets/tools/tools-releases-box.vala:799
 msgid "Try a different search term or clear the search."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:799
+#: src/widgets/games/games-box.vala:1038
 #: src/widgets/tools/tools-group-box.vala:335
 #: src/widgets/tools/tools-releases-box.vala:801
 #, fuzzy
 msgid "Clear Search"
 msgstr "Mostrar busca"
 
-#: src/widgets/games/games-box.vala:802
+#: src/widgets/games/games-box.vala:1041
 msgid "No games match this filter"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:804
+#: src/widgets/games/games-box.vala:1043
 msgid "Choose All games to see your complete library."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:807
+#: src/widgets/games/games-box.vala:1046
 #: src/widgets/tools/tools-group-box.vala:342
 #: src/widgets/tools/tools-releases-box.vala:807
 msgid "Reset Filters"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:812
+#: src/widgets/games/games-box.vala:1051
 msgid "No games are available for this launcher."
 msgstr ""
 

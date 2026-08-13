@@ -88,7 +88,7 @@
   </screenshots>
 
   <releases>
-    <release version="0.6.4" date="2026-08-12">
+    <release version="0.6.4" date="2026-08-13">
       <description>
         <ul>
           <li>✨ Redesigned the interface to adapt better to different window sizes</li>
@@ -96,6 +96,11 @@
           <li>✨ Added sortable columns and improved selection in the Games view</li>
           <li>🐛 Improved controller navigation and scrolling in Tools and Games</li>
           <li>🐛 Improved compatibility with light, dark, and custom themes</li>
+          <li>🐛 Prevented compatibility tools from being updated or removed while they are in use</li>
+          <li>🐛 Fixed unrelated background processes sometimes blocking compatibility tool changes</li>
+          <li>🐛 Fixed SteamOS Gaming Mode being detected in regular desktop sessions</li>
+          <li>🐛 Fixed YAD 15 sometimes not being detected before installing SteamTinkerLaunch</li>
+          <li>🐛 Fixed controller access on systems with older Flatpak versions</li>
         </ul>
       </description>
     </release>
