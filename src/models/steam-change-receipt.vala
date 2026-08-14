@@ -76,7 +76,7 @@ namespace ProtonPlus.Models {
 
         public static string fingerprint (string value, bool present) {
             var checksum = new Checksum (ChecksumType.SHA256);
-            var material = (present ? "present\u001f" : "absent\u001f") + value;
+            var material = (present ? "present\x1f" : "absent\x1f") + value;
             checksum.update (material.data, material.length);
             return checksum.get_string ();
         }
@@ -139,7 +139,7 @@ namespace ProtonPlus.Models {
                 var identity = configuration_intent != null
                     ? "configuration-intent"
                     : kind_to_identifier (kind);
-                return "%s\u001f%s\u001f%s".printf (target.id, identity, resource_key);
+                return "%s\x1f%s\x1f%s".printf (target.id, identity, resource_key);
             }
         }
 

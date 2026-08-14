@@ -120,7 +120,7 @@ namespace AppTests.SteamTest {
         assert (ProtonPlus.Utils.Filesystem.create_directory (windows_directory));
         assert (ProtonPlus.Utils.Filesystem.create_directory (native_directory));
         create_executable_fixture (Path.build_filename (windows_directory, "game.exe"), "MZfixture");
-        create_executable_fixture (Path.build_filename (native_directory, "game"), "\u007fELFfixture");
+        create_executable_fixture (Path.build_filename (native_directory, "game"), "\x7f" + "ELFfixture");
 
         var steam = fixture_steam (root);
         steam.games = new List<Game> ();
@@ -188,7 +188,7 @@ namespace AppTests.SteamTest {
         var game_directory = Path.build_filename (root, "steamapps", "common", "NativeGame");
         assert (ProtonPlus.Utils.Filesystem.create_directory (config_directory));
         assert (ProtonPlus.Utils.Filesystem.create_directory (game_directory));
-        create_executable_fixture (Path.build_filename (game_directory, "game"), "\u007fELFfixture");
+        create_executable_fixture (Path.build_filename (game_directory, "game"), "\x7f" + "ELFfixture");
         assert (ProtonPlus.Utils.Filesystem.modify_file (
             Path.build_filename (config_directory, "config.vdf"),
             "\"InstallConfigStore\"\n{\n\t\"Software\"\n\t{\n\t\t\"Valve\"\n\t\t{\n\t\t\t\"Steam\"\n\t\t\t{\n\t\t\t}\n\t\t}\n\t}\n}\n"

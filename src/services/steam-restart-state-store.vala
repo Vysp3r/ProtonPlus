@@ -233,7 +233,7 @@ namespace ProtonPlus.Services {
             if (schema_version == 1) {
                 if (!object.has_member ("baseline")) return null;
                 var baseline = object.get_string_member ("baseline");
-                const string legacy_absent = "\u001eprotonplus-absent";
+                const string legacy_absent = "\x1eprotonplus-absent";
                 var baseline_present = baseline != legacy_absent;
                 var desired_present = desired != legacy_absent;
                 return new SteamConfigurationIntent (file, operation, path, field_id,
