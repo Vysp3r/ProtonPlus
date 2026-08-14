@@ -2,14 +2,6 @@
 
 #include <stdint.h>
 
-#if defined(__aarch64__) && defined(__linux__)
-#include <asm/hwcap.h>
-#include <sys/auxv.h>
-#endif
-
-#if (defined(__x86_64__) || defined(_M_X64)) && (defined(__GNUC__) || defined(__clang__))
-#include <cpuid.h>
-
 struct _ProtonPlusCpuFeatureProbe {
     gboolean available;
     gboolean cmpxchg16b;
@@ -42,6 +34,14 @@ struct _ProtonPlusCpuFeatureProbe {
     gboolean aarch64_lse_atomics;
     gboolean aarch64_rdma;
 };
+
+#if defined(__aarch64__) && defined(__linux__)
+#include <asm/hwcap.h>
+#include <sys/auxv.h>
+#endif
+
+#if (defined(__x86_64__) || defined(_M_X64)) && (defined(__GNUC__) || defined(__clang__))
+#include <cpuid.h>
 
 static uint64_t
 read_xcr0 (void)
