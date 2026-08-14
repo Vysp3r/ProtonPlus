@@ -37,7 +37,7 @@ namespace ProtonPlus.Services {
     }
 
     public class SteamConfigurationService : Object, SteamConfigurationReconciler {
-        private const string ABSENT = "\u001eprotonplus-absent";
+        private const string ABSENT = "\x1eprotonplus-absent";
         private SteamSessionService sessions;
         private SteamRestartManager manager;
         private SteamShortcutMutator shortcut_mutator;
