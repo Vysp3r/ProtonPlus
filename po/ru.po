@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-08-14 14:36+0000\n"
+"PO-Revision-Date: 2026-08-15 19:02+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ru/>\n"
@@ -3965,7 +3965,7 @@ msgstr "Загрузка"
 #: src/widgets/header/header-downloads-indicator.vala:313
 #: src/widgets/tools/tools-release-row.vala:767
 msgid "Extracting"
-msgstr "Распаковывается..."
+msgstr "Распаковка"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
 #: src/widgets/tools/tools-release-row.vala:730
