@@ -1,5 +1,8 @@
 # ProtonPlus
 
+> [!IMPORTANT]
+> I will not be available until early October 2026.
+
 <p align="center">
   <img src="data/icons/com.vysp3r.ProtonPlus.svg" alt="ProtonPlus icon" width="128">
 </p>
