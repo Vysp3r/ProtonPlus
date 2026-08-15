@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-08-15 05:51+0000\n"
+"PO-Revision-Date: 2026-08-15 17:51+0000\n"
 "Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
@@ -476,6 +476,8 @@ msgid ""
 "Faugus Launcher uses this folder for Proton installations, but ProtonPlus "
 "cannot access its symlink target:"
 msgstr ""
+"Faugus Launcher usa esta pasta para instalações Proton, mas ProtonPlus não "
+"pode acessar seu alvo de endereço simbólico:"
 
 #: src/models/launchers/faugus-launcher.vala:85
 msgid "Grant ProtonPlus access, restart it, and try the installation again:"
@@ -851,7 +853,7 @@ msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:195
 msgid "Y button"
-msgstr ""
+msgstr "Botão Y"
 
 #: src/widgets/controller-hint-bar.vala:199
 msgid "Cross button"
@@ -5875,7 +5877,7 @@ msgstr "Marque isto para também excuir seus arquivos de configuração."
 
 #: src/widgets/tools/tools-stl-release-row.vala:113
 msgid "SteamTinkerLaunch may not work"
-msgstr ""
+msgstr "SteamTinkerLaunch pode não funcionar"
 
 #: src/widgets/tools/tools-stl-release-row.vala:114
 msgid ""
@@ -5885,6 +5887,11 @@ msgid ""
 "This is a SteamTinkerLaunch compatibility issue, not a ProtonPlus "
 "installation problem."
 msgstr ""
+"YAD 15 atualmente é incompatível com SteamTinkerLaunch. SteamTinkerLaunch "
+"pode falhar ao iniciar mesmo se ProtonPlus o instale com sucesso.\n"
+"\n"
+"Isto é um problema de compatibilidade do SteamTinkerLaunch, não um problema "
+"com a instalação de ProtonPlus."
 
 #: src/widgets/tools/tools-stl-release-row.vala:118
 #, fuzzy
