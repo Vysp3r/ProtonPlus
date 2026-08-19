@@ -1,12 +1,16 @@
 namespace ProtonPlus.Widgets.Preferences {
     public class PreferencesDialog : Adw.PreferencesDialog, Utils.ControllerNavigationHost {
         const int64 KILOBYTE = 1000;
+        const int64 KIBIBYTE = 1024;
         const string DOWNLOAD_SPEED_LIMIT_KEY = "download-speed-limit-bps";
+        const string DOWNLOAD_SPEED_UNIT_KEY = "download-speed-unit";
         Adw.PreferencesPage[] controller_pages = {};
         Adw.EntryRow? proxy_url_row;
         Adw.SpinRow? download_speed_limit_row;
         ulong proxy_mode_changed_handler = 0;
         ulong download_speed_limit_changed_handler = 0;
+        ulong download_speed_unit_changed_handler = 0;
+        bool updating_download_speed_limit_row = false;
 
         public PreferencesDialog (Gee.LinkedList<Models.Launcher> launchers) {
             set_search_enabled (true);
@@ -307,19 +311,45 @@ namespace ProtonPlus.Widgets.Preferences {
             proxy_mode_changed_handler = Globals.SETTINGS.changed["proxy-mode"].connect (update_proxy_url_sensitivity);
             network_group.add (proxy_url_row);
 
+            var download_speed_unit_choices = new Gtk.StringList (null);
+            download_speed_unit_choices.append (_("KB/s"));
+            download_speed_unit_choices.append (_("KiB/s"));
+            var download_speed_unit_row = new Adw.ComboRow () {
+                title = _("Download speed unit"),
+                subtitle = _("Choose whether the limit uses decimal or binary kilobytes"),
+                model = download_speed_unit_choices
+            };
+            download_speed_unit_row.set_selected ((uint) Globals.SETTINGS.get_enum (DOWNLOAD_SPEED_UNIT_KEY));
+            download_speed_unit_row.notify["selected"].connect (() => {
+                var selected = (int) download_speed_unit_row.get_selected ();
+                if (selected >= 0 && selected <= 1 &&
+                    Globals.SETTINGS.get_enum (DOWNLOAD_SPEED_UNIT_KEY) != selected) {
+                    Globals.SETTINGS.set_enum (DOWNLOAD_SPEED_UNIT_KEY, selected);
+                }
+                update_download_speed_limit_row ();
+            });
+            download_speed_unit_changed_handler = Globals.SETTINGS.changed[DOWNLOAD_SPEED_UNIT_KEY].connect (
+                update_download_speed_limit_row
+            );
+            network_group.add (download_speed_unit_row);
+
             download_speed_limit_row = new Adw.SpinRow.with_range (0, 10240, 1) {
                 title = _("Download speed limit"),
-                subtitle = _("Maximum total speed in KB/s for all downloads. Set to 0 for unlimited.")
+                subtitle = get_download_speed_limit_subtitle ()
             };
             ((!) download_speed_limit_row).set_digits (0);
             ((!) download_speed_limit_row).set_tooltip_text (_("This limit is shared across all active downloads."));
             update_download_speed_limit_row ();
             ((!) download_speed_limit_row).notify["value"].connect (() => {
-                var limit_kib = (int64) Math.round (((!) download_speed_limit_row).get_value ());
-                if (limit_kib < 0)
-                    limit_kib = 0;
+                if (updating_download_speed_limit_row)
+                    return;
 
-                var limit_bps = limit_kib * KILOBYTE;
+                var limit_bps = (int64) Math.round (
+                    ((!) download_speed_limit_row).get_value () * get_download_speed_unit_factor ()
+                );
+                if (limit_bps < 0)
+                    limit_bps = 0;
+
                 if (Globals.SETTINGS.get_int64 (DOWNLOAD_SPEED_LIMIT_KEY) != limit_bps)
                     Globals.SETTINGS.set_int64 (DOWNLOAD_SPEED_LIMIT_KEY, limit_bps);
             });
@@ -469,6 +499,19 @@ namespace ProtonPlus.Widgets.Preferences {
                 proxy_url_row.set_sensitive (Globals.SETTINGS.get_enum ("proxy-mode") == 1);
         }
 
+        int64 get_download_speed_unit_factor () {
+            return Globals.SETTINGS.get_enum (DOWNLOAD_SPEED_UNIT_KEY) == 1
+                ? KIBIBYTE
+                : KILOBYTE;
+        }
+
+        string get_download_speed_limit_subtitle () {
+            var unit = Globals.SETTINGS.get_enum (DOWNLOAD_SPEED_UNIT_KEY) == 1
+                ? _("KiB/s")
+                : _("KB/s");
+            return _("Maximum total speed in %s for all downloads. Set to 0 for unlimited.").printf (unit);
+        }
+
         void update_download_speed_limit_row () {
             if (download_speed_limit_row == null || Globals.SETTINGS == null)
                 return;
@@ -477,9 +520,15 @@ namespace ProtonPlus.Widgets.Preferences {
             if (limit_bps < 0)
                 limit_bps = 0;
 
-            var limit_kib = (double) limit_bps / (double) KILOBYTE;
-            if (Math.fabs (((!) download_speed_limit_row).get_value () - limit_kib) > 0.0001)
-                ((!) download_speed_limit_row).set_value (limit_kib);
+            var limit = (double) limit_bps / (double) get_download_speed_unit_factor ();
+            updating_download_speed_limit_row = true;
+            ((!) download_speed_limit_row).set_digits (
+                Globals.SETTINGS.get_enum (DOWNLOAD_SPEED_UNIT_KEY) == 1 ? 2 : 0
+            );
+            if (Math.fabs (((!) download_speed_limit_row).get_value () - limit) > 0.0001)
+                ((!) download_speed_limit_row).set_value (limit);
+            ((!) download_speed_limit_row).set_subtitle (get_download_speed_limit_subtitle ());
+            updating_download_speed_limit_row = false;
         }
 
         public override void dispose () {
@@ -491,6 +540,11 @@ namespace ProtonPlus.Widgets.Preferences {
             if (download_speed_limit_changed_handler != 0 && Globals.SETTINGS != null) {
                 Globals.SETTINGS.disconnect (download_speed_limit_changed_handler);
                 download_speed_limit_changed_handler = 0;
+            }
+
+            if (download_speed_unit_changed_handler != 0 && Globals.SETTINGS != null) {
+                Globals.SETTINGS.disconnect (download_speed_unit_changed_handler);
+                download_speed_unit_changed_handler = 0;
             }
 
             proxy_url_row = null;

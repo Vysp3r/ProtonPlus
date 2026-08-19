@@ -893,7 +893,7 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             speed_label.set_label (_("Speed: %s/s").printf (
-                Utils.Filesystem.convert_bytes_to_string (
+                Utils.Filesystem.convert_download_speed_to_string (
                     (int64) (job.speed_kbps * 1024)
                 )
             ));
