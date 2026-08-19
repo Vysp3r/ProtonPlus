@@ -130,5 +130,9 @@
             <default>''</default>
             <summary>Last launched version of ProtonPlus</summary>
         </key>
+        <key name="steam-dir-custom" type="s">
+            <default>''</default>
+            <summary>Custom steam directory</summary>
+        </key>
     </schema>
 </schemalist>

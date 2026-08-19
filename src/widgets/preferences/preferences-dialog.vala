@@ -119,6 +119,48 @@ namespace ProtonPlus.Widgets.Preferences {
             Globals.SETTINGS.bind ("show-legacy-tools", legacy_tools_row, "active", SettingsBindFlags.DEFAULT);
             tools_behavior_group.add (legacy_tools_row);
 
+            var steam_dir_row = new Adw.ActionRow ();
+            steam_dir_row.title = _("Custom Steam directory");
+            var steam_dir_custom = Globals.SETTINGS.get_string ("steam-dir-custom").strip ();
+            steam_dir_row.subtitle = steam_dir_custom.length > 0
+                ? steam_dir_custom
+                : _("No custom directory selected");
+
+            var steam_dir_custom_choose_button = new Gtk.Button.from_icon_name ("folder-open-symbolic");
+            steam_dir_custom_choose_button.valign = Gtk.Align.CENTER;
+            steam_dir_custom_choose_button.set_tooltip_text (_("Select custom Steam directory"));
+            steam_dir_custom_choose_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Select custom Steam directory"), -1
+            );
+
+            var steam_dir_custom_clear_button = new Gtk.Button.from_icon_name ("edit-clear-symbolic");
+            steam_dir_custom_clear_button.valign = Gtk.Align.CENTER;
+            steam_dir_custom_clear_button.set_sensitive (steam_dir_custom.length > 0);
+            steam_dir_custom_clear_button.set_tooltip_text (_("Clear custom Steam directory"));
+            steam_dir_custom_clear_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Clear custom Steam directory"), -1
+            );
+
+            steam_dir_custom_choose_button.clicked.connect (() => {
+                select_steam_dir_custom_folder.begin ((obj, res) => {
+                    string? path = select_steam_dir_custom_folder.end (res);
+                    if (path != null) {
+                        Globals.SETTINGS.set_string ("steam-dir-custom", path);
+                        steam_dir_row.subtitle = path;
+                        steam_dir_custom_clear_button.set_sensitive (true);
+                    }
+                });
+            });
+
+            steam_dir_row.add_suffix (steam_dir_custom_choose_button);
+            steam_dir_row.add_suffix (steam_dir_custom_clear_button);
+            steam_dir_custom_clear_button.clicked.connect (() => {
+                Globals.SETTINGS.set_string ("steam-dir-custom", "");
+                steam_dir_row.subtitle = _("No custom directory selected");
+                steam_dir_custom_clear_button.set_sensitive (false);
+            });
+            tools_behavior_group.add (steam_dir_row);
+
             // Launchers Page
             var launchers_page = new Adw.PreferencesPage () {
                 title = _("Launchers"),
@@ -532,6 +574,16 @@ namespace ProtonPlus.Widgets.Preferences {
 
         public bool controller_can_navigate_back () {
             return false;
+        }
+
+        private async string? select_steam_dir_custom_folder () {
+            var dialog = new Gtk.FileDialog ();
+            try {
+                GLib.File folder = yield dialog.select_folder (this.get_native () as Gtk.Window, null);
+                return folder.get_path ();
+            } catch (Error e) {
+                return null;
+            }
         }
     }
 }
