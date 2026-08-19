@@ -9,7 +9,7 @@ namespace ProtonPlus.Utils {
             "github-api-key", "gitlab-api-key", "selected-tool-variants", "steam-selected-profile-id",
             "first-run", "theme", "language", "experimental-features", "show-legacy-tools",
             "migrate-default-prefix", "proxy-mode", "proxy-url", "download-speed-limit-bps", "controller-confirm-button",
-            "controller-haptics-enabled", "last-version", "steam-dir-custom"
+            "controller-haptics-enabled", "last-version", "steam-dir-custom", "download-speed-unit"
         };
 
         public static bool is_valid_schema (SettingsSchema schema) {
@@ -192,6 +192,13 @@ namespace ProtonPlus.Utils {
 
         public static string convert_bytes_to_string (int64 size) {
             return format_size (size);
+        }
+
+        public static string convert_download_speed_to_string (int64 bytes_per_second) {
+            if (Globals.SETTINGS != null && Globals.SETTINGS.get_enum ("download-speed-unit") == 1)
+                return "%.2f KiB".printf ((double) bytes_per_second / 1024.0);
+
+            return "%.0f KB".printf ((double) bytes_per_second / 1000.0);
         }
 
         public async static bool make_symlink (string link_location, string target_path) {
