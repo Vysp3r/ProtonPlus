@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-08-14 05:51+0000\n"
+"PO-Revision-Date: 2026-08-19 01:51+0000\n"
 "Last-Translator: Patricio <pattoperez97@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
@@ -663,6 +663,8 @@ msgid ""
 "Running compatibility tools could not be checked. Try again before changing "
 "an installed tool."
 msgstr ""
+"No se pudieron comprobar las herramientas de compatibilidad. Prueba de nuevo "
+"antes de cambiar la herramienta instalada."
 
 #: src/return_codes.vala:73
 msgid "The operation could not be completed."
@@ -673,6 +675,8 @@ msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
 msgstr ""
+"La herramienta de compatibilidad cambió, pero el recordatorio del reinicio "
+"de Steam no pudo ser guardado."
 
 #: src/services/standard-archive-workflow.vala:32
 #: src/services/standard-archive-workflow.vala:41
@@ -688,44 +692,42 @@ msgid "Moving failed"
 msgstr "Movimiento fallido"
 
 #: src/services/standard-archive-workflow.vala:68
-#, fuzzy
 msgid "Failed to save compatibility tool metadata"
-msgstr "Selecciona la herramienta de compatibilidad"
+msgstr "Falló al guardar la metadata de la herramienta de compatibilidad"
 
 #: src/services/standard-archive-workflow.vala:358
-#, fuzzy
 msgid "Failed to update compatibilitytool.vdf"
-msgstr "Selecciona la herramienta de compatibilidad"
+msgstr "Falló al actualizar compatibilitytool.vdf"
 
 #: src/services/standard-archive-workflow.vala:375
-#, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
-msgstr "Herramienta de compatibilidad"
+msgstr ""
+"El manifiesto de la herramienta de compatibilidad es inválido o está "
+"incompleto"
 
 #: src/services/steam-tinker-launch-workflow.vala:71
-#, fuzzy
 msgid "The SteamTinkerLaunch archive is invalid or incomplete"
-msgstr "Herramienta de compatibilidad"
+msgstr "El archivo SteamTinkerLaunch es inválido o está incompleto"
 
 #: src/services/steam-tinker-launch-workflow.vala:79
 msgid "Failed to prepare the SteamTinkerLaunch executable"
-msgstr ""
+msgstr "Falló al preparar el ejecutable de SteamTinkerLaunch"
 
 #: src/services/steam-tinker-launch-workflow.vala:99
 #: src/services/steam-tinker-launch-workflow.vala:155
 #: src/services/steam-tinker-launch-workflow.vala:177
 #: src/services/steam-tinker-launch-workflow.vala:233
-#, fuzzy
 msgid "Failed to update SteamTinkerLaunch compatibility registration"
-msgstr "Selecciona la herramienta de compatibilidad"
+msgstr ""
+"Falló para actualizar la registración de compatibilidad de SteamTinkerLaunch"
 
 #: src/services/steam-tinker-launch-workflow.vala:166
 msgid "Failed to initialize SteamTinkerLaunch"
-msgstr ""
+msgstr "Falló inicializar SteamTinkerLaunch"
 
 #: src/utils/web.vala:221
 msgid "The download timed out. Check your connection and try again."
-msgstr ""
+msgstr "La descarga expiró. Comprueba tu conexión y prueba de nuevo."
 
 #: src/widgets/application.vala:243
 msgid "Website"
@@ -740,8 +742,9 @@ msgid "Special thanks to"
 msgstr "Un agradecimiento especial a"
 
 #: src/widgets/controller-hint-bar.vala:101
+#, fuzzy
 msgid "Select"
-msgstr ""
+msgstr "Select"
 
 #: src/widgets/controller-hint-bar.vala:105
 msgid "Toggle"
@@ -763,11 +766,11 @@ msgstr "Salir"
 
 #: src/widgets/controller-hint-bar.vala:121
 msgid "Close"
-msgstr ""
+msgstr "Cerrar"
 
 #: src/widgets/controller-hint-bar.vala:125
 msgid "Left and right"
-msgstr ""
+msgstr "Izquierda y derecha"
 
 #: src/widgets/controller-hint-bar.vala:126
 #: src/widgets/controller-hint-bar.vala:131
@@ -776,15 +779,15 @@ msgstr "Ajustar"
 
 #: src/widgets/controller-hint-bar.vala:130
 msgid "Up and down"
-msgstr ""
+msgstr "Arriba y abajo"
 
 #: src/widgets/controller-hint-bar.vala:135
 msgid "Keyboard"
-msgstr ""
+msgstr "Teclado"
 
 #: src/widgets/controller-hint-bar.vala:136
 msgid "Enter text"
-msgstr ""
+msgstr "Introducir texto"
 
 #: src/widgets/controller-hint-bar.vala:139
 msgid "Shoulders"
@@ -795,22 +798,20 @@ msgid "Shoulder buttons"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:141
-#, fuzzy
 msgid "Switch section or page"
-msgstr "Cambiar a otro perfil"
+msgstr "Cambiar sección o página"
 
 #: src/widgets/controller-hint-bar.vala:145
 #: src/widgets/tools/tools-box.vala:129 src/widgets/tools/tools-box.vala:171
 #: src/widgets/tools/tools-box.vala:173 src/widgets/tools/tools-box.vala:353
-#, fuzzy
 msgid "Search"
-msgstr "Mostrar búsqueda"
+msgstr "Buscar"
 
 #: src/widgets/controller-hint-bar.vala:149
 #: src/widgets/games/games-box.vala:841 src/widgets/tools/tools-box.vala:181
 #: src/widgets/tools/tools-box.vala:183 src/widgets/tools/tools-box.vala:363
 msgid "Filter"
-msgstr ""
+msgstr "Filtro"
 
 #: src/widgets/controller-hint-bar.vala:183
 msgid "A button"
@@ -818,31 +819,31 @@ msgstr "Botón A"
 
 #: src/widgets/controller-hint-bar.vala:187
 msgid "B button"
-msgstr ""
+msgstr "Botón B"
 
 #: src/widgets/controller-hint-bar.vala:191
 msgid "X button"
-msgstr ""
+msgstr "Botón X"
 
 #: src/widgets/controller-hint-bar.vala:195
 msgid "Y button"
-msgstr ""
+msgstr "Botón Y"
 
 #: src/widgets/controller-hint-bar.vala:199
 msgid "Cross button"
-msgstr ""
+msgstr "Botón Cruz"
 
 #: src/widgets/controller-hint-bar.vala:203
 msgid "Circle button"
-msgstr ""
+msgstr "Botón Círculo"
 
 #: src/widgets/controller-hint-bar.vala:207
 msgid "Square button"
-msgstr ""
+msgstr "Botón Cuadrado"
 
 #: src/widgets/controller-hint-bar.vala:211
 msgid "Triangle button"
-msgstr ""
+msgstr "Botón Triángulo"
 
 #: src/widgets/controller-hint-bar.vala:214
 msgid "Bottom"
@@ -854,9 +855,8 @@ msgid "Bottom face button"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:218
-#, fuzzy
 msgid "Right"
-msgstr "Claro"
+msgstr "Derecha"
 
 #: src/widgets/controller-hint-bar.vala:219
 #: src/widgets/preferences/preferences-dialog.vala:40
@@ -865,7 +865,7 @@ msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:222
 msgid "Left"
-msgstr ""
+msgstr "Izquierda"
 
 #: src/widgets/controller-hint-bar.vala:223
 msgid "Left face button"
@@ -880,13 +880,12 @@ msgid "Top face button"
 msgstr ""
 
 #: src/widgets/games/games-box.vala:393 src/widgets/games/games-box.vala:1049
-#, fuzzy
 msgid "No games found"
-msgstr "No se encontró ningún perfil."
+msgstr "No se encontró ningún juego"
 
 #: src/widgets/games/games-box.vala:394
 msgid "Try a different search term or filter."
-msgstr ""
+msgstr "Prueba un filtro o término de búsqueda diferente"
 
 #: src/widgets/games/games-box.vala:436
 #: src/widgets/tools/tools-stl-release-row.vala:29
@@ -912,9 +911,8 @@ msgid "Prefix"
 msgstr "Prefijo"
 
 #: src/widgets/games/games-box.vala:548
-#, fuzzy
 msgid "Tool"
-msgstr "Herramientas"
+msgstr "Herramienta"
 
 #: src/widgets/games/games-box.vala:555
 #: src/widgets/introduction/controller.vala:49
@@ -932,19 +930,16 @@ msgid "Native"
 msgstr "Nativo"
 
 #: src/widgets/games/games-box.vala:813
-#, fuzzy
 msgid "Non-Steam"
-msgstr "SteamOS"
+msgstr "No-Steam"
 
 #: src/widgets/games/games-box.vala:846
-#, fuzzy
 msgid "Filter Games"
-msgstr "Modificar las opciones de lanzamiento del juego"
+msgstr "Filtrar Juegos"
 
 #: src/widgets/games/games-box.vala:856
-#, fuzzy
 msgid "Search games"
-msgstr "Herramientas de lanzamiento"
+msgstr "Buscar juegos"
 
 #: src/widgets/games/games-box.vala:870 src/widgets/games/games-box.vala:874
 #, fuzzy
@@ -979,16 +974,15 @@ msgstr "Si quieres que acelere el desarrollo, ¡asegúrate de mostrar tu apoyo!"
 #: src/widgets/games/games-collection.vala:78
 #: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
-msgstr ""
+msgstr "Predeterminado"
 
 #: src/widgets/games/games-box.vala:1020
 msgid "Filter: Native"
-msgstr ""
+msgstr "Filtro: Nativo"
 
 #: src/widgets/games/games-box.vala:1022
-#, fuzzy
 msgid "Filter: Non-Steam"
-msgstr "SteamOS"
+msgstr "Filtro: No-Steam"
 
 #: src/widgets/games/games-box.vala:1024
 #, fuzzy
@@ -1182,12 +1176,11 @@ msgstr "Añadir opciones de lanzamiento extra"
 #: src/widgets/games/games-mass-edit-view.vala:47
 #: src/widgets/games/games-mass-edit-view.vala:50
 msgid "Apply Changes"
-msgstr ""
+msgstr "Aplicar Cambios"
 
 #: src/widgets/games/games-mass-edit-view.vala:58
-#, fuzzy
 msgid "Apply compatibility tool"
-msgstr "Herramienta de compatibilidad"
+msgstr "Aplicar herramienta de compatibilidad"
 
 #: src/widgets/games/games-mass-edit-view.vala:59
 #, fuzzy
@@ -2405,7 +2398,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:21
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:23
 msgid "Apply argument edit"
-msgstr ""
+msgstr "Aplicar argumento editado"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:32
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:34
@@ -2616,7 +2609,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-editor-entry-field.vala:22
 #: src/widgets/games/launch-options-editor/launch-options-editor-entry-field.vala:24
 msgid "Apply Edit"
-msgstr ""
+msgstr "Aplicar Edición"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-preview-field.vala:12
 #: src/widgets/games/launch-options-editor/launch-options-editor-preview-field.vala:60
@@ -4256,7 +4249,7 @@ msgstr ""
 
 #: src/widgets/main/steam-restart-presentation.vala:94
 msgid "Applying changes…"
-msgstr ""
+msgstr "Aplicando cambios…"
 
 #: src/widgets/main/steam-restart-presentation.vala:95
 msgid "Starting Steam…"
@@ -4917,7 +4910,7 @@ msgstr "Mip-map LoD Bias"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:134
 msgid "Filters"
-msgstr ""
+msgstr "Filtros"
 
 #: src/widgets/mangohud/mangohud-presets-page.vala:22
 msgid "Full"
