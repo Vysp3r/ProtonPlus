@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-08-19 01:51+0000\n"
+"PO-Revision-Date: 2026-08-21 11:52+0000\n"
 "Last-Translator: Patricio <pattoperez97@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
@@ -742,13 +742,12 @@ msgid "Special thanks to"
 msgstr "Un agradecimiento especial a"
 
 #: src/widgets/controller-hint-bar.vala:101
-#, fuzzy
 msgid "Select"
-msgstr "Select"
+msgstr "Seleccionar"
 
 #: src/widgets/controller-hint-bar.vala:105
 msgid "Toggle"
-msgstr ""
+msgstr "Pasar"
 
 #: src/widgets/controller-hint-bar.vala:109
 msgid "Open"
@@ -942,9 +941,8 @@ msgid "Search games"
 msgstr "Buscar juegos"
 
 #: src/widgets/games/games-box.vala:870 src/widgets/games/games-box.vala:874
-#, fuzzy
 msgid "Select all visible games"
-msgstr "Seleccionar todos los juegos"
+msgstr "Seleccionar todos los juegos visibles"
 
 #: src/widgets/games/games-box.vala:919
 msgid "Steam games couldn’t be loaded"
@@ -1249,9 +1247,8 @@ msgstr ""
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
 #: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:471
 #: src/widgets/games/games-row.vala:475 src/widgets/games/games-row.vala:549
-#, fuzzy
 msgid "Select game"
-msgstr "Herramientas de lanzamiento"
+msgstr "Seleccionar juego"
 
 #: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:487
 #, fuzzy
@@ -1261,9 +1258,9 @@ msgstr "Modificar las opciones de lanzamiento del juego"
 #: src/widgets/games/games-row.vala:63 src/widgets/games/games-row.vala:522
 #: src/widgets/tools/tools-game-row.vala:15
 #: src/widgets/tools/tools-game-row.vala:19
-#, fuzzy, c-format
+#, c-format
 msgid "Select %s"
-msgstr "Herramientas de lanzamiento"
+msgstr "Selecciona %s"
 
 #: src/widgets/games/games-row.vala:119 src/widgets/games/games-row.vala:588
 #, c-format
@@ -1816,7 +1813,6 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:37
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
-#, fuzzy
 msgid "DLSS indicator"
 msgstr "Indicador de DLSS"
 
@@ -2376,7 +2372,7 @@ msgstr "Vulkan"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-amd-icd.vala:23
 msgid "Select preferred Vulkan driver implementation"
-msgstr ""
+msgstr "Seleccionar la implementación del driver Vulkan preferida"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-amd-icd.vala:24
 #, fuzzy
@@ -4144,24 +4140,20 @@ msgid "Update started"
 msgstr "Actualizar ejecutor"
 
 #: src/widgets/main/main-box.vala:362
-#, fuzzy
 msgid "Download started"
-msgstr "Descargas"
+msgstr "Descarga iniciada"
 
 #: src/widgets/main/main-box.vala:368
-#, fuzzy
 msgid "Download finished"
-msgstr "Descargando"
+msgstr "Descarga terminada"
 
 #: src/widgets/main/main-box.vala:370
-#, fuzzy
 msgid "Download canceled"
-msgstr "Descargando"
+msgstr "Descarga cancelada"
 
 #: src/widgets/main/main-box.vala:376
-#, fuzzy
 msgid "Download failed"
-msgstr "Descargando"
+msgstr "Descarga fallida"
 
 #: src/widgets/main/main-box.vala:395 src/widgets/main/main-box.vala:397
 #, fuzzy
@@ -4597,7 +4589,7 @@ msgstr ""
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:151
 msgid "Duration"
-msgstr ""
+msgstr "Duración"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:152
 msgid "Autostart"
@@ -4626,9 +4618,8 @@ msgstr ""
 #: src/widgets/mangohud/mangohud-extras-page.vala:175
 #: src/widgets/mangohud/mangohud-extras-page.vala:177
 #: src/widgets/mangohud/mangohud-extras-page.vala:182
-#, fuzzy
 msgid "Select Output Folder"
-msgstr "Seleccionar un perfil"
+msgstr "Seleccionar Carpeta Salida"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:194
 msgid "Autoupload Results"
@@ -5147,9 +5138,8 @@ msgid "The compatibility tool games will use by default"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:184
-#, fuzzy
 msgid "Selected profile"
-msgstr "Seleccionar un perfil"
+msgstr "Perfil seleccionado"
 
 #: src/widgets/preferences/preferences-dialog.vala:185
 msgid "Currently selected profile for Steam"
@@ -5172,9 +5162,8 @@ msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:269
-#, fuzzy
 msgid "Download speed limit"
-msgstr "Descargas"
+msgstr "Límite de velocidad de descarga"
 
 #: src/widgets/preferences/preferences-dialog.vala:270
 msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
@@ -5475,9 +5464,8 @@ msgid "Migrate games"
 msgstr "Migrar juegos"
 
 #: src/widgets/tools/tools-migrate-box.vala:37
-#, fuzzy
 msgid "Select a new tool for the selected games."
-msgstr "Editar los juegos seleccionados a la vez"
+msgstr "Seleccionar una nueva herramienta para el juego seleccionado."
 
 #: src/widgets/tools/tools-migrate-box.vala:58
 #, fuzzy, c-format
@@ -5723,7 +5711,7 @@ msgstr ""
 #: src/widgets/tools/tools-releases-box.vala:269
 #, c-format
 msgid "Select the %s build variant."
-msgstr ""
+msgstr "Seleccionar la variante de construcción %s"
 
 #: src/widgets/tools/tools-releases-box.vala:334
 #: src/widgets/tools/tools-releases-box.vala:342
@@ -5912,11 +5900,11 @@ msgstr ""
 
 #: src/widgets/tools/tools-stl-release-row.vala:165
 msgid "Do you want to reinstall it with ProtonPlus?"
-msgstr "¿Quieres reinstalar %s con ProtonPlus?"
+msgstr "¿Quieres reinstalarlo con ProtonPlus?"
 
 #: src/widgets/window.vala:172
 msgid "Do you want to exit?"
-msgstr ""
+msgstr "¿Deseas salir?"
 
 #: src/widgets/window.vala:375
 #, fuzzy
