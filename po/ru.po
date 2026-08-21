@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-08-10 19:51+0000\n"
+"PO-Revision-Date: 2026-08-15 19:02+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ru/>\n"
@@ -40,16 +40,14 @@ msgid "Show Shortcuts"
 msgstr "Показать сочетания клавиш"
 
 #: data/ui/gtk/help-overlay.ui:20
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Preferences"
 msgstr "Настройки"
 
 #: data/ui/gtk/help-overlay.ui:26
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Help"
-msgstr "Помощь"
+msgstr "Справка"
 
 #: data/ui/gtk/help-overlay.ui:32
 msgctxt "shortcut window"
@@ -57,19 +55,16 @@ msgid "Quit"
 msgstr "Выход"
 
 #: data/ui/gtk/help-overlay.ui:40
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Navigation"
 msgstr "Навигация"
 
 #: data/ui/gtk/help-overlay.ui:43
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Go Back"
 msgstr "Назад"
 
 #: data/ui/gtk/help-overlay.ui:51
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Search"
 msgstr "Поиск"
@@ -77,7 +72,7 @@ msgstr "Поиск"
 #: data/ui/gtk/help-overlay.ui:54
 msgctxt "shortcut window"
 msgid "Search Current View"
-msgstr ""
+msgstr "Поиск в текущем виде"
 
 #: src/cli/cli.vala:128
 #, c-format
@@ -105,11 +100,11 @@ msgstr "Среды запуска не установлены\n"
 #: src/cli/cli.vala:299 src/cli/cli.vala:547
 #, c-format
 msgid "Error: Failed to load releases: %s\n"
-msgstr "Ошибка: Не удалось загрузить релизы: %s\n"
+msgstr "Ошибка: Не удалось загрузить выпуски: %s\n"
 
 #: src/cli/cli.vala:304 src/cli/cli.vala:549
 msgid "Error: No releases are available\n"
-msgstr "Ошибка: Релизы недоступны\n"
+msgstr "Ошибка: Выпуски недоступны\n"
 
 #: src/cli/cli.vala:308
 #, c-format
@@ -129,11 +124,11 @@ msgstr "Ошибка: Установка не удалась: %s\n"
 #: src/cli/cli.vala:331
 #, c-format
 msgid "Available releases for %s:\n"
-msgstr "Доступные релизы для %s:\n"
+msgstr "Доступные выпуски для %s:\n"
 
 #: src/cli/cli.vala:337 src/cli/cli.vala:367
 msgid "Select release number"
-msgstr "Выберите номер релиза"
+msgstr "Выберите номер выпуска"
 
 #: src/cli/cli.vala:343
 #, c-format
@@ -148,22 +143,22 @@ msgstr "Успешно установлен %s\n"
 #: src/cli/cli.vala:358 src/cli/cli.vala:378
 #, c-format
 msgid "No installed releases found for %s\n"
-msgstr "Не найдено установленных релизов для %s\n"
+msgstr "Не найдено установленных выпусков для %s\n"
 
 #: src/cli/cli.vala:362
 #, c-format
 msgid "Installed releases for %s:\n"
-msgstr "Установленные релизы для %s:\n"
+msgstr "Установленные выпуски для %s:\n"
 
 #: src/cli/cli.vala:382
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
-msgstr "Удаление всех релизов для %s...\n"
+msgstr "Удаление всех выпусков для %s...\n"
 
 #: src/cli/cli.vala:394
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
-msgstr "Удаление всех релизов для лаунчера %s...\n"
+msgstr "Удаление всех выпусков для лаунчера %s...\n"
 
 #: src/cli/cli.vala:420
 #, c-format
@@ -220,7 +215,7 @@ msgstr "Ошибка: Не удалось загрузить лаунчеры\n"
 #: src/cli/cli.vala:559
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
-msgstr "Ошибка: Лаунчер '%s' не найден\n"
+msgstr "Ошибка: лаунчер «%s» не найден\n"
 
 #: src/cli/cli.vala:572
 #, c-format
@@ -332,7 +327,7 @@ msgstr "%dс"
 #: src/widgets/preferences/preferences-dialog.vala:311
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
-msgstr "Системная"
+msgstr "Система"
 
 #: src/globals.vala:32
 msgid "Arabic"
@@ -464,10 +459,14 @@ msgid ""
 "Faugus Launcher uses this folder for Proton installations, but ProtonPlus "
 "cannot access its symlink target:"
 msgstr ""
+"Faugus Launcher использует эту папку для установки Proton, но ProtonPlus не "
+"может получить доступ к цели его символьной ссылки:"
 
 #: src/models/launchers/faugus-launcher.vala:85
 msgid "Grant ProtonPlus access, restart it, and try the installation again:"
 msgstr ""
+"Предоставьте ProtonPlus доступ, перезапустите его и повторите попытку "
+"установки:"
 
 #: src/models/launchers/steam.vala:363
 #, c-format
@@ -500,13 +499,14 @@ msgstr ""
 
 #: src/models/providers/definitions/proton.vala:35
 #: src/widgets/tools/tools-release-row.vala:706
-#, fuzzy
 msgid "Recommended"
-msgstr "Скруглённые"
+msgstr "Рекомендуемый"
 
 #: src/models/providers/definitions/proton.vala:39
 msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
 msgstr ""
+"Пользовательский форк Proton от Dawn Winery с исправлениями для разных игр "
+":xdd:"
 
 #: src/models/providers/definitions/proton.vala:49
 msgid ""
@@ -523,24 +523,22 @@ msgstr ""
 "Wine-tkg."
 
 #: src/models/providers/definitions/proton.vala:68
-#, fuzzy
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty, adding FSR4 support and Wine "
 "Wayland tweaks."
 msgstr ""
 "Инструмент совместимости Steam для запуска игр Windows с улучшениями по "
-"сравнению с Proton от Valve. Разработчик Etaash Mathamsetty добавил "
-"поддержку FSR4 и оптимизации Wine Wayland."
+"сравнению со стандартным Proton от Valve. Разработчик Etaash Mathamsetty, "
+"добавлена поддержка FSR4 и настройки Wine Wayland."
 
 #: src/models/providers/definitions/proton.vala:79
-#, fuzzy
 msgid ""
 "Steam compatibility tool based on CachyOS Proton with Wayland improvements, "
 "especially for Windows launcher applications."
 msgstr ""
-"Инструмент совместимости Steam на основе Proton-GE с дополнительными патчами "
-"для улучшения кодеков RTSP для VRChat."
+"Инструмент совместимости Steam на основе CachyOS Proton с улучшениями для "
+"Wayland, особенно для лаунчеров Windows."
 
 #: src/models/providers/definitions/proton.vala:92
 msgid ""
@@ -665,6 +663,8 @@ msgid ""
 "Running compatibility tools could not be checked. Try again before changing "
 "an installed tool."
 msgstr ""
+"Не удалось проверить работающие инструменты совместимости. Попробуйте снова "
+"перед изменением установленного инструмента."
 
 #: src/return_codes.vala:73
 msgid "The operation could not be completed."
@@ -923,16 +923,15 @@ msgstr "Все"
 #: src/widgets/games/games-collection.vala:72
 #: src/widgets/games/games-mass-edit-view.vala:178
 msgid "Native"
-msgstr "Родные"
+msgstr "Нативный"
 
 #: src/widgets/games/games-box.vala:813
 msgid "Non-Steam"
 msgstr "Не-Steam"
 
 #: src/widgets/games/games-box.vala:846
-#, fuzzy
 msgid "Filter Games"
-msgstr "Фильтр: Все игры"
+msgstr "Фильтр игр"
 
 #: src/widgets/games/games-box.vala:856
 msgid "Search games"
@@ -977,7 +976,7 @@ msgstr "По умолчанию"
 
 #: src/widgets/games/games-box.vala:1020
 msgid "Filter: Native"
-msgstr "Фильтр: Родные"
+msgstr "Фильтр: Нативные"
 
 #: src/widgets/games/games-box.vala:1022
 msgid "Filter: Non-Steam"
@@ -1000,9 +999,8 @@ msgstr "Попробуйте другой поисковый запрос или
 #: src/widgets/games/games-box.vala:1038
 #: src/widgets/tools/tools-group-box.vala:335
 #: src/widgets/tools/tools-releases-box.vala:801
-#, fuzzy
 msgid "Clear Search"
-msgstr "Поиск"
+msgstr "Очистить поиск"
 
 #: src/widgets/games/games-box.vala:1041
 msgid "No games match this filter"
@@ -1015,77 +1013,68 @@ msgstr "Выберите «Все игры», чтобы увидеть всю �
 #: src/widgets/games/games-box.vala:1046
 #: src/widgets/tools/tools-group-box.vala:342
 #: src/widgets/tools/tools-releases-box.vala:807
-#, fuzzy
 msgid "Reset Filters"
-msgstr "Фильтры"
+msgstr "Сбросить фильтры"
 
 #: src/widgets/games/games-box.vala:1051
 msgid "No games are available for this launcher."
 msgstr "Для этого лаунчера нет игр."
 
 #: src/widgets/games/games-extra-button.vala:70
-#, fuzzy
 msgid "Game Actions"
-msgstr "Действия"
+msgstr "Действия с игрой"
 
 #: src/widgets/games/games-extra-button.vala:91
 #: src/widgets/tools/tools-release-row.vala:201
 #: src/widgets/tools/tools-release-row.vala:506
-#, fuzzy, c-format
+#, c-format
 msgid "Actions for %s"
-msgstr "Действия"
+msgstr "Действия для %s"
 
 #: src/widgets/games/games-extra-button.vala:141
-#, fuzzy
 msgid "_Run Custom Executable…"
-msgstr "Запустить пользовательский исполняемый файл"
+msgstr "_Запустить пользовательский файл…"
 
 #: src/widgets/games/games-extra-button.vala:143
-#, fuzzy
 msgid "Open _Game Folder"
-msgstr "Выходная папка"
+msgstr "Открыть _папку игры"
 
 #: src/widgets/games/games-extra-button.vala:145
-#, fuzzy
 msgid "Open _Prefix Folder"
-msgstr "Открыть в браузере"
+msgstr "Открыть _папку префикса"
 
 #: src/widgets/games/games-extra-button.vala:147
-#, fuzzy
 msgid "Open in Proton_tricks"
-msgstr "Открыть в protontricks"
+msgstr "Открыть в Proton_tricks"
 
 #: src/widgets/games/games-extra-button.vala:149
-#, fuzzy
 msgid "Open Proton_DB"
-msgstr "Открыть страницу ProtonDB"
+msgstr "Открыть Proton_DB"
 
 #: src/widgets/games/games-extra-button.vala:182
-#, fuzzy
 msgid "Supported"
-msgstr "Неподдерживаемый лаунчер"
+msgstr "Поддерживается"
 
 #: src/widgets/games/games-extra-button.vala:185
 msgid "Running"
-msgstr ""
+msgstr "Запущена"
 
 #: src/widgets/games/games-extra-button.vala:188
 msgid "Planned"
-msgstr ""
+msgstr "Запланировано"
 
 #: src/widgets/games/games-extra-button.vala:191
 msgid "Broken"
-msgstr ""
+msgstr "Сломана"
 
 #: src/widgets/games/games-extra-button.vala:194
 msgid "Denied"
-msgstr ""
+msgstr "Отказано"
 
 #: src/widgets/games/games-extra-button.vala:197
 #: src/widgets/tools/tools-releases-box.vala:1440
-#, fuzzy
 msgid "Loading…"
-msgstr "Загрузка"
+msgstr "Загрузка…"
 
 #: src/widgets/games/games-extra-button.vala:200
 msgid "Unknown"
@@ -1094,7 +1083,7 @@ msgstr "Неизвестно"
 #: src/widgets/games/games-extra-button.vala:203
 #, c-format
 msgid "Anti-Cheat: %s"
-msgstr ""
+msgstr "Античит: %s"
 
 #: src/widgets/games/games-extra-button.vala:215
 msgid "Select executable"
@@ -1166,38 +1155,34 @@ msgstr "%u выбранных игр"
 
 #: src/widgets/games/games-mass-edit-view.vala:37
 #: src/widgets/games/games-mass-edit-view.vala:40
-#, fuzzy
 msgid "Clear Launch Options"
-msgstr "Поиск параметров запуска"
+msgstr "Очистить параметры запуска"
 
 #: src/widgets/games/games-mass-edit-view.vala:47
 #: src/widgets/games/games-mass-edit-view.vala:50
-#, fuzzy
 msgid "Apply Changes"
-msgstr "Применение изменений…"
+msgstr "Применить изменения"
 
 #: src/widgets/games/games-mass-edit-view.vala:58
 msgid "Apply compatibility tool"
 msgstr "Применить инструмент совместимости"
 
 #: src/widgets/games/games-mass-edit-view.vala:59
-#, fuzzy
 msgid "Use the same compatibility tool for all selected games"
-msgstr "Установить один и тот же инструмент для каждой выбранной игры."
+msgstr "Использовать один инструмент совместимости для всех выбранных игр"
 
 #: src/widgets/games/games-mass-edit-view.vala:78
 msgid "Apply launch options"
 msgstr "Применить параметры запуска"
 
 #: src/widgets/games/games-mass-edit-view.vala:79
-#, fuzzy
 msgid "Use the same launch options for all selected Steam games"
-msgstr "Установить одинаковые параметры для каждой выбранной игры Steam."
+msgstr "Использовать одни параметры запуска для всех выбранных игр Steam"
 
 #: src/widgets/games/games-mass-edit-view.vala:93
 msgid ""
 "Choose what to change. Settings that are turned off will remain unchanged."
-msgstr ""
+msgstr "Выберите, что изменять. Отключённые настройки останутся без изменений."
 
 #: src/widgets/games/games-mass-edit-view.vala:279
 #: src/widgets/games/games-mass-edit-view.vala:290
@@ -1250,36 +1235,34 @@ msgstr ""
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
 #: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:471
 #: src/widgets/games/games-row.vala:475 src/widgets/games/games-row.vala:549
-#, fuzzy
 msgid "Select game"
-msgstr "Выбрать"
+msgstr "Выбрать игру"
 
 #: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:487
-#, fuzzy
 msgid "Modify Game"
 msgstr "Изменить игру"
 
 #: src/widgets/games/games-row.vala:63 src/widgets/games/games-row.vala:522
 #: src/widgets/tools/tools-game-row.vala:15
 #: src/widgets/tools/tools-game-row.vala:19
-#, fuzzy, c-format
+#, c-format
 msgid "Select %s"
-msgstr "Выбрать"
+msgstr "Выбрать %s"
 
 #: src/widgets/games/games-row.vala:119 src/widgets/games/games-row.vala:588
 #, c-format
 msgid "Toggle selection for %s"
-msgstr ""
+msgstr "Переключить выбор для %s"
 
 #: src/widgets/games/games-row.vala:165 src/widgets/games/games-row.vala:589
 #, c-format
 msgid "Modify %s"
-msgstr ""
+msgstr "Изменить %s"
 
 #: src/widgets/games/games-row.vala:318 src/widgets/games/games-row.vala:321
-#, fuzzy, c-format
+#, c-format
 msgid "Launch %s"
-msgstr "Лаунчеры"
+msgstr "Запустить %s"
 
 #: src/widgets/games/games-tool-row.vala:18
 #: src/widgets/tools/tools-migrate-box.vala:18
@@ -2518,7 +2501,6 @@ msgid "Search all options"
 msgstr "Поиск всех параметров"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:123
-#, fuzzy
 msgid "Search Launch Options"
 msgstr "Поиск параметров запуска"
 
@@ -2559,9 +2541,8 @@ msgid "Add custom item (Type name and press Enter)..."
 msgstr "Добавить пользовательский элемент (введите имя и нажмите Enter)..."
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:52
-#, fuzzy
 msgid "Add custom item"
-msgstr "Добавить пользовательский аргумент"
+msgstr "Добавить пользовательский элемент"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:46
 msgid ".NET Framework runtime execution engine"
@@ -2677,7 +2658,7 @@ msgstr "Переопределения DLL Wine"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:73
 msgid "Manage library overrides (builtin/native)"
-msgstr "Управление переопределениями библиотек (встроенные/родные)"
+msgstr "Управление переопределениями библиотек (встроенные/нативные)"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:74
 msgid "Enable DLL Overrides"
@@ -2689,9 +2670,8 @@ msgstr "Обойти или предпочесть определённые DLL 
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-entry-field.vala:22
 #: src/widgets/games/launch-options-editor/launch-options-editor-entry-field.vala:24
-#, fuzzy
 msgid "Apply Edit"
-msgstr "Применить редактирование аргумента"
+msgstr "Применить правку"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-preview-field.vala:12
 #: src/widgets/games/launch-options-editor/launch-options-editor-preview-field.vala:60
@@ -3922,9 +3902,8 @@ msgid "_Keyboard Shortcuts"
 msgstr "_Горячие клавиши"
 
 #: src/widgets/header/header-box.vala:86
-#, fuzzy
 msgid "_Help"
-msgstr "Помощь"
+msgstr "_Справка"
 
 #: src/widgets/header/header-box.vala:90
 msgid "_Donate"
@@ -3986,7 +3965,7 @@ msgstr "Загрузка"
 #: src/widgets/header/header-downloads-indicator.vala:313
 #: src/widgets/tools/tools-release-row.vala:767
 msgid "Extracting"
-msgstr "Распаковывается..."
+msgstr "Распаковка"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
 #: src/widgets/tools/tools-release-row.vala:730
@@ -4016,9 +3995,8 @@ msgstr "Осталось: %dс"
 
 #: src/widgets/header/header-launchers-button.vala:40
 #: src/widgets/header/header-launchers-button.vala:42
-#, fuzzy
 msgid "Switch launcher"
-msgstr "Пропустить лаунчер"
+msgstr "Переключить лаунчер"
 
 #: src/widgets/introduction/application.vala:8
 msgid "Welcome to ProtonPlus"
@@ -4111,14 +4089,13 @@ msgstr "Введение"
 
 #: src/widgets/introduction/introduction.vala:53
 #: src/widgets/introduction/introduction.vala:55
-#, fuzzy
 msgid "Previous Page"
-msgstr "Просмотр"
+msgstr "Предыдущая страница"
 
 #: src/widgets/introduction/introduction.vala:62
 #: src/widgets/introduction/introduction.vala:64
 msgid "Next Page"
-msgstr ""
+msgstr "Следующая страница"
 
 #: src/widgets/introduction/proton.vala:8
 msgid "What is Proton?"
@@ -4163,26 +4140,23 @@ msgstr "Установите, как часто проверять обновл�
 #: src/widgets/introduction/updates.vala:30
 #: src/widgets/preferences/preferences-dialog.vala:90
 msgid "Update tools at system startup"
-msgstr ""
+msgstr "Обновлять инструменты при запуске системы"
 
 #: src/widgets/introduction/updates.vala:31
 #: src/widgets/preferences/preferences-dialog.vala:91
-#, fuzzy
 msgid "Automatically check for and install updates when the system starts"
-msgstr "Проверять обновления инструментов при запуске системы"
+msgstr "Автоматически проверять и устанавливать обновления при запуске системы"
 
 #: src/widgets/introduction/updates.vala:37
 #: src/widgets/preferences/preferences-dialog.vala:97
 msgid "Update tools when ProtonPlus starts"
-msgstr ""
+msgstr "Обновлять инструменты при запуске ProtonPlus"
 
 #: src/widgets/introduction/updates.vala:38
 #: src/widgets/preferences/preferences-dialog.vala:98
-#, fuzzy
 msgid "Automatically check for and install updates when ProtonPlus starts"
 msgstr ""
-"ProtonPlus может автоматически проверять и устанавливать обновления, чтобы "
-"ваш игровой опыт оставался плавным."
+"Автоматически проверять и устанавливать обновления при запуске ProtonPlus"
 
 #: src/widgets/introduction/wine.vala:8
 msgid "What is Wine?"
@@ -5230,9 +5204,9 @@ msgid "Enter an access token to reduce your chances of being rate limited"
 msgstr "Введите токен доступа, чтобы снизить вероятность ограничения скорости"
 
 #: src/widgets/preferences/preferences-access-token-row.vala:19
-#, fuzzy, c-format
+#, c-format
 msgid "Open %s Token Page"
-msgstr "Открыть страницу создания токена"
+msgstr "Открыть страницу токена %s"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:15
 msgid "1h"
@@ -5252,7 +5226,7 @@ msgstr "12ч"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:26
 msgid "Update frequency"
-msgstr "Частота обновления"
+msgstr "Период обновления"
 
 #: src/widgets/preferences/preferences-delete-cache-row.vala:12
 #: src/widgets/preferences/preferences-delete-cache-row.vala:14
@@ -5278,9 +5252,8 @@ msgid "Controller"
 msgstr "Контроллер"
 
 #: src/widgets/preferences/preferences-dialog.vala:34
-#, fuzzy
 msgid "Configure controller buttons and vibration"
-msgstr "Вибрация контроллера"
+msgstr "Настройка кнопок контроллера и вибрации"
 
 #: src/widgets/preferences/preferences-dialog.vala:42
 msgid "Confirm button"
@@ -5305,7 +5278,7 @@ msgstr "Обновления"
 
 #: src/widgets/preferences/preferences-dialog.vala:72
 msgid "Choose when installed tools are checked and updated"
-msgstr ""
+msgstr "Выберите, когда проверять и обновлять установленные инструменты"
 
 #: src/widgets/preferences/preferences-dialog.vala:104
 msgid "Migrate default prefix"
@@ -5355,7 +5328,7 @@ msgstr "Токены API"
 
 #: src/widgets/preferences/preferences-dialog.vala:230
 msgid "Optional tokens increase GitHub and GitLab request limits"
-msgstr ""
+msgstr "Необязательные токены увеличивают лимиты запросов к GitHub и GitLab"
 
 #: src/widgets/preferences/preferences-dialog.vala:259
 msgid "Proxy URL"
@@ -5393,7 +5366,7 @@ msgstr "Обслуживание"
 
 #: src/widgets/preferences/preferences-dialog.vala:303
 msgid "Refresh app data or clear cached files"
-msgstr ""
+msgstr "Обновить данные приложения или очистить кэш"
 
 #: src/widgets/preferences/preferences-dialog.vala:317
 msgid "Software Environment"
@@ -5425,14 +5398,12 @@ msgid "Hardware"
 msgstr "Оборудование"
 
 #: src/widgets/preferences/preferences-dialog.vala:341
-#, fuzzy
 msgid "CPU Features"
-msgstr "Температура ЦП"
+msgstr "Возможности ЦП"
 
 #: src/widgets/preferences/preferences-dialog.vala:342
-#, fuzzy
 msgid "None detected"
-msgstr "Автоопределение"
+msgstr "Ничего не обнаружено"
 
 #: src/widgets/preferences/preferences-dialog.vala:347
 msgid "Dependencies"
@@ -5464,7 +5435,7 @@ msgstr "Обнаруженные лаунчеры"
 #: src/widgets/tools/tools-release-row.vala:715
 #: src/widgets/tools/tools-release-row.vala:719
 msgid "Installed"
-msgstr "Установленные"
+msgstr "Установленное"
 
 #: src/widgets/preferences/preferences-dialog.vala:407
 msgid "Not installed"
@@ -5630,33 +5601,31 @@ msgstr "В этой группе нет доступных инструмент�
 
 #: src/widgets/tools/tools-group-box.vala:463
 #: src/widgets/tools/tools-group-box.vala:467
-#, fuzzy
 msgid "Tool Actions"
-msgstr "Действия"
+msgstr "Действия с инструментом"
 
 #: src/widgets/tools/tools-group-box.vala:499
 msgid "Recommended compatibility tool"
 msgstr "Рекомендуемый инструмент совместимости"
 
 #: src/widgets/tools/tools-group-box.vala:724
-#, fuzzy
 msgid "Used by games"
-msgstr "Используется в 1 игре."
+msgstr "Используется играми"
 
 #: src/widgets/tools/tools-group-box.vala:725
 msgid ""
 "One or more releases of this tool is installed and currently used by one or "
 "more games"
 msgstr ""
-"Один или несколько релизов этого инструмента установлены и в настоящее время "
-"используются одной или несколькими играми"
+"Один или несколько выпусков этого инструмента установлены и в настоящее "
+"время используются одной или несколькими играми"
 
 #: src/widgets/tools/tools-group-box.vala:729
 msgid ""
 "One or more releases of this tool is installed, but not currently used by "
 "any games"
 msgstr ""
-"Один или несколько релизов этого инструмента установлены, но в настоящее "
+"Один или несколько выпусков этого инструмента установлены, но в настоящее "
 "время не используются ни одной игрой"
 
 #: src/widgets/tools/tools-migrate-box.vala:36
@@ -5688,18 +5657,17 @@ msgstr ""
 "может быть связано с отсутствием разрешений или проблемами доступа к файлам."
 
 #: src/widgets/tools/tools-release-changelog-dialog.vala:4
-#, fuzzy, c-format
+#, c-format
 msgid "Changelog for %s"
-msgstr "Журнал изменений"
+msgstr "Журнал изменений для %s"
 
 #: src/widgets/tools/tools-release-changelog-dialog.vala:7
 msgid "Changelog"
 msgstr "Журнал изменений"
 
 #: src/widgets/tools/tools-release-changelog-dialog.vala:16
-#, fuzzy
 msgid "No Changelog Available"
-msgstr "Ошибка: Релизы недоступны\n"
+msgstr "Журнал изменений отсутствует"
 
 #: src/widgets/tools/tools-release-changelog.vala:95
 #: src/widgets/tools/tools-release-changelog.vala:106
@@ -5707,13 +5675,13 @@ msgid "Details"
 msgstr "Подробности"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:11
-#, fuzzy, c-format
+#, c-format
 msgid "Games using %s"
-msgstr "Действия"
+msgstr "Игры, использующие %s"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:14
 msgid "Games Using This Tool"
-msgstr ""
+msgstr "Игры, использующие этот инструмент"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:29
 msgid "Migrate selected games to another tool"
@@ -5722,13 +5690,12 @@ msgstr "Перенести выбранные игры на другой инс�
 #: src/widgets/tools/tools-release-games-dialog.vala:46
 #: src/widgets/tools/tools-release-games-dialog.vala:48
 #: src/widgets/tools/tools-release-games-dialog.vala:67
-#, fuzzy
 msgid "Select all games"
-msgstr "Выбрать"
+msgstr "Выбрать все игры"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:108
 msgid "No Games Use This Tool"
-msgstr ""
+msgstr "Ни одна игра не использует этот инструмент"
 
 #: src/widgets/tools/tools-release-row.vala:127
 #: src/widgets/tools/tools-release-row.vala:129
@@ -5745,9 +5712,8 @@ msgid "Remaining time: --"
 msgstr "Оставшееся время: --"
 
 #: src/widgets/tools/tools-release-row.vala:198
-#, fuzzy
 msgid "Release Actions"
-msgstr "Действия"
+msgstr "Действия с выпуском"
 
 #: src/widgets/tools/tools-release-row.vala:465
 #, c-format
@@ -5755,20 +5721,19 @@ msgid "Step: %s"
 msgstr "Шаг: %s"
 
 #: src/widgets/tools/tools-release-row.vala:468
-#, fuzzy, c-format
+#, c-format
 msgid "%s for %s"
-msgstr "Действия"
+msgstr "%s для %s"
 
 #: src/widgets/tools/tools-release-row.vala:473
-#, fuzzy, c-format
+#, c-format
 msgid "Progress for %s"
-msgstr "Действия"
+msgstr "Ход выполнения для %s"
 
 #: src/widgets/tools/tools-release-row.vala:530
 #: src/widgets/tools/tools-release-row.vala:533
-#, fuzzy
 msgid "Latest"
-msgstr "Позже"
+msgstr "Последний"
 
 #: src/widgets/tools/tools-release-row.vala:595
 #: src/widgets/tools/tools-release-row.vala:598
@@ -5780,75 +5745,67 @@ msgstr "Установить %s"
 #: src/widgets/tools/tools-release-row.vala:661
 #: src/widgets/tools/tools-releases-box.vala:476
 #: src/widgets/tools/tools-releases-box.vala:488
-#, fuzzy
 msgid "Retry"
-msgstr "Ретро"
+msgstr "Повторить"
 
 #: src/widgets/tools/tools-release-row.vala:605
 #: src/widgets/tools/tools-release-row.vala:608
-#, fuzzy, c-format
+#, c-format
 msgid "Retry %s"
-msgstr "Ретро"
+msgstr "Повторить %s"
 
 #: src/widgets/tools/tools-release-row.vala:619
-#, fuzzy, c-format
+#, c-format
 msgid "Cancelling %s"
-msgstr "Отмена"
+msgstr "Отмена %s"
 
 #: src/widgets/tools/tools-release-row.vala:620
-#, fuzzy, c-format
+#, c-format
 msgid "Cancel %s"
-msgstr "Отмена"
+msgstr "Отменить %s"
 
 #: src/widgets/tools/tools-release-row.vala:645
-#, fuzzy
 msgid "_Changelog"
-msgstr "Журнал изменений"
+msgstr "_Журнал изменений"
 
 #: src/widgets/tools/tools-release-row.vala:648
-#, fuzzy
 msgid "Open Release Page"
-msgstr "Открыть страницу создания токена"
+msgstr "Открыть страницу выпуска"
 
 #: src/widgets/tools/tools-release-row.vala:653
 msgid "_Games Using This Tool"
-msgstr ""
+msgstr "_Игры, использующие этот инструмент"
 
 #: src/widgets/tools/tools-release-row.vala:663
-#, fuzzy
 msgid "Update"
-msgstr "Обновления"
+msgstr "Обновить"
 
 #: src/widgets/tools/tools-release-row.vala:664
-#, fuzzy
 msgid "_Check for Updates"
-msgstr "Проверка на наличие обновлений"
+msgstr "_Проверить обновления"
 
 #: src/widgets/tools/tools-release-row.vala:668
-#, fuzzy
 msgid "_Open Folder"
-msgstr "Выходная папка"
+msgstr "_Открыть папку"
 
 #: src/widgets/tools/tools-release-row.vala:670
-#, fuzzy
 msgid "_Delete…"
-msgstr "Удалить"
+msgstr "_Удалить…"
 
 #: src/widgets/tools/tools-release-row.vala:708
 msgid "Failed"
-msgstr ""
+msgstr "Не удалось"
 
 #: src/widgets/tools/tools-release-row.vala:716
-#, fuzzy
 msgid "Update available"
-msgstr "Пакетное обновление не удалось"
+msgstr "Доступно обновление"
 
 #: src/widgets/tools/tools-release-row.vala:735
 msgid "Unavailable for the selected variant"
-msgstr ""
+msgstr "Недоступно для выбранного варианта"
 
 #: src/widgets/tools/tools-release-row.vala:740
-#, fuzzy, c-format
+#, c-format
 msgid "In use by %i game"
 msgid_plural "In use by %i games"
 msgstr[0] "Используется в %i игре"
@@ -5856,28 +5813,25 @@ msgstr[1] "Используется в %i играх"
 msgstr[2] "Используется в %i играх"
 
 #: src/widgets/tools/tools-release-row.vala:754
-#, fuzzy, c-format
+#, c-format
 msgid "%s. Open Release Details"
-msgstr "Открыть страницу создания токена"
+msgstr "%s. Открыть сведения о выпуске"
 
 #: src/widgets/tools/tools-release-row.vala:755
-#, fuzzy
 msgid "Open Release Details"
-msgstr "Открыть страницу создания токена"
+msgstr "Открыть сведения о выпуске"
 
 #: src/widgets/tools/tools-release-row.vala:769
 msgid "Moving"
 msgstr "Перемещение"
 
 #: src/widgets/tools/tools-release-row.vala:774
-#, fuzzy
 msgid "Preparing update"
-msgstr "Подготовка"
+msgstr "Подготовка обновления"
 
 #: src/widgets/tools/tools-release-row.vala:777
-#, fuzzy
 msgid "Preparing installation"
-msgstr "Отменить установку"
+msgstr "Подготовка установки"
 
 #: src/widgets/tools/tools-release-row.vala:831
 #, c-format
@@ -5930,14 +5884,13 @@ msgstr "Выберите вариант сборки %s."
 #: src/widgets/tools/tools-releases-box.vala:342
 #: src/widgets/tools/tools-releases-box.vala:1290
 msgid "Check for new releases"
-msgstr "Проверить наличие новых релизов"
+msgstr "Проверить наличие новых выпусков"
 
 #: src/widgets/tools/tools-releases-box.vala:348
 #: src/widgets/tools/tools-releases-box.vala:357
 #: src/widgets/tools/tools-releases-box.vala:359
-#, fuzzy
 msgid "Open Repository"
-msgstr "Открыть папку раннера"
+msgstr "Открыть репозиторий"
 
 #: src/widgets/tools/tools-releases-box.vala:370
 msgid "Choose which architecture or build variant to show."
@@ -5946,7 +5899,7 @@ msgstr "Выберите, какую архитектуру или вариан�
 #: src/widgets/tools/tools-releases-box.vala:373
 #: src/widgets/tools/tools-releases-box.vala:385
 msgid "Build"
-msgstr ""
+msgstr "Сборка"
 
 #: src/widgets/tools/tools-releases-box.vala:416
 #: src/widgets/tools/tools-releases-box.vala:1481
@@ -5957,73 +5910,63 @@ msgstr "Загрузить ещё"
 #: src/widgets/tools/tools-releases-box.vala:615
 #: src/widgets/tools/tools-releases-box.vala:1110
 #: src/widgets/tools/tools-releases-box.vala:1441
-#, fuzzy
 msgid "Loading releases"
-msgstr "Загрузка"
+msgstr "Загрузка выпусков"
 
 #: src/widgets/tools/tools-releases-box.vala:464
 #: src/widgets/tools/tools-releases-box.vala:633
 #: src/widgets/tools/tools-releases-box.vala:816
-#, fuzzy
 msgid "No releases available"
-msgstr "Ошибка: Релизы недоступны\n"
+msgstr "Выпуски недоступны"
 
 #: src/widgets/tools/tools-releases-box.vala:465
 #: src/widgets/tools/tools-releases-box.vala:817
-#, fuzzy
 msgid "Check again for new releases."
-msgstr "Проверить наличие новых релизов"
+msgstr "Проверьте наличие новых выпусков."
 
 #: src/widgets/tools/tools-releases-box.vala:469
 #: src/widgets/tools/tools-releases-box.vala:819
-#, fuzzy
 msgid "Refresh"
-msgstr "Частота обновления*"
+msgstr "Обновить"
 
 #: src/widgets/tools/tools-releases-box.vala:482
 #: src/widgets/tools/tools-releases-box.vala:739
 msgid "Failed to Fetch Releases"
-msgstr "Не удалось получить релизы"
+msgstr "Не удалось получить выпуски"
 
 #: src/widgets/tools/tools-releases-box.vala:487
-#, fuzzy
 msgid "Couldn’t load releases"
-msgstr "Не удалось загрузить программы запуска"
+msgstr "Не удалось загрузить выпуски"
 
 #: src/widgets/tools/tools-releases-box.vala:663
 #: src/widgets/tools/tools-releases-box.vala:1157
 #: src/widgets/tools/tools-releases-box.vala:1476
-#, fuzzy
 msgid "Releases loaded"
-msgstr "Релизы не найдены"
+msgstr "Выпуски загружены"
 
 #: src/widgets/tools/tools-releases-box.vala:732
-#, fuzzy
 msgid "Couldn’t load more releases"
-msgstr "Не удалось загрузить программы запуска"
+msgstr "Не удалось загрузить ещё выпуски"
 
 #: src/widgets/tools/tools-releases-box.vala:733
 msgid "Couldn’t refresh releases"
-msgstr ""
+msgstr "Не удалось обновить выпуски"
 
 #: src/widgets/tools/tools-releases-box.vala:798
-#, fuzzy
 msgid "No matching releases"
-msgstr "Нет подходящих игр"
+msgstr "Нет подходящих выпусков"
 
 #: src/widgets/tools/tools-releases-box.vala:804
-#, fuzzy
 msgid "No releases match this filter"
-msgstr "Ни одна игра не соответствует этому фильтру"
+msgstr "Ни один выпуск не соответствует этому фильтру"
 
 #: src/widgets/tools/tools-releases-box.vala:805
 msgid "Reset the filters to see all releases."
-msgstr ""
+msgstr "Сбросьте фильтры, чтобы увидеть все выпуски."
 
 #: src/widgets/tools/tools-releases-box.vala:810
-#, fuzzy
 msgid "No compatible releases"
-msgstr "Загрузка"
+msgstr "Нет совместимых выпусков"
 
 #: src/widgets/tools/tools-releases-box.vala:811
 msgid "No compatible variants are available for this system."
@@ -6031,7 +5974,7 @@ msgstr "Для этой системы нет совместимых вариа�
 
 #: src/widgets/tools/tools-releases-box.vala:1289
 msgid "Refreshing…"
-msgstr ""
+msgstr "Обновление…"
 
 #: src/widgets/tools/tools-releases-box.vala:1300
 #, c-format
@@ -6086,9 +6029,8 @@ msgid "Check this to also delete your configuration files."
 msgstr "Отметить для удаления файлов конфигурации."
 
 #: src/widgets/tools/tools-stl-release-row.vala:113
-#, fuzzy
 msgid "SteamTinkerLaunch may not work"
-msgstr "Steam Tinker Launch"
+msgstr "SteamTinkerLaunch может не работать"
 
 #: src/widgets/tools/tools-stl-release-row.vala:114
 msgid ""
@@ -6098,11 +6040,15 @@ msgid ""
 "This is a SteamTinkerLaunch compatibility issue, not a ProtonPlus "
 "installation problem."
 msgstr ""
+"YAD 15 в настоящее время несовместим с SteamTinkerLaunch. SteamTinkerLaunch "
+"может не запускаться, даже если ProtonPlus установит его успешно.\n"
+"\n"
+"Это проблема совместимости SteamTinkerLaunch, а не ошибка установки "
+"ProtonPlus."
 
 #: src/widgets/tools/tools-stl-release-row.vala:118
-#, fuzzy
 msgid "Install Anyway"
-msgstr "Установить %s"
+msgstr "Всё равно установить"
 
 #: src/widgets/tools/tools-stl-release-row.vala:164
 #, c-format

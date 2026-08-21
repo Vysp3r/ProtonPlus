@@ -2,13 +2,14 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
 # camegone <kuroneko0308kw@gmail.com>, 2025, 2026.
+# camegone <camegone@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-04-20 20:09+0000\n"
-"Last-Translator: camegone <kuroneko0308kw@gmail.com>\n"
+"PO-Revision-Date: 2026-08-15 17:51+0000\n"
+"Last-Translator: camegone <camegone@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ja/>\n"
 "Language: ja\n"
@@ -16,12 +17,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
-#, fuzzy
 msgid "ProtonPlus"
-msgstr "ProtonPlus について(_A)"
+msgstr "ProtonPlus"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:241
 msgid "A modern compatibility tools manager"
@@ -38,15 +38,14 @@ msgid "Show Shortcuts"
 msgstr "ショートカットの表示"
 
 #: data/ui/gtk/help-overlay.ui:20
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Preferences"
-msgstr "設定 (_P)"
+msgstr "設定"
 
 #: data/ui/gtk/help-overlay.ui:26
 msgctxt "shortcut window"
 msgid "Help"
-msgstr ""
+msgstr "ヘルプ"
 
 #: data/ui/gtk/help-overlay.ui:32
 msgctxt "shortcut window"
@@ -59,21 +58,19 @@ msgid "Navigation"
 msgstr ""
 
 #: data/ui/gtk/help-overlay.ui:43
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Go Back"
 msgstr "戻る"
 
 #: data/ui/gtk/help-overlay.ui:51
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Search"
-msgstr "検索窓を表示"
+msgstr "検索"
 
 #: data/ui/gtk/help-overlay.ui:54
 msgctxt "shortcut window"
 msgid "Search Current View"
-msgstr ""
+msgstr "現在のウィンドウで検索"
 
 #: src/cli/cli.vala:128
 #, c-format
@@ -81,9 +78,9 @@ msgid "Error: Unknown command '%s'\n"
 msgstr "エラー: 「%s」は未知のコマンドです\n"
 
 #: src/cli/cli.vala:137
-#, fuzzy, c-format
+#, c-format
 msgid "Warning: %s\n"
-msgstr "警告"
+msgstr "警告: %s\n"
 
 #: src/cli/cli.vala:175
 msgid "Detected launchers:\n"
@@ -99,9 +96,9 @@ msgid "No runners installed\n"
 msgstr "実行環境が何もインストールされていません\n"
 
 #: src/cli/cli.vala:299 src/cli/cli.vala:547
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Failed to load releases: %s\n"
-msgstr "エラー: リリース一覧を読み込めませんでした\n"
+msgstr "エラー: リリース一覧を読み込めませんでした: %s\n"
 
 #: src/cli/cli.vala:304 src/cli/cli.vala:549
 msgid "Error: No releases are available\n"
@@ -118,9 +115,9 @@ msgid "Successfully installed %s Latest\n"
 msgstr "最新の %s のインストールに成功しました\n"
 
 #: src/cli/cli.vala:318 src/cli/cli.vala:351
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Installation failed: %s\n"
-msgstr "エラー: インストールに失敗しました\n"
+msgstr "エラー: インストールに失敗しました: %s\n"
 
 #: src/cli/cli.vala:331
 #, c-format
@@ -172,9 +169,9 @@ msgid "Successfully uninstalled %s\n"
 msgstr "%s のアンインストールに成功しました\n"
 
 #: src/cli/cli.vala:426
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Uninstallation failed: %s\n"
-msgstr "エラー: アンインストールに失敗しました\n"
+msgstr "エラー: アンインストールに失敗しました: %s\n"
 
 #: src/cli/cli.vala:431
 msgid "Updating all runners...\n"
@@ -196,9 +193,9 @@ msgid "Already up to date: %s\n"
 msgstr "%s は既に最新です\n"
 
 #: src/cli/cli.vala:454 src/cli/cli.vala:510
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Failed to update %s: %s\n"
-msgstr "エラー: %s のアップデートに失敗しました\n"
+msgstr "エラー: %s のアップデートに失敗しました: %s\n"
 
 #: src/cli/cli.vala:494
 msgid "Already up to date\n"
@@ -219,16 +216,14 @@ msgid "Error: Launcher '%s' not found\n"
 msgstr "エラー: ランチャー「%s」が見つかりませんでした\n"
 
 #: src/cli/cli.vala:572
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Tool '%s' not found\n"
-msgstr "エラー: 実行環境「%s」が見つかりませんでした\n"
+msgstr "エラー: ツール「%s」が見つかりませんでした\n"
 
 #: src/cli/cli.vala:644
-#, fuzzy, c-format
+#, c-format
 msgid "Error: Tool '%s' does not support %s\n"
-msgstr ""
-"エラー: 実行環境「%s」は「最新(Latest)」のインストールをサポートしていませ"
-"ん\n"
+msgstr "エラー: ツール「%s」は %s をサポートしていません\n"
 
 #: src/cli/cli.vala:651
 #, c-format
@@ -307,24 +302,23 @@ msgstr "更新中"
 
 #: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:315
 #: src/widgets/tools/tools-release-row.vala:722
-#, fuzzy
 msgid "Installing"
-msgstr "%s をインストール中...\n"
+msgstr "インストール中"
 
 #: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:849
 #, c-format
 msgid "%dh %dm %ds"
-msgstr ""
+msgstr "%d時間%d分%d秒"
 
 #: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:853
 #, c-format
 msgid "%dm %ds"
-msgstr ""
+msgstr "%d分%d秒"
 
 #: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:854
 #, c-format
 msgid "%ds"
-msgstr ""
+msgstr "%d秒"
 
 #. System Page
 #: src/globals.vala:31 src/widgets/mangohud/mangohud-extras-page.vala:74
@@ -335,107 +329,107 @@ msgstr "システム"
 
 #: src/globals.vala:32
 msgid "Arabic"
-msgstr ""
+msgstr "アラビア語"
 
 #: src/globals.vala:33
 msgid "Belarusian"
-msgstr ""
+msgstr "ベラルーシ語"
 
 #: src/globals.vala:34
 msgid "Bosnian"
-msgstr ""
+msgstr "ボスニア語"
 
 #: src/globals.vala:35
 msgid "Czech"
-msgstr ""
+msgstr "チェコ語"
 
 #: src/globals.vala:36
 msgid "German"
-msgstr ""
+msgstr "ドイツ語"
 
 #: src/globals.vala:37
 msgid "English"
-msgstr ""
+msgstr "英語"
 
 #: src/globals.vala:38
 msgid "Greek"
-msgstr ""
+msgstr "ギリシア語"
 
 #: src/globals.vala:39
 msgid "Spanish"
-msgstr ""
+msgstr "スペイン語"
 
 #: src/globals.vala:40
 msgid "Finnish"
-msgstr ""
+msgstr "フィンランド語"
 
 #: src/globals.vala:41
 msgid "French"
-msgstr ""
+msgstr "フランス語"
 
 #: src/globals.vala:42
 msgid "Croatian"
-msgstr ""
+msgstr "クロアチア語"
 
 #: src/globals.vala:43
 msgid "Indonesian"
-msgstr ""
+msgstr "インドネシア語"
 
 #: src/globals.vala:44
 msgid "Italian"
-msgstr ""
+msgstr "イタリア語"
 
 #: src/globals.vala:45
 msgid "Japanese"
-msgstr ""
+msgstr "日本語"
 
 #: src/globals.vala:46
 msgid "Georgian"
-msgstr ""
+msgstr "グルジア語"
 
 #: src/globals.vala:47
 msgid "Dutch"
-msgstr ""
+msgstr "オランダ語"
 
 #: src/globals.vala:48
 msgid "Polish"
-msgstr ""
+msgstr "ポーランド語"
 
 #: src/globals.vala:49
 msgid "Portuguese (Portugal)"
-msgstr ""
+msgstr "ポルトガル語 (ポルトガル)"
 
 #: src/globals.vala:50
 msgid "Russian"
-msgstr ""
+msgstr "ロシア語"
 
 #: src/globals.vala:51
 msgid "Serbian (Latin)"
-msgstr ""
+msgstr "セルビア語 (ラテン文字)"
 
 #: src/globals.vala:52
 msgid "Slovak"
-msgstr ""
+msgstr "スロバキア語"
 
 #: src/globals.vala:53
 msgid "Swedish"
-msgstr ""
+msgstr "スウェーデン語"
 
 #: src/globals.vala:54
 msgid "Ukrainian"
-msgstr ""
+msgstr "ウクライナ語"
 
 #: src/globals.vala:55
 msgid "Vietnamese"
-msgstr ""
+msgstr "ベトナム語"
 
 #: src/globals.vala:56
 msgid "Chinese"
-msgstr ""
+msgstr "中国語"
 
 #: src/globals.vala:57
 msgid "Chinese (Traditional)"
-msgstr ""
+msgstr "中国語 (繁体字)"
 
 #: src/models/launcher.vala:277
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
@@ -470,7 +464,7 @@ msgstr ""
 #: src/models/launchers/steam.vala:363
 #, c-format
 msgid "%s (Unavailable)"
-msgstr ""
+msgstr "%s (利用不可)"
 
 #: src/models/providers/definitions/dxvk.vala:14
 msgid "DXVK builds with gplasync patch by Ph42oN."
@@ -499,7 +493,7 @@ msgstr ""
 #: src/models/providers/definitions/proton.vala:35
 #: src/widgets/tools/tools-release-row.vala:706
 msgid "Recommended"
-msgstr ""
+msgstr "おすすめ"
 
 #: src/models/providers/definitions/proton.vala:39
 msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
@@ -521,24 +515,22 @@ msgstr ""
 "Wine-tkg を元にした、Windows ゲームを動かすためのカスタム Proton ビルド"
 
 #: src/models/providers/definitions/proton.vala:68
-#, fuzzy
 msgid ""
 "Steam compatibility tool for running Windows games with improvements over "
 "Valve's default Proton. By Etaash Mathamsetty, adding FSR4 support and Wine "
 "Wayland tweaks."
 msgstr ""
 "Valve 公式の Proton に改良を加えた、Windows のゲームを動かすための Steam 互換"
-"性ツール。Etaash Mathamsetty 氏によって FSR4 サポートと wine wayland のへの変"
-"更が追加されています。"
+"性ツール。Etaash Mathamsetty 氏によって FSR4 サポートと Wine Wayland への変更"
+"が追加されています。"
 
 #: src/models/providers/definitions/proton.vala:79
-#, fuzzy
 msgid ""
 "Steam compatibility tool based on CachyOS Proton with Wayland improvements, "
 "especially for Windows launcher applications."
 msgstr ""
-"VRChat での RTSP コーデックへの対応パッチを適応した、Proton-GE をベースにし"
-"た Steam 互換性ツール。"
+"CathyOS Proton に Wayland 関連の改良を加えた Steam 用の互換ツールで、おもに "
+"Windows ランチャーアプリケーションを対象にしています。"
 
 #: src/models/providers/definitions/proton.vala:92
 msgid ""
@@ -585,82 +577,75 @@ msgstr ""
 
 #: src/return_codes.vala:35
 msgid "The request could not be completed."
-msgstr ""
+msgstr "リクエストは完了できませんできた。"
 
 #: src/return_codes.vala:37
 msgid "The required data is invalid or incomplete."
 msgstr ""
 
 #: src/return_codes.vala:39
-#, fuzzy
 msgid "The download failed."
-msgstr "ダウンロード中"
+msgstr "ダウンロードに失敗しました。"
 
 #: src/return_codes.vala:41
 msgid "A filesystem operation failed."
-msgstr ""
+msgstr "ファイルシステム操作に失敗しました。"
 
 #: src/return_codes.vala:43
-#, fuzzy
 msgid "This compatibility tool is already being processed."
-msgstr "このツールは現在削除中です"
+msgstr "この互換性ツールはすでに処理中です。"
 
 #: src/return_codes.vala:45
-#, fuzzy
 msgid "This compatibility tool is already installed."
-msgstr "互換性ツール"
+msgstr "この互換性ツールはすでにインストールされています。"
 
 #: src/return_codes.vala:47
-#, fuzzy
 msgid "This compatibility tool is not installed."
-msgstr "互換性ツール"
+msgstr "この互換性ツールはインストールされていません。"
 
 #: src/return_codes.vala:49
 msgid "This compatibility tool is not configured correctly."
-msgstr ""
+msgstr "この互換性ツールは正しく構成されていません。"
 
 #: src/return_codes.vala:51
-#, fuzzy
 msgid "This operation is not supported for this compatibility tool."
-msgstr "デフォルトの互換性ツールを設定する"
+msgstr "この操作はこの互換性ツールではサポートされていません。"
 
 #: src/return_codes.vala:55
-#, fuzzy
 msgid "Unable to reach the API."
-msgstr "API にアクセスできません"
+msgstr "API にアクセスできません。"
 
 #: src/return_codes.vala:57
-#, fuzzy
 msgid "API limit reached."
-msgstr "API の制限に達しました"
+msgstr "API の制限に達しました。"
 
 #: src/return_codes.vala:59
-#, fuzzy
 msgid "Invalid access token."
-msgstr "無効なアクセストークン"
+msgstr "無効なアクセストークンです。"
 
 #: src/return_codes.vala:61
 msgid "A secure connection could not be established."
-msgstr ""
+msgstr "セキュアな接続が開始できませんでした。"
 
 #: src/return_codes.vala:63
-#, fuzzy
 msgid "This archive format is not supported."
-msgstr "%s は現在サポートされていません。"
+msgstr "このアーカイブ形式はサポートされていません。"
 
 #: src/return_codes.vala:65
 msgid "The archive could not be extracted."
-msgstr ""
+msgstr "このアーカイブは展開できませんでした。"
 
 #: src/return_codes.vala:67
 msgid "The selected variant is not compatible with this system."
-msgstr ""
+msgstr "選択されたバージョンはこのシステムに対応していません。"
 
 #: src/return_codes.vala:69
 msgid ""
 "A compatibility tool is currently in use. Close the running game and try "
 "again."
 msgstr ""
+"この互換性ツールは現在使用されています。実行中のゲームを終了してからもう一度"
+"お試しください。"
 
 #: src/return_codes.vala:71
 msgid ""
@@ -670,7 +655,7 @@ msgstr ""
 
 #: src/return_codes.vala:73
 msgid "The operation could not be completed."
-msgstr ""
+msgstr "操作を完了できませんでした。"
 
 #: src/services/installation-service.vala:457
 msgid ""
@@ -681,27 +666,23 @@ msgstr ""
 #: src/services/standard-archive-workflow.vala:32
 #: src/services/standard-archive-workflow.vala:41
 #: src/services/steam-tinker-launch-workflow.vala:47
-#, fuzzy
 msgid "Extraction failed"
-msgstr "展開中"
+msgstr "展開に失敗しました"
 
 #: src/services/standard-archive-workflow.vala:59
 #: src/services/standard-archive-workflow.vala:99
 #: src/services/steam-tinker-launch-workflow.vala:61
 #: src/services/steam-tinker-launch-workflow.vala:108
-#, fuzzy
 msgid "Moving failed"
-msgstr "移動中"
+msgstr "移動に失敗しました"
 
 #: src/services/standard-archive-workflow.vala:68
-#, fuzzy
 msgid "Failed to save compatibility tool metadata"
-msgstr "使用したい互換性ツールを選択"
+msgstr "互換性ツールのメタデータの保存に失敗しました"
 
 #: src/services/standard-archive-workflow.vala:358
-#, fuzzy
 msgid "Failed to update compatibilitytool.vdf"
-msgstr "使用したい互換性ツールを選択"
+msgstr "compatibilitytool.vdf の更新に失敗しました"
 
 #: src/services/standard-archive-workflow.vala:375
 #, fuzzy

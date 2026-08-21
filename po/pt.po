@@ -14,20 +14,19 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-05-15 06:11+0000\n"
-"Last-Translator: Yasmin Stanchese <yasmin@snowfloke.com>\n"
+"PO-Revision-Date: 2026-08-19 01:51+0000\n"
+"Last-Translator: Cirnos <cirnos@tuta.io>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pt/>\n"
 "Language: pt\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
-#, fuzzy
 msgid "ProtonPlus"
-msgstr "_Sobre ProtonPlus"
+msgstr "ProtonPlus"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:241
 msgid "A modern compatibility tools manager"
@@ -44,15 +43,14 @@ msgid "Show Shortcuts"
 msgstr "Mostrar Atalhos"
 
 #: data/ui/gtk/help-overlay.ui:20
-#, fuzzy
 msgctxt "shortcut window"
 msgid "Preferences"
-msgstr "_Preferências"
+msgstr "Preferências"
 
 #: data/ui/gtk/help-overlay.ui:26
 msgctxt "shortcut window"
 msgid "Help"
-msgstr ""
+msgstr "Ajuda"
 
 #: data/ui/gtk/help-overlay.ui:32
 msgctxt "shortcut window"
@@ -62,7 +60,7 @@ msgstr "Sair"
 #: data/ui/gtk/help-overlay.ui:40
 msgctxt "shortcut window"
 msgid "Navigation"
-msgstr ""
+msgstr "Navegação"
 
 #: data/ui/gtk/help-overlay.ui:43
 #, fuzzy
@@ -354,15 +352,15 @@ msgstr ""
 
 #: src/globals.vala:34
 msgid "Bosnian"
-msgstr ""
+msgstr "Bósnio"
 
 #: src/globals.vala:35
 msgid "Czech"
-msgstr ""
+msgstr "Tcheco"
 
 #: src/globals.vala:36
 msgid "German"
-msgstr ""
+msgstr "Alemão"
 
 #: src/globals.vala:37
 msgid "English"
@@ -477,6 +475,8 @@ msgid ""
 "Faugus Launcher uses this folder for Proton installations, but ProtonPlus "
 "cannot access its symlink target:"
 msgstr ""
+"Faugus Launcher usa esta pasta para instalações Proton, mas ProtonPlus não "
+"pode acessar seu alvo de endereço simbólico:"
 
 #: src/models/launchers/faugus-launcher.vala:85
 msgid "Grant ProtonPlus access, restart it, and try the installation again:"
@@ -852,7 +852,7 @@ msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:195
 msgid "Y button"
-msgstr ""
+msgstr "Botão Y"
 
 #: src/widgets/controller-hint-bar.vala:199
 msgid "Cross button"
@@ -978,7 +978,7 @@ msgstr ""
 
 #: src/widgets/games/games-box.vala:919
 msgid "Steam games couldn’t be loaded"
-msgstr ""
+msgstr "Jogos Steam não puderam ser carregados"
 
 #: src/widgets/games/games-box.vala:920
 msgid ""
@@ -3842,6 +3842,8 @@ msgid ""
 "ProtonPlus helps you easily manage, install, and update compatibility layers "
 "for running Windows games on Linux."
 msgstr ""
+"ProtonPlus lhe ajuda a gerenciar, instalar e atualizar facilmente camadas de "
+"compatibilidade para executar jogos de Windows em Linux."
 
 #: src/widgets/introduction/controller.vala:31
 msgid "Controller support"
@@ -5874,7 +5876,7 @@ msgstr "Marque isto para também excuir seus arquivos de configuração."
 
 #: src/widgets/tools/tools-stl-release-row.vala:113
 msgid "SteamTinkerLaunch may not work"
-msgstr ""
+msgstr "SteamTinkerLaunch pode não funcionar"
 
 #: src/widgets/tools/tools-stl-release-row.vala:114
 msgid ""
@@ -5884,6 +5886,11 @@ msgid ""
 "This is a SteamTinkerLaunch compatibility issue, not a ProtonPlus "
 "installation problem."
 msgstr ""
+"YAD 15 atualmente é incompatível com SteamTinkerLaunch. SteamTinkerLaunch "
+"pode falhar ao iniciar mesmo se ProtonPlus o instale com sucesso.\n"
+"\n"
+"Isto é um problema de compatibilidade do SteamTinkerLaunch, não um problema "
+"com a instalação de ProtonPlus."
 
 #: src/widgets/tools/tools-stl-release-row.vala:118
 #, fuzzy
