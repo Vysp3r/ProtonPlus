@@ -4,6 +4,9 @@ namespace ProtonPlus.Models.Launchers {
 
         public WineZGUI (Launcher.InstallationTypes installation_type) {
             string[] directories = null;
+            var custom_dir = Globals.SETTINGS != null
+                ? Globals.SETTINGS.get_string ("winezgui-dir-custom").strip ()
+                : "";
 
             switch (installation_type) {
                 case Launcher.InstallationTypes.SYSTEM:
@@ -17,6 +20,10 @@ namespace ProtonPlus.Models.Launchers {
                     break;
                 case Launcher.InstallationTypes.SNAP:
                     break;
+            }
+
+            if (custom_dir.length > 0) {
+                directories += custom_dir;
             }
 
             base ("WineZGUI", installation_type, "%s/winezgui.svg".printf (Config.RESOURCE_BASE), directories, FAMILY_ID);

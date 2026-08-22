@@ -143,5 +143,21 @@
             <default>''</default>
             <summary>Custom steam directory</summary>
         </key>
+        <key name="bottles-dir-custom" type="s">
+            <default>''</default>
+            <summary>Custom bottles directory</summary>
+        </key>
+        <key name="heroic-dir-custom" type="s">
+            <default>''</default>
+            <summary>Custom heroic directory</summary>
+        </key>
+        <key name="lutris-dir-custom" type="s">
+            <default>''</default>
+            <summary>Custom lutris directory</summary>
+        </key>
+        <key name="winezgui-dir-custom" type="s">
+            <default>''</default>
+            <summary>Custom winezgui directory</summary>
+        </key>
     </schema>
 </schemalist>

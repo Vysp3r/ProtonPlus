@@ -9,7 +9,9 @@ namespace ProtonPlus.Utils {
             "github-api-key", "gitlab-api-key", "selected-tool-variants", "steam-selected-profile-id",
             "first-run", "theme", "language", "experimental-features", "show-legacy-tools",
             "migrate-default-prefix", "proxy-mode", "proxy-url", "download-speed-limit-bps", "controller-confirm-button",
-            "controller-haptics-enabled", "last-version", "steam-dir-custom", "download-speed-unit"
+            "controller-haptics-enabled", "last-version",
+            "steam-dir-custom", "bottles-dir-custom", "heroic-dir-custom", "winezgui-dir-custom", "lutris-dir-custom",
+            "download-speed-unit"
         };
 
         public static bool is_valid_schema (SettingsSchema schema) {
