@@ -14,6 +14,7 @@ namespace ProtonPlus.Widgets.Header {
         private ulong download_added_handler = 0;
         private ulong download_removed_handler = 0;
         private ulong speed_limit_changed_handler = 0;
+        private ulong speed_unit_changed_handler = 0;
         private bool global_header_visible = true;
 
         public DownloadsIndicator () {
@@ -88,6 +89,11 @@ namespace ProtonPlus.Widgets.Header {
             speed_limit_changed_handler = manager.speed_limit_changed.connect ((new_limit) => {
                 update_limit_label (new_limit);
             });
+            speed_unit_changed_handler = Globals.SETTINGS.changed["download-speed-unit"].connect (() => {
+                update_limit_label (manager.speed_limit_bps);
+                foreach (var entry in entries.values)
+                    entry.update_display ();
+            });
 
             update_limit_label (manager.speed_limit_bps);
 
@@ -111,6 +117,11 @@ namespace ProtonPlus.Widgets.Header {
             if (speed_limit_changed_handler != 0) {
                 manager.disconnect (speed_limit_changed_handler);
                 speed_limit_changed_handler = 0;
+            }
+
+            if (speed_unit_changed_handler != 0 && Globals.SETTINGS != null) {
+                Globals.SETTINGS.disconnect (speed_unit_changed_handler);
+                speed_unit_changed_handler = 0;
             }
 
             foreach (var entry in entries.values)
@@ -171,7 +182,7 @@ namespace ProtonPlus.Widgets.Header {
 
         private void update_limit_label (int64 speed_limit_bps) {
             if (speed_limit_bps > 0)
-                limit_label.set_label (_("Limit: %s/s").printf (Utils.Filesystem.convert_bytes_to_string (speed_limit_bps)));
+                limit_label.set_label (_("Limit: %s/s").printf (Utils.Filesystem.convert_download_speed_to_string (speed_limit_bps)));
             else
                 limit_label.set_label ("");
         }
@@ -268,7 +279,7 @@ namespace ProtonPlus.Widgets.Header {
             }
         }
 
-        private void update_display () {
+        public void update_display () {
             var step_text = get_step_text ();
             var percent_text = "";
 
@@ -295,7 +306,7 @@ namespace ProtonPlus.Widgets.Header {
 
             var speed = "--";
             if (job.step == Services.InstallJob.Step.DOWNLOADING) {
-                speed = "%s/s".printf (Utils.Filesystem.convert_bytes_to_string (
+                speed = "%s/s".printf (Utils.Filesystem.convert_download_speed_to_string (
                     (int64) (job.speed_kbps * 1024)
                 ));
             }

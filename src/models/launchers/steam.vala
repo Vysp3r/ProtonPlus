@@ -15,6 +15,9 @@ namespace ProtonPlus.Models.Launchers {
             SteamCompatibilityToolDiscovery? compatibility_tool_discovery = null
         ) {
             string[] directories = null;
+            var custom_dir = Globals.SETTINGS != null
+                ? Globals.SETTINGS.get_string ("steam-dir-custom").strip ()
+                : "";
 
             switch (installation_type) {
                 case Launcher.InstallationTypes.SYSTEM:
@@ -33,6 +36,10 @@ namespace ProtonPlus.Models.Launchers {
                 case Launcher.InstallationTypes.SNAP:
                     directories = new string[] { "%s/snap/steam/common/.steam/root".printf (Environment.get_home_dir ()) };
                     break;
+            }
+
+            if (custom_dir.length > 0) {
+                directories += custom_dir;
             }
 
             base ("Steam", installation_type, "%s/steam.svg".printf (Config.RESOURCE_BASE), directories, FAMILY_ID);
