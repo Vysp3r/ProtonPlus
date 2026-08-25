@@ -123,47 +123,16 @@ namespace ProtonPlus.Widgets.Preferences {
             Globals.SETTINGS.bind ("show-legacy-tools", legacy_tools_row, "active", SettingsBindFlags.DEFAULT);
             tools_behavior_group.add (legacy_tools_row);
 
-            var steam_dir_row = new Adw.ActionRow ();
-            steam_dir_row.title = _("Custom Steam directory");
-            var steam_dir_custom = Globals.SETTINGS.get_string ("steam-dir-custom").strip ();
-            steam_dir_row.subtitle = steam_dir_custom.length > 0
-                ? steam_dir_custom
-                : _("No custom directory selected");
+            var custom_dirs_group = new Adw.PreferencesGroup () {
+                title = _("Custom launcher installations")
+            };
+            tools_page.add (custom_dirs_group);
 
-            var steam_dir_custom_choose_button = new Gtk.Button.from_icon_name ("folder-open-symbolic");
-            steam_dir_custom_choose_button.valign = Gtk.Align.CENTER;
-            steam_dir_custom_choose_button.set_tooltip_text (_("Select custom Steam directory"));
-            steam_dir_custom_choose_button.update_property (
-                Gtk.AccessibleProperty.LABEL, _("Select custom Steam directory"), -1
-            );
-
-            var steam_dir_custom_clear_button = new Gtk.Button.from_icon_name ("edit-clear-symbolic");
-            steam_dir_custom_clear_button.valign = Gtk.Align.CENTER;
-            steam_dir_custom_clear_button.set_sensitive (steam_dir_custom.length > 0);
-            steam_dir_custom_clear_button.set_tooltip_text (_("Clear custom Steam directory"));
-            steam_dir_custom_clear_button.update_property (
-                Gtk.AccessibleProperty.LABEL, _("Clear custom Steam directory"), -1
-            );
-
-            steam_dir_custom_choose_button.clicked.connect (() => {
-                select_steam_dir_custom_folder.begin ((obj, res) => {
-                    string? path = select_steam_dir_custom_folder.end (res);
-                    if (path != null) {
-                        Globals.SETTINGS.set_string ("steam-dir-custom", path);
-                        steam_dir_row.subtitle = path;
-                        steam_dir_custom_clear_button.set_sensitive (true);
-                    }
-                });
-            });
-
-            steam_dir_row.add_suffix (steam_dir_custom_choose_button);
-            steam_dir_row.add_suffix (steam_dir_custom_clear_button);
-            steam_dir_custom_clear_button.clicked.connect (() => {
-                Globals.SETTINGS.set_string ("steam-dir-custom", "");
-                steam_dir_row.subtitle = _("No custom directory selected");
-                steam_dir_custom_clear_button.set_sensitive (false);
-            });
-            tools_behavior_group.add (steam_dir_row);
+            add_launchers_custom_dirs (custom_dirs_group, "steam-dir-custom", "Steam");
+            add_launchers_custom_dirs (custom_dirs_group, "bottles-dir-custom", "Bottles");
+            add_launchers_custom_dirs (custom_dirs_group, "heroic-dir-custom", "Heroic");
+            add_launchers_custom_dirs (custom_dirs_group, "lutris-dir-custom", "Lutris");
+            add_launchers_custom_dirs (custom_dirs_group, "winezgui-dir-custom", "Winezgui");
 
             // Launchers Page
             var launchers_page = new Adw.PreferencesPage () {
@@ -487,6 +456,50 @@ namespace ProtonPlus.Widgets.Preferences {
             };
             row.add_suffix (status_label);
             return row;
+        }
+
+        void add_launchers_custom_dirs (Adw.PreferencesGroup custom_dirs_group, string setting_name, string launcher_title) {
+            var dir_row = new Adw.ActionRow ();
+            dir_row.title = _("Custom") + " " + launcher_title + " " + _("directory");
+            var dir_custom = Globals.SETTINGS.get_string (setting_name).strip ();
+            dir_row.subtitle = dir_custom.length > 0
+                ? dir_custom
+                : _("No custom directory selected");
+
+            var choose_button = new Gtk.Button.from_icon_name ("folder-open-symbolic");
+            choose_button.valign = Gtk.Align.CENTER;
+            choose_button.set_tooltip_text (_("Select custom directory"));
+            choose_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Select custom directory"), -1
+            );
+
+            var clear_button = new Gtk.Button.from_icon_name ("edit-clear-symbolic");
+            clear_button.valign = Gtk.Align.CENTER;
+            clear_button.set_sensitive (dir_custom.length > 0);
+            clear_button.set_tooltip_text (_("Clear custom directory"));
+            clear_button.update_property (
+                Gtk.AccessibleProperty.LABEL, _("Clear custom directory"), -1
+            );
+
+            choose_button.clicked.connect (() => {
+                select_steam_dir_custom_folder.begin ((obj, res) => {
+                    string? path = select_steam_dir_custom_folder.end (res);
+                    if (path != null) {
+                        Globals.SETTINGS.set_string (setting_name, path);
+                        dir_row.subtitle = path;
+                        clear_button.set_sensitive (true);
+                    }
+                });
+            });
+
+            dir_row.add_suffix (choose_button);
+            dir_row.add_suffix (clear_button);
+            clear_button.clicked.connect (() => {
+                Globals.SETTINGS.set_string (setting_name, "");
+                dir_row.subtitle = _("No custom directory selected");
+                clear_button.set_sensitive (false);
+            });
+            custom_dirs_group.add (dir_row);
         }
 
         void add_controller_page (Adw.PreferencesPage page) {
