@@ -5,13 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-04 07:51+0000\n"
-=======
 "POT-Creation-Date: 2026-08-19 22:09+0200\n"
 "PO-Revision-Date: 2026-04-12 17:09+0000\n"
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/id/>\n"
@@ -299,22 +294,14 @@ msgstr "ETA: %s"
 msgid "ETA: --"
 msgstr "ETA: --"
 
-<<<<<<< HEAD
-#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:726
-=======
 #: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:790
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Updating"
 msgstr "Memperbarui"
 
 #: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:315
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:722
-=======
 #: src/widgets/tools/tools-release-row.vala:786
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Installing"
 msgstr "Menginstal"
 
@@ -884,12 +871,8 @@ msgstr "Atas"
 msgid "Top face button"
 msgstr "Tombol wajah atas"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:393 src/widgets/games/games-box.vala:1049
-=======
 #: src/widgets/games/games-box.vala:393 src/widgets/games/games-box.vala:1050
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No games found"
 msgstr "Tidak ada game yang ditemukan"
 
@@ -943,30 +926,18 @@ msgstr "Native"
 msgid "Non-Steam"
 msgstr "Non-Steam"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:846
-=======
 #: src/widgets/games/games-box.vala:847
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Filter Games"
 msgstr "Filter Game"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:856
-=======
 #: src/widgets/games/games-box.vala:857
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Search games"
 msgstr "Cari game"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:870 src/widgets/games/games-box.vala:874
-=======
 #: src/widgets/games/games-box.vala:871 src/widgets/games/games-box.vala:875
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Select all visible games"
 msgstr "Pilih semua game yang terlihat"
 
@@ -1013,21 +984,13 @@ msgstr "Filter: Native"
 msgid "Filter: Non-Steam"
 msgstr "Filter: Non-Steam"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:1024
-=======
 #: src/widgets/games/games-box.vala:1025
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Filter: All games"
 msgstr "Filter: Semua game"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:1033
-=======
 #: src/widgets/games/games-box.vala:1034
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No matching games"
 msgstr "Tidak ada game yang cocok"
 
@@ -1037,16 +1000,10 @@ msgstr "Tidak ada game yang cocok"
 msgid "Try a different search term or clear the search."
 msgstr "Coba istilah pencarian berbeda atau hapus pencarian."
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:1038
-#: src/widgets/tools/tools-group-box.vala:335
-#: src/widgets/tools/tools-releases-box.vala:801
-=======
 #: src/widgets/games/games-box.vala:1039
 #: src/widgets/tools/tools-group-box.vala:356
 #: src/widgets/tools/tools-releases-box.vala:818
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Clear Search"
 msgstr "Hapus Pencarian"
 
@@ -1073,15 +1030,9 @@ msgid "Game Actions"
 msgstr "Aksi Game"
 
 #: src/widgets/games/games-extra-button.vala:91
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:201
-#: src/widgets/tools/tools-release-row.vala:506
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:209
 #: src/widgets/tools/tools-release-row.vala:570
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Actions for %s"
 msgstr "Aksi untuk %s"
 
@@ -1126,12 +1077,8 @@ msgid "Denied"
 msgstr "Ditolak"
 
 #: src/widgets/games/games-extra-button.vala:197
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:1440
-=======
 #: src/widgets/tools/tools-releases-box.vala:1488
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Loading…"
 msgstr "Memuat…"
 
@@ -1292,23 +1239,14 @@ msgstr ""
 "akses berkas."
 
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
-<<<<<<< HEAD
-#: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:471
-#: src/widgets/games/games-row.vala:475 src/widgets/games/games-row.vala:549
-=======
 #: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:475
 #: src/widgets/games/games-row.vala:479 src/widgets/games/games-row.vala:553
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Select game"
 msgstr "Pilih game"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:487
-=======
 #: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:491
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Modify Game"
 msgstr "Ubah Game"
 
@@ -1329,13 +1267,8 @@ msgstr "Alihkan pilihan untuk %s"
 msgid "Modify %s"
 msgstr "Ubah %s"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-row.vala:318 src/widgets/games/games-row.vala:321
-#, c-format
-=======
 #: src/widgets/games/games-row.vala:322 src/widgets/games/games-row.vala:325
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Launch %s"
 msgstr "Luncurkan %s"
 
@@ -3992,24 +3925,15 @@ msgstr "Batal"
 #: src/widgets/header/header-downloads-indicator.vala:284
 #: src/widgets/header/header-downloads-indicator.vala:286
 #: src/widgets/header/header-downloads-indicator.vala:288
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:486
-#: src/widgets/tools/tools-release-row.vala:762
-=======
 #: src/widgets/tools/tools-release-row.vala:550
 #: src/widgets/tools/tools-release-row.vala:826
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Cancelling"
 msgstr "Membatalkan"
 
 #: src/widgets/header/header-downloads-indicator.vala:311
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:765
-=======
 #: src/widgets/tools/tools-release-row.vala:829
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Downloading"
 msgstr "Mengunduh"
 
@@ -4019,16 +3943,10 @@ msgid "Extracting"
 msgstr "Mengekstrak"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:730
-#: src/widgets/tools/tools-release-row.vala:771
-#: src/widgets/tools/tools-release-row.vala:776
-=======
 #: src/widgets/tools/tools-release-row.vala:794
 #: src/widgets/tools/tools-release-row.vala:835
 #: src/widgets/tools/tools-release-row.vala:840
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Removing"
 msgstr "Menghapus"
 
@@ -5362,21 +5280,13 @@ msgid "Clear custom Steam directory"
 msgstr "Argumen peluncuran kustom"
 
 #. Launchers Page
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:124
-=======
 #: src/widgets/preferences/preferences-dialog.vala:166
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Launchers"
 msgstr "Launcher"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:158
-=======
 #: src/widgets/preferences/preferences-dialog.vala:200
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Default compatibility tool"
 msgstr "Alat kompatibilitas default"
 
@@ -5384,12 +5294,8 @@ msgstr "Alat kompatibilitas default"
 msgid "The compatibility tool games will use by default"
 msgstr "Alat kompatibilitas yang akan digunakan game secara default"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:184
-=======
 #: src/widgets/preferences/preferences-dialog.vala:226
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Selected profile"
 msgstr "Profil yang dipilih"
 
@@ -5415,12 +5321,8 @@ msgstr ""
 "Contoh: [http://127.0.0.1:7890](http://127.0.0.1:7890) atau socks5://"
 "127.0.0.1:1080"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:269
-=======
 #: src/widgets/preferences/preferences-dialog.vala:311
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Download speed limit"
 msgstr "Batas kecepatan unduh"
 
@@ -5442,12 +5344,8 @@ msgstr "Fitur pratinjau"
 msgid "Enable experimental features for early testing"
 msgstr "Aktifkan fitur eksperimental untuk pengujian awal"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:302
-=======
 #: src/widgets/preferences/preferences-dialog.vala:344
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Maintenance"
 msgstr "Pemeliharaan"
 
@@ -5488,12 +5386,8 @@ msgstr "Perangkat Keras"
 msgid "CPU Features"
 msgstr "Fitur CPU"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:342
-=======
 #: src/widgets/preferences/preferences-dialog.vala:384
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "None detected"
 msgstr "Tidak terdeteksi"
 
@@ -5501,12 +5395,8 @@ msgstr "Tidak terdeteksi"
 msgid "Dependencies"
 msgstr "Dependensi"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:352
-=======
 #: src/widgets/preferences/preferences-dialog.vala:394
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Protontricks"
 msgstr "Protontricks"
 
@@ -5518,21 +5408,13 @@ msgstr "Protontricks (Flatpak)"
 msgid "MangoHud (Flatpak)"
 msgstr "MangoHud (Flatpak)"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:370
-=======
 #: src/widgets/preferences/preferences-dialog.vala:412
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Feral Gamemode"
 msgstr "Feral Gamemode"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:374
-=======
 #: src/widgets/preferences/preferences-dialog.vala:416
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Detected Launchers"
 msgstr "Launcher Terdeteksi"
 
@@ -5544,12 +5426,8 @@ msgstr "Launcher Terdeteksi"
 msgid "Installed"
 msgstr "Terinstal"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:407
-=======
 #: src/widgets/preferences/preferences-dialog.vala:449
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Not installed"
 msgstr "Tidak terinstal"
 
@@ -5670,12 +5548,8 @@ msgid "Filter is active"
 msgstr "Filter aktif"
 
 #: src/widgets/tools/tools-group-box.vala:114
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:360
-=======
 #: src/widgets/tools/tools-group-box.vala:381
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No tools found"
 msgstr "Tidak ada alat yang ditemukan"
 
@@ -5683,39 +5557,23 @@ msgstr "Tidak ada alat yang ditemukan"
 msgid "No tools match the current filter."
 msgstr "Tidak ada alat yang cocok dengan filter saat ini."
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:332
-=======
 #: src/widgets/tools/tools-group-box.vala:353
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No matching tools"
 msgstr "Tidak ada alat yang cocok"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:345
-=======
 #: src/widgets/tools/tools-group-box.vala:366
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No installed tools"
 msgstr "Tidak ada alat yang terinstal"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:346
-=======
 #: src/widgets/tools/tools-group-box.vala:367
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Install a compatibility tool to see it here."
 msgstr "Instal alat kompatibilitas untuk melihatnya di sini."
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:350
-=======
 #: src/widgets/tools/tools-group-box.vala:371
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No tools in use"
 msgstr "Tidak ada alat yang digunakan"
 
@@ -5735,32 +5593,19 @@ msgstr "Setiap alat di grup ini sedang digunakan."
 msgid "No tools are available in this group."
 msgstr "Tidak ada alat yang tersedia di grup ini."
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:463
-#: src/widgets/tools/tools-group-box.vala:467
-=======
 #: src/widgets/tools/tools-group-box.vala:484
 #: src/widgets/tools/tools-group-box.vala:488
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Tool Actions"
 msgstr "Aksi Alat"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:499
-=======
 #: src/widgets/tools/tools-group-box.vala:520
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Recommended compatibility tool"
 msgstr "Alat kompatibilitas yang direkomendasikan"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:724
-=======
 #: src/widgets/tools/tools-group-box.vala:745
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Used by games"
 msgstr "Digunakan oleh game"
 
@@ -5847,14 +5692,9 @@ msgstr "Pilih semua game"
 msgid "No Games Use This Tool"
 msgstr "Tidak Ada Game yang Menggunakan Alat Ini"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:127
-#: src/widgets/tools/tools-release-row.vala:129
-=======
 #: src/widgets/tools/tools-release-row.vala:135
 #: src/widgets/tools/tools-release-row.vala:137
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Show installation details"
 msgstr "Tampilkan detail instalasi"
 
@@ -5867,12 +5707,8 @@ msgstr "Kecepatan: 0 KB/s"
 msgid "Remaining time: --"
 msgstr "Sisa waktu: --"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:198
-=======
 #: src/widgets/tools/tools-release-row.vala:206
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Release Actions"
 msgstr "Aksi Rilis"
 
@@ -5881,34 +5717,19 @@ msgstr "Aksi Rilis"
 msgid "Step: %s"
 msgstr "Langkah: %s"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:468
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:532
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "%s for %s"
 msgstr "%s untuk %s"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:473
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:537
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Progress for %s"
 msgstr "Progres untuk %s"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:530
-#: src/widgets/tools/tools-release-row.vala:533
-=======
 #: src/widgets/tools/tools-release-row.vala:594
 #: src/widgets/tools/tools-release-row.vala:597
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Latest"
 msgstr "Terbaru"
 
@@ -5931,23 +5752,13 @@ msgstr "Coba Lagi"
 msgid "Retry %s"
 msgstr "Coba Lagi %s"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:619
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:683
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Cancelling %s"
 msgstr "Membatalkan %s"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:620
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:684
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Cancel %s"
 msgstr "Batal %s"
 
@@ -5955,12 +5766,8 @@ msgstr "Batal %s"
 msgid "_Changelog"
 msgstr "_Catatan Perubahan"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:648
-=======
 #: src/widgets/tools/tools-release-row.vala:712
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Open Release Page"
 msgstr "Buka Halaman Rilis"
 
@@ -5968,39 +5775,23 @@ msgstr "Buka Halaman Rilis"
 msgid "_Games Using This Tool"
 msgstr "_Game yang Menggunakan Alat Ini"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:663
-=======
 #: src/widgets/tools/tools-release-row.vala:727
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Update"
 msgstr "Perbarui"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:664
-=======
 #: src/widgets/tools/tools-release-row.vala:728
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "_Check for Updates"
 msgstr "_Periksa Pembaruan"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:668
-=======
 #: src/widgets/tools/tools-release-row.vala:732
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "_Open Folder"
 msgstr "_Buka Folder"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:670
-=======
 #: src/widgets/tools/tools-release-row.vala:734
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "_Delete…"
 msgstr "_Hapus…"
 
@@ -6008,12 +5799,8 @@ msgstr "_Hapus…"
 msgid "Failed"
 msgstr "Gagal"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:716
-=======
 #: src/widgets/tools/tools-release-row.vala:780
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Update available"
 msgstr "Pembaruan tersedia"
 
@@ -6021,33 +5808,19 @@ msgstr "Pembaruan tersedia"
 msgid "Unavailable for the selected variant"
 msgstr "Tidak tersedia untuk varian yang dipilih"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:740
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:804
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "In use by %i game"
 msgid_plural "In use by %i games"
 msgstr[0] "Digunakan oleh %i game"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:754
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:818
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "%s. Open Release Details"
 msgstr "%s. Buka Detail Rilis"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:755
-=======
 #: src/widgets/tools/tools-release-row.vala:819
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Open Release Details"
 msgstr "Buka Detail Rilis"
 
@@ -6055,12 +5828,8 @@ msgstr "Buka Detail Rilis"
 msgid "Moving"
 msgstr "Memindahkan"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:774
-=======
 #: src/widgets/tools/tools-release-row.vala:838
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Preparing update"
 msgstr "Menyiapkan pembaruan"
 
@@ -6113,29 +5882,17 @@ msgstr "Build yang direkomendasikan penyedia untuk sebagian besar sistem."
 msgid "Select the %s build variant."
 msgstr "Pilih varian build %s."
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:334
-#: src/widgets/tools/tools-releases-box.vala:342
-#: src/widgets/tools/tools-releases-box.vala:1290
-=======
 #: src/widgets/tools/tools-releases-box.vala:335
 #: src/widgets/tools/tools-releases-box.vala:343
 #: src/widgets/tools/tools-releases-box.vala:1341
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Check for new releases"
 msgstr "Periksa rilis baru"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:348
-#: src/widgets/tools/tools-releases-box.vala:357
-#: src/widgets/tools/tools-releases-box.vala:359
-=======
 #: src/widgets/tools/tools-releases-box.vala:349
 #: src/widgets/tools/tools-releases-box.vala:358
 #: src/widgets/tools/tools-releases-box.vala:360
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Open Repository"
 msgstr "Buka Repositori"
 
@@ -6148,106 +5905,59 @@ msgstr "Pilih arsitektur atau varian build yang akan ditampilkan."
 msgid "Build"
 msgstr "Build"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:416
-#: src/widgets/tools/tools-releases-box.vala:1481
-=======
 #: src/widgets/tools/tools-releases-box.vala:417
 #: src/widgets/tools/tools-releases-box.vala:1529
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Load More"
 msgstr "Muat Lebih Banyak"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:455
-#: src/widgets/tools/tools-releases-box.vala:615
-#: src/widgets/tools/tools-releases-box.vala:1110
-#: src/widgets/tools/tools-releases-box.vala:1441
-=======
 #: src/widgets/tools/tools-releases-box.vala:456
 #: src/widgets/tools/tools-releases-box.vala:632
 #: src/widgets/tools/tools-releases-box.vala:1161
 #: src/widgets/tools/tools-releases-box.vala:1489
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Loading releases"
 msgstr "Memuat rilis"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:464
-#: src/widgets/tools/tools-releases-box.vala:633
-#: src/widgets/tools/tools-releases-box.vala:816
-=======
 #: src/widgets/tools/tools-releases-box.vala:465
 #: src/widgets/tools/tools-releases-box.vala:650
 #: src/widgets/tools/tools-releases-box.vala:833
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No releases available"
 msgstr "Tidak ada rilis yang tersedia"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:465
-#: src/widgets/tools/tools-releases-box.vala:817
-=======
 #: src/widgets/tools/tools-releases-box.vala:466
 #: src/widgets/tools/tools-releases-box.vala:834
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Check again for new releases."
 msgstr "Periksa lagi untuk rilis baru."
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:469
-#: src/widgets/tools/tools-releases-box.vala:819
-=======
 #: src/widgets/tools/tools-releases-box.vala:470
 #: src/widgets/tools/tools-releases-box.vala:836
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Refresh"
 msgstr "Segarkan"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:482
-#: src/widgets/tools/tools-releases-box.vala:739
-=======
 #: src/widgets/tools/tools-releases-box.vala:483
 #: src/widgets/tools/tools-releases-box.vala:756
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Failed to Fetch Releases"
 msgstr "Gagal Mengambil Rilis"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:487
-=======
 #: src/widgets/tools/tools-releases-box.vala:488
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Couldn’t load releases"
 msgstr "Tidak dapat memuat rilis"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:663
-#: src/widgets/tools/tools-releases-box.vala:1157
-#: src/widgets/tools/tools-releases-box.vala:1476
-=======
 #: src/widgets/tools/tools-releases-box.vala:680
 #: src/widgets/tools/tools-releases-box.vala:1208
 #: src/widgets/tools/tools-releases-box.vala:1524
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Releases loaded"
 msgstr "Rilis dimuat"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:732
-=======
 #: src/widgets/tools/tools-releases-box.vala:749
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Couldn’t load more releases"
 msgstr "Tidak dapat memuat lebih banyak rilis"
 
@@ -6255,12 +5965,8 @@ msgstr "Tidak dapat memuat lebih banyak rilis"
 msgid "Couldn’t refresh releases"
 msgstr "Tidak dapat menyegarkan rilis"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:798
-=======
 #: src/widgets/tools/tools-releases-box.vala:815
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No matching releases"
 msgstr "Tidak ada rilis yang cocok"
 
@@ -6272,12 +5978,8 @@ msgstr "Tidak ada rilis yang cocok dengan filter ini"
 msgid "Reset the filters to see all releases."
 msgstr "Setel ulang filter untuk melihat semua rilis."
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:810
-=======
 #: src/widgets/tools/tools-releases-box.vala:827
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No compatible releases"
 msgstr "Tidak ada rilis yang kompatibel"
 
@@ -6289,13 +5991,8 @@ msgstr "Tidak ada varian yang kompatibel tersedia untuk sistem ini."
 msgid "Refreshing…"
 msgstr "Menyegarkan…"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:1300
-#, c-format
-=======
 #: src/widgets/tools/tools-releases-box.vala:1351
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Last updated: %s"
 msgstr "Terakhir diperbarui: %s"
 

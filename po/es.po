@@ -6,13 +6,8 @@
 msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-06 04:51+0000\n"
-=======
 "POT-Creation-Date: 2026-08-19 22:09+0200\n"
 "PO-Revision-Date: 2026-08-13 18:53+0000\n"
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 "Last-Translator: Patricio <pattoperez97@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
@@ -997,21 +992,13 @@ msgstr "Filtrar: Nativo"
 msgid "Filter: Non-Steam"
 msgstr "Filtrar: No-Steam"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:1024
-=======
 #: src/widgets/games/games-box.vala:1025
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Filter: All games"
 msgstr "Filtrar: Todos los juegos"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:1033
-=======
 #: src/widgets/games/games-box.vala:1034
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No matching games"
 msgstr "Sin coincidencias de juegos"
 
@@ -1021,16 +1008,10 @@ msgstr "Sin coincidencias de juegos"
 msgid "Try a different search term or clear the search."
 msgstr "Probar un término diferente de búsuqeda o limpiar la búsqueda"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:1038
-#: src/widgets/tools/tools-group-box.vala:335
-#: src/widgets/tools/tools-releases-box.vala:801
-=======
 #: src/widgets/games/games-box.vala:1039
 #: src/widgets/tools/tools-group-box.vala:356
 #: src/widgets/tools/tools-releases-box.vala:818
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Clear Search"
 msgstr "Limpiar búsqueda"
 
@@ -1104,12 +1085,8 @@ msgid "Denied"
 msgstr "Denegado"
 
 #: src/widgets/games/games-extra-button.vala:197
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:1440
-=======
 #: src/widgets/tools/tools-releases-box.vala:1488
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Loading…"
 msgstr "Cargando…"
 
@@ -1282,12 +1259,8 @@ msgstr ""
 msgid "Select game"
 msgstr "Seleccionar juego"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:487
-=======
 #: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:491
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Modify Game"
 msgstr "Modificar Juego"
 
@@ -1308,13 +1281,8 @@ msgstr "Cambiar selección por %s"
 msgid "Modify %s"
 msgstr "Modificar %s"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-row.vala:318 src/widgets/games/games-row.vala:321
-#, c-format
-=======
 #: src/widgets/games/games-row.vala:322 src/widgets/games/games-row.vala:325
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Launch %s"
 msgstr "Lanzar %s"
 
@@ -3843,16 +3811,10 @@ msgid "Extracting"
 msgstr "Extrayendo"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:730
-#: src/widgets/tools/tools-release-row.vala:771
-#: src/widgets/tools/tools-release-row.vala:776
-=======
 #: src/widgets/tools/tools-release-row.vala:794
 #: src/widgets/tools/tools-release-row.vala:835
 #: src/widgets/tools/tools-release-row.vala:840
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Removing"
 msgstr "Removiendo"
 
@@ -5597,14 +5559,9 @@ msgstr "Herramientas de lanzamiento"
 msgid "No Games Use This Tool"
 msgstr ""
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:127
-#: src/widgets/tools/tools-release-row.vala:129
-=======
 #: src/widgets/tools/tools-release-row.vala:135
 #: src/widgets/tools/tools-release-row.vala:137
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Show installation details"
 msgstr "Mostrar detalles de la instalación"
 

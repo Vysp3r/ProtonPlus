@@ -10,15 +10,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-<<<<<<< HEAD
-"POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-09 23:13+0000\n"
-"Last-Translator: Beniamin Remis <nawo266@gmail.com>\n"
-=======
 "POT-Creation-Date: 2026-08-19 22:09+0200\n"
 "PO-Revision-Date: 2026-05-12 01:11+0000\n"
 "Last-Translator: Jakub Szymański <99kuba11@gmail.com>\n"
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pl/>\n"
 "Language: pl\n"
@@ -306,22 +300,14 @@ msgstr "Pozostało: %s"
 msgid "ETA: --"
 msgstr "Pozostało: --"
 
-<<<<<<< HEAD
-#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:726
-=======
 #: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:790
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Updating"
 msgstr "Aktualizowanie"
 
 #: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:315
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:722
-=======
 #: src/widgets/tools/tools-release-row.vala:786
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Installing"
 msgstr "Instalowanie"
 
@@ -901,12 +887,8 @@ msgstr "Górny"
 msgid "Top face button"
 msgstr "Górny przycisk akcji"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:393 src/widgets/games/games-box.vala:1049
-=======
 #: src/widgets/games/games-box.vala:393 src/widgets/games/games-box.vala:1050
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No games found"
 msgstr "Nie znaleziono gier"
 
@@ -954,30 +936,18 @@ msgstr "Wszystkie"
 msgid "Native"
 msgstr "Natywne"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:813
-=======
 #: src/widgets/games/games-box.vala:814
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Non-Steam"
 msgstr "Spoza Steama"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:846
-=======
 #: src/widgets/games/games-box.vala:847
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Filter Games"
 msgstr "Filtruj gry"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:856
-=======
 #: src/widgets/games/games-box.vala:857
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Search games"
 msgstr "Szukaj gier"
 
@@ -1024,12 +994,8 @@ msgstr "Domyślne"
 msgid "Filter: Native"
 msgstr "Filtr: natywne"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:1022
-=======
 #: src/widgets/games/games-box.vala:1023
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Filter: Non-Steam"
 msgstr "Filtr: spoza Steama"
 
@@ -1037,12 +1003,8 @@ msgstr "Filtr: spoza Steama"
 msgid "Filter: All games"
 msgstr "Filtr: wszystkie gry"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:1033
-=======
 #: src/widgets/games/games-box.vala:1034
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No matching games"
 msgstr "Brak pasujących gier"
 
@@ -1052,16 +1014,10 @@ msgstr "Brak pasujących gier"
 msgid "Try a different search term or clear the search."
 msgstr "Spróbuj innego hasła lub wyczyść wyszukiwanie."
 
-<<<<<<< HEAD
-#: src/widgets/games/games-box.vala:1038
-#: src/widgets/tools/tools-group-box.vala:335
-#: src/widgets/tools/tools-releases-box.vala:801
-=======
 #: src/widgets/games/games-box.vala:1039
 #: src/widgets/tools/tools-group-box.vala:356
 #: src/widgets/tools/tools-releases-box.vala:818
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Clear Search"
 msgstr "Wyczyść wyszukiwanie"
 
@@ -1088,15 +1044,9 @@ msgid "Game Actions"
 msgstr "Akcje gry"
 
 #: src/widgets/games/games-extra-button.vala:91
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:201
-#: src/widgets/tools/tools-release-row.vala:506
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:209
 #: src/widgets/tools/tools-release-row.vala:570
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Actions for %s"
 msgstr "Akcje dla %s"
 
@@ -1141,12 +1091,8 @@ msgid "Denied"
 msgstr "Blokowany"
 
 #: src/widgets/games/games-extra-button.vala:197
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:1440
-=======
 #: src/widgets/tools/tools-releases-box.vala:1488
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Loading…"
 msgstr "Wczytywanie…"
 
@@ -1309,23 +1255,14 @@ msgstr ""
 "z dostępem do plików."
 
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
-<<<<<<< HEAD
-#: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:471
-#: src/widgets/games/games-row.vala:475 src/widgets/games/games-row.vala:549
-=======
 #: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:475
 #: src/widgets/games/games-row.vala:479 src/widgets/games/games-row.vala:553
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Select game"
 msgstr "Zaznacz grę"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:487
-=======
 #: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:491
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Modify Game"
 msgstr "Zmodyfikuj grę"
 
@@ -1346,13 +1283,8 @@ msgstr "Przełącz zaznaczenie: %s"
 msgid "Modify %s"
 msgstr "Zmodyfikuj %s"
 
-<<<<<<< HEAD
-#: src/widgets/games/games-row.vala:318 src/widgets/games/games-row.vala:321
-#, c-format
-=======
 #: src/widgets/games/games-row.vala:322 src/widgets/games/games-row.vala:325
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Launch %s"
 msgstr "Uruchom %s"
 
@@ -3756,34 +3688,21 @@ msgstr "Anuluj"
 #: src/widgets/header/header-downloads-indicator.vala:284
 #: src/widgets/header/header-downloads-indicator.vala:286
 #: src/widgets/header/header-downloads-indicator.vala:288
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:486
-#: src/widgets/tools/tools-release-row.vala:762
-=======
 #: src/widgets/tools/tools-release-row.vala:550
 #: src/widgets/tools/tools-release-row.vala:826
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Cancelling"
 msgstr "Anulowanie"
 
 #: src/widgets/header/header-downloads-indicator.vala:311
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:765
-=======
 #: src/widgets/tools/tools-release-row.vala:829
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Downloading"
 msgstr "Pobieranie"
 
 #: src/widgets/header/header-downloads-indicator.vala:313
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:767
-=======
 #: src/widgets/tools/tools-release-row.vala:831
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Extracting"
 msgstr "Wypakowywanie"
 
@@ -5142,21 +5061,13 @@ msgid "Clear custom Steam directory"
 msgstr ""
 
 #. Launchers Page
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:124
-=======
 #: src/widgets/preferences/preferences-dialog.vala:166
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Launchers"
 msgstr "Launchery"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:158
-=======
 #: src/widgets/preferences/preferences-dialog.vala:200
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Default compatibility tool"
 msgstr "Domyślne narzędzie zgodności"
 
@@ -5164,12 +5075,8 @@ msgstr "Domyślne narzędzie zgodności"
 msgid "The compatibility tool games will use by default"
 msgstr "Narzędzie zgodności używane domyślnie przez gry"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:184
-=======
 #: src/widgets/preferences/preferences-dialog.vala:226
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Selected profile"
 msgstr "Wybrany profil"
 
@@ -5193,12 +5100,8 @@ msgstr "Adres proxy"
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr "Przykład: http://127.0.0.1:7890 lub socks5://127.0.0.1:1080"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:269
-=======
 #: src/widgets/preferences/preferences-dialog.vala:311
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Download speed limit"
 msgstr "Ograniczenie prędkości pobierania"
 
@@ -5220,12 +5123,8 @@ msgstr "Funkcje testowe"
 msgid "Enable experimental features for early testing"
 msgstr "Włącza funkcje eksperymentalne do wczesnych testów"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:302
-=======
 #: src/widgets/preferences/preferences-dialog.vala:344
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Maintenance"
 msgstr "Konserwacja"
 
@@ -5266,12 +5165,8 @@ msgstr "Sprzęt"
 msgid "CPU Features"
 msgstr "Funkcje procesora"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:342
-=======
 #: src/widgets/preferences/preferences-dialog.vala:384
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "None detected"
 msgstr "Nie wykryto żadnych"
 
@@ -5279,12 +5174,8 @@ msgstr "Nie wykryto żadnych"
 msgid "Dependencies"
 msgstr "Zależności"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:352
-=======
 #: src/widgets/preferences/preferences-dialog.vala:394
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Protontricks"
 msgstr "Protontricks"
 
@@ -5296,21 +5187,13 @@ msgstr "Protontricks (Flatpak)"
 msgid "MangoHud (Flatpak)"
 msgstr "MangoHud (Flatpak)"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:370
-=======
 #: src/widgets/preferences/preferences-dialog.vala:412
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Feral Gamemode"
 msgstr "Feral Gamemode"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:374
-=======
 #: src/widgets/preferences/preferences-dialog.vala:416
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Detected Launchers"
 msgstr "Wykryte launchery"
 
@@ -5322,12 +5205,8 @@ msgstr "Wykryte launchery"
 msgid "Installed"
 msgstr "Zainstalowane"
 
-<<<<<<< HEAD
-#: src/widgets/preferences/preferences-dialog.vala:407
-=======
 #: src/widgets/preferences/preferences-dialog.vala:449
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Not installed"
 msgstr "Nie zainstalowano"
 
@@ -5448,12 +5327,8 @@ msgid "Filter is active"
 msgstr "Filtr jest włączony"
 
 #: src/widgets/tools/tools-group-box.vala:114
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:360
-=======
 #: src/widgets/tools/tools-group-box.vala:381
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No tools found"
 msgstr "Nie znaleziono narzędzi"
 
@@ -5461,39 +5336,23 @@ msgstr "Nie znaleziono narzędzi"
 msgid "No tools match the current filter."
 msgstr "Żadne narzędzie nie pasuje do bieżącego filtra."
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:332
-=======
 #: src/widgets/tools/tools-group-box.vala:353
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No matching tools"
 msgstr "Brak pasujących narzędzi"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:345
-=======
 #: src/widgets/tools/tools-group-box.vala:366
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No installed tools"
 msgstr "Brak zainstalowanych narzędzi"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:346
-=======
 #: src/widgets/tools/tools-group-box.vala:367
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Install a compatibility tool to see it here."
 msgstr "Zainstaluj narzędzie zgodności, aby zobaczyć je tutaj."
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:350
-=======
 #: src/widgets/tools/tools-group-box.vala:371
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No tools in use"
 msgstr "Żadne narzędzie nie jest używane"
 
@@ -5513,32 +5372,19 @@ msgstr "Wszystkie narzędzia z tej grupy są obecnie używane."
 msgid "No tools are available in this group."
 msgstr "W tej grupie nie ma dostępnych narzędzi."
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:463
-#: src/widgets/tools/tools-group-box.vala:467
-=======
 #: src/widgets/tools/tools-group-box.vala:484
 #: src/widgets/tools/tools-group-box.vala:488
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Tool Actions"
 msgstr "Akcje narzędzia"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:499
-=======
 #: src/widgets/tools/tools-group-box.vala:520
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Recommended compatibility tool"
 msgstr "Zalecane narzędzie zgodności"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-group-box.vala:724
-=======
 #: src/widgets/tools/tools-group-box.vala:745
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Used by games"
 msgstr "Używane przez gry"
 
@@ -5627,14 +5473,9 @@ msgstr "Zaznacz wszystkie gry"
 msgid "No Games Use This Tool"
 msgstr "Żadna gra nie używa tego narzędzia"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:127
-#: src/widgets/tools/tools-release-row.vala:129
-=======
 #: src/widgets/tools/tools-release-row.vala:135
 #: src/widgets/tools/tools-release-row.vala:137
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Show installation details"
 msgstr "Pokaż szczegóły instalacji"
 
@@ -5647,12 +5488,8 @@ msgstr "Prędkość: 0 KB/s"
 msgid "Remaining time: --"
 msgstr "Pozostały czas: --"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:198
-=======
 #: src/widgets/tools/tools-release-row.vala:206
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Release Actions"
 msgstr "Akcje wydania"
 
@@ -5661,34 +5498,19 @@ msgstr "Akcje wydania"
 msgid "Step: %s"
 msgstr "Krok: %s"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:468
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:532
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "%s for %s"
 msgstr "%s dla %s"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:473
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:537
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Progress for %s"
 msgstr "Postęp: %s"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:530
-#: src/widgets/tools/tools-release-row.vala:533
-=======
 #: src/widgets/tools/tools-release-row.vala:594
 #: src/widgets/tools/tools-release-row.vala:597
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Latest"
 msgstr "Najnowsze"
 
@@ -5711,23 +5533,13 @@ msgstr "Ponów"
 msgid "Retry %s"
 msgstr "Ponów %s"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:619
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:683
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Cancelling %s"
 msgstr "Anulowanie %s"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:620
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:684
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Cancel %s"
 msgstr "Anuluj %s"
 
@@ -5735,12 +5547,8 @@ msgstr "Anuluj %s"
 msgid "_Changelog"
 msgstr "_Lista zmian"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:648
-=======
 #: src/widgets/tools/tools-release-row.vala:712
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Open Release Page"
 msgstr "Otwórz stronę wydania"
 
@@ -5748,39 +5556,23 @@ msgstr "Otwórz stronę wydania"
 msgid "_Games Using This Tool"
 msgstr "_Gry używające tego narzędzia"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:663
-=======
 #: src/widgets/tools/tools-release-row.vala:727
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Update"
 msgstr "Aktualizuj"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:664
-=======
 #: src/widgets/tools/tools-release-row.vala:728
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "_Check for Updates"
 msgstr "_Sprawdź aktualizacje"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:668
-=======
 #: src/widgets/tools/tools-release-row.vala:732
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "_Open Folder"
 msgstr "_Otwórz katalog"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:670
-=======
 #: src/widgets/tools/tools-release-row.vala:734
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "_Delete…"
 msgstr "_Usuń…"
 
@@ -5788,12 +5580,8 @@ msgstr "_Usuń…"
 msgid "Failed"
 msgstr "Niepowodzenie"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:716
-=======
 #: src/widgets/tools/tools-release-row.vala:780
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Update available"
 msgstr "Dostępna aktualizacja"
 
@@ -5801,45 +5589,24 @@ msgstr "Dostępna aktualizacja"
 msgid "Unavailable for the selected variant"
 msgstr "Niedostępne dla wybranego wariantu"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:740
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:804
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "In use by %i game"
 msgid_plural "In use by %i games"
 msgstr[0] "Używane przez %i grę"
 msgstr[1] "Używane przez %i gry"
 msgstr[2] "Używane przez %i gier"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:754
-#, c-format
-=======
 #: src/widgets/tools/tools-release-row.vala:818
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "%s. Open Release Details"
 msgstr "%s. Otwórz szczegóły wydania"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:755
-=======
 #: src/widgets/tools/tools-release-row.vala:819
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Open Release Details"
 msgstr "Otwórz szczegóły wydania"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-release-row.vala:769
-msgid "Moving"
-msgstr "Przenoszenie"
-
-#: src/widgets/tools/tools-release-row.vala:774
-=======
 #: src/widgets/tools/tools-release-row.vala:833
 #, fuzzy
 msgid "Moving"
@@ -5847,7 +5614,6 @@ msgstr "Przenoszenie"
 
 #: src/widgets/tools/tools-release-row.vala:838
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Preparing update"
 msgstr "Przygotowywanie aktualizacji"
 
@@ -5903,29 +5669,17 @@ msgstr "Kompilacja zalecana przez dostawcę dla większości systemów."
 msgid "Select the %s build variant."
 msgstr "Wybierz wariant kompilacji %s."
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:334
-#: src/widgets/tools/tools-releases-box.vala:342
-#: src/widgets/tools/tools-releases-box.vala:1290
-=======
 #: src/widgets/tools/tools-releases-box.vala:335
 #: src/widgets/tools/tools-releases-box.vala:343
 #: src/widgets/tools/tools-releases-box.vala:1341
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Check for new releases"
 msgstr "Sprawdź nowe wydania"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:348
-#: src/widgets/tools/tools-releases-box.vala:357
-#: src/widgets/tools/tools-releases-box.vala:359
-=======
 #: src/widgets/tools/tools-releases-box.vala:349
 #: src/widgets/tools/tools-releases-box.vala:358
 #: src/widgets/tools/tools-releases-box.vala:360
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Open Repository"
 msgstr "Otwórz repozytorium"
 
@@ -5938,17 +5692,6 @@ msgstr "Wybierz, którą architekturę lub wariant kompilacji wyświetlać."
 msgid "Build"
 msgstr "Kompilacja"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:416
-#: src/widgets/tools/tools-releases-box.vala:1481
-msgid "Load More"
-msgstr "Wczytaj więcej"
-
-#: src/widgets/tools/tools-releases-box.vala:455
-#: src/widgets/tools/tools-releases-box.vala:615
-#: src/widgets/tools/tools-releases-box.vala:1110
-#: src/widgets/tools/tools-releases-box.vala:1441
-=======
 #: src/widgets/tools/tools-releases-box.vala:417
 #: src/widgets/tools/tools-releases-box.vala:1529
 #, fuzzy
@@ -5960,84 +5703,48 @@ msgstr "Wczytaj więcej"
 #: src/widgets/tools/tools-releases-box.vala:1161
 #: src/widgets/tools/tools-releases-box.vala:1489
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Loading releases"
 msgstr "Wczytywanie wydań"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:464
-#: src/widgets/tools/tools-releases-box.vala:633
-#: src/widgets/tools/tools-releases-box.vala:816
-=======
 #: src/widgets/tools/tools-releases-box.vala:465
 #: src/widgets/tools/tools-releases-box.vala:650
 #: src/widgets/tools/tools-releases-box.vala:833
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No releases available"
 msgstr "Brak dostępnych wydań"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:465
-#: src/widgets/tools/tools-releases-box.vala:817
-=======
 #: src/widgets/tools/tools-releases-box.vala:466
 #: src/widgets/tools/tools-releases-box.vala:834
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Check again for new releases."
 msgstr "Sprawdź ponownie dostępność nowych wydań."
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:469
-#: src/widgets/tools/tools-releases-box.vala:819
-=======
 #: src/widgets/tools/tools-releases-box.vala:470
 #: src/widgets/tools/tools-releases-box.vala:836
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Refresh"
 msgstr "Odśwież"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:482
-#: src/widgets/tools/tools-releases-box.vala:739
-=======
 #: src/widgets/tools/tools-releases-box.vala:483
 #: src/widgets/tools/tools-releases-box.vala:756
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Failed to Fetch Releases"
 msgstr "Nie udało się pobrać wydań"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:487
-=======
 #: src/widgets/tools/tools-releases-box.vala:488
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Couldn’t load releases"
 msgstr "Nie udało się wczytać wydań"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:663
-#: src/widgets/tools/tools-releases-box.vala:1157
-#: src/widgets/tools/tools-releases-box.vala:1476
-=======
 #: src/widgets/tools/tools-releases-box.vala:680
 #: src/widgets/tools/tools-releases-box.vala:1208
 #: src/widgets/tools/tools-releases-box.vala:1524
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Releases loaded"
 msgstr "Wczytano wydania"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:732
-=======
 #: src/widgets/tools/tools-releases-box.vala:749
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Couldn’t load more releases"
 msgstr "Nie udało się wczytać kolejnych wydań"
 
@@ -6045,12 +5752,8 @@ msgstr "Nie udało się wczytać kolejnych wydań"
 msgid "Couldn’t refresh releases"
 msgstr "Nie udało się odświeżyć wydań"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:798
-=======
 #: src/widgets/tools/tools-releases-box.vala:815
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No matching releases"
 msgstr "Brak pasujących wydań"
 
@@ -6062,12 +5765,8 @@ msgstr "Żadne wydanie nie pasuje do tego filtra"
 msgid "Reset the filters to see all releases."
 msgstr "Wyczyść filtry, aby zobaczyć wszystkie wydania."
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:810
-=======
 #: src/widgets/tools/tools-releases-box.vala:827
 #, fuzzy
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "No compatible releases"
 msgstr "Brak zgodnych wydań"
 
@@ -6079,13 +5778,8 @@ msgstr "Dla tego systemu nie ma zgodnych wariantów."
 msgid "Refreshing…"
 msgstr "Odświeżanie…"
 
-<<<<<<< HEAD
-#: src/widgets/tools/tools-releases-box.vala:1300
-#, c-format
-=======
 #: src/widgets/tools/tools-releases-box.vala:1351
 #, fuzzy, c-format
->>>>>>> e68c6214 ([Add] option to custom steam folder #278)
 msgid "Last updated: %s"
 msgstr "Ostatnia aktualizacja: %s"
 
