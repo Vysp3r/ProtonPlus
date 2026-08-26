@@ -16,8 +16,8 @@ namespace ProtonPlus.Widgets.Main {
                 : _ ("Fix broken Steam compatibility tools"));
             set_body (_ ("Steam’s own install record for the item(s) below reports a fully completed download with build ID 0 — a state a real install should never reach. Recovering it means running a few commands in Steam’s own console; ProtonPlus does not write any of these files for you."));
 
-            content_width = 640;
-            content_height = 560;
+            content_width = 850;
+            content_height = 745;
 
             // Commands and paths are unbroken tokens with no spaces, so word
             // wrapping mangles them into an unreadable character-by-character
@@ -36,8 +36,8 @@ namespace ProtonPlus.Widgets.Main {
             text_view.buffer.text = build_steps (candidates);
 
             var scrolled = new Gtk.ScrolledWindow () {
-                min_content_height = 320,
-                max_content_height = 480,
+                min_content_height = 420,
+                max_content_height = 640,
                 hscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
                 vexpand = true,
                 child = text_view,
