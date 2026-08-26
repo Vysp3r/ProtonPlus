@@ -9,15 +9,30 @@ namespace ProtonPlus.Widgets.Main {
      * The step-by-step block is deliberately not translated, the same way
      * ErrorDialog leaves its technical-details text untranslated: it is a
      * literal shell transcript, not UI copy. */
-    public class SteamRepairGuideDialog : Adw.AlertDialog {
+    // Adw.AlertDialog is a compact message-box widget that ignores
+    // content_width/content_height by design (it deliberately stays narrow
+    // per the HIG). A plain Adw.Dialog with a header bar, matching
+    // ReleaseChangelogDialog, is the pattern this codebase already uses
+    // whenever a dialog actually needs room to show real content.
+    public class SteamRepairGuideDialog : Adw.Dialog {
         public SteamRepairGuideDialog (Gee.List<SteamRuntimeRepairCandidate> candidates) {
-            set_heading (candidates.size == 1
+            var title_text = candidates.size == 1
                 ? _ ("Fix “%s”").printf (candidates[0].display_title)
-                : _ ("Fix broken Steam compatibility tools"));
-            set_body (_ ("Steam’s own install record for the item(s) below reports a fully completed download with build ID 0 — a state a real install should never reach. Recovering it means running a few commands in Steam’s own console; ProtonPlus does not write any of these files for you."));
+                : _ ("Fix broken Steam compatibility tools");
+            Object (title: title_text);
 
-            content_width = 850;
-            content_height = 745;
+            var header_bar = new Adw.HeaderBar () {
+                title_widget = new Adw.WindowTitle (title_text, "")
+            };
+
+            var body_label = new Gtk.Label (_ ("Steam’s own install record for the item(s) below reports a fully completed download with build ID 0 — a state a real install should never reach. Recovering it means running a few commands in Steam’s own console; ProtonPlus does not write any of these files for you.")) {
+                wrap = true,
+                xalign = 0,
+                margin_top = 12,
+                margin_bottom = 6,
+                margin_start = 18,
+                margin_end = 18,
+            };
 
             // Commands and paths are unbroken tokens with no spaces, so word
             // wrapping mangles them into an unreadable character-by-character
@@ -36,26 +51,39 @@ namespace ProtonPlus.Widgets.Main {
             text_view.buffer.text = build_steps (candidates);
 
             var scrolled = new Gtk.ScrolledWindow () {
-                min_content_height = 420,
-                max_content_height = 640,
                 hscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
                 vexpand = true,
                 child = text_view,
+                margin_start = 18,
+                margin_end = 18,
+                margin_bottom = 12,
             };
             scrolled.add_css_class ("card");
 
-            set_extra_child (scrolled);
-
-            add_response ("console", _ ("Open Steam Console"));
-            add_response ("close", _ ("Close"));
-            set_response_appearance ("console", Adw.ResponseAppearance.SUGGESTED);
-            set_default_response ("close");
-            set_close_response ("close");
-
-            response.connect ((response_id) => {
-                if (response_id == "console")
-                    Utils.System.open_uri ("steam://open/console");
+            var console_button = new Gtk.Button.with_label (_ ("Open Steam Console")) {
+                halign = Gtk.Align.END,
+                margin_top = 6,
+                margin_bottom = 18,
+                margin_end = 18,
+            };
+            console_button.add_css_class ("suggested-action");
+            console_button.clicked.connect (() => {
+                Utils.System.open_uri ("steam://open/console");
             });
+
+            var content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) { vexpand = true };
+            content_box.append (body_label);
+            content_box.append (scrolled);
+            content_box.append (console_button);
+
+            var toolbar_view = new Adw.ToolbarView ();
+            toolbar_view.add_top_bar (header_bar);
+            toolbar_view.set_content (content_box);
+
+            set_content_width (850);
+            set_content_height (745);
+            set_can_close (true);
+            set_child (toolbar_view);
         }
 
         private string build_steps (Gee.List<SteamRuntimeRepairCandidate> candidates) {
