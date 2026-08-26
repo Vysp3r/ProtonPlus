@@ -93,6 +93,7 @@ namespace AppTests.SteamTest {
         Test.add_func ("/steam/awacy-catalog-bounds-optional-request", test_awacy_catalog_bounds_optional_request);
         Test.add_func ("/steam/local-library-does-not-wait-for-awacy", test_local_library_does_not_wait_for_awacy);
         Test.add_func ("/steam/library-compatibility-tools-use-stable-identities", test_library_compatibility_tools_use_stable_identities);
+        Test.add_func ("/steam/broken-steam-library-tool-is-detected", test_broken_steam_library_tool_is_detected);
     }
 
     private void test_linux_runtime_detection () {
@@ -587,6 +588,65 @@ namespace AppTests.SteamTest {
         assert (steam.can_assign_compatibility_tool ("proton_9"));
         assert (steam.can_assign_compatibility_tool ("steamlinuxruntime_4"));
         assert (steam.get_assignable_compatibility_tools ().size == 3);
+        assert (delete_directory (root));
+    }
+
+    private void test_broken_steam_library_tool_is_detected () {
+        var root = temporary_directory ();
+        var config_directory = Path.build_filename (root, "config");
+        var steamapps_directory = Path.build_filename (root, "steamapps");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (config_directory));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (
+            Path.build_filename (steamapps_directory, "common")
+        ));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (config_directory, "config.vdf"),
+            "\"InstallConfigStore\" { \"Software\" { \"Valve\" { \"Steam\" { } } } }"
+        ));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (steamapps_directory, "libraryfolders.vdf"),
+            "\"libraryfolders\" { \"0\" { \"path\" \"%s\" \"apps\" { \"4183110\" \"1\" \"1493710\" \"1\" } } }".printf (root)
+        ));
+
+        // Phantom install: Steam claims a fully installed state (StateFlags
+        // bit 4) with an invalid buildid, and nothing was ever placed on
+        // disk. This must be flagged regardless of which known appid it is.
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (steamapps_directory, "appmanifest_4183110.acf"),
+            "\"AppState\" { \"appid\" \"4183110\" \"name\" \"Steam Linux Runtime 4.0\" \"installdir\" \"SteamLinuxRuntime_4\" \"StateFlags\" \"4\" \"buildid\" \"0\" }"
+        ));
+
+        // A real install with a normal buildid must never be flagged.
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (steamapps_directory, "appmanifest_1493710.acf"),
+            "\"AppState\" { \"appid\" \"1493710\" \"name\" \"Proton Experimental\" \"installdir\" \"Proton - Experimental\" \"StateFlags\" \"4\" \"buildid\" \"12345\" }"
+        ));
+
+        var unavailable_system_root = Path.build_filename (root, "system-tools");
+        var discovery = new SteamCompatibilityToolDiscovery (
+            Launcher.InstallationTypes.SYSTEM, false,
+            unavailable_system_root, unavailable_system_root, {}
+        );
+        var catalog = new ProtonPlus.Models.Games.AwacyGameCatalog (
+            new ManualAwacyGameSource (), 0
+        );
+        var steam = new ProtonPlus.Models.Launchers.Steam (
+            Launcher.InstallationTypes.SYSTEM, catalog, discovery
+        );
+        steam.directory = root;
+        steam.groups = {};
+
+        assert (load_steam_library (steam));
+        assert (steam.broken_compatibility_tools.size == 1);
+        var candidate = steam.broken_compatibility_tools[0];
+        assert (candidate.appid == 4183110);
+        assert (candidate.internal_title == "steamlinuxruntime_4");
+        assert (candidate.display_title == "Steam Linux Runtime 4.0");
+        assert (candidate.install_path == Path.build_filename (steamapps_directory, "common", "SteamLinuxRuntime_4"));
+
+        // A second call must not accumulate stale candidates from the first.
+        assert (load_steam_library (steam));
+        assert (steam.broken_compatibility_tools.size == 1);
         assert (delete_directory (root));
     }
 

@@ -15,6 +15,8 @@ namespace ProtonPlus.Widgets.Main {
         private Services.SteamRestartManager? restart_manager;
         private Services.SteamRestartOrchestrator? restart_orchestrator;
         private SteamRestartBanner? restart_banner;
+        private SteamRepairBanner repair_banner;
+        private Gee.List<Models.SteamRuntimeRepairCandidate> repair_candidates = new Gee.ArrayList<Models.SteamRuntimeRepairCandidate> ();
         private SteamRestartToastPolicy? restart_toasts;
         private SteamRestartNotificationCoordinator? restart_notifications;
         private uint previous_restart_count = 0;
@@ -99,6 +101,11 @@ namespace ProtonPlus.Widgets.Main {
             if (restart_manager != null && restart_orchestrator != null)
                 setup_steam_restart_presentation ((!) restart_manager, (!) restart_orchestrator,
                     restart_notification_sender ?? new LibnotifySteamRestartNotificationSender ());
+
+            repair_banner = new SteamRepairBanner ();
+            repair_banner.guidance_requested.connect (show_repair_guide);
+            append (repair_banner);
+
             append (toast_overlay);
 
             Utils.DownloadManager.instance.download_added.connect (on_download_added);
@@ -135,9 +142,17 @@ namespace ProtonPlus.Widgets.Main {
                 if (launcher is Models.Launchers.Steam) {
                     var steam_launcher = launcher as Models.Launchers.Steam;
                     steam_launcher.notify["profile"].connect (games_box.load_games);
+                    repair_candidates = steam_launcher.broken_compatibility_tools;
+                    repair_banner.show_for (repair_candidates);
                     break;
                 }
             }
+        }
+
+        private void show_repair_guide () {
+            if (repair_candidates.size == 0)
+                return;
+            Window.present_dialog_for_controller (new SteamRepairGuideDialog (repair_candidates), this);
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {
