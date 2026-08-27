@@ -36,6 +36,7 @@ src/models/steam-compatibility-tool-discovery.vala
 src/models/steam-profile.vala
 src/models/steam-restart-operation.vala
 src/models/steam-restart-target.vala
+src/models/steam-runtime-repair-candidate.vala
 src/models/steam/library-folder.vala
 src/models/steam/steam-library-config.vala
 src/models/tool.vala
@@ -180,6 +181,8 @@ src/widgets/introduction/wine.vala
 src/widgets/loading/loading-box.vala
 src/widgets/main/error-dialog.vala
 src/widgets/main/main-box.vala
+src/widgets/main/steam-repair-banner.vala
+src/widgets/main/steam-repair-guide-dialog.vala
 src/widgets/main/steam-restart-banner.vala
 src/widgets/main/steam-restart-dialog.vala
 src/widgets/main/steam-restart-presentation.vala
