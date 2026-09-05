@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-05 02:51+0000\n"
+"PO-Revision-Date: 2026-09-06 04:51+0000\n"
 "Last-Translator: Patricio <pattoperez97@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
@@ -1024,9 +1024,8 @@ msgid "No games are available for this launcher."
 msgstr "No hay juegos disponibles para este lanzador."
 
 #: src/widgets/games/games-extra-button.vala:70
-#, fuzzy
 msgid "Game Actions"
-msgstr "Opciones avanzadas"
+msgstr "Acciones de Juego"
 
 #: src/widgets/games/games-extra-button.vala:91
 #: src/widgets/tools/tools-release-row.vala:201
@@ -1036,22 +1035,18 @@ msgid "Actions for %s"
 msgstr "Acciones para %s"
 
 #: src/widgets/games/games-extra-button.vala:141
-#, fuzzy
 msgid "_Run Custom Executable…"
 msgstr "_Correr Ejecutable Personalizado…"
 
 #: src/widgets/games/games-extra-button.vala:143
-#, fuzzy
 msgid "Open _Game Folder"
-msgstr "Abrir _Game Folder"
+msgstr "Abrir _Carpeta del juego"
 
 #: src/widgets/games/games-extra-button.vala:145
-#, fuzzy
 msgid "Open _Prefix Folder"
-msgstr "Abrir _Prefix Folder"
+msgstr "Abrir _Carpeta prefijo"
 
 #: src/widgets/games/games-extra-button.vala:147
-#, fuzzy
 msgid "Open in Proton_tricks"
 msgstr "Abrir en Proton_tricks"
 
@@ -1064,7 +1059,6 @@ msgid "Supported"
 msgstr "Soportado"
 
 #: src/widgets/games/games-extra-button.vala:185
-#, fuzzy
 msgid "Running"
 msgstr "Corriendo"
 
@@ -1204,39 +1198,48 @@ msgstr "La herramienta de compatibilidad no puede ser aplicada"
 #: src/widgets/games/games-mass-edit-view.vala:280
 msgid "No games were changed because no compatibility tool is selected."
 msgstr ""
+"Ningún juego fue modificado porque no hay una herramienta de compatibilidad "
+"seleccionada."
 
 #: src/widgets/games/games-mass-edit-view.vala:291
-#, fuzzy
 msgid ""
 "No games were changed because the selected compatibility tool is no longer "
 "available."
-msgstr "Establecer herramienta de compatibilidad por defecto"
+msgstr ""
+"Ningún juego fue modificado porque la herramienta seleccionada ya no se "
+"encuentra disponible."
 
 #: src/widgets/games/games-mass-edit-view.vala:317
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
+"Las opciones de lanzamiento seleccionadas están incompletas o no están "
+"soportadas para estos juegos."
 
 #: src/widgets/games/games-mass-edit-view.vala:318
-#, fuzzy
 msgid "Launch options cannot be applied"
-msgstr "Opciones de lanzamiento"
+msgstr "Las opciones de lanzamiento no pueden ser aplicadas"
 
 #: src/widgets/games/games-mass-edit-view.vala:319
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr ""
+"Ningún juego fue modificado porque los comandos de lanzamiento no pudieron "
+"ser preparados de forma segura."
 
 #: src/widgets/games/games-mass-edit-view.vala:370
 msgid "Batch Update Failed"
-msgstr ""
+msgstr "Falló la actualización por lotes"
 
 #: src/widgets/games/games-mass-edit-view.vala:371
 msgid ""
 "Some games could not be updated with the new compatibility tool or launch "
 "options. This may be due to missing permissions or file access issues."
 msgstr ""
+"Algunos juegos no pudieron ser actualizados con la nueva herramienta de "
+"compatibilidad u opciones de lanzamiento. Esto puede ser a causa de la falta "
+"de permisos o problemas con el acceso de archivos"
 
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
 #: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:471
@@ -1285,13 +1288,14 @@ msgstr "Control adicional sobre el comando final de lanzamiento de Steam."
 
 #: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:17
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1325
-#, fuzzy
 msgid "Custom game arguments"
 msgstr "Argumentos de lanzamiento personalizados"
 
 #: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:18
 msgid "Unknown arguments are imported here and preserved exactly as loaded."
 msgstr ""
+"Los argumentos desconocidos son importados aquí y preservados exactamente "
+"como cargaron."
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:14
 msgid "Audio options"
@@ -1304,7 +1308,7 @@ msgstr "Opciones de lanzamiento relacionadas al audio"
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:18
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1315
 msgid "PulseAudio latency"
-msgstr ""
+msgstr "Latencia PulseAudio"
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:19
 msgid ""
@@ -1336,11 +1340,13 @@ msgid ""
 "Sets the number of ALSA output channels used by Wine. Available from GE-"
 "Proton11-1."
 msgstr ""
+"Configura el número de los canales de salida de ALSA usados por Wine. "
+"Disponible desde GE-Proton11-1"
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:56
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1317
 msgid "Wine ALSA spatial downmix"
-msgstr ""
+msgstr "Mezcla espacial Wine ALSA"
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:57
 msgid ""
@@ -2389,9 +2395,8 @@ msgstr "Aplicar argumento editado"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:32
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:34
-#, fuzzy
 msgid "Remove argument"
-msgstr "Argumentos del juego"
+msgstr "Remover argumento"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:88
 #: src/widgets/games/launch-options-editor/launch-options-editor-argument-list.vala:99
@@ -3795,9 +3800,8 @@ msgstr "Extrayendo"
 #: src/widgets/tools/tools-release-row.vala:730
 #: src/widgets/tools/tools-release-row.vala:771
 #: src/widgets/tools/tools-release-row.vala:776
-#, fuzzy
 msgid "Removing"
-msgstr "Moviendo"
+msgstr "Removiendo"
 
 #: src/widgets/header/header-downloads-indicator.vala:319
 msgid "Preparing"
@@ -4045,7 +4049,7 @@ msgstr "Informe"
 
 #: src/widgets/main/error-dialog.vala:44 src/widgets/main/warning-dialog.vala:7
 msgid "OK"
-msgstr "Hecho"
+msgstr "Ok"
 
 #. Tools Page
 #: src/widgets/main/main-box.vala:72
@@ -4546,7 +4550,7 @@ msgstr ""
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:120
 msgid "Battery"
-msgstr ""
+msgstr "Batería"
 
 #. Others subsection
 #: src/widgets/mangohud/mangohud-extras-page.vala:125
@@ -4923,7 +4927,7 @@ msgstr "Blanco"
 
 #: src/widgets/mangohud/mangohud-presets-page.vala:68
 msgid "Themes"
-msgstr ""
+msgstr "Temas"
 
 #: src/widgets/mangohud/mangohud-visual-page.vala:18
 msgid "HUD Title"
@@ -5043,7 +5047,7 @@ msgstr "Eliminar %s"
 
 #: src/widgets/preferences/preferences-delete-cache-row.vala:21
 msgid "Removes all cached information and temporary downloads"
-msgstr ""
+msgstr "Remueve toda la información caché y descargas temporales"
 
 #. General Page
 #: src/widgets/preferences/preferences-dialog.vala:16
@@ -5329,7 +5333,7 @@ msgstr "OLED"
 
 #: src/widgets/preferences/preferences-theme-row.vala:28
 msgid "Theme"
-msgstr ""
+msgstr "Tema"
 
 #: src/widgets/preferences/preferences-tool-row.vala:18
 msgid "Select your desired compatibility tool"
@@ -5667,7 +5671,7 @@ msgstr "Velocidad: %s/s"
 #: src/widgets/tools/tools-release-row.vala:837
 #, c-format
 msgid "Remaining time: %s"
-msgstr ""
+msgstr "Tiempo restante: %s"
 
 #: src/widgets/tools/tools-releases-box.vala:255
 msgid "Standard 64-bit build for most Intel and AMD PCs."
