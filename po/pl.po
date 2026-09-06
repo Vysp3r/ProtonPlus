@@ -4,13 +4,14 @@
 # Łukasz Zając <sec@rbtv.pl>, 2026.
 # MattSolo451 <mattsolo45@vivaldi.net>, 2026.
 # Jakub Szymański <99kuba11@gmail.com>, 2026.
+# Tomasz Bojanowski <tomasz@bojanowski.me>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-05-12 01:11+0000\n"
-"Last-Translator: Jakub Szymański <99kuba11@gmail.com>\n"
+"PO-Revision-Date: 2026-09-06 14:51+0000\n"
+"Last-Translator: Tomasz Bojanowski <tomasz@bojanowski.me>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pl/>\n"
 "Language: pl\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.5-dev\n"
+"X-Generator: Weblate 2026.9.1.dev0\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
 #, fuzzy
@@ -345,107 +346,107 @@ msgstr "System"
 
 #: src/globals.vala:32
 msgid "Arabic"
-msgstr ""
+msgstr "arabski"
 
 #: src/globals.vala:33
 msgid "Belarusian"
-msgstr ""
+msgstr "białoruski"
 
 #: src/globals.vala:34
 msgid "Bosnian"
-msgstr ""
+msgstr "bośniacki"
 
 #: src/globals.vala:35
 msgid "Czech"
-msgstr ""
+msgstr "czeski"
 
 #: src/globals.vala:36
 msgid "German"
-msgstr ""
+msgstr "niemiecki"
 
 #: src/globals.vala:37
 msgid "English"
-msgstr ""
+msgstr "angielski"
 
 #: src/globals.vala:38
 msgid "Greek"
-msgstr ""
+msgstr "grecki"
 
 #: src/globals.vala:39
 msgid "Spanish"
-msgstr ""
+msgstr "hiszpański"
 
 #: src/globals.vala:40
 msgid "Finnish"
-msgstr ""
+msgstr "fiński"
 
 #: src/globals.vala:41
 msgid "French"
-msgstr ""
+msgstr "francuski"
 
 #: src/globals.vala:42
 msgid "Croatian"
-msgstr ""
+msgstr "chorwacki"
 
 #: src/globals.vala:43
 msgid "Indonesian"
-msgstr ""
+msgstr "indonezyjski"
 
 #: src/globals.vala:44
 msgid "Italian"
-msgstr ""
+msgstr "włoski"
 
 #: src/globals.vala:45
 msgid "Japanese"
-msgstr ""
+msgstr "japoński"
 
 #: src/globals.vala:46
 msgid "Georgian"
-msgstr ""
+msgstr "gruziński"
 
 #: src/globals.vala:47
 msgid "Dutch"
-msgstr ""
+msgstr "niderlandzki"
 
 #: src/globals.vala:48
 msgid "Polish"
-msgstr ""
+msgstr "polski"
 
 #: src/globals.vala:49
 msgid "Portuguese (Portugal)"
-msgstr ""
+msgstr "portugalski (Portugalia)"
 
 #: src/globals.vala:50
 msgid "Russian"
-msgstr ""
+msgstr "rosyjski"
 
 #: src/globals.vala:51
 msgid "Serbian (Latin)"
-msgstr ""
+msgstr "serbski (łaciński)"
 
 #: src/globals.vala:52
 msgid "Slovak"
-msgstr ""
+msgstr "słowacki"
 
 #: src/globals.vala:53
 msgid "Swedish"
-msgstr ""
+msgstr "szwedzki"
 
 #: src/globals.vala:54
 msgid "Ukrainian"
-msgstr ""
+msgstr "ukraiński"
 
 #: src/globals.vala:55
 msgid "Vietnamese"
-msgstr ""
+msgstr "wietnamski"
 
 #: src/globals.vala:56
 msgid "Chinese"
-msgstr ""
+msgstr "chiński"
 
 #: src/globals.vala:57
 msgid "Chinese (Traditional)"
-msgstr ""
+msgstr "chiński (tradycyjny)"
 
 #: src/models/launcher.vala:277
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
@@ -876,7 +877,7 @@ msgstr ""
 #: src/widgets/controller-hint-bar.vala:215
 #: src/widgets/preferences/preferences-dialog.vala:39
 msgid "Bottom face button"
-msgstr ""
+msgstr "Dolny przycisk akcji"
 
 #: src/widgets/controller-hint-bar.vala:218
 #, fuzzy
@@ -886,7 +887,7 @@ msgstr "Jasny"
 #: src/widgets/controller-hint-bar.vala:219
 #: src/widgets/preferences/preferences-dialog.vala:40
 msgid "Right face button"
-msgstr ""
+msgstr "Prawy przycisk akcji"
 
 #: src/widgets/controller-hint-bar.vala:222
 msgid "Left"
@@ -3612,7 +3613,7 @@ msgstr "Zaawansowane"
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
 #: src/widgets/preferences/preferences-dialog.vala:290
 msgid "Experimental"
-msgstr ""
+msgstr "Eksperymentalne"
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:46
 #, fuzzy
@@ -3902,39 +3903,41 @@ msgstr ""
 
 #: src/widgets/introduction/updates.vala:17
 #: src/widgets/preferences/preferences-dialog.vala:77
-#, fuzzy
 msgid "Background updates"
-msgstr "Poszukiwanie aktualizacji"
+msgstr "Aktualizacje w tle"
 
 #: src/widgets/introduction/updates.vala:18
 #: src/widgets/preferences/preferences-dialog.vala:78
 msgid "Automatically update the tools in the background"
-msgstr ""
+msgstr "Automatyczne aktualizowanie narzędzi w tle"
 
 #: src/widgets/introduction/updates.vala:24
 #: src/widgets/preferences/preferences-dialog.vala:84
 msgid "Set how often to check for updates in the background"
-msgstr ""
+msgstr "Jak często sprawdzać aktualizacje w tle"
 
 #: src/widgets/introduction/updates.vala:30
 #: src/widgets/preferences/preferences-dialog.vala:90
 msgid "Update tools at system startup"
-msgstr ""
+msgstr "Aktualizuj narzędzia przy starcie systemu"
 
 #: src/widgets/introduction/updates.vala:31
 #: src/widgets/preferences/preferences-dialog.vala:91
 msgid "Automatically check for and install updates when the system starts"
 msgstr ""
+"Automatyczne sprawdzanie i instalowanie aktualizacji przy starcie systemu"
 
 #: src/widgets/introduction/updates.vala:37
 #: src/widgets/preferences/preferences-dialog.vala:97
 msgid "Update tools when ProtonPlus starts"
-msgstr ""
+msgstr "Aktualizuj narzędzia przy uruchomieniu ProtonPlus"
 
 #: src/widgets/introduction/updates.vala:38
 #: src/widgets/preferences/preferences-dialog.vala:98
 msgid "Automatically check for and install updates when ProtonPlus starts"
 msgstr ""
+"Automatyczne sprawdzanie i instalowanie aktualizacji przy uruchomieniu "
+"ProtonPlus"
 
 #: src/widgets/introduction/wine.vala:8
 msgid "What is Wine?"
@@ -4021,7 +4024,7 @@ msgstr "Narzędzia"
 #: src/widgets/main/main-box.vala:75
 #: src/widgets/preferences/preferences-dialog.vala:358
 msgid "MangoHud"
-msgstr ""
+msgstr "MangoHud"
 
 #: src/widgets/main/main-box.vala:191
 msgid "Couldn’t save the Steam restart reminder"
@@ -4524,7 +4527,7 @@ msgstr ""
 #: src/widgets/mangohud/mangohud-extras-page.vala:130
 #: src/widgets/preferences/preferences-dialog.vala:251
 msgid "Network"
-msgstr ""
+msgstr "Sieć"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:132
 msgid "Fahrenheit"
@@ -4962,50 +4965,48 @@ msgid "Hide by default"
 msgstr ""
 
 #: src/widgets/preferences/preferences-access-token-row.vala:9
-#, fuzzy, c-format
+#, c-format
 msgid "%s access token"
-msgstr "Token dostępu"
+msgstr "Token dostępu %s"
 
 #: src/widgets/preferences/preferences-access-token-row.vala:10
 msgid "Enter an access token to reduce your chances of being rate limited"
 msgstr "Wpisz token by zredukować szansę na przekroczenie limitu"
 
 #: src/widgets/preferences/preferences-access-token-row.vala:19
-#, fuzzy, c-format
+#, c-format
 msgid "Open %s Token Page"
-msgstr "Otwórz stronę ProtonDB"
+msgstr "Otwórz stronę tokenów %s"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:15
 msgid "1h"
-msgstr ""
+msgstr "co godzinę"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:16
 msgid "3h"
-msgstr ""
+msgstr "co 3 godziny"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:17
 msgid "6h"
-msgstr ""
+msgstr "co 6 godzin"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:18
 msgid "12h"
-msgstr ""
+msgstr "co 12 godzin"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:26
-#, fuzzy
 msgid "Update frequency"
-msgstr "Zaktualizuj uruchamiacz\n"
+msgstr "Częstotliwość aktualizacji"
 
 #: src/widgets/preferences/preferences-delete-cache-row.vala:12
 #: src/widgets/preferences/preferences-delete-cache-row.vala:14
 #: src/widgets/preferences/preferences-delete-cache-row.vala:20
-#, fuzzy
 msgid "Delete cache"
-msgstr "Usuń %s"
+msgstr "Usuń pamięć podręczną"
 
 #: src/widgets/preferences/preferences-delete-cache-row.vala:21
 msgid "Removes all cached information and temporary downloads"
-msgstr ""
+msgstr "Usuwa wszystkie dane z pamięci podręcznej i tymczasowe pobrania"
 
 #. General Page
 #: src/widgets/preferences/preferences-dialog.vala:16
@@ -5014,134 +5015,130 @@ msgstr "Ogólne"
 
 #: src/widgets/preferences/preferences-dialog.vala:22
 msgid "Appearance"
-msgstr ""
+msgstr "Wygląd"
 
 #: src/widgets/preferences/preferences-dialog.vala:33
 msgid "Controller"
-msgstr ""
+msgstr "Kontroler"
 
 #: src/widgets/preferences/preferences-dialog.vala:34
 msgid "Configure controller buttons and vibration"
-msgstr ""
+msgstr "Konfiguracja przycisków i wibracji kontrolera"
 
 #: src/widgets/preferences/preferences-dialog.vala:42
 msgid "Confirm button"
-msgstr ""
+msgstr "Przycisk zatwierdzania"
 
 #: src/widgets/preferences/preferences-dialog.vala:43
 msgid "Choose which face button activates the selected control"
-msgstr ""
+msgstr "Wybierz, który przycisk akcji zatwierdza zaznaczony element"
 
 #: src/widgets/preferences/preferences-dialog.vala:56
 msgid "Controller vibration"
-msgstr ""
+msgstr "Wibracje kontrolera"
 
 #: src/widgets/preferences/preferences-dialog.vala:57
 msgid "Use subtle vibration for controller actions and navigation limits"
-msgstr ""
+msgstr "Delikatne wibracje przy działaniach kontrolera i na krańcach nawigacji"
 
 #: src/widgets/preferences/preferences-dialog.vala:71
-#, fuzzy
 msgid "Updates"
-msgstr "Aktualizuję %s"
+msgstr "Aktualizacje"
 
 #: src/widgets/preferences/preferences-dialog.vala:72
 msgid "Choose when installed tools are checked and updated"
-msgstr ""
+msgstr "Wybierz, kiedy zainstalowane narzędzia są sprawdzane i aktualizowane"
 
 #: src/widgets/preferences/preferences-dialog.vala:104
 msgid "Migrate default prefix"
-msgstr ""
+msgstr "Przenoszenie domyślnego prefiksu"
 
 #: src/widgets/preferences/preferences-dialog.vala:105
 msgid "Automatically migrate the default prefix when updating"
-msgstr ""
+msgstr "Automatyczne przenoszenie domyślnego prefiksu przy aktualizacji"
 
 #: src/widgets/preferences/preferences-dialog.vala:111
 msgid "Behavior"
-msgstr ""
+msgstr "Zachowanie"
 
 #: src/widgets/preferences/preferences-dialog.vala:116
 msgid "Show legacy tools"
-msgstr ""
+msgstr "Pokaż starsze narzędzia"
 
 #: src/widgets/preferences/preferences-dialog.vala:117
 msgid "Display older tools that are no longer actively maintained"
-msgstr ""
+msgstr "Wyświetla starsze narzędzia, które nie są już aktywnie rozwijane"
 
 #. Launchers Page
 #: src/widgets/preferences/preferences-dialog.vala:124
-#, fuzzy
 msgid "Launchers"
-msgstr "Parametry startowe"
+msgstr "Launchery"
 
 #: src/widgets/preferences/preferences-dialog.vala:158
-#, fuzzy
 msgid "Default compatibility tool"
-msgstr "Ustaw domyślne narzędzie zgodności"
+msgstr "Domyślne narzędzie zgodności"
 
 #: src/widgets/preferences/preferences-dialog.vala:159
 msgid "The compatibility tool games will use by default"
-msgstr ""
+msgstr "Narzędzie zgodności używane domyślnie przez gry"
 
 #: src/widgets/preferences/preferences-dialog.vala:184
-#, fuzzy
 msgid "Selected profile"
-msgstr "Wybierz profil"
+msgstr "Wybrany profil"
 
 #: src/widgets/preferences/preferences-dialog.vala:185
 msgid "Currently selected profile for Steam"
-msgstr ""
+msgstr "Aktualnie wybrany profil Steam"
 
 #: src/widgets/preferences/preferences-dialog.vala:229
 msgid "API Tokens"
-msgstr ""
+msgstr "Tokeny API"
 
 #: src/widgets/preferences/preferences-dialog.vala:230
 msgid "Optional tokens increase GitHub and GitLab request limits"
-msgstr ""
+msgstr "Opcjonalne tokeny zwiększają limity zapytań do GitHuba i GitLaba"
 
 #: src/widgets/preferences/preferences-dialog.vala:259
 msgid "Proxy URL"
-msgstr ""
+msgstr "Adres proxy"
 
 #: src/widgets/preferences/preferences-dialog.vala:262
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
-msgstr ""
+msgstr "Przykład: http://127.0.0.1:7890 lub socks5://127.0.0.1:1080"
 
 #: src/widgets/preferences/preferences-dialog.vala:269
-#, fuzzy
 msgid "Download speed limit"
-msgstr "Pobieranie"
+msgstr "Ograniczenie prędkości pobierania"
 
 #: src/widgets/preferences/preferences-dialog.vala:270
 msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
 msgstr ""
+"Maksymalna łączna prędkość wszystkich pobierań w KB/s. Wartość 0 oznacza "
+"brak ograniczenia."
 
 #: src/widgets/preferences/preferences-dialog.vala:273
 msgid "This limit is shared across all active downloads."
-msgstr ""
+msgstr "Ograniczenie jest wspólne dla wszystkich aktywnych pobierań."
 
 #: src/widgets/preferences/preferences-dialog.vala:295
 msgid "Preview features"
-msgstr ""
+msgstr "Funkcje testowe"
 
 #: src/widgets/preferences/preferences-dialog.vala:296
 msgid "Enable experimental features for early testing"
-msgstr ""
+msgstr "Włącza funkcje eksperymentalne do wczesnych testów"
 
 #: src/widgets/preferences/preferences-dialog.vala:302
-#, fuzzy
 msgid "Maintenance"
-msgstr "Menu główne"
+msgstr "Konserwacja"
 
 #: src/widgets/preferences/preferences-dialog.vala:303
 msgid "Refresh app data or clear cached files"
-msgstr ""
+msgstr "Odśwież dane aplikacji lub wyczyść pamięć podręczną"
 
 #: src/widgets/preferences/preferences-dialog.vala:317
 msgid "Software Environment"
-msgstr ""
+msgstr "Środowisko programowe"
 
 #: src/widgets/preferences/preferences-dialog.vala:322
 #: src/widgets/preferences/preferences-theme-row.vala:18
@@ -5162,47 +5159,43 @@ msgstr "Nie"
 
 #: src/widgets/preferences/preferences-dialog.vala:325
 msgid "Flatpak"
-msgstr ""
+msgstr "Flatpak"
 
 #: src/widgets/preferences/preferences-dialog.vala:329
 msgid "Hardware"
-msgstr ""
+msgstr "Sprzęt"
 
 #: src/widgets/preferences/preferences-dialog.vala:341
 msgid "CPU Features"
-msgstr ""
+msgstr "Funkcje procesora"
 
 #: src/widgets/preferences/preferences-dialog.vala:342
-#, fuzzy
 msgid "None detected"
-msgstr "Wykryj automatycznie"
+msgstr "Nie wykryto żadnych"
 
 #: src/widgets/preferences/preferences-dialog.vala:347
 msgid "Dependencies"
-msgstr ""
+msgstr "Zależności"
 
 #: src/widgets/preferences/preferences-dialog.vala:352
-#, fuzzy
 msgid "Protontricks"
-msgstr "Otwórz w protontricks"
+msgstr "Protontricks"
 
 #: src/widgets/preferences/preferences-dialog.vala:355
 msgid "Protontricks (Flatpak)"
-msgstr ""
+msgstr "Protontricks (Flatpak)"
 
 #: src/widgets/preferences/preferences-dialog.vala:361
 msgid "MangoHud (Flatpak)"
-msgstr ""
+msgstr "MangoHud (Flatpak)"
 
 #: src/widgets/preferences/preferences-dialog.vala:370
-#, fuzzy
 msgid "Feral Gamemode"
-msgstr "Gamescope"
+msgstr "Feral Gamemode"
 
 #: src/widgets/preferences/preferences-dialog.vala:374
-#, fuzzy
 msgid "Detected Launchers"
-msgstr "Wykryte uruchamiacze:\n"
+msgstr "Wykryte launchery"
 
 #: src/widgets/preferences/preferences-dialog.vala:406
 #: src/widgets/tools/tools-box.vala:189
@@ -5213,29 +5206,26 @@ msgid "Installed"
 msgstr "Zainstalowane"
 
 #: src/widgets/preferences/preferences-dialog.vala:407
-#, fuzzy
 msgid "Not installed"
-msgstr "Zainstalowane"
+msgstr "Nie zainstalowano"
 
 #: src/widgets/preferences/preferences-language-row.vala:25
 msgid "Language"
-msgstr ""
+msgstr "Język"
 
 #: src/widgets/preferences/preferences-refresh-application-data-row.vala:10
 #: src/widgets/preferences/preferences-refresh-application-data-row.vala:12
 #: src/widgets/preferences/preferences-refresh-application-data-row.vala:18
 msgid "Refresh application data"
-msgstr ""
+msgstr "Odśwież dane aplikacji"
 
 #: src/widgets/preferences/preferences-refresh-application-data-row.vala:19
-#, fuzzy
 msgid "Refreshes the launchers, tools and games"
-msgstr "Odśwież uruchamiacze"
+msgstr "Odświeża launchery, narzędzia i gry"
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:12
-#, fuzzy
 msgid "Manage shortcut"
-msgstr "Utwórz skrót"
+msgstr "Zarządzaj skrótem"
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:30
 msgid "Create shortcut"
@@ -5254,34 +5244,36 @@ msgid "Delete the shortcut of ProtonPlus in Steam"
 msgstr "Usuń skrót do ProtonPlus w Steam"
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:55
-#, fuzzy
 msgid "Failed to create shortcut"
-msgstr "Utwórz skrót"
+msgstr "Nie udało się utworzyć skrótu"
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:55
-#, fuzzy
 msgid "Failed to delete shortcut"
-msgstr "Usuń skrót"
+msgstr "Nie udało się usunąć skrótu"
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:57
 msgid ""
 "ProtonPlus was unable to add the shortcut to Steam. Please ensure Steam is "
 "closed and try again."
 msgstr ""
+"ProtonPlus nie mógł dodać skrótu do Steama. Upewnij się, że Steam jest "
+"zamknięty, i spróbuj ponownie."
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:58
 msgid ""
 "ProtonPlus was unable to remove the shortcut from Steam. This might happen "
 "if Steam is currently running or if the shortcuts file is inaccessible."
 msgstr ""
+"ProtonPlus nie mógł usunąć skrótu ze Steama. Może się tak zdarzyć, gdy Steam "
+"jest uruchomiony lub plik skrótów jest niedostępny."
 
 #: src/widgets/preferences/preferences-theme-row.vala:16
 msgid "Adwaita"
-msgstr ""
+msgstr "Adwaita"
 
 #: src/widgets/preferences/preferences-theme-row.vala:17
 msgid "Breeze"
-msgstr ""
+msgstr "Breeze"
 
 #: src/widgets/preferences/preferences-theme-row.vala:19
 msgid "OLED"
@@ -5289,24 +5281,23 @@ msgstr "OLED"
 
 #: src/widgets/preferences/preferences-theme-row.vala:28
 msgid "Theme"
-msgstr ""
+msgstr "Motyw"
 
 #: src/widgets/preferences/preferences-tool-row.vala:18
 msgid "Select your desired compatibility tool"
 msgstr "Wybierz żądane narzędzie zgodności"
 
 #: src/widgets/preferences/proxy-mode-row.vala:15
-#, fuzzy
 msgid "System proxy"
-msgstr "System"
+msgstr "Proxy systemowe"
 
 #: src/widgets/preferences/proxy-mode-row.vala:16
 msgid "Manual proxy"
-msgstr ""
+msgstr "Proxy ręczne"
 
 #: src/widgets/preferences/proxy-mode-row.vala:24
 msgid "Proxy mode"
-msgstr ""
+msgstr "Tryb proxy"
 
 #: src/widgets/tools/tools-box.vala:105 src/widgets/tools/tools-box.vala:250
 #: src/widgets/tools/tools-migrate-box.vala:43
