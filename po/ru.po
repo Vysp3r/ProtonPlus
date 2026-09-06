@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-05 21:51+0000\n"
+"PO-Revision-Date: 2026-09-06 04:51+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ru/>\n"
@@ -500,7 +500,7 @@ msgstr ""
 #: src/models/providers/definitions/proton.vala:35
 #: src/widgets/tools/tools-release-row.vala:706
 msgid "Recommended"
-msgstr "Рекомендуемый"
+msgstr "Рекомендуется"
 
 #: src/models/providers/definitions/proton.vala:39
 msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
@@ -927,7 +927,7 @@ msgstr "Нативный"
 
 #: src/widgets/games/games-box.vala:813
 msgid "Non-Steam"
-msgstr "Не-Steam"
+msgstr "Не из Steam"
 
 #: src/widgets/games/games-box.vala:846
 msgid "Filter Games"
@@ -1033,7 +1033,7 @@ msgstr "Действия для %s"
 
 #: src/widgets/games/games-extra-button.vala:141
 msgid "_Run Custom Executable…"
-msgstr "_Запустить пользовательский файл…"
+msgstr "_Запустить свой исполняемый файл…"
 
 #: src/widgets/games/games-extra-button.vala:143
 msgid "Open _Game Folder"
@@ -4299,7 +4299,7 @@ msgstr "Попробовать снова"
 
 #: src/widgets/main/main-box.vala:332 src/widgets/tools/tools-box.vala:762
 msgid "Checking for updates"
-msgstr "Проверка на наличие обновлений"
+msgstr "Проверка обновлений"
 
 #: src/widgets/main/main-box.vala:343 src/widgets/tools/tools-box.vala:770
 msgid "Can't update while a game is running"
@@ -5210,19 +5210,19 @@ msgstr "Открыть страницу токена %s"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:15
 msgid "1h"
-msgstr "1ч"
+msgstr "1 ч"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:16
 msgid "3h"
-msgstr "3ч"
+msgstr "3 ч"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:17
 msgid "6h"
-msgstr "6ч"
+msgstr "6 ч"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:18
 msgid "12h"
-msgstr "12ч"
+msgstr "12 ч"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:26
 msgid "Update frequency"
@@ -5236,7 +5236,7 @@ msgstr "Удалить кэш"
 
 #: src/widgets/preferences/preferences-delete-cache-row.vala:21
 msgid "Removes all cached information and temporary downloads"
-msgstr "Удаляет всю кэшированную информацию и временные загрузки"
+msgstr "Удаляет все кешированные данные и временные загрузки"
 
 #. General Page
 #: src/widgets/preferences/preferences-dialog.vala:16
@@ -5270,7 +5270,8 @@ msgstr "Вибрация контроллера"
 #: src/widgets/preferences/preferences-dialog.vala:57
 msgid "Use subtle vibration for controller actions and navigation limits"
 msgstr ""
-"Использовать лёгкую вибрацию для действий контроллера и ограничений навигации"
+"Использовать лёгкую вибрацию при действиях контроллера и достижении границ "
+"навигации"
 
 #: src/widgets/preferences/preferences-dialog.vala:71
 msgid "Updates"
@@ -5299,7 +5300,8 @@ msgstr "Показывать устаревшие инструменты"
 #: src/widgets/preferences/preferences-dialog.vala:117
 msgid "Display older tools that are no longer actively maintained"
 msgstr ""
-"Показывать старые инструменты, которые больше не поддерживаются активно"
+"Показывать устаревшие инструменты, которые больше не находятся в активной "
+"разработке"
 
 #. Launchers Page
 #: src/widgets/preferences/preferences-dialog.vala:124
@@ -5340,7 +5342,7 @@ msgstr "Пример: http://127.0.0.1:7890 или socks5://127.0.0.1:1080"
 
 #: src/widgets/preferences/preferences-dialog.vala:269
 msgid "Download speed limit"
-msgstr "Лимит скорости загрузки"
+msgstr "Предел скорости загрузки"
 
 #: src/widgets/preferences/preferences-dialog.vala:270
 msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
@@ -5365,7 +5367,7 @@ msgstr "Обслуживание"
 
 #: src/widgets/preferences/preferences-dialog.vala:303
 msgid "Refresh app data or clear cached files"
-msgstr "Обновить данные приложения или очистить кэш"
+msgstr "Обновление данных приложения или очистка кэша"
 
 #: src/widgets/preferences/preferences-dialog.vala:317
 msgid "Software Environment"
@@ -5434,7 +5436,7 @@ msgstr "Обнаруженные лаунчеры"
 #: src/widgets/tools/tools-release-row.vala:715
 #: src/widgets/tools/tools-release-row.vala:719
 msgid "Installed"
-msgstr "Установленное"
+msgstr "Установлено"
 
 #: src/widgets/preferences/preferences-dialog.vala:407
 msgid "Not installed"
@@ -5538,7 +5540,7 @@ msgstr "Перенести"
 
 #: src/widgets/tools/tools-box.vala:121 src/widgets/tools/tools-box.vala:123
 msgid "Check for updates"
-msgstr "Проверка на наличие обновлений"
+msgstr "Проверить наличие обновлений"
 
 #: src/widgets/tools/tools-box.vala:192
 msgid "Used"
