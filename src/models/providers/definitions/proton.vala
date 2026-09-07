@@ -111,6 +111,23 @@ namespace ProtonPlus.Models.Providers {
                     "https://github.com/dreamer/roberta", 10,
                     { new VariantDefinition ("standard", "default", "roberta.tar.xz", true) },
                     { InstallLayout.template ("default", "$title $release_name") }, null, null, "", true
+                ),
+                new ProviderDefinition (
+                    Category.PROTON, SourceType.GITHUB, "proton-hevc", "Proton-HEVC",
+                    N_ (
+                        "Steam compatibility tool with D3D11 HEVC decoding via Vulkan Video. " +
+                        "Uses wined3d by default; tested with Zenless Zone Zero Cloud and Genshin Impact Cloud."
+                    ),
+                    "https://api.github.com/repos/changeforan/zzz-cloud-hevc/releases",
+                    "https://github.com/changeforan/zzz-cloud-hevc", 11,
+                    {
+                        new VariantDefinition (
+                            "x86-64", "x86_64", "$tag_name.tar.gz", true,
+                            VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)
+                        )
+                    },
+                    // Require the exact binary asset; never fall back to a source archive.
+                    { InstallLayout.template ("default", "$release_name") }
                 )
             };
         }
