@@ -564,6 +564,8 @@ msgid ""
 "wined3d by default; tested with Zenless Zone Zero Cloud and Genshin Impact "
 "Cloud."
 msgstr ""
+"أداة توافق لـ Steam تدعم فك ترميز HEVC عبر D3D11 باستخدام Vulkan Video. تستخدم "
+"wined3d افتراضيًا؛ وقد اختُبرت مع Zenless Zone Zero Cloud وGenshin Impact Cloud."
 
 #: src/models/providers/definitions/wine.vala:7
 msgid "Wine build modified by Valve and other contributors."

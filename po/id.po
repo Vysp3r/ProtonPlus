@@ -561,6 +561,9 @@ msgid ""
 "wined3d by default; tested with Zenless Zone Zero Cloud and Genshin Impact "
 "Cloud."
 msgstr ""
+"Alat kompatibilitas Steam dengan dekode HEVC D3D11 melalui Vulkan Video. Menggunakan "
+"wined3d secara default; diuji dengan Zenless Zone Zero Cloud dan Genshin Impact "
+"Cloud."
 
 #: src/models/providers/definitions/wine.vala:7
 msgid "Wine build modified by Valve and other contributors."

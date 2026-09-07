@@ -563,6 +563,9 @@ msgid ""
 "wined3d by default; tested with Zenless Zone Zero Cloud and Genshin Impact "
 "Cloud."
 msgstr ""
+"Інструмент сумісності Steam з декодуванням HEVC через D3D11 за допомогою Vulkan "
+"Video. Типово використовує wined3d; перевірено із Zenless Zone Zero Cloud і Genshin "
+"Impact Cloud."
 
 #: src/models/providers/definitions/wine.vala:7
 msgid "Wine build modified by Valve and other contributors."

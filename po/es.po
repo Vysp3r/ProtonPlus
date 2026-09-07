@@ -115,7 +115,7 @@ msgstr "Se ha instalado correctamente la última versión de %s\n"
 #: src/cli/cli.vala:318 src/cli/cli.vala:351
 #, c-format
 msgid "Error: Installation failed: %s\n"
-msgstr "Error: Instalación fallida\n"
+msgstr "Error: Instalación fallida: %s\n"
 
 #: src/cli/cli.vala:331
 #, c-format
@@ -169,7 +169,7 @@ msgstr "Desinstalación de %s completada correctamente\n"
 #: src/cli/cli.vala:426
 #, c-format
 msgid "Error: Uninstallation failed: %s\n"
-msgstr "Error: Desinstalación fallida\n"
+msgstr "Error: Desinstalación fallida: %s\n"
 
 #: src/cli/cli.vala:431
 msgid "Updating all runners...\n"
@@ -193,7 +193,7 @@ msgstr "Ya está actualizado: %s\n"
 #: src/cli/cli.vala:454 src/cli/cli.vala:510
 #, c-format
 msgid "Error: Failed to update %s: %s\n"
-msgstr "Error: Falló al actualizar %s\n"
+msgstr "Error: Falló al actualizar %s: %s\n"
 
 #: src/cli/cli.vala:494
 msgid "Already up to date\n"
@@ -221,7 +221,7 @@ msgstr "Error: Herramienta '%s' no encontrada\n"
 #: src/cli/cli.vala:644
 #, c-format
 msgid "Error: Tool '%s' does not support %s\n"
-msgstr "Error: Herramienta '%s' no soportada\n"
+msgstr "Error: La herramienta '%s' no admite %s\n"
 
 #: src/cli/cli.vala:651
 #, c-format
@@ -565,6 +565,9 @@ msgid ""
 "wined3d by default; tested with Zenless Zone Zero Cloud and Genshin Impact "
 "Cloud."
 msgstr ""
+"Herramienta de compatibilidad para Steam con decodificación HEVC mediante D3D11 a "
+"través de Vulkan Video. Usa wined3d de forma predeterminada; probada con Zenless Zone "
+"Zero Cloud y Genshin Impact Cloud."
 
 #: src/models/providers/definitions/wine.vala:7
 msgid "Wine build modified by Valve and other contributors."
@@ -1153,15 +1156,15 @@ msgstr "Editar los juegos seleccionados a la vez"
 #, c-format
 msgid "Modify %d selected game"
 msgid_plural "Modify %d selected games"
-msgstr[0] "Editar el juego seleccionado"
-msgstr[1] "Editar los juegos seleccionados a la vez"
+msgstr[0] "Editar %d juego seleccionado"
+msgstr[1] "Editar %d juegos seleccionados"
 
 #: src/widgets/games/games-mass-edit-button.vala:30
 #, c-format
 msgid "Modify %d selected game all at once"
 msgid_plural "Modify %d selected games all at once"
-msgstr[0] "Editar el juego seleccionado de una vez"
-msgstr[1] "Editar los juegos seleccionados a la vez"
+msgstr[0] "Editar %d juego seleccionado de una vez"
+msgstr[1] "Editar %d juegos seleccionados a la vez"
 
 #: src/widgets/games/games-mass-edit-view.vala:27
 msgid "1 game selected"
