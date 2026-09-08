@@ -141,7 +141,7 @@ flatpak remote-add --if-not-exists \
   flathub https://flathub.org/repo/flathub.flatpakrepo
 ```
 
-If a launcher is installed in an unsupported location or through a different packaging format, ProtonPlus may not be able to detect it.
+The Flatpak uses host access required to find Steam libraries and launcher data, and requests access to the supported launcher Flatpak data directories. If a launcher is installed in an unsupported location or through a different packaging format, ProtonPlus may not be able to detect it.
 
 ### Community packages
 
