@@ -76,7 +76,7 @@ namespace ProtonPlus.Models.Providers {
                 ),
                 new ProviderDefinition (
                     Category.PROTON, SourceType.GITHUB, "proton-cachyos-wineland", "Proton-Wineland",
-                    N_ ("A Steam compatibility tool built with native Wayland support, smoother desktop integration, Steam overlay and other new features."),
+                    N_ ("Steam compatibility tool built with native Wayland support, smoother desktop integration, Steam overlay and other new features."),
                     "https://api.github.com/repos/nanomatters/proton-cachyos/releases",
                     "https://github.com/nanomatters/proton-cachyos", 7,
                     {
