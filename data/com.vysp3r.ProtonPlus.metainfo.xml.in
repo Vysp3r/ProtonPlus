@@ -92,6 +92,7 @@
       <description>
         <ul>
           <li>🐛 Fixed Proton-Wineland WoW64 releases not being detected</li>
+          <li>🔄 Renamed Proton-CachyOS Wineland to Proton-Wineland</li>
           <li>🌐 Updated Polish, Russian, and Spanish localizations</li>
         </ul>
       </description>
