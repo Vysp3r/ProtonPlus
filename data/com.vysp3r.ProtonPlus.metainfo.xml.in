@@ -88,6 +88,13 @@
   </screenshots>
 
   <releases>
+    <release version="0.6.7" date="2026-09-08">
+      <description>
+        <ul>
+          <li>🐛 Fixed Proton-CachyOS Wineland WoW64 releases not being detected</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.6.6" date="2026-09-04">
       <description>
         <ul>
