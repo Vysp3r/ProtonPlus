@@ -97,7 +97,7 @@ The built-in provider catalog currently contains:
 - Proton-GE RTSP
 - Proton-Tkg
 - Proton-EM
-- Proton-CachyOS Wineland
+- Proton-Wineland
 - Luxtorpeda
 - Boxtron
 - Roberta
