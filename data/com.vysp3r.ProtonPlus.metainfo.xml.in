@@ -92,6 +92,7 @@
       <description>
         <ul>
           <li>✨ Added a Discord community link to the About dialog</li>
+          <li>🐛 Fixed some release changelogs failing to render when inline code contains Markdown emphasis characters</li>
         </ul>
       </description>
     </release>
