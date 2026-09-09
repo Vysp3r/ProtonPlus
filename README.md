@@ -38,6 +38,8 @@
   <a href="https://github.com/Vysp3r/ProtonPlus/releases">Releases</a>
   ·
   <a href="https://github.com/Vysp3r/ProtonPlus/issues">Issue tracker</a>
+  ·
+  <a href="https://discord.gg/qNRPQvC7m4">Discord</a>
 </p>
 
 ProtonPlus helps you install, update, remove, and organize compatibility tools used by Steam and other Linux game launchers. It discovers supported launcher installations, downloads releases from their upstream sources, and installs them into the layouts expected by each launcher.
