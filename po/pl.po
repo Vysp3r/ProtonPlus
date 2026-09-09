@@ -1,6 +1,6 @@
 # T K <konto2y5@gmail.com>, 2024, 2025.
 # Eryk Michalak <gnu.ewm@protonmail.com>, 2024.
-# Beniamin Remis <nawo266@gmail.com>, 2025.
+# Beniamin Remis <nawo266@gmail.com>, 2025, 2026.
 # Łukasz Zając <sec@rbtv.pl>, 2026.
 # MattSolo451 <mattsolo45@vivaldi.net>, 2026.
 # Jakub Szymański <99kuba11@gmail.com>, 2026.
@@ -12,8 +12,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
 "PO-Revision-Date: 2026-09-09 23:13+0000\n"
-"Last-Translator: Tomasz Bojanowski "
-"<tbojanowski@users.noreply.hosted.weblate.org>\n"
+"Last-Translator: Beniamin Remis <nawo266@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/pl/>\n"
 "Language: pl\n"
@@ -5269,7 +5268,7 @@ msgstr "Sprawdź aktualizacje"
 
 #: src/widgets/tools/tools-box.vala:192
 msgid "Used"
-msgstr "Używany"
+msgstr "Używane"
 
 #: src/widgets/tools/tools-box.vala:195
 msgid "Unused"
