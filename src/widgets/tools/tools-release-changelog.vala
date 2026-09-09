@@ -137,17 +137,34 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
+        private string protect_code_emphasis (string code) {
+            return code
+                .replace ("*", "&#42;")
+                .replace ("_", "&#95;")
+                .replace ("~", "&#126;");
+        }
+
         private string markdown_to_markup (string markdown) {
             string text = Markup.escape_text (markdown);
 
             try {
             // Code blocks: ```code``` -> <tt>code</tt>
                 var code_block = new Regex ("```(?:[a-zA-Z0-9]*\n)?([\\s\\S]*?)```", RegexCompileFlags.MULTILINE);
-                text = code_block.replace (text, -1, 0, "<tt>\\1</tt>");
+                text = code_block.replace_eval (text, -1, 0, 0, (match_info, result) => {
+                    result.append ("<tt>");
+                    result.append (protect_code_emphasis (match_info.fetch (1)));
+                    result.append ("</tt>");
+                    return false;
+                });
 
             // Inline code: `code` -> <tt>code</tt>
                 var code = new Regex ("`(.*?)`", RegexCompileFlags.MULTILINE);
-                text = code.replace (text, -1, 0, "<tt>\\1</tt>");
+                text = code.replace_eval (text, -1, 0, 0, (match_info, result) => {
+                    result.append ("<tt>");
+                    result.append (protect_code_emphasis (match_info.fetch (1)));
+                    result.append ("</tt>");
+                    return false;
+                });
 
             // Headers: # Title -> <b><span size="x-large">Title</span></b>
                 var header1 = new Regex ("^# (.*)$", RegexCompileFlags.MULTILINE);
