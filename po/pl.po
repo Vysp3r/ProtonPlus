@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-10 17:37+0000\n"
+"PO-Revision-Date: 2026-09-10 17:44+0000\n"
 "Last-Translator: Tomasz Bojanowski "
 "<tbojanowski@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -1019,7 +1019,7 @@ msgstr "Żadna gra nie pasuje do tego filtra"
 
 #: src/widgets/games/games-box.vala:1043
 msgid "Choose All games to see your complete library."
-msgstr "Wybierz „wszystkie gry\", aby zobaczyć całą bibliotekę."
+msgstr "Wybierz „wszystkie gry”, aby zobaczyć całą bibliotekę."
 
 #: src/widgets/games/games-box.vala:1046
 #: src/widgets/tools/tools-group-box.vala:342
@@ -1584,7 +1584,7 @@ msgstr "Dodaje -dx11, aby gra użyła swojego renderera DirectX 11."
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:24
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
 msgid "DirectX 12 renderer"
-msgstr "DirectX 12 renderer"
+msgstr "Renderer DirectX 12"
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:24
 msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
@@ -4514,8 +4514,7 @@ msgid ""
 msgstr ""
 "ProtonPlus nie może bezpiecznie zamknąć tej instalacji Steama automatycznie. "
 "Przypomnienie pozostanie, a ProtonPlus wykryje moment zamknięcia Steama. Po "
-"zamknięciu Steama wybierz ponownie „Uruchom Steam ponownie\", aby go "
-"otworzyć."
+"zamknięciu Steama wybierz ponownie „Uruchom Steam ponownie”, aby go otworzyć."
 
 #: src/widgets/main/steam-restart-presentation.vala:127
 msgid "Steam didn’t close"
@@ -4813,7 +4812,7 @@ msgstr "GPU"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:63
 msgid "Custom GPU name"
-msgstr "Własna nazwa CPU"
+msgstr "Własna nazwa GPU"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:68
 #: src/widgets/mangohud/mangohud-metrics-page.vala:145
@@ -4878,7 +4877,7 @@ msgstr "Wykres ograniczania"
 #: src/widgets/mangohud/mangohud-metrics-page.vala:107
 #: src/widgets/mangohud/mangohud-metrics-page.vala:173
 msgid "Efficiency"
-msgstr "Wydajność"
+msgstr "Sprawność"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:108
 msgid "Power Limit"
