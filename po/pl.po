@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-10 17:44+0000\n"
+"PO-Revision-Date: 2026-09-10 21:04+0000\n"
 "Last-Translator: Tomasz Bojanowski "
 "<tbojanowski@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -1593,7 +1593,7 @@ msgstr "Dodaje -dx12, aby gra użyła swojego renderera DirectX 12."
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:25
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1324
 msgid "Developer console"
-msgstr "Developer console"
+msgstr "Konsola deweloperska"
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:25
 msgid "Adds -console to open the game's developer console when supported."
@@ -2162,7 +2162,7 @@ msgid ""
 "Enables VKD3D's internal shader caching mechanism to minimize in-game "
 "stutter."
 msgstr ""
-"Włącza wewnętrzny mechanizm buforowania shaderów VKD3D, ograniczający "
+"Włącza wewnętrzny mechanizm pamięci podręcznej shaderów VKD3D, ograniczający "
 "przycięcia w grze."
 
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:41
