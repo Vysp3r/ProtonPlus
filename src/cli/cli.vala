@@ -706,7 +706,7 @@ namespace ProtonPlus.CLI {
         }
 
         private void on_progress_updated (Services.InstallJob job) {
-            var speed = Utils.Filesystem.convert_bytes_to_string ((int64) (job.speed_kbps * 1024));
+            var speed = Utils.Filesystem.convert_download_speed_to_string ((int64) (job.speed_kbps * 1024));
             var progress = job.progress;
 
             string eta_text;

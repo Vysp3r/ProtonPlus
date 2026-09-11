@@ -4,6 +4,9 @@ namespace ProtonPlus.Models.Launchers {
 
         public HeroicGamesLauncher (Launcher.InstallationTypes installation_type) {
             string[] directories = null;
+            var custom_dir = Globals.SETTINGS != null
+                ? Globals.SETTINGS.get_string ("heroic-dir-custom").strip ()
+                : "";
 
             switch (installation_type) {
                 case Launcher.InstallationTypes.SYSTEM:
@@ -17,6 +20,10 @@ namespace ProtonPlus.Models.Launchers {
                     break;
                 case Launcher.InstallationTypes.SNAP:
                     break;
+            }
+
+            if (custom_dir.length > 0) {
+                directories += custom_dir;
             }
 
             base ("Heroic Games Launcher", installation_type, "%s/hgl.svg".printf (Config.RESOURCE_BASE), directories, FAMILY_ID);

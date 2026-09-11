@@ -25,6 +25,11 @@
         <value nick="east" value="1"/>
     </enum>
 
+    <enum id="com.vysp3r.ProtonPlus.DownloadSpeedUnit">
+        <value nick="kb" value="0"/>
+        <value nick="kib" value="1"/>
+    </enum>
+
     <enum id="com.vysp3r.ProtonPlus.Language">
         <value nick="system" value="0"/>
         <value nick="ar" value="1"/>
@@ -120,6 +125,10 @@
             <default>0</default>
             <summary>Maximum download speed in bytes per second (0 disables the limit)</summary>
         </key>
+        <key name="download-speed-unit" enum="com.vysp3r.ProtonPlus.DownloadSpeedUnit">
+            <default>'kb'</default>
+            <summary>Unit used to display the download speed limit</summary>
+        </key>
         <key name="controller-confirm-button" enum="com.vysp3r.ProtonPlus.ControllerConfirmButton">
             <default>'south'</default>
         </key>
@@ -129,6 +138,26 @@
         <key name="last-version" type="s">
             <default>''</default>
             <summary>Last launched version of ProtonPlus</summary>
+        </key>
+        <key name="steam-dir-custom" type="s">
+            <default>''</default>
+            <summary>Custom steam directory</summary>
+        </key>
+        <key name="bottles-dir-custom" type="s">
+            <default>''</default>
+            <summary>Custom bottles directory</summary>
+        </key>
+        <key name="heroic-dir-custom" type="s">
+            <default>''</default>
+            <summary>Custom heroic directory</summary>
+        </key>
+        <key name="lutris-dir-custom" type="s">
+            <default>''</default>
+            <summary>Custom lutris directory</summary>
+        </key>
+        <key name="winezgui-dir-custom" type="s">
+            <default>''</default>
+            <summary>Custom winezgui directory</summary>
         </key>
     </schema>
 </schemalist>
