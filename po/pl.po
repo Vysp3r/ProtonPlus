@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-12 01:41+0000\n"
+"PO-Revision-Date: 2026-09-12 07:51+0000\n"
 "Last-Translator: Tomasz Bojanowski "
 "<tbojanowski@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -218,7 +218,7 @@ msgstr "Błąd: nie udało się wczytać launcherów\n"
 #: src/cli/cli.vala:559
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
-msgstr "Błąd: Nie znaleziono '%s'\n"
+msgstr "Błąd: nie znaleziono launchera '%s'\n"
 
 #: src/cli/cli.vala:572
 #, c-format
@@ -511,8 +511,8 @@ msgstr "Zalecane"
 #: src/models/providers/definitions/proton.vala:39
 msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
 msgstr ""
-"Niestandardowy fork Protona od grupy Dawn Winery z poprawkami do wielu gier "
-"(głównie gier Gacha) :xdd:"
+"Własny fork Protona od grupy Dawn Winery z poprawkami do wielu gier (głównie "
+"gier Gacha) :xdd:"
 
 #: src/models/providers/definitions/proton.vala:49
 msgid ""
@@ -2272,7 +2272,7 @@ msgstr "Wymaga polecenia game-performance z CachyOS, które jest niedostępne."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:351
 msgid "Requires obs-vkcapture, which is not available."
-msgstr "Wymaga obs-vkcapture, które jest niedostępne."
+msgstr "Wymaga obs-vkcapture, które jest niedostępny."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:352
 msgid "Requires Gamescope, which is not available."
@@ -2280,7 +2280,7 @@ msgstr "Wymaga Gamescope, który jest niedostępny."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:353
 msgid "Requires ScopeBuddy, which is not available."
-msgstr "Wymaga ScopeBuddy, które jest niedostępne."
+msgstr "Wymaga ScopeBuddy, które jest niedostępny."
 
 #: src/widgets/games/launch-options-editor/launch-option-capability-resolver.vala:354
 msgid "Requires vkBasalt, which is not available."
@@ -5278,7 +5278,7 @@ msgstr "Pokaż starsze narzędzia"
 
 #: src/widgets/preferences/preferences-dialog.vala:117
 msgid "Display older tools that are no longer actively maintained"
-msgstr "Wyświetla starsze narzędzia, które nie są już aktywnie rozwijane"
+msgstr "Wyświetlanie starszych narzędzi, które nie są już aktywnie rozwijane"
 
 #. Launchers Page
 #: src/widgets/preferences/preferences-dialog.vala:124
@@ -5337,7 +5337,7 @@ msgstr "Funkcje testowe"
 
 #: src/widgets/preferences/preferences-dialog.vala:296
 msgid "Enable experimental features for early testing"
-msgstr "Włącza funkcje eksperymentalne do wczesnych testów"
+msgstr "Włączanie funkcji eksperymentalnych do wczesnych testów"
 
 #: src/widgets/preferences/preferences-dialog.vala:302
 msgid "Maintenance"
@@ -5496,7 +5496,7 @@ msgstr "Motyw"
 
 #: src/widgets/preferences/preferences-tool-row.vala:18
 msgid "Select your desired compatibility tool"
-msgstr "Wybierz żądane narzędzie zgodności"
+msgstr "Wybierz narzędzie zgodności"
 
 #: src/widgets/preferences/proxy-mode-row.vala:15
 msgid "System proxy"
