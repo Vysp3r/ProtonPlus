@@ -207,13 +207,41 @@ namespace ProtonPlus.Models.Launchers {
             if (default_compatibility_tool != null)
             this.default_compatibility_tool = default_compatibility_tool;
 
-            var libraryfolder_content = yield Utils.Filesystem.get_file_content_async ("%s/steamapps/libraryfolders.vdf".printf (directory));
+            Utils.VDF.VdfDocument? libraryfolder_document = null;
+            var libraryfolder_path = "";
+            var libraryfolder_candidates = new string[] {
+                Path.build_filename (directory, "config", "libraryfolders.vdf"),
+                Path.build_filename (directory, "steamapps", "libraryfolders.vdf"),
+            };
 
-            var libraryfolder_document = Utils.VDF.VdfParser.parse_document (libraryfolder_content);
-            if (libraryfolder_document == null)
+            foreach (var candidate in libraryfolder_candidates) {
+                if (!FileUtils.test (candidate, FileTest.IS_REGULAR))
+                    continue;
+
+                var libraryfolder_content = yield Utils.Filesystem.get_file_content_async (candidate);
+                var candidate_document = Utils.VDF.VdfParser.parse_document (libraryfolder_content);
+                if (candidate_document == null) {
+                    warning ("Could not parse Steam library folders file: %s", candidate);
+                    continue;
+                }
+
+                if (((!) candidate_document).root.get_child ("libraryfolders") == null) {
+                    warning ("Steam library folders file has no libraryfolders root: %s", candidate);
+                    continue;
+                }
+
+                libraryfolder_document = (!) candidate_document;
+                libraryfolder_path = candidate;
+                break;
+            }
+
+            if (libraryfolder_document == null) {
+                warning ("Could not find a valid Steam library folders file below: %s", directory);
                 return false;
+            }
 
-            var libraryfolders = libraryfolder_document.root.get_child ("libraryfolders");
+            debug ("Loading Steam library folders from: %s", libraryfolder_path);
+            var libraryfolders = ((!) libraryfolder_document).root.get_child ("libraryfolders");
             if (libraryfolders == null)
                 return false;
 
