@@ -221,12 +221,12 @@ namespace ProtonPlus.Models.Launchers {
                 var libraryfolder_content = yield Utils.Filesystem.get_file_content_async (candidate);
                 var candidate_document = Utils.VDF.VdfParser.parse_document (libraryfolder_content);
                 if (candidate_document == null) {
-                    warning ("Could not parse Steam library folders file: %s", candidate);
+                    debug ("Could not parse Steam library folders candidate: %s", candidate);
                     continue;
                 }
 
                 if (((!) candidate_document).root.get_child ("libraryfolders") == null) {
-                    warning ("Steam library folders file has no libraryfolders root: %s", candidate);
+                    debug ("Steam library folders candidate has no libraryfolders root: %s", candidate);
                     continue;
                 }
 
