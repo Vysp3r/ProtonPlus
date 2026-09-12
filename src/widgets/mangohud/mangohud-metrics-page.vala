@@ -117,7 +117,7 @@ namespace ProtonPlus.Widgets.MangoHud {
             });
 
             gpu_name_row = create_switch (_ ("Model"), config.gpu_name, (val) => { this.config.gpu_name = val; });
-            vulkan_driver_row = create_switch (_ ("Vulkan Driver"), config.vulkan_driver, (val) => { this.config.vulkan_driver = val; });
+            vulkan_driver_row = create_switch (_ ("Vulkan driver"), config.vulkan_driver, (val) => { this.config.vulkan_driver = val; });
             gpu_procs_row = create_switch (_ ("Process"), config.procs, (val) => { this.config.procs = val; });
 
             add_flow_group (gpu_metrics_box, _ ("Information"), {

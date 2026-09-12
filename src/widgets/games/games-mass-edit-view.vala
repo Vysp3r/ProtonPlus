@@ -24,7 +24,7 @@ namespace ProtonPlus.Widgets.Games {
         ulong header_back_handler = 0;
 
         public string get_selection_text () {
-            return items.length == 1 ? _("1 game selected") : _("%u games selected").printf (items.length);
+            return ngettext ("%u game selected", "%u games selected", items.length).printf (items.length);
         }
 
         public MassEditView (Gtk.MenuButton selection_button) {
