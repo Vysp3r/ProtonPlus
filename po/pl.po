@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-10 21:04+0000\n"
+"PO-Revision-Date: 2026-09-12 01:37+0000\n"
 "Last-Translator: Tomasz Bojanowski "
 "<tbojanowski@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
 msgid "ProtonPlus"
@@ -136,7 +136,7 @@ msgstr "Wybierz numer wydania"
 #: src/cli/cli.vala:343
 #, c-format
 msgid "Installing %s...\n"
-msgstr "Instalacja %s...\n"
+msgstr "Instalowanie %s...\n"
 
 #: src/cli/cli.vala:349
 #, c-format
@@ -204,12 +204,12 @@ msgstr "Błąd: nie udało się zaktualizować %s: %s\n"
 
 #: src/cli/cli.vala:494
 msgid "Already up to date\n"
-msgstr "Jest już aktualny\n"
+msgstr "Już aktualne\n"
 
 #: src/cli/cli.vala:519
 #, c-format
 msgid "Updating %s..."
-msgstr "Aktualizuję %s..."
+msgstr "Aktualizowanie %s..."
 
 #: src/cli/cli.vala:535
 msgid "Error: Failed to load launchers\n"
@@ -249,7 +249,7 @@ msgstr "Użycie:\n"
 
 #: src/cli/cli.vala:683
 msgid "Commands:\n"
-msgstr "Komendy:\n"
+msgstr "Polecenia:\n"
 
 #: src/cli/cli.vala:684
 msgid "Show version"
@@ -438,7 +438,8 @@ msgstr "chiński (tradycyjny)"
 
 #: src/models/launcher.vala:277
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
-msgstr "Oparta na Vulkan implementacja Direct3D 8, 9, 10 i 11 dla Linux/Wine."
+msgstr ""
+"Oparta na Vulkanie implementacja Direct3D 8, 9, 10 i 11 dla Linuksa/Wine."
 
 #: src/models/launcher.vala:279
 msgid ""
@@ -480,7 +481,7 @@ msgstr "%s (niedostępny)"
 
 #: src/models/providers/definitions/dxvk.vala:14
 msgid "DXVK builds with gplasync patch by Ph42oN."
-msgstr "Wydania DXVK z łatką GPL-Async, stworzona przez Ph42oN."
+msgstr "Wydania DXVK z łatką gplasync autorstwa Ph42oN."
 
 #: src/models/providers/definitions/dxvk.vala:22
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
@@ -518,14 +519,13 @@ msgid ""
 "Steam compatibility tool based on Proton-GE with additional patches to "
 "improve RTSP codecs for VRChat."
 msgstr ""
-"Narzędzie zgodności Steam oparte o Proton-GE z dodatkowymi łatkami "
+"Narzędzie zgodności Steam oparte oparte na Proton-GE z dodatkowymi łatkami "
 "poprawiającymi kodeki RTSP dla VRChat."
 
 #: src/models/providers/definitions/proton.vala:57
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr ""
-"Niestandardowe wydanie Proton do uruchamiania gier Windows, oparte na Wine-"
-"tkg."
+"Własna kompilacja Protona do uruchamiania gier Windows, oparta na Wine-tkg."
 
 #: src/models/providers/definitions/proton.vala:68
 msgid ""
@@ -567,7 +567,7 @@ msgstr ""
 
 #: src/models/providers/definitions/wine.vala:7
 msgid "Wine build modified by Valve and other contributors."
-msgstr "Wydanie Wine, zmodyfikowane przez Valve i nie tylko."
+msgstr "Wydanie Wine zmodyfikowane przez Valve i innych współtwórców."
 
 #: src/models/providers/definitions/wine.vala:23
 msgid "Wine build with the Staging patchset."
@@ -764,12 +764,12 @@ msgstr "Otwórz"
 #: src/widgets/controller-hint-bar.vala:113
 #: src/widgets/header/header-box.vala:54 src/widgets/header/header-box.vala:56
 msgid "Back"
-msgstr "Cofnij"
+msgstr "Wstecz"
 
 #: src/widgets/controller-hint-bar.vala:117 src/widgets/window.vala:174
 #: src/widgets/window.vala:378
 msgid "Exit"
-msgstr "Wyjście"
+msgstr "Zakończ"
 
 #: src/widgets/controller-hint-bar.vala:121
 msgid "Close"
@@ -904,7 +904,8 @@ msgstr "Ostrzeżenie"
 msgid ""
 "Please make sure to select at least one game before using the mass edit "
 "feature."
-msgstr "Przed skorzystaniem z edycji masowej, należy wybrać co najmniej 1 grę."
+msgstr ""
+"Przed skorzystaniem z edycji zbiorczej należy wybrać co najmniej jedną grę."
 
 #: src/widgets/games/games-box.vala:490 src/widgets/games/games-box.vala:493
 #: src/widgets/games/games-box.vala:534 src/widgets/main/main-box.vala:73
@@ -1376,7 +1377,7 @@ msgstr "Nakładka wydajności MangoHud"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:21
 msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
-msgstr "Pokazuje w grze nakładkę z FPS, zużyciem CPU/GPU, i temperaturami."
+msgstr "Pokazuje w grze nakładkę z FPS, obciążeniem CPU/GPU i temperaturami."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:30
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1242
@@ -1385,7 +1386,9 @@ msgstr "Użyj profilu pulpitowego"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:31
 msgid "Disables the Steam Deck-specific profile that some games use."
-msgstr "Wyłącza tryb Steam-Deck który używa kika gier."
+msgstr ""
+"Wyłącza profil przeznaczony dla Steam Decka, z którego korzystają niektóre "
+"gry."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:39
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1241
@@ -2812,7 +2815,7 @@ msgstr "Wykryj automatycznie"
 #: src/widgets/mangohud/mangohud-presets-page.vala:26
 #: src/widgets/mangohud/mangohud-presets-page.vala:54
 msgid "Custom"
-msgstr "inwidualny"
+msgstr "Własne"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-resolution-field.vala:73
 #: src/widgets/games/launch-options-editor/launch-options-editor-spin-tile.vala:46
@@ -4172,7 +4175,7 @@ msgstr ""
 #: src/widgets/loading/loading-box.vala:97
 #, c-format
 msgid "Welcome to %s"
-msgstr "Witamy w %s"
+msgstr "Witaj w %s"
 
 #: src/widgets/loading/loading-box.vala:136
 msgid "Retry loading"
@@ -4274,7 +4277,7 @@ msgstr "Spróbuj ponownie"
 
 #: src/widgets/main/main-box.vala:332 src/widgets/tools/tools-box.vala:762
 msgid "Checking for updates"
-msgstr "Poszukiwanie aktualizacji"
+msgstr "Sprawdzanie aktualizacji"
 
 #: src/widgets/main/main-box.vala:343 src/widgets/tools/tools-box.vala:770
 msgid "Can't update while a game is running"
@@ -4291,7 +4294,7 @@ msgstr "Wszystko jest aktualne"
 #: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:780
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
-msgstr "Błąd wykrycia aktualizacji (Powód: %s)"
+msgstr "Nie udało się sprawdzić aktualizacji (powód: %s)"
 
 #: src/widgets/main/main-box.vala:360
 msgid "Update started"
@@ -4784,7 +4787,7 @@ msgstr "Klawisz przełączania"
 #: src/widgets/mangohud/mangohud-performance-page.vala:122
 #: src/widgets/mangohud/mangohud-visual-page.vala:97
 msgid "None"
-msgstr "Żadne"
+msgstr "Brak"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:171
 msgid "Output Folder"
@@ -5178,7 +5181,7 @@ msgstr "Token dostępu %s"
 
 #: src/widgets/preferences/preferences-access-token-row.vala:10
 msgid "Enter an access token to reduce your chances of being rate limited"
-msgstr "Wpisz token by zredukować szansę na przekroczenie limitu"
+msgstr "Wpisz token dostępu, aby zmniejszyć ryzyko przekroczenia limitu zapytań"
 
 #: src/widgets/preferences/preferences-access-token-row.vala:19
 #, c-format
@@ -5444,11 +5447,11 @@ msgstr "Usuń skrót"
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Create a shortcut of ProtonPlus in Steam"
-msgstr "Utwórz skrót do ProtonPlus w Steam"
+msgstr "Utwórz skrót do ProtonPlus w Steamie"
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:31
 msgid "Delete the shortcut of ProtonPlus in Steam"
-msgstr "Usuń skrót do ProtonPlus w Steam"
+msgstr "Usuń skrót do ProtonPlus w Steamie"
 
 #: src/widgets/preferences/preferences-steam-shortcut-row.vala:55
 msgid "Failed to create shortcut"
@@ -5959,7 +5962,7 @@ msgstr "Ostatnia aktualizacja: %s"
 #: src/widgets/tools/tools-remove-dialog.vala:8
 #, c-format
 msgid "Delete %s?"
-msgstr "Usuń %s?"
+msgstr "Usunąć %s?"
 
 #: src/widgets/tools/tools-remove-dialog.vala:10
 msgid "It will be permanently deleted."
