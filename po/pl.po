@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-12 01:37+0000\n"
+"PO-Revision-Date: 2026-09-12 01:41+0000\n"
 "Last-Translator: Tomasz Bojanowski "
 "<tbojanowski@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/protonplus/"
@@ -481,11 +481,11 @@ msgstr "%s (niedostępny)"
 
 #: src/models/providers/definitions/dxvk.vala:14
 msgid "DXVK builds with gplasync patch by Ph42oN."
-msgstr "Wydania DXVK z łatką gplasync autorstwa Ph42oN."
+msgstr "Kompilacje DXVK z łatką gplasync autorstwa Ph42oN."
 
 #: src/models/providers/definitions/dxvk.vala:22
 msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
-msgstr "Wydania DXVK działające z wersjami Vulkana wcześniejszymi niż 1.3."
+msgstr "Kompilacje DXVK działające z wersjami Vulkana wcześniejszymi niż 1.3."
 
 #: src/models/providers/definitions/proton.vala:7
 msgid ""
@@ -567,20 +567,21 @@ msgstr ""
 
 #: src/models/providers/definitions/wine.vala:7
 msgid "Wine build modified by Valve and other contributors."
-msgstr "Wydanie Wine zmodyfikowane przez Valve i innych współtwórców."
+msgstr "Kompilacja Wine zmodyfikowana przez Valve i innych współtwórców."
 
 #: src/models/providers/definitions/wine.vala:23
 msgid "Wine build with the Staging patchset."
-msgstr "Wydanie Wine z zestawem łatek Staging."
+msgstr "Kompilacja Wine z zestawem łatek Staging."
 
 #: src/models/providers/definitions/wine.vala:37
 msgid "Wine build with the Staging patchset and many other useful patches."
 msgstr ""
-"Wydanie Wine z zestawem łatek Staging i wieloma innymi przydatnymi łatkami."
+"Kompilacja Wine z zestawem łatek Staging i wieloma innymi przydatnymi "
+"łatkami."
 
 #: src/models/providers/definitions/wine.vala:51
 msgid "Wine build compiled from the official WineHQ sources."
-msgstr "Wydanie Wine z oficjalnych źródeł WineHQ."
+msgstr "Kompilacja Wine z oficjalnych źródeł WineHQ."
 
 #: src/models/tools/steamtinkerlaunch.vala:8
 msgid ""
@@ -3881,11 +3882,11 @@ msgstr "_Skróty klawiszowe"
 
 #: src/widgets/header/header-box.vala:86
 msgid "_Help"
-msgstr "_Pomoc"
+msgstr "Po_moc"
 
 #: src/widgets/header/header-box.vala:90
 msgid "_Donate"
-msgstr "_Przekaż darowiznę"
+msgstr "Przekaż _darowiznę"
 
 #: src/widgets/header/header-box.vala:91
 msgid "_About ProtonPlus"
