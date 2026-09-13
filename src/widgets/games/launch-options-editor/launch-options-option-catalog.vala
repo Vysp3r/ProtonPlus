@@ -172,6 +172,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public bool managed_emission { get; construct; }
         public string[] legacy_tokens { get; construct; }
         public string[] selectable_values { get; construct; }
+        public string value_separator { get; construct; }
         public LaunchOptionParseShape? parse_shape { get; construct; }
         LaunchOptionCapability[] _required_capabilities;
         public LaunchOptionApplicability applicability { get; construct; }
@@ -197,7 +198,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             bool managed_emission = false,
             string[] legacy_tokens = {},
             string[] selectable_values = {},
-            LaunchOptionParseShape? parse_shape = null
+            LaunchOptionParseShape? parse_shape = null,
+            string value_separator = ""
         ) {
             Object (
                 kind: kind, placeholder_policy: placeholder_policy,
@@ -209,7 +211,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 legacy_manual_representation: legacy_manual_representation,
                 support: support, managed_emission: managed_emission,
                 legacy_tokens: legacy_tokens, selectable_values: selectable_values,
-                parse_shape: parse_shape
+                parse_shape: parse_shape, value_separator: value_separator
             );
             this._required_capabilities = required_capabilities;
             this._composite_outputs = composite_outputs;
@@ -711,7 +713,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     LaunchOptionEmissionMode.FIXED_TOKENS,
                     "", "", raw_tokens, {}, renderer_conflict_group (id), {}, {}, {},
                     LaunchOptionApplicability.GENERIC, {}, false,
-                    support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id)
+                    support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id),
+                    null, dynamic_environment_separator_for (id)
                 );
             }
             if (serialization_type == LaunchLineType.ENVIRONMENT) {
@@ -782,6 +785,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     return new LaunchOptionParseShape ({ "-r" }, { 1 });
                 default:
                     return null;
+            }
+        }
+
+        string dynamic_environment_separator_for (string id) {
+            switch (id) {
+                case "vkd3d-config":
+                case "amd-radv-perftest":
+                case "amd-radv-debug":
+                case "amd-aco-debug":
+                    return ",";
+                default:
+                    return "";
             }
         }
 
