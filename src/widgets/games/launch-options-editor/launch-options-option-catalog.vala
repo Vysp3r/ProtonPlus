@@ -713,8 +713,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     LaunchOptionEmissionMode.FIXED_TOKENS,
                     "", "", raw_tokens, {}, renderer_conflict_group (id), {}, {}, {},
                     LaunchOptionApplicability.GENERIC, {}, false,
-                    support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id),
-                    null, dynamic_environment_separator_for (id)
+                    support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id)
                 );
             }
             if (serialization_type == LaunchLineType.ENVIRONMENT) {
@@ -738,7 +737,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     conflict_group_for (id), conflicts_for (id),
                     scopebuddy_owner (id) != "" ? backend_dependencies (dependencies) : dependencies,
                     capabilities_for (id), applicability_for (id), {}, false,
-                    support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id)
+                    support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id),
+                    null, dynamic_environment_separator_for (id)
                 );
             }
 
