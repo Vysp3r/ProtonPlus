@@ -6,6 +6,7 @@ namespace AppTests.ProviderSourceTest {
 
     public void register_tests () {
         Test.add_func ("/providers/github/canonical-release-page", test_github_release_page);
+        Test.add_func ("/providers/github/proton-hevc-binary-only", test_proton_hevc_binary_only);
         Test.add_func ("/providers/gitlab/canonical-release-page", test_gitlab_release_page);
         Test.add_func ("/providers/forgejo/canonical-release-page", test_forgejo_release_page);
         Test.add_func ("/providers/github-actions/canonical-release-page", test_github_actions_release_page);
@@ -94,6 +95,53 @@ namespace AppTests.ProviderSourceTest {
         assert (release.variants[0].resolved_asset ().digest == "sha256:github");
         assert (page.next_page == 2);
         assert (!page.has_more);
+    }
+
+    private void test_proton_hevc_binary_only () {
+        var provider = new ProviderRegistry ().get_by_id ("proton-hevc");
+        assert (provider != null);
+        var source = new GitHubReleaseSource ();
+        var content = fixture ("github", "proton-hevc.json");
+        var result = source.parse_response ((!) provider, content, 1, 25);
+        assert (result.succeeded);
+        var page = result.require_page ();
+        assert (page.releases.size == 1);
+        var release = page.releases[0];
+        assert (release.upstream_release_id == "24001");
+        assert (release.source_tag == "Proton-HEVC-11.0-2-r1");
+        assert (release.asset.name == "Proton-HEVC-11.0-2-r1.tar.gz");
+        assert (release.asset.download_url ==
+                "https://github.com/changeforan/zzz-cloud-hevc/releases/download/Proton-HEVC-11.0-2-r1/Proton-HEVC-11.0-2-r1.tar.gz");
+        assert (release.variants.size == 1);
+        assert (release.variants[0].id == "x86-64");
+        assert (release.variants[0].resolved_asset ().name == release.asset.name);
+        assert (release.variants[0].compatibility.equals (
+            ProtonPlus.Models.VariantCompatibility.for_x86_64_level (ProtonPlus.Models.X86_64Level.BASELINE)
+        ));
+
+        try {
+            var root = Json.from_string (content);
+            var object = root.get_array ().get_object_element (0);
+            var assets = object.get_array_member ("assets");
+            // Remove the binary: neither sources nor an unsupported architecture/format may win.
+            assets.remove_element (3);
+            result = source.parse_response ((!) provider, Json.to_string (root, false), 1, 25);
+            assert (result.succeeded && result.require_page ().releases.size == 0);
+
+            // A sole uploaded source archive must not activate single-archive fallback.
+            assets.remove_element (2);
+            assets.remove_element (1);
+            result = source.parse_response ((!) provider, Json.to_string (root, false), 1, 25);
+            assert (result.succeeded && result.require_page ().releases.size == 0);
+
+            // GitHub's automatically generated source links are not binary assets either.
+            assets.remove_element (0);
+            result = source.parse_response ((!) provider, Json.to_string (root, false), 1, 25);
+            assert (result.succeeded && result.require_page ().releases.size == 0);
+        } catch (Error e) {
+            critical ("Could not parse Proton-HEVC fixture: %s", e.message);
+            assert_not_reached ();
+        }
     }
 
     private void test_gitlab_release_page () {

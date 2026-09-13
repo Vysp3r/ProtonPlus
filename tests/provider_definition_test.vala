@@ -12,6 +12,7 @@ namespace AppTests.ProviderDefinitionTest {
         Test.add_func ("/provider-definitions/multi-archive-asset-selection", test_multi_archive_asset_selection);
         Test.add_func ("/provider-definitions/catalog-construction-isolation", test_catalog_construction_isolation);
         Test.add_func ("/provider-definitions/proton-tkg-archive-requirement", test_proton_tkg_archive_requirement);
+        Test.add_func ("/provider-definitions/proton-hevc-compatibility", test_proton_hevc_compatibility);
         Test.add_func ("/provider-definitions/steam-tinker-launch", test_steam_tinker_launch);
     }
 
@@ -103,6 +104,8 @@ namespace AppTests.ProviderDefinitionTest {
             return "https://github.com/dreamer/boxtron";
         case "roberta":
             return "https://github.com/dreamer/roberta";
+        case "proton-hevc":
+            return "https://github.com/changeforan/zzz-cloud-hevc";
         case "wine-proton":
         case "wine-staging":
         case "wine-staging-tkg":
@@ -116,7 +119,7 @@ namespace AppTests.ProviderDefinitionTest {
     private void test_definition_snapshot () {
         var expected = get_snapshot ().get_array_member ("definitions");
         var definitions = new ProviderRegistry ().get_all ();
-        assert (definitions.length == 19);
+        assert (definitions.length == 20);
         assert (expected.get_length () == definitions.length);
 
         foreach (var expected_definition in expected.get_elements ()) {
@@ -124,6 +127,8 @@ namespace AppTests.ProviderDefinitionTest {
             var definition = get_definition (object.get_string_member ("provider_id"));
             assert (definition.provider_id == object.get_string_member ("provider_id"));
             assert (definition.title == object.get_string_member ("title"));
+            if (object.has_member ("description"))
+                assert (definition.description == object.get_string_member ("description"));
             assert (category_name (definition.category) == object.get_string_member ("type"));
             assert (source_name (definition.source_type) == object.get_string_member ("source"));
             assert (definition.endpoint == object.get_string_member ("endpoint"));
@@ -288,6 +293,25 @@ namespace AppTests.ProviderDefinitionTest {
             "", 0, "fixture-release", "fixture-release"
         ), (!) tool);
         assert (job.archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE);
+    }
+
+    private void test_proton_hevc_compatibility () {
+        var definition = get_definition ("proton-hevc");
+        assert (!definition.single_archive_releases);
+        assert (definition.archive_install_requirement == ArchiveInstallRequirement.STANDARD);
+        var variants = definition.get_variants ();
+        assert (variants.length == 1);
+        assert (variants[0].is_default);
+        assert (variants[0].compatibility.equals (
+            VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)
+        ));
+
+        var tool = create_tool (definition, "steam");
+        assert (tool != null);
+        assert (tool.provider_id == "proton-hevc");
+        assert (tool.variants.size == 1);
+        assert (tool.variants[0].compatibility.equals (variants[0].compatibility));
+        assert (tool.archive_install_requirement == ArchiveInstallRequirement.STANDARD);
     }
 
     private void test_steam_tinker_launch () {

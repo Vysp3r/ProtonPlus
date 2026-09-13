@@ -549,6 +549,14 @@ msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr "用于在 Linux 上通过 ScummVM 运行冒险游戏的 Steam 兼容性工具。"
 
+#: src/models/providers/definitions/proton.vala:118
+msgid ""
+"Steam compatibility tool with D3D11 HEVC decoding via Vulkan Video. Uses "
+"wined3d by default; tested with Zenless Zone Zero Cloud and Genshin Impact "
+"Cloud."
+msgstr ""
+"通过 Vulkan Video 提供 D3D11 HEVC 解码的 Steam 兼容工具。默认使用 wined3d；已在云·绝区零和云·原神中测试。"
+
 #: src/models/providers/definitions/wine.vala:7
 msgid "Wine build modified by Valve and other contributors."
 msgstr "由 Valve 及其他贡献者修改的 Wine 构建版本。"

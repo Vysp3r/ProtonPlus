@@ -103,6 +103,7 @@ The built-in provider catalog currently contains:
 - Luxtorpeda
 - Boxtron
 - Roberta
+- Proton-HEVC
 - Steam Tinker Launch, for Steam
 
 ### Wine

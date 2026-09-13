@@ -13,6 +13,7 @@ namespace AppTests.InstallLayoutTest {
         Test.add_func ("/install-layout/definition-defensive-copy", test_definition_defensive_copy);
         Test.add_func ("/install-layout/catalog-missing-layout", test_catalog_missing_layout);
         Test.add_func ("/install-layout/latest-name", test_latest_name);
+        Test.add_func ("/install-layout/proton-hevc-release-root", test_proton_hevc_release_root);
     }
 
     private Json.Object snapshot () {
@@ -122,6 +123,15 @@ namespace AppTests.InstallLayoutTest {
     private void test_catalog_missing_layout () {
         var definition = fixture_definition ({ InstallLayout.template ("bottles", "$release_name") });
         assert (ProviderCatalog.create_tool (definition, fixture_group ("steam")) == null);
+    }
+
+    private void test_proton_hevc_release_root () {
+        var definition = get_definition ("proton-hevc");
+        foreach (var family in new string[] { "steam", "lutris", "bottles", "heroic", "fixture" }) {
+            var tool = ProviderCatalog.create_tool (definition, fixture_group (family));
+            assert (tool != null);
+            assert (tool.get_directory_name ("Proton-HEVC-11.0-2-r1") == "Proton-HEVC-11.0-2-r1");
+        }
     }
 
     private void test_latest_name () {

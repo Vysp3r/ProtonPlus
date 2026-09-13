@@ -589,6 +589,16 @@ msgstr ""
 "Outil de compatibilité Steam Play pour exécuter des jeux d’aventures avec "
 "l’outil natif ScummVM."
 
+#: src/models/providers/definitions/proton.vala:118
+msgid ""
+"Steam compatibility tool with D3D11 HEVC decoding via Vulkan Video. Uses "
+"wined3d by default; tested with Zenless Zone Zero Cloud and Genshin Impact "
+"Cloud."
+msgstr ""
+"Outil de compatibilité pour Steam prenant en charge le décodage HEVC de D3D11 via "
+"Vulkan Video. Utilise wined3d par défaut ; testé avec Zenless Zone Zero Cloud et "
+"Genshin Impact Cloud."
+
 #: src/models/providers/definitions/wine.vala:7
 msgid "Wine build modified by Valve and other contributors."
 msgstr "Une version de Wine modifiée par Valve et d'autres contributeurs."
