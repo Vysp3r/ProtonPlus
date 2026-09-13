@@ -314,7 +314,9 @@ namespace ProtonPlus.Widgets.Games {
                     if (!launch_write.writing_allowed) {
                         var detail = launch_write.writer_diagnostics.size > 0
                             ? launch_write.writer_diagnostics[0]
-                            : _("The selected launch options are incomplete or unsupported for these games.");
+                            : launch_write.composition_diagnostics.size > 0
+                                ? launch_write.composition_diagnostics[0].message
+                                : _("The selected launch options are incomplete or unsupported for these games.");
                         var dialog = new Main.ErrorDialog (_("Launch options cannot be applied"),
                             _("No games were changed because the launch command could not be prepared safely."), detail);
                         ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
