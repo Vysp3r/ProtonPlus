@@ -160,7 +160,7 @@ namespace AppTests.LaunchCommandComposerTest {
             new LaunchCommandSelection ("amd-radv-perftest", { "nggc,rtcps" })
         }, { LaunchOptionCapability.AMD });
         assert (radv.is_valid);
-        assert (radv.launch_line == "RADV_PERFTEST=nggc,rtcps %command%");
+        assert (radv.launch_line == "RADV_PERFTEST='nggc,rtcps' %command%");
 
         var invalid = compose ({
             new LaunchCommandSelection ("amd-radv-perftest", { "nggc,gpl" })
