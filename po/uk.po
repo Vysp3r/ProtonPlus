@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: speedtest\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-12 18:51+0000\n"
+"PO-Revision-Date: 2026-09-14 12:51+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -3707,7 +3707,7 @@ msgstr "Зберігає невідомий код, лапки та код об�
 #: src/widgets/mangohud/mangohud-box.vala:74
 #: src/widgets/preferences/preferences-dialog.vala:223
 msgid "Advanced"
-msgstr "Розширені"
+msgstr "Розширене"
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
 #: src/widgets/preferences/preferences-dialog.vala:290
@@ -4132,7 +4132,7 @@ msgstr "ОК"
 #: src/widgets/preferences/preferences-dialog.vala:65
 #: src/widgets/tools/tools-box.vala:104
 msgid "Tools"
-msgstr "Інструменти"
+msgstr "Майстерня"
 
 #: src/widgets/main/main-box.vala:75
 #: src/widgets/preferences/preferences-dialog.vala:358
@@ -5183,11 +5183,11 @@ msgstr "Відображати старі інструменти, підтрим
 #. Launchers Page
 #: src/widgets/preferences/preferences-dialog.vala:124
 msgid "Launchers"
-msgstr "Запускачі"
+msgstr "Злучене"
 
 #: src/widgets/preferences/preferences-dialog.vala:158
 msgid "Default compatibility tool"
-msgstr "Типовий інструмент сумісності"
+msgstr "Інструмент сумісності"
 
 #: src/widgets/preferences/preferences-dialog.vala:159
 msgid "The compatibility tool games will use by default"
@@ -5195,7 +5195,7 @@ msgstr "Інструмент сумісності, який ігри запус�
 
 #: src/widgets/preferences/preferences-dialog.vala:184
 msgid "Selected profile"
-msgstr "Вибраний профіль"
+msgstr "Профіль"
 
 #: src/widgets/preferences/preferences-dialog.vala:185
 msgid "Currently selected profile for Steam"
