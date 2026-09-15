@@ -1,0 +1,36 @@
+[
+  {
+    "id": 24001,
+    "tag_name": "Proton-HEVC-11.0-2-r1",
+    "name": "Proton-HEVC 11.0-2 r1",
+    "draft": false,
+    "prerelease": false,
+    "created_at": "2026-09-06T00:00:00Z",
+    "html_url": "https://github.com/changeforan/zzz-cloud-hevc/releases/tag/Proton-HEVC-11.0-2-r1",
+    "body": "Synthetic fixture for the proposed release; not live release metadata.",
+    "tarball_url": "https://api.github.com/repos/changeforan/zzz-cloud-hevc/tarball/Proton-HEVC-11.0-2-r1",
+    "zipball_url": "https://api.github.com/repos/changeforan/zzz-cloud-hevc/zipball/Proton-HEVC-11.0-2-r1",
+    "assets": [
+      {
+        "name": "Proton-HEVC-11.0-2-r1-source.tar.gz",
+        "browser_download_url": "https://github.com/changeforan/zzz-cloud-hevc/releases/download/Proton-HEVC-11.0-2-r1/Proton-HEVC-11.0-2-r1-source.tar.gz",
+        "size": 42
+      },
+      {
+        "name": "Proton-HEVC-11.0-2-r1-aarch64.tar.gz",
+        "browser_download_url": "https://github.com/changeforan/zzz-cloud-hevc/releases/download/Proton-HEVC-11.0-2-r1/Proton-HEVC-11.0-2-r1-aarch64.tar.gz",
+        "size": 42
+      },
+      {
+        "name": "Proton-HEVC-11.0-2-r1.tar.xz",
+        "browser_download_url": "https://github.com/changeforan/zzz-cloud-hevc/releases/download/Proton-HEVC-11.0-2-r1/Proton-HEVC-11.0-2-r1.tar.xz",
+        "size": 42
+      },
+      {
+        "name": "Proton-HEVC-11.0-2-r1.tar.gz",
+        "browser_download_url": "https://github.com/changeforan/zzz-cloud-hevc/releases/download/Proton-HEVC-11.0-2-r1/Proton-HEVC-11.0-2-r1.tar.gz",
+        "size": 42
+      }
+    ]
+  }
+]

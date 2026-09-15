@@ -565,6 +565,16 @@ msgstr ""
 "Narzędzie zgodności Steam do uruchamiania gier przygodowych przy użyciu "
 "ScummVM dla systemu Linux."
 
+#: src/models/providers/definitions/proton.vala:118
+msgid ""
+"Steam compatibility tool with D3D11 HEVC decoding via Vulkan Video. Uses "
+"wined3d by default; tested with Zenless Zone Zero Cloud and Genshin Impact "
+"Cloud."
+msgstr ""
+"Narzędzie zgodności dla Steam z dekodowaniem HEVC w D3D11 za pośrednictwem Vulkan "
+"Video. Domyślnie używa wined3d; przetestowane z Zenless Zone Zero Cloud i Genshin "
+"Impact Cloud."
+
 #: src/models/providers/definitions/wine.vala:7
 msgid "Wine build modified by Valve and other contributors."
 msgstr "Kompilacja Wine zmodyfikowana przez Valve i innych współtwórców."
