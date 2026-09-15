@@ -336,7 +336,7 @@ namespace AppTests.ProviderDefinitionTest {
 
         first.variants[0].download_url = "https://example.test/mutated";
         assert (second.variants[0].download_url == null);
-        assert (definition.get_variants ()[0].name == "x86");
+        assert (definition.get_variants ()[0].name == "x86_64");
         assert (first.provider_id == definition.provider_id);
         assert (second.provider_id == definition.provider_id);
         assert (first.repository_url == definition.repository_url);
