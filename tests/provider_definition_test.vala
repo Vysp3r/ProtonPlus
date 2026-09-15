@@ -8,6 +8,7 @@ namespace AppTests.ProviderDefinitionTest {
         Test.add_func ("/provider-definitions/snapshot", test_definition_snapshot);
         Test.add_func ("/provider-definitions/kron4ek-filters", test_kron4ek_filters);
         Test.add_func ("/provider-definitions/wineland-excludes-beta", test_wineland_excludes_beta);
+        Test.add_func ("/provider-definitions/proton-rtsp-legacy-endpoint", test_proton_rtsp_legacy_endpoint);
         Test.add_func ("/provider-definitions/ph42on-asset-selection", test_ph42on_asset_selection);
         Test.add_func ("/provider-definitions/multi-archive-asset-selection", test_multi_archive_asset_selection);
         Test.add_func ("/provider-definitions/catalog-construction-isolation", test_catalog_construction_isolation);
@@ -90,7 +91,7 @@ namespace AppTests.ProviderDefinitionTest {
         case "dw-proton":
             return "https://github.com/dawn-winery/dwproton-mirror";
         case "proton-ge-rtsp":
-            return "https://github.com/SpookySkeletons/proton-ge-rtsp";
+            return "https://github.com/SpookySkeletons/proton-rtsp";
         case "proton-tkg":
             return "https://github.com/Frogging-Family/wine-tkg-git";
         case "proton-em":
@@ -162,6 +163,16 @@ namespace AppTests.ProviderDefinitionTest {
                     assert (alternates[alternate_index] == expected_alternates.get_string_element (alternate_index));
             }
         }
+    }
+
+    private void test_proton_rtsp_legacy_endpoint () {
+        var definition = get_definition ("proton-ge-rtsp");
+        assert (definition.title == "Proton-RTSP");
+        assert (definition.endpoint == "https://api.github.com/repos/SpookySkeletons/proton-rtsp/releases");
+        assert (definition.matches_endpoint ("https://api.github.com/repos/SpookySkeletons/proton-rtsp/releases"));
+        assert (definition.matches_endpoint ("https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases"));
+        assert (definition.legacy_endpoints.length == 1);
+        assert (definition.legacy_endpoints[0] == "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases");
     }
 
     private void test_kron4ek_filters () {
