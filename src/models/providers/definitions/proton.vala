@@ -45,12 +45,14 @@ namespace ProtonPlus.Models.Providers {
                     { "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases" }
                 ),
                 new ProviderDefinition (
-                    Category.PROTON, SourceType.GITHUB, "proton-ge-rtsp", "Proton-GE RTSP",
-                    N_ ("Steam compatibility tool based on Proton-GE with additional patches to improve RTSP codecs for VRChat."),
-                    "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases",
-                    "https://github.com/SpookySkeletons/proton-ge-rtsp", 4,
+                    Category.PROTON, SourceType.GITHUB, "proton-ge-rtsp", "Proton-RTSP",
+                    N_ ("Custom Proton build based on Proton Experimental with additional patches for VRChat RTSP and media playback."),
+                    "https://api.github.com/repos/SpookySkeletons/proton-rtsp/releases",
+                    "https://github.com/SpookySkeletons/proton-rtsp", 4,
                     { new VariantDefinition ("standard", "default", "$tag_name.tar.gz", true) },
-                    { InstallLayout.template ("default", "$release_name") }
+                    { InstallLayout.template ("default", "$release_name") },
+                    null, null, "", false, "", ArchiveInstallRequirement.STANDARD, false,
+                    { "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases" }
                 ),
                 new ProviderDefinition (
                     Category.PROTON, SourceType.GITHUB_ACTIONS, "proton-tkg", "Proton-Tkg",
