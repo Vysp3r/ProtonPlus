@@ -9,7 +9,9 @@ namespace AppTests.ProviderDefinitionTest {
         Test.add_func ("/provider-definitions/kron4ek-filters", test_kron4ek_filters);
         Test.add_func ("/provider-definitions/wineland-excludes-beta", test_wineland_excludes_beta);
         Test.add_func ("/provider-definitions/proton-rtsp-legacy-endpoint", test_proton_rtsp_legacy_endpoint);
+        Test.add_func ("/provider-definitions/proton-em-legacy-endpoint", test_proton_em_legacy_endpoint);
         Test.add_func ("/provider-definitions/ph42on-asset-selection", test_ph42on_asset_selection);
+        Test.add_func ("/provider-definitions/sarek-asset-selection", test_sarek_asset_selection);
         Test.add_func ("/provider-definitions/multi-archive-asset-selection", test_multi_archive_asset_selection);
         Test.add_func ("/provider-definitions/catalog-construction-isolation", test_catalog_construction_isolation);
         Test.add_func ("/provider-definitions/proton-tkg-archive-requirement", test_proton_tkg_archive_requirement);
@@ -95,7 +97,7 @@ namespace AppTests.ProviderDefinitionTest {
         case "proton-tkg":
             return "https://github.com/Frogging-Family/wine-tkg-git";
         case "proton-em":
-            return "https://github.com/Etaash-mathamsetty/Proton";
+            return "https://github.com/BananaWorks07/Proton";
         case "proton-cachyos-wineland":
             return "https://github.com/nanomatters/proton-cachyos";
         case "luxtorpeda":
@@ -175,6 +177,15 @@ namespace AppTests.ProviderDefinitionTest {
         assert (definition.legacy_endpoints[0] == "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases");
     }
 
+    private void test_proton_em_legacy_endpoint () {
+        var definition = get_definition ("proton-em");
+        assert (definition.endpoint == "https://api.github.com/repos/BananaWorks07/Proton/releases");
+        assert (definition.matches_endpoint ("https://api.github.com/repos/BananaWorks07/Proton/releases"));
+        assert (definition.matches_endpoint ("https://api.github.com/repos/Etaash-mathamsetty/Proton/releases"));
+        assert (definition.legacy_endpoints.length == 1);
+        assert (definition.legacy_endpoints[0] == "https://api.github.com/repos/Etaash-mathamsetty/Proton/releases");
+    }
+
     private void test_kron4ek_filters () {
         var proton = get_definition ("wine-proton");
         assert (proton.asset_filters.length == 1);
@@ -220,6 +231,53 @@ namespace AppTests.ProviderDefinitionTest {
         assert (variants[0].download_url == "https://example.invalid/release.tar.gz");
         var primary_asset = CatalogReleaseBuilder.select_default_asset (assets, variants);
         assert (primary_asset != null && primary_asset.name == "dxvk-gplasync-v3.0-1.tar.gz");
+    }
+
+    private void test_sarek_asset_selection () {
+        var definition = get_definition ("dxvk-sarek");
+
+        var current_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
+        current_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "dxvk-sarek-1.13.0.tar.gz", "https://example.invalid/sarek-1.13.0.tar.gz"
+        ));
+        var current_variants = CatalogReleaseBuilder.create_variants (
+            definition, "v1.13.0", "v1.13.0", current_assets
+        );
+        assert (current_variants.size == 1);
+        assert (current_variants[0].download_url == "https://example.invalid/sarek-1.13.0.tar.gz");
+
+        var dyasync_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
+        dyasync_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "dxvk-sarek-dyasync-v1.12.0.tar.gz", "https://example.invalid/sarek-1.12.0.tar.gz"
+        ));
+        var dyasync_variants = CatalogReleaseBuilder.create_variants (
+            definition, "v1.12.0", "v1.12.0", dyasync_assets
+        );
+        assert (dyasync_variants.size == 1);
+        assert (dyasync_variants[0].download_url == "https://example.invalid/sarek-1.12.0.tar.gz");
+
+        var legacy_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
+        legacy_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "dxvk-sarek-v1.11.0.tar.gz", "https://example.invalid/sarek-1.11.0.tar.gz"
+        ));
+        legacy_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "dxvk-sarek-async-v1.11.0.tar.gz", "https://example.invalid/sarek-async-1.11.0.tar.gz"
+        ));
+        var legacy_variants = CatalogReleaseBuilder.create_variants (
+            definition, "v1.11.0", "v1.11.0", legacy_assets
+        );
+        assert (legacy_variants.size == 1);
+        assert (legacy_variants[0].download_url == "https://example.invalid/sarek-async-1.11.0.tar.gz");
+
+        var lone_legacy_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
+        lone_legacy_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "dxvk-sarek-v1.10.0.tar.gz", "https://example.invalid/sarek-1.10.0.tar.gz"
+        ));
+        var lone_legacy_variants = CatalogReleaseBuilder.create_variants (
+            definition, "v1.10.0", "v1.10.0", lone_legacy_assets
+        );
+        assert (lone_legacy_variants.size == 1);
+        assert (lone_legacy_variants[0].download_url == "https://example.invalid/sarek-1.10.0.tar.gz");
     }
 
     private void test_multi_archive_asset_selection () {
@@ -278,7 +336,7 @@ namespace AppTests.ProviderDefinitionTest {
 
         first.variants[0].download_url = "https://example.test/mutated";
         assert (second.variants[0].download_url == null);
-        assert (definition.get_variants ()[0].name == "x86");
+        assert (definition.get_variants ()[0].name == "x86_64");
         assert (first.provider_id == definition.provider_id);
         assert (second.provider_id == definition.provider_id);
         assert (first.repository_url == definition.repository_url);

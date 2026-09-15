@@ -66,6 +66,7 @@ namespace AppTests.VariantSelectorTest {
         var host = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V2);
         var projected = VariantSelector.compatible_variants (variants (), host);
         assert (VariantSelector.select_variant (variants (), host, "x86_64_v2").name == "x86_64_v2");
+        assert (VariantSelector.select_variant (variants (), host, "x86-64").name == "x86_64");
         assert (VariantSelector.select_variant (variants (), host, "x86_64_v3").name == "x86_64");
         assert (VariantSelector.select_variant (variants (), host).name == "x86_64");
         assert (VariantSelector.should_show_dropdown (projected));
@@ -90,6 +91,7 @@ namespace AppTests.VariantSelectorTest {
         var aarch64 = new CpuCapabilities (CpuArchitecture.AARCH64);
         assert (VariantSelector.select_variant (variants (), aarch64).name == "aarch64");
         assert (VariantSelector.select_variant (variants (), aarch64, "x86_64").name == "x86_64");
+        assert (VariantSelector.select_variant (variants (), aarch64, "x86-64").name == "x86_64");
     }
 
     private LinkedList<ProtonPlus.Models.Variant> provider_variants (ProviderDefinition definition) {

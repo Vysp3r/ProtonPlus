@@ -9,7 +9,7 @@ namespace ProtonPlus.Models.Providers {
                     "https://github.com/GloriousEggroll/proton-ge-custom", 2,
                     {
                         new VariantDefinition (
-                            "x86", "x86", "$release_name-x86_64", true,
+                            "x86", "x86_64", "$release_name-x86_64", true,
                             VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE),
                             { "$release_name" }
                         ),
@@ -36,7 +36,7 @@ namespace ProtonPlus.Models.Providers {
                 ),
                 new ProviderDefinition (
                     Category.PROTON, SourceType.GITHUB, "dw-proton", "DW-Proton",
-                    N_ ("Dawn Winery's custom Proton fork with fixes for various games :xdd:"),
+                    N_ ("Dawn Winery's custom Proton build with additional game fixes and compatibility patches."),
                     "https://api.github.com/repos/dawn-winery/dwproton-mirror/releases",
                     "https://github.com/dawn-winery/dwproton-mirror", 3,
                     { new VariantDefinition ("x86-64", "x86_64", "$tag_name-x86_64", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)) },
@@ -66,15 +66,13 @@ namespace ProtonPlus.Models.Providers {
                 ),
                 new ProviderDefinition (
                     Category.PROTON, SourceType.GITHUB, "proton-em", "Proton-EM",
-                    N_ (
-                        "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. " +
-                        "By Etaash Mathamsetty, adding FSR4 support and Wine Wayland tweaks."
-                    ),
-                    "https://api.github.com/repos/Etaash-mathamsetty/Proton/releases",
-                    "https://github.com/Etaash-mathamsetty/Proton", 6,
+                    N_ ("Development-oriented custom Proton build with FSR 4 support, Wine Wayland work, and other experimental patches."),
+                    "https://api.github.com/repos/BananaWorks07/Proton/releases",
+                    "https://github.com/BananaWorks07/Proton", 6,
                     { new VariantDefinition ("standard", "default", "proton-$release_name", true) },
                     { InstallLayout.template ("default", "$release_name") },
-                    null, null, "", false, "", ArchiveInstallRequirement.STANDARD, true
+                    null, null, "", false, "", ArchiveInstallRequirement.STANDARD, true,
+                    { "https://api.github.com/repos/Etaash-mathamsetty/Proton/releases" }
                 ),
                 new ProviderDefinition (
                     Category.PROTON, SourceType.GITHUB, "proton-cachyos-wineland", "Proton-Wineland",
