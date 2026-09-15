@@ -45,8 +45,9 @@ namespace ProtonPlus.Models {
             return false;
         }
 
-        // The saved value deliberately remains the user-visible variant name:
-        // it is an established settings contract, not a stable-ID migration.
+        // Saved values historically use the user-visible variant name. Prefer
+        // that contract, then accept a stable ID as a compatibility fallback
+        // so corrected display names do not discard an existing selection.
         public static Variant? select_variant (
             Gee.Iterable<Variant> variants,
             CpuCapabilities capabilities,
@@ -56,6 +57,10 @@ namespace ProtonPlus.Models {
             if (saved_variant_name != "") {
                 foreach (var variant in compatible) {
                     if (variant.name == saved_variant_name)
+                        return variant;
+                }
+                foreach (var variant in compatible) {
+                    if (variant.id == saved_variant_name)
                         return variant;
                 }
             }
