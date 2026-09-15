@@ -25,10 +25,15 @@ namespace ProtonPlus.Models.Providers {
                     {
                         new VariantDefinition (
                             "standard", "default", "dxvk-sarek-$release_version", true, null,
-                            { "dxvk-sarek-dyasync-$release_name" }
+                            {
+                                "dxvk-sarek-dyasync-$release_name",
+                                "dxvk-sarek-async-$release_name",
+                                "dxvk-sarek-$release_name"
+                            }
                         )
                     },
-                    { InstallLayout.template ("default", "sarek-$release_name") }
+                    { InstallLayout.template ("default", "sarek-$release_name") },
+                    null, null, "", false, "", ArchiveInstallRequirement.STANDARD, true
                 )
             };
         }

@@ -246,15 +246,38 @@ namespace AppTests.ProviderDefinitionTest {
         assert (current_variants.size == 1);
         assert (current_variants[0].download_url == "https://example.invalid/sarek-1.13.0.tar.gz");
 
-        var legacy_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
-        legacy_assets.add (new ProtonPlus.Models.Assets.Asset (
+        var dyasync_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
+        dyasync_assets.add (new ProtonPlus.Models.Assets.Asset (
             "dxvk-sarek-dyasync-v1.12.0.tar.gz", "https://example.invalid/sarek-1.12.0.tar.gz"
         ));
+        var dyasync_variants = CatalogReleaseBuilder.create_variants (
+            definition, "v1.12.0", "v1.12.0", dyasync_assets
+        );
+        assert (dyasync_variants.size == 1);
+        assert (dyasync_variants[0].download_url == "https://example.invalid/sarek-1.12.0.tar.gz");
+
+        var legacy_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
+        legacy_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "dxvk-sarek-v1.11.0.tar.gz", "https://example.invalid/sarek-1.11.0.tar.gz"
+        ));
+        legacy_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "dxvk-sarek-async-v1.11.0.tar.gz", "https://example.invalid/sarek-async-1.11.0.tar.gz"
+        ));
         var legacy_variants = CatalogReleaseBuilder.create_variants (
-            definition, "v1.12.0", "v1.12.0", legacy_assets
+            definition, "v1.11.0", "v1.11.0", legacy_assets
         );
         assert (legacy_variants.size == 1);
-        assert (legacy_variants[0].download_url == "https://example.invalid/sarek-1.12.0.tar.gz");
+        assert (legacy_variants[0].download_url == "https://example.invalid/sarek-async-1.11.0.tar.gz");
+
+        var lone_legacy_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
+        lone_legacy_assets.add (new ProtonPlus.Models.Assets.Asset (
+            "dxvk-sarek-v1.10.0.tar.gz", "https://example.invalid/sarek-1.10.0.tar.gz"
+        ));
+        var lone_legacy_variants = CatalogReleaseBuilder.create_variants (
+            definition, "v1.10.0", "v1.10.0", lone_legacy_assets
+        );
+        assert (lone_legacy_variants.size == 1);
+        assert (lone_legacy_variants[0].download_url == "https://example.invalid/sarek-1.10.0.tar.gz");
     }
 
     private void test_multi_archive_asset_selection () {
