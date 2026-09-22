@@ -96,7 +96,7 @@ The built-in provider catalog currently contains:
 - Proton-GE
 - Proton-CachyOS
 - DW-Proton
-- Proton-GE RTSP
+- Proton-RTSP
 - Proton-Tkg
 - Proton-EM
 - Proton-Wineland

@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-11 00:14+0000\n"
+"PO-Revision-Date: 2026-09-16 09:51+0000\n"
 "Last-Translator: Andrei Stepanov <adem4ik@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/ru/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
 msgid "ProtonPlus"
@@ -628,7 +628,7 @@ msgstr "Не удаётся связаться с API."
 
 #: src/return_codes.vala:57
 msgid "API limit reached."
-msgstr "Достигнут лимит API."
+msgstr "Достигнут предел API."
 
 #: src/return_codes.vala:59
 msgid "Invalid access token."
@@ -3938,7 +3938,7 @@ msgstr[2] "%u активных загрузок"
 #: src/widgets/header/header-downloads-indicator.vala:174
 #, c-format
 msgid "Limit: %s/s"
-msgstr "Лимит: %s/с"
+msgstr "Предел: %s/с"
 
 #: src/widgets/header/header-downloads-indicator.vala:231
 #: src/widgets/header/header-downloads-indicator.vala:233
@@ -4904,7 +4904,7 @@ msgstr "Эффективность"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:108
 msgid "Power Limit"
-msgstr "Лимит мощности"
+msgstr "Предел мощности"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:119
 msgid "Model"
@@ -4988,7 +4988,7 @@ msgstr "Средний FPS"
 #: src/widgets/mangohud/mangohud-performance-page.vala:34
 #: src/widgets/mangohud/mangohud-performance-page.vala:65
 msgid "FPS Limit"
-msgstr "Лимит FPS"
+msgstr "Предел кадр. частоты"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:35
 msgid "Frame Time"
@@ -5056,7 +5056,7 @@ msgstr "Метод"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:99
 msgid "Limit Toggle Key"
-msgstr "Клавиша переключения лимита"
+msgstr "Клавиша переключения предела"
 
 #: src/widgets/mangohud/mangohud-performance-page.vala:114
 msgid "Limiters"
@@ -5330,7 +5330,7 @@ msgstr "Токены API"
 
 #: src/widgets/preferences/preferences-dialog.vala:230
 msgid "Optional tokens increase GitHub and GitLab request limits"
-msgstr "Необязательные токены увеличивают лимиты запросов к GitHub и GitLab"
+msgstr "Необязательные токены увеличивают пределы запросов к GitHub и GitLab"
 
 #: src/widgets/preferences/preferences-dialog.vala:259
 msgid "Proxy URL"
@@ -5351,7 +5351,7 @@ msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:273
 msgid "This limit is shared across all active downloads."
-msgstr "Этот лимит распределяется между всеми активными загрузками."
+msgstr "Этот предел распределяется между всеми активными загрузками."
 
 #: src/widgets/preferences/preferences-dialog.vala:295
 msgid "Preview features"
