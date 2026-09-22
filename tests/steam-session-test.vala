@@ -27,6 +27,7 @@ namespace AppTests.SteamSessionTest {
         Test.add_func ("/steam-session/target-identity-and-launcher-capability", test_target_identity_and_launcher_capability);
         Test.add_func ("/steam-session/proc-command-line-decoding", test_proc_command_line_decoding);
         Test.add_func ("/steam-session/native-stopped-running-and-starting", test_native_states);
+        Test.add_func ("/steam-session/replaced-running-executable", test_replaced_running_executable);
         Test.add_func ("/steam-session/steamos-gaming-mode-detection", test_steamos_gaming_mode_detection);
         Test.add_func ("/steam-session/native-ambiguity-and-blocker-evidence", test_native_ambiguity_and_blockers);
         Test.add_func ("/steam-session/flatpak-exact-match-and-unavailable", test_flatpak_states);
@@ -138,6 +139,28 @@ namespace AppTests.SteamSessionTest {
         processes.add (anchor (target.data_root, 44, 1 * 1000 * 1000, "-update"));
         var updating = service.inspect (target);
         assert (updating.state == SteamSessionState.UPDATING);
+    }
+
+    private void test_replaced_running_executable () {
+        var target = native_target ("/fixture/Steam");
+        var backend = new FakeBackend ();
+        var processes = new Gee.ArrayList<SteamProcessRecord> ();
+        var executable = Path.build_filename (target.data_root, "steamrt64", "steam");
+        processes.add (new SteamProcessRecord.from_proc (
+            42, executable + " (deleted)", executable.data, 100));
+        backend.native_query = new NativeProcessQuery (true, processes);
+        var service = new SteamSessionService (backend);
+        var observed = service.inspect (target);
+        assert (observed.state == SteamSessionState.RUNNING);
+        assert (observed.matching_executable_path == executable);
+        assert (observed.generation != null);
+        assert (((!) observed.generation).pid == 42);
+        assert (((!) observed.generation).start_time_ticks == 100);
+
+        /* A replaced executable belonging to another installation is not ours. */
+        assert (service.inspect (native_target ("/fixture/OtherSteam")).state == SteamSessionState.STOPPED);
+        processes.clear ();
+        assert (service.inspect (target).state == SteamSessionState.STOPPED);
     }
 
     private void test_steamos_gaming_mode_detection () {

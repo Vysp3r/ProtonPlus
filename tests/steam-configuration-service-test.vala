@@ -156,6 +156,30 @@ namespace AppTests.SteamConfigurationServiceTest {
         assert (read (config) == "not VDF");
     }
 
+    private void test_replaced_executable_keeps_changes_staged () {
+        var root = temporary_root (); string config; string localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var launcher = steam (root);
+        var target = launcher.get_steam_restart_target ();
+        var backend = new SessionFixture ();
+        var processes = new Gee.ArrayList<SteamProcessRecord> ();
+        processes.add (new SteamProcessRecord (101,
+            Path.build_filename (target.data_root, "steamrt64", "steam") + " (deleted)",
+            target.data_root, 100));
+        backend.native_query = new NativeProcessQuery (true, processes);
+        SteamRestartManager manager;
+        var service = service_for (root, backend, out manager);
+        var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+        assert (service.change_game_launch_options (game, "TEST=1 %command%", localconfig).result
+            == SteamConfigurationMutationResult.STAGED);
+        assert (read (localconfig) == LOCALCONFIG);
+        service.reconcile_target (target);
+        assert (read (localconfig) == LOCALCONFIG);
+        backend.native_query = new NativeProcessQuery (true);
+        assert (service.reconcile_target (target).result == SteamConfigurationMutationResult.CHANGED);
+        assert (read (localconfig).contains ("TEST=1 %command%"));
+    }
+
     private void test_staged_configuration_reconciles_or_detects_conflict () {
         var root = temporary_root (); string config; string localconfig;
         prepare_text_files (root, out config, out localconfig);
@@ -518,6 +542,7 @@ namespace AppTests.SteamConfigurationServiceTest {
     public void register_tests () {
         Test.add_func ("/steam-configuration/default-and-game-compatibility-lifecycle", test_default_and_game_compatibility_lifecycle);
         Test.add_func ("/steam-configuration/staged-reconciliation-and-conflict", test_staged_configuration_reconciles_or_detects_conflict);
+        Test.add_func ("/steam-configuration/replaced-executable-keeps-changes-staged", test_replaced_executable_keeps_changes_staged);
         Test.add_func ("/steam-configuration/unconfirmed-states-never-apply", test_unconfirmed_states_never_apply_pending_configuration);
         Test.add_func ("/steam-configuration/missing-and-unconfigured-entry-points-do-not-write", test_missing_and_unconfigured_entry_points_do_not_write);
         Test.add_func ("/steam-configuration/launch-options-raw-values-and-absence", test_launch_options_preserve_raw_values_and_absence);
