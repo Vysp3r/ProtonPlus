@@ -92,6 +92,8 @@
       <description>
         <ul>
           <li>🐛 Fixed Steam games not loading when Steam stores libraryfolders.vdf in the config directory</li>
+          <li>🐛 Fixed some pending Steam changes getting stuck</li>
+          <li>🐛 Made error messages clearer when Steam changes cannot be applied</li>
           <li>🌐 Updated Ukrainian localization</li>
         </ul>
       </description>

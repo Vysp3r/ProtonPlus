@@ -216,9 +216,56 @@ namespace AppTests.SteamConfigurationServiceTest {
         var externally_changed = read (config).replace ("proton-d", "external-tool");
         write (config, externally_changed);
         backend.native_query = new NativeProcessQuery (true);
-        assert (service.reconcile_target (launcher.get_steam_restart_target ()).result == SteamConfigurationMutationResult.CONFLICT);
+        var conflict = service.reconcile_target (launcher.get_steam_restart_target ());
+        assert (conflict.result == SteamConfigurationMutationResult.CONFLICT);
+        assert (conflict.error.contains (config));
+        assert (conflict.error.contains ("compatibility-mapping: 42"));
+        assert (!conflict.error.contains ("external-tool"));
+        assert (!conflict.error.contains ("proton-e"));
         assert (read (config).contains ("external-tool"));
         assert (read (config).contains ("unrelated edit"));
+    }
+
+    private void test_pending_changes_survive_steam_key_casing () {
+        var root = temporary_root (); string config; string localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var launcher = steam (root); var target = launcher.get_steam_restart_target ();
+        var backend = new SessionFixture (); set_running (backend, target);
+        SteamRestartManager manager; var service = service_for (root, backend, out manager);
+        var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+        assert (service.change_default_compatibility_tool (launcher, "proton-a").result
+            == SteamConfigurationMutationResult.STAGED);
+        assert (service.change_game_compatibility_tool (game, "").result
+            == SteamConfigurationMutationResult.STAGED);
+        assert (service.change_game_launch_options (game, "mangohud %command%", localconfig).result
+            == SteamConfigurationMutationResult.STAGED);
+
+        // Steam KeyValues keys are case-insensitive and can be rewritten on exit.
+        write (config, read (config).replace ("Valve", "valve").replace ("Steam", "steam"));
+        write (localconfig, read (localconfig).replace ("Software", "software")
+            .replace ("Valve", "valve").replace ("Steam", "steam"));
+        backend.native_query = new NativeProcessQuery (true);
+        SteamRestartManager restored_manager;
+        var restored = service_for (root, backend, out restored_manager);
+        assert (restored_manager.pending_count () == 3);
+        assert (restored.reconcile_target (target).result == SteamConfigurationMutationResult.CHANGED);
+        assert (read (config).contains ("proton-a"));
+        assert (read (config).contains ("\"valve\""));
+        assert (read (localconfig).contains ("mangohud %command%"));
+        assert (restored.reconcile_target (target).result == SteamConfigurationMutationResult.UNCHANGED);
+        assert (restored.verify_target_after_session (target));
+        assert (restored_manager.pending_count () == 0);
+
+        // Existing values with different key casing must be replaced, not duplicated.
+        write (config, read (config).replace ("CompatToolMapping", "compattoolmapping")
+            .replace ("name", "Name"));
+        write (localconfig, read (localconfig).replace ("LaunchOptions", "launchoptions"));
+        assert (restored.change_game_compatibility_tool (game, "proton-b").result
+            == SteamConfigurationMutationResult.CHANGED);
+        assert (read (config).contains ("proton-b"));
+        assert (restored.change_game_launch_options (game, "", localconfig).result
+            == SteamConfigurationMutationResult.CHANGED);
+        assert (!read (localconfig).contains ("mangohud"));
     }
 
     private void test_unconfirmed_states_never_apply_pending_configuration () {
@@ -540,6 +587,7 @@ namespace AppTests.SteamConfigurationServiceTest {
     }
 
     public void register_tests () {
+        Test.add_func ("/steam-configuration/pending-changes-key-casing", test_pending_changes_survive_steam_key_casing);
         Test.add_func ("/steam-configuration/default-and-game-compatibility-lifecycle", test_default_and_game_compatibility_lifecycle);
         Test.add_func ("/steam-configuration/staged-reconciliation-and-conflict", test_staged_configuration_reconciles_or_detects_conflict);
         Test.add_func ("/steam-configuration/replaced-executable-keeps-changes-staged", test_replaced_executable_keeps_changes_staged);

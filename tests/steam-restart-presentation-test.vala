@@ -55,6 +55,12 @@ namespace AppTests.SteamRestartPresentationTest {
     }
 
     private void test_failure_messages_are_actionable () {
+        var detail = "Configuration file is missing.\n/tmp/<steam>/config.vdf\ncompatibility-mapping: 440";
+        var configuration = SteamRestartPresentation.failure_message (
+            SteamRestartFailureReason.CONFIGURATION_RECONCILIATION_FAILED, true, detail);
+        assert (configuration.body.contains (detail));
+        assert (configuration.can_retry);
+
         var flatpak = SteamRestartPresentation.failure_message (SteamRestartFailureReason.GRACEFUL_SHUTDOWN_UNSUPPORTED);
         assert (flatpak.heading == "Close Steam manually" && flatpak.body.contains ("cannot safely close") && !flatpak.body.contains ("kill"));
         var blocker = SteamRestartPresentation.failure_message (SteamRestartFailureReason.GAME_OR_COMPATIBILITY_PROCESS);

@@ -268,7 +268,7 @@ namespace ProtonPlus.Services {
                 var intent = record.receipt.configuration_intent;
                 if (intent == null || ((!) intent).operation != SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT) continue;
                 if (!apply_pending_intent ((!) intent))
-                    return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Unable to create shortcuts.vdf.");
+                    return configuration_failure ((!) intent, SteamConfigurationMutationResult.FAILED, _ ("Unable to create shortcuts.vdf."));
                 aggregate = SteamConfigurationMutationResult.CHANGED;
             }
             foreach (var record in records) {
@@ -276,20 +276,27 @@ namespace ProtonPlus.Services {
                 if (intent == null) continue;
                 if (((!) intent).operation == SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT) continue;
                 if (!FileUtils.test (((!) intent).path, FileTest.IS_REGULAR))
-                    return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Configuration file is missing.");
+                    return configuration_failure ((!) intent, SteamConfigurationMutationResult.FAILED, _ ("Configuration file is missing."));
                 var content = intent.file == SteamConfigurationFile.SHORTCUTS
                     ? "" : Utils.Filesystem.get_file_content (intent.path);
                 var current = value_for_intent ((!) intent, content);
                 if (current == null)
-                    return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Configuration file could not be parsed.");
+                    return configuration_failure ((!) intent, SteamConfigurationMutationResult.FAILED, _ ("Configuration file could not be parsed."));
                 if (matches_desired ((!) intent, current)) continue;
                 if (!matches_baseline ((!) intent, current))
-                    return new SteamConfigurationMutation (SteamConfigurationMutationResult.CONFLICT, "The targeted Steam setting changed externally.");
+                    return configuration_failure ((!) intent, SteamConfigurationMutationResult.CONFLICT, _ ("The targeted Steam setting changed externally."));
                 if (!apply_intent ((!) intent, content, true))
-                    return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Unable to apply a pending Steam setting.");
+                    return configuration_failure ((!) intent, SteamConfigurationMutationResult.FAILED, _ ("Unable to apply a pending Steam setting."));
                 aggregate = SteamConfigurationMutationResult.CHANGED;
             }
             return new SteamConfigurationMutation (aggregate);
+        }
+
+        private SteamConfigurationMutation configuration_failure (SteamConfigurationIntent intent,
+            SteamConfigurationMutationResult result, string reason) {
+            // Identify the affected resource without exposing launch-option values.
+            return new SteamConfigurationMutation (result, "%s\n%s\n%s: %s".printf (
+                reason, intent.path, SteamConfigurationIntent.operation_to_identifier (intent.operation), intent.field_id));
         }
 
         public bool verify_target_after_session (SteamRestartTarget target) {
