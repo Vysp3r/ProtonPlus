@@ -78,14 +78,15 @@ namespace AppTests.ProviderRegistryTest {
             "vkd3d-proton", "vkd3d-lutris",
             "proton-ge", "proton-cachyos", "dw-proton", "proton-ge-rtsp", "proton-tkg",
             "proton-em", "proton-cachyos-wineland", "luxtorpeda", "boxtron", "roberta",
+            "proton-hevc",
             "wine-proton", "wine-staging", "wine-staging-tkg", "wine-vanilla"
         };
 
         assert_provider_ids (registry.get_all (), expected_ids);
         assert_provider_ids (registry.get (Category.DXVK), expected_ids[0:3]);
         assert_provider_ids (registry.get (Category.VKD3D), expected_ids[3:5]);
-        assert_provider_ids (registry.get (Category.PROTON), expected_ids[5:15]);
-        assert_provider_ids (registry.get (Category.WINE), expected_ids[15:19]);
+        assert_provider_ids (registry.get (Category.PROTON), expected_ids[5:16]);
+        assert_provider_ids (registry.get (Category.WINE), expected_ids[16:20]);
 
         foreach (var provider_id in expected_ids) {
             var definition = registry.get_by_id (provider_id);
