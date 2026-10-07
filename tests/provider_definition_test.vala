@@ -100,6 +100,8 @@ namespace AppTests.ProviderDefinitionTest {
             return "https://github.com/BananaWorks07/Proton";
         case "proton-cachyos-wineland":
             return "https://github.com/nanomatters/proton-cachyos";
+        case "proton-je":
+            return "https://github.com/jegglest/proton-je";
         case "luxtorpeda":
             return "https://codeberg.org/luxtorpeda/luxtorpeda";
         case "boxtron":
@@ -119,7 +121,7 @@ namespace AppTests.ProviderDefinitionTest {
     private void test_definition_snapshot () {
         var expected = get_snapshot ().get_array_member ("definitions");
         var definitions = new ProviderRegistry ().get_all ();
-        assert (definitions.length == 19);
+        assert (definitions.length == 20);
         assert (expected.get_length () == definitions.length);
 
         foreach (var expected_definition in expected.get_elements ()) {

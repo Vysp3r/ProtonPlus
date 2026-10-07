@@ -100,6 +100,7 @@ The built-in provider catalog currently contains:
 - Proton-Tkg
 - Proton-EM
 - Proton-Wineland
+- Proton-JE
 - Luxtorpeda
 - Boxtron
 - Roberta
