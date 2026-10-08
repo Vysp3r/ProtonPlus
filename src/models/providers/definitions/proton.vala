@@ -93,7 +93,7 @@ namespace ProtonPlus.Models.Providers {
                 ),
                 new ProviderDefinition (
                     Category.PROTON, SourceType.GITHUB, "proton-je", "Proton-JE",
-                    N_ ("Proton Experimental with Wine fixes that are pending upstream, currently for stale thread alerts and ntsync mutex abandonment."),
+                    N_ ("Proton Experimental with pending Wine fixes (stale thread alerts, ntsync mutexes) and Proton-EM's FSR 4 driver work for RDNA4."),
                     "https://api.github.com/repos/jegglest/proton-je/releases",
                     "https://github.com/jegglest/proton-je", 8,
                     { new VariantDefinition ("standard", "default", "$tag_name.tar.xz", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)) },
