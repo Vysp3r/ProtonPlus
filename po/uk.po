@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: speedtest\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-14 12:51+0000\n"
+"PO-Revision-Date: 2026-09-29 13:51+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/uk/>\n"
@@ -4237,7 +4237,7 @@ msgstr "%s успішно оновлено"
 #: src/widgets/main/main-box.vala:397
 #, c-format
 msgid "%s is already up-to-date"
-msgstr "%s вже має найновішу версію"
+msgstr "%s вже оновлено"
 
 #: src/widgets/main/main-box.vala:402
 msgid "Deleted"

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-08-13 12:08-0400\n"
-"PO-Revision-Date: 2026-09-06 04:51+0000\n"
-"Last-Translator: Patricio <pattoperez97@gmail.com>\n"
+"PO-Revision-Date: 2026-09-30 00:51+0000\n"
+"Last-Translator: Luis Miguel <luismiguelfm96@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/protonplus/"
 "protonplus/es/>\n"
 "Language: es\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9.1.dev0\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 
 #: data/com.vysp3r.ProtonPlus.desktop.in:2
 msgid "ProtonPlus"
@@ -1353,6 +1353,8 @@ msgid ""
 "Enables spatial mixing in Wine ALSA audio output. Requires WINEALSA Channels "
 "set to 4, 6, or 8. Available from GE-Proton11-1."
 msgstr ""
+"Permite la mezcla espacial en la salida de audio Wine ALSA. Requiere que los "
+"canales WINEALSA estén configurados en 4, 6 u 8. Disponible en GE-Proton11-1."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:16
 msgid "Common options"
@@ -1406,6 +1408,8 @@ msgid ""
 "Requests temporary optimizations for system performance (CPU governor, "
 "process priority) when the game is running."
 msgstr ""
+"Solicita optimizaciones temporales del rendimiento del sistema (gobernador "
+"de CPU, prioridad de procesos) mientras el juego está en ejecución."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:57
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1233
@@ -1423,13 +1427,15 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:63
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1234
 msgid "MangoHud Vulkan environment mode"
-msgstr ""
+msgstr "Modo de entorno Vulkan de MangoHud"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:64
 msgid ""
 "Uses MANGOHUD=1 for Vulkan only. Prefer the MangoHud wrapper when OpenGL "
 "support is needed."
 msgstr ""
+"Usa MANGOHUD=1 solo para Vulkan. Es preferible usar el wrapper de MangoHud "
+"cuando se necesite compatibilidad con OpenGL."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:69
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1235
