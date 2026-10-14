@@ -226,6 +226,80 @@ namespace AppTests.SteamConfigurationServiceTest {
         assert (read (config).contains ("unrelated edit"));
     }
 
+    private void test_stopped_edit_replaces_pending_configuration () {
+        foreach (var same_selection in new bool[] { false, true }) {
+            var root = temporary_root (); string config; string localconfig;
+            prepare_text_files (root, out config, out localconfig);
+            var launcher = steam (root); var target = launcher.get_steam_restart_target ();
+            var backend = new SessionFixture (); set_running (backend, target);
+            SteamRestartManager manager; var service = service_for (root, backend, out manager);
+            var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+            assert (service.change_game_compatibility_tool (game, "proton-a").accepted);
+            assert (service.change_game_launch_options (game, "mangohud %command%", localconfig).accepted);
+            // Reload durable receipts, then simulate conflicting Steam writes.
+            SteamRestartManager restored_manager;
+            service = service_for (root, backend, out restored_manager);
+            backend.native_query = new NativeProcessQuery (true);
+            write (config, read (config).replace ("\"Steam\"\n\t\t\t{", "\"Steam\"\n\t\t\t{\n\"CompatToolMapping\" { \"42\" { \"name\" \"external\" } }"));
+            write (localconfig, read (localconfig).replace ("\"42\"\n\t\t\t\t\t{", "\"42\"\n\t\t\t\t\t{\n\"LaunchOptions\" \"external\""));
+            assert (service.reconcile_target (target).result == SteamConfigurationMutationResult.CONFLICT);
+            var tool = same_selection ? "proton-a" : "proton-b";
+            var options = same_selection ? "mangohud %command%" : "PROTON_LOG=1 %command%";
+            assert (service.change_game_compatibility_tool (game, tool).result == SteamConfigurationMutationResult.CHANGED);
+            assert (restored_manager.pending_count () == 1);
+            assert (read (config).contains (tool));
+            assert (service.change_game_launch_options (game, options, localconfig).result == SteamConfigurationMutationResult.CHANGED);
+            assert (read (localconfig).contains (options));
+            assert (restored_manager.pending_count () == 0);
+            SteamRestartManager reloaded;
+            service = service_for (root, backend, out reloaded);
+            assert (reloaded.pending_count () == 0);
+            assert (service.reconcile_target (target).result == SteamConfigurationMutationResult.UNCHANGED);
+        }
+    }
+
+    private void test_stopped_edit_cleanup_persistence_failure () {
+        var root = temporary_root (); string config; string localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var launcher = steam (root); var target = launcher.get_steam_restart_target ();
+        var backend = new SessionFixture (); set_running (backend, target);
+        var store = new FailingStateStore (Path.build_filename (root, "restart-state.json"));
+        SteamRestartManager manager; var service = service_for (root, backend, out manager, null, store);
+        var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+        assert (service.change_game_compatibility_tool (game, "proton-a").accepted);
+        backend.native_query = new NativeProcessQuery (true);
+        store.fail_saves = true;
+        assert (service.change_game_compatibility_tool (game, "proton-b").result == SteamConfigurationMutationResult.PERSISTENCE_FAILED);
+        assert (manager.pending_count () == 1);
+        assert (store.load ().records.size == 1);
+        store.fail_saves = false;
+        assert (service.change_game_compatibility_tool (game, "proton-b").result == SteamConfigurationMutationResult.CHANGED);
+        assert (manager.pending_count () == 0);
+        assert (store.load ().records.size == 0);
+    }
+
+    private void test_automatic_reconciliation_reports_failure () {
+        foreach (var startup in new bool[] { false, true }) {
+            var root = temporary_root (); string config; string localconfig;
+            prepare_text_files (root, out config, out localconfig);
+            var launcher = steam (root); var target = launcher.get_steam_restart_target ();
+            var backend = new SessionFixture (); set_running (backend, target);
+            SteamRestartManager manager; var service = service_for (root, backend, out manager);
+            assert (service.change_default_compatibility_tool (launcher, "proton-a").accepted);
+            write (config, "invalid VDF");
+            backend.native_query = new NativeProcessQuery (true);
+            Test.expect_message (null, LogLevelFlags.LEVEL_MESSAGE, "*Automatic Steam configuration reconciliation failed:*config.vdf*compatibility-mapping: 0*");
+            if (startup) {
+                manager.start_observation ();
+                manager.stop_observation ();
+            } else {
+                manager.reconcile_target (target);
+            }
+            Test.assert_expected_messages ();
+            assert (manager.pending_count () == 1);
+        }
+    }
+
     private void test_pending_changes_survive_steam_key_casing () {
         var root = temporary_root (); string config; string localconfig;
         prepare_text_files (root, out config, out localconfig);
@@ -587,6 +661,9 @@ namespace AppTests.SteamConfigurationServiceTest {
     }
 
     public void register_tests () {
+        Test.add_func ("/steam-configuration/stopped-edit-replaces-pending", test_stopped_edit_replaces_pending_configuration);
+        Test.add_func ("/steam-configuration/stopped-edit-persistence-failure", test_stopped_edit_cleanup_persistence_failure);
+        Test.add_func ("/steam-configuration/automatic-reconciliation-diagnostics", test_automatic_reconciliation_reports_failure);
         Test.add_func ("/steam-configuration/pending-changes-key-casing", test_pending_changes_survive_steam_key_casing);
         Test.add_func ("/steam-configuration/default-and-game-compatibility-lifecycle", test_default_and_game_compatibility_lifecycle);
         Test.add_func ("/steam-configuration/staged-reconciliation-and-conflict", test_staged_configuration_reconciles_or_detects_conflict);

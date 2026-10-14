@@ -235,16 +235,22 @@ namespace ProtonPlus.Services {
         private SteamConfigurationMutation submit (SteamRestartTarget target, SteamChangeKind kind, string key,
             SteamConfigurationIntent intent, string content) {
             var existing = manager.get_pending_configuration_intent (target, key);
-            if (existing != null && same_desired ((!) existing, intent))
-                return new SteamConfigurationMutation (SteamConfigurationMutationResult.UNCHANGED);
             if (existing == null && intent.baseline_present == intent.desired_present
                 && intent.baseline == intent.desired)
                 return new SteamConfigurationMutation (SteamConfigurationMutationResult.UNCHANGED);
             var snapshot = sessions.inspect (target);
             if (snapshot.state == SteamSessionState.STOPPED && snapshot.state_confidence == SteamEvidenceLevel.CONFIRMED) {
                 var changed = apply_intent (intent, content, true);
-                return new SteamConfigurationMutation (changed ? SteamConfigurationMutationResult.CHANGED : SteamConfigurationMutationResult.FAILED);
+                if (!changed)
+                    return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED);
+                // A successful explicit edit supersedes this resource's older
+                // request, even when that request could not be reconciled.
+                if (!manager.clear_applied_configuration (target, key))
+                    return new SteamConfigurationMutation (SteamConfigurationMutationResult.PERSISTENCE_FAILED, manager.last_persistence_error);
+                return new SteamConfigurationMutation (SteamConfigurationMutationResult.CHANGED);
             }
+            if (existing != null && same_desired ((!) existing, intent))
+                return new SteamConfigurationMutation (SteamConfigurationMutationResult.UNCHANGED);
             var receipt = new SteamChangeReceipt (target, kind, SteamRestartRequirement.CONSERVATIVE, key, intent.field_id, null, null, intent);
             var recorded = manager.record (receipt);
             if (recorded == SteamRestartRecordResult.PERSISTENCE_FAILED)
