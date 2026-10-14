@@ -127,9 +127,11 @@ namespace ProtonPlus.Widgets.Main {
                 return new SteamRestartMessage (_ ("Steam didn’t close"), _ ("No force termination was attempted. Close Steam manually or try again."), null, true);
             case SteamRestartFailureReason.RELAUNCH_UNAVAILABLE:
             case SteamRestartFailureReason.RELAUNCH_FAILED:
+                return new SteamRestartMessage (_ ("Steam couldn’t be reopened"), _ ("If Steam is not already open, start it manually. ProtonPlus will keep the reminder until it confirms a new session."));
             case SteamRestartFailureReason.START_TIMEOUT:
+                return new SteamRestartMessage (_ ("Steam startup could not be confirmed"), _ ("Steam may still be starting. If it is already open, you do not need to start it again. ProtonPlus will keep checking for a new session."));
             case SteamRestartFailureReason.NEW_SESSION_UNCONFIRMED:
-                return new SteamRestartMessage (_ ("Steam couldn’t be reopened"), steam_stopped ? _ ("Steam is currently closed. Start it manually. ProtonPlus will keep the reminder until it confirms a new session.") : _ ("Start Steam manually. ProtonPlus will keep the reminder until it confirms a new session."));
+                return new SteamRestartMessage (_ ("Steam restarted"), _ ("Steam reopened, but ProtonPlus could not verify every pending change. The reminder will remain until those changes are confirmed."));
             case SteamRestartFailureReason.CONFIGURATION_RECONCILIATION_FAILED:
                 var body = _ ("Steam is closed. ProtonPlus could not safely apply every pending change; retry or start Steam manually after resolving the conflict.");
                 if (diagnostic_detail != null && diagnostic_detail != "")
