@@ -413,11 +413,30 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 add (diagnostics, LaunchCommandCompositionDiagnosticCode.INVALID_VALUE_COUNT, selection.option_id,
                     "Launch option '%s' requires exactly one value.".printf (selection.option_id)); return;
             }
-            bool selectable = valid_selectable (diagnostics, selection.option_id, values[0], semantics.selectable_values);
-            bool safe_value = safe (diagnostics, selection.option_id, values[0]);
+            var raw_value = values[0];
+            var selectable = true;
+            if (semantics.value_separator != "" && semantics.selectable_values.length > 0) {
+                foreach (var member in raw_value.split (semantics.value_separator)) {
+                    var clean_member = member.strip ();
+                    if (clean_member == "") {
+                        add (diagnostics, LaunchCommandCompositionDiagnosticCode.MISSING_DYNAMIC_VALUE,
+                            selection.option_id, "Launch option '%s' contains an empty value.".printf (
+                                selection.option_id));
+                        selectable = false;
+                        continue;
+                    }
+                    if (!valid_selectable (diagnostics, selection.option_id,
+                        clean_member, semantics.selectable_values))
+                        selectable = false;
+                }
+            } else {
+                selectable = valid_selectable (diagnostics, selection.option_id,
+                    raw_value, semantics.selectable_values);
+            }
+            bool safe_value = safe (diagnostics, selection.option_id, raw_value);
             if (!selectable || !safe_value) return;
             environments.add (new LaunchEnvironmentAssignment (semantics.environment_key,
-                "%s=%s".printf (semantics.environment_key, shell_word (values[0]))));
+                "%s=%s".printf (semantics.environment_key, shell_word (raw_value))));
         }
 
         void append_wrapper_argument (ArrayList<LaunchCommandCompositionDiagnostic> diagnostics,

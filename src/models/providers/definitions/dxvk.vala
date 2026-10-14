@@ -19,11 +19,21 @@ namespace ProtonPlus.Models.Providers {
                 ),
                 new ProviderDefinition (
                     Category.DXVK, SourceType.GITHUB, "dxvk-sarek", "DXVK (Sarek)",
-                    N_ ("DXVK builds that work with pre-Vulkan 1.3 versions."),
+                    N_ ("DXVK build targeting Vulkan 1.1/1.2 hardware, with backported fixes and support for older GPUs."),
                     "https://api.github.com/repos/pythonlover02/DXVK-Sarek/releases",
                     "https://github.com/pythonlover02/DXVK-Sarek", 3,
-                    { new VariantDefinition ("standard", "default", "dxvk-sarek-dyasync-$release_name", true) },
-                    { InstallLayout.template ("default", "sarek-$release_name") }
+                    {
+                        new VariantDefinition (
+                            "standard", "default", "dxvk-sarek-$release_version", true, null,
+                            {
+                                "dxvk-sarek-dyasync-$release_name",
+                                "dxvk-sarek-async-$release_name",
+                                "dxvk-sarek-$release_name"
+                            }
+                        )
+                    },
+                    { InstallLayout.template ("default", "sarek-$release_name") },
+                    null, null, "", false, "", ArchiveInstallRequirement.STANDARD, true
                 )
             };
         }

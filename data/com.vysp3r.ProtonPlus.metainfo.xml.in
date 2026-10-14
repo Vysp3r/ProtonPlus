@@ -88,6 +88,33 @@
   </screenshots>
 
   <releases>
+    <release version="0.6.9" date="2026-09-12">
+      <description>
+        <ul>
+          <li>🐛 Fixed Steam games not loading when Steam stores libraryfolders.vdf in the config directory</li>
+          <li>🌐 Updated Ukrainian localization</li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.6.8" date="2026-09-08">
+      <description>
+        <ul>
+          <li>✨ Added a Discord community link to the About dialog</li>
+          <li>🐛 Fixed some release changelogs failing to render when inline code contains Markdown emphasis characters</li>
+          <li>🐛 Fixed the Steam restart notification missing its icon</li>
+          <li>🌐 Updated Polish localization</li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.6.7" date="2026-09-08">
+      <description>
+        <ul>
+          <li>🐛 Fixed Proton-Wineland WoW64 releases not being detected</li>
+          <li>🔄 Renamed Proton-CachyOS Wineland to Proton-Wineland</li>
+          <li>🌐 Updated Polish, Russian, and Spanish localizations</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.6.6" date="2026-09-04">
       <description>
         <ul>

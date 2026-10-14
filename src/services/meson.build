@@ -11,6 +11,7 @@ sources += files(
     'steam-tinker-launch-workflow.vala',
     'installation-service.vala',
     'steam-session-service.vala',
+    'steam-game-launch-service.vala',
     'steam-restart-state-store.vala',
     'steam-restart-manager.vala',
     'steam-restart-backend.vala',

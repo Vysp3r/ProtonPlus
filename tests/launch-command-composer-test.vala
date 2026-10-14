@@ -8,6 +8,7 @@ namespace AppTests.LaunchCommandComposerTest {
         Test.add_func ("/launch-command-composer/wrappers-and-composite", test_wrappers_and_composite);
         Test.add_func ("/launch-command-composer/invalid-combinations", test_invalid_combinations);
         Test.add_func ("/launch-command-composer/capabilities-and-values", test_capabilities_and_values);
+        Test.add_func ("/launch-command-composer/list-valued-environment", test_list_valued_environment);
         Test.add_func ("/launch-command-composer/current-custom-proton-options", test_current_custom_proton_options);
         Test.add_func ("/launch-command-composer/current-option-conflicts", test_current_option_conflicts);
         Test.add_func ("/launch-command-composer/parsed-validation", test_parsed_validation);
@@ -152,6 +153,20 @@ namespace AppTests.LaunchCommandComposerTest {
         var bad_count = compose ({ new LaunchCommandSelection ("gamescope-resolution", { "1920" }) }, { LaunchOptionCapability.GAMESCOPE });
         assert (!bad_count.is_valid);
         assert_code (bad_count, LaunchCommandCompositionDiagnosticCode.INVALID_VALUE_COUNT);
+    }
+
+    private void test_list_valued_environment () {
+        var radv = compose ({
+            new LaunchCommandSelection ("amd-radv-perftest", { "nggc,rtcps" })
+        }, { LaunchOptionCapability.AMD });
+        assert (radv.is_valid);
+        assert (radv.launch_line == "RADV_PERFTEST='nggc,rtcps' %command%");
+
+        var invalid = compose ({
+            new LaunchCommandSelection ("amd-radv-perftest", { "nggc,gpl" })
+        }, { LaunchOptionCapability.AMD });
+        assert (!invalid.is_valid);
+        assert_code (invalid, LaunchCommandCompositionDiagnosticCode.UNSUPPORTED_SELECTABLE_VALUE);
     }
 
     private void test_current_custom_proton_options () {

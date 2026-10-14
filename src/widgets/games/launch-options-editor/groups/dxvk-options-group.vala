@@ -27,7 +27,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                                                     { "DXVK_LOG_LEVEL=none" }, false, LaunchLineType.ENVIRONMENT, "dxvk-log-level");
 
             dxvk_frame_rate_tile = create_spin_tile (
-                                                     _("DXVK Frame Limit"),
+                                                     _("DXVK frame limit"),
                                                      _("Caps the frame rate using DXVK's built-in frame limiter."),
                                                      _("FPS"),
                                                      0,

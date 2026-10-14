@@ -294,8 +294,22 @@ namespace ProtonPlus.Widgets.Games {
             };
             launch_button.clicked.connect (() => {
                 var steam_game = target.item?.game as Models.Games.Steam;
-                if (steam_game != null)
-                    Utils.System.open_uri ("steam://run/" + ((!) steam_game).appid.to_string ());
+                if (steam_game == null)
+                    return;
+                var steam_target = steam_game.launcher.get_steam_restart_target ();
+                try {
+                    if (steam_target == null)
+                        throw new IOError.NOT_FOUND ("No Steam installation was found for this game.");
+                    new Services.SteamGameLaunchService ().launch (
+                        steam_target, steam_game.appid, steam_game.is_non_steam, Globals.IS_FLATPAK);
+                } catch (Error error) {
+                    var root = get_root () as Gtk.Window;
+                    if (root != null)
+                        Window.present_dialog_for_controller (new Main.ErrorDialog (
+                            _("Game Launch Failed"),
+                            _("%s could not be launched.").printf (steam_game.name),
+                            error.message), root);
+                }
             });
 
             extra_button = new ExtraButton (target);

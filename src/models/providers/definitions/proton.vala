@@ -9,7 +9,7 @@ namespace ProtonPlus.Models.Providers {
                     "https://github.com/GloriousEggroll/proton-ge-custom", 2,
                     {
                         new VariantDefinition (
-                            "x86", "x86", "$release_name-x86_64", true,
+                            "x86", "x86_64", "$release_name-x86_64", true,
                             VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE),
                             { "$release_name" }
                         ),
@@ -36,7 +36,7 @@ namespace ProtonPlus.Models.Providers {
                 ),
                 new ProviderDefinition (
                     Category.PROTON, SourceType.GITHUB, "dw-proton", "DW-Proton",
-                    N_ ("Dawn Winery's custom Proton fork with fixes for various games :xdd:"),
+                    N_ ("Dawn Winery's custom Proton build with additional game fixes and compatibility patches."),
                     "https://api.github.com/repos/dawn-winery/dwproton-mirror/releases",
                     "https://github.com/dawn-winery/dwproton-mirror", 3,
                     { new VariantDefinition ("x86-64", "x86_64", "$tag_name-x86_64", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)) },
@@ -45,12 +45,14 @@ namespace ProtonPlus.Models.Providers {
                     { "https://dawn.wine/api/v1/repos/dawn-winery/dwproton/releases" }
                 ),
                 new ProviderDefinition (
-                    Category.PROTON, SourceType.GITHUB, "proton-ge-rtsp", "Proton-GE RTSP",
-                    N_ ("Steam compatibility tool based on Proton-GE with additional patches to improve RTSP codecs for VRChat."),
-                    "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases",
-                    "https://github.com/SpookySkeletons/proton-ge-rtsp", 4,
+                    Category.PROTON, SourceType.GITHUB, "proton-ge-rtsp", "Proton-RTSP",
+                    N_ ("Custom Proton build based on Proton Experimental with additional patches for VRChat RTSP and media playback."),
+                    "https://api.github.com/repos/SpookySkeletons/proton-rtsp/releases",
+                    "https://github.com/SpookySkeletons/proton-rtsp", 4,
                     { new VariantDefinition ("standard", "default", "$tag_name.tar.gz", true) },
-                    { InstallLayout.template ("default", "$release_name") }
+                    { InstallLayout.template ("default", "$release_name") },
+                    null, null, "", false, "", ArchiveInstallRequirement.STANDARD, false,
+                    { "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases" }
                 ),
                 new ProviderDefinition (
                     Category.PROTON, SourceType.GITHUB_ACTIONS, "proton-tkg", "Proton-Tkg",
@@ -64,25 +66,27 @@ namespace ProtonPlus.Models.Providers {
                 ),
                 new ProviderDefinition (
                     Category.PROTON, SourceType.GITHUB, "proton-em", "Proton-EM",
-                    N_ (
-                        "Steam compatibility tool for running Windows games with improvements over Valve's default Proton. " +
-                        "By Etaash Mathamsetty, adding FSR4 support and Wine Wayland tweaks."
-                    ),
-                    "https://api.github.com/repos/Etaash-mathamsetty/Proton/releases",
-                    "https://github.com/Etaash-mathamsetty/Proton", 6,
+                    N_ ("Development-oriented custom Proton build with FSR 4 support, Wine Wayland work, and other experimental patches."),
+                    "https://api.github.com/repos/BananaWorks07/Proton/releases",
+                    "https://github.com/BananaWorks07/Proton", 6,
                     { new VariantDefinition ("standard", "default", "proton-$release_name", true) },
                     { InstallLayout.template ("default", "$release_name") },
-                    null, null, "", false, "", ArchiveInstallRequirement.STANDARD, true
+                    null, null, "", false, "", ArchiveInstallRequirement.STANDARD, true,
+                    { "https://api.github.com/repos/Etaash-mathamsetty/Proton/releases" }
                 ),
                 new ProviderDefinition (
-                    Category.PROTON, SourceType.GITHUB, "proton-cachyos-wineland", "Proton-CachyOS Wineland",
-                    N_ ("Steam compatibility tool based on CachyOS Proton with Wayland improvements, especially for Windows launcher applications."),
+                    Category.PROTON, SourceType.GITHUB, "proton-cachyos-wineland", "Proton-Wineland",
+                    N_ ("Steam compatibility tool built with native Wayland support, smoother desktop integration, Steam overlay and other new features."),
                     "https://api.github.com/repos/nanomatters/proton-cachyos/releases",
                     "https://github.com/nanomatters/proton-cachyos", 7,
                     {
                         new VariantDefinition ("x86-64", "x86_64", "proton-$tag_name-x86_64", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)),
                         new VariantDefinition ("x86-64-v3", "x86_64_v3", "proton-$tag_name-x86_64_v3", false, VariantCompatibility.for_x86_64_level (X86_64Level.V3)),
-                        new VariantDefinition ("x86-64-wow64", "x86_64_wow64", "proton-$tag_name-x86_64_wow64", false, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE))
+                        new VariantDefinition (
+                            "x86-64-wow64", "x86_64_wow64", "proton-$tag_name-x86_64_wow64", false,
+                            VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE),
+                            { "proton-$tag_name-x86_64-wow64" }
+                        )
                     },
                     { InstallLayout.template ("default", "$release_name") },
                     null, { "beta" }
