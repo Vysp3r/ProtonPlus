@@ -531,7 +531,7 @@ namespace ProtonPlus.Widgets.Games {
             view.append_column (selection_column);
 
             var title_column = new Gtk.ColumnViewColumn (
-                _("Games"), create_title_factory ()
+                _("Game"), create_title_factory ()
             );
             title_column.set_expand (false);
             title_column.set_sorter (games.name_sorter);
