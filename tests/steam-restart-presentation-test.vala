@@ -55,6 +55,24 @@ namespace AppTests.SteamRestartPresentationTest {
     }
 
     private void test_failure_messages_are_actionable () {
+        var detail = "Configuration file is missing.\n/tmp/<steam>/config.vdf\ncompatibility-mapping: 440";
+        var configuration = SteamRestartPresentation.failure_message (
+            SteamRestartFailureReason.CONFIGURATION_RECONCILIATION_FAILED, true, detail);
+        assert (configuration.body.contains (detail));
+        assert (configuration.can_retry);
+
+        // A confirmed shutdown is historical evidence, not the state after launch.
+        var timeout = SteamRestartPresentation.failure_message (SteamRestartFailureReason.START_TIMEOUT, true);
+        assert (timeout.heading == "Steam startup could not be confirmed");
+        assert (!timeout.body.contains ("currently closed"));
+        assert (timeout.body.contains ("already open"));
+        var reopened = SteamRestartPresentation.failure_message (SteamRestartFailureReason.NEW_SESSION_UNCONFIRMED, true);
+        assert (reopened.heading == "Steam restarted");
+        assert (reopened.body.contains ("could not verify every pending change"));
+        assert (!reopened.body.contains ("Start it manually"));
+        var failed_launch = SteamRestartPresentation.failure_message (SteamRestartFailureReason.RELAUNCH_FAILED, true);
+        assert (!failed_launch.body.contains ("currently closed"));
+
         var flatpak = SteamRestartPresentation.failure_message (SteamRestartFailureReason.GRACEFUL_SHUTDOWN_UNSUPPORTED);
         assert (flatpak.heading == "Close Steam manually" && flatpak.body.contains ("cannot safely close") && !flatpak.body.contains ("kill"));
         var blocker = SteamRestartPresentation.failure_message (SteamRestartFailureReason.GAME_OR_COMPATIBILITY_PROCESS);

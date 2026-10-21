@@ -339,7 +339,7 @@ namespace ProtonPlus.Services {
     }
 
     public class SteamSessionService : Object {
-        private const int64 STARTING_WINDOW_USEC = 30 * 1000 * 1000;
+        private const int64 STARTING_WINDOW_USEC = 5 * 1000 * 1000;
         private SteamSessionBackend backend;
         private Gee.ArrayList<SteamRestartTarget> monitored_targets = new Gee.ArrayList<SteamRestartTarget> ();
         private Gee.HashMap<string, SteamSessionSnapshot> previous_monitored_snapshots = new Gee.HashMap<string, SteamSessionSnapshot> ();

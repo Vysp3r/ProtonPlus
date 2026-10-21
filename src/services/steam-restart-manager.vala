@@ -305,7 +305,7 @@ namespace ProtonPlus.Services {
                     mark_stop_observed (target);
                     return;
                 }
-                var outcome = ((!) configuration).reconcile_target (target);
+                var outcome = reconcile_configuration_automatically (target, (!) configuration);
                 if (outcome.result != SteamConfigurationMutationResult.CHANGED
                     && outcome.result != SteamConfigurationMutationResult.UNCHANGED) {
                     mark_stop_observed (target);
@@ -337,7 +337,7 @@ namespace ProtonPlus.Services {
                     }
                 }
                 if (has_configuration_intent && configuration != null)
-                    configuration.reconcile_target (target);
+                    reconcile_configuration_automatically (target, configuration);
                 return;
             }
             if (snapshot.state != SteamSessionState.RUNNING)
@@ -391,6 +391,27 @@ namespace ProtonPlus.Services {
             pending_changed ();
             if (target_cleared)
                 restart_requirement_satisfied (target);
+        }
+
+        private SteamConfigurationMutation reconcile_configuration_automatically (SteamRestartTarget target,
+            SteamConfigurationReconciler configuration) {
+            var outcome = configuration.reconcile_target (target);
+            if (outcome.result == SteamConfigurationMutationResult.FAILED
+                || outcome.result == SteamConfigurationMutationResult.CONFLICT
+                || outcome.result == SteamConfigurationMutationResult.PERSISTENCE_FAILED)
+                message ("Automatic Steam configuration reconciliation failed: %s", outcome.error ?? "Unknown error");
+            return outcome;
+        }
+
+        // Called only after an explicit configuration edit has been applied
+        // with Steam confirmed stopped. Other resources retain their receipts.
+        public bool clear_applied_configuration (SteamRestartTarget target, string resource_key) {
+            var records = new Gee.ArrayList<SteamRestartPendingRecord> ();
+            foreach (var record in get_pending_changes_for_target (target)) {
+                if (record.receipt.resource_key == resource_key && record.receipt.configuration_intent != null)
+                    records.add (record);
+            }
+            return clear_records (records);
         }
 
         /* Configuration records require on-disk verification by the service;

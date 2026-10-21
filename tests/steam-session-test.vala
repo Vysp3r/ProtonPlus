@@ -128,12 +128,17 @@ namespace AppTests.SteamSessionTest {
         assert (((!) running.generation).describe () == "fixture-boot:1000000:42");
         assert (running.relaunch.desktop_entry_path == "/fixture/steam.desktop");
 
-        backend.now_usec = 10 * 1000 * 1000;
+        backend.now_usec = 6 * 1000 * 1000 - 1;
         processes.clear ();
         processes.add (anchor (target.data_root, 43, 1 * 1000 * 1000));
         var starting = service.inspect (target);
         assert (starting.state == SteamSessionState.STARTING);
         assert (starting.blockers.size == 1);
+
+        backend.now_usec = 6 * 1000 * 1000;
+        var stabilized = service.inspect (target);
+        assert (stabilized.state == SteamSessionState.RUNNING);
+        assert (stabilized.blockers.size == 0);
 
         processes.clear ();
         processes.add (anchor (target.data_root, 44, 1 * 1000 * 1000, "-update"));
