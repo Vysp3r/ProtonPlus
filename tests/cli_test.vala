@@ -128,6 +128,7 @@ namespace AppTests.CliTest {
 
     public void register_tests () {
         Test.add_func ("/cli/exit-codes", test_exit_codes);
+        Test.add_func ("/cli/list-managed-releases", test_list_managed_releases);
         Test.add_func ("/cli/uninstall-inventory-path", test_uninstall_uses_inventory_path);
         Test.add_func ("/cli/bulk-update-restores-backup-only-installation", test_bulk_update_restores_backup_only_installation);
         Test.add_func ("/cli/bulk-update-retains-backup-beside-primary", test_bulk_update_retains_backup_beside_primary);
@@ -340,6 +341,51 @@ namespace AppTests.CliTest {
         assert (run_cli ({ "protonplus", "unknown" }, null, unknown_output) == 1);
         assert (unknown_output.stderr_text.contains ("Unknown command 'unknown'"));
         assert (unknown_output.stdout_text.contains ("Usage:"));
+    }
+
+    private void test_list_managed_releases () {
+        var root = temporary_directory ();
+        try {
+            ProviderTool runner;
+            var launcher = setup_launcher (
+                root, "ge-proton", "GE-Proton",
+                release ("GE-Proton9-27", "GE-Proton9-27",
+                    "https://fixtures.invalid/ge-proton.zip"),
+                out runner
+            );
+            var latest_path = seed_latest_state (runner, "GE-Proton Latest", "GE-Proton9-27");
+
+            // Managed-looking directories without a release receipt or tag
+            // must not become bogus entries in a script-consumable listing.
+            assert (Utils.Filesystem.create_directory (Path.build_filename (
+                root, "compatibilitytools.d", "unmanaged-runner"
+            )));
+            seed_managed_installation (
+                runner, "missing-release-tag", "missing-release-tag", "No release tag"
+            );
+
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            assert (run_cli ({ "protonplus", "list", launcher.instance_id },
+                new FixtureHandler (launcher_list (launcher),
+                    FixtureJobBehavior.NORMAL, output)) == 0);
+
+            assert (output.stdout_text.contains (
+                "  ge-proton  GE-Proton9-27  GE-Proton Latest\n"
+            ));
+            assert (!output.stdout_text.contains ("unmanaged-runner"));
+            assert (!output.stdout_text.contains ("No release tag"));
+            assert (!output.stdout_text.contains ("No runners installed"));
+
+            // The same directory becomes unmanaged if its receipt is removed.
+            assert (FileUtils.remove (Path.build_filename (latest_path, ".protonplus")) == 0);
+            var empty_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            assert (run_cli ({ "protonplus", "list", launcher.instance_id },
+                new FixtureHandler (launcher_list (launcher),
+                    FixtureJobBehavior.NORMAL, empty_output)) == 0);
+            assert (empty_output.stdout_text.contains ("No runners installed"));
+        } finally {
+            assert (delete_directory (root));
+        }
     }
 
     private void test_uninstall_uses_inventory_path () {
