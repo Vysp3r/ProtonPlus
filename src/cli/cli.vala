@@ -191,9 +191,10 @@ namespace ProtonPlus.CLI {
                 var installed = group.get_installed_tool_snapshot ();
                 var group_found = false;
                 foreach (var entry in installed) {
-                    // Plain launcher directories and unrecorded runtimes are
-                    // not managed releases that callers can address by ID.
-                    if (entry.provider_id == "" || entry.tag == "")
+                    // Keep the existing LegacyRuntime exclusion, and skip
+                    // unmanaged directories without an actionable ID and tag.
+                    if (entry.directory_name == "LegacyRuntime" ||
+                        entry.provider_id == "" || entry.tag == "")
                         continue;
                     if (!group_found) {
                         output.info ("\n%s:\n", group.title);
