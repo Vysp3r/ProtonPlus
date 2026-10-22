@@ -190,20 +190,18 @@ namespace ProtonPlus.CLI {
                 group.refresh_installed_state ();
                 var installed = group.get_installed_tool_snapshot ();
                 var group_found = false;
-                // Lutris has a shared /runners/wine directory for two groups.
-                // Match the recorded tool identity instead of the physical folder.
-                var tool_prefix = "%s/%s/".printf (launcher.tool_target_id, group.id);
                 foreach (var entry in installed) {
-                    // Unmanaged folders lack a complete, actionable release receipt.
-                    if (entry.directory_name == "LegacyRuntime" ||
-                        entry.provider_id == "" || entry.tag == "" ||
-                        !entry.tool_id.has_prefix (tool_prefix))
+                    // Preserve the former directory helper's runtime exclusion.
+                    if (entry.directory_name == "LegacyRuntime")
+                        continue;
+                    var runner = group.installed_tool_inventory.get_provider_tool_for_entry (entry);
+                    if (runner == null)
                         continue;
                     if (!group_found) {
                         output.info ("\n%s:\n", group.title);
                         group_found = true;
                     }
-                    output.info ("  %s  %s  %s\n", entry.provider_id, entry.tag, entry.display_title);
+                    output.info ("  %s  %s  %s\n", get_runner_id (runner), entry.tag, entry.display_title);
                     found = true;
                 }
             }
@@ -586,9 +584,7 @@ namespace ProtonPlus.CLI {
             var installed = new Gee.ArrayList<Models.InstalledToolEntry> ();
 
             foreach (var entry in entries) {
-                if (entry.provider_id == runner.provider_id &&
-                    entry.tool_id == runner.id &&
-                    entry.launcher_id == runner.group.launcher.tool_target_id)
+                if (runner.group.installed_tool_inventory.get_provider_tool_for_entry (entry) == runner)
                     installed.add (entry);
             }
             return installed;
