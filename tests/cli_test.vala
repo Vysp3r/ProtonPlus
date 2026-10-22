@@ -39,6 +39,16 @@ namespace AppTests.CliTest {
         }
     }
 
+    // Lutris uses the same physical /runners/wine directory for Proton and
+    // Wine, while DXVK and VKD3D live under /runtime/.
+    // Keep all paths inside the temporary fixture, never the user's Lutris.
+    private class FixtureLutrisLauncher : Launcher {
+        public FixtureLutrisLauncher (string root) {
+            base ("Lutris", InstallationTypes.SYSTEM, "", { root }, "lutris",
+                null, root, "lutris", "lutris-system");
+        }
+    }
+
     private class RecordingSteamChange : Object, SteamChangeRecorder {
         public SteamRestartRecordResult next_result = SteamRestartRecordResult.ADDED;
         public Gee.List<SteamChangeReceipt> receipts = new Gee.ArrayList<SteamChangeReceipt> ();
@@ -129,6 +139,7 @@ namespace AppTests.CliTest {
     public void register_tests () {
         Test.add_func ("/cli/exit-codes", test_exit_codes);
         Test.add_func ("/cli/list-managed-releases", test_list_managed_releases);
+        Test.add_func ("/cli/list-lutris-runners", test_list_lutris_runners);
         Test.add_func ("/cli/uninstall-inventory-path", test_uninstall_uses_inventory_path);
         Test.add_func ("/cli/bulk-update-restores-backup-only-installation", test_bulk_update_restores_backup_only_installation);
         Test.add_func ("/cli/bulk-update-retains-backup-beside-primary", test_bulk_update_retains_backup_beside_primary);
@@ -181,15 +192,16 @@ namespace AppTests.CliTest {
     }
 
     private ProviderTool add_runner (
-        FixtureSteamLauncher launcher,
+        Launcher launcher,
         Group group,
         string provider_id,
         string title,
         Release value,
-        VariantCompatibility? compatibility = null
+        VariantCompatibility? compatibility = null,
+        Category category = Category.PROTON
     ) {
         var definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, provider_id, title, "",
+            category, SourceType.GITHUB, provider_id, title, "",
             "https://fixtures.invalid/releases", "https://fixtures.invalid/source", 1,
             { new VariantDefinition ("default", "Default", "$release_name", true, compatibility) },
             { InstallLayout.template ("default", "$release_name") }
@@ -383,6 +395,73 @@ namespace AppTests.CliTest {
                 new FixtureHandler (launcher_list (launcher),
                     FixtureJobBehavior.NORMAL, empty_output)) == 0);
             assert (empty_output.stdout_text.contains ("No runners installed"));
+        } finally {
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_list_lutris_runners () {
+        var root = temporary_directory ();
+        try {
+            // Mirror Lutris's real group layout, including the shared Proton/Wine root.
+            assert (Utils.Filesystem.create_directory (Path.build_filename (root, "runners", "wine")));
+            assert (Utils.Filesystem.create_directory (Path.build_filename (root, "runtime", "dxvk")));
+            assert (Utils.Filesystem.create_directory (Path.build_filename (root, "runtime", "vkd3d")));
+
+            var launcher = new FixtureLutrisLauncher (root);
+            assert (launcher.instance_id == "lutris-system");
+            var proton = new Group ("Proton", "", "/runners/wine", launcher, "proton");
+            var wine = new Group ("Wine", "", "/runners/wine", launcher, "wine");
+            var dxvk = new Group ("DXVK", "", "/runtime/dxvk", launcher, "dxvk");
+            var vkd3d = new Group ("VKD3D", "", "/runtime/vkd3d", launcher, "vkd3d");
+            proton.tools = new Gee.LinkedList<Tool> ();
+            wine.tools = new Gee.LinkedList<Tool> ();
+            dxvk.tools = new Gee.LinkedList<Tool> ();
+            vkd3d.tools = new Gee.LinkedList<Tool> ();
+            launcher.groups = { proton, wine, dxvk, vkd3d };
+
+            var ge_proton = add_runner (launcher, proton, "ge-proton", "GE-Proton",
+                release ("GE-Proton9-27", "GE-Proton9-27", "https://fixtures.invalid/proton.zip"));
+            var wine_ge = add_runner (launcher, wine, "wine-ge", "Wine-GE",
+                release ("v8", "v8", "https://fixtures.invalid/wine.zip"), null, Category.WINE);
+            var doitsujin = add_runner (launcher, dxvk, "dxvk-doitsujin", "DXVK (doitsujin)",
+                release ("v3.1.1", "v3.1.1", "https://fixtures.invalid/dxvk.zip"), null, Category.DXVK);
+
+            seed_latest_state (ge_proton, "GE-Proton Latest", "GE-Proton9-27");
+            seed_latest_state (wine_ge, "Wine-GE Latest", "v8");
+            seed_latest_state (doitsujin, "dxvk-3.1", "v3.1.0");
+            seed_latest_state (doitsujin, "DXVK (doitsujin) Latest", "v3.1.1");
+
+            // Real Lutris contains these bare directories without .protonplus records.
+            assert (Utils.Filesystem.create_directory (Path.build_filename (root, "runners", "wine", "unmanaged-wine")));
+            assert (Utils.Filesystem.create_directory (Path.build_filename (root, "runtime", "dxvk", "unmanaged-dxvk")));
+
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            assert (run_cli ({ "protonplus", "list", "lutris-system" },
+                new FixtureHandler (launcher_list (launcher),
+                    FixtureJobBehavior.NORMAL, output)) == 0);
+
+            var listing = output.stdout_text;
+            assert (listing.contains ("Installed runners for Lutris:"));
+            assert (listing.contains ("  ge-proton  GE-Proton9-27  GE-Proton Latest\n"));
+            assert (listing.contains ("  wine-ge  v8  Wine-GE Latest\n"));
+            assert (listing.contains ("  dxvk-doitsujin  v3.1.0  dxvk-3.1\n"));
+            assert (listing.contains ("  dxvk-doitsujin  v3.1.1  DXVK (doitsujin) Latest\n"));
+            assert (!listing.contains ("unmanaged-wine"));
+            assert (!listing.contains ("unmanaged-dxvk"));
+            assert (!listing.contains ("\nVKD3D:\n"));
+
+            // The two shared directories must not miscategorize or duplicate releases.
+            var before_wine = listing.split ("\nWine:\n");
+            assert (before_wine.length == 2);
+            assert (before_wine[0].contains ("\nProton:\n"));
+            assert (!before_wine[0].contains ("  wine-ge  "));
+            assert (!before_wine[1].contains ("  ge-proton  "));
+            var before_dxvk = before_wine[1].split ("\nDXVK:\n");
+            assert (before_dxvk.length == 2);
+            assert (!before_dxvk[0].contains ("  dxvk-doitsujin  "));
+            assert (!before_dxvk[1].contains ("  ge-proton  "));
+            assert (!before_dxvk[1].contains ("  wine-ge  "));
         } finally {
             assert (delete_directory (root));
         }
