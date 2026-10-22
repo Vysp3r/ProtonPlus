@@ -190,11 +190,14 @@ namespace ProtonPlus.CLI {
                 group.refresh_installed_state ();
                 var installed = group.get_installed_tool_snapshot ();
                 var group_found = false;
+                // Lutris has a shared /runners/wine directory for two groups.
+                // Match the recorded tool identity instead of the physical folder.
+                var tool_prefix = "%s/%s/".printf (launcher.tool_target_id, group.id);
                 foreach (var entry in installed) {
-                    // Keep the existing LegacyRuntime exclusion, and skip
-                    // unmanaged directories without an actionable ID and tag.
+                    // Unmanaged folders lack a complete, actionable release receipt.
                     if (entry.directory_name == "LegacyRuntime" ||
-                        entry.provider_id == "" || entry.tag == "")
+                        entry.provider_id == "" || entry.tag == "" ||
+                        !entry.tool_id.has_prefix (tool_prefix))
                         continue;
                     if (!group_found) {
                         output.info ("\n%s:\n", group.title);
