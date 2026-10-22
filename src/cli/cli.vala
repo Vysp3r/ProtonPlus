@@ -191,15 +191,15 @@ namespace ProtonPlus.CLI {
                 var installed = group.get_installed_tool_snapshot ();
                 var group_found = false;
                 foreach (var entry in installed) {
-                    // This was intentionally omitted by Group's former raw
-                    // directory helper, so retain the CLI listing behavior.
-                    if (entry.directory_name == "LegacyRuntime")
+                    // Plain launcher directories and unrecorded runtimes are
+                    // not managed releases that callers can address by ID.
+                    if (entry.provider_id == "" || entry.tag == "")
                         continue;
                     if (!group_found) {
                         output.info ("\n%s:\n", group.title);
                         group_found = true;
                     }
-                    output.info ("  %s\n", entry.display_title);
+                    output.info ("  %s  %s  %s\n", entry.provider_id, entry.tag, entry.display_title);
                     found = true;
                 }
             }
