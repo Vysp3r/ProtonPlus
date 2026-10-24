@@ -475,8 +475,19 @@ namespace ProtonPlus.Utils {
             if (!Globals.IS_FLATPAK) {
                 return false;
             }
-            var output = run_command_sync ("flatpak info %s".printf (Shell.quote (name)));
-            return output != "" && !output.contains ("error:");
+            var result = run_command_sync_result ("flatpak list --all --columns=application");
+            return flatpak_list_contains_dependency (result, name);
+        }
+
+        public static bool flatpak_list_contains_dependency (CommandResult result, string name) {
+            if (result.exit_status != 0 || name == "")
+                return false;
+
+            foreach (var line in result.stdout.split ("\n")) {
+                if (line.strip () == name)
+                    return true;
+            }
+            return false;
         }
 
         public static GpuVendor get_gpu_vendor_from_pci_devices (string pci_devices) {
