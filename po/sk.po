@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-24 15:34-0400\n"
+"POT-Creation-Date: 2026-10-24 16:46-0400\n"
 "PO-Revision-Date: 2026-08-09 00:00+0000\n"
 "Last-Translator: GitHub Copilot\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/protonplus/"
@@ -84,225 +84,230 @@ msgstr "Chyba: Neznámy príkaz „%s“\n"
 msgid "Warning: %s\n"
 msgstr "Upozornenie: %s\n"
 
-#: src/cli/cli.vala:265 src/cli/cli.vala:790
+#: src/cli/cli.vala:265 src/cli/cli.vala:850
 #, fuzzy
 msgid "Runner ID"
 msgstr "Spouštěče"
 
-#: src/cli/cli.vala:265 src/cli/cli.vala:444
+#: src/cli/cli.vala:265 src/cli/cli.vala:504
 #, fuzzy
 msgid "Version"
 msgstr "Verzia HUD"
 
-#: src/cli/cli.vala:265 src/cli/cli.vala:410 src/cli/cli.vala:444
-#: src/cli/cli.vala:782 src/cli/cli.vala:790
+#: src/cli/cli.vala:265 src/cli/cli.vala:470 src/cli/cli.vala:504
+#: src/cli/cli.vala:842 src/cli/cli.vala:850
 msgid "Name"
 msgstr "Meno"
 
-#: src/cli/cli.vala:285
+#: src/cli/cli.vala:296
 msgid "No runners installed\n"
 msgstr "Nie sú nainštalované žiadne spúšťače\n"
 
-#: src/cli/cli.vala:377 src/cli/cli.vala:631
+#: src/cli/cli.vala:411
+msgid ""
+"SteamTinkerLaunch is legacy. Install tinkergame for a new installation.\n"
+msgstr ""
+
+#: src/cli/cli.vala:437 src/cli/cli.vala:691
 #, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr "Chyba: Nepodarilo sa načítať verzie: %s\n"
 
-#: src/cli/cli.vala:382 src/cli/cli.vala:633
+#: src/cli/cli.vala:442 src/cli/cli.vala:693
 msgid "Error: No releases are available\n"
 msgstr "Chyba: Nie sú dostupné žiadne vydania\n"
 
-#: src/cli/cli.vala:386
+#: src/cli/cli.vala:446
 #, c-format
 msgid "Installing %s Latest...\n"
 msgstr "Inštaluje sa najnovšia verzia %s...\n"
 
-#: src/cli/cli.vala:394
+#: src/cli/cli.vala:454
 #, c-format
 msgid "Successfully installed %s Latest\n"
 msgstr "Najnovšia verzia %s bola úspešne nainštalovaná\n"
 
-#: src/cli/cli.vala:396 src/cli/cli.vala:432
+#: src/cli/cli.vala:456 src/cli/cli.vala:492
 #, c-format
 msgid "Error: Installation failed: %s\n"
 msgstr "Chyba: Inštalácia zlyhala: %s\n"
 
-#: src/cli/cli.vala:409
+#: src/cli/cli.vala:469
 #, c-format
 msgid "Available releases for %s:\n"
 msgstr "Dostupné verzie pre %s:\n"
 
-#: src/cli/cli.vala:410 src/cli/cli.vala:444
+#: src/cli/cli.vala:470 src/cli/cli.vala:504
 msgid "Number"
 msgstr ""
 
-#: src/cli/cli.vala:410
+#: src/cli/cli.vala:470
 #, fuzzy
 msgid "Release date"
 msgstr "Nenašli sa žiadne verzie"
 
-#: src/cli/cli.vala:418 src/cli/cli.vala:451
+#: src/cli/cli.vala:478 src/cli/cli.vala:511
 msgid "Select release number"
 msgstr "Vyberte číslo verzie"
 
-#: src/cli/cli.vala:424
+#: src/cli/cli.vala:484
 #, c-format
 msgid "Installing %s...\n"
 msgstr "Inštaluje sa %s...\n"
 
-#: src/cli/cli.vala:430
+#: src/cli/cli.vala:490
 #, c-format
 msgid "Successfully installed %s\n"
 msgstr "Nástroj %s bol úspešne nainštalovaný\n"
 
-#: src/cli/cli.vala:439 src/cli/cli.vala:462
+#: src/cli/cli.vala:499 src/cli/cli.vala:522
 #, c-format
 msgid "No installed releases found for %s\n"
 msgstr "Pre %s sa nenašli žiadne nainštalované verzie\n"
 
-#: src/cli/cli.vala:443
+#: src/cli/cli.vala:503
 #, c-format
 msgid "Installed releases for %s:\n"
 msgstr "Nainštalované verzie pre %s:\n"
 
-#: src/cli/cli.vala:466
+#: src/cli/cli.vala:526
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
 msgstr "Odinštalovávajú sa všetky verzie pre %s...\n"
 
-#: src/cli/cli.vala:478
+#: src/cli/cli.vala:538
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
 msgstr "Odinštalovávajú sa všetky verzie pre spúšťač %s...\n"
 
-#: src/cli/cli.vala:504
+#: src/cli/cli.vala:564
 #, c-format
 msgid "Uninstalling %s...\n"
 msgstr "Odinštalováva sa %s...\n"
 
-#: src/cli/cli.vala:508
+#: src/cli/cli.vala:568
 #, c-format
 msgid "Successfully uninstalled %s\n"
 msgstr "Nástroj %s bol úspešne odinštalovaný\n"
 
-#: src/cli/cli.vala:510
+#: src/cli/cli.vala:570
 #, c-format
 msgid "Error: Uninstallation failed: %s\n"
 msgstr "Chyba: Odinštalovanie zlyhalo: %s\n"
 
-#: src/cli/cli.vala:515
+#: src/cli/cli.vala:575
 msgid "Updating all runners...\n"
 msgstr "Aktualizujú sa všetky spúšťače...\n"
 
-#: src/cli/cli.vala:521
+#: src/cli/cli.vala:581
 #, c-format
 msgid "Updating runners for %s...\n"
 msgstr "Aktualizujú sa spúšťače pre %s...\n"
 
-#: src/cli/cli.vala:532 src/cli/cli.vala:588
+#: src/cli/cli.vala:592 src/cli/cli.vala:648
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr "Nástroj %s bol úspešne aktualizovaný\n"
 
-#: src/cli/cli.vala:535 src/cli/cli.vala:591
+#: src/cli/cli.vala:595 src/cli/cli.vala:651
 #, c-format
 msgid "Already up to date: %s\n"
 msgstr "Už je aktuálny: %s\n"
 
-#: src/cli/cli.vala:538 src/cli/cli.vala:594
+#: src/cli/cli.vala:598 src/cli/cli.vala:654
 #, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr "Chyba: Nepodarilo sa aktualizovať %s: %s\n"
 
-#: src/cli/cli.vala:578
+#: src/cli/cli.vala:638
 msgid "Already up to date\n"
 msgstr "Už je aktuálny\n"
 
-#: src/cli/cli.vala:603
+#: src/cli/cli.vala:663
 #, c-format
 msgid "Updating %s..."
 msgstr "Aktualizuje sa %s..."
 
-#: src/cli/cli.vala:619
+#: src/cli/cli.vala:679
 msgid "Error: Failed to load launchers\n"
 msgstr "Chyba: Nepodarilo sa načítať spúšťače\n"
 
-#: src/cli/cli.vala:643
+#: src/cli/cli.vala:703
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr "Chyba: Spúšťač „%s“ nebol nájdený\n"
 
-#: src/cli/cli.vala:656
+#: src/cli/cli.vala:716
 #, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr "Chyba: Nástroj „%s“ nebol nájdený\n"
 
-#: src/cli/cli.vala:726
+#: src/cli/cli.vala:786
 #, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr "Chyba: Nástroj „%s“ nepodporuje %s\n"
 
-#: src/cli/cli.vala:733
+#: src/cli/cli.vala:793
 #, c-format
 msgid "Usage: %s\n"
 msgstr "Použitie: %s\n"
 
-#: src/cli/cli.vala:750
+#: src/cli/cli.vala:810
 msgid "Error: Invalid input, please enter a number\n"
 msgstr "Chyba: Neplatný vstup, zadajte číslo\n"
 
-#: src/cli/cli.vala:756
+#: src/cli/cli.vala:816
 msgid "Error: Selection out of range\n"
 msgstr "Chyba: Výber je mimo rozsahu\n"
 
-#: src/cli/cli.vala:763
+#: src/cli/cli.vala:823
 msgid "Usage:\n"
 msgstr "Použitie:\n"
 
-#: src/cli/cli.vala:765
+#: src/cli/cli.vala:825
 msgid "Commands:\n"
 msgstr "Príkazy:\n"
 
-#: src/cli/cli.vala:766
+#: src/cli/cli.vala:826
 #, fuzzy
 msgid "Command"
 msgstr "Príkazy:\n"
 
-#: src/cli/cli.vala:766
+#: src/cli/cli.vala:826
 #, fuzzy
 msgid "Description"
 msgstr "Trvání"
 
-#: src/cli/cli.vala:767
+#: src/cli/cli.vala:827
 #, fuzzy
 msgid "Show version"
 msgstr "Zobraziť verziu"
 
-#: src/cli/cli.vala:768
+#: src/cli/cli.vala:828
 msgid "Show this help"
 msgstr "Zobraziť tohto pomocníka"
 
-#: src/cli/cli.vala:769
+#: src/cli/cli.vala:829
 #, fuzzy
 msgid "List launchers or installed runners"
 msgstr "Zoznam spúšťačov alebo nainštalovaných spúšťačov"
 
-#: src/cli/cli.vala:770
+#: src/cli/cli.vala:830
 #, fuzzy
 msgid "Install runner"
 msgstr "Inštalovať spúšťač"
 
-#: src/cli/cli.vala:771
+#: src/cli/cli.vala:831
 #, fuzzy
 msgid "Uninstall runner"
 msgstr "Odinštalovať spúšťač"
 
-#: src/cli/cli.vala:772
+#: src/cli/cli.vala:832
 #, fuzzy
 msgid "Update runner"
 msgstr "Aktualizovať spúšťač"
 
-#: src/cli/cli.vala:777
+#: src/cli/cli.vala:837
 msgid ""
 "\n"
 "Available launchers:\n"
@@ -310,12 +315,12 @@ msgstr ""
 "\n"
 "Dostupné spúšťače:\n"
 
-#: src/cli/cli.vala:782
+#: src/cli/cli.vala:842
 #, fuzzy
 msgid "Launcher ID"
 msgstr "Spúšťače"
 
-#: src/cli/cli.vala:789
+#: src/cli/cli.vala:849
 #, c-format
 msgid ""
 "\n"
@@ -324,35 +329,35 @@ msgstr ""
 "\n"
 "Dostupné spúšťače pre %s:\n"
 
-#: src/cli/cli.vala:805
+#: src/cli/cli.vala:865
 #, c-format
 msgid "ETA: %s"
 msgstr "Zostáva: %s"
 
-#: src/cli/cli.vala:807 src/widgets/header/header-downloads-indicator.vala:325
+#: src/cli/cli.vala:867 src/widgets/header/header-downloads-indicator.vala:325
 msgid "ETA: --"
 msgstr "Zostáva: --"
 
-#: src/cli/cli.vala:810 src/widgets/tools/tools-release-row.vala:793
+#: src/cli/cli.vala:870 src/widgets/tools/tools-release-row.vala:853
 msgid "Updating"
 msgstr "Aktualizuje se"
 
-#: src/cli/cli.vala:810 src/widgets/header/header-downloads-indicator.vala:315
-#: src/widgets/tools/tools-release-row.vala:789
+#: src/cli/cli.vala:870 src/widgets/header/header-downloads-indicator.vala:315
+#: src/widgets/tools/tools-release-row.vala:849
 msgid "Installing"
 msgstr "Instaluje se"
 
-#: src/cli/cli.vala:823 src/widgets/tools/tools-release-row.vala:918
+#: src/cli/cli.vala:883 src/widgets/tools/tools-release-row.vala:979
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%dh %dm %ds"
 
-#: src/cli/cli.vala:825 src/widgets/tools/tools-release-row.vala:922
+#: src/cli/cli.vala:885 src/widgets/tools/tools-release-row.vala:983
 #, c-format
 msgid "%dm %ds"
 msgstr "%dm %ds"
 
-#: src/cli/cli.vala:827 src/widgets/tools/tools-release-row.vala:923
+#: src/cli/cli.vala:887 src/widgets/tools/tools-release-row.vala:984
 #, c-format
 msgid "%ds"
 msgstr "%ds"
@@ -468,13 +473,13 @@ msgstr "Čínština"
 msgid "Chinese (Traditional)"
 msgstr "Čínština (Tradiční)"
 
-#: src/models/launcher.vala:277
+#: src/models/launcher.vala:278
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr ""
 "Implementácia Direct3D 8, 9, 10 a 11 pre Linux/Wine založená na grafickom "
 "rozhraní Vulkan."
 
-#: src/models/launcher.vala:279
+#: src/models/launcher.vala:280
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
@@ -482,13 +487,13 @@ msgstr ""
 "Variant knižnice VKD3D od Wine, ktorej cieľom je implementovať plné "
 "rozhranie API Direct3D 12 nad Vulkanom."
 
-#: src/models/launcher.vala:281
+#: src/models/launcher.vala:282
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
 "Nástroje kompatibility od spoločnosti Valve na spúšťanie softvéru pre "
 "Windows na Linuxe."
 
-#: src/models/launcher.vala:283
+#: src/models/launcher.vala:284
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "Nástroje kompatibility na spúšťanie softvéru pre Windows na Linuxe."
 
@@ -534,7 +539,7 @@ msgstr ""
 "hier pre Windows s vylepšeními oproti predvolenému Protonu od Valve."
 
 #: src/models/providers/definitions/proton.vala:35
-#: src/widgets/tools/tools-release-row.vala:773
+#: src/widgets/tools/tools-release-row.vala:833
 #, fuzzy
 msgid "Recommended"
 msgstr "Zaoblené"
@@ -617,6 +622,12 @@ msgid ""
 msgstr ""
 "Nástroj pre Steam na jednoduchú grafickú konfiguráciu vašich ďalších "
 "nástrojov kompatibility pre hry pre Windows aj natívne hry pre Linux."
+
+#: src/models/tools/tinkergame.vala:6
+msgid ""
+"Configure game tools and custom commands. Alpha software; review migrated "
+"settings before playing."
+msgstr ""
 
 #: src/return_codes.vala:35
 msgid "The request could not be completed."
@@ -710,7 +721,7 @@ msgstr ""
 msgid "The operation could not be completed."
 msgstr "Operáciu sa nepodarilo dokončiť."
 
-#: src/services/install-job.vala:65
+#: src/services/install-job.vala:68
 #, c-format
 msgid "Waiting to retry in %d second (attempt %d)"
 msgid_plural "Waiting to retry in %d seconds (attempt %d)"
@@ -718,17 +729,17 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: src/services/install-job.vala:69
+#: src/services/install-job.vala:72
 #, c-format
 msgid "Reconnecting (attempt %d)"
 msgstr ""
 
-#: src/services/install-job.vala:71
+#: src/services/install-job.vala:74
 #, fuzzy
 msgid "Downloading"
 msgstr "Sťahuje sa"
 
-#: src/services/installation-service.vala:457
+#: src/services/installation-service.vala:463
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
@@ -742,24 +753,24 @@ msgstr ""
 msgid "Extraction failed"
 msgstr "Rozbalenie zlyhalo"
 
-#: src/services/standard-archive-workflow.vala:59
-#: src/services/standard-archive-workflow.vala:99
+#: src/services/standard-archive-workflow.vala:57
+#: src/services/standard-archive-workflow.vala:111
 #: src/services/steam-tinker-launch-workflow.vala:61
 #: src/services/steam-tinker-launch-workflow.vala:108
 msgid "Moving failed"
 msgstr "Presúvanie zlyhalo"
 
-#: src/services/standard-archive-workflow.vala:68
+#: src/services/standard-archive-workflow.vala:73
 #, fuzzy
 msgid "Failed to save compatibility tool metadata"
 msgstr "Nepodarilo sa prečítať súbor compatibilitytool.vdf"
 
-#: src/services/standard-archive-workflow.vala:358
+#: src/services/standard-archive-workflow.vala:370
 #, fuzzy
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "Nepodarilo sa prečítať súbor compatibilitytool.vdf"
 
-#: src/services/standard-archive-workflow.vala:375
+#: src/services/standard-archive-workflow.vala:387
 #, fuzzy
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "Nástroj kompatibility, ktorý hry použijú automaticky ako predvolený"
@@ -807,6 +818,28 @@ msgstr "Nepodarilo sa prečítať súbor compatibilitytool.vdf"
 #, fuzzy
 msgid "Failed to initialize SteamTinkerLaunch"
 msgstr "✨ Pridaná podpora pre Steam Tinker Launch"
+
+#: src/services/tinker-game-workflow.vala:10
+msgid ""
+"TinkerGame currently requires native Steam and native ProtonPlus outside "
+"SteamOS."
+msgstr ""
+
+#: src/services/tinker-game-workflow.vala:14
+msgid "This TinkerGame installation is not managed by ProtonPlus."
+msgstr ""
+
+#: src/services/tinker-game-workflow.vala:65
+#, c-format
+msgid ""
+"Missing TinkerGame dependencies:\n"
+"%s"
+msgstr ""
+
+#: src/services/tinker-game-workflow.vala:86
+#, fuzzy
+msgid "The TinkerGame archive is invalid or incomplete."
+msgstr "Nástroj kompatibility, ktorý hry použijú automaticky ako predvolený"
 
 #: src/utils/partial-download-cache.vala:17
 #, fuzzy
@@ -1180,8 +1213,8 @@ msgid "Game Actions"
 msgstr "Akcie"
 
 #: src/widgets/games/games-extra-button.vala:91
-#: src/widgets/tools/tools-release-row.vala:209
-#: src/widgets/tools/tools-release-row.vala:573
+#: src/widgets/tools/tools-release-row.vala:213
+#: src/widgets/tools/tools-release-row.vala:629
 #, fuzzy, c-format
 msgid "Actions for %s"
 msgstr "Akcie"
@@ -4052,7 +4085,8 @@ msgstr "Limit: %s/s"
 
 #: src/widgets/header/header-downloads-indicator.vala:231
 #: src/widgets/header/header-downloads-indicator.vala:233
-#: src/widgets/tools/tools-release-row.vala:168
+#: src/widgets/tools/tools-release-row.vala:169
+#: src/widgets/tools/tools-release-row.vala:249
 #: src/widgets/tools/tools-remove-dialog.vala:26
 #: src/widgets/tools/tools-stl-release-row.vala:117 src/widgets/window.vala:173
 #: src/widgets/window.vala:381
@@ -4062,21 +4096,21 @@ msgstr "Zrušiť"
 #: src/widgets/header/header-downloads-indicator.vala:283
 #: src/widgets/header/header-downloads-indicator.vala:285
 #: src/widgets/header/header-downloads-indicator.vala:287
-#: src/widgets/tools/tools-release-row.vala:553
-#: src/widgets/tools/tools-release-row.vala:829
+#: src/widgets/tools/tools-release-row.vala:609
+#: src/widgets/tools/tools-release-row.vala:890
 #, fuzzy
 msgid "Cancelling"
 msgstr "Zrušiť"
 
 #: src/widgets/header/header-downloads-indicator.vala:313
-#: src/widgets/tools/tools-release-row.vala:834
+#: src/widgets/tools/tools-release-row.vala:895
 msgid "Extracting"
 msgstr "Rozbaľuje sa"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
-#: src/widgets/tools/tools-release-row.vala:797
-#: src/widgets/tools/tools-release-row.vala:838
-#: src/widgets/tools/tools-release-row.vala:843
+#: src/widgets/tools/tools-release-row.vala:857
+#: src/widgets/tools/tools-release-row.vala:899
+#: src/widgets/tools/tools-release-row.vala:904
 #, fuzzy
 msgid "Removing"
 msgstr "Presúva sa"
@@ -4451,6 +4485,7 @@ msgid "Download canceled"
 msgstr "Stahovaní zrušeno"
 
 #: src/widgets/main/main-box.vala:379
+#: src/widgets/tools/tools-release-row.vala:1099
 msgid "Download failed"
 msgstr "Sťahovanie zlyhalo"
 
@@ -5573,8 +5608,8 @@ msgstr "Nalezené spouštěče"
 #: src/widgets/preferences/preferences-dialog.vala:406
 #: src/widgets/tools/tools-box.vala:189
 #: src/widgets/tools/tools-group-box.vala:749
-#: src/widgets/tools/tools-release-row.vala:782
-#: src/widgets/tools/tools-release-row.vala:786
+#: src/widgets/tools/tools-release-row.vala:842
+#: src/widgets/tools/tools-release-row.vala:846
 msgid "Installed"
 msgstr "Nainstalováno"
 
@@ -5862,125 +5897,178 @@ msgstr "Vybrať"
 msgid "No Games Use This Tool"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:135
-#: src/widgets/tools/tools-release-row.vala:137
+#: src/widgets/tools/tools-release-row.vala:136
+#: src/widgets/tools/tools-release-row.vala:138
 #, fuzzy
 msgid "Show installation details"
 msgstr "Zobraziť podrobnosti o inštalácii"
 
-#: src/widgets/tools/tools-release-row.vala:142
+#: src/widgets/tools/tools-release-row.vala:143
 msgid "Speed: 0 KB/s"
 msgstr "Rýchlosť: 0 KB/s"
 
-#: src/widgets/tools/tools-release-row.vala:145
-#: src/widgets/tools/tools-release-row.vala:909
+#: src/widgets/tools/tools-release-row.vala:146
+#: src/widgets/tools/tools-release-row.vala:970
 msgid "Remaining time: --"
 msgstr "Zostávajúci čas: --"
 
-#: src/widgets/tools/tools-release-row.vala:206
+#: src/widgets/tools/tools-release-row.vala:210
 #, fuzzy
 msgid "Release Actions"
 msgstr "Akcie"
 
-#: src/widgets/tools/tools-release-row.vala:534
+#: src/widgets/tools/tools-release-row.vala:242
+msgid "Install TinkerGame First"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:243
+msgid "Install or update TinkerGame before copying SteamTinkerLaunch settings."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:247
+#, fuzzy
+msgid "Copy SteamTinkerLaunch Settings?"
+msgstr "Steam Tinker Launch"
+
+#: src/widgets/tools/tools-release-row.vala:248
+msgid ""
+"The original settings and installation will be kept. Existing TinkerGame "
+"settings will never be overwritten. Review custom commands, scripts, "
+"symbolic links and absolute paths before playing. Steam assignments and "
+"launch options will stay unchanged. After testing your games, you can remove "
+"SteamTinkerLaunch separately."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:250
+msgid "Copy Settings"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:272
+msgid ""
+"Settings copied. Review custom commands and paths before playing. Select "
+"TinkerGame for individual games in Games when ready; SteamTinkerLaunch "
+"remains installed."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:274
+msgid ""
+"TinkerGame settings already exist. Nothing was overwritten. Review and merge "
+"your settings manually."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:275
+msgid ""
+"Settings could not be copied. The original settings were preserved. You can "
+"retry after resolving the problem."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:276
+msgid "TinkerGame Migration"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:590
 #, fuzzy, c-format
 msgid "Step: %s"
 msgstr "Rýchlosť: %s/s"
 
-#: src/widgets/tools/tools-release-row.vala:537
+#: src/widgets/tools/tools-release-row.vala:593
 #, fuzzy, c-format
 msgid "%s for %s"
 msgstr "Akcie"
 
-#: src/widgets/tools/tools-release-row.vala:542
+#: src/widgets/tools/tools-release-row.vala:598
 #, fuzzy, c-format
 msgid "Progress for %s"
 msgstr "Akcie"
 
-#: src/widgets/tools/tools-release-row.vala:597
-#: src/widgets/tools/tools-release-row.vala:600
+#: src/widgets/tools/tools-release-row.vala:653
+#: src/widgets/tools/tools-release-row.vala:656
 #, fuzzy
 msgid "Latest"
 msgstr "Neskôr"
 
-#: src/widgets/tools/tools-release-row.vala:662
-#: src/widgets/tools/tools-release-row.vala:665
+#: src/widgets/tools/tools-release-row.vala:718
+#: src/widgets/tools/tools-release-row.vala:721
 #, c-format
 msgid "Install %s"
 msgstr "Nainstalovat %s"
 
-#: src/widgets/tools/tools-release-row.vala:671
-#: src/widgets/tools/tools-release-row.vala:728
+#: src/widgets/tools/tools-release-row.vala:727
+#: src/widgets/tools/tools-release-row.vala:788
 #: src/widgets/tools/tools-releases-box.vala:477
 #: src/widgets/tools/tools-releases-box.vala:489
 #, fuzzy
 msgid "Retry"
 msgstr "Retro"
 
-#: src/widgets/tools/tools-release-row.vala:672
-#: src/widgets/tools/tools-release-row.vala:675
+#: src/widgets/tools/tools-release-row.vala:728
+#: src/widgets/tools/tools-release-row.vala:731
 #, fuzzy, c-format
 msgid "Retry %s"
 msgstr "Retro"
 
-#: src/widgets/tools/tools-release-row.vala:686
+#: src/widgets/tools/tools-release-row.vala:742
 #, fuzzy, c-format
 msgid "Cancelling %s"
 msgstr "Zrušiť"
 
-#: src/widgets/tools/tools-release-row.vala:687
+#: src/widgets/tools/tools-release-row.vala:743
 #, fuzzy, c-format
 msgid "Cancel %s"
 msgstr "Zrušiť"
 
-#: src/widgets/tools/tools-release-row.vala:712
+#: src/widgets/tools/tools-release-row.vala:768
 #, fuzzy
 msgid "_Changelog"
 msgstr "Zmeniť farby FPS"
 
-#: src/widgets/tools/tools-release-row.vala:715
+#: src/widgets/tools/tools-release-row.vala:771
 #, fuzzy
 msgid "Open Release Page"
 msgstr "Otvoriť stránku ProtonDB"
 
-#: src/widgets/tools/tools-release-row.vala:720
+#: src/widgets/tools/tools-release-row.vala:776
 msgid "_Games Using This Tool"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:730
+#: src/widgets/tools/tools-release-row.vala:783
+msgid "Copy SteamTinkerLaunch Settings…"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:790
 #, fuzzy
 msgid "Update"
 msgstr "Aktualizace"
 
-#: src/widgets/tools/tools-release-row.vala:731
+#: src/widgets/tools/tools-release-row.vala:791
 #, fuzzy
 msgid "_Check for Updates"
 msgstr "Kontrolovať aktualizácie"
 
-#: src/widgets/tools/tools-release-row.vala:735
+#: src/widgets/tools/tools-release-row.vala:795
 #, fuzzy
 msgid "_Open Folder"
 msgstr "Výstupná zložka"
 
-#: src/widgets/tools/tools-release-row.vala:737
+#: src/widgets/tools/tools-release-row.vala:797
 #, fuzzy
 msgid "_Delete…"
 msgstr "Vymazať"
 
-#: src/widgets/tools/tools-release-row.vala:775
+#: src/widgets/tools/tools-release-row.vala:835
 msgid "Failed"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:783
+#: src/widgets/tools/tools-release-row.vala:843
 #, fuzzy
 msgid "Update available"
 msgstr "Hromadná aktualizácia zlyhala"
 
-#: src/widgets/tools/tools-release-row.vala:802
+#: src/widgets/tools/tools-release-row.vala:862
 msgid "Unavailable for the selected variant"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:807
+#: src/widgets/tools/tools-release-row.vala:867
 #, fuzzy, c-format
 msgid "In use by %i game"
 msgid_plural "In use by %i games"
@@ -5988,36 +6076,36 @@ msgstr[0] "Používa sa v %i hre"
 msgstr[1] "Používa sa v %i hrách"
 msgstr[2] "Používa sa v %i hrách"
 
-#: src/widgets/tools/tools-release-row.vala:821
+#: src/widgets/tools/tools-release-row.vala:882
 #, fuzzy, c-format
 msgid "%s. Open Release Details"
 msgstr "Otvoriť stránku ProtonDB"
 
-#: src/widgets/tools/tools-release-row.vala:822
+#: src/widgets/tools/tools-release-row.vala:883
 #, fuzzy
 msgid "Open Release Details"
 msgstr "Otvoriť stránku ProtonDB"
 
-#: src/widgets/tools/tools-release-row.vala:836
+#: src/widgets/tools/tools-release-row.vala:897
 msgid "Moving"
 msgstr "Presúva sa"
 
-#: src/widgets/tools/tools-release-row.vala:841
+#: src/widgets/tools/tools-release-row.vala:902
 #, fuzzy
 msgid "Preparing update"
 msgstr "Pripravuje sa"
 
-#: src/widgets/tools/tools-release-row.vala:844
+#: src/widgets/tools/tools-release-row.vala:905
 #, fuzzy
 msgid "Preparing installation"
 msgstr "Zrušiť inštaláciu"
 
-#: src/widgets/tools/tools-release-row.vala:900
+#: src/widgets/tools/tools-release-row.vala:961
 #, c-format
 msgid "Speed: %s/s"
 msgstr "Rýchlosť: %s/s"
 
-#: src/widgets/tools/tools-release-row.vala:906
+#: src/widgets/tools/tools-release-row.vala:967
 #, c-format
 msgid "Remaining time: %s"
 msgstr "Zostávajúci čas: %s"
@@ -6263,6 +6351,10 @@ msgid ""
 msgstr ""
 "Aplikácia momentálne sťahuje nástroj.\n"
 "Predčasné ukončenie aplikácie môže spôsobiť problémy."
+
+#, fuzzy, c-format
+#~ msgid "%s installation failed"
+#~ msgstr "Inštalácia zlyhala"
 
 #~ msgid ""
 #~ "Validates the compiler's internal representation after each pass. Used "
@@ -6577,10 +6669,6 @@ msgstr ""
 
 #~ msgid "An error occurred while attempting to update the compatibility tool."
 #~ msgstr "Pri pokuse o aktualizáciu nástroja kompatibility sa vyskytla chyba."
-
-#, fuzzy
-#~ msgid "Installation Failed"
-#~ msgstr "Inštalácia zlyhala"
 
 #, c-format
 #~ msgid "ProtonPlus could not install %s on your system."

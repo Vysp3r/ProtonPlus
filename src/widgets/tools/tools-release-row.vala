@@ -35,6 +35,7 @@ namespace ProtonPlus.Widgets.Tools {
         SimpleAction open_release_page_action;
         SimpleAction open_folder_action;
         SimpleAction delete_action;
+        SimpleAction migrate_action;
         weak Gtk.Widget? controller_up_target;
         weak Gtk.Widget? controller_row_up_target;
         weak Gtk.Widget? controller_action_up_target;
@@ -174,6 +175,9 @@ namespace ProtonPlus.Widgets.Tools {
 
         void create_actions_menu () {
             var action_group = new SimpleActionGroup ();
+            migrate_action = new SimpleAction ("migrate", null);
+            migrate_action.activate.connect (request_migration);
+            action_group.add_action (migrate_action);
             changelog_action = new SimpleAction ("changelog", null);
             changelog_action.activate.connect (changelog_action_activated);
             action_group.add_action (changelog_action);
@@ -219,6 +223,58 @@ namespace ProtonPlus.Widgets.Tools {
 
         void changelog_action_activated (Variant? parameter) {
             request_release_details ();
+        }
+
+        bool has_legacy_installation () {
+            if (job.tinker_game_context == null)
+                return false;
+            foreach (var tool in job.tool.group.tools)
+                if (tool is Models.Tools.SteamTinkerLaunch && tool.is_installed ())
+                    return true;
+            return false;
+        }
+
+        void request_migration (Variant? parameter) {
+            if (row_disposed || action_request_in_progress || !has_legacy_installation ())
+                return;
+            job.refresh_state ();
+            if (job.state != Services.InstallJob.State.UP_TO_DATE) {
+                var warning = new Main.WarningDialog (_("Install TinkerGame First"),
+                    _("Install or update TinkerGame before copying SteamTinkerLaunch settings."));
+                ProtonPlus.Widgets.Window.present_dialog_for_controller (warning, (Gtk.Window) get_root ());
+                return;
+            }
+            var dialog = new Adw.AlertDialog (_("Copy SteamTinkerLaunch Settings?"),
+                _("The original settings and installation will be kept. Existing TinkerGame settings will never be overwritten. Review custom commands, scripts, symbolic links and absolute paths before playing. Steam assignments and launch options will stay unchanged. After testing your games, you can remove SteamTinkerLaunch separately."));
+            dialog.add_response ("cancel", _("Cancel"));
+            dialog.add_response ("copy", _("Copy Settings"));
+            dialog.set_default_response ("cancel");
+            dialog.set_close_response ("cancel");
+            var owner_ref = WeakRef (this);
+            dialog.response.connect ((response) => {
+                var row = owner_ref.get () as ReleaseRow;
+                if (response != "copy" || row == null || row.row_disposed || row.action_request_in_progress)
+                    return;
+                row.update_action_request_state (true);
+                migrate_settings.begin (row, row.job);
+            });
+            ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) get_root ());
+        }
+
+        static async void migrate_settings (ReleaseRow owner, Services.InstallJob job) {
+            var owner_ref = WeakRef (owner);
+            var result = yield Services.TinkerGameMigration.copy_configuration (job, Environment.get_user_config_dir ());
+            var row = owner_ref.get () as ReleaseRow;
+            if (row == null || row.row_disposed)
+                return;
+            row.update_action_request_state (false);
+            var message = result == ReturnCode.RUNNER_INSTALLED
+                ? _("Settings copied. Review custom commands and paths before playing. Select TinkerGame for individual games in Games when ready; SteamTinkerLaunch remains installed.")
+                : result == ReturnCode.RUNNER_ALREADY_INSTALLED
+                ? _("TinkerGame settings already exist. Nothing was overwritten. Review and merge your settings manually.")
+                : _("Settings could not be copied. The original settings were preserved. You can retry after resolving the problem.");
+            var dialog = new Main.WarningDialog (_("TinkerGame Migration"), message);
+            ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) row.get_root ());
         }
 
         void request_release_details () {
@@ -618,7 +674,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         bool supports_update_check () {
             return job.mode == Services.InstallJob.Mode.LATEST ||
-                job.steam_tinker_launch_context != null;
+                job.steam_tinker_launch_context != null || job.tinker_game_context != null;
         }
 
         int usage_count () {
@@ -723,6 +779,10 @@ namespace ProtonPlus.Widgets.Tools {
             menu.append_section (null, details_section);
 
             var management_section = new Menu ();
+            if (has_legacy_installation ()) {
+                management_section.append (_("Copy SteamTinkerLaunch Settings…"), "release.migrate");
+            }
+            migrate_action.set_enabled (!action_request_in_progress && !is_busy_state (job.state));
             if (presentation.show_update_action) {
                 var label = retry_action == ReleaseRowRetryAction.UPDATE
                     ? _("Retry")
@@ -810,11 +870,12 @@ namespace ProtonPlus.Widgets.Tools {
 
             var status = string.joinv (" · ", details.to_array ());
             var date = release_display_timestamp (job);
-            set_subtitle (
+            set_subtitle (Markup.escape_text (
                 date != "" && status != ""
                     ? "%s · %s".printf (date, status)
                     : date != "" ? date : status
-            );
+            ));
+            set_tooltip_text (operation_error_message);
             update_property (
                 Gtk.AccessibleProperty.DESCRIPTION,
                 status != ""
@@ -980,7 +1041,7 @@ namespace ProtonPlus.Widgets.Tools {
                     ? ReleaseRowRetryAction.UPDATE
                     : ReleaseRowRetryAction.NONE;
                 ((!) row).operation_error_message = ((!) row).retry_action != ReleaseRowRetryAction.NONE
-                    ? get_return_code_message (code)
+                    ? ReleaseRowPresentation.failure_message (code, operation_job.error_message)
                     : null;
                 ((!) row).update_action_request_state (false);
                 if (code != ReturnCode.RUNNER_UPDATED &&
@@ -1027,11 +1088,16 @@ namespace ProtonPlus.Widgets.Tools {
                     ? ReleaseRowRetryAction.INSTALL
                     : ReleaseRowRetryAction.NONE;
                 ((!) row).operation_error_message = ((!) row).retry_action != ReleaseRowRetryAction.NONE
-                    ? get_return_code_message (code)
+                    ? ReleaseRowPresentation.failure_message (code, operation_job.error_message)
                     : null;
                 ((!) row).update_action_request_state (false);
                 if (code != ReturnCode.RUNNER_INSTALLED &&
                     !operation_job.canceled) {
+                    var window = ((!) row).get_root () as ProtonPlus.Widgets.Window;
+                    if (window != null)
+                        window.main_box.send_toast ("%s: %s".printf (
+                            _("Download failed"), Markup.escape_text (operation_job.displayed_title)
+                        ));
                     warning (
                         "Failed to install %s: %s",
                         operation_job.title,

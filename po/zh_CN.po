@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-24 15:34-0400\n"
+"POT-Creation-Date: 2026-10-24 16:46-0400\n"
 "PO-Revision-Date: 2026-09-10 16:26+0000\n"
 "Last-Translator: EdgeArcher129840 <RimacC2EV@outlook.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -87,219 +87,224 @@ msgstr "错误：未知命令 ‘%s’\n"
 msgid "Warning: %s\n"
 msgstr "警告：%s\n"
 
-#: src/cli/cli.vala:265 src/cli/cli.vala:790
+#: src/cli/cli.vala:265 src/cli/cli.vala:850
 msgid "Runner ID"
 msgstr ""
 
-#: src/cli/cli.vala:265 src/cli/cli.vala:444
+#: src/cli/cli.vala:265 src/cli/cli.vala:504
 #, fuzzy
 msgid "Version"
 msgstr "HUD 版本"
 
-#: src/cli/cli.vala:265 src/cli/cli.vala:410 src/cli/cli.vala:444
-#: src/cli/cli.vala:782 src/cli/cli.vala:790
+#: src/cli/cli.vala:265 src/cli/cli.vala:470 src/cli/cli.vala:504
+#: src/cli/cli.vala:842 src/cli/cli.vala:850
 msgid "Name"
 msgstr "名称"
 
-#: src/cli/cli.vala:285
+#: src/cli/cli.vala:296
 msgid "No runners installed\n"
 msgstr "没有已安装的运行器\n"
 
-#: src/cli/cli.vala:377 src/cli/cli.vala:631
+#: src/cli/cli.vala:411
+msgid ""
+"SteamTinkerLaunch is legacy. Install tinkergame for a new installation.\n"
+msgstr ""
+
+#: src/cli/cli.vala:437 src/cli/cli.vala:691
 #, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr "错误：无法加载版本：%s\n"
 
-#: src/cli/cli.vala:382 src/cli/cli.vala:633
+#: src/cli/cli.vala:442 src/cli/cli.vala:693
 msgid "Error: No releases are available\n"
 msgstr "错误：没有可用的版本\n"
 
-#: src/cli/cli.vala:386
+#: src/cli/cli.vala:446
 #, c-format
 msgid "Installing %s Latest...\n"
 msgstr "正在安装 %s 最新版…\n"
 
-#: src/cli/cli.vala:394
+#: src/cli/cli.vala:454
 #, c-format
 msgid "Successfully installed %s Latest\n"
 msgstr "已成功安装 %s 最新版\n"
 
-#: src/cli/cli.vala:396 src/cli/cli.vala:432
+#: src/cli/cli.vala:456 src/cli/cli.vala:492
 #, c-format
 msgid "Error: Installation failed: %s\n"
 msgstr "错误：安装失败：%s\n"
 
-#: src/cli/cli.vala:409
+#: src/cli/cli.vala:469
 #, c-format
 msgid "Available releases for %s:\n"
 msgstr "%s 的可用版本：\n"
 
-#: src/cli/cli.vala:410 src/cli/cli.vala:444
+#: src/cli/cli.vala:470 src/cli/cli.vala:504
 msgid "Number"
 msgstr ""
 
-#: src/cli/cli.vala:410
+#: src/cli/cli.vala:470
 #, fuzzy
 msgid "Release date"
 msgstr "未找到版本"
 
-#: src/cli/cli.vala:418 src/cli/cli.vala:451
+#: src/cli/cli.vala:478 src/cli/cli.vala:511
 msgid "Select release number"
 msgstr "选择版本号"
 
-#: src/cli/cli.vala:424
+#: src/cli/cli.vala:484
 #, c-format
 msgid "Installing %s...\n"
 msgstr "正在安装 %s…\n"
 
-#: src/cli/cli.vala:430
+#: src/cli/cli.vala:490
 #, c-format
 msgid "Successfully installed %s\n"
 msgstr "已成功安装 %s 最新版\n"
 
-#: src/cli/cli.vala:439 src/cli/cli.vala:462
+#: src/cli/cli.vala:499 src/cli/cli.vala:522
 #, c-format
 msgid "No installed releases found for %s\n"
 msgstr "未找到已安装的 %s 版本\n"
 
-#: src/cli/cli.vala:443
+#: src/cli/cli.vala:503
 #, c-format
 msgid "Installed releases for %s:\n"
 msgstr "已安装的 %s 版本：\n"
 
-#: src/cli/cli.vala:466
+#: src/cli/cli.vala:526
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
 msgstr "正在卸载所有版本的 %s：\n"
 
-#: src/cli/cli.vala:478
+#: src/cli/cli.vala:538
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
 msgstr "正在卸载所有版本的启动器 %s…\n"
 
-#: src/cli/cli.vala:504
+#: src/cli/cli.vala:564
 #, c-format
 msgid "Uninstalling %s...\n"
 msgstr "正在卸载 %s…\n"
 
-#: src/cli/cli.vala:508
+#: src/cli/cli.vala:568
 #, c-format
 msgid "Successfully uninstalled %s\n"
 msgstr "已成功卸载 %s\n"
 
-#: src/cli/cli.vala:510
+#: src/cli/cli.vala:570
 #, c-format
 msgid "Error: Uninstallation failed: %s\n"
 msgstr "错误：卸载失败：%s\n"
 
-#: src/cli/cli.vala:515
+#: src/cli/cli.vala:575
 msgid "Updating all runners...\n"
 msgstr "正在更新所有运行器…\n"
 
-#: src/cli/cli.vala:521
+#: src/cli/cli.vala:581
 #, c-format
 msgid "Updating runners for %s...\n"
 msgstr "正在更新 %s 的运行器…\n"
 
-#: src/cli/cli.vala:532 src/cli/cli.vala:588
+#: src/cli/cli.vala:592 src/cli/cli.vala:648
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr "已成功更新 %s\n"
 
-#: src/cli/cli.vala:535 src/cli/cli.vala:591
+#: src/cli/cli.vala:595 src/cli/cli.vala:651
 #, c-format
 msgid "Already up to date: %s\n"
 msgstr "已是最新：%s\n"
 
-#: src/cli/cli.vala:538 src/cli/cli.vala:594
+#: src/cli/cli.vala:598 src/cli/cli.vala:654
 #, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr "错误：无法更新 %s：%s\n"
 
-#: src/cli/cli.vala:578
+#: src/cli/cli.vala:638
 msgid "Already up to date\n"
 msgstr "已是最新\n"
 
-#: src/cli/cli.vala:603
+#: src/cli/cli.vala:663
 #, c-format
 msgid "Updating %s..."
 msgstr "正在更新 %s…"
 
-#: src/cli/cli.vala:619
+#: src/cli/cli.vala:679
 msgid "Error: Failed to load launchers\n"
 msgstr "错误：加载启动器失败\n"
 
-#: src/cli/cli.vala:643
+#: src/cli/cli.vala:703
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr "错误：未找到启动器 '%s'\n"
 
-#: src/cli/cli.vala:656
+#: src/cli/cli.vala:716
 #, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr "错误：未找到工具 '%s'\n"
 
-#: src/cli/cli.vala:726
+#: src/cli/cli.vala:786
 #, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr "错误：运行程序 ‘%s’ 不支持 %s\n"
 
-#: src/cli/cli.vala:733
+#: src/cli/cli.vala:793
 #, c-format
 msgid "Usage: %s\n"
 msgstr "用法：%s\n"
 
-#: src/cli/cli.vala:750
+#: src/cli/cli.vala:810
 msgid "Error: Invalid input, please enter a number\n"
 msgstr "错误：无效输入，请输入一个数字\n"
 
-#: src/cli/cli.vala:756
+#: src/cli/cli.vala:816
 msgid "Error: Selection out of range\n"
 msgstr "错误：选择超出范围\n"
 
-#: src/cli/cli.vala:763
+#: src/cli/cli.vala:823
 msgid "Usage:\n"
 msgstr "用法：\n"
 
-#: src/cli/cli.vala:765
+#: src/cli/cli.vala:825
 msgid "Commands:\n"
 msgstr "命令：\n"
 
-#: src/cli/cli.vala:766
+#: src/cli/cli.vala:826
 #, fuzzy
 msgid "Command"
 msgstr "命令：\n"
 
-#: src/cli/cli.vala:766
+#: src/cli/cli.vala:826
 #, fuzzy
 msgid "Description"
 msgstr "持续时间"
 
-#: src/cli/cli.vala:767
+#: src/cli/cli.vala:827
 msgid "Show version"
 msgstr "显示版本"
 
-#: src/cli/cli.vala:768
+#: src/cli/cli.vala:828
 msgid "Show this help"
 msgstr "显示此帮助"
 
-#: src/cli/cli.vala:769
+#: src/cli/cli.vala:829
 msgid "List launchers or installed runners"
 msgstr "列出启动器或已安装的运行器"
 
-#: src/cli/cli.vala:770
+#: src/cli/cli.vala:830
 msgid "Install runner"
 msgstr "安装运行器"
 
-#: src/cli/cli.vala:771
+#: src/cli/cli.vala:831
 msgid "Uninstall runner"
 msgstr "卸载运行器"
 
-#: src/cli/cli.vala:772
+#: src/cli/cli.vala:832
 msgid "Update runner"
 msgstr "更新运行器"
 
-#: src/cli/cli.vala:777
+#: src/cli/cli.vala:837
 msgid ""
 "\n"
 "Available launchers:\n"
@@ -307,12 +312,12 @@ msgstr ""
 "\n"
 "可用的启动器：\n"
 
-#: src/cli/cli.vala:782
+#: src/cli/cli.vala:842
 #, fuzzy
 msgid "Launcher ID"
 msgstr "启动器"
 
-#: src/cli/cli.vala:789
+#: src/cli/cli.vala:849
 #, c-format
 msgid ""
 "\n"
@@ -321,35 +326,35 @@ msgstr ""
 "\n"
 "可用的 %s 运行器：\n"
 
-#: src/cli/cli.vala:805
+#: src/cli/cli.vala:865
 #, c-format
 msgid "ETA: %s"
 msgstr "预计剩余时间：%s"
 
-#: src/cli/cli.vala:807 src/widgets/header/header-downloads-indicator.vala:325
+#: src/cli/cli.vala:867 src/widgets/header/header-downloads-indicator.vala:325
 msgid "ETA: --"
 msgstr "预计剩余时间：--"
 
-#: src/cli/cli.vala:810 src/widgets/tools/tools-release-row.vala:793
+#: src/cli/cli.vala:870 src/widgets/tools/tools-release-row.vala:853
 msgid "Updating"
 msgstr "正在更新"
 
-#: src/cli/cli.vala:810 src/widgets/header/header-downloads-indicator.vala:315
-#: src/widgets/tools/tools-release-row.vala:789
+#: src/cli/cli.vala:870 src/widgets/header/header-downloads-indicator.vala:315
+#: src/widgets/tools/tools-release-row.vala:849
 msgid "Installing"
 msgstr "正在安装"
 
-#: src/cli/cli.vala:823 src/widgets/tools/tools-release-row.vala:918
+#: src/cli/cli.vala:883 src/widgets/tools/tools-release-row.vala:979
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%d时 %d分 %d秒"
 
-#: src/cli/cli.vala:825 src/widgets/tools/tools-release-row.vala:922
+#: src/cli/cli.vala:885 src/widgets/tools/tools-release-row.vala:983
 #, c-format
 msgid "%dm %ds"
 msgstr "%d分 %d秒"
 
-#: src/cli/cli.vala:827 src/widgets/tools/tools-release-row.vala:923
+#: src/cli/cli.vala:887 src/widgets/tools/tools-release-row.vala:984
 #, c-format
 msgid "%ds"
 msgstr "%d秒"
@@ -465,21 +470,21 @@ msgstr "中文"
 msgid "Chinese (Traditional)"
 msgstr "中文（繁体）"
 
-#: src/models/launcher.vala:277
+#: src/models/launcher.vala:278
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "基于 Vulkan 实现的 Direct3D 8、9、10 和 11，适用于 Linux/Wine。"
 
-#: src/models/launcher.vala:279
+#: src/models/launcher.vala:280
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr "Wine 的 VKD3D 变体，旨在 Vulkan 之上实现完整的 Direct3D 12 API。"
 
-#: src/models/launcher.vala:281
+#: src/models/launcher.vala:282
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr "Valve 提供的兼容性工具，用于在 Linux 系统上运行 Windows 软件。"
 
-#: src/models/launcher.vala:283
+#: src/models/launcher.vala:284
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "适用于在 Linux 上运行 Windows 软件的兼容性工具。"
 
@@ -525,7 +530,7 @@ msgstr ""
 "于 Valve 默认的 Proton 工具。"
 
 #: src/models/providers/definitions/proton.vala:35
-#: src/widgets/tools/tools-release-row.vala:773
+#: src/widgets/tools/tools-release-row.vala:833
 #, fuzzy
 msgid "Recommended"
 msgstr "圆形"
@@ -599,6 +604,12 @@ msgid ""
 msgstr ""
 "适用于 Windows 游戏和原生 Linux 游戏的 Steam 工具，可轻松、直观地配置您的其他"
 "兼容性工具。"
+
+#: src/models/tools/tinkergame.vala:6
+msgid ""
+"Configure game tools and custom commands. Alpha software; review migrated "
+"settings before playing."
+msgstr ""
 
 #: src/return_codes.vala:35
 msgid "The request could not be completed."
@@ -680,22 +691,22 @@ msgstr ""
 msgid "The operation could not be completed."
 msgstr "无法完成此操作。"
 
-#: src/services/install-job.vala:65
+#: src/services/install-job.vala:68
 #, c-format
 msgid "Waiting to retry in %d second (attempt %d)"
 msgid_plural "Waiting to retry in %d seconds (attempt %d)"
 msgstr[0] ""
 
-#: src/services/install-job.vala:69
+#: src/services/install-job.vala:72
 #, c-format
 msgid "Reconnecting (attempt %d)"
 msgstr ""
 
-#: src/services/install-job.vala:71
+#: src/services/install-job.vala:74
 msgid "Downloading"
 msgstr "正在下载"
 
-#: src/services/installation-service.vala:457
+#: src/services/installation-service.vala:463
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
@@ -707,22 +718,22 @@ msgstr "兼容性工具已更改，但无法保存 Steam 重启提醒。"
 msgid "Extraction failed"
 msgstr "解压失败"
 
-#: src/services/standard-archive-workflow.vala:59
-#: src/services/standard-archive-workflow.vala:99
+#: src/services/standard-archive-workflow.vala:57
+#: src/services/standard-archive-workflow.vala:111
 #: src/services/steam-tinker-launch-workflow.vala:61
 #: src/services/steam-tinker-launch-workflow.vala:108
 msgid "Moving failed"
 msgstr "移动失败"
 
-#: src/services/standard-archive-workflow.vala:68
+#: src/services/standard-archive-workflow.vala:73
 msgid "Failed to save compatibility tool metadata"
 msgstr "无法保存兼容性工具元数据"
 
-#: src/services/standard-archive-workflow.vala:358
+#: src/services/standard-archive-workflow.vala:370
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "无法更新 compatibilitytool.vdf"
 
-#: src/services/standard-archive-workflow.vala:375
+#: src/services/standard-archive-workflow.vala:387
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "兼容性工具清单无效或不完整。"
 
@@ -769,6 +780,28 @@ msgstr "无法更新 compatibilitytool.vdf"
 #, fuzzy
 msgid "Failed to initialize SteamTinkerLaunch"
 msgstr "🐛 修复了 Steam Tinker Launch 的 yad 检查问题"
+
+#: src/services/tinker-game-workflow.vala:10
+msgid ""
+"TinkerGame currently requires native Steam and native ProtonPlus outside "
+"SteamOS."
+msgstr ""
+
+#: src/services/tinker-game-workflow.vala:14
+msgid "This TinkerGame installation is not managed by ProtonPlus."
+msgstr ""
+
+#: src/services/tinker-game-workflow.vala:65
+#, c-format
+msgid ""
+"Missing TinkerGame dependencies:\n"
+"%s"
+msgstr ""
+
+#: src/services/tinker-game-workflow.vala:86
+#, fuzzy
+msgid "The TinkerGame archive is invalid or incomplete."
+msgstr "所需数据无效或不完整。"
 
 #: src/utils/partial-download-cache.vala:17
 #, fuzzy
@@ -1137,8 +1170,8 @@ msgid "Game Actions"
 msgstr "操作"
 
 #: src/widgets/games/games-extra-button.vala:91
-#: src/widgets/tools/tools-release-row.vala:209
-#: src/widgets/tools/tools-release-row.vala:573
+#: src/widgets/tools/tools-release-row.vala:213
+#: src/widgets/tools/tools-release-row.vala:629
 #, fuzzy, c-format
 msgid "Actions for %s"
 msgstr "操作"
@@ -3806,7 +3839,8 @@ msgstr "限制器"
 
 #: src/widgets/header/header-downloads-indicator.vala:231
 #: src/widgets/header/header-downloads-indicator.vala:233
-#: src/widgets/tools/tools-release-row.vala:168
+#: src/widgets/tools/tools-release-row.vala:169
+#: src/widgets/tools/tools-release-row.vala:249
 #: src/widgets/tools/tools-remove-dialog.vala:26
 #: src/widgets/tools/tools-stl-release-row.vala:117 src/widgets/window.vala:173
 #: src/widgets/window.vala:381
@@ -3816,20 +3850,20 @@ msgstr "取消"
 #: src/widgets/header/header-downloads-indicator.vala:283
 #: src/widgets/header/header-downloads-indicator.vala:285
 #: src/widgets/header/header-downloads-indicator.vala:287
-#: src/widgets/tools/tools-release-row.vala:553
-#: src/widgets/tools/tools-release-row.vala:829
+#: src/widgets/tools/tools-release-row.vala:609
+#: src/widgets/tools/tools-release-row.vala:890
 msgid "Cancelling"
 msgstr "正在取消"
 
 #: src/widgets/header/header-downloads-indicator.vala:313
-#: src/widgets/tools/tools-release-row.vala:834
+#: src/widgets/tools/tools-release-row.vala:895
 msgid "Extracting"
 msgstr "正在解压"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
-#: src/widgets/tools/tools-release-row.vala:797
-#: src/widgets/tools/tools-release-row.vala:838
-#: src/widgets/tools/tools-release-row.vala:843
+#: src/widgets/tools/tools-release-row.vala:857
+#: src/widgets/tools/tools-release-row.vala:899
+#: src/widgets/tools/tools-release-row.vala:904
 msgid "Removing"
 msgstr "正在移除"
 
@@ -4179,6 +4213,7 @@ msgid "Download canceled"
 msgstr "下载已取消"
 
 #: src/widgets/main/main-box.vala:379
+#: src/widgets/tools/tools-release-row.vala:1099
 msgid "Download failed"
 msgstr "下载失败"
 
@@ -5263,8 +5298,8 @@ msgstr "检测到的启动器"
 #: src/widgets/preferences/preferences-dialog.vala:406
 #: src/widgets/tools/tools-box.vala:189
 #: src/widgets/tools/tools-group-box.vala:749
-#: src/widgets/tools/tools-release-row.vala:782
-#: src/widgets/tools/tools-release-row.vala:786
+#: src/widgets/tools/tools-release-row.vala:842
+#: src/widgets/tools/tools-release-row.vala:846
 msgid "Installed"
 msgstr "已安装"
 
@@ -5522,159 +5557,212 @@ msgstr "选择"
 msgid "No Games Use This Tool"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:135
-#: src/widgets/tools/tools-release-row.vala:137
+#: src/widgets/tools/tools-release-row.vala:136
+#: src/widgets/tools/tools-release-row.vala:138
 msgid "Show installation details"
 msgstr "显示安装详情"
 
-#: src/widgets/tools/tools-release-row.vala:142
+#: src/widgets/tools/tools-release-row.vala:143
 msgid "Speed: 0 KB/s"
 msgstr "速度：0 KB/s"
 
-#: src/widgets/tools/tools-release-row.vala:145
-#: src/widgets/tools/tools-release-row.vala:909
+#: src/widgets/tools/tools-release-row.vala:146
+#: src/widgets/tools/tools-release-row.vala:970
 msgid "Remaining time: --"
 msgstr "剩余时间：--"
 
-#: src/widgets/tools/tools-release-row.vala:206
+#: src/widgets/tools/tools-release-row.vala:210
 #, fuzzy
 msgid "Release Actions"
 msgstr "操作"
 
-#: src/widgets/tools/tools-release-row.vala:534
+#: src/widgets/tools/tools-release-row.vala:242
+msgid "Install TinkerGame First"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:243
+msgid "Install or update TinkerGame before copying SteamTinkerLaunch settings."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:247
+#, fuzzy
+msgid "Copy SteamTinkerLaunch Settings?"
+msgstr "Steam Tinker Launch"
+
+#: src/widgets/tools/tools-release-row.vala:248
+msgid ""
+"The original settings and installation will be kept. Existing TinkerGame "
+"settings will never be overwritten. Review custom commands, scripts, "
+"symbolic links and absolute paths before playing. Steam assignments and "
+"launch options will stay unchanged. After testing your games, you can remove "
+"SteamTinkerLaunch separately."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:250
+msgid "Copy Settings"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:272
+msgid ""
+"Settings copied. Review custom commands and paths before playing. Select "
+"TinkerGame for individual games in Games when ready; SteamTinkerLaunch "
+"remains installed."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:274
+msgid ""
+"TinkerGame settings already exist. Nothing was overwritten. Review and merge "
+"your settings manually."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:275
+msgid ""
+"Settings could not be copied. The original settings were preserved. You can "
+"retry after resolving the problem."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:276
+msgid "TinkerGame Migration"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:590
 #, c-format
 msgid "Step: %s"
 msgstr "步数：%s"
 
-#: src/widgets/tools/tools-release-row.vala:537
+#: src/widgets/tools/tools-release-row.vala:593
 #, fuzzy, c-format
 msgid "%s for %s"
 msgstr "操作"
 
-#: src/widgets/tools/tools-release-row.vala:542
+#: src/widgets/tools/tools-release-row.vala:598
 #, fuzzy, c-format
 msgid "Progress for %s"
 msgstr "操作"
 
-#: src/widgets/tools/tools-release-row.vala:597
-#: src/widgets/tools/tools-release-row.vala:600
+#: src/widgets/tools/tools-release-row.vala:653
+#: src/widgets/tools/tools-release-row.vala:656
 #, fuzzy
 msgid "Latest"
 msgstr "稍后"
 
-#: src/widgets/tools/tools-release-row.vala:662
-#: src/widgets/tools/tools-release-row.vala:665
+#: src/widgets/tools/tools-release-row.vala:718
+#: src/widgets/tools/tools-release-row.vala:721
 #, c-format
 msgid "Install %s"
 msgstr "安装 %s"
 
-#: src/widgets/tools/tools-release-row.vala:671
-#: src/widgets/tools/tools-release-row.vala:728
+#: src/widgets/tools/tools-release-row.vala:727
+#: src/widgets/tools/tools-release-row.vala:788
 #: src/widgets/tools/tools-releases-box.vala:477
 #: src/widgets/tools/tools-releases-box.vala:489
 #, fuzzy
 msgid "Retry"
 msgstr "复古"
 
-#: src/widgets/tools/tools-release-row.vala:672
-#: src/widgets/tools/tools-release-row.vala:675
+#: src/widgets/tools/tools-release-row.vala:728
+#: src/widgets/tools/tools-release-row.vala:731
 #, fuzzy, c-format
 msgid "Retry %s"
 msgstr "复古"
 
-#: src/widgets/tools/tools-release-row.vala:686
+#: src/widgets/tools/tools-release-row.vala:742
 #, fuzzy, c-format
 msgid "Cancelling %s"
 msgstr "正在取消"
 
-#: src/widgets/tools/tools-release-row.vala:687
+#: src/widgets/tools/tools-release-row.vala:743
 #, fuzzy, c-format
 msgid "Cancel %s"
 msgstr "取消"
 
-#: src/widgets/tools/tools-release-row.vala:712
+#: src/widgets/tools/tools-release-row.vala:768
 #, fuzzy
 msgid "_Changelog"
 msgstr "更新日志"
 
-#: src/widgets/tools/tools-release-row.vala:715
+#: src/widgets/tools/tools-release-row.vala:771
 #, fuzzy
 msgid "Open Release Page"
 msgstr "打开令牌创建页面"
 
-#: src/widgets/tools/tools-release-row.vala:720
+#: src/widgets/tools/tools-release-row.vala:776
 msgid "_Games Using This Tool"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:730
+#: src/widgets/tools/tools-release-row.vala:783
+msgid "Copy SteamTinkerLaunch Settings…"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:790
 #, fuzzy
 msgid "Update"
 msgstr "更新"
 
-#: src/widgets/tools/tools-release-row.vala:731
+#: src/widgets/tools/tools-release-row.vala:791
 #, fuzzy
 msgid "_Check for Updates"
 msgstr "检查更新"
 
-#: src/widgets/tools/tools-release-row.vala:735
+#: src/widgets/tools/tools-release-row.vala:795
 #, fuzzy
 msgid "_Open Folder"
 msgstr "输出文件夹"
 
-#: src/widgets/tools/tools-release-row.vala:737
+#: src/widgets/tools/tools-release-row.vala:797
 #, fuzzy
 msgid "_Delete…"
 msgstr "删除"
 
-#: src/widgets/tools/tools-release-row.vala:775
+#: src/widgets/tools/tools-release-row.vala:835
 msgid "Failed"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:783
+#: src/widgets/tools/tools-release-row.vala:843
 #, fuzzy
 msgid "Update available"
 msgstr "批量更新失败"
 
-#: src/widgets/tools/tools-release-row.vala:802
+#: src/widgets/tools/tools-release-row.vala:862
 msgid "Unavailable for the selected variant"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:807
+#: src/widgets/tools/tools-release-row.vala:867
 #, fuzzy, c-format
 msgid "In use by %i game"
 msgid_plural "In use by %i games"
 msgstr[0] "被 %i 款游戏使用。"
 
-#: src/widgets/tools/tools-release-row.vala:821
+#: src/widgets/tools/tools-release-row.vala:882
 #, fuzzy, c-format
 msgid "%s. Open Release Details"
 msgstr "打开令牌创建页面"
 
-#: src/widgets/tools/tools-release-row.vala:822
+#: src/widgets/tools/tools-release-row.vala:883
 #, fuzzy
 msgid "Open Release Details"
 msgstr "打开令牌创建页面"
 
-#: src/widgets/tools/tools-release-row.vala:836
+#: src/widgets/tools/tools-release-row.vala:897
 msgid "Moving"
 msgstr "正在移动"
 
-#: src/widgets/tools/tools-release-row.vala:841
+#: src/widgets/tools/tools-release-row.vala:902
 #, fuzzy
 msgid "Preparing update"
 msgstr "正在准备"
 
-#: src/widgets/tools/tools-release-row.vala:844
+#: src/widgets/tools/tools-release-row.vala:905
 #, fuzzy
 msgid "Preparing installation"
 msgstr "取消安装"
 
-#: src/widgets/tools/tools-release-row.vala:900
+#: src/widgets/tools/tools-release-row.vala:961
 #, c-format
 msgid "Speed: %s/s"
 msgstr "速度： %s/s"
 
-#: src/widgets/tools/tools-release-row.vala:906
+#: src/widgets/tools/tools-release-row.vala:967
 #, c-format
 msgid "Remaining time: %s"
 msgstr "剩余时间：%s"
@@ -5907,6 +5995,10 @@ msgid ""
 msgstr ""
 "应用程序当前正在下载工具。\n"
 "过早退出程序或许会引发问题。"
+
+#, fuzzy, c-format
+#~ msgid "%s installation failed"
+#~ msgstr "安装失败"
 
 #~ msgid ""
 #~ "Validates the compiler's internal representation after each pass. Used "
@@ -6173,9 +6265,6 @@ msgstr ""
 
 #~ msgid "An error occurred while attempting to update the compatibility tool."
 #~ msgstr "更新兼容性工具时发生错误。"
-
-#~ msgid "Installation Failed"
-#~ msgstr "安装失败"
 
 #, c-format
 #~ msgid "ProtonPlus could not install %s on your system."
