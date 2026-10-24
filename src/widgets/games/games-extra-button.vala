@@ -22,7 +22,7 @@ namespace ProtonPlus.Widgets.Games {
 
             var action_group = new SimpleActionGroup ();
             custom_executable_action = create_action (
-                action_group, "custom-executable", open_custom_executable
+                action_group, "custom-executable", () => open_custom_executable.begin ()
             );
             open_install_directory_action = create_action (
                 action_group, "open-install-directory", open_install_directory
@@ -203,7 +203,7 @@ namespace ProtonPlus.Widgets.Games {
             return _("Anti-Cheat: %s").printf (status);
         }
 
-        void open_custom_executable () {
+        async void open_custom_executable () {
             var expected = target.item;
             if (expected == null)
                 return;
@@ -214,6 +214,28 @@ namespace ProtonPlus.Widgets.Games {
             var file_dialog = new Gtk.FileDialog () {
                 title = _("Select executable")
             };
+            var prefix_folder = File.new_for_path (((!) expected).game.prefixdir);
+            File[] initial_folders = {
+                prefix_folder.get_child ("pfx").get_child ("drive_c"),
+                prefix_folder
+            };
+            foreach (var folder in initial_folders) {
+                try {
+                    var info = yield folder.query_info_async (
+                        FileAttribute.STANDARD_TYPE, FileQueryInfoFlags.NONE,
+                        Priority.DEFAULT, null
+                    );
+                    if (info.get_file_type () == FileType.DIRECTORY) {
+                        file_dialog.set_initial_folder (folder);
+                        break;
+                    }
+                } catch (Error error) {
+                    // Try the next folder, then fall back to the chooser's default.
+                }
+            }
+            if (!bound || target.item != expected || button.get_root () != root)
+                return;
+
             var filters = new ListStore (typeof (Gtk.FileFilter));
             var filter = new Gtk.FileFilter () {
                 name = _("Executables (*.exe, *.msi, *.msu, *.bat)")
