@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: speedtest\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-24 12:47-0400\n"
+"POT-Creation-Date: 2026-10-24 13:26-0400\n"
 "PO-Revision-Date: 2026-09-29 13:51+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
@@ -73,238 +73,229 @@ msgctxt "shortcut window"
 msgid "Search Current View"
 msgstr "Пошук у поточному поданні"
 
-#: src/cli/cli.vala:194
+#: src/cli/cli.vala:208
 #, c-format
 msgid "Error: Unknown command '%s'\n"
 msgstr "Помилка: невідома команда '%s'\n"
 
-#: src/cli/cli.vala:203
+#: src/cli/cli.vala:217
 #, c-format
 msgid "Warning: %s\n"
 msgstr "Увага: %s\n"
 
-#: src/cli/cli.vala:241
-msgid "Detected launchers:\n"
-msgstr "Виявлені запускачі:\n"
-
-#: src/cli/cli.vala:251
-#, c-format
-msgid "Installed runners for %s:\n"
-msgstr "Встановлені інструменти для %s:\n"
-
-#: src/cli/cli.vala:253 src/cli/cli.vala:778
+#: src/cli/cli.vala:265 src/cli/cli.vala:790
 msgid "Runner ID"
 msgstr ""
 
-#: src/cli/cli.vala:253 src/cli/cli.vala:432
+#: src/cli/cli.vala:265 src/cli/cli.vala:444
 #, fuzzy
 msgid "Version"
 msgstr "Версія HUD"
 
-#: src/cli/cli.vala:253 src/cli/cli.vala:398 src/cli/cli.vala:432
-#: src/cli/cli.vala:770 src/cli/cli.vala:778
+#: src/cli/cli.vala:265 src/cli/cli.vala:410 src/cli/cli.vala:444
+#: src/cli/cli.vala:782 src/cli/cli.vala:790
 msgid "Name"
 msgstr ""
 
-#: src/cli/cli.vala:273
+#: src/cli/cli.vala:285
 msgid "No runners installed\n"
 msgstr "Жодного інструмента не встановлено\n"
 
-#: src/cli/cli.vala:365 src/cli/cli.vala:619
+#: src/cli/cli.vala:377 src/cli/cli.vala:631
 #, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr "Помилка: не вдалося завантажити випуски: %s\n"
 
-#: src/cli/cli.vala:370 src/cli/cli.vala:621
+#: src/cli/cli.vala:382 src/cli/cli.vala:633
 msgid "Error: No releases are available\n"
 msgstr "Помилка: немає доступних випусків\n"
 
-#: src/cli/cli.vala:374
+#: src/cli/cli.vala:386
 #, c-format
 msgid "Installing %s Latest...\n"
 msgstr "Встановлення найновішої версії %s...\n"
 
-#: src/cli/cli.vala:382
+#: src/cli/cli.vala:394
 #, c-format
 msgid "Successfully installed %s Latest\n"
 msgstr "Найновішу версію %s встановлено\n"
 
-#: src/cli/cli.vala:384 src/cli/cli.vala:420
+#: src/cli/cli.vala:396 src/cli/cli.vala:432
 #, c-format
 msgid "Error: Installation failed: %s\n"
 msgstr "Помилка: встановлення не вдалося: %s\n"
 
-#: src/cli/cli.vala:397
+#: src/cli/cli.vala:409
 #, c-format
 msgid "Available releases for %s:\n"
 msgstr "Доступні випуски для %s:\n"
 
-#: src/cli/cli.vala:398 src/cli/cli.vala:432
+#: src/cli/cli.vala:410 src/cli/cli.vala:444
 msgid "Number"
 msgstr ""
 
-#: src/cli/cli.vala:398
+#: src/cli/cli.vala:410
 #, fuzzy
 msgid "Release date"
 msgstr "Випуски завантажено"
 
-#: src/cli/cli.vala:406 src/cli/cli.vala:439
+#: src/cli/cli.vala:418 src/cli/cli.vala:451
 msgid "Select release number"
 msgstr "Виберіть номер випуску"
 
-#: src/cli/cli.vala:412
+#: src/cli/cli.vala:424
 #, c-format
 msgid "Installing %s...\n"
 msgstr "Встановлення %s...\n"
 
-#: src/cli/cli.vala:418
+#: src/cli/cli.vala:430
 #, c-format
 msgid "Successfully installed %s\n"
 msgstr "%s успішно встановлено\n"
 
-#: src/cli/cli.vala:427 src/cli/cli.vala:450
+#: src/cli/cli.vala:439 src/cli/cli.vala:462
 #, c-format
 msgid "No installed releases found for %s\n"
 msgstr "Не знайдено встановлених випусків для %s\n"
 
-#: src/cli/cli.vala:431
+#: src/cli/cli.vala:443
 #, c-format
 msgid "Installed releases for %s:\n"
 msgstr "Встановлені випуски для %s:\n"
 
-#: src/cli/cli.vala:454
+#: src/cli/cli.vala:466
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
 msgstr "Вилучення всіх випусків для %s...\n"
 
-#: src/cli/cli.vala:466
+#: src/cli/cli.vala:478
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
 msgstr "Вилучення всіх випусків для запускача %s...\n"
 
-#: src/cli/cli.vala:492
+#: src/cli/cli.vala:504
 #, c-format
 msgid "Uninstalling %s...\n"
 msgstr "Вилучення %s...\n"
 
-#: src/cli/cli.vala:496
+#: src/cli/cli.vala:508
 #, c-format
 msgid "Successfully uninstalled %s\n"
 msgstr "%s успішно вилучено\n"
 
-#: src/cli/cli.vala:498
+#: src/cli/cli.vala:510
 #, c-format
 msgid "Error: Uninstallation failed: %s\n"
 msgstr "Помилка: вилучення не вдалося: %s\n"
 
-#: src/cli/cli.vala:503
+#: src/cli/cli.vala:515
 msgid "Updating all runners...\n"
 msgstr "Оновлення всіх інструментів...\n"
 
-#: src/cli/cli.vala:509
+#: src/cli/cli.vala:521
 #, c-format
 msgid "Updating runners for %s...\n"
 msgstr "Оновлення інструментів для %s...\n"
 
-#: src/cli/cli.vala:520 src/cli/cli.vala:576
+#: src/cli/cli.vala:532 src/cli/cli.vala:588
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr "%s успішно оновлено\n"
 
-#: src/cli/cli.vala:523 src/cli/cli.vala:579
+#: src/cli/cli.vala:535 src/cli/cli.vala:591
 #, c-format
 msgid "Already up to date: %s\n"
 msgstr "%s вже має найновішу версію\n"
 
-#: src/cli/cli.vala:526 src/cli/cli.vala:582
+#: src/cli/cli.vala:538 src/cli/cli.vala:594
 #, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr "Помилка: не вдалося оновити %s: %s\n"
 
-#: src/cli/cli.vala:566
+#: src/cli/cli.vala:578
 msgid "Already up to date\n"
 msgstr "Вже оновлено\n"
 
-#: src/cli/cli.vala:591
+#: src/cli/cli.vala:603
 #, c-format
 msgid "Updating %s..."
 msgstr "Оновлення %s..."
 
-#: src/cli/cli.vala:607
+#: src/cli/cli.vala:619
 msgid "Error: Failed to load launchers\n"
 msgstr "Помилка: не вдалося завантажити запускачі\n"
 
-#: src/cli/cli.vala:631
+#: src/cli/cli.vala:643
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr "Помилка: запускач '%s' не знайдено\n"
 
-#: src/cli/cli.vala:644
+#: src/cli/cli.vala:656
 #, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr "Помилка: інструмент '%s' не знайдено\n"
 
-#: src/cli/cli.vala:714
+#: src/cli/cli.vala:726
 #, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr "Помилка: інструмент '%s' не підтримує %s\n"
 
-#: src/cli/cli.vala:721
+#: src/cli/cli.vala:733
 #, c-format
 msgid "Usage: %s\n"
 msgstr "Використання: %s\n"
 
-#: src/cli/cli.vala:738
+#: src/cli/cli.vala:750
 msgid "Error: Invalid input, please enter a number\n"
 msgstr "Помилка: некоректне введення, введіть число\n"
 
-#: src/cli/cli.vala:744
+#: src/cli/cli.vala:756
 msgid "Error: Selection out of range\n"
 msgstr "Помилка: вибір за межами діапазону\n"
 
-#: src/cli/cli.vala:751
+#: src/cli/cli.vala:763
 msgid "Usage:\n"
 msgstr "Використання:\n"
 
-#: src/cli/cli.vala:753
+#: src/cli/cli.vala:765
 msgid "Commands:\n"
 msgstr "Команди:\n"
 
-#: src/cli/cli.vala:754
+#: src/cli/cli.vala:766
 #, fuzzy
 msgid "Command"
 msgstr "Команди:\n"
 
-#: src/cli/cli.vala:754
+#: src/cli/cli.vala:766
 #, fuzzy
 msgid "Description"
 msgstr "Тривалість"
 
-#: src/cli/cli.vala:755
+#: src/cli/cli.vala:767
 msgid "Show version"
 msgstr "Показати версію"
 
-#: src/cli/cli.vala:756
+#: src/cli/cli.vala:768
 msgid "Show this help"
 msgstr "Показати цю довідку"
 
-#: src/cli/cli.vala:757
+#: src/cli/cli.vala:769
 msgid "List launchers or installed runners"
 msgstr "Показати список запускачів або встановлених інструментів"
 
-#: src/cli/cli.vala:758
+#: src/cli/cli.vala:770
 msgid "Install runner"
 msgstr "Встановити інструмент"
 
-#: src/cli/cli.vala:759
+#: src/cli/cli.vala:771
 msgid "Uninstall runner"
 msgstr "Вилучити інструмент"
 
-#: src/cli/cli.vala:760
+#: src/cli/cli.vala:772
 msgid "Update runner"
 msgstr "Оновити інструмент"
 
-#: src/cli/cli.vala:765
+#: src/cli/cli.vala:777
 msgid ""
 "\n"
 "Available launchers:\n"
@@ -312,12 +303,12 @@ msgstr ""
 "\n"
 "Доступні запускачі:\n"
 
-#: src/cli/cli.vala:770
+#: src/cli/cli.vala:782
 #, fuzzy
 msgid "Launcher ID"
 msgstr "Злучене"
 
-#: src/cli/cli.vala:777
+#: src/cli/cli.vala:789
 #, c-format
 msgid ""
 "\n"
@@ -326,35 +317,35 @@ msgstr ""
 "\n"
 "Доступні інструменти для %s:\n"
 
-#: src/cli/cli.vala:793
+#: src/cli/cli.vala:805
 #, c-format
 msgid "ETA: %s"
 msgstr "Час: %s"
 
-#: src/cli/cli.vala:795 src/widgets/header/header-downloads-indicator.vala:325
+#: src/cli/cli.vala:807 src/widgets/header/header-downloads-indicator.vala:325
 msgid "ETA: --"
 msgstr "Час: --"
 
-#: src/cli/cli.vala:798 src/widgets/tools/tools-release-row.vala:790
+#: src/cli/cli.vala:810 src/widgets/tools/tools-release-row.vala:790
 msgid "Updating"
 msgstr "Оновлення"
 
-#: src/cli/cli.vala:798 src/widgets/header/header-downloads-indicator.vala:315
+#: src/cli/cli.vala:810 src/widgets/header/header-downloads-indicator.vala:315
 #: src/widgets/tools/tools-release-row.vala:786
 msgid "Installing"
 msgstr "Встановлення"
 
-#: src/cli/cli.vala:811 src/widgets/tools/tools-release-row.vala:913
+#: src/cli/cli.vala:823 src/widgets/tools/tools-release-row.vala:913
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%d год %d хв %d с"
 
-#: src/cli/cli.vala:813 src/widgets/tools/tools-release-row.vala:917
+#: src/cli/cli.vala:825 src/widgets/tools/tools-release-row.vala:917
 #, c-format
 msgid "%dm %ds"
 msgstr "%d хв %d с"
 
-#: src/cli/cli.vala:815 src/widgets/tools/tools-release-row.vala:918
+#: src/cli/cli.vala:827 src/widgets/tools/tools-release-row.vala:918
 #, c-format
 msgid "%ds"
 msgstr "%d с"
@@ -6006,6 +5997,13 @@ msgid ""
 msgstr ""
 "Наразі завантажується інструмент сумісності.\n"
 "Достроковий вихід може спричинити помилки."
+
+#~ msgid "Detected launchers:\n"
+#~ msgstr "Виявлені запускачі:\n"
+
+#, c-format
+#~ msgid "Installed runners for %s:\n"
+#~ msgstr "Встановлені інструменти для %s:\n"
 
 #~ msgid ""
 #~ "Start Steam manually. ProtonPlus will keep the reminder until it confirms "

@@ -63,7 +63,7 @@ namespace ProtonPlus.CLI {
             sink.write_stdout (format.vprintf (args));
         }
 
-        public void column_labels (string text) {
+        public void bold_line (string text) {
             sink.write_stdout (BOLD + text + RESET + "\n");
         }
 
@@ -141,24 +141,29 @@ namespace ProtonPlus.CLI {
                     line.append (string.nfill (widths[i] - display_width (cells[i]) + 2, ' '));
             }
             if (labels)
-                output.column_labels (line.str);
+                output.bold_line (line.str);
             else
                 output.info ("%s\n", line.str);
         }
 
-        public void print (Output output) {
+        public void print (Output output, bool leading_blank = true) {
             if (rows.size == 0)
                 return;
             if (rows[0].heading == null) {
-                output.info ("\n");
+                if (leading_blank)
+                    output.info ("\n");
                 print_row (output, labels, true);
             }
+            var first_row = true;
             foreach (var row in rows) {
                 if (row.heading != null) {
-                    output.info ("\n%s:\n", row.heading);
+                    if (!first_row || leading_blank)
+                        output.info ("\n");
+                    output.bold_line ("%s:".printf (row.heading));
                     print_row (output, labels, true);
                 }
                 print_row (output, row.cells);
+                first_row = false;
             }
         }
     }
@@ -247,8 +252,7 @@ namespace ProtonPlus.CLI {
 
         private int handle_list (string[] args) {
             if (args.length < 3) {
-                output.header (_ ("Detected launchers:\n"));
-                print_launcher_table ();
+                print_launcher_table (false);
                 return 0;
             }
 
@@ -257,7 +261,6 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
-            output.header (_ ("Installed runners for %s:\n"), launcher.title);
             var found = false;
             var table = new Table ({ _ ("Runner ID"), _ ("Version"), _ ("Name") });
             foreach (var group in launcher.groups) {
@@ -277,9 +280,8 @@ namespace ProtonPlus.CLI {
                     found = true;
                 }
             }
-            table.print (output);
+            table.print (output, false);
             if (!found) {
-                output.info ("\n");
                 output.warning (_ ("No runners installed\n"));
             }
             return 0;
@@ -735,7 +737,7 @@ namespace ProtonPlus.CLI {
         }
 
         private int read_user_selection (string prompt, int max) {
-            output.info ("%s: ", prompt);
+            output.info ("\n%s: ", prompt);
             output.flush_stdout ();
             var input = stdin.read_line ();
 
@@ -776,11 +778,11 @@ namespace ProtonPlus.CLI {
             print_launcher_table ();
         }
 
-        private void print_launcher_table () {
+        private void print_launcher_table (bool leading_blank = true) {
             var table = new Table ({ _ ("Launcher ID"), _ ("Name") });
             foreach (var launcher in launchers)
                 table.add ({ get_launcher_id (launcher), launcher.title });
-            table.print (output);
+            table.print (output, leading_blank);
         }
 
         private void print_available_runners (Models.Launcher launcher) {

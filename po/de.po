@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-24 12:47-0400\n"
+"POT-Creation-Date: 2026-10-24 13:26-0400\n"
 "PO-Revision-Date: 2026-08-13 19:30+0200\n"
 "Last-Translator: Christian Lauinger <christian@lauinger-clan.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/protonplus/"
@@ -72,238 +72,229 @@ msgctxt "shortcut window"
 msgid "Search Current View"
 msgstr "Aktuelle Ansicht durchsuchen"
 
-#: src/cli/cli.vala:194
+#: src/cli/cli.vala:208
 #, c-format
 msgid "Error: Unknown command '%s'\n"
 msgstr "Fehler: Unbekannter Befehl '%s'\n"
 
-#: src/cli/cli.vala:203
+#: src/cli/cli.vala:217
 #, c-format
 msgid "Warning: %s\n"
 msgstr "Warnung: %s\n"
 
-#: src/cli/cli.vala:241
-msgid "Detected launchers:\n"
-msgstr "Erkannte Starter:\n"
-
-#: src/cli/cli.vala:251
-#, c-format
-msgid "Installed runners for %s:\n"
-msgstr "Installierte Ausführungswerkzeuge für %s:\n"
-
-#: src/cli/cli.vala:253 src/cli/cli.vala:778
+#: src/cli/cli.vala:265 src/cli/cli.vala:790
 msgid "Runner ID"
 msgstr ""
 
-#: src/cli/cli.vala:253 src/cli/cli.vala:432
+#: src/cli/cli.vala:265 src/cli/cli.vala:444
 #, fuzzy
 msgid "Version"
 msgstr "HUD-Version"
 
-#: src/cli/cli.vala:253 src/cli/cli.vala:398 src/cli/cli.vala:432
-#: src/cli/cli.vala:770 src/cli/cli.vala:778
+#: src/cli/cli.vala:265 src/cli/cli.vala:410 src/cli/cli.vala:444
+#: src/cli/cli.vala:782 src/cli/cli.vala:790
 msgid "Name"
 msgstr ""
 
-#: src/cli/cli.vala:273
+#: src/cli/cli.vala:285
 msgid "No runners installed\n"
 msgstr "Keine Ausführungswerkzeuge installiert\n"
 
-#: src/cli/cli.vala:365 src/cli/cli.vala:619
+#: src/cli/cli.vala:377 src/cli/cli.vala:631
 #, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr "Fehler: Veröffentlichungen konnten nicht geladen werden: %s\n"
 
-#: src/cli/cli.vala:370 src/cli/cli.vala:621
+#: src/cli/cli.vala:382 src/cli/cli.vala:633
 msgid "Error: No releases are available\n"
 msgstr "Fehler: Es sind keine Veröffentlichungen verfügbar\n"
 
-#: src/cli/cli.vala:374
+#: src/cli/cli.vala:386
 #, c-format
 msgid "Installing %s Latest...\n"
 msgstr "Installiere %s Aktuellste Version...\n"
 
-#: src/cli/cli.vala:382
+#: src/cli/cli.vala:394
 #, c-format
 msgid "Successfully installed %s Latest\n"
 msgstr "Erfolgreich installiert %s Neueste\n"
 
-#: src/cli/cli.vala:384 src/cli/cli.vala:420
+#: src/cli/cli.vala:396 src/cli/cli.vala:432
 #, c-format
 msgid "Error: Installation failed: %s\n"
 msgstr "Fehler: Die Installation ist fehlgeschlagen: %s\n"
 
-#: src/cli/cli.vala:397
+#: src/cli/cli.vala:409
 #, c-format
 msgid "Available releases for %s:\n"
 msgstr "Verfügbare Versionen für %s:\n"
 
-#: src/cli/cli.vala:398 src/cli/cli.vala:432
+#: src/cli/cli.vala:410 src/cli/cli.vala:444
 msgid "Number"
 msgstr ""
 
-#: src/cli/cli.vala:398
+#: src/cli/cli.vala:410
 #, fuzzy
 msgid "Release date"
 msgstr "Veröffentlichungen geladen"
 
-#: src/cli/cli.vala:406 src/cli/cli.vala:439
+#: src/cli/cli.vala:418 src/cli/cli.vala:451
 msgid "Select release number"
 msgstr "Version auswählen"
 
-#: src/cli/cli.vala:412
+#: src/cli/cli.vala:424
 #, c-format
 msgid "Installing %s...\n"
 msgstr "%s wird installiert...\n"
 
-#: src/cli/cli.vala:418
+#: src/cli/cli.vala:430
 #, c-format
 msgid "Successfully installed %s\n"
 msgstr "%s erfolgreich installiert\n"
 
-#: src/cli/cli.vala:427 src/cli/cli.vala:450
+#: src/cli/cli.vala:439 src/cli/cli.vala:462
 #, c-format
 msgid "No installed releases found for %s\n"
 msgstr "Keine installierten Versionen für %s gefunden\n"
 
-#: src/cli/cli.vala:431
+#: src/cli/cli.vala:443
 #, c-format
 msgid "Installed releases for %s:\n"
 msgstr "Installierte Versionen für %s:\n"
 
-#: src/cli/cli.vala:454
+#: src/cli/cli.vala:466
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
 msgstr "Deinstallation aller Versionen für %s...\n"
 
-#: src/cli/cli.vala:466
+#: src/cli/cli.vala:478
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
 msgstr "Deinstallation aller Versionen für Starter %s...\n"
 
-#: src/cli/cli.vala:492
+#: src/cli/cli.vala:504
 #, c-format
 msgid "Uninstalling %s...\n"
 msgstr "Deinstallation von %s...\n"
 
-#: src/cli/cli.vala:496
+#: src/cli/cli.vala:508
 #, c-format
 msgid "Successfully uninstalled %s\n"
 msgstr "%s wurde erfolgreich deinstalliert.\n"
 
-#: src/cli/cli.vala:498
+#: src/cli/cli.vala:510
 #, c-format
 msgid "Error: Uninstallation failed: %s\n"
 msgstr "Fehler: Deinstallation fehlgeschlagen: %s\n"
 
-#: src/cli/cli.vala:503
+#: src/cli/cli.vala:515
 msgid "Updating all runners...\n"
 msgstr "Aktualisierung aller Ausführungswerkzeuge...\n"
 
-#: src/cli/cli.vala:509
+#: src/cli/cli.vala:521
 #, c-format
 msgid "Updating runners for %s...\n"
 msgstr "Aktualisierung der Ausführungswerkzeuge für %s...\n"
 
-#: src/cli/cli.vala:520 src/cli/cli.vala:576
+#: src/cli/cli.vala:532 src/cli/cli.vala:588
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr "%s erfolgreich aktualisiert\n"
 
-#: src/cli/cli.vala:523 src/cli/cli.vala:579
+#: src/cli/cli.vala:535 src/cli/cli.vala:591
 #, c-format
 msgid "Already up to date: %s\n"
 msgstr "Bereits auf dem neuesten Stand: %s\n"
 
-#: src/cli/cli.vala:526 src/cli/cli.vala:582
+#: src/cli/cli.vala:538 src/cli/cli.vala:594
 #, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr "Fehler: %s konnte nicht aktualisiert werden: %s\n"
 
-#: src/cli/cli.vala:566
+#: src/cli/cli.vala:578
 msgid "Already up to date\n"
 msgstr "Bereits auf dem neuesten Stand\n"
 
-#: src/cli/cli.vala:591
+#: src/cli/cli.vala:603
 #, c-format
 msgid "Updating %s..."
 msgstr "Aktualisiere %s..."
 
-#: src/cli/cli.vala:607
+#: src/cli/cli.vala:619
 msgid "Error: Failed to load launchers\n"
 msgstr "Fehler: Starter konnten nicht geladen werden\n"
 
-#: src/cli/cli.vala:631
+#: src/cli/cli.vala:643
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr "Fehler: Starter ‚%s‘ nicht gefunden\n"
 
-#: src/cli/cli.vala:644
+#: src/cli/cli.vala:656
 #, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr "Fehler: Werkzeug „%s“ nicht gefunden\n"
 
-#: src/cli/cli.vala:714
+#: src/cli/cli.vala:726
 #, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr "Fehler: Das Werkzeug „%s“ unterstützt %s nicht\n"
 
-#: src/cli/cli.vala:721
+#: src/cli/cli.vala:733
 #, c-format
 msgid "Usage: %s\n"
 msgstr "Verwendung: %s\n"
 
-#: src/cli/cli.vala:738
+#: src/cli/cli.vala:750
 msgid "Error: Invalid input, please enter a number\n"
 msgstr "Fehler: Ungültige Eingabe, bitte gib eine Zahl ein\n"
 
-#: src/cli/cli.vala:744
+#: src/cli/cli.vala:756
 msgid "Error: Selection out of range\n"
 msgstr "Fehler: Auswahl außerhalb des zulässigen Bereichs\n"
 
-#: src/cli/cli.vala:751
+#: src/cli/cli.vala:763
 msgid "Usage:\n"
 msgstr "Verwendung:\n"
 
-#: src/cli/cli.vala:753
+#: src/cli/cli.vala:765
 msgid "Commands:\n"
 msgstr "Befehle:\n"
 
-#: src/cli/cli.vala:754
+#: src/cli/cli.vala:766
 #, fuzzy
 msgid "Command"
 msgstr "Befehle:\n"
 
-#: src/cli/cli.vala:754
+#: src/cli/cli.vala:766
 #, fuzzy
 msgid "Description"
 msgstr "Dauer"
 
-#: src/cli/cli.vala:755
+#: src/cli/cli.vala:767
 msgid "Show version"
 msgstr "Version anzeigen"
 
-#: src/cli/cli.vala:756
+#: src/cli/cli.vala:768
 msgid "Show this help"
 msgstr "Diese Hilfe anzeigen"
 
-#: src/cli/cli.vala:757
+#: src/cli/cli.vala:769
 msgid "List launchers or installed runners"
 msgstr "Starter oder installierte Ausführungswerkzeuge auflisten"
 
-#: src/cli/cli.vala:758
+#: src/cli/cli.vala:770
 msgid "Install runner"
 msgstr "Installiere Ausführungswerkzeuge"
 
-#: src/cli/cli.vala:759
+#: src/cli/cli.vala:771
 msgid "Uninstall runner"
 msgstr "Deinstalliere Ausführungswerkzeuge"
 
-#: src/cli/cli.vala:760
+#: src/cli/cli.vala:772
 msgid "Update runner"
 msgstr "Aktualisiere Ausführungswerkzeug"
 
-#: src/cli/cli.vala:765
+#: src/cli/cli.vala:777
 msgid ""
 "\n"
 "Available launchers:\n"
@@ -311,12 +302,12 @@ msgstr ""
 "\n"
 "Verfügbare Starter:\n"
 
-#: src/cli/cli.vala:770
+#: src/cli/cli.vala:782
 #, fuzzy
 msgid "Launcher ID"
 msgstr "Starter"
 
-#: src/cli/cli.vala:777
+#: src/cli/cli.vala:789
 #, c-format
 msgid ""
 "\n"
@@ -325,35 +316,35 @@ msgstr ""
 "\n"
 "Verfügbare Ausführungswerkzeuge für %s:\n"
 
-#: src/cli/cli.vala:793
+#: src/cli/cli.vala:805
 #, c-format
 msgid "ETA: %s"
 msgstr "Verbleibende Zeit: %s"
 
-#: src/cli/cli.vala:795 src/widgets/header/header-downloads-indicator.vala:325
+#: src/cli/cli.vala:807 src/widgets/header/header-downloads-indicator.vala:325
 msgid "ETA: --"
 msgstr "Verbleibende Zeit: --"
 
-#: src/cli/cli.vala:798 src/widgets/tools/tools-release-row.vala:790
+#: src/cli/cli.vala:810 src/widgets/tools/tools-release-row.vala:790
 msgid "Updating"
 msgstr "Aktualisierung"
 
-#: src/cli/cli.vala:798 src/widgets/header/header-downloads-indicator.vala:315
+#: src/cli/cli.vala:810 src/widgets/header/header-downloads-indicator.vala:315
 #: src/widgets/tools/tools-release-row.vala:786
 msgid "Installing"
 msgstr "Wird installiert"
 
-#: src/cli/cli.vala:811 src/widgets/tools/tools-release-row.vala:913
+#: src/cli/cli.vala:823 src/widgets/tools/tools-release-row.vala:913
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%d h %d min %d s"
 
-#: src/cli/cli.vala:813 src/widgets/tools/tools-release-row.vala:917
+#: src/cli/cli.vala:825 src/widgets/tools/tools-release-row.vala:917
 #, c-format
 msgid "%dm %ds"
 msgstr "%d min %d s"
 
-#: src/cli/cli.vala:815 src/widgets/tools/tools-release-row.vala:918
+#: src/cli/cli.vala:827 src/widgets/tools/tools-release-row.vala:918
 #, c-format
 msgid "%ds"
 msgstr "%d s"
@@ -6210,6 +6201,13 @@ msgid ""
 msgstr ""
 "Die Anwendung lädt derzeit ein Werkzeug herunter.\n"
 "Ein vorzeitiges Beenden der Anwendung kann zu Problemen führen."
+
+#~ msgid "Detected launchers:\n"
+#~ msgstr "Erkannte Starter:\n"
+
+#, c-format
+#~ msgid "Installed runners for %s:\n"
+#~ msgstr "Installierte Ausführungswerkzeuge für %s:\n"
 
 #~ msgid ""
 #~ "Start Steam manually. ProtonPlus will keep the reminder until it confirms "

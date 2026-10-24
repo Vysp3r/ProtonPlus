@@ -405,7 +405,7 @@ namespace AppTests.CliTest {
             assert (!listing.contains ("unmanaged-runner"));
             assert (listing.contains ("  ge-proton  GE-Proton9-26  Proton-GE 9-26\n"));
             assert (listing.contains ("  ge-proton  —  No release tag\n"));
-            assert (listing.split ("\nFixture:\n").length == 2);
+            assert (listing.has_prefix ("Fixture:\n"));
             assert (!listing.contains ("No runners installed"));
 
             // The same directory becomes unmanaged if its receipt is removed.
@@ -497,7 +497,7 @@ namespace AppTests.CliTest {
                 }
             }
             assert (version_column > 2);
-            assert (listing.contains ("Installed runners for Lutris:"));
+            assert (listing.has_prefix ("Proton:\n"));
             assert (listing.contains ("  ge-proton  GE-Proton9-27  GE-Proton Latest\n"));
             assert (listing.contains ("  wine-ge  v8  Wine-GE Latest\n"));
             assert (listing.contains ("  dxvk-doitsujin  v3.1.0  dxvk-3.1\n"));
@@ -514,7 +514,7 @@ namespace AppTests.CliTest {
             // The two shared directories must not miscategorize or duplicate releases.
             var before_wine = listing.split ("\nWine:\n");
             assert (before_wine.length == 2);
-            assert (before_wine[0].contains ("\nProton:\n"));
+            assert (before_wine[0].has_prefix ("Proton:\n"));
             assert (!before_wine[0].contains ("  wine-ge  "));
             assert (!before_wine[1].contains ("  ge-proton  "));
             var before_dxvk = before_wine[1].split ("\nDXVK:\n");

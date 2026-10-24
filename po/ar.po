@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-24 12:47-0400\n"
+"POT-Creation-Date: 2026-10-24 13:26-0400\n"
 "PO-Revision-Date: 2026-02-03 11:54+0000\n"
 "Last-Translator: Mujtaba-Alsaleh <mujtaba.m.alsaleh@gmail.com>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/protonplus/"
@@ -76,244 +76,235 @@ msgctxt "shortcut window"
 msgid "Search Current View"
 msgstr ""
 
-#: src/cli/cli.vala:194
+#: src/cli/cli.vala:208
 #, c-format
 msgid "Error: Unknown command '%s'\n"
 msgstr "خطأ: أمر غير معروف '%s'\n"
 
-#: src/cli/cli.vala:203
+#: src/cli/cli.vala:217
 #, c-format
 msgid "Warning: %s\n"
 msgstr "تحذير: %s\n"
 
-#: src/cli/cli.vala:241
-msgid "Detected launchers:\n"
-msgstr "مشغلات البرامج المكتشفة:\n"
-
-#: src/cli/cli.vala:251
-#, c-format
-msgid "Installed runners for %s:\n"
-msgstr "المٌشغلات المثبتة لـ %s:\n"
-
-#: src/cli/cli.vala:253 src/cli/cli.vala:778
+#: src/cli/cli.vala:265 src/cli/cli.vala:790
 #, fuzzy
 msgid "Runner ID"
 msgstr "المشغلات"
 
-#: src/cli/cli.vala:253 src/cli/cli.vala:432
+#: src/cli/cli.vala:265 src/cli/cli.vala:444
 #, fuzzy
 msgid "Version"
 msgstr "أظهر المُستخدَم فقط"
 
-#: src/cli/cli.vala:253 src/cli/cli.vala:398 src/cli/cli.vala:432
-#: src/cli/cli.vala:770 src/cli/cli.vala:778
+#: src/cli/cli.vala:265 src/cli/cli.vala:410 src/cli/cli.vala:444
+#: src/cli/cli.vala:782 src/cli/cli.vala:790
 msgid "Name"
 msgstr "الاسم"
 
-#: src/cli/cli.vala:273
+#: src/cli/cli.vala:285
 msgid "No runners installed\n"
 msgstr "لا توجد مشغلات مثبتة\n"
 
-#: src/cli/cli.vala:365 src/cli/cli.vala:619
+#: src/cli/cli.vala:377 src/cli/cli.vala:631
 #, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr "خطأ: فشل تحميل الإصدارات: %s\n"
 
-#: src/cli/cli.vala:370 src/cli/cli.vala:621
+#: src/cli/cli.vala:382 src/cli/cli.vala:633
 msgid "Error: No releases are available\n"
 msgstr "خطأ: لا توجد إصدارات متوفرة\n"
 
-#: src/cli/cli.vala:374
+#: src/cli/cli.vala:386
 #, c-format
 msgid "Installing %s Latest...\n"
 msgstr "تثبيت أحدث نسخة لـ%s...\n"
 
-#: src/cli/cli.vala:382
+#: src/cli/cli.vala:394
 #, c-format
 msgid "Successfully installed %s Latest\n"
 msgstr "تم تثبيت آخر إصدار لـ '%s' بنجاح \n"
 
-#: src/cli/cli.vala:384 src/cli/cli.vala:420
+#: src/cli/cli.vala:396 src/cli/cli.vala:432
 #, c-format
 msgid "Error: Installation failed: %s\n"
 msgstr "خطأ: فشل التثبيت: %s\n"
 
-#: src/cli/cli.vala:397
+#: src/cli/cli.vala:409
 #, c-format
 msgid "Available releases for %s:\n"
 msgstr "الإصدارات المتوفرة لـ%s:\n"
 
-#: src/cli/cli.vala:398 src/cli/cli.vala:432
+#: src/cli/cli.vala:410 src/cli/cli.vala:444
 msgid "Number"
 msgstr ""
 
-#: src/cli/cli.vala:398
+#: src/cli/cli.vala:410
 #, fuzzy
 msgid "Release date"
 msgstr "لم يتم العثور إصدارات."
 
-#: src/cli/cli.vala:406 src/cli/cli.vala:439
+#: src/cli/cli.vala:418 src/cli/cli.vala:451
 msgid "Select release number"
 msgstr "إختر رقم الإصدار"
 
-#: src/cli/cli.vala:412
+#: src/cli/cli.vala:424
 #, c-format
 msgid "Installing %s...\n"
 msgstr "يتم تثبيت %s...\n"
 
-#: src/cli/cli.vala:418
+#: src/cli/cli.vala:430
 #, c-format
 msgid "Successfully installed %s\n"
 msgstr "تم تثبيت %s بنجاح\n"
 
-#: src/cli/cli.vala:427 src/cli/cli.vala:450
+#: src/cli/cli.vala:439 src/cli/cli.vala:462
 #, fuzzy, c-format
 msgid "No installed releases found for %s\n"
 msgstr "لم يتم إيجاد إصدارات مثبتة لـ %s\n"
 
-#: src/cli/cli.vala:431
+#: src/cli/cli.vala:443
 #, c-format
 msgid "Installed releases for %s:\n"
 msgstr "الإصدارات المثبتة لـ%s:\n"
 
-#: src/cli/cli.vala:454
+#: src/cli/cli.vala:466
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
 msgstr "إلغاء تثبيت جميع إصدارات %s...\n"
 
-#: src/cli/cli.vala:466
+#: src/cli/cli.vala:478
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
 msgstr "إلغاء تثبيت جميع إصدارات للبرنامح المُشغل %s...\n"
 
-#: src/cli/cli.vala:492
+#: src/cli/cli.vala:504
 #, fuzzy, c-format
 msgid "Uninstalling %s...\n"
 msgstr "يتم إلغاء تثبيت %s...\n"
 
-#: src/cli/cli.vala:496
+#: src/cli/cli.vala:508
 #, c-format
 msgid "Successfully uninstalled %s\n"
 msgstr "تم إلغاء تثبيت %s بنجاح\n"
 
-#: src/cli/cli.vala:498
+#: src/cli/cli.vala:510
 #, fuzzy, c-format
 msgid "Error: Uninstallation failed: %s\n"
 msgstr "خطأ: فشل إلغاء تثبيت: %s\n"
 
-#: src/cli/cli.vala:503
+#: src/cli/cli.vala:515
 msgid "Updating all runners...\n"
 msgstr "يتم تحديث جميع المٌشغلات...\n"
 
-#: src/cli/cli.vala:509
+#: src/cli/cli.vala:521
 #, c-format
 msgid "Updating runners for %s...\n"
 msgstr "يتم تحديث المٌشغلات لـ%s...\n"
 
-#: src/cli/cli.vala:520 src/cli/cli.vala:576
+#: src/cli/cli.vala:532 src/cli/cli.vala:588
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr "تم تحديث %s بنجاح\n"
 
-#: src/cli/cli.vala:523 src/cli/cli.vala:579
+#: src/cli/cli.vala:535 src/cli/cli.vala:591
 #, fuzzy, c-format
 msgid "Already up to date: %s\n"
 msgstr "محدث بالفعل لآخر نسخة %s\n"
 
-#: src/cli/cli.vala:526 src/cli/cli.vala:582
+#: src/cli/cli.vala:538 src/cli/cli.vala:594
 #, fuzzy, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr "خطأ: فشل تحديث %s :%s\n"
 
-#: src/cli/cli.vala:566
+#: src/cli/cli.vala:578
 msgid "Already up to date\n"
 msgstr "محدث بالفعل لآخر نسخة\n"
 
-#: src/cli/cli.vala:591
+#: src/cli/cli.vala:603
 #, c-format
 msgid "Updating %s..."
 msgstr "جاري تحديث %s..."
 
-#: src/cli/cli.vala:607
+#: src/cli/cli.vala:619
 msgid "Error: Failed to load launchers\n"
 msgstr "خطأ: لم نستطع تحميل التطبيقات المُشَغِلة\n"
 
-#: src/cli/cli.vala:631
+#: src/cli/cli.vala:643
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr "خطأ: البرنامج المشغل %s غير متوفر\n"
 
-#: src/cli/cli.vala:644
+#: src/cli/cli.vala:656
 #, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr "خطأ: الأداة '%s' غير متوفر\n"
 
-#: src/cli/cli.vala:714
+#: src/cli/cli.vala:726
 #, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr "خطأ: الأداة '%s' لا تدعم %s\n"
 
-#: src/cli/cli.vala:721
+#: src/cli/cli.vala:733
 #, c-format
 msgid "Usage: %s\n"
 msgstr "الإستخدام: %s\n"
 
-#: src/cli/cli.vala:738
+#: src/cli/cli.vala:750
 msgid "Error: Invalid input, please enter a number\n"
 msgstr "خطأ: إدخال غير صحيح, الرجاء إدخال رقم\n"
 
-#: src/cli/cli.vala:744
+#: src/cli/cli.vala:756
 msgid "Error: Selection out of range\n"
 msgstr "خطأ: الإختيار خارج النِطَاق\n"
 
-#: src/cli/cli.vala:751
+#: src/cli/cli.vala:763
 msgid "Usage:\n"
 msgstr "الإستخدام:\n"
 
-#: src/cli/cli.vala:753
+#: src/cli/cli.vala:765
 msgid "Commands:\n"
 msgstr "الأوامر:\n"
 
-#: src/cli/cli.vala:754
+#: src/cli/cli.vala:766
 #, fuzzy
 msgid "Command"
 msgstr "الأوامر:\n"
 
-#: src/cli/cli.vala:754
+#: src/cli/cli.vala:766
 #, fuzzy
 msgid "Description"
 msgstr "المدة"
 
-#: src/cli/cli.vala:755
+#: src/cli/cli.vala:767
 #, fuzzy
 msgid "Show version"
 msgstr "أظهر النسخة"
 
-#: src/cli/cli.vala:756
+#: src/cli/cli.vala:768
 msgid "Show this help"
 msgstr "إظهار هذه المساعدة"
 
-#: src/cli/cli.vala:757
+#: src/cli/cli.vala:769
 #, fuzzy
 msgid "List launchers or installed runners"
 msgstr "أظهر البرامج المشغلة أو المشغلات"
 
-#: src/cli/cli.vala:758
+#: src/cli/cli.vala:770
 #, fuzzy
 msgid "Install runner"
 msgstr "تثبيت مٌشغل"
 
-#: src/cli/cli.vala:759
+#: src/cli/cli.vala:771
 #, fuzzy
 msgid "Uninstall runner"
 msgstr "إلغاء تثبيت مُشغل"
 
-#: src/cli/cli.vala:760
+#: src/cli/cli.vala:772
 #, fuzzy
 msgid "Update runner"
 msgstr "تحديث مٌشغل"
 
-#: src/cli/cli.vala:765
+#: src/cli/cli.vala:777
 msgid ""
 "\n"
 "Available launchers:\n"
@@ -321,12 +312,12 @@ msgstr ""
 "\n"
 "البرامج المُشغلة المتوفرة:\n"
 
-#: src/cli/cli.vala:770
+#: src/cli/cli.vala:782
 #, fuzzy
 msgid "Launcher ID"
 msgstr "البرامج المٌشغلة"
 
-#: src/cli/cli.vala:777
+#: src/cli/cli.vala:789
 #, c-format
 msgid ""
 "\n"
@@ -335,37 +326,37 @@ msgstr ""
 "\n"
 "المُشغلات المتوفرة لـ%s:\n"
 
-#: src/cli/cli.vala:793
+#: src/cli/cli.vala:805
 #, c-format
 msgid "ETA: %s"
 msgstr "الوقت المتوقع: %s"
 
-#: src/cli/cli.vala:795 src/widgets/header/header-downloads-indicator.vala:325
+#: src/cli/cli.vala:807 src/widgets/header/header-downloads-indicator.vala:325
 msgid "ETA: --"
 msgstr "الوقت المتوقع: --"
 
-#: src/cli/cli.vala:798 src/widgets/tools/tools-release-row.vala:790
+#: src/cli/cli.vala:810 src/widgets/tools/tools-release-row.vala:790
 #, fuzzy
 msgid "Updating"
 msgstr "جاري التحديث"
 
-#: src/cli/cli.vala:798 src/widgets/header/header-downloads-indicator.vala:315
+#: src/cli/cli.vala:810 src/widgets/header/header-downloads-indicator.vala:315
 #: src/widgets/tools/tools-release-row.vala:786
 #, fuzzy
 msgid "Installing"
 msgstr "جاري التثبيت"
 
-#: src/cli/cli.vala:811 src/widgets/tools/tools-release-row.vala:913
+#: src/cli/cli.vala:823 src/widgets/tools/tools-release-row.vala:913
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%dh %dm %ds"
 
-#: src/cli/cli.vala:813 src/widgets/tools/tools-release-row.vala:917
+#: src/cli/cli.vala:825 src/widgets/tools/tools-release-row.vala:917
 #, c-format
 msgid "%dm %ds"
 msgstr "%dm %ds"
 
-#: src/cli/cli.vala:815 src/widgets/tools/tools-release-row.vala:918
+#: src/cli/cli.vala:827 src/widgets/tools/tools-release-row.vala:918
 #, c-format
 msgid "%ds"
 msgstr "%ds"
@@ -6094,6 +6085,13 @@ msgid ""
 msgstr ""
 "التطبيق حالياً يعمل على تنزيل أداة.\n"
 "الخروج أثناء هذه العملية قد يتسبب في حدوث عدة مشاكل."
+
+#~ msgid "Detected launchers:\n"
+#~ msgstr "مشغلات البرامج المكتشفة:\n"
+
+#, c-format
+#~ msgid "Installed runners for %s:\n"
+#~ msgstr "المٌشغلات المثبتة لـ %s:\n"
 
 #~ msgid ""
 #~ "Start Steam manually. ProtonPlus will keep the reminder until it confirms "
