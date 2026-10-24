@@ -97,7 +97,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public LaunchCommandSelection? get_selection () {
             if (!option.is_active ()) return null;
             if (combo != null) return new LaunchCommandSelection (option_id, { combo.value });
-            if (pairs != null) return new LaunchCommandSelection (option_id, { pairs.value });
+            if (pairs != null) {
+                var value = pairs.value;
+                return value == "" ? null : new LaunchCommandSelection (option_id, { value });
+            }
             return null;
         }
     }

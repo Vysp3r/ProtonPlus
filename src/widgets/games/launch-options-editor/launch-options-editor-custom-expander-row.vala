@@ -13,6 +13,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         Gee.HashSet<string> predefined_keys;
 
         private Adw.EntryRow add_custom_row;
+        private bool allow_custom;
 
         public bool is_advanced { get; set; default = false; }
         Gtk.EventControllerKey key_controller;
@@ -21,7 +22,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             string switch_subtitle,
             string[] options_display,
             string[] options_values,
-            HashTable<string, string>? tooltips = null) {
+            HashTable<string, string>? tooltips = null, bool allow_custom = true) {
             Object (
                     title : switch_title,
                     subtitle : switch_subtitle,
@@ -34,6 +35,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             this.row_order = new Gee.ArrayList<string> ();
             this.predefined_keys = new Gee.HashSet<string> ();
             this.item_tooltips = tooltips;
+            this.allow_custom = allow_custom;
             this.set_tooltip_text (switch_subtitle);
 
             add_custom_row = new Adw.EntryRow ();
@@ -78,7 +80,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 create_item_row (key, "");
             }
 
-            this.add_row (add_custom_row);
+            if (allow_custom)
+                this.add_row (add_custom_row);
         }
 
         protected void create_item_row (string key_name, string initial_value) {
@@ -114,6 +117,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         private void on_custom_item_added () {
+            if (!allow_custom)
+                return;
             string custom_key = add_custom_row.text.strip ().down ();
 
             if (custom_key != "" && !rows_map.contains (custom_key)) {
@@ -131,9 +136,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         protected void force_add_custom_row (string key, string val) {
-            this.remove (add_custom_row);
+            if (allow_custom)
+                this.remove (add_custom_row);
             create_item_row (key, val);
-            this.add_row (add_custom_row);
+            if (allow_custom)
+                this.add_row (add_custom_row);
         }
 
         protected void clear_custom_items () {

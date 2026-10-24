@@ -162,6 +162,20 @@ namespace AppTests.LaunchCommandComposerTest {
         assert (radv.is_valid);
         assert (radv.launch_line == "RADV_PERFTEST='nggc,rtcps' %command%");
 
+        foreach (var id in new string[] { "vkd3d-config", "amd-radv-perftest", "amd-radv-debug", "amd-aco-debug" }) {
+            var context = new LaunchOptionCapability[] { LaunchOptionCapability.AMD, LaunchOptionCapability.VKD3D_PROTON };
+            var choices = LaunchOptionFlags.choices (id);
+            assert (choices.length > 0);
+            foreach (var choice in choices) {
+                assert (choice.description != "");
+                assert (compose ({ new LaunchCommandSelection (id, { choice.key }) }, context).is_valid);
+            }
+            var combined = string.joinv (",", LaunchOptionFlags.values (id));
+            assert (compose ({ new LaunchCommandSelection (id, { combined }) }, context).is_valid);
+            assert (!compose ({ new LaunchCommandSelection (id, { combined + ",unknown_flag" }) }, context).is_valid);
+            assert (!compose ({ new LaunchCommandSelection (id, { combined + "," }) }, context).is_valid);
+        }
+
         var invalid = compose ({
             new LaunchCommandSelection ("amd-radv-perftest", { "nggc,gpl" })
         }, { LaunchOptionCapability.AMD });
