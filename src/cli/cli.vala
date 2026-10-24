@@ -798,7 +798,7 @@ namespace ProtonPlus.CLI {
 
         private void on_progress_updated (Services.InstallJob job) {
             var speed = Utils.Filesystem.convert_bytes_to_string ((int64) (job.speed_kbps * 1024));
-            var progress = job.progress;
+            var progress = job.progress ?? "";
 
             string eta_text;
             if (job.seconds_remaining >= 0) {
@@ -809,7 +809,7 @@ namespace ProtonPlus.CLI {
 
             var label = job.state == Services.InstallJob.State.BUSY_UPDATING ? _ ("Updating") : _ ("Installing");
 
-            output.info ("\r\033[2K%s %s... %s (%s/s) [%s]\r", label, job.title, progress, speed, eta_text);
+            output.info ("\r\033[2K%s %s... %s · %s (%s/s) [%s]\r", label, job.title, job.download_status, progress, speed, eta_text);
             output.flush_stdout ();
         }
 

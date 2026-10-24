@@ -95,6 +95,7 @@ src/utils/internal/metainfo-loader.vala
 src/utils/mangohud-manager.vala
 src/utils/metadata.vala
 src/utils/parser.vala
+src/utils/partial-download-cache.vala
 src/utils/system.vala
 src/utils/theme-manager.vala
 src/utils/vdf/binary.vala

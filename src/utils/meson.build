@@ -3,6 +3,7 @@ sources += files(
     'archive-helper.vala',
     'filesystem.vala',
     'web.vala',
+    'partial-download-cache.vala',
     'parser.vala',
     'metadata.vala',
     'system.vala',

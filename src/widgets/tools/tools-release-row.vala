@@ -524,6 +524,11 @@ namespace ProtonPlus.Widgets.Tools {
             speed_label.set_visible (downloading);
             time_label.set_visible (downloading);
 
+            update_operation_labels ();
+            refresh_presentation ();
+        }
+
+        void update_operation_labels () {
             var operation_text = operation_step_text ();
             progress_status_label.set_label (operation_text);
             step_label.set_label (_("Step: %s").printf (operation_text));
@@ -539,8 +544,6 @@ namespace ProtonPlus.Widgets.Tools {
                 operation_text,
                 -1
             );
-
-            refresh_presentation ();
         }
 
         public void release_row_job_canceled_changed () {
@@ -826,7 +829,7 @@ namespace ProtonPlus.Widgets.Tools {
                 return _("Cancelling");
             switch (job.step) {
             case Services.InstallJob.Step.DOWNLOADING:
-                return _("Downloading");
+                return job.download_status;
             case Services.InstallJob.Step.EXTRACTING:
                 return _("Extracting");
             case Services.InstallJob.Step.MOVING:
@@ -874,6 +877,8 @@ namespace ProtonPlus.Widgets.Tools {
         public void release_row_job_progress_changed () {
             if (row_disposed)
                 return;
+            if (job.step == Services.InstallJob.Step.DOWNLOADING)
+                update_operation_labels ();
 
             if (job.is_percent && job.progress != null) {
                 var percentage = double.parse (job.progress.replace ("%", ""));
@@ -892,7 +897,7 @@ namespace ProtonPlus.Widgets.Tools {
                 );
             }
 
-            speed_label.set_label (_("Speed: %s/s").printf (
+            speed_label.set_label (job.download_phase != Utils.Web.DownloadPhase.DOWNLOADING ? job.download_status : _("Speed: %s/s").printf (
                 Utils.Filesystem.convert_bytes_to_string (
                     (int64) (job.speed_kbps * 1024)
                 )
