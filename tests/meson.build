@@ -71,6 +71,8 @@ test(
     'ProtonPlus unit tests',
     test_exe,
     protocol: 'tap',
+    # Network recovery fixtures exercise real socket timeouts and retry backoff.
+    timeout: 120,
     workdir: meson.current_source_dir(),
 )
 

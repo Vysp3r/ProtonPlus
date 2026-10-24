@@ -39,6 +39,17 @@ namespace ProtonPlus.Utils {
             while (active_cache_operations > 0)
                 yield wait_for_cache_state_change ();
 
+            int cache_lock = -1;
+            try {
+                while (cache_lock < 0) {
+                    cache_lock = PartialDownloadCache.lock_cache (Globals.CACHE_PATH, true);
+                    if (cache_lock < 0)
+                        yield wait_for_cache_state_change ();
+                }
+            } catch (Error e) {
+                clearing_cache = false;
+                return false;
+            }
             bool success = true;
             if (FileUtils.test (Globals.CACHE_PATH, FileTest.IS_DIR)) {
                 if (!yield Utils.Filesystem.delete_directory (Globals.CACHE_PATH))
@@ -48,6 +59,7 @@ namespace ProtonPlus.Utils {
             if (success)
                 success = Utils.Filesystem.create_directory (Globals.CACHE_PATH);
 
+            Posix.close (cache_lock);
             clearing_cache = false;
             return success;
         }

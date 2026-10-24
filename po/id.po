@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-24 13:26-0400\n"
+"POT-Creation-Date: 2026-10-24 14:15-0400\n"
 "PO-Revision-Date: 2026-09-04 07:51+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -324,26 +324,26 @@ msgstr "ETA: %s"
 msgid "ETA: --"
 msgstr "ETA: --"
 
-#: src/cli/cli.vala:810 src/widgets/tools/tools-release-row.vala:790
+#: src/cli/cli.vala:810 src/widgets/tools/tools-release-row.vala:793
 msgid "Updating"
 msgstr "Memperbarui"
 
 #: src/cli/cli.vala:810 src/widgets/header/header-downloads-indicator.vala:315
-#: src/widgets/tools/tools-release-row.vala:786
+#: src/widgets/tools/tools-release-row.vala:789
 msgid "Installing"
 msgstr "Menginstal"
 
-#: src/cli/cli.vala:823 src/widgets/tools/tools-release-row.vala:913
+#: src/cli/cli.vala:823 src/widgets/tools/tools-release-row.vala:918
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%dj %dm %dd"
 
-#: src/cli/cli.vala:825 src/widgets/tools/tools-release-row.vala:917
+#: src/cli/cli.vala:825 src/widgets/tools/tools-release-row.vala:922
 #, c-format
 msgid "%dm %ds"
 msgstr "%dm %dd"
 
-#: src/cli/cli.vala:827 src/widgets/tools/tools-release-row.vala:918
+#: src/cli/cli.vala:827 src/widgets/tools/tools-release-row.vala:923
 #, c-format
 msgid "%ds"
 msgstr "%dd"
@@ -528,7 +528,7 @@ msgstr ""
 "game Windows dengan peningkatan dibanding Proton default Valve."
 
 #: src/models/providers/definitions/proton.vala:35
-#: src/widgets/tools/tools-release-row.vala:770
+#: src/widgets/tools/tools-release-row.vala:773
 msgid "Recommended"
 msgstr "Direkomendasikan"
 
@@ -694,6 +694,21 @@ msgstr ""
 msgid "The operation could not be completed."
 msgstr "Operasi tidak dapat diselesaikan."
 
+#: src/services/install-job.vala:65
+#, c-format
+msgid "Waiting to retry in %d second (attempt %d)"
+msgid_plural "Waiting to retry in %d seconds (attempt %d)"
+msgstr[0] ""
+
+#: src/services/install-job.vala:69
+#, c-format
+msgid "Reconnecting (attempt %d)"
+msgstr ""
+
+#: src/services/install-job.vala:71
+msgid "Downloading"
+msgstr "Mengunduh"
+
 #: src/services/installation-service.vala:457
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
@@ -768,9 +783,63 @@ msgstr "Gagal memperbarui registrasi kompatibilitas SteamTinkerLaunch"
 msgid "Failed to initialize SteamTinkerLaunch"
 msgstr "Gagal menginisialisasi SteamTinkerLaunch"
 
-#: src/utils/web.vala:221
+#: src/utils/partial-download-cache.vala:17
+#, fuzzy
+msgid "Could not create cache parent"
+msgstr "Tidak dapat membuat pintasan di Steam"
+
+#: src/utils/partial-download-cache.vala:20
+msgid "Could not open download cache lock"
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:42
+msgid "The download cache is busy. Try again later."
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:46
+msgid "Symlink in partial cache path"
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:49
+msgid "Could not create partial download directory"
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:54
+msgid "This archive is already being downloaded. Try again later."
+msgstr ""
+
+#: src/utils/web.vala:291
 msgid "The download timed out. Check your connection and try again."
 msgstr "Unduhan berakhir waktu. Periksa koneksi Anda dan coba lagi."
+
+#: src/utils/web.vala:336
+#, c-format
+msgid "HTTP %u: %s"
+msgstr ""
+
+#: src/utils/web.vala:342
+msgid "Server rejected the download range"
+msgstr ""
+
+#: src/utils/web.vala:350
+msgid "Unexpected download content encoding"
+msgstr ""
+
+#: src/utils/web.vala:361
+msgid "Invalid resumed download response"
+msgstr ""
+
+#: src/utils/web.vala:424
+msgid "The download exceeded its expected size."
+msgstr ""
+
+#: src/utils/web.vala:453
+msgid "Incomplete download response"
+msgstr ""
+
+#: src/utils/web.vala:546 src/utils/web.vala:575
+msgid "Download recovery time limit reached. Retry to continue."
+msgstr ""
 
 #: src/widgets/application.vala:243
 msgid "Website"
@@ -1084,7 +1153,7 @@ msgstr "Aksi Game"
 
 #: src/widgets/games/games-extra-button.vala:91
 #: src/widgets/tools/tools-release-row.vala:209
-#: src/widgets/tools/tools-release-row.vala:570
+#: src/widgets/tools/tools-release-row.vala:573
 #, c-format
 msgid "Actions for %s"
 msgstr "Aksi untuk %s"
@@ -3946,28 +4015,23 @@ msgstr "Batas: %s/d"
 msgid "Cancel"
 msgstr "Batal"
 
-#: src/widgets/header/header-downloads-indicator.vala:284
-#: src/widgets/header/header-downloads-indicator.vala:286
-#: src/widgets/header/header-downloads-indicator.vala:288
-#: src/widgets/tools/tools-release-row.vala:550
-#: src/widgets/tools/tools-release-row.vala:826
+#: src/widgets/header/header-downloads-indicator.vala:283
+#: src/widgets/header/header-downloads-indicator.vala:285
+#: src/widgets/header/header-downloads-indicator.vala:287
+#: src/widgets/tools/tools-release-row.vala:553
+#: src/widgets/tools/tools-release-row.vala:829
 msgid "Cancelling"
 msgstr "Membatalkan"
 
-#: src/widgets/header/header-downloads-indicator.vala:311
-#: src/widgets/tools/tools-release-row.vala:829
-msgid "Downloading"
-msgstr "Mengunduh"
-
 #: src/widgets/header/header-downloads-indicator.vala:313
-#: src/widgets/tools/tools-release-row.vala:831
+#: src/widgets/tools/tools-release-row.vala:834
 msgid "Extracting"
 msgstr "Mengekstrak"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
-#: src/widgets/tools/tools-release-row.vala:794
-#: src/widgets/tools/tools-release-row.vala:835
-#: src/widgets/tools/tools-release-row.vala:840
+#: src/widgets/tools/tools-release-row.vala:797
+#: src/widgets/tools/tools-release-row.vala:838
+#: src/widgets/tools/tools-release-row.vala:843
 msgid "Removing"
 msgstr "Menghapus"
 
@@ -5424,8 +5488,8 @@ msgstr "Launcher Terdeteksi"
 #: src/widgets/preferences/preferences-dialog.vala:406
 #: src/widgets/tools/tools-box.vala:189
 #: src/widgets/tools/tools-group-box.vala:749
-#: src/widgets/tools/tools-release-row.vala:779
-#: src/widgets/tools/tools-release-row.vala:783
+#: src/widgets/tools/tools-release-row.vala:782
+#: src/widgets/tools/tools-release-row.vala:786
 msgid "Installed"
 msgstr "Terinstal"
 
@@ -5696,7 +5760,7 @@ msgid "Speed: 0 KB/s"
 msgstr "Kecepatan: 0 KB/s"
 
 #: src/widgets/tools/tools-release-row.vala:145
-#: src/widgets/tools/tools-release-row.vala:904
+#: src/widgets/tools/tools-release-row.vala:909
 msgid "Remaining time: --"
 msgstr "Sisa waktu: --"
 
@@ -5704,128 +5768,128 @@ msgstr "Sisa waktu: --"
 msgid "Release Actions"
 msgstr "Aksi Rilis"
 
-#: src/widgets/tools/tools-release-row.vala:529
+#: src/widgets/tools/tools-release-row.vala:534
 #, c-format
 msgid "Step: %s"
 msgstr "Langkah: %s"
 
-#: src/widgets/tools/tools-release-row.vala:532
+#: src/widgets/tools/tools-release-row.vala:537
 #, c-format
 msgid "%s for %s"
 msgstr "%s untuk %s"
 
-#: src/widgets/tools/tools-release-row.vala:537
+#: src/widgets/tools/tools-release-row.vala:542
 #, c-format
 msgid "Progress for %s"
 msgstr "Progres untuk %s"
 
-#: src/widgets/tools/tools-release-row.vala:594
 #: src/widgets/tools/tools-release-row.vala:597
+#: src/widgets/tools/tools-release-row.vala:600
 msgid "Latest"
 msgstr "Terbaru"
 
-#: src/widgets/tools/tools-release-row.vala:659
 #: src/widgets/tools/tools-release-row.vala:662
+#: src/widgets/tools/tools-release-row.vala:665
 #, c-format
 msgid "Install %s"
 msgstr "Instal %s"
 
-#: src/widgets/tools/tools-release-row.vala:668
-#: src/widgets/tools/tools-release-row.vala:725
+#: src/widgets/tools/tools-release-row.vala:671
+#: src/widgets/tools/tools-release-row.vala:728
 #: src/widgets/tools/tools-releases-box.vala:477
 #: src/widgets/tools/tools-releases-box.vala:489
 msgid "Retry"
 msgstr "Coba Lagi"
 
-#: src/widgets/tools/tools-release-row.vala:669
 #: src/widgets/tools/tools-release-row.vala:672
+#: src/widgets/tools/tools-release-row.vala:675
 #, c-format
 msgid "Retry %s"
 msgstr "Coba Lagi %s"
 
-#: src/widgets/tools/tools-release-row.vala:683
+#: src/widgets/tools/tools-release-row.vala:686
 #, c-format
 msgid "Cancelling %s"
 msgstr "Membatalkan %s"
 
-#: src/widgets/tools/tools-release-row.vala:684
+#: src/widgets/tools/tools-release-row.vala:687
 #, c-format
 msgid "Cancel %s"
 msgstr "Batal %s"
 
-#: src/widgets/tools/tools-release-row.vala:709
+#: src/widgets/tools/tools-release-row.vala:712
 msgid "_Changelog"
 msgstr "_Catatan Perubahan"
 
-#: src/widgets/tools/tools-release-row.vala:712
+#: src/widgets/tools/tools-release-row.vala:715
 msgid "Open Release Page"
 msgstr "Buka Halaman Rilis"
 
-#: src/widgets/tools/tools-release-row.vala:717
+#: src/widgets/tools/tools-release-row.vala:720
 msgid "_Games Using This Tool"
 msgstr "_Game yang Menggunakan Alat Ini"
 
-#: src/widgets/tools/tools-release-row.vala:727
+#: src/widgets/tools/tools-release-row.vala:730
 msgid "Update"
 msgstr "Perbarui"
 
-#: src/widgets/tools/tools-release-row.vala:728
+#: src/widgets/tools/tools-release-row.vala:731
 msgid "_Check for Updates"
 msgstr "_Periksa Pembaruan"
 
-#: src/widgets/tools/tools-release-row.vala:732
+#: src/widgets/tools/tools-release-row.vala:735
 msgid "_Open Folder"
 msgstr "_Buka Folder"
 
-#: src/widgets/tools/tools-release-row.vala:734
+#: src/widgets/tools/tools-release-row.vala:737
 msgid "_Delete…"
 msgstr "_Hapus…"
 
-#: src/widgets/tools/tools-release-row.vala:772
+#: src/widgets/tools/tools-release-row.vala:775
 msgid "Failed"
 msgstr "Gagal"
 
-#: src/widgets/tools/tools-release-row.vala:780
+#: src/widgets/tools/tools-release-row.vala:783
 msgid "Update available"
 msgstr "Pembaruan tersedia"
 
-#: src/widgets/tools/tools-release-row.vala:799
+#: src/widgets/tools/tools-release-row.vala:802
 msgid "Unavailable for the selected variant"
 msgstr "Tidak tersedia untuk varian yang dipilih"
 
-#: src/widgets/tools/tools-release-row.vala:804
+#: src/widgets/tools/tools-release-row.vala:807
 #, c-format
 msgid "In use by %i game"
 msgid_plural "In use by %i games"
 msgstr[0] "Digunakan oleh %i game"
 
-#: src/widgets/tools/tools-release-row.vala:818
+#: src/widgets/tools/tools-release-row.vala:821
 #, c-format
 msgid "%s. Open Release Details"
 msgstr "%s. Buka Detail Rilis"
 
-#: src/widgets/tools/tools-release-row.vala:819
+#: src/widgets/tools/tools-release-row.vala:822
 msgid "Open Release Details"
 msgstr "Buka Detail Rilis"
 
-#: src/widgets/tools/tools-release-row.vala:833
+#: src/widgets/tools/tools-release-row.vala:836
 msgid "Moving"
 msgstr "Memindahkan"
 
-#: src/widgets/tools/tools-release-row.vala:838
+#: src/widgets/tools/tools-release-row.vala:841
 msgid "Preparing update"
 msgstr "Menyiapkan pembaruan"
 
-#: src/widgets/tools/tools-release-row.vala:841
+#: src/widgets/tools/tools-release-row.vala:844
 msgid "Preparing installation"
 msgstr "Menyiapkan instalasi"
 
-#: src/widgets/tools/tools-release-row.vala:895
+#: src/widgets/tools/tools-release-row.vala:900
 #, c-format
 msgid "Speed: %s/s"
 msgstr "Kecepatan: %s/d"
 
-#: src/widgets/tools/tools-release-row.vala:901
+#: src/widgets/tools/tools-release-row.vala:906
 #, c-format
 msgid "Remaining time: %s"
 msgstr "Sisa waktu: %s"
@@ -6386,9 +6450,6 @@ msgstr ""
 
 #~ msgid "Couldn't delete the shortcut in Steam"
 #~ msgstr "Tidak dapat menghapus pintasan di Steam"
-
-#~ msgid "Couldn't create the shortcut in Steam"
-#~ msgstr "Tidak dapat membuat pintasan di Steam"
 
 #, fuzzy
 #~ msgid ""

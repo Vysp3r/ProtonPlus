@@ -55,6 +55,23 @@ namespace ProtonPlus.Services {
         }
 
         public string? progress { get; internal set; default = null; }
+        public Utils.Web.DownloadPhase download_phase { get; private set; default = Utils.Web.DownloadPhase.DOWNLOADING; }
+        public int download_attempt { get; private set; default = 1; }
+        public int retry_delay_seconds { get; private set; default = 0; }
+        public string download_status {
+            owned get {
+                switch (download_phase) {
+                case Utils.Web.DownloadPhase.WAITING:
+                    return ngettext ("Waiting to retry in %d second (attempt %d)",
+                                     "Waiting to retry in %d seconds (attempt %d)", retry_delay_seconds)
+                        .printf (retry_delay_seconds, download_attempt);
+                case Utils.Web.DownloadPhase.RECONNECTING:
+                    return _("Reconnecting (attempt %d)").printf (download_attempt);
+                default:
+                    return _("Downloading");
+                }
+            }
+        }
         public double speed_kbps { get; internal set; default = 0.0; }
         public double seconds_remaining { get; internal set; default = -1.0; }
         public bool is_percent { get; internal set; default = false; }
@@ -223,7 +240,7 @@ namespace ProtonPlus.Services {
         // Small overridable I/O seams keep transaction characterization tests
         // local without making InstallJob own a filesystem transaction.
         public virtual async bool download_archive (string url, string path, out string? error_message) {
-            return yield Utils.Web.download (url, path, operation_cancellable, report_progress, out error_message);
+            return yield Utils.PartialDownloadCache.download (selected_asset, url, path, operation_cancellable, report_progress, report_recovery, out error_message);
         }
 
         public virtual async bool promote_staged_installation (string staged_install_path) {
@@ -243,6 +260,9 @@ namespace ProtonPlus.Services {
             install_success = false;
             error_message = null;
             progress = null;
+            download_phase = Utils.Web.DownloadPhase.DOWNLOADING;
+            download_attempt = 1;
+            retry_delay_seconds = 0;
             speed_kbps = 0.0;
             seconds_remaining = -1.0;
             is_percent = false;
@@ -266,6 +286,16 @@ namespace ProtonPlus.Services {
             if (state == State.BUSY_INSTALLING || state == State.BUSY_REMOVING || state == State.BUSY_UPDATING)
                 state = State.NOT_INSTALLED;
             refresh_state ();
+        }
+
+        internal void report_recovery (Utils.Web.DownloadPhase phase, int attempt, int delay) {
+            download_phase = phase;
+            download_attempt = attempt;
+            retry_delay_seconds = delay;
+            speed_kbps = 0;
+            seconds_remaining = -1;
+            progress_updated ();
+            Utils.DownloadManager.instance.progress_updated (this);
         }
 
         internal void report_progress (bool is_percent, int64 progress, double speed_kbps, double? remaining_seconds) {

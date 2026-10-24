@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: speedtest\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-24 13:26-0400\n"
+"POT-Creation-Date: 2026-10-24 14:15-0400\n"
 "PO-Revision-Date: 2026-09-29 13:51+0000\n"
 "Last-Translator: Димко <Dymkovych@proton.me>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/protonplus/"
@@ -326,26 +326,26 @@ msgstr "Час: %s"
 msgid "ETA: --"
 msgstr "Час: --"
 
-#: src/cli/cli.vala:810 src/widgets/tools/tools-release-row.vala:790
+#: src/cli/cli.vala:810 src/widgets/tools/tools-release-row.vala:793
 msgid "Updating"
 msgstr "Оновлення"
 
 #: src/cli/cli.vala:810 src/widgets/header/header-downloads-indicator.vala:315
-#: src/widgets/tools/tools-release-row.vala:786
+#: src/widgets/tools/tools-release-row.vala:789
 msgid "Installing"
 msgstr "Встановлення"
 
-#: src/cli/cli.vala:823 src/widgets/tools/tools-release-row.vala:913
+#: src/cli/cli.vala:823 src/widgets/tools/tools-release-row.vala:918
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%d год %d хв %d с"
 
-#: src/cli/cli.vala:825 src/widgets/tools/tools-release-row.vala:917
+#: src/cli/cli.vala:825 src/widgets/tools/tools-release-row.vala:922
 #, c-format
 msgid "%dm %ds"
 msgstr "%d хв %d с"
 
-#: src/cli/cli.vala:827 src/widgets/tools/tools-release-row.vala:918
+#: src/cli/cli.vala:827 src/widgets/tools/tools-release-row.vala:923
 #, c-format
 msgid "%ds"
 msgstr "%d с"
@@ -527,7 +527,7 @@ msgstr ""
 "покращеннями порівняно зі стандартним Proton від Valve."
 
 #: src/models/providers/definitions/proton.vala:35
-#: src/widgets/tools/tools-release-row.vala:770
+#: src/widgets/tools/tools-release-row.vala:773
 msgid "Recommended"
 msgstr "Рекомендовано"
 
@@ -693,6 +693,24 @@ msgstr ""
 msgid "The operation could not be completed."
 msgstr "Не вдалося завершити операцію."
 
+#: src/services/install-job.vala:65
+#, c-format
+msgid "Waiting to retry in %d second (attempt %d)"
+msgid_plural "Waiting to retry in %d seconds (attempt %d)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+
+#: src/services/install-job.vala:69
+#, c-format
+msgid "Reconnecting (attempt %d)"
+msgstr ""
+
+#: src/services/install-job.vala:71
+msgid "Downloading"
+msgstr "Завантаження"
+
 #: src/services/installation-service.vala:457
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
@@ -767,9 +785,62 @@ msgstr "Не вдалося оновити реєстрацію суміснос
 msgid "Failed to initialize SteamTinkerLaunch"
 msgstr "Не вдалося ініціалізувати SteamTinkerLaunch"
 
-#: src/utils/web.vala:221
+#: src/utils/partial-download-cache.vala:17
+msgid "Could not create cache parent"
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:20
+msgid "Could not open download cache lock"
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:42
+msgid "The download cache is busy. Try again later."
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:46
+msgid "Symlink in partial cache path"
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:49
+msgid "Could not create partial download directory"
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:54
+msgid "This archive is already being downloaded. Try again later."
+msgstr ""
+
+#: src/utils/web.vala:291
 msgid "The download timed out. Check your connection and try again."
 msgstr "Час очікування вичерпано. Перевірте з'єднання та спробуйте ще раз."
+
+#: src/utils/web.vala:336
+#, c-format
+msgid "HTTP %u: %s"
+msgstr ""
+
+#: src/utils/web.vala:342
+msgid "Server rejected the download range"
+msgstr ""
+
+#: src/utils/web.vala:350
+msgid "Unexpected download content encoding"
+msgstr ""
+
+#: src/utils/web.vala:361
+msgid "Invalid resumed download response"
+msgstr ""
+
+#: src/utils/web.vala:424
+msgid "The download exceeded its expected size."
+msgstr ""
+
+#: src/utils/web.vala:453
+msgid "Incomplete download response"
+msgstr ""
+
+#: src/utils/web.vala:546 src/utils/web.vala:575
+msgid "Download recovery time limit reached. Retry to continue."
+msgstr ""
 
 #: src/widgets/application.vala:243
 msgid "Website"
@@ -1081,7 +1152,7 @@ msgstr "Дії з грою"
 
 #: src/widgets/games/games-extra-button.vala:91
 #: src/widgets/tools/tools-release-row.vala:209
-#: src/widgets/tools/tools-release-row.vala:570
+#: src/widgets/tools/tools-release-row.vala:573
 #, c-format
 msgid "Actions for %s"
 msgstr "Дії для %s"
@@ -3878,28 +3949,23 @@ msgstr "Ліміт: %s/с"
 msgid "Cancel"
 msgstr "Скасувати"
 
-#: src/widgets/header/header-downloads-indicator.vala:284
-#: src/widgets/header/header-downloads-indicator.vala:286
-#: src/widgets/header/header-downloads-indicator.vala:288
-#: src/widgets/tools/tools-release-row.vala:550
-#: src/widgets/tools/tools-release-row.vala:826
+#: src/widgets/header/header-downloads-indicator.vala:283
+#: src/widgets/header/header-downloads-indicator.vala:285
+#: src/widgets/header/header-downloads-indicator.vala:287
+#: src/widgets/tools/tools-release-row.vala:553
+#: src/widgets/tools/tools-release-row.vala:829
 msgid "Cancelling"
 msgstr "Скасування"
 
-#: src/widgets/header/header-downloads-indicator.vala:311
-#: src/widgets/tools/tools-release-row.vala:829
-msgid "Downloading"
-msgstr "Завантаження"
-
 #: src/widgets/header/header-downloads-indicator.vala:313
-#: src/widgets/tools/tools-release-row.vala:831
+#: src/widgets/tools/tools-release-row.vala:834
 msgid "Extracting"
 msgstr "Розпакування"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
-#: src/widgets/tools/tools-release-row.vala:794
-#: src/widgets/tools/tools-release-row.vala:835
-#: src/widgets/tools/tools-release-row.vala:840
+#: src/widgets/tools/tools-release-row.vala:797
+#: src/widgets/tools/tools-release-row.vala:838
+#: src/widgets/tools/tools-release-row.vala:843
 msgid "Removing"
 msgstr "Вилучення"
 
@@ -5356,8 +5422,8 @@ msgstr "Виявлені запускачі"
 #: src/widgets/preferences/preferences-dialog.vala:406
 #: src/widgets/tools/tools-box.vala:189
 #: src/widgets/tools/tools-group-box.vala:749
-#: src/widgets/tools/tools-release-row.vala:779
-#: src/widgets/tools/tools-release-row.vala:783
+#: src/widgets/tools/tools-release-row.vala:782
+#: src/widgets/tools/tools-release-row.vala:786
 msgid "Installed"
 msgstr "Встановлено"
 
@@ -5631,7 +5697,7 @@ msgid "Speed: 0 KB/s"
 msgstr "Швидкість: 0 КБ/с"
 
 #: src/widgets/tools/tools-release-row.vala:145
-#: src/widgets/tools/tools-release-row.vala:904
+#: src/widgets/tools/tools-release-row.vala:909
 msgid "Remaining time: --"
 msgstr "Залишилося часу: --"
 
@@ -5639,96 +5705,96 @@ msgstr "Залишилося часу: --"
 msgid "Release Actions"
 msgstr "Дії з випуском"
 
-#: src/widgets/tools/tools-release-row.vala:529
+#: src/widgets/tools/tools-release-row.vala:534
 #, c-format
 msgid "Step: %s"
 msgstr "Крок: %s"
 
-#: src/widgets/tools/tools-release-row.vala:532
+#: src/widgets/tools/tools-release-row.vala:537
 #, c-format
 msgid "%s for %s"
 msgstr "%s для %s"
 
-#: src/widgets/tools/tools-release-row.vala:537
+#: src/widgets/tools/tools-release-row.vala:542
 #, c-format
 msgid "Progress for %s"
 msgstr "Прогрес для %s"
 
-#: src/widgets/tools/tools-release-row.vala:594
 #: src/widgets/tools/tools-release-row.vala:597
+#: src/widgets/tools/tools-release-row.vala:600
 msgid "Latest"
 msgstr "Останній"
 
-#: src/widgets/tools/tools-release-row.vala:659
 #: src/widgets/tools/tools-release-row.vala:662
+#: src/widgets/tools/tools-release-row.vala:665
 #, c-format
 msgid "Install %s"
 msgstr "Встановити %s"
 
-#: src/widgets/tools/tools-release-row.vala:668
-#: src/widgets/tools/tools-release-row.vala:725
+#: src/widgets/tools/tools-release-row.vala:671
+#: src/widgets/tools/tools-release-row.vala:728
 #: src/widgets/tools/tools-releases-box.vala:477
 #: src/widgets/tools/tools-releases-box.vala:489
 msgid "Retry"
 msgstr "Повторити"
 
-#: src/widgets/tools/tools-release-row.vala:669
 #: src/widgets/tools/tools-release-row.vala:672
+#: src/widgets/tools/tools-release-row.vala:675
 #, c-format
 msgid "Retry %s"
 msgstr "Повторити %s"
 
-#: src/widgets/tools/tools-release-row.vala:683
+#: src/widgets/tools/tools-release-row.vala:686
 #, c-format
 msgid "Cancelling %s"
 msgstr "Скасування %s"
 
-#: src/widgets/tools/tools-release-row.vala:684
+#: src/widgets/tools/tools-release-row.vala:687
 #, c-format
 msgid "Cancel %s"
 msgstr "Скасувати %s"
 
-#: src/widgets/tools/tools-release-row.vala:709
+#: src/widgets/tools/tools-release-row.vala:712
 msgid "_Changelog"
 msgstr "_Історія змін"
 
-#: src/widgets/tools/tools-release-row.vala:712
+#: src/widgets/tools/tools-release-row.vala:715
 msgid "Open Release Page"
 msgstr "Cторінка випуску"
 
-#: src/widgets/tools/tools-release-row.vala:717
+#: src/widgets/tools/tools-release-row.vala:720
 msgid "_Games Using This Tool"
 msgstr "І_гри, що використовують цей засіб"
 
-#: src/widgets/tools/tools-release-row.vala:727
+#: src/widgets/tools/tools-release-row.vala:730
 msgid "Update"
 msgstr "Оновити"
 
-#: src/widgets/tools/tools-release-row.vala:728
+#: src/widgets/tools/tools-release-row.vala:731
 msgid "_Check for Updates"
 msgstr "_Шукати оновлення"
 
-#: src/widgets/tools/tools-release-row.vala:732
+#: src/widgets/tools/tools-release-row.vala:735
 msgid "_Open Folder"
 msgstr "_Відкрити теку"
 
-#: src/widgets/tools/tools-release-row.vala:734
+#: src/widgets/tools/tools-release-row.vala:737
 msgid "_Delete…"
 msgstr "_Видалити…"
 
-#: src/widgets/tools/tools-release-row.vala:772
+#: src/widgets/tools/tools-release-row.vala:775
 msgid "Failed"
 msgstr "Помилка"
 
-#: src/widgets/tools/tools-release-row.vala:780
+#: src/widgets/tools/tools-release-row.vala:783
 msgid "Update available"
 msgstr "Доступне оновлення"
 
-#: src/widgets/tools/tools-release-row.vala:799
+#: src/widgets/tools/tools-release-row.vala:802
 msgid "Unavailable for the selected variant"
 msgstr "Недоступно для вибраного варіанта"
 
-#: src/widgets/tools/tools-release-row.vala:804
+#: src/widgets/tools/tools-release-row.vala:807
 #, c-format
 msgid "In use by %i game"
 msgid_plural "In use by %i games"
@@ -5737,33 +5803,33 @@ msgstr[1] "Використовується у %i іграх"
 msgstr[2] "Використовується в %i іграх"
 msgstr[3] "Використовується в %i грі"
 
-#: src/widgets/tools/tools-release-row.vala:818
+#: src/widgets/tools/tools-release-row.vala:821
 #, c-format
 msgid "%s. Open Release Details"
 msgstr "%s. Відкрити деталі випуску"
 
-#: src/widgets/tools/tools-release-row.vala:819
+#: src/widgets/tools/tools-release-row.vala:822
 msgid "Open Release Details"
 msgstr "Відкрити деталі випуску"
 
-#: src/widgets/tools/tools-release-row.vala:833
+#: src/widgets/tools/tools-release-row.vala:836
 msgid "Moving"
 msgstr "Переміщення"
 
-#: src/widgets/tools/tools-release-row.vala:838
+#: src/widgets/tools/tools-release-row.vala:841
 msgid "Preparing update"
 msgstr "Підготовка оновлення"
 
-#: src/widgets/tools/tools-release-row.vala:841
+#: src/widgets/tools/tools-release-row.vala:844
 msgid "Preparing installation"
 msgstr "Підготовка встановлення"
 
-#: src/widgets/tools/tools-release-row.vala:895
+#: src/widgets/tools/tools-release-row.vala:900
 #, c-format
 msgid "Speed: %s/s"
 msgstr "Швидкість: %s/с"
 
-#: src/widgets/tools/tools-release-row.vala:901
+#: src/widgets/tools/tools-release-row.vala:906
 #, c-format
 msgid "Remaining time: %s"
 msgstr "Залишилося часу: %s"

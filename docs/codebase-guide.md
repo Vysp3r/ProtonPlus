@@ -167,6 +167,58 @@ state. This minimizes the check-to-mutation race; it cannot provide
 kernel-level locking against a compatibility process starting in the final few
 instructions between the snapshot and the filesystem mutation.
 
+### Download recovery
+
+`Utils.Web` owns HTTP recovery. Downloads use a separate Soup session with a
+30-second socket inactivity timeout; API sessions retain libsoup's original
+timeout policy. Both use the same configured proxy resolver and user agent.
+Every attempt starts from the catalog URL and follows redirects anew, so an
+expired redirected URL is never persisted as an asset identity.
+
+The recovery window is **10 minutes from the first interruption**, including
+subsequent transfers and waits, with **32 total attempts** as a second bound.
+It does not reset when some bytes arrive. Backoff grows 1/2/4/8/16/30 seconds,
+then stays at 30. Numeric and HTTP-date `Retry-After` can extend that wait; if
+it exceeds the remaining recovery window, the operation fails without retrying
+early. A timer cancels an in-flight request when the recovery window expires.
+Transient socket/DNS errors and HTTP 408/429/500/502/503/504 are recoverable.
+Other HTTP statuses, TLS, local filesystem, and validation failures are terminal.
+
+`InstallJob` exposes downloading, waiting to retry (countdown and next attempt),
+and reconnecting states to the existing GUI and CLI progress paths. Waiting
+preserves progress and clears speed/ETA; Cancel remains responsive. Transfer
+speed uses a three-second exponentially smoothed estimate, reset for each
+accepted response, so waits, saved bytes, and discarded transfers cannot inflate
+speed or ETA. Unknown totals report bytes with no ETA; all attempts retain the
+shared global speed limiter.
+
+`PartialDownloadCache` owns unvalidated bytes under `partials/`, separate from
+validated `archives/`. Version-1 metadata records catalog asset identity (URL,
+name, size, digest), strong ETag, byte count, total representation length, identity
+encoding, and update time. A new operation checks metadata types/version, expiry,
+regular files without following symlinks, and exact byte count before sending
+`Range`/`If-Range`. Missing or weak validators cannot resume. A `206` must match
+the validator, offset, total, and complete remaining range. A `200` replaces the
+partial; a `416` abandons the validator and retries a full download. Malformed
+responses are discarded, never appended. Completed downloads still undergo the
+workflow's size/digest and extraction validation before archive publication.
+
+Recoverable terminal failures retain eligible partials for manual Retry and a
+later application launch. Explicit Cancel, permanent failure, invalid metadata,
+and validation failure discard partials. Only interrupted transfers with a
+strong validator are retained; metadata is checkpointed after terminal recovery,
+so a process crash during transfer may safely fall back to a fresh download.
+Per-asset OS locks reject concurrent writers, including other processes. A shared
+cache lock prevents clearing active downloads; its small lock file lives beside
+the disposable cache tree so clearing cannot replace a locked inode.
+
+Cleanup runs off the UI thread before/after downloads, under an exclusive cache
+lock, and never prunes active transfers. Retained partials expire after **7 days**;
+cleanup keeps at most **32 entries / 2 GiB total**, preferring recent entries.
+Active transfers are exempt from these retention limits; when all leases finish,
+cleanup applies them. Clear Cache waits for active operations and removes both
+partial and completed archives, while Steam restart state remains outside cache.
+
 ### Steam configuration and restart lifecycle
 
 Steam-owned files have a separate safety boundary:
