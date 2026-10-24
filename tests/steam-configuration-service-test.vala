@@ -660,7 +660,37 @@ namespace AppTests.SteamConfigurationServiceTest {
         loop.run (); return (!) result;
     }
 
+    private void test_tinkergame_reassignment_preserves_launch_options () {
+        var root = temporary_root (); string config; string localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var launcher = steam (root);
+        var backend = new SessionFixture ();
+        SteamRestartManager manager;
+        var service = service_for (root, backend, out manager);
+        var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+        assert (service.change_game_compatibility_tool (game, "Proton-stl").result == SteamConfigurationMutationResult.CHANGED);
+        var raw = "steamtinkerlaunch %command% 'steamtinkerlaunch quoted'";
+        assert (service.change_game_launch_options (game, raw, localconfig).result == SteamConfigurationMutationResult.CHANGED);
+        var original_launch = read (localconfig);
+        set_running (backend, launcher.get_steam_restart_target ());
+        assert (service.change_game_compatibility_tool (game, "Proton-tg").result == SteamConfigurationMutationResult.STAGED);
+        assert (read (config).contains ("Proton-stl"));
+        assert (!read (config).contains ("Proton-tg"));
+        // Reload persisted intents, then reconcile only after confirmed stop.
+        SteamRestartManager reloaded_manager;
+        var reloaded = service_for (root, backend, out reloaded_manager);
+        backend.native_query = new NativeProcessQuery (true);
+        assert (reloaded.reconcile_target (launcher.get_steam_restart_target ()).result == SteamConfigurationMutationResult.CHANGED);
+        assert (read (config).contains ("Proton-tg"));
+        assert (!read (config).contains ("Proton-stl"));
+        assert (read (localconfig) == original_launch);
+        SteamChangeKind legacy_kind;
+        assert (SteamChangeReceipt.try_kind_from_identifier ("steamtinkerlaunch-changed", out legacy_kind));
+        assert (legacy_kind == SteamChangeKind.STEAMTINKERLAUNCH_CHANGED);
+    }
+
     public void register_tests () {
+        Test.add_func ("/steam-configuration/tinkergame-reassignment-preserves-launch-options", test_tinkergame_reassignment_preserves_launch_options);
         Test.add_func ("/steam-configuration/stopped-edit-replaces-pending", test_stopped_edit_replaces_pending_configuration);
         Test.add_func ("/steam-configuration/stopped-edit-persistence-failure", test_stopped_edit_cleanup_persistence_failure);
         Test.add_func ("/steam-configuration/automatic-reconciliation-diagnostics", test_automatic_reconciliation_reports_failure);

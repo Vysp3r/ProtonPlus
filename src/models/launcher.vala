@@ -203,6 +203,7 @@ namespace ProtonPlus.Models {
                     }
 
                     if (launcher is Launchers.Steam && category == Category.PROTON) {
+                        app_group.tools.add (new Tools.TinkerGame (app_group));
                         app_group.tools.add (new Tools.SteamTinkerLaunch (app_group));
                     }
 

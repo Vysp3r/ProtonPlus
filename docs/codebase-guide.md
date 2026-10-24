@@ -84,7 +84,7 @@ detected installations, and then initializes each launcher:
 3. Create a `Group` with an `InstalledToolInventory`.
 4. Filter the `ProviderRegistry` definitions through launcher capabilities and
    ask `ProviderCatalog` to create `ProviderTool` instances.
-5. Add the specialized SteamTinkerLaunch tool for Steam's Proton group.
+5. Add TinkerGame and the retained legacy SteamTinkerLaunch tool for Steam's Proton group.
 6. Load the launcher library and, for Steam, profiles plus effective staged
    configuration overlays.
 
@@ -159,6 +159,9 @@ filesystem. It then:
 the result, restores the previous installation on failed replacement, writes
 metadata, and cleans owned temporary paths. `SteamTinkerLaunchWorkflow` is a
 separate transaction because its layout and lifecycle materially differ.
+`TinkerGameWorkflow` specializes archive preparation to validate the required
+runtime and stage its Steam registration with the installation; see
+[`tinkergame.md`](tinkergame.md) for supported targets and migration policy.
 
 Operations that can change an existing compatibility tool perform a second
 asynchronous, target-aware process check at the workflow's final mutation

@@ -267,6 +267,17 @@ namespace ProtonPlus.CLI {
                 group.refresh_installed_state ();
                 var installed = group.get_installed_tool_snapshot ();
                 var group_found = false;
+                foreach (var tool in group.tools) {
+                    if (!(tool is Models.Tools.TinkerGame) && !(tool is Models.Tools.SteamTinkerLaunch))
+                        continue;
+                    var entry = tool.resolved_installed_entry;
+                    if (entry == null)
+                        continue;
+                    table.add ({ get_runner_id (tool), entry.tag != "" ? entry.tag : "—", tool.title },
+                        group_found ? null : group.title);
+                    group_found = true;
+                    found = true;
+                }
                 foreach (var entry in installed) {
                     // Preserve the former directory helper's runtime exclusion.
                     if (entry.directory_name == "LegacyRuntime")
@@ -302,6 +313,9 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
+            if (runner is Models.Tools.TinkerGame || runner is Models.Tools.SteamTinkerLaunch)
+                return yield handle_specialized_tool (runner, CMD_INSTALL);
+
             var provider_tool = get_provider_tool (runner, CMD_INSTALL);
             if (provider_tool == null) {
                 return 1;
@@ -329,6 +343,9 @@ namespace ProtonPlus.CLI {
             if (runner == null) {
                 return 1;
             }
+
+            if (runner is Models.Tools.TinkerGame || runner is Models.Tools.SteamTinkerLaunch)
+                return yield handle_specialized_tool (runner, CMD_UNINSTALL);
 
             var provider_tool = get_provider_tool (runner, CMD_UNINSTALL);
             if (provider_tool == null) {
@@ -359,6 +376,9 @@ namespace ProtonPlus.CLI {
                     return 1;
                 }
 
+                if (runner is Models.Tools.TinkerGame || runner is Models.Tools.SteamTinkerLaunch)
+                    return yield handle_specialized_tool (runner, CMD_UPDATE);
+
                 var provider_tool = get_provider_tool (runner, CMD_UPDATE);
                 if (provider_tool == null) {
                     return 1;
@@ -366,6 +386,46 @@ namespace ProtonPlus.CLI {
                 return yield update_runner (provider_tool);
             }
             return yield update_launcher (launcher);
+        }
+
+        private async int handle_specialized_tool (Models.Tool tool, string operation) {
+            var catalog = tool.release_catalog;
+            if (catalog == null)
+                return 1;
+            Models.Release release;
+            if (operation == CMD_UNINSTALL && tool is Models.Tools.TinkerGame) {
+                // Removal uses local ownership, so it must also work offline.
+                release = new Models.Release (tool.title, "", "", new Models.Assets.Asset ("", ""),
+                    "", 0, "", "", Models.Release.Kind.TINKER_GAME);
+            } else {
+                var loaded = yield catalog.load (true);
+                if (!loaded.succeeded || catalog.releases.size == 0)
+                    return 1;
+                release = catalog.releases[0];
+            }
+            var job = new Services.InstallJob (release, tool);
+            // Legacy IDs always refer to the legacy product. Keep removal and
+            // updates available, but direct new users to its successor.
+            if (job.steam_tinker_launch_context != null) {
+                if (operation == CMD_INSTALL) {
+                    output.error (_("SteamTinkerLaunch is legacy. Install tinkergame for a new installation.\n"));
+                    return 1;
+                }
+                if (operation == CMD_UPDATE)
+                    yield Services.InstallationService.instance.refresh_steam_tinker_launch_release (job);
+            }
+            ReturnCode result;
+            if (operation == CMD_UNINSTALL)
+                result = yield job.remove ();
+            else if (operation == CMD_UPDATE)
+                result = yield job.update ();
+            else
+                result = yield job.install ();
+            var success = result == ReturnCode.RUNNER_INSTALLED || result == ReturnCode.RUNNER_UPDATED ||
+                result == ReturnCode.RUNNER_REMOVED || result == ReturnCode.NOTHING_TO_UPDATE;
+            if (!success)
+                output.error ("%s: %s\n", tool.title, job.error_message ?? get_return_code_message (result));
+            return success ? 0 : 1;
         }
 
         private async int install_latest (Models.Tools.ProviderTool provider_tool) {
