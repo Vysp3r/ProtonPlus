@@ -6,26 +6,12 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         public LaunchOptionRadvPerftest () {
 
-            string[] keys = {
-                "cswave32",
-                "dccmsaa",
-                "dmashaders",
-                "gewave32",
-                "localbos",
-                "lowlatencydec",
-                "lowlatencyenc",
-                "nggc",
-                "nircache",
-                "nogttspill",
-                "nosam",
-                "pswave32",
-                "rtcps"
-            };
+            var keys = LaunchOptionFlags.values ("amd-radv-perftest");
 
             string[] display_opts = { _ ("Disabled"), _ ("Enabled") };
             string[] value_opts = { "", "1" };
 
-            var tooltips = new HashTable<string, string> (str_hash, str_equal);
+            var tooltips = LaunchOptionFlags.descriptions ("amd-radv-perftest");
 
             base (
                 _ ("AMD RADV Performance Tests"),
@@ -37,7 +23,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 value_opts,
                 tooltips,
                 ",",
-                "RADV_PERFTEST"
+                "RADV_PERFTEST",
+                false
             );
         }
     }

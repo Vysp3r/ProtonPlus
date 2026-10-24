@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-24 14:15-0400\n"
+"POT-Creation-Date: 2026-10-24 15:34-0400\n"
 "PO-Revision-Date: 2026-08-13 21:34+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
@@ -1219,15 +1219,15 @@ msgstr "Anti-Cheat: %s"
 msgid "Select executable"
 msgstr "Vybrat spustitelný soubor"
 
-#: src/widgets/games/games-extra-button.vala:219
+#: src/widgets/games/games-extra-button.vala:241
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr "Spustitelné (*.exe, *.msi, *.msu)"
 
-#: src/widgets/games/games-extra-button.vala:249
+#: src/widgets/games/games-extra-button.vala:271
 msgid "Compatibility Tool Not Found"
 msgstr "Nástroj kompatibility nebyl nalezen"
 
-#: src/widgets/games/games-extra-button.vala:250
+#: src/widgets/games/games-extra-button.vala:272
 #, c-format
 msgid ""
 "The compatibility tool required for %s is missing from your system. Please "
@@ -1236,16 +1236,16 @@ msgstr ""
 "Nástroj kompatibility požadovaný pro %s ve vašem systému chybí. Ujistěte se, "
 "že je správně nainstalován."
 
-#: src/widgets/games/games-extra-button.vala:268
+#: src/widgets/games/games-extra-button.vala:290
 #, c-format
 msgid "Exit status: %d"
 msgstr "Návratový kód: %d"
 
-#: src/widgets/games/games-extra-button.vala:274
+#: src/widgets/games/games-extra-button.vala:296
 msgid "Custom Executable Failed"
 msgstr "Spuštění vlastního souboru selhalo"
 
-#: src/widgets/games/games-extra-button.vala:275
+#: src/widgets/games/games-extra-button.vala:297
 #, c-format
 msgid "The custom executable for %s could not be launched."
 msgstr "Vlastní spustitelný soubor pro %s se nepodařilo spustit."
@@ -1420,7 +1420,7 @@ msgid "Extra control over the final Steam launch command."
 msgstr "Dodatečné ovládání finálního příkazu spuštění ve Steamu."
 
 #: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:17
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1340
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1338
 msgid "Custom game arguments"
 msgstr "Vlastní argumenty hry"
 
@@ -1439,7 +1439,7 @@ msgid "Audio-related launch options."
 msgstr "Možnosti spuštění související se zvukem."
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:18
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1330
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1328
 msgid "PulseAudio latency"
 msgstr "Latence PulseAudio"
 
@@ -1459,8 +1459,8 @@ msgstr "MSEC"
 #: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:36
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:11
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:25
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:26
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:11
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:11
 msgid "Disabled"
 msgstr "Vypnuto"
 
@@ -1477,7 +1477,7 @@ msgstr ""
 "Proton11-1."
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:56
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1332
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1330
 msgid "Wine ALSA spatial downmix"
 msgstr "Prostorový downmix Wine ALSA"
 
@@ -1500,7 +1500,7 @@ msgstr ""
 
 #. Performance & monitoring
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:20
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1244
 msgid "MangoHud performance overlay"
 msgstr "Výkonnostní překryv MangoHud"
 
@@ -1509,7 +1509,7 @@ msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
 msgstr "Zobrazuje herní překryv s FPS, využitím CPU/GPU a teplotami."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:30
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
 msgid "Use desktop game profile"
 msgstr "Použít desktopový herní profil"
 
@@ -1518,7 +1518,7 @@ msgid "Disables the Steam Deck-specific profile that some games use."
 msgstr "Vypne profil specifický pro Steam Deck, který některé hry používají."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:39
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1254
 msgid "Native Wayland"
 msgstr "Nativní Wayland"
 
@@ -1531,7 +1531,7 @@ msgstr ""
 "a Steam Overlay."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:48
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1245
 #: src/widgets/mangohud/mangohud-extras-page.vala:100
 msgid "GameMode"
 msgstr "GameMode"
@@ -1545,7 +1545,7 @@ msgstr ""
 "procesu) během běhu hry."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:57
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
 msgid "CachyOS game-performance profile"
 msgstr "Profil herního výkonu CachyOS"
 
@@ -1558,7 +1558,7 @@ msgstr ""
 "ukončení hry."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:63
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
 msgid "MangoHud Vulkan environment mode"
 msgstr "Režim prostředí MangoHud pro Vulkan"
 
@@ -1571,7 +1571,7 @@ msgstr ""
 "upřednostněte wrapper MangoHud."
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:69
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1250
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
 msgid "OBS Vulkan/OpenGL capture"
 msgstr "OBS snímání Vulkan/OpenGL"
 
@@ -1616,7 +1616,7 @@ msgstr ""
 
 #. Graphics translation
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:30
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1288
 msgid "DXVK frame limit"
 msgstr "Limit snímků DXVK"
 
@@ -1631,7 +1631,7 @@ msgid "FPS"
 msgstr "FPS"
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:43
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
 msgid "Proton-CachyOS DX11 low latency"
 msgstr "Proton-CachyOS nízká latence DX11"
 
@@ -1640,7 +1640,7 @@ msgid "Enables the custom DXVK low-latency path for Direct3D 9–11."
 msgstr "Zapne vlastní nízkolatenční cestu DXVK pro Direct3D 9-11."
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:49
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
 msgid "Proton-CachyOS Vulkan Anti-Lag 2 layer"
 msgstr "Vrstva Proton-CachyOS Vulkan Anti-Lag 2"
 
@@ -1651,7 +1651,7 @@ msgstr ""
 "Zpřístupní VK_AMD_anti_lag pro Vulkan hry, které už Anti-Lag 2 podporují."
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:55
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1298
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
 msgid "Expose Vulkan Reflex instead of Anti-Lag 2"
 msgstr "Zpřístupnit Vulkan Reflex místo Anti-Lag 2"
 
@@ -1664,7 +1664,7 @@ msgstr ""
 "Reflex."
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:61
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1299
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
 msgid "Proton-CachyOS NVIDIA Reflex Vulkan layer"
 msgstr "Vrstva Proton-CachyOS NVIDIA Reflex Vulkan"
 
@@ -1687,7 +1687,7 @@ msgstr "Parametry předané přímo hře."
 
 #. Game arguments
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:18
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1335
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1333
 msgid "Skip launcher"
 msgstr "Přeskočit launcher"
 
@@ -1697,7 +1697,7 @@ msgstr ""
 "Přidá -skip-launcher pro přeskočení launcherů ve hrách, které to podporují."
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:22
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1336
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1334
 msgid "Vulkan renderer"
 msgstr "Vulkan renderer"
 
@@ -1706,7 +1706,7 @@ msgid "Adds -vulkan to make the game use its Vulkan renderer."
 msgstr "Přidá -vulkan pro použití Vulkan vykreslování."
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:23
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1337
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1335
 msgid "DirectX 11 renderer"
 msgstr "DirectX 11 renderer"
 
@@ -1715,7 +1715,7 @@ msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
 msgstr "Přidá -dx11 pro použití DirectX 11 vykreslování."
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:24
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1338
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1336
 msgid "DirectX 12 renderer"
 msgstr "DirectX 12 renderer"
 
@@ -1724,7 +1724,7 @@ msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
 msgstr "Přidá -dx12 pro použití DirectX 12 vykreslování."
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:25
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1339
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1337
 msgid "Developer console"
 msgstr "Vývojářská konzole"
 
@@ -1734,18 +1734,18 @@ msgstr ""
 "Přidá -console pro otevření vývojářské konzole hry, pokud je podporována."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:29
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1303
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1301
 msgid "Mesa Anti-Lag"
 msgstr "Mesa Anti-Lag"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:29
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1303
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1301
 msgid "Reduces latency on supported AMD Mesa setups."
 msgstr "Snižuje latenci na podporovaných sestavách AMD Mesa."
 
 #. Hardware & drivers
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:30
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1300
 msgid "Use discrete GPU"
 msgstr "Použít diskrétní GPU"
 
@@ -1754,7 +1754,7 @@ msgid "Makes the game use the AMD dGPU on hybrid systems."
 msgstr "Zajistí, aby hra na hybridních systémech používala AMD dGPU."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:32
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1312
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
 msgid "Treat APU as a discrete GPU"
 msgstr "Považovat APU za diskrétní GPU"
 
@@ -1767,7 +1767,7 @@ msgstr ""
 "nesprávně detekují integrovanou grafiku."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:37
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
 msgid "FSR 4 upgrade (current path)"
 msgstr "Aktualizace FSR 4 (aktuální cesta)"
 
@@ -1780,7 +1780,7 @@ msgstr ""
 "Proton-GE při aktivaci vypíná Anti-Lag 2."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:46
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1303
 msgid "FSR 4 RDNA3 upgrade (legacy path)"
 msgstr "Aktualizace FSR 4 RDNA3 (starší cesta)"
 
@@ -1793,7 +1793,7 @@ msgstr ""
 "v aktuálním Proton-CachyOS byl odebrán."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:56
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
 msgid "FSR 4 ML frame generation"
 msgstr "Generování snímků FSR 4 ML"
 
@@ -1806,7 +1806,7 @@ msgstr ""
 "DXIL_SPIRV_CONFIG=wmma_rdna3_workaround."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:61
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
 msgid "RDNA3 ML frame-generation workaround"
 msgstr "Obejití problému RDNA3 pro ML generování snímků"
 
@@ -1819,7 +1819,7 @@ msgstr ""
 "vyžaduje."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:67
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
 msgid "AMD Reflex preset: allow DXVK-NVAPI"
 msgstr "Předvolba AMD Reflex: povolit DXVK-NVAPI"
 
@@ -1832,7 +1832,7 @@ msgstr ""
 "spoofingem GPU."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:73
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
 msgid "AMD Reflex preset: hide AMD GPU"
 msgstr "Předvolba AMD Reflex: skrýt AMD GPU"
 
@@ -1845,7 +1845,7 @@ msgstr ""
 "ML generování snímků."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:79
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
 msgid "AMD Reflex preset: force NVAPI"
 msgstr "Předvolba AMD Reflex: vynutit NVAPI"
 
@@ -1858,7 +1858,7 @@ msgstr ""
 "FSR 4 a detekci GPU ve hře."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:85
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1311
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
 msgid "AMD Reflex preset: layer NVIDIA spoof"
 msgstr "Předvolba AMD Reflex: spoof vrstvy NVIDIA"
 
@@ -1870,7 +1870,7 @@ msgstr ""
 "může rozbít Proton FSR 4."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:92
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1314
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1312
 msgid "Staging shared memory"
 msgstr "Staging sdílené paměti"
 
@@ -1935,7 +1935,7 @@ msgstr ""
 "opatrně."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-intel-options-group.vala:10
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1325
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
 msgid "XeSS component upgrade"
 msgstr "Aktualizace komponent XeSS"
 
@@ -1944,7 +1944,7 @@ msgid "Upgrades XeSS in supported games."
 msgstr "Aktualizuje XeSS v podporovaných hrách."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:14
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1320
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1318
 msgid "NVAPI"
 msgstr "NVAPI"
 
@@ -1954,7 +1954,7 @@ msgstr "Umožní hrám přístup ke funkcím specifickým pro NVIDIA, jako je DL
 
 #. gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NVAPI=1" }, nvapi_tile.toggle));
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:17
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1321
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1319
 msgid "DLSS component updates"
 msgstr "Aktualizace komponent DLSS"
 
@@ -1964,7 +1964,7 @@ msgstr "Automaticky aktualizuje komponenty DLSS pro podporované hry."
 
 #. gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NGX_UPDATER=1" }, nvidia_ngx_updater_tile.toggle));
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:23
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1324
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1322
 msgid "Report GPU as AMD"
 msgstr "Hlásit GPU jako AMD"
 
@@ -1977,7 +1977,7 @@ msgstr ""
 "chování NVIDIA ovladače jen ve Windows."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:27
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1322
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1320
 msgid "DLSS indicator"
 msgstr "Indikátor DLSS"
 
@@ -1986,7 +1986,7 @@ msgid "Shows a DLSS status indicator in-game."
 msgstr "Zobrazuje ve hře indikátor stavu DLSS."
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:29
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1321
 msgid "NVIDIA libraries"
 msgstr "Knihovny NVIDIA"
 
@@ -2009,36 +2009,36 @@ msgstr "Použít specifiké přepínače pro Grafické karty AMD, NVIDIA a Intel
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:55
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:71
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1300
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1301
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1303
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1311
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1312
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1313
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1314
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1315
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1316
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1317
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1318
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1319
 msgid "AMD"
 msgstr "AMD"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:56
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:75
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1318
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1319
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1320
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1321
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1322
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1324
 msgid "NVIDIA"
 msgstr "NVIDIA"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:57
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:79
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1325
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
 msgid "Intel"
 msgstr "Intel"
 
@@ -2052,7 +2052,7 @@ msgid "More options"
 msgstr "Více informací"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:22
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
 msgid "vkBasalt visual effects"
 msgstr "Vizuální efekty vkBasalt"
 
@@ -2062,7 +2062,7 @@ msgstr "Přidává vizuální efekty jako doostření a úpravy barev."
 
 #. Proton & Wine compatibility
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:24
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1275
 msgid "OpenGL fallback (WineD3D)"
 msgstr "Záložní OpenGL režim (WineD3D)"
 
@@ -2072,7 +2072,7 @@ msgid ""
 msgstr "Použije OpenGL místo Vulkanu. Zapínejte jen při problémech s DXVK."
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:30
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
 msgid "NTSync mode"
 msgstr "Režim NTSync"
 
@@ -2085,7 +2085,7 @@ msgstr ""
 "NTSync nevyhovuje."
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:36
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1250
 msgid "Per-game shader cache"
 msgstr "Mezipaměť shaderů pro jednotlivé hry"
 
@@ -2099,7 +2099,7 @@ msgstr ""
 
 #. Input & audio
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:41
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1328
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1326
 msgid "Prefer SDL controller input"
 msgstr "Upřednostnit vstup ovladače přes SDL"
 
@@ -2108,7 +2108,7 @@ msgid "Workaround for controller detection issues."
 msgstr "Obejití problému s detekcí ovladače."
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:43
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1329
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1327
 msgid "Bypass Steam Input"
 msgstr "Obejít Steam Input"
 
@@ -2119,7 +2119,7 @@ msgstr ""
 "Waylandu."
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:48
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
 msgid "Vulkan synchronization 2"
 msgstr "Vulkan synchronization 2"
 
@@ -2132,7 +2132,7 @@ msgstr ""
 "zlepšit výkon a snížit trhání obrazu."
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:53
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
 msgid "Futex waitv synchronization"
 msgstr "Synchronizace futex waitv"
 
@@ -2165,7 +2165,7 @@ msgid "Extra Proton settings and launch behaviors."
 msgstr "Dodatečná nastavení Protonu a chování při spuštění."
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:22
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
 msgid "High process priority"
 msgstr "Vysoká priorita procesu"
 
@@ -2177,7 +2177,7 @@ msgstr ""
 "Dá hře vyšší prioritu CPU, což může v některých případech zlepšit výkon."
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:27
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
 msgid "WoW64 mode"
 msgstr "Režim WoW64"
 
@@ -2190,7 +2190,7 @@ msgstr ""
 "některých starších her to může zlepšit kompatibilitu."
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:32
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1280
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
 msgid "Large address awareness for 32-bit games"
 msgstr "Large address awareness pro 32bitové hry"
 
@@ -2204,7 +2204,7 @@ msgstr ""
 
 #. Diagnostics & raw command
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:37
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1343
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1341
 msgid "Proton debug log"
 msgstr "Debug log Protonu"
 
@@ -2217,7 +2217,7 @@ msgstr ""
 "se ukládají do složky s kompatibilitními daty hry."
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:42
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1285
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
 msgid "OptiScaler integration"
 msgstr "Integrace OptiScaler"
 
@@ -2230,7 +2230,7 @@ msgstr ""
 "obrazu (dostupné od verze 11-1)."
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:47
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1286
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
 msgid "Discord bridge"
 msgstr "Most Discordu"
 
@@ -2259,7 +2259,7 @@ msgid "VKD3D options"
 msgstr "Možnosti VKD3D"
 
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:21
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:65
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:18
 msgid "Configure Direct3D 12 to Vulkan translation behavior"
 msgstr "Nastavit chování převodu Direct3D 12 na Vulkan"
 
@@ -2294,7 +2294,7 @@ msgstr ""
 "ve hře."
 
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:41
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 msgid "Proton-CachyOS DX12 low latency"
 msgstr "Proton-CachyOS nízká latence DX12"
 
@@ -2308,7 +2308,7 @@ msgstr ""
 
 #. Display & launch tools
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:19
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
 msgid "Launch backend"
 msgstr "Backend spuštění"
 
@@ -2325,23 +2325,23 @@ msgid "System default"
 msgstr "Výchozí systémový"
 
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:49
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1261
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1263
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
 #: src/widgets/preferences/preferences-dialog.vala:364
 msgid "Gamescope"
 msgstr "Gamescope"
 
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:54
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1269
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1273
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1274
 #: src/widgets/preferences/preferences-dialog.vala:367
 msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
@@ -2469,67 +2469,181 @@ msgstr "Vybraný build Protonu neuvádí nízkolatenční vrstvu Vulkanu."
 msgid "The selected Proton build does not advertise its Vulkan Reflex layer."
 msgstr "Vybraný build Protonu neuvádí svou vrstvu Vulkan Reflex."
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:11
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:25
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:26
-msgid "Enabled"
-msgstr "Zapnuto"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:15
-msgid ""
-"Validates the compiler's internal representation after each pass. Used for "
-"driver debugging."
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:18
+msgid "Loads Vulkan validation layers and enables debug extensions."
 msgstr ""
-"Ověřuje interní reprezentaci kompilátoru po každém průchodu. Používá se pro "
-"ladění ovladače."
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:16
-msgid ""
-"Disables FP gathering optimizations. Workaround for specific texture issues "
-"in older games."
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:19
+#, fuzzy
+msgid "Turns off game-specific workarounds for debugging."
+msgstr "Nastavte obcházení problémů kompatibility a ladění RADV."
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:20
+msgid "Turns off DirectX Raytracing support."
 msgstr ""
-"Vypne optimalizace FP gathering. Obejití konkrétních problémů s texturami ve "
-"starších hrách."
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:17
-msgid ""
-"Prints detailed compilation performance stats and register usage to system "
-"log."
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:21
+msgid "Forces DirectX Raytracing support even when considered unsafe."
 msgstr ""
-"Vypíše do systémového logu podrobné statistiky výkonu kompilace a využití "
-"registrů."
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:18
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:22
 msgid ""
-"Forces the use of the instruction selector pass even when it could be "
-"bypassed."
+"Enables experimental DXR 1.2 support when opacity micromaps are available."
 msgstr ""
-"Vynutí použití průchodu instruction selector i když by mohl být přeskočen."
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:19
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:23
+msgid "Uses an unsafe constant-buffer optimization intended for NVIDIA GPUs."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:24
+msgid "Uses one queue instead of asynchronous compute and transfer queues."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:25
 msgid ""
-"Disables the instruction scheduling pass. Can help isolate compiler bugs."
+"Prevents upload heaps from using CPU-visible video memory. May reduce GPU "
+"performance."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:26
+msgid "Uses cached memory for host-visible allocations to speed up captures."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:27
+msgid "Turns off the invariant-position workaround."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:28
+msgid ""
+"Lets the application manage pipeline caches instead of using the automatic "
+"shader cache."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:31
+msgid "Uses 32-thread waves for compute shaders on GFX10 and newer GPUs."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:32
+#, fuzzy
+msgid "Enables Delta Color Compression for multisampled images."
+msgstr ""
+"Vypne Delta Color Compression. Může opravit konkrétní artefakty vykreslování."
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:33
+msgid "Uploads shaders to video memory that the CPU cannot directly access."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:34
+msgid ""
+"Uses 32-thread waves for vertex, tessellation, and geometry shaders on GFX10 "
+"and newer GPUs."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:35
+msgid "Enables local buffer objects."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:36
+msgid "Enables low-latency video decoding."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:37
+msgid "Enables low-latency video encoding."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:38
+#, fuzzy
+msgid "Enables Next-Gen Geometry culling on GFX11 and newer GPUs."
+msgstr "Zapne Next-Gen Geometry Culling pro lepší výkon geometrie."
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:39
+msgid ""
+"Caches intermediate shader code for individual graphics pipeline stages."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:40
+msgid ""
+"Prevents memory allocations from spilling into system memory through GTT."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:41
+msgid ""
+"Disables optimizations for systems whose entire video memory is CPU-visible."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:42
+msgid "Uses 32-thread waves for pixel shaders on GFX10 and newer GPUs."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:43
+msgid ""
+"Uses continuation-passing lowering for ray tracing instead of function calls."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:46
+msgid "Detects GPU hangs and writes a diagnostic report."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:47
+msgid "Synchronizes shader execution after every draw and dispatch."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:48
+msgid "Turns off shader caching."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:49
+msgid "Turns off Delta Color Compression for images."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:50
+msgid "Turns off Vulkan graphics pipeline libraries."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:51
+msgid ""
+"Reports pipeline cache hits and misses to inspect shader precompilation."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:54
+msgid ""
+"Checks the shader compiler intermediate representation during compilation."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:55
+msgid "Prints information used to calculate pipeline statistics."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:56
+msgid ""
+"Forces wait instructions whenever outstanding operations need to finish."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:57
+#, fuzzy
+msgid "Turns off instruction scheduling for compiler debugging."
 msgstr ""
 "Vypne průchod plánování instrukcí. Může pomoci izolovat chyby kompilátoru."
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:20
-msgid ""
-"Forces Wave64 mode execution on RDNA hardware instead of the default Wave32."
-msgstr "Vynutí režim Wave64 na hardwaru RDNA místo výchozího Wave32."
+#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:11
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:11
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:11
+msgid "Enabled"
+msgstr "Zapnuto"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:23
+#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:17
 msgid "AMD ACO Debug Options"
 msgstr "Možnosti ladění AMD ACO"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:24
+#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:18
 msgid "Fine-tune AMD ACO shader compiler behavior"
 msgstr "Jemné doladění chování kompilátoru shaderů AMD ACO"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:25
+#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:19
 msgid "Enable ACO Debug"
 msgstr "Povolit ladění ACO"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:26
+#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:20
 msgid "Apply low-level shader compiler flags and overrides"
 msgstr "Použít nízkoúrovňové přepínače a přepsání kompilátoru shaderů"
 
@@ -2644,11 +2758,11 @@ msgstr "Zástupný symbol příkazu Steam měňte jen tehdy, když to hra vyžad
 msgid "Unable to safely prepare these launch options."
 msgstr "Tyto možnosti spuštění nelze bezpečně připravit."
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:40
+#: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:42
 msgid "Add custom item (Type name and press Enter)..."
 msgstr "Přidat vlastní položku (napište název a stiskněte Enter)..."
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:52
+#: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:54
 msgid "Add custom item"
 msgstr "Přidat vlastní položku"
 
@@ -2788,86 +2902,35 @@ msgstr "Surový nebo nerozpoznaný obsah vyžaduje před uložením pozornost."
 msgid "Enabled (Enforce)"
 msgstr "Zapnuto (vynutit)"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:15
-msgid "Disables Next-Gen Geometry (NGG). Fixes crashes in older Vulkan games."
-msgstr "Vypne Next-Gen Geometry (NGG). Opravuje pády ve starších Vulkan hrách."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:16
-msgid "Disables internal application binary interface caching."
-msgstr "Vypne interní cache aplikačního binárního rozhraní."
-
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:17
-msgid "Disables background shader compilation."
-msgstr "Vypne kompilaci shaderů na pozadí."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:18
-msgid "Disables Delta Color Compression. Can fix specific rendering artifacts."
-msgstr ""
-"Vypne Delta Color Compression. Může opravit konkrétní artefakty vykreslování."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:19
-msgid "Disables Variable Rate Shading (VRS). Fixes UI artifacts in some games."
-msgstr ""
-"Vypne Variable Rate Shading (VRS). Opravuje UI artefakty v některých hrách."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:20
-msgid ""
-"Disables Graphics Pipeline Library (GPL) to troubleshoot startup crashes."
-msgstr "Vypne Graphics Pipeline Library (GPL) pro řešení pádů při spuštění."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:21
-msgid "Forces fallback command submission mode. Helps diagnosing GPU hangs."
-msgstr ""
-"Vynutí záložní režim odesílání příkazů. Pomáhá diagnostikovat zatuhnutí GPU."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:22
-msgid "Disables Vertex Runtime Shading. Can fix specific rendering artifacts."
-msgstr ""
-"Vypne Vertex Runtime Shading. Může opravit konkrétní artefakty vykreslování."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:23
-msgid ""
-"Precompiles shaders during loading screens to reduce in-game stuttering."
-msgstr ""
-"Předkompiluje shadery během načítacích obrazovek, aby snížil trhání obrazu "
-"ve hře."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:24
-msgid ""
-"Disables AMD Texture Compression. Fixes texture glitches on APUs and Steam "
-"Deck."
-msgstr ""
-"Vypne AMD Texture Compression. Opravuje chyby textur na APU a Steam Decku."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:27
 msgid "AMD RADV Debug Options"
 msgstr "Možnosti ladění AMD RADV"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:28
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:18
 msgid "Fine-tune AMD Radeon Vulkan driver behavior"
 msgstr "Jemné doladění chování AMD Radeon Vulkan ovladače"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:29
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:19
 msgid "Enable RADV Debug"
 msgstr "Povolit RADV Debug"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:30
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:20
 msgid "Apply low-level driver bugfixes and overrides"
 msgstr "Použít nízkoúrovňové opravy chyb ovladače a přepsání"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:31
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:17
 msgid "AMD RADV Performance Tests"
 msgstr "Testy výkonu AMD RADV"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:32
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:18
 msgid "Enable experimental AMD performance features"
 msgstr "Povolit experimentální výkonnostní funkce AMD"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:33
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:19
 msgid "Enable RADV Perftest"
 msgstr "Povolit RADV Perftest"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:34
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:20
 msgid "Test bleeding-edge driver optimizations (use with caution)"
 msgstr "Testovat nejnovější optimalizace ovladače (používejte opatrně)"
 
@@ -2886,128 +2949,15 @@ msgstr "Vlastní"
 msgid "Set"
 msgstr "Nastavit"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:32
-msgid ""
-"Enables VKD3D's internal shader cache on disk. Drastically reduces micro-"
-"stuttering and speeds up consecutive loading times."
-msgstr ""
-"Zapne interní mezipaměť shaderů VKD3D na disku. Výrazně sníží mikrotrhání a "
-"zrychlí opakovaná načítání."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:36
-msgid ""
-"Forces VKD3D to use system RAM instead of VRAM for caching shader "
-"compilation data, ensuring smoother data stream between CPU and GPU."
-msgstr ""
-"Vynutí, aby VKD3D pro cache dat kompilace shaderů používal systémovou RAM "
-"místo VRAM, což zajistí plynulejší tok dat mezi CPU a GPU."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:38
-msgid ""
-"Uses host-visible VRAM for staging buffers. Drastically reduces stuttering "
-"if Resizable BAR / SAM is enabled."
-msgstr ""
-"Použije pro staging buffery VRAM viditelnou hostitelem. Pokud je zapnuté "
-"Resizable BAR / SAM, výrazně to sníží trhání obrazu."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:41
-msgid ""
-"Disables host-visible VRAM staging buffers. Use as a compatibility fallback "
-"if experiencing memory-related crashes."
-msgstr ""
-"Vypne staging buffery ve VRAM viditelné hostitelem. Použijte jako záložní "
-"kompatibilitní volbu při pádech souvisejících s pamětí."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:45
-msgid ""
-"Disables D3D12 Ray Tracing (DXR) capabilities entirely. Significantly "
-"improves performance and stability on GPUs without strong hardware RT "
-"support."
-msgstr ""
-"Zcela vypne schopnosti D3D12 Ray Tracingu (DXR). Výrazně zlepší výkon a "
-"stabilitu na GPU bez silné hardwarové podpory RT."
-
-#. vala-lint=line-length
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:47
-msgid ""
-"Exposes D3D12 Ray Tracing (DXR 1.1 and 1.0) capabilities to the game via "
-"Vulkan extensions."
-msgstr ""
-"Zpřístupní hře schopnosti D3D12 Ray Tracingu (DXR 1.1 a 1.0) přes rozšíření "
-"Vulkanu."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:48
-msgid ""
-"Restricts Ray Tracing capabilities to DXR 1.0 only. Useful for older RT "
-"games that crash with DXR 1.1."
-msgstr ""
-"Omezí schopnosti Ray Tracingu pouze na DXR 1.0. Užitečné pro starší RT hry, "
-"které s DXR 1.1 padají."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:51
-msgid ""
-"Forces Ray Tracing BVH acceleration structures to be built on the CPU "
-"instead of the GPU. Severe performance impact!"
-msgstr ""
-"Vynutí vytváření akceleračních struktur Ray Tracing BVH na CPU místo GPU. Má "
-"to výrazný dopad na výkon!"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:53
-msgid ""
-"Aggressively unifies memory allocators for textures and buffers to save a "
-"small amount of VRAM."
-msgstr ""
-"Agresivně sjednotí alokátory paměti pro textury a buffery, aby ušetřil malé "
-"množství VRAM."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:54
-msgid ""
-"Enables advanced GPU Virtual Addressing to improve Direct3D 12 memory "
-"mapping in massive open-world games."
-msgstr ""
-"Povolí pokročilé GPU Virtual Addressing pro lepší mapování paměti Direct3D "
-"12 v rozsáhlých open-world hrách."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:55
-msgid ""
-"Disables descriptor caches. Workaround for specific games suffering from "
-"memory leaks."
-msgstr ""
-"Vypne cache deskriptorů. Obejití problémů pro konkrétní hry trpící úniky "
-"paměti."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:56
-msgid ""
-"Forces the GPU to maintain stable clock rates. Intended for accurate "
-"benchmarking only."
-msgstr ""
-"Vynutí, aby GPU drželo stabilní takty. Určeno pouze pro přesné benchmarky."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:59
-msgid ""
-"Alters how root parameters are passed to compute shaders. Can fix specific "
-"rendering glitches."
-msgstr ""
-"Mění způsob předávání root parametrů do compute shaderů. Může opravit "
-"konkrétní grafické chyby."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:61
-msgid ""
-"Allows unaligned stencil buffer clears. Workaround for certain older "
-"Direct3D 12 renderers."
-msgstr ""
-"Umožní nevyrovnané čištění stencil bufferu. Obejití problémů pro některé "
-"starší Direct3D 12 renderery."
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:64
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:17
 msgid "VKD3D Proton Configurations"
 msgstr "Konfigurace VKD3D Protonu"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:66
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:19
 msgid "Enable VKD3D Option"
 msgstr "Povolit možnost VKD3D"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:67
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:20
 msgid "Test specific Direct3D 12 compatibility workarounds and optimizations"
 msgstr ""
 "Testovat konkrétní obcházení problémů kompatibility a optimalizace Direct3D "
@@ -3049,17 +2999,17 @@ msgstr "Vstup a zvuk"
 msgid "Diagnostics & raw command"
 msgstr "Diagnostika a surový příkaz"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1244
 msgid "Shows FPS, CPU/GPU usage, and temperatures in game."
 msgstr "Zobrazuje ve hře FPS, využití CPU/GPU a teploty."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1245
 msgid ""
 "Requests temporary system performance optimizations while the game is "
 "running."
 msgstr "Požádá o dočasné optimalizace výkonu systému během běhu hry."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
 msgid ""
 "Runs the game with CachyOS's performance power profile and gaming sched_ext "
 "profile, then restores them when the game exits."
@@ -3067,11 +3017,11 @@ msgstr ""
 "Spustí hru s výkonovým napájecím profilem CachyOS a herním profilem "
 "sched_ext a po ukončení hry je obnoví."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
 msgid "Requires the game-performance command"
 msgstr "Vyžaduje příkaz game-performance"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
 msgid ""
 "Enables MangoHud for Vulkan through MANGOHUD=1. Use the MangoHud wrapper for "
 "OpenGL; inside Gamescope, use Gamescope's MangoApp support instead."
@@ -3079,11 +3029,11 @@ msgstr ""
 "Povolí MangoHud pro Vulkan přes MANGOHUD=1. Pro OpenGL použijte wrapper "
 "MangoHud; uvnitř Gamescope místo toho použijte podporu MangoApp v Gamescope."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
 msgid "Requires MangoHud; Vulkan only"
 msgstr "Vyžaduje MangoHud; pouze Vulkan"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1250
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
 msgid ""
 "Loads obs-vkcapture for Vulkan or OpenGL capture. Install the native "
 "package, or both the Flatpak OBS plugin and Flatpak capture-tools layer; "
@@ -3093,40 +3043,40 @@ msgstr ""
 "balíček, nebo současně Flatpak OBS plugin i Flatpak capture-tools layer; "
 "NVIDIA vyžaduje modesetting a ovladač 515.43.04 nebo novější."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1250
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
 msgid "Requires obs-vkcapture and a compatible OBS installation"
 msgstr "Vyžaduje obs-vkcapture a kompatibilní instalaci OBS"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
 msgid "Gives the game a higher CPU priority."
 msgstr "Dá hře vyšší prioritu CPU."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1250
 msgid "Keeps this game's shader cache separate."
 msgstr "Udržuje mezipaměť shaderů této hry odděleně."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
 msgid "Choose the system default, Gamescope, or ScopeBuddy."
 msgstr "Zvolte výchozí systémový režim, Gamescope nebo ScopeBuddy."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1254
 msgid "Runs the game on Wayland instead of XWayland."
 msgstr "Spustí hru na Waylandu místo XWaylandu."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
 msgid "Uses the desktop profile instead of a Steam Deck-specific profile."
 msgstr "Použije desktopový profil místo profilu specifického pro Steam Deck."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
 msgid "Adds visual effects such as sharpening and color adjustments."
 msgstr "Přidává vizuální efekty, například doostření a úpravy barev."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:18
 msgid "DXVK HDR"
 msgstr "DXVK HDR"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 msgid ""
 "Advertises HDR10 color space to DXVK games. Current Proton-CachyOS enables "
 "HDR automatically; use this only when explicit DXVK HDR exposure is needed. "
@@ -3139,7 +3089,7 @@ msgstr ""
 "ovladače (RADV 25.0, NVIDIA 575.51.02 nebo Intel/NVK Mesa 25.1); starší "
 "balíčky Protonu se mohou lišit."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 msgid ""
 "Requires an HDR-capable compositor, display, Vulkan 1.3, and a compatible "
 "driver"
@@ -3147,12 +3097,12 @@ msgstr ""
 "Vyžaduje kompozitor s podporou HDR, HDR displej, Vulkan 1.3 a kompatibilní "
 "ovladač"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1260
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:26
 msgid "Legacy custom-Proton HDR"
 msgstr "Starší custom-Proton HDR"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1260
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
 msgid ""
 "Enables the older PROTON_ENABLE_HDR path only when the selected Proton build "
 "still advertises it. It also enables native Wayland in Proton-GE, where "
@@ -3162,19 +3112,19 @@ msgstr ""
 "Protonu stále nabízí. Zároveň zapíná nativní Wayland v Proton-GE, kde je "
 "Steam Overlay rozbitý a Steam Input může být nespolehlivý."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1260
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
 msgid ""
 "Only available in custom Proton builds that still support PROTON_ENABLE_HDR"
 msgstr ""
 "Dostupné pouze ve vlastních buildech Protonu, které stále podporují "
 "PROTON_ENABLE_HDR"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1261
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:34
 msgid "Disable custom-Proton automatic HDR"
 msgstr "Vypnout automatické HDR v custom-Protonu"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1261
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
 msgid ""
 "Sets DXVK_NO_HDR=1 for custom Proton builds such as current Proton-CachyOS "
 "that automatically expose HDR. This conflicts with the explicit HDR enable "
@@ -3184,18 +3134,18 @@ msgstr ""
 "CachyOS, které automaticky zpřístupňují HDR. Tato volba je v konfliktu s "
 "možnostmi explicitního zapnutí HDR."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1261
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
 msgid ""
 "Only available when the selected custom Proton build advertises DXVK_NO_HDR"
 msgstr ""
 "Dostupné pouze tehdy, když vybraný vlastní build Protonu uvádí DXVK_NO_HDR"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1260
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:42
 msgid "NVIDIA legacy HDR WSI"
 msgstr "Starší NVIDIA HDR WSI"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1260
 msgid ""
 "Enables the Vulkan HDR WSI layer needed by NVIDIA proprietary drivers older "
 "than 595. Do not enable it on driver 595 or newer."
@@ -3203,249 +3153,249 @@ msgstr ""
 "Zapne vrstvu Vulkan HDR WSI potřebnou pro proprietární ovladače NVIDIA "
 "starší než 595. Na ovladači 595 nebo novějším ji nezapínejte."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1260
 msgid "NVIDIA proprietary driver older than 595 only"
 msgstr "Pouze pro proprietární ovladač NVIDIA starší než 595"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1263
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1269
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1261
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:36
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:38
 msgid "Fullscreen"
 msgstr "Celá obrazovka"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1263
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1261
 msgid "Runs the game in a fullscreen Gamescope session."
 msgstr "Spustí hru v relaci Gamescope na celou obrazovku."
 
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1261
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1263
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
 msgid "Requires Gamescope"
 msgstr "Vyžaduje Gamescope"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
 msgid "Output resolution"
 msgstr "Rozlišení"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:51
 msgid "Sets the Gamescope output resolution."
 msgstr "Nastaví výstupní rozlišení Gamescope."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1263
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:38
 msgid "HDR"
 msgstr "HDR"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1263
 msgid "Outputs HDR colors through Gamescope."
 msgstr "Zobrazí HDR barvy přes Gamescope."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:40
 msgid "Variable refresh rate"
 msgstr "Proměnná obnovovací frekvence"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
 msgid "Matches the display refresh rate to the game's FPS."
 msgstr "Přizpůsobí obnovovací frekvenci displeje FPS hry."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1273
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:42
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:53
 msgid "Frame limit"
 msgstr "Limit snímků"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:42
 msgid "Caps the frame rate inside Gamescope."
 msgstr "Omezí snímkovou frekvenci uvnitř Gamescope."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:73
 msgid "Additional Gamescope arguments"
 msgstr "Další argumenty Gamescope"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
 msgid "Keeps extra Gamescope flags such as output selection."
 msgstr "Zachová dodatečné přepínače Gamescope, například volbu výstupu."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1269
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
 msgid "Runs the game in a fullscreen ScopeBuddy session."
 msgstr "Spustí hru v relaci ScopeBuddy na celou obrazovku."
 
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1269
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1273
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1274
 msgid "Requires ScopeBuddy"
 msgstr "Vyžaduje ScopeBuddy"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:65
 msgid "Sets the ScopeBuddy output resolution."
 msgstr "Nastaví výstupní rozlišení ScopeBuddy."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1269
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:43
 msgid "Automatic HDR"
 msgstr "Automatické HDR"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1269
 msgid "Enables HDR automatically when the display supports it."
 msgstr "Automaticky zapne HDR, pokud ho displej podporuje."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:48
 msgid "Automatic variable refresh rate"
 msgstr "Automatická proměnná obnovovací frekvence"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1273
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:53
 msgid "Caps the frame rate inside ScopeBuddy."
 msgstr "Omezí snímkovou frekvenci uvnitř ScopeBuddy."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1274
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:79
 msgid "Additional ScopeBuddy arguments"
 msgstr "Další argumenty ScopeBuddy"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1274
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:80
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr ""
 "Zachová dodatečné přepínače ScopeBuddy, například preferovaný výběr výstupu."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1275
 msgid "Uses OpenGL instead of Vulkan when DXVK causes problems."
 msgstr "Použije OpenGL místo Vulkanu, pokud DXVK způsobuje problémy."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
 msgid "D7VK for older Direct3D games"
 msgstr "D7VK pro starší hry s Direct3D"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
 msgid "Enables D7VK for older Direct3D games."
 msgstr "Povolí D7VK pro starší hry s Direct3D."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
 msgid "Requires a compatible Proton version"
 msgstr "Vyžaduje kompatibilní verzi Protonu"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
 msgid ""
 "Uses FSync instead of NTSync for games that need that compatibility mode."
 msgstr ""
 "Použije FSync místo NTSync pro hry, které tento režim kompatibility vyžadují."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1280
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
 msgid "Lets supported 32-bit games use more than 2GB of memory."
 msgstr "Umožní podporovaným 32bitovým hrám používat více než 2 GB paměti."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
 msgid "Enables WoW64 support for 32-bit games on 64-bit Proton builds."
 msgstr "Povolí podporu WoW64 pro 32bitové hry na 64bitových buildech Protonu."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1280
 msgid "Write-copy memory workaround"
 msgstr "Obejití problému s write-copy pamětí"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1280
 msgid "Simulates page write protection for initialization errors."
 msgstr "Simuluje ochranu zápisu paměťových stránek kvůli chybám inicializace."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
 msgid "Enables WINE_VK_USE_SYNC2."
 msgstr "Povolí WINE_VK_USE_SYNC2."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
 msgid "Enables WINE_SYNC_USE_FUTEX_WAITV."
 msgstr "Povolí WINE_SYNC_USE_FUTEX_WAITV."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1285
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
 msgid "Enables Proton OptiScaler."
 msgstr "Povolí Proton OptiScaler."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1285
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1286
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1331
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1329
 msgid "Requires Proton 11-1 or newer"
 msgstr "Vyžaduje Proton 11-1 nebo novější"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1286
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
 msgid "Enables Proton's Discord bridge."
 msgstr "Povolí Discord bridge Protonu."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1287
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1285
 msgid "Wine DLL overrides"
 msgstr "Přepsání DLL ve Wine"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1287
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1285
 msgid "Choose builtin or native Windows DLL behavior."
 msgstr "Zvolte chování Windows DLL jako builtin nebo native."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1288
 msgid "Caps the frame rate with DXVK's built-in limiter."
 msgstr "Omezí snímkovou frekvenci vestavěným limiterem DXVK."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1288
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
 msgid "DXVK"
 msgstr "DXVK"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
 msgid "Asynchronous pipeline compilation"
 msgstr "Asynchronní kompilace pipeline"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
 msgid "Enables DXVK asynchronous pipeline compilation."
 msgstr "Povolí asynchronní kompilaci pipeline v DXVK."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
 msgid "Requires compatible patched DXVK"
 msgstr "Vyžaduje kompatibilní patchované DXVK"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
 msgid "VKD3D shader cache"
 msgstr "Mezipaměť shaderů VKD3D"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
 msgid "Enables VKD3D's internal shader cache."
 msgstr "Povolí interní mezipaměť shaderů ve VKD3D."
 
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 msgid "VKD3D-Proton"
 msgstr "VKD3D-Proton"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
 msgid "VKD3D GPU virtual addressing"
 msgstr "VKD3D GPU virtuální adresování"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
 msgid "Enables VKD3D GPU virtual addressing."
 msgstr "Povolí virtuální adresování GPU ve VKD3D."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
 msgid "VKD3D compatibility settings"
 msgstr "Nastavení kompatibility VKD3D"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
 msgid "Configure Direct3D 12 to Vulkan compatibility workarounds."
 msgstr ""
 "Nastavte obcházení problémů kompatibility při převodu Direct3D 12 na Vulkan."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
 msgid ""
 "Enables the Proton-CachyOS DXVK low-latency path for Direct3D 9–11. Requires "
 "a selected custom Proton build that advertises this option."
@@ -3453,19 +3403,19 @@ msgstr ""
 "Povolí nízkolatenční cestu DXVK v Proton-CachyOS pro Direct3D 9–11. Vyžaduje "
 "vybraný vlastní build Protonu, který tuto možnost uvádí."
 
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1298
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1299
 msgid "Proton-CachyOS"
 msgstr "Proton-CachyOS"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
 msgid "Requires a compatible Proton-CachyOS build"
 msgstr "Vyžaduje kompatibilní build Proton-CachyOS"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 msgid ""
 "Enables hardware-agnostic VKD3D-Proton low latency for Direct3D 12 games "
 "that use Reflex markers or waitable swapchains. Intel GPUs, frame "
@@ -3475,7 +3425,7 @@ msgstr ""
 "12, které používají markery Reflex nebo čekatelné swapchainy. GPU Intel, "
 "generování snímků a hry bez markerů nejsou podporovány."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 msgid ""
 "Requires a compatible Proton-CachyOS build; not compatible with frame "
 "generation"
@@ -3483,7 +3433,7 @@ msgstr ""
 "Vyžaduje kompatibilní build Proton-CachyOS; není kompatibilní s generováním "
 "snímků"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
 msgid ""
 "Enables the low-latency Vulkan layer with VK_AMD_anti_lag exposure. The game "
 "must support AMD Anti-Lag 2; this does not add latency markers to "
@@ -3493,12 +3443,12 @@ msgstr ""
 "musí podporovat AMD Anti-Lag 2; tato volba nepřidává markery latence do "
 "nepodporovaných her."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
 msgid ""
 "Requires a compatible Proton-CachyOS build and game support for Anti-Lag 2"
 msgstr "Vyžaduje kompatibilní build Proton-CachyOS a podporu Anti-Lag 2 ve hře"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1298
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
 msgid ""
 "Switches the Proton-CachyOS low-latency Vulkan layer from VK_AMD_anti_lag to "
 "VK_NV_low_latency2. Enable only for games with Vulkan Reflex support."
@@ -3506,11 +3456,11 @@ msgstr ""
 "Přepne nízkolatenční vrstvu Vulkanu v Proton-CachyOS z VK_AMD_anti_lag na "
 "VK_NV_low_latency2. Zapínejte jen u her s podporou Vulkan Reflex."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1298
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
 msgid "Requires the Vulkan low-latency layer"
 msgstr "Vyžaduje nízkolatenční vrstvu Vulkan"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1299
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
 msgid ""
 "Enables Proton-CachyOS's NVIDIA Reflex layer for native Vulkan games. The "
 "game must already support VK_NV_low_latency2."
@@ -3518,15 +3468,15 @@ msgstr ""
 "Povolí vrstvu NVIDIA Reflex v Proton-CachyOS pro nativní Vulkan hry. Hra už "
 "musí podporovat VK_NV_low_latency2."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1299
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
 msgid "Requires NVIDIA and a compatible Proton-CachyOS build"
 msgstr "Vyžaduje NVIDIA a kompatibilní build Proton-CachyOS"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1300
 msgid "Uses the AMD discrete GPU on hybrid systems."
 msgstr "Použije AMD diskrétní GPU na hybridních systémech."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
 msgid ""
 "Upgrades supported FSR 3.1 games through the selected custom Proton build. "
 "Value 1 selects that build's default FSR 4 release; supported builds also "
@@ -3540,7 +3490,7 @@ msgstr ""
 "RDNA4, zatímco starší generace RDNA používají pomalejší vrstvu "
 "kompatibility. Aktuální Proton-GE při aktivaci této volby vypne Anti-Lag 2."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
 msgid ""
 "Requires a custom Proton build that advertises PROTON_FSR4_UPGRADE, a "
 "supported game, and compatible AMD hardware/drivers"
@@ -3548,7 +3498,7 @@ msgstr ""
 "Vyžaduje vlastní build Protonu s podporou PROTON_FSR4_UPGRADE, podporovanou "
 "hru a kompatibilní AMD hardware/ovladače"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1303
 msgid ""
 "Uses the older RDNA3-specific upgrade switch retained by some Proton-GE "
 "builds. New Proton-CachyOS releases removed it in favor of the current FSR 4 "
@@ -3558,7 +3508,7 @@ msgstr ""
 "buildy Proton-GE ponechaly. Nová vydání Proton-CachyOS ho odstranila ve "
 "prospěch aktuální cesty FSR 4."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1303
 msgid ""
 "Only available when the selected custom Proton build still advertises this "
 "legacy switch"
@@ -3566,7 +3516,7 @@ msgstr ""
 "Dostupné jen tehdy, když vybraný vlastní build Protonu stále uvádí tento "
 "starší přepínač"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
 msgid ""
 "Requests ML frame generation in supported custom Proton builds. Proton-"
 "CachyOS requires FSR 4.0.3 or newer; RDNA3 may require "
@@ -3578,7 +3528,7 @@ msgstr ""
 "DXIL_SPIRV_CONFIG=wmma_rdna3_workaround. Proton-EM zapíná MLFG s FSR 4 "
 "výchozím nastavením a hodnota 0 ho vypne."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
 msgid ""
 "Requires a custom Proton build that advertises MLFG, FSR 4.0.3 or newer, and "
 "supported AMD hardware/drivers"
@@ -3586,7 +3536,7 @@ msgstr ""
 "Vyžaduje vlastní build Protonu s podporou MLFG, FSR 4.0.3 nebo novější a "
 "podporovaný AMD hardware/ovladače"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
 msgid ""
 "Enables the DXIL-SPIR-V WMMA workaround that some RDNA3 systems need for ML "
 "frame generation. Do not use it on other GPU generations."
@@ -3594,11 +3544,11 @@ msgstr ""
 "Povolí obejití DXIL-SPIR-V WMMA, které některé systémy RDNA3 potřebují pro "
 "ML generování snímků. Na jiných generacích GPU ho nepoužívejte."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
 msgid "RDNA3 only; enable only if ML frame generation requires it"
 msgstr "Pouze RDNA3; zapněte jen pokud to ML generování snímků vyžaduje"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
 msgid ""
 "Allows DXVK-NVAPI on non-NVIDIA drivers. Try this least-invasive Reflex "
 "compatibility preset first; the game must support Reflex and the low-latency "
@@ -3608,18 +3558,18 @@ msgstr ""
 "invazivní předvolbu kompatibility Reflex; hra musí podporovat Reflex a "
 "nízkolatenční vrstva Vulkanu musí být aktivní."
 
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1311
 msgid "AMD Reflex compatibility"
 msgstr "Kompatibilita AMD Reflex"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
 msgid "May not convince games that explicitly require an NVIDIA GPU"
 msgstr "Nemusí přesvědčit hry, které výslovně vyžadují NVIDIA GPU"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
 msgid ""
 "Makes DXVK hide the AMD GPU so some games expose Reflex. This fallback can "
 "break FSR 4 and ML frame generation; use only if allowing DXVK-NVAPI is "
@@ -3629,11 +3579,11 @@ msgstr ""
 "řešení může rozbít FSR 4 a ML generování snímků; použijte ho jen pokud "
 "povolení DXVK-NVAPI nestačí."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
 msgid "GPU spoofing can break FSR 4 and other vendor-specific paths"
 msgstr "Spoofing GPU může rozbít FSR 4 a další cesty specifické pro výrobce"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
 msgid ""
 "Forces Proton's NVAPI path for games that still hide Reflex. This invasive "
 "fallback can break FSR 4 and should be used only after the safer presets "
@@ -3643,11 +3593,11 @@ msgstr ""
 "invazivní záložní řešení může rozbít FSR 4 a mělo by se použít až po selhání "
 "bezpečnějších předvoleb."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
 msgid "Can break FSR 4 and game-specific GPU detection"
 msgstr "Může rozbít FSR 4 a detekci GPU specifickou pro hru"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1311
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
 msgid ""
 "Makes the low-latency Vulkan layer report an NVIDIA GPU. Upstream recommends "
 "against this last-resort spoof because it can break Proton FSR 4."
@@ -3655,11 +3605,11 @@ msgstr ""
 "Nechá nízkolatenční vrstvu Vulkanu hlásit NVIDIA GPU. Upstream tento "
 "poslední nouzový spoof nedoporučuje, protože může rozbít Proton FSR 4."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1311
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
 msgid "Last resort; can break FSR 4 and other GPU detection"
 msgstr "Poslední možnost; může rozbít FSR 4 a další detekci GPU"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1312
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
 msgid ""
 "Reports an AMD APU as a discrete GPU for games that mis-detect integrated "
 "graphics."
@@ -3667,132 +3617,132 @@ msgstr ""
 "Hlásí AMD APU jako diskrétní GPU pro hry, které chybně rozpoznávají "
 "integrovanou grafiku."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1313
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1311
 #: src/widgets/mangohud/mangohud-metrics-page.vala:120
 msgid "Vulkan driver"
 msgstr "Vulkan ovladač"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1313
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1311
 msgid "Chooses the AMD Vulkan driver for this game."
 msgstr "Vybere AMD Vulkan ovladač pro tuto hru."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1314
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1312
 msgid "Enables AMD driver shared memory support."
 msgstr "Povolí podporu sdílené paměti v ovladači AMD."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1315
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1313
 msgid "Mesa GL threading"
 msgstr "Vlákna Mesa GL"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1315
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1313
 msgid "Enables Mesa GLThread."
 msgstr "Povolí Mesa GLThread."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1316
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1314
 msgid "Mesa shader-cache control"
 msgstr "Řízení Mesa shader-cache"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1316
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1314
 msgid "Controls Mesa's shader cache."
 msgstr "Řídí mezipaměť shaderů v Mesa."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1317
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1315
 msgid "Experimental RADV features"
 msgstr "Experimentální funkce RADV"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1317
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1315
 msgid "Tests experimental RADV performance features."
 msgstr "Testuje experimentální výkonnostní funkce RADV."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1318
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1316
 msgid "RADV workarounds and debugging"
 msgstr "Obejití problémů a ladění RADV"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1318
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1316
 msgid "Configure RADV compatibility workarounds and debugging."
 msgstr "Nastavte obcházení problémů kompatibility a ladění RADV."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1319
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1317
 msgid "ACO shader-compiler debugging"
 msgstr "Ladění kompilátoru shaderů ACO"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1319
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1317
 msgid "Configure AMD ACO shader compiler debugging."
 msgstr "Nastavte ladění kompilátoru shaderů AMD ACO."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1320
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1318
 msgid "Lets games access NVIDIA-specific features such as DLSS."
 msgstr "Umožní hrám přístup k funkcím NVIDIA, jako je DLSS."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1321
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1319
 msgid "Updates DLSS components for supported games."
 msgstr "Aktualizuje komponenty DLSS pro podporované hry."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1322
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1320
 msgid "Shows an in-game DLSS status indicator."
 msgstr "Zobrazuje ve hře indikátor stavu DLSS."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1321
 msgid "Enables NVIDIA-specific libraries."
 msgstr "Povolí knihovny specifické pro NVIDIA."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1324
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1322
 msgid "Reports an NVIDIA GPU as AMD for affected games."
 msgstr "Hlásí NVIDIA GPU jako AMD pro dotčené hry."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1325
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
 msgid "Updates XeSS in supported games."
 msgstr "Aktualizuje XeSS v podporovaných hrách."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1328
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1326
 msgid "Works around controller detection issues."
 msgstr "Obchází problémy s detekcí ovladače."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1329
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1327
 msgid "Disables Steam Input support."
 msgstr "Vypne podporu Steam Input."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1330
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1328
 msgid "Sets the PulseAudio latency target."
 msgstr "Nastaví cílovou latenci PulseAudio."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1331
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1329
 msgid "Wine ALSA output channels"
 msgstr "Výstupní kanály Wine ALSA"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1331
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1329
 msgid "Sets the Wine ALSA output channel count."
 msgstr "Nastaví počet výstupních kanálů Wine ALSA."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1332
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1330
 msgid "Enables Wine ALSA spatial downmix for 4, 6, or 8 channels."
 msgstr "Povolí prostorový downmix Wine ALSA pro 4, 6 nebo 8 kanálů."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1332
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1330
 msgid "Requires 4, 6, or 8 output channels"
 msgstr "Vyžaduje 4, 6 nebo 8 výstupních kanálů"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1335
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1333
 msgid "Adds -skip-launcher for games that support it."
 msgstr "Přidá -skip-launcher pro hry, které to podporují."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1336
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1334
 msgid "Adds -vulkan."
 msgstr "Přidá -vulkan."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1337
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1335
 msgid "Adds -dx11."
 msgstr "Přidá -dx11."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1338
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1336
 msgid "Adds -dx12."
 msgstr "Přidá -dx12."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1339
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1337
 msgid "Adds -console when the game supports it."
 msgstr "Přidá -console, pokud to hra podporuje."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1340
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1338
 msgid ""
 "Adds individual custom arguments and preserves unrecognized launch options "
 "exactly as loaded."
@@ -3800,39 +3750,39 @@ msgstr ""
 "Přidá jednotlivé vlastní argumenty a zachová nerozpoznané možnosti spuštění "
 "přesně tak, jak byly načteny."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1343
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1341
 msgid "Enables Proton troubleshooting logs."
 msgstr "Povolí diagnostické protokolování Protonu."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1344
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1342
 msgid "DXVK log level"
 msgstr "Úroveň logování DXVK"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1344
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1342
 msgid "Controls DXVK logging."
 msgstr "Řídí logování DXVK."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1345
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1343
 msgid "VKD3D log level"
 msgstr "Úroveň logování VKD3D"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1345
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1343
 msgid "Controls VKD3D troubleshooting logs."
 msgstr "Řídí diagnostické logy VKD3D."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1346
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1344
 msgid "Steam command placeholder (%command%)"
 msgstr "Zástupný symbol příkazu Steamu (%command%)"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1346
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1344
 msgid "Marks where Steam inserts the game's command."
 msgstr "Určuje, kam Steam vloží příkaz hry."
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1347
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1345
 msgid "Preserved unrecognized launch options"
 msgstr "Zachované nerozpoznané možnosti spuštění"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1347
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1345
 msgid "Keeps unrecognized, quoted, and opaque shell content exactly as loaded."
 msgstr ""
 "Zachová nerozpoznaný, uvozený a neprůhledný obsah shellu přesně tak, jak byl "
@@ -6100,6 +6050,180 @@ msgstr ""
 "Aplikace právě stahuje nástroj.\n"
 "Předčasné ukončení aplikace může způsobit problémy."
 
+#~ msgid ""
+#~ "Validates the compiler's internal representation after each pass. Used "
+#~ "for driver debugging."
+#~ msgstr ""
+#~ "Ověřuje interní reprezentaci kompilátoru po každém průchodu. Používá se "
+#~ "pro ladění ovladače."
+
+#~ msgid ""
+#~ "Disables FP gathering optimizations. Workaround for specific texture "
+#~ "issues in older games."
+#~ msgstr ""
+#~ "Vypne optimalizace FP gathering. Obejití konkrétních problémů s texturami "
+#~ "ve starších hrách."
+
+#~ msgid ""
+#~ "Prints detailed compilation performance stats and register usage to "
+#~ "system log."
+#~ msgstr ""
+#~ "Vypíše do systémového logu podrobné statistiky výkonu kompilace a využití "
+#~ "registrů."
+
+#~ msgid ""
+#~ "Forces the use of the instruction selector pass even when it could be "
+#~ "bypassed."
+#~ msgstr ""
+#~ "Vynutí použití průchodu instruction selector i když by mohl být přeskočen."
+
+#~ msgid ""
+#~ "Forces Wave64 mode execution on RDNA hardware instead of the default "
+#~ "Wave32."
+#~ msgstr "Vynutí režim Wave64 na hardwaru RDNA místo výchozího Wave32."
+
+#~ msgid ""
+#~ "Disables Next-Gen Geometry (NGG). Fixes crashes in older Vulkan games."
+#~ msgstr ""
+#~ "Vypne Next-Gen Geometry (NGG). Opravuje pády ve starších Vulkan hrách."
+
+#~ msgid "Disables internal application binary interface caching."
+#~ msgstr "Vypne interní cache aplikačního binárního rozhraní."
+
+#~ msgid "Disables background shader compilation."
+#~ msgstr "Vypne kompilaci shaderů na pozadí."
+
+#~ msgid ""
+#~ "Disables Variable Rate Shading (VRS). Fixes UI artifacts in some games."
+#~ msgstr ""
+#~ "Vypne Variable Rate Shading (VRS). Opravuje UI artefakty v některých "
+#~ "hrách."
+
+#~ msgid ""
+#~ "Disables Graphics Pipeline Library (GPL) to troubleshoot startup crashes."
+#~ msgstr "Vypne Graphics Pipeline Library (GPL) pro řešení pádů při spuštění."
+
+#~ msgid "Forces fallback command submission mode. Helps diagnosing GPU hangs."
+#~ msgstr ""
+#~ "Vynutí záložní režim odesílání příkazů. Pomáhá diagnostikovat zatuhnutí "
+#~ "GPU."
+
+#~ msgid ""
+#~ "Disables Vertex Runtime Shading. Can fix specific rendering artifacts."
+#~ msgstr ""
+#~ "Vypne Vertex Runtime Shading. Může opravit konkrétní artefakty "
+#~ "vykreslování."
+
+#~ msgid ""
+#~ "Precompiles shaders during loading screens to reduce in-game stuttering."
+#~ msgstr ""
+#~ "Předkompiluje shadery během načítacích obrazovek, aby snížil trhání "
+#~ "obrazu ve hře."
+
+#~ msgid ""
+#~ "Disables AMD Texture Compression. Fixes texture glitches on APUs and "
+#~ "Steam Deck."
+#~ msgstr ""
+#~ "Vypne AMD Texture Compression. Opravuje chyby textur na APU a Steam Decku."
+
+#~ msgid ""
+#~ "Enables VKD3D's internal shader cache on disk. Drastically reduces micro-"
+#~ "stuttering and speeds up consecutive loading times."
+#~ msgstr ""
+#~ "Zapne interní mezipaměť shaderů VKD3D na disku. Výrazně sníží mikrotrhání "
+#~ "a zrychlí opakovaná načítání."
+
+#~ msgid ""
+#~ "Forces VKD3D to use system RAM instead of VRAM for caching shader "
+#~ "compilation data, ensuring smoother data stream between CPU and GPU."
+#~ msgstr ""
+#~ "Vynutí, aby VKD3D pro cache dat kompilace shaderů používal systémovou RAM "
+#~ "místo VRAM, což zajistí plynulejší tok dat mezi CPU a GPU."
+
+#~ msgid ""
+#~ "Uses host-visible VRAM for staging buffers. Drastically reduces "
+#~ "stuttering if Resizable BAR / SAM is enabled."
+#~ msgstr ""
+#~ "Použije pro staging buffery VRAM viditelnou hostitelem. Pokud je zapnuté "
+#~ "Resizable BAR / SAM, výrazně to sníží trhání obrazu."
+
+#~ msgid ""
+#~ "Disables host-visible VRAM staging buffers. Use as a compatibility "
+#~ "fallback if experiencing memory-related crashes."
+#~ msgstr ""
+#~ "Vypne staging buffery ve VRAM viditelné hostitelem. Použijte jako záložní "
+#~ "kompatibilitní volbu při pádech souvisejících s pamětí."
+
+#~ msgid ""
+#~ "Disables D3D12 Ray Tracing (DXR) capabilities entirely. Significantly "
+#~ "improves performance and stability on GPUs without strong hardware RT "
+#~ "support."
+#~ msgstr ""
+#~ "Zcela vypne schopnosti D3D12 Ray Tracingu (DXR). Výrazně zlepší výkon a "
+#~ "stabilitu na GPU bez silné hardwarové podpory RT."
+
+#~ msgid ""
+#~ "Exposes D3D12 Ray Tracing (DXR 1.1 and 1.0) capabilities to the game via "
+#~ "Vulkan extensions."
+#~ msgstr ""
+#~ "Zpřístupní hře schopnosti D3D12 Ray Tracingu (DXR 1.1 a 1.0) přes "
+#~ "rozšíření Vulkanu."
+
+#~ msgid ""
+#~ "Restricts Ray Tracing capabilities to DXR 1.0 only. Useful for older RT "
+#~ "games that crash with DXR 1.1."
+#~ msgstr ""
+#~ "Omezí schopnosti Ray Tracingu pouze na DXR 1.0. Užitečné pro starší RT "
+#~ "hry, které s DXR 1.1 padají."
+
+#~ msgid ""
+#~ "Forces Ray Tracing BVH acceleration structures to be built on the CPU "
+#~ "instead of the GPU. Severe performance impact!"
+#~ msgstr ""
+#~ "Vynutí vytváření akceleračních struktur Ray Tracing BVH na CPU místo GPU. "
+#~ "Má to výrazný dopad na výkon!"
+
+#~ msgid ""
+#~ "Aggressively unifies memory allocators for textures and buffers to save a "
+#~ "small amount of VRAM."
+#~ msgstr ""
+#~ "Agresivně sjednotí alokátory paměti pro textury a buffery, aby ušetřil "
+#~ "malé množství VRAM."
+
+#~ msgid ""
+#~ "Enables advanced GPU Virtual Addressing to improve Direct3D 12 memory "
+#~ "mapping in massive open-world games."
+#~ msgstr ""
+#~ "Povolí pokročilé GPU Virtual Addressing pro lepší mapování paměti "
+#~ "Direct3D 12 v rozsáhlých open-world hrách."
+
+#~ msgid ""
+#~ "Disables descriptor caches. Workaround for specific games suffering from "
+#~ "memory leaks."
+#~ msgstr ""
+#~ "Vypne cache deskriptorů. Obejití problémů pro konkrétní hry trpící úniky "
+#~ "paměti."
+
+#~ msgid ""
+#~ "Forces the GPU to maintain stable clock rates. Intended for accurate "
+#~ "benchmarking only."
+#~ msgstr ""
+#~ "Vynutí, aby GPU drželo stabilní takty. Určeno pouze pro přesné benchmarky."
+
+#~ msgid ""
+#~ "Alters how root parameters are passed to compute shaders. Can fix "
+#~ "specific rendering glitches."
+#~ msgstr ""
+#~ "Mění způsob předávání root parametrů do compute shaderů. Může opravit "
+#~ "konkrétní grafické chyby."
+
+#~ msgid ""
+#~ "Allows unaligned stencil buffer clears. Workaround for certain older "
+#~ "Direct3D 12 renderers."
+#~ msgstr ""
+#~ "Umožní nevyrovnané čištění stencil bufferu. Obejití problémů pro některé "
+#~ "starší Direct3D 12 renderery."
+
 #~ msgid "Detected launchers:\n"
 #~ msgstr "Nalezené spouštěče:\n"
 
@@ -6144,9 +6268,6 @@ msgstr ""
 
 #~ msgid "Optimizes Smart Access Memory / Resizable BAR utilization."
 #~ msgstr "Optimalizuje využití Smart Access Memory / Resizable BAR."
-
-#~ msgid "Enables Next-Gen Geometry Culling for better geometry performance."
-#~ msgstr "Zapne Next-Gen Geometry Culling pro lepší výkon geometrie."
 
 #~ msgid "Graphics Pipeline Library. Drastically reduces shader stuttering."
 #~ msgstr "Graphics Pipeline Library. Výrazně snižuje trhání shaderů."

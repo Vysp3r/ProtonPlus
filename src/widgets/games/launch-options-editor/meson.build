@@ -2,6 +2,7 @@ sources += files(
     'base-binding.vala',
     'i-launch-option.vala',
     'launch-command-plan.vala',
+    'launch-option-flags.vala',
     'launch-command-builder.vala',
     'launch-command-parser.vala',
     'launch-command-composer.vala',
