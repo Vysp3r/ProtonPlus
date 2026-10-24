@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-14 16:40-0400\n"
+"POT-Creation-Date: 2026-10-24 12:47-0400\n"
 "PO-Revision-Date: 2026-08-13 21:34+0200\n"
 "Last-Translator: Daniel Rusek <mail@asciiwolf.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/protonplus/"
@@ -70,205 +70,239 @@ msgctxt "shortcut window"
 msgid "Search Current View"
 msgstr "Prohledat aktuální zobrazení"
 
-#: src/cli/cli.vala:128
+#: src/cli/cli.vala:194
 #, c-format
 msgid "Error: Unknown command '%s'\n"
 msgstr "Chyba: Neznámý příkaz '%s'\n"
 
-#: src/cli/cli.vala:137
+#: src/cli/cli.vala:203
 #, c-format
 msgid "Warning: %s\n"
 msgstr "Varování: %s\n"
 
-#: src/cli/cli.vala:175
+#: src/cli/cli.vala:241
 msgid "Detected launchers:\n"
 msgstr "Nalezené spouštěče:\n"
 
-#: src/cli/cli.vala:187
+#: src/cli/cli.vala:251
 #, c-format
 msgid "Installed runners for %s:\n"
 msgstr "Nainstalované běhové vrstvy pro %s:\n"
 
-#: src/cli/cli.vala:207
+#: src/cli/cli.vala:253 src/cli/cli.vala:778
+#, fuzzy
+msgid "Runner ID"
+msgstr "Spouštěče"
+
+#: src/cli/cli.vala:253 src/cli/cli.vala:432
+#, fuzzy
+msgid "Version"
+msgstr "Verze HUD"
+
+#: src/cli/cli.vala:253 src/cli/cli.vala:398 src/cli/cli.vala:432
+#: src/cli/cli.vala:770 src/cli/cli.vala:778
+msgid "Name"
+msgstr "Jméno"
+
+#: src/cli/cli.vala:273
 msgid "No runners installed\n"
 msgstr "Nejsou nainstalovány žádné běhové vrstvy\n"
 
-#: src/cli/cli.vala:299 src/cli/cli.vala:547
+#: src/cli/cli.vala:365 src/cli/cli.vala:619
 #, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr "Chyba: Nepodařilo se načíst vydání: %s\n"
 
-#: src/cli/cli.vala:304 src/cli/cli.vala:549
+#: src/cli/cli.vala:370 src/cli/cli.vala:621
 msgid "Error: No releases are available\n"
 msgstr "Chyba: Nejsou dostupná žádná vydání\n"
 
-#: src/cli/cli.vala:308
+#: src/cli/cli.vala:374
 #, c-format
 msgid "Installing %s Latest...\n"
 msgstr "Instaluje se %s Latest...\n"
 
-#: src/cli/cli.vala:316
+#: src/cli/cli.vala:382
 #, c-format
 msgid "Successfully installed %s Latest\n"
 msgstr "Úspěšně nainstalováno %s Latest\n"
 
-#: src/cli/cli.vala:318 src/cli/cli.vala:351
+#: src/cli/cli.vala:384 src/cli/cli.vala:420
 #, c-format
 msgid "Error: Installation failed: %s\n"
 msgstr "Chyba: Instalace selhala: %s\n"
 
-#: src/cli/cli.vala:331
+#: src/cli/cli.vala:397
 #, c-format
 msgid "Available releases for %s:\n"
 msgstr "Dostupná vydání pro %s:\n"
 
-#: src/cli/cli.vala:337 src/cli/cli.vala:367
+#: src/cli/cli.vala:398 src/cli/cli.vala:432
+msgid "Number"
+msgstr ""
+
+#: src/cli/cli.vala:398
+#, fuzzy
+msgid "Release date"
+msgstr "Vydání načtena"
+
+#: src/cli/cli.vala:406 src/cli/cli.vala:439
 msgid "Select release number"
 msgstr "Vyberte číslo vydání"
 
-#: src/cli/cli.vala:343
+#: src/cli/cli.vala:412
 #, c-format
 msgid "Installing %s...\n"
 msgstr "Instaluje se %s...\n"
 
-#: src/cli/cli.vala:349
+#: src/cli/cli.vala:418
 #, c-format
 msgid "Successfully installed %s\n"
 msgstr "Úspěšně nainstalováno %s\n"
 
-#: src/cli/cli.vala:358 src/cli/cli.vala:378
+#: src/cli/cli.vala:427 src/cli/cli.vala:450
 #, c-format
 msgid "No installed releases found for %s\n"
 msgstr "Pro %s nebyla nalezena žádná nainstalovaná vydání\n"
 
-#: src/cli/cli.vala:362
+#: src/cli/cli.vala:431
 #, c-format
 msgid "Installed releases for %s:\n"
 msgstr "Nainstalovaná vydání pro %s:\n"
 
-#: src/cli/cli.vala:382
+#: src/cli/cli.vala:454
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
 msgstr "Odinstalovávají se všechna vydání pro %s...\n"
 
-#: src/cli/cli.vala:394
+#: src/cli/cli.vala:466
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
 msgstr "Odinstalovávají se všechna vydání pro spouštěč %s...\n"
 
-#: src/cli/cli.vala:420
+#: src/cli/cli.vala:492
 #, c-format
 msgid "Uninstalling %s...\n"
 msgstr "Odinstalovává se %s...\n"
 
-#: src/cli/cli.vala:424
+#: src/cli/cli.vala:496
 #, c-format
 msgid "Successfully uninstalled %s\n"
 msgstr "Úspěšně odinstalováno %s\n"
 
-#: src/cli/cli.vala:426
+#: src/cli/cli.vala:498
 #, c-format
 msgid "Error: Uninstallation failed: %s\n"
 msgstr "Chyba: Odinstalace selhala: %s\n"
 
-#: src/cli/cli.vala:431
+#: src/cli/cli.vala:503
 msgid "Updating all runners...\n"
 msgstr "Aktualizují se všechny běhové vrstvy...\n"
 
-#: src/cli/cli.vala:437
+#: src/cli/cli.vala:509
 #, c-format
 msgid "Updating runners for %s...\n"
 msgstr "Aktualizují se běhové vrstvy pro %s...\n"
 
-#: src/cli/cli.vala:448 src/cli/cli.vala:504
+#: src/cli/cli.vala:520 src/cli/cli.vala:576
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr "Úspěšně aktualizováno %s\n"
 
-#: src/cli/cli.vala:451 src/cli/cli.vala:507
+#: src/cli/cli.vala:523 src/cli/cli.vala:579
 #, c-format
 msgid "Already up to date: %s\n"
 msgstr "%s je již aktuální.\n"
 
-#: src/cli/cli.vala:454 src/cli/cli.vala:510
+#: src/cli/cli.vala:526 src/cli/cli.vala:582
 #, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr "Chyba: Aktualizace %s se nezdařila: %s\n"
 
-#: src/cli/cli.vala:494
+#: src/cli/cli.vala:566
 msgid "Already up to date\n"
 msgstr "Již aktuální\n"
 
-#: src/cli/cli.vala:519
+#: src/cli/cli.vala:591
 #, c-format
 msgid "Updating %s..."
 msgstr "Aktualizuje se %s..."
 
-#: src/cli/cli.vala:535
+#: src/cli/cli.vala:607
 msgid "Error: Failed to load launchers\n"
 msgstr "Chyba: Nepodařilo se načíst spouštěče\n"
 
-#: src/cli/cli.vala:559
+#: src/cli/cli.vala:631
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr "Chyba: Spouštěč '%s' nebyl nalezen\n"
 
-#: src/cli/cli.vala:572
+#: src/cli/cli.vala:644
 #, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr "Chyba: Nástroj '%s' nebyl nalezen\n"
 
-#: src/cli/cli.vala:644
+#: src/cli/cli.vala:714
 #, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr "Chyba: Nástroj '%s' nepodporuje %s\n"
 
-#: src/cli/cli.vala:651
+#: src/cli/cli.vala:721
 #, c-format
 msgid "Usage: %s\n"
 msgstr "Použití: %s\n"
 
-#: src/cli/cli.vala:668
+#: src/cli/cli.vala:738
 msgid "Error: Invalid input, please enter a number\n"
 msgstr "Chyba: Neplatný vstup, zadejte prosím číslo\n"
 
-#: src/cli/cli.vala:674
+#: src/cli/cli.vala:744
 msgid "Error: Selection out of range\n"
 msgstr "Chyba: Výběr je mimo rozsah\n"
 
-#: src/cli/cli.vala:681
+#: src/cli/cli.vala:751
 msgid "Usage:\n"
 msgstr "Použití:\n"
 
-#: src/cli/cli.vala:683
+#: src/cli/cli.vala:753
 msgid "Commands:\n"
 msgstr "Příkazy:\n"
 
-#: src/cli/cli.vala:684
+#: src/cli/cli.vala:754
+#, fuzzy
+msgid "Command"
+msgstr "Příkazy:\n"
+
+#: src/cli/cli.vala:754
+#, fuzzy
+msgid "Description"
+msgstr "Trvání"
+
+#: src/cli/cli.vala:755
 msgid "Show version"
 msgstr "Zobrazit verzi"
 
-#: src/cli/cli.vala:685
+#: src/cli/cli.vala:756
 msgid "Show this help"
 msgstr "Zobrazit tuto nápovědu"
 
-#: src/cli/cli.vala:686
+#: src/cli/cli.vala:757
 msgid "List launchers or installed runners"
 msgstr "Vypsat spouštěče nebo nainstalované běhové vrstvy"
 
-#: src/cli/cli.vala:687
+#: src/cli/cli.vala:758
 msgid "Install runner"
 msgstr "Nainstalovat běhovou vrstvu"
 
-#: src/cli/cli.vala:688
+#: src/cli/cli.vala:759
 msgid "Uninstall runner"
 msgstr "Odinstalovat běhovou vrstvu"
 
-#: src/cli/cli.vala:689
+#: src/cli/cli.vala:760
 msgid "Update runner"
 msgstr "Aktualizovat běhovou vrstvu"
 
-#: src/cli/cli.vala:693
+#: src/cli/cli.vala:765
 msgid ""
 "\n"
 "Available launchers:\n"
@@ -276,7 +310,12 @@ msgstr ""
 "\n"
 "Dostupné spouštěče:\n"
 
-#: src/cli/cli.vala:700
+#: src/cli/cli.vala:770
+#, fuzzy
+msgid "Launcher ID"
+msgstr "Spoušteče"
+
+#: src/cli/cli.vala:777
 #, c-format
 msgid ""
 "\n"
@@ -285,35 +324,35 @@ msgstr ""
 "\n"
 "Dostupné běhové vrstvy pro %s:\n"
 
-#: src/cli/cli.vala:714
+#: src/cli/cli.vala:793
 #, c-format
 msgid "ETA: %s"
 msgstr "ETA: %s"
 
-#: src/cli/cli.vala:716 src/widgets/header/header-downloads-indicator.vala:325
+#: src/cli/cli.vala:795 src/widgets/header/header-downloads-indicator.vala:325
 msgid "ETA: --"
 msgstr "ETA: --"
 
-#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:790
+#: src/cli/cli.vala:798 src/widgets/tools/tools-release-row.vala:790
 msgid "Updating"
 msgstr "Aktualizuje se"
 
-#: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:315
+#: src/cli/cli.vala:798 src/widgets/header/header-downloads-indicator.vala:315
 #: src/widgets/tools/tools-release-row.vala:786
 msgid "Installing"
 msgstr "Instaluje se"
 
-#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:913
+#: src/cli/cli.vala:811 src/widgets/tools/tools-release-row.vala:913
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%dh %dm %ds"
 
-#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:917
+#: src/cli/cli.vala:813 src/widgets/tools/tools-release-row.vala:917
 #, c-format
 msgid "%dm %ds"
 msgstr "%dm %ds"
 
-#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:918
+#: src/cli/cli.vala:815 src/widgets/tools/tools-release-row.vala:918
 #, c-format
 msgid "%ds"
 msgstr "%ds"
@@ -695,6 +734,28 @@ msgstr "Nepodařilo se aktualizovat compatibilitytool.vdf"
 #: src/services/standard-archive-workflow.vala:375
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "Manifest nástroje kompatibility je neplatný nebo neúplný"
+
+#: src/services/steam-configuration-service.vala:277
+#, fuzzy
+msgid "Unable to create shortcuts.vdf."
+msgstr "Nepodařilo se vytvořit zástupce"
+
+#: src/services/steam-configuration-service.vala:285
+msgid "Configuration file is missing."
+msgstr ""
+
+#: src/services/steam-configuration-service.vala:290
+#, fuzzy
+msgid "Configuration file could not be parsed."
+msgstr "Operaci nebylo možné dokončit."
+
+#: src/services/steam-configuration-service.vala:293
+msgid "The targeted Steam setting changed externally."
+msgstr ""
+
+#: src/services/steam-configuration-service.vala:295
+msgid "Unable to apply a pending Steam setting."
+msgstr ""
 
 #: src/services/steam-tinker-launch-workflow.vala:71
 msgid "The SteamTinkerLaunch archive is invalid or incomplete"
@@ -4188,7 +4249,7 @@ msgstr ""
 msgid "Restart Steam?"
 msgstr "Restartovat Steam?"
 
-#: src/widgets/main/main-box.vala:242 src/widgets/main/main-box.vala:293
+#: src/widgets/main/main-box.vala:242 src/widgets/main/main-box.vala:296
 #: src/widgets/main/steam-restart-dialog.vala:28
 msgid "Later"
 msgstr "Později"
@@ -4199,66 +4260,66 @@ msgstr "Později"
 msgid "Restart Steam"
 msgstr "Restartovat Steam"
 
-#: src/widgets/main/main-box.vala:297
+#: src/widgets/main/main-box.vala:300
 msgid "Try Again"
 msgstr "Zkusit znovu"
 
-#: src/widgets/main/main-box.vala:332 src/widgets/tools/tools-box.vala:762
+#: src/widgets/main/main-box.vala:335 src/widgets/tools/tools-box.vala:762
 msgid "Checking for updates"
 msgstr "Kontrolují se aktualizace"
 
-#: src/widgets/main/main-box.vala:343 src/widgets/tools/tools-box.vala:770
+#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:770
 msgid "Can't update while a game is running"
 msgstr "Během spuštěné hry nelze aktualizovat"
 
-#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:773
+#: src/widgets/main/main-box.vala:349 src/widgets/tools/tools-box.vala:773
 msgid "Nothing to update"
 msgstr "Nic k aktualizaci"
 
-#: src/widgets/main/main-box.vala:350 src/widgets/tools/tools-box.vala:777
+#: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:777
 msgid "Everything is now up-to-date"
 msgstr "Vše je nyní aktuální"
 
-#: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:780
+#: src/widgets/main/main-box.vala:356 src/widgets/tools/tools-box.vala:780
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Aktualizace se nepodařilo zkontrolovat (Důvod: %s)"
 
-#: src/widgets/main/main-box.vala:360
+#: src/widgets/main/main-box.vala:363
 msgid "Update started"
 msgstr "Aktualizace začala"
 
-#: src/widgets/main/main-box.vala:362
+#: src/widgets/main/main-box.vala:365
 msgid "Download started"
 msgstr "Stahování začalo"
 
-#: src/widgets/main/main-box.vala:368
+#: src/widgets/main/main-box.vala:371
 msgid "Download finished"
 msgstr "Stahování dokončeno"
 
-#: src/widgets/main/main-box.vala:370
+#: src/widgets/main/main-box.vala:373
 msgid "Download canceled"
 msgstr "Stahovaní zrušeno"
 
-#: src/widgets/main/main-box.vala:376
+#: src/widgets/main/main-box.vala:379
 msgid "Download failed"
 msgstr "Stahování selhalo"
 
-#: src/widgets/main/main-box.vala:395 src/widgets/main/main-box.vala:397
+#: src/widgets/main/main-box.vala:398 src/widgets/main/main-box.vala:400
 msgid "Update finished"
 msgstr "Aktualizace dokončena"
 
-#: src/widgets/main/main-box.vala:395
+#: src/widgets/main/main-box.vala:398
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "%s je nyní aktuální"
 
-#: src/widgets/main/main-box.vala:397
+#: src/widgets/main/main-box.vala:400
 #, c-format
 msgid "%s is already up-to-date"
 msgstr "%s je již aktuální"
 
-#: src/widgets/main/main-box.vala:402
+#: src/widgets/main/main-box.vala:405
 msgid "Deleted"
 msgstr "Smazáno"
 
@@ -4347,7 +4408,7 @@ msgid "Waiting for Steam to start…"
 msgstr "Čeká se na spuštění Steamu…"
 
 #: src/widgets/main/steam-restart-presentation.vala:97
-#: src/widgets/main/steam-restart-presentation.vala:151
+#: src/widgets/main/steam-restart-presentation.vala:156
 msgid "SteamOS is restarting Steam"
 msgstr "SteamOS restartuje Steam"
 
@@ -4450,31 +4511,46 @@ msgstr ""
 "Nebyl proveden pokus o vynucené ukončení. Zavřete Steam ručně nebo to zkuste "
 "znovu."
 
-#: src/widgets/main/steam-restart-presentation.vala:132
+#: src/widgets/main/steam-restart-presentation.vala:130
 msgid "Steam couldn’t be reopened"
 msgstr "Steam se nepodařilo znovu otevřít"
 
-#: src/widgets/main/steam-restart-presentation.vala:132
+#: src/widgets/main/steam-restart-presentation.vala:130
+#, fuzzy
 msgid ""
-"Steam is currently closed. Start it manually. ProtonPlus will keep the "
+"If Steam is not already open, start it manually. ProtonPlus will keep the "
 "reminder until it confirms a new session."
 msgstr ""
 "Steam je momentálně zavřený. Spusťte ho ručně. ProtonPlus ponechá "
 "připomínku, dokud nepotvrdí novou relaci."
 
 #: src/widgets/main/steam-restart-presentation.vala:132
+#, fuzzy
+msgid "Steam startup could not be confirmed"
+msgstr "Stav Steamu se nepodařilo potvrdit"
+
+#: src/widgets/main/steam-restart-presentation.vala:132
 msgid ""
-"Start Steam manually. ProtonPlus will keep the reminder until it confirms a "
-"new session."
+"Steam may still be starting. If it is already open, you do not need to start "
+"it again. ProtonPlus will keep checking for a new session."
 msgstr ""
-"Spusťte Steam ručně. ProtonPlus ponechá připomínku, dokud nepotvrdí novou "
-"relaci."
 
 #: src/widgets/main/steam-restart-presentation.vala:134
-msgid "Steam changes need attention"
-msgstr "Změny Steamu vyžadují pozornost"
+#: src/widgets/main/steam-restart-presentation.vala:143
+#: src/widgets/main/steam-restart-presentation.vala:152
+msgid "Steam restarted"
+msgstr "Steam byl restartován"
 
 #: src/widgets/main/steam-restart-presentation.vala:134
+#, fuzzy
+msgid ""
+"Steam reopened, but ProtonPlus could not verify every pending change. The "
+"reminder will remain until those changes are confirmed."
+msgstr ""
+"Steam je zavřený. ProtonPlus nemohl bezpečně použít všechny čekající změny; "
+"zkuste to znovu nebo po vyřešení konfliktu spusťte Steam ručně."
+
+#: src/widgets/main/steam-restart-presentation.vala:136
 msgid ""
 "Steam is closed. ProtonPlus could not safely apply every pending change; "
 "retry or start Steam manually after resolving the conflict."
@@ -4482,16 +4558,15 @@ msgstr ""
 "Steam je zavřený. ProtonPlus nemohl bezpečně použít všechny čekající změny; "
 "zkuste to znovu nebo po vyřešení konfliktu spusťte Steam ručně."
 
-#: src/widgets/main/steam-restart-presentation.vala:136
+#: src/widgets/main/steam-restart-presentation.vala:139
+msgid "Steam changes need attention"
+msgstr "Změny Steamu vyžadují pozornost"
+
+#: src/widgets/main/steam-restart-presentation.vala:141
 msgid "Steam restart was cancelled"
 msgstr "Restart Steamu byl zrušen"
 
-#: src/widgets/main/steam-restart-presentation.vala:138
-#: src/widgets/main/steam-restart-presentation.vala:147
-msgid "Steam restarted"
-msgstr "Steam byl restartován"
-
-#: src/widgets/main/steam-restart-presentation.vala:138
+#: src/widgets/main/steam-restart-presentation.vala:143
 msgid ""
 "Steam restarted successfully, but ProtonPlus could not save the cleared "
 "reminder state."
@@ -4499,29 +4574,29 @@ msgstr ""
 "Steam byl úspěšně restartován, ale ProtonPlus nedokázal uložit vyčištěný "
 "stav připomínky."
 
-#: src/widgets/main/steam-restart-presentation.vala:140
+#: src/widgets/main/steam-restart-presentation.vala:145
 msgid "Steam couldn’t restart"
 msgstr "Steam se nepodařilo restartovat"
 
-#: src/widgets/main/steam-restart-presentation.vala:140
+#: src/widgets/main/steam-restart-presentation.vala:145
 msgid "Try again later or restart Steam manually."
 msgstr "Zkuste to později nebo restartujte Steam ručně."
 
-#: src/widgets/main/steam-restart-presentation.vala:147
+#: src/widgets/main/steam-restart-presentation.vala:152
 msgid "Steam restarted; other changes still need a restart"
 msgstr "Steam byl restartován; další změny stále vyžadují restart"
 
-#: src/widgets/main/steam-restart-presentation.vala:169
-#: src/widgets/main/steam-restart-presentation.vala:196
+#: src/widgets/main/steam-restart-presentation.vala:174
+#: src/widgets/main/steam-restart-presentation.vala:201
 msgid "Steam needs to restart to apply your changes"
 msgstr "Pro použití vašich změn je potřeba restartovat Steam"
 
-#: src/widgets/main/steam-restart-presentation.vala:173
-#: src/widgets/main/steam-restart-presentation.vala:200
+#: src/widgets/main/steam-restart-presentation.vala:178
+#: src/widgets/main/steam-restart-presentation.vala:205
 msgid "Multiple changes will be applied after Steam restarts"
 msgstr "Po restartu Steamu se použije více změn"
 
-#: src/widgets/main/steam-restart-presentation.vala:219
+#: src/widgets/main/steam-restart-presentation.vala:224
 msgid "Steam restart needed"
 msgstr "Je potřeba restartovat Steam"
 
@@ -5968,6 +6043,13 @@ msgstr ""
 "Aplikace právě stahuje nástroj.\n"
 "Předčasné ukončení aplikace může způsobit problémy."
 
+#~ msgid ""
+#~ "Start Steam manually. ProtonPlus will keep the reminder until it confirms "
+#~ "a new session."
+#~ msgstr ""
+#~ "Spusťte Steam ručně. ProtonPlus ponechá připomínku, dokud nepotvrdí novou "
+#~ "relaci."
+
 #~ msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
 #~ msgstr "Verze DXVK, které fungovaly před Vulkanem verze 1.3."
 
@@ -6069,9 +6151,6 @@ msgstr ""
 
 #~ msgid "HWCAPS"
 #~ msgstr "HWCAPS"
-
-#~ msgid "Name"
-#~ msgstr "Jméno"
 
 #~ msgid "Help"
 #~ msgstr "Nápověda"
@@ -6367,9 +6446,6 @@ msgstr ""
 
 #~ msgid "Couldn't change the default compatibility tool"
 #~ msgstr "Nelze změnit výchozí nástroj kompatibility"
-
-#~ msgid "Runners"
-#~ msgstr "Spouštěče"
 
 #~ msgid "Checking for updates..."
 #~ msgstr "Kontrolují se aktualizace..."

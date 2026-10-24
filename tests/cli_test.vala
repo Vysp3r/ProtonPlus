@@ -357,6 +357,15 @@ namespace AppTests.CliTest {
         assert (unknown_output.stdout_text.contains ("Usage:"));
     }
 
+    // Identity assertions ignore padding; alignment is checked separately below.
+    private string compact_columns (string text) {
+        try {
+            return new Regex (" {2,}").replace (text.replace ("\033[1m", "").replace ("\033[0m", ""), -1, 0, "  ");
+        } catch (RegexError error) {
+            assert_not_reached ();
+        }
+    }
+
     private void test_list_managed_releases () {
         var root = temporary_directory ();
         try {
@@ -389,14 +398,15 @@ namespace AppTests.CliTest {
                 new FixtureHandler (launcher_list (launcher),
                     FixtureJobBehavior.NORMAL, output)) == 0);
 
-            assert (output.stdout_text.contains (
+            var listing = compact_columns (output.stdout_text);
+            assert (listing.contains (
                 "  ge-proton  GE-Proton9-27  GE-Proton Latest\n"
             ));
-            assert (!output.stdout_text.contains ("unmanaged-runner"));
-            assert (output.stdout_text.contains ("  ge-proton  GE-Proton9-26  Proton-GE 9-26\n"));
-            assert (output.stdout_text.contains ("  ge-proton    No release tag\n"));
-            assert (output.stdout_text.split ("\nFixture:\n").length == 2);
-            assert (!output.stdout_text.contains ("No runners installed"));
+            assert (!listing.contains ("unmanaged-runner"));
+            assert (listing.contains ("  ge-proton  GE-Proton9-26  Proton-GE 9-26\n"));
+            assert (listing.contains ("  ge-proton  —  No release tag\n"));
+            assert (listing.split ("\nFixture:\n").length == 2);
+            assert (!listing.contains ("No runners installed"));
 
             // The same directory becomes unmanaged if its receipt is removed.
             assert (FileUtils.remove (Path.build_filename (latest_path, ".protonplus")) == 0);
@@ -468,7 +478,25 @@ namespace AppTests.CliTest {
                 new FixtureHandler (launcher_list (launcher),
                     FixtureJobBehavior.NORMAL, output)) == 0);
 
-            var listing = output.stdout_text;
+            var listing = compact_columns (output.stdout_text);
+            var version_column = -1;
+            var name_column = -1;
+            foreach (var line in output.stdout_text.replace ("\033[1m", "").replace ("\033[0m", "").split ("\n")) {
+                if (line.has_prefix ("  Runner ID")) {
+                    if (version_column < 0) {
+                        version_column = line.index_of ("Version");
+                        name_column = line.index_of ("Name");
+                    }
+                    assert (line.index_of ("Version") == version_column);
+                    assert (line.index_of ("Name") == name_column);
+                } else if (line.has_prefix ("  ")) {
+                    assert (line[version_column] != ' ');
+                    assert (line[name_column] != ' ');
+                    assert (line[version_column - 1] == ' ');
+                    assert (line[name_column - 1] == ' ');
+                }
+            }
+            assert (version_column > 2);
             assert (listing.contains ("Installed runners for Lutris:"));
             assert (listing.contains ("  ge-proton  GE-Proton9-27  GE-Proton Latest\n"));
             assert (listing.contains ("  wine-ge  v8  Wine-GE Latest\n"));
@@ -476,7 +504,7 @@ namespace AppTests.CliTest {
             assert (listing.contains ("  dxvk-doitsujin  v3.1.1  DXVK (doitsujin) Latest\n"));
             assert (!listing.contains ("unmanaged-wine"));
             assert (!listing.contains ("unmanaged-dxvk"));
-            assert (listing.contains ("\nVKD3D:\n  vkd3d-proton  v2.14  vkd3d-proton-2.14\n"));
+            assert (listing.contains ("\nVKD3D:\n  Runner ID  Version  Name\n  vkd3d-proton  v2.14  vkd3d-proton-2.14\n"));
             assert (listing.split ("  ge-proton  ").length == 2);
             assert (listing.contains ("  wine-ge  v7  wine-provider-only\n"));
             assert (listing.contains ("  wine-ge  v6  wine-legacy\n"));
@@ -530,11 +558,12 @@ namespace AppTests.CliTest {
             var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
             assert (run_cli ({ "protonplus", "list", launcher.instance_id },
                 new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, output)) == 0);
-            assert (output.stdout_text.contains ("  fixture-legacy  v1  legacy-v1\n"));
-            assert (output.stdout_text.contains ("  fixture-legacy  v2  legacy-v2\n"));
-            assert (output.stdout_text.contains ("  fixture-legacy  v0  provider-only\n"));
-            assert (output.stdout_text.contains ("  fixture-legacy  v0.1  tool-only\n"));
-            assert (output.stdout_text.split ("  fixture-legacy  ").length == 6);
+            var listing = compact_columns (output.stdout_text);
+            assert (listing.contains ("  fixture-legacy  v1  legacy-v1\n"));
+            assert (listing.contains ("  fixture-legacy  v2  legacy-v2\n"));
+            assert (listing.contains ("  fixture-legacy  v0  provider-only\n"));
+            assert (listing.contains ("  fixture-legacy  v0.1  tool-only\n"));
+            assert (listing.split ("  fixture-legacy  ").length == 6);
             assert (ProtonPlus.CLI.Handler.matches_runner_id (runner, "fixture-legacy"));
 
             // The listed ID reaches the same inventory entries for removal,

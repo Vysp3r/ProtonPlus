@@ -259,11 +259,12 @@ protonplus update steam-system
 protonplus update all
 protonplus uninstall steam-system proton-ge
 ```
-
+d
 For each managed release, `list <launcher_id>` prints the runner ID, recorded
-release tag, and display title, grouped by tool category. Older records without
-a tag retain an empty tag field. Unmanaged directories and records that cannot
-be resolved to an available provider are omitted.
+release tag, and display title in labeled, aligned columns, grouped by tool
+category. Older records without a tag display `—` in the Version column.
+Unmanaged directories and records that cannot be resolved to an available
+provider are omitted.
 
 The `latest` argument selects the latest eligible release during installation. The `all` argument can remove all releases for a tool or all provider-tool releases for a launcher.
 

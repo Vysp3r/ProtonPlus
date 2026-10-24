@@ -63,6 +63,10 @@ namespace ProtonPlus.CLI {
             sink.write_stdout (format.vprintf (args));
         }
 
+        public void column_labels (string text) {
+            sink.write_stdout (BOLD + text + RESET + "\n");
+        }
+
         public void success (string format, ...) {
             var args = va_list ();
             sink.write_stdout (GREEN + format.vprintf (args) + RESET);
@@ -85,6 +89,77 @@ namespace ProtonPlus.CLI {
 
         public void flush_stdout () {
             sink.flush_stdout ();
+        }
+    }
+
+    // Buffer presentation rows so every column fits its header and contents.
+    private class TableRow : Object {
+        public string[] cells;
+        public string? heading;
+
+        public TableRow (string[] cells, string? heading = null) {
+            this.cells = cells;
+            this.heading = heading;
+        }
+    }
+
+    private class Table : Object {
+        private string[] labels;
+        private int[] widths;
+        private Gee.ArrayList<TableRow> rows = new Gee.ArrayList<TableRow> ();
+
+        public Table (string[] labels) {
+            this.labels = labels;
+            widths = new int[labels.length];
+            for (var i = 0; i < labels.length; i++)
+                widths[i] = display_width (labels[i]);
+        }
+
+        public void add (string[] cells, string? heading = null) {
+            assert (cells.length == labels.length);
+            rows.add (new TableRow (cells, heading));
+            for (var i = 0; i < cells.length; i++)
+                widths[i] = int.max (widths[i], display_width (cells[i]));
+        }
+
+        private static int display_width (string value) {
+            var width = 0;
+            var index = 0;
+            unichar character;
+            while (value.get_next_char (ref index, out character)) {
+                if (!character.iszerowidth ())
+                    width += character.iswide () ? 2 : 1;
+            }
+            return width;
+        }
+
+        private void print_row (Output output, string[] cells, bool labels = false) {
+            var line = new StringBuilder ("  ");
+            for (var i = 0; i < cells.length; i++) {
+                line.append (cells[i]);
+                if (i + 1 < cells.length)
+                    line.append (string.nfill (widths[i] - display_width (cells[i]) + 2, ' '));
+            }
+            if (labels)
+                output.column_labels (line.str);
+            else
+                output.info ("%s\n", line.str);
+        }
+
+        public void print (Output output) {
+            if (rows.size == 0)
+                return;
+            if (rows[0].heading == null) {
+                output.info ("\n");
+                print_row (output, labels, true);
+            }
+            foreach (var row in rows) {
+                if (row.heading != null) {
+                    output.info ("\n%s:\n", row.heading);
+                    print_row (output, labels, true);
+                }
+                print_row (output, row.cells);
+            }
         }
     }
 
@@ -173,9 +248,7 @@ namespace ProtonPlus.CLI {
         private int handle_list (string[] args) {
             if (args.length < 3) {
                 output.header (_ ("Detected launchers:\n"));
-                foreach (var launcher in launchers) {
-                    output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
-                }
+                print_launcher_table ();
                 return 0;
             }
 
@@ -186,6 +259,7 @@ namespace ProtonPlus.CLI {
 
             output.header (_ ("Installed runners for %s:\n"), launcher.title);
             var found = false;
+            var table = new Table ({ _ ("Runner ID"), _ ("Version"), _ ("Name") });
             foreach (var group in launcher.groups) {
                 group.refresh_installed_state ();
                 var installed = group.get_installed_tool_snapshot ();
@@ -197,15 +271,15 @@ namespace ProtonPlus.CLI {
                     var runner = group.installed_tool_inventory.get_provider_tool_for_entry (entry);
                     if (runner == null)
                         continue;
-                    if (!group_found) {
-                        output.info ("\n%s:\n", group.title);
-                        group_found = true;
-                    }
-                    output.info ("  %s  %s  %s\n", get_runner_id (runner), entry.tag, entry.display_title);
+                    table.add ({ get_runner_id (runner), entry.tag != "" ? entry.tag : "—", entry.display_title },
+                        group_found ? null : group.title);
+                    group_found = true;
                     found = true;
                 }
             }
+            table.print (output);
             if (!found) {
+                output.info ("\n");
                 output.warning (_ ("No runners installed\n"));
             }
             return 0;
@@ -331,10 +405,13 @@ namespace ProtonPlus.CLI {
             }
 
             output.header (_ ("Available releases for %s:\n"), provider_tool.title);
+            var table = new Table ({ _ ("Number"), _ ("Release date"), _ ("Name") });
             for (var i = 0; i < catalog.releases.size; i++) {
                 var release = catalog.releases[i] as Models.Release;
-                output.info ("%d. %s (%s)\n", i + 1, release.title, release.release_date);
+                table.add ({ (i + 1).to_string (),
+                    release.release_date != "" ? release.release_date : "—", release.title });
             }
+            table.print (output);
 
             var index = read_user_selection (_ ("Select release number"), (int) catalog.releases.size);
             if (index < 0) {
@@ -362,9 +439,12 @@ namespace ProtonPlus.CLI {
             }
 
             output.header (_ ("Installed releases for %s:\n"), runner.title);
+            var table = new Table ({ _ ("Number"), _ ("Version"), _ ("Name") });
             for (var i = 0; i < installed.size; i++) {
-                output.info ("%d. %s\n", i + 1, installed[i].display_title);
+                table.add ({ (i + 1).to_string (), installed[i].tag != "" ? installed[i].tag : "—",
+                    installed[i].display_title });
             }
+            table.print (output);
 
             var index = read_user_selection (_ ("Select release number"), installed.size);
             if (index < 0) {
@@ -679,30 +759,39 @@ namespace ProtonPlus.CLI {
 
         private void print_usage () {
             output.header (_ ("Usage:\n"));
-            output.info ("  protonplus <command> [options]\n\n");
+            output.info ("\n  protonplus <command> [options]\n\n");
             output.header (_ ("Commands:\n"));
-            output.info ("  %-45s %s\n", "version", _ ("Show version"));
-            output.info ("  %-45s %s\n", "help", _ ("Show this help"));
-            output.info ("  %-45s %s\n", "list [launcher_id]", _ ("List launchers or installed runners"));
-            output.info ("  %-45s %s\n", "install <launcher_id> <runner_id> [latest]", _ ("Install runner"));
-            output.info ("  %-45s %s\n", "uninstall <launcher_id> <runner_id|all> [all]", _ ("Uninstall runner"));
-            output.info ("  %-45s %s\n", "update <all|launcher_id> [runner_id]", _ ("Update runner"));
+            var table = new Table ({ _ ("Command"), _ ("Description") });
+            table.add ({ "version", _ ("Show version") });
+            table.add ({ "help", _ ("Show this help") });
+            table.add ({ "list [launcher_id]", _ ("List launchers or installed runners") });
+            table.add ({ "install <launcher_id> <runner_id> [latest]", _ ("Install runner") });
+            table.add ({ "uninstall <launcher_id> <runner_id|all> [all]", _ ("Uninstall runner") });
+            table.add ({ "update <all|launcher_id> [runner_id]", _ ("Update runner") });
+            table.print (output);
         }
 
         private void print_available_launchers () {
             output.header (_ ("\nAvailable launchers:\n"));
-            foreach (var launcher in launchers) {
-                output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
-            }
+            print_launcher_table ();
+        }
+
+        private void print_launcher_table () {
+            var table = new Table ({ _ ("Launcher ID"), _ ("Name") });
+            foreach (var launcher in launchers)
+                table.add ({ get_launcher_id (launcher), launcher.title });
+            table.print (output);
         }
 
         private void print_available_runners (Models.Launcher launcher) {
             output.header (_ ("\nAvailable runners for %s:\n"), launcher.title);
+            var table = new Table ({ _ ("Runner ID"), _ ("Name") });
             foreach (var group in launcher.groups) {
                 foreach (var runner in group.tools) {
-                    output.info ("  %-45s (%s)\n", get_runner_id (runner), runner.title);
+                    table.add ({ get_runner_id (runner), runner.title });
                 }
             }
+            table.print (output);
         }
 
         private void on_progress_updated (Services.InstallJob job) {
