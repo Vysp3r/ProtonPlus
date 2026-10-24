@@ -90,3 +90,18 @@ The focused test suite protects the extension points rather than implementation 
 - Installation, inventory, CLI, and SteamTinkerLaunch tests preserve the remaining boundaries: installation transactions, installed-state refresh, command behaviour, and the specialized lifecycle.
 
 These are behavioural checks. Do not replace them with source-text searches or tests that depend on code formatting.
+
+## TinkerGame successor integration
+
+`TinkerGameContext` selects `TinkerGameWorkflow`. It specializes the archive
+workflow's staged preparation and metadata hooks because directory staging,
+promotion and backup restoration have identical requirements. It stages the
+complete modular runtime and Steam manifests together; it does not reuse
+SteamTinkerLaunch's external command or global executable-link lifecycle.
+See [TinkerGame](tinkergame.md) for automatic release discovery (including prereleases), ownership,
+dependency policy, unsupported targets and explicit configuration migration.
+
+`TinkerGameReleaseSource` is stateless and uses GitHub source archives, including
+prereleases. Its `ReleaseCatalog` owns caching; update checks bypass the browse
+cache. Ordinary GitHub providers retain their uploaded-asset and stable-release
+policies.

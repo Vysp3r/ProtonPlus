@@ -43,6 +43,7 @@ src/models/tools/provider-tool.vala
 src/models/tools/release-page-result.vala
 src/models/tools/release-page.vala
 src/models/tools/steamtinkerlaunch.vala
+src/models/tools/tinkergame.vala
 src/models/variant-compatibility.vala
 src/models/variant-selector.vala
 src/models/variant.vala
@@ -55,6 +56,7 @@ src/providers/sources/gitlab-release-source.vala
 src/providers/sources/release-source-registry.vala
 src/providers/sources/release-source-support.vala
 src/providers/sources/release-source.vala
+src/providers/sources/tinkergame-release-source.vala
 src/return_codes.vala
 src/services/archive-workflow-support.vala
 src/services/compatibility-process-guard.vala
@@ -78,6 +80,9 @@ src/services/steam-session-service.vala
 src/services/steam-tinker-launch-context.vala
 src/services/steam-tinker-launch-workflow.vala
 src/services/steam-tinker-launch-yad-compatibility.vala
+src/services/tinker-game-context.vala
+src/services/tinker-game-migration.vala
+src/services/tinker-game-workflow.vala
 src/utils/archive-helper.vala
 src/utils/cache-manager.vala
 src/utils/controller-control-policy.vala

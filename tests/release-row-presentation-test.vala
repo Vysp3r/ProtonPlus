@@ -248,7 +248,20 @@ namespace AppTests.ReleaseRowPresentationTest {
         assert (target_ref.get () == null);
     }
 
+    private void test_failure_detail () {
+        assert (ReleaseRowPresentation.failure_message (ProtonPlus.ReturnCode.INVALID_CONFIGURATION,
+            "Missing TinkerGame dependencies:\nyad >= 7.2, xdotool, xwininfo") ==
+            "Missing TinkerGame dependencies: yad >= 7.2, xdotool, xwininfo");
+        assert (ReleaseRowPresentation.failure_message (ProtonPlus.ReturnCode.INVALID_CONFIGURATION, null) ==
+            ProtonPlus.get_return_code_message (ProtonPlus.ReturnCode.INVALID_CONFIGURATION));
+        assert (ReleaseRowPresentation.failure_message (ProtonPlus.ReturnCode.FILESYSTEM_ERROR, " \n\t") ==
+            ProtonPlus.get_return_code_message (ProtonPlus.ReturnCode.FILESYSTEM_ERROR));
+        assert (ReleaseRowPresentation.failure_message (ProtonPlus.ReturnCode.FILESYSTEM_ERROR,
+            "Cannot write <tool> & data") == "Cannot write <tool> & data");
+    }
+
     public void register_tests () {
+        Test.add_func ("/release-row-presentation/actionable-error-detail", test_failure_detail);
         Test.add_func ("/release-row-presentation/not-installed", test_not_installed);
         Test.add_func ("/release-row-presentation/recommended", test_recommended);
         Test.add_func ("/release-row-presentation/installed-current", test_installed_current);

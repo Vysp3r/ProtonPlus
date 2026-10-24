@@ -198,6 +198,15 @@ namespace ProtonPlus.Models {
                 return;
 
             foreach (var tool in group.tools) {
+                if (tool is Tools.TinkerGame) {
+                    foreach (var entry in entries) {
+                        if (entry.directory_name == "TinkerGame" && entry.internal_title == "Proton-tg") {
+                            set_tool_state (tool, entry, "Proton-tg");
+                            break;
+                        }
+                    }
+                    continue;
+                }
                 var steam_tinker_launch = tool as Tools.SteamTinkerLaunch;
                 if (steam_tinker_launch != null) {
                     resolve_steam_tinker_launch (tool);

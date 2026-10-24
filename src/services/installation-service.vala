@@ -14,6 +14,11 @@ namespace ProtonPlus.Services {
 
         private StandardArchiveWorkflow standard_archive_workflow;
         private SteamTinkerLaunchWorkflow steam_tinker_launch_workflow;
+        private TinkerGameWorkflow tinker_game_workflow = new TinkerGameWorkflow ();
+
+        public void configure_tinker_game_workflow (TinkerGameWorkflow workflow) {
+            tinker_game_workflow = workflow;
+        }
         private Gee.HashSet<string> active_removal_locations = new Gee.HashSet<string> ();
         private CompatibilityProcessGuard compatibility_process_guard = new CompatibilityProcessGuard ();
         private SteamChangeRecorder? steam_change_recorder = null;
@@ -43,6 +48,7 @@ namespace ProtonPlus.Services {
 
         public void reset_lifecycle_configuration () {
             steam_change_recorder = null;
+            tinker_game_workflow = new TinkerGameWorkflow ();
             compatibility_process_guard = new CompatibilityProcessGuard ();
         }
 
@@ -461,6 +467,8 @@ namespace ProtonPlus.Services {
         // This is the one workflow-selection point.  SteamTinkerLaunch is
         // identified by its composed context, never by provider or widget.
         private InstallationWorkflow select_workflow (InstallJob job) {
+            if (job.tinker_game_context != null)
+                return tinker_game_workflow;
             if (job.steam_tinker_launch_context != null)
                 return steam_tinker_launch_workflow;
             return standard_archive_workflow;
