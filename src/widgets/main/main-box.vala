@@ -69,10 +69,10 @@ namespace ProtonPlus.Widgets.Main {
 
             view_stack = new Adw.ViewStack ();
             view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
-            view_stack.add_titled_with_icon (tools_box, "tools", _ ("Tools"), "toolbox-symbolic");
-            view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "gamepad-symbolic");
+            view_stack.add_titled_with_icon (tools_box, "tools", _ ("Tools"), "applications-system-symbolic");
+            view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "input-gaming-symbolic");
 
-            var mangohud_page = view_stack.add_titled_with_icon (mangohud_box, "mangohud", _ ("MangoHud"), "layer-group-symbolic");
+            var mangohud_page = view_stack.add_titled_with_icon (mangohud_box, "mangohud", _ ("MangoHud"), "view-grid-symbolic");
 
             if (Globals.MANGOHUD_INSTALLED || Globals.MANGOHUD_FLATPAK_INSTALLED) {
                 Globals.SETTINGS.bind ("experimental-features", mangohud_page, "visible", SettingsBindFlags.DEFAULT);

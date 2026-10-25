@@ -2,6 +2,49 @@ namespace AppTests.SteamRestartManagerTest {
     using ProtonPlus.Models;
     using ProtonPlus.Services;
 
+    [CCode (cname = "flock", cheader_filename = "sys/file.h")]
+    private static extern int flock (int fd, int operation);
+
+    private void test_concurrent_writers () {
+        var path = temp_state_path ();
+        var target = native_target (path);
+        FakeBackend first_backend, second_backend;
+        var first = running_manager (path, out first_backend);
+        var second = running_manager (path, out second_backend);
+        assert (first.record (configuration_receipt (target, "proton-b")) == SteamRestartRecordResult.ADDED);
+        var stale = first.get_pending_changes ()[0];
+        assert (second.record (tool_receipt (target, SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED)) == SteamRestartRecordResult.ADDED);
+        assert (new SteamRestartStateStore (path).load ().records.size == 2);
+        assert (first.pending_count () == 2);
+        assert (second.record (configuration_receipt (target, "proton-c")) == SteamRestartRecordResult.UPDATED);
+        assert (!first.clear_verified_configuration (stale));
+        assert (new SteamRestartStateStore (path).load ().records.size == 2);
+        var current = first.get_pending_configuration_intent (target, stale.receipt.resource_key);
+        assert (current != null && current.desired == "proton-c");
+        assert (first.clear_applied_configuration (target, stale.receipt.resource_key));
+        assert (second.record (tool_receipt (target, SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED, "another-tool")) == SteamRestartRecordResult.ADDED);
+        var loaded = new SteamRestartStateStore (path).load ();
+        assert (loaded.records.size == 2);
+        foreach (var record in loaded.records)
+            assert (record.receipt.configuration_intent == null);
+        // External additions and deletions must also reach already-open managers.
+        assert (first.pending_count () == 2);
+    }
+
+    private void test_busy_state_lock () {
+        var path = temp_state_path ();
+        FakeBackend backend;
+        var manager = running_manager (path, out backend);
+        var target = native_target (path);
+        assert (manager.record (configuration_receipt (target, "proton-b")) == SteamRestartRecordResult.ADDED);
+        int fd = Posix.open (path + ".lock", Posix.O_RDWR);
+        assert (fd >= 0 && flock (fd, 2 | 4) == 0);
+        assert (manager.record (configuration_receipt (target, "proton-c")) == SteamRestartRecordResult.PERSISTENCE_FAILED);
+        assert (new SteamRestartStateStore (path).load ().records[0].receipt.configuration_intent.desired == "proton-b");
+        Posix.close (fd);
+        assert (manager.record (configuration_receipt (target, "proton-c")) == SteamRestartRecordResult.UPDATED);
+    }
+
     private class FakeBackend : Object, SteamSessionBackend {
         public NativeProcessQuery native_query = new NativeProcessQuery (true);
         public FlatpakProcessQuery flatpak_query = new FlatpakProcessQuery (true);
@@ -385,9 +428,9 @@ namespace AppTests.SteamRestartManagerTest {
         var changed = 0;
         manager.pending_changed.connect (() => { changed++; });
 
-        assert (manager.record (configuration_receipt (target, "present",
+        assert (manager.record (shortcut_receipt (target, true,
             SteamChangeKind.PROTONPLUS_SHORTCUT_CREATED)) == SteamRestartRecordResult.ADDED);
-        assert (manager.record (configuration_receipt (target, "present",
+        assert (manager.record (shortcut_receipt (target, true,
             SteamChangeKind.PROTONPLUS_SHORTCUT_REMOVED)) == SteamRestartRecordResult.UNCHANGED);
         assert (manager.pending_count () == 1);
         assert (manager.get_pending_changes ().get (0).occurrence_count == 1);
@@ -551,6 +594,8 @@ namespace AppTests.SteamRestartManagerTest {
     }
 
     public void register_tests () {
+        Test.add_func ("/steam-restart-manager/concurrent-writers-preserve-and-clear", test_concurrent_writers);
+        Test.add_func ("/steam-restart-manager/busy-state-lock-preserves-records", test_busy_state_lock);
         Test.add_func ("/steam-restart-manager/deduplicates-and-persists", test_deduplicates_and_persists);
         Test.add_func ("/steam-restart-manager/stopped-change-is-already-satisfied", test_stopped_change_is_already_satisfied);
         Test.add_func ("/steam-restart-manager/native-reconciliation-requires-new-session", test_native_reconciliation_requires_new_session);

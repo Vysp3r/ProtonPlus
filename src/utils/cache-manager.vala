@@ -14,18 +14,44 @@ namespace ProtonPlus.Utils {
             yield;
         }
 
-        public static async void begin_cache_operation () {
-            // A continuation runs on the main context, so incrementing after
-            // the wait closes the race with clear_cache().
-            while (clearing_cache)
-                yield wait_for_cache_state_change ();
+        public class Operation : Object {
+            private int fd;
 
-            active_cache_operations++;
+            internal Operation (int fd) { this.fd = fd; }
+
+            public void release () {
+                if (fd < 0)
+                    return;
+                Posix.close (fd);
+                fd = -1;
+                assert (active_cache_operations > 0);
+                active_cache_operations--;
+            }
+
+            ~Operation () { release (); }
         }
 
-        public static void end_cache_operation () {
-            assert (active_cache_operations > 0);
-            active_cache_operations--;
+        public static async Operation begin_cache_operation (Cancellable? cancellable = null) throws Error {
+            while (clearing_cache) {
+                if (cancellable != null)
+                    cancellable.set_error_if_cancelled ();
+                yield wait_for_cache_state_change ();
+            }
+            // Reserve before yielding so a local clear waits for this operation.
+            active_cache_operations++;
+            try {
+                while (true) {
+                    if (cancellable != null)
+                        cancellable.set_error_if_cancelled ();
+                    var fd = PartialDownloadCache.lock_cache (Globals.CACHE_PATH, false);
+                    if (fd >= 0)
+                        return new Operation (fd);
+                    yield wait_for_cache_state_change ();
+                }
+            } catch (Error e) {
+                active_cache_operations--;
+                throw e;
+            }
         }
 
         public static async bool clear_cache () {

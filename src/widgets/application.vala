@@ -70,7 +70,7 @@ namespace ProtonPlus.Widgets {
 
             if (show_introduction) {
                 show_introduction = false;
-                present_introduction (window);
+                present_introduction (window, true);
             }
 
             if (migration_manager != null) {
@@ -154,8 +154,20 @@ namespace ProtonPlus.Widgets {
             on_introduction_action ();
         }
 
-        void present_introduction (Window window) {
-            var dialog = new Introduction.Introduction ();
+        void present_introduction (Window window, bool welcome_only = false) {
+            if (welcome_only) {
+                var welcome = new Introduction.Introduction ();
+                welcome.help_requested.connect (on_help_action);
+                window.present_controller_dialog (welcome);
+                return;
+            }
+
+            var dialog = new Introduction.HelpDialog ();
+            dialog.preferences_requested.connect ((page_name) => {
+                on_preferences_action ();
+                if (active_preferences_dialog != null)
+                    active_preferences_dialog.visible_page_name = page_name;
+            });
             window.present_controller_dialog (dialog);
         }
 

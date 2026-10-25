@@ -1,7 +1,11 @@
 namespace AppTests.FilesystemTest {
     using GLib;
 
+    [CCode (cname = "flock", cheader_filename = "sys/file.h")]
+    private static extern int flock (int fd, int operation);
+
     public void register_tests () {
+        Test.add_func ("/filesystem/cache-operation-cross-process-lock", test_cache_operation_lock);
         Test.add_func ("/filesystem/delete-nested-directory", test_delete_nested_directory);
         Test.add_func ("/filesystem/delete-root-symlink-preserves-target", test_delete_root_symlink_preserves_target);
         Test.add_func ("/filesystem/clear-cache-root-symlink-preserves-target", test_clear_cache_root_symlink_preserves_target);
@@ -10,6 +14,64 @@ namespace AppTests.FilesystemTest {
         Test.add_func ("/filesystem/extract-through-symlinked-ancestor", test_extract_through_symlinked_ancestor);
         Test.add_func ("/filesystem/extract-rejects-archive-symlink-traversal", test_extract_rejects_archive_symlink_traversal);
         Test.add_func ("/filesystem/extract-canonicalization-failure-is-clean", test_extract_canonicalization_failure_is_clean);
+    }
+
+    private void test_cache_operation_lock () {
+        if (Test.subprocess ()) {
+            var root = Environment.get_variable ("PROTONPLUS_TEST_CACHE_ROOT");
+            assert (root != null);
+            int fd = Posix.open (root + ".downloads.lock", Posix.O_RDWR);
+            assert (fd >= 0);
+            var acquired = flock (fd, 2 | 4) == 0;
+            assert (acquired == (Environment.get_variable ("PROTONPLUS_TEST_CACHE_UNLOCKED") == "1"));
+            Posix.close (fd);
+            return;
+        }
+        var loop = new MainLoop ();
+        cache_operation_lock_async.begin ((obj, res) => {
+            cache_operation_lock_async.end (res);
+            loop.quit ();
+        });
+        loop.run ();
+    }
+
+    private async void cache_operation_lock_async () {
+        var root = create_temp_directory ();
+        var previous = ProtonPlus.Globals.CACHE_PATH;
+        ProtonPlus.Globals.CACHE_PATH = Path.build_filename (root, "cache");
+        Environment.set_variable ("PROTONPLUS_TEST_CACHE_ROOT", ProtonPlus.Globals.CACHE_PATH, true);
+        Environment.unset_variable ("PROTONPLUS_TEST_CACHE_UNLOCKED");
+        try {
+            var first = yield ProtonPlus.Utils.CacheManager.begin_cache_operation ();
+            var second = yield ProtonPlus.Utils.CacheManager.begin_cache_operation ();
+            Test.trap_subprocess (null, 5000000, TestSubprocessFlags.DEFAULT);
+            Test.trap_assert_passed ();
+            first.release ();
+            Test.trap_subprocess (null, 5000000, TestSubprocessFlags.DEFAULT);
+            Test.trap_assert_passed ();
+            second.release ();
+            second.release (); // Idempotent release must not decrement another operation.
+            Environment.set_variable ("PROTONPLUS_TEST_CACHE_UNLOCKED", "1", true);
+            Test.trap_subprocess (null, 5000000, TestSubprocessFlags.DEFAULT);
+            Test.trap_assert_passed ();
+
+            // Waiting for another process's clear must remain cancellable.
+            int fd = Posix.open (ProtonPlus.Globals.CACHE_PATH + ".downloads.lock", Posix.O_RDWR);
+            assert (fd >= 0 && flock (fd, 2 | 4) == 0);
+            var cancellable = new Cancellable ();
+            Timeout.add (20, () => { cancellable.cancel (); return Source.REMOVE; });
+            bool cancelled = false;
+            try {
+                yield ProtonPlus.Utils.CacheManager.begin_cache_operation (cancellable);
+            } catch (IOError.CANCELLED e) { cancelled = true; }
+            assert (cancelled);
+            Posix.close (fd);
+            assert (yield ProtonPlus.Utils.CacheManager.clear_cache ());
+        } catch (Error e) { error ("%s", e.message); }
+        Environment.unset_variable ("PROTONPLUS_TEST_CACHE_ROOT");
+        Environment.unset_variable ("PROTONPLUS_TEST_CACHE_UNLOCKED");
+        ProtonPlus.Globals.CACHE_PATH = previous;
+        assert (yield ProtonPlus.Utils.Filesystem.delete_directory (root));
     }
 
     private string create_temp_directory () {

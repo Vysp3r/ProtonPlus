@@ -149,10 +149,6 @@ namespace ProtonPlus.Widgets.Header {
             var count = entries.size;
             badge.set_label (count.to_string ());
             set_visible (global_header_visible && count > 0);
-            if (count > 0)
-                icon.add_css_class ("downloads-indicator-active");
-            else
-                icon.remove_css_class ("downloads-indicator-active");
             button.set_tooltip_text (ngettext ("%u active download", "%u active downloads", count).printf (count));
             button.update_property (
                 Gtk.AccessibleProperty.LABEL,

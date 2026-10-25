@@ -2,8 +2,7 @@ namespace ProtonPlus.Widgets.Tools {
     public enum Filter {
         ALL,
         INSTALLED,
-        USED,
-        UNUSED
+        USED
     }
 
     public class Box : Gtk.Box, Utils.ControllerNavigationHost,
@@ -15,8 +14,6 @@ namespace ProtonPlus.Widgets.Tools {
         Adw.NavigationPage groups_page { get; set; }
         Adw.NavigationPage migrate_page { get; set; }
         Gtk.Button refresh_button { get; set; }
-        Gtk.SearchEntry search_entry { get; set; }
-        Gtk.MenuButton search_button { get; set; }
         Gtk.MenuButton filter_button { get; set; }
         Gtk.ActionBar action_bar { get; set; }
         Gtk.CheckButton all_filter_button { get; set; }
@@ -28,7 +25,6 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Box root_page_box { get; set; }
         GroupBox? heading_group;
         Header.Presentation migrate_presentation { get; set; }
-        ulong background_updates_changed_handler = 0;
         ulong show_legacy_tools_changed_handler = 0;
         ulong migrate_back_handler = 0;
         GroupBox? expanded_group;
@@ -75,10 +71,6 @@ namespace ProtonPlus.Widgets.Tools {
             releases_box.games_requested.connect ((job) => {
                 show_games_dialog (job);
             });
-            releases_box.clear_search_requested.connect (() => {
-                search_entry.set_text ("");
-                search_button.grab_focus ();
-            });
             releases_box.reset_filter_requested.connect (() => {
                 all_filter_button.active = true;
                 filter_button.grab_focus ();
@@ -115,64 +107,14 @@ namespace ProtonPlus.Widgets.Tools {
                 policy = Adw.ViewSwitcherPolicy.WIDE
             };
 
-            refresh_button = new Gtk.Button.from_icon_name ("update-check-symbolic") {
+            refresh_button = new Gtk.Button.with_label (_("Update Tools")) {
                 valign = Gtk.Align.CENTER
             };
-            refresh_button.set_tooltip_text (_ ("Check for updates"));
+            refresh_button.set_tooltip_text (_ ("Update installed tools"));
             refresh_button.update_property (
-                Gtk.AccessibleProperty.LABEL, _("Check for updates"), -1
+                Gtk.AccessibleProperty.LABEL, _("Update installed tools"), -1
             );
             refresh_button.clicked.connect (on_refresh_clicked);
-
-            search_entry = new Gtk.SearchEntry () {
-                valign = Gtk.Align.CENTER,
-                placeholder_text = _ ("Search"),
-                width_request = 280,
-            };
-            Utils.TextInputMetadataPolicy.apply (search_entry, Utils.TextInputFieldKind.SEARCH);
-            search_entry.search_changed.connect (() => {
-                var search_text = search_entry.get_text ();
-                releases_box.search_text = search_text;
-                update_search_button_state ();
-
-                var child = groups_stack.get_first_child ();
-                while (child != null) {
-                    if (child is GroupBox) {
-                        ((GroupBox) child).search_text = search_text;
-                    }
-                    child = child.get_next_sibling ();
-                }
-            });
-
-            var search_popover_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
-                margin_top = 12,
-                margin_bottom = 12,
-                margin_start = 12,
-                margin_end = 12
-            };
-            search_popover_box.append (search_entry);
-
-            var search_popover = new Gtk.Popover ();
-            search_popover.set_child (search_popover_box);
-            search_entry.stop_search.connect (() => {
-                if (search_entry.get_text () != "") {
-                    search_entry.set_text ("");
-                    return;
-                }
-                search_popover.popdown ();
-                search_button.grab_focus ();
-            });
-
-            search_button = new Gtk.MenuButton () {
-                valign = Gtk.Align.CENTER,
-                icon_name = "edit-find-symbolic",
-                popover = search_popover
-            };
-            search_button.set_tooltip_text (_ ("Search"));
-            search_button.update_property (
-                Gtk.AccessibleProperty.LABEL, _("Search"), -1
-            );
-            Window.register_popover_for_controller (search_popover, search_button, search_entry);
 
             filter_button = new Gtk.MenuButton () {
                 valign = Gtk.Align.CENTER,
@@ -192,9 +134,6 @@ namespace ProtonPlus.Widgets.Tools {
             var used_filter_button = new Gtk.CheckButton.with_label (_ ("Used"));
             used_filter_button.set_group (all_filter_button);
 
-            var unused_filter_button = new Gtk.CheckButton.with_label (_ ("Unused"));
-            unused_filter_button.set_group (all_filter_button);
-
             var filter_box = new ProtonPlus.Widgets.ControllerChoiceBox () {
                 margin_top = 12,
                 margin_bottom = 12,
@@ -204,7 +143,6 @@ namespace ProtonPlus.Widgets.Tools {
             filter_box.append (all_filter_button);
             filter_box.append (installed_filter_button);
             filter_box.append (used_filter_button);
-            filter_box.append (unused_filter_button);
 
             var filter_popover = new Gtk.Popover ();
             filter_popover.set_child (filter_box);
@@ -232,13 +170,6 @@ namespace ProtonPlus.Widgets.Tools {
                 }
             });
 
-            unused_filter_button.toggled.connect (() => {
-                if (unused_filter_button.active) {
-                    current_filter = Filter.UNUSED;
-                    filter_popover.popdown ();
-                }
-            });
-
             center_stack = new Adw.ViewStack ();
             center_stack.add_named (switcher, "groups");
 
@@ -262,14 +193,8 @@ namespace ProtonPlus.Widgets.Tools {
                 var visible_child = get_visible_page_tag ();
                 if (visible_child != "groups")
                     clear_root_heading ();
-                search_button.set_visible (visible_child != "migrate");
                 filter_button.set_visible (visible_child != "migrate");
-                var background_updates_enabled = Globals.SETTINGS != null
-                                                 && Globals.SETTINGS.get_boolean ("background-updates");
-                refresh_button.set_visible (
-                    visible_child != "migrate"
-                    && !background_updates_enabled
-                );
+                refresh_button.set_visible (visible_child != "migrate");
                 migrate_box.games_button.set_visible (visible_child == "migrate");
                 migrate_box.migrate_button.set_visible (visible_child == "migrate");
 
@@ -311,7 +236,6 @@ namespace ProtonPlus.Widgets.Tools {
             append (action_bar);
 
             if (Globals.SETTINGS != null) {
-                background_updates_changed_handler = Globals.SETTINGS.changed["background-updates"].connect (update_refresh_button_visibility);
                 show_legacy_tools_changed_handler = Globals.SETTINGS.changed["show-legacy-tools"].connect (refresh_groups_for_legacy_tools);
             }
         }
@@ -326,11 +250,6 @@ namespace ProtonPlus.Widgets.Tools {
                 migrate_back_handler = 0;
             }
             if (Globals.SETTINGS != null) {
-                if (background_updates_changed_handler != 0) {
-                    Globals.SETTINGS.disconnect (background_updates_changed_handler);
-                    background_updates_changed_handler = 0;
-                }
-
                 if (show_legacy_tools_changed_handler != 0) {
                     Globals.SETTINGS.disconnect (show_legacy_tools_changed_handler);
                     show_legacy_tools_changed_handler = 0;
@@ -338,20 +257,6 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             base.dispose ();
-        }
-
-        void update_refresh_button_visibility () {
-            navigation_view.notify_property ("visible-page");
-        }
-
-        void update_search_button_state () {
-            if (search_entry.get_text () != "") {
-                search_button.add_css_class ("tools-filter-active");
-                search_button.set_tooltip_text (_ ("Search is active"));
-            } else {
-                search_button.remove_css_class ("tools-filter-active");
-                search_button.set_tooltip_text (_ ("Search"));
-            }
         }
 
         void update_filter_button_state () {
@@ -377,7 +282,7 @@ namespace ProtonPlus.Widgets.Tools {
                 return;
             heading_group = group_box;
             ((!) group_box).populate_header_actions (
-                refresh_button, filter_button, search_button
+                refresh_button, filter_button
             );
         }
 
@@ -521,7 +426,6 @@ namespace ProtonPlus.Widgets.Tools {
         public void show_groups_page () {
             reset_to_root ();
             collapse_current_expansion (true);
-            search_entry.set_text ("");
             all_filter_button.active = true;
             refresh_group_boxes ();
         }
@@ -585,13 +489,11 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public bool controller_can_open_search () {
-            return search_button.get_mapped () && search_button.is_visible () &&
-                search_button.is_sensitive ();
+            return false;
         }
 
         public bool search_available () {
-            return get_visible_page_tag () == "groups" &&
-                search_button.is_visible () && search_button.is_sensitive ();
+            return false;
         }
 
         public bool controller_can_open_filter () {
@@ -600,15 +502,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public bool controller_open_search () {
-            if (!controller_can_open_search ())
-                return false;
-            search_button.popup ();
-            Idle.add (() => {
-                if (search_entry.get_mapped ())
-                    search_entry.grab_focus ();
-                return Source.REMOVE;
-            });
-            return true;
+            return false;
         }
 
         public bool controller_open_filter () {
@@ -619,6 +513,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public void show_download (Services.InstallJob job) {
+            all_filter_button.active = true;
             navigate_to_canonical_page ("groups");
             pending_download_job = job;
             var group_box = find_group_for_tool (job.tool);
@@ -638,6 +533,24 @@ namespace ProtonPlus.Widgets.Tools {
                 pending_download_job = null;
         }
 
+        static void connect_group_actions (Box box, GroupBox group_box) {
+            var owner_ref = WeakRef (box);
+            var group_ref = WeakRef (group_box);
+            group_box.tool_expansion_changed.connect ((tool, expanded) => {
+                var owner = owner_ref.get () as Box;
+                var group = group_ref.get () as GroupBox;
+                if (owner != null && group != null)
+                    owner.on_tool_expansion_changed (group, tool, expanded);
+            });
+            group_box.reset_filter_requested.connect (() => {
+                var owner = owner_ref.get () as Box;
+                if (owner != null) {
+                    owner.all_filter_button.active = true;
+                    owner.filter_button.grab_focus ();
+                }
+            });
+        }
+
         public void set_selected_launcher (Models.Launcher launcher) {
             collapse_current_expansion (false);
             clear_root_heading ();
@@ -652,21 +565,10 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             foreach (var group in launcher.groups) {
-                var group_box = new GroupBox (group, search_button);
+                var group_box = new GroupBox (group, filter_button);
                 group_box.filter = current_filter;
-                group_box.search_text = search_entry.get_text ();
-                group_box.tool_expansion_changed.connect ((tool, expanded) => {
-                    on_tool_expansion_changed (group_box, tool, expanded);
-                });
-                group_box.clear_search_requested.connect (() => {
-                    search_entry.set_text ("");
-                    search_button.grab_focus ();
-                });
-                group_box.reset_filter_requested.connect (() => {
-                    all_filter_button.active = true;
-                    filter_button.grab_focus ();
-                });
-                groups_stack.add_titled_with_icon (group_box, group.title.down (), group.title, "layer-group-symbolic");
+                connect_group_actions (this, group_box);
+                groups_stack.add_titled_with_icon (group_box, group.title.down (), group.title, "view-grid-symbolic");
             }
 
             navigation_view.notify_property ("visible-page");
@@ -695,7 +597,6 @@ namespace ProtonPlus.Widgets.Tools {
             expanded_group = group_box;
             group_box.attach_release_section (tool, releases_box);
             releases_box.filter = current_filter;
-            releases_box.search_text = search_entry.get_text ();
             if (releases_box.is_showing_tool (tool)) {
                 if (pending_download_job != null &&
                     ((!) pending_download_job).tool == tool &&
@@ -759,7 +660,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         async void check_for_updates () {
             refresh_button.sensitive = false;
-            toast_sent (_ ("Checking for updates"));
+            toast_sent (_ ("Updating installed tools"));
 
             var launchers = new List<Models.Launcher> ();
             launchers.append (current_launcher);
@@ -774,10 +675,10 @@ namespace ProtonPlus.Widgets.Tools {
                     break;
                 case ReturnCode.RUNNERS_UPDATED:
                 case ReturnCode.RUNNER_UPDATED:
-                    toast_sent (_ ("Everything is now up-to-date"));
+                    toast_sent (_ ("Eligible installed tools are up to date"));
                     break;
                 default:
-                    toast_sent (_ ("Couldn't check for updates (Reason: %s)").printf (get_return_code_message (code)));
+                    toast_sent (_ ("Couldn't update installed tools (Reason: %s)").printf (get_return_code_message (code)));
                     break;
             }
 

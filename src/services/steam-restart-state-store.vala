@@ -18,6 +18,53 @@ namespace ProtonPlus.Services {
         public string path { get; private set; }
         public string? last_error { get; private set; default = null; }
 
+        [CCode (cname = "flock", cheader_filename = "sys/file.h")]
+        private static extern int flock (int fd, int operation);
+        private int transaction_fd = -1;
+        private uint transaction_depth = 0;
+
+        // The lock inode stays beside the atomically replaced state file.
+        // Never block GTK on another process; callers can retry a busy store.
+        internal bool begin_transaction () {
+            if (transaction_depth > 0) {
+                transaction_depth++;
+                return true;
+            }
+            if (DirUtils.create_with_parents (Path.get_dirname (path), 0700) != 0) {
+                last_error = get_return_code_message (ReturnCode.FILESYSTEM_ERROR);
+                return false;
+            }
+            var fd = Posix.open (path + ".lock", Posix.O_CREAT | Posix.O_RDWR | Posix.O_CLOEXEC | Posix.O_NOFOLLOW, 0600);
+            if (fd < 0) {
+                last_error = get_return_code_message (ReturnCode.FILESYSTEM_ERROR);
+                return false;
+            }
+            if (flock (fd, 2 | 4) != 0) {
+                Posix.close (fd);
+                last_error = get_return_code_message (ReturnCode.OPERATION_IN_PROGRESS);
+                return false;
+            }
+            transaction_fd = fd;
+            transaction_depth = 1;
+            return true;
+        }
+
+        internal void end_transaction () {
+            assert (transaction_depth > 0);
+            if (--transaction_depth == 0) {
+                Posix.close (transaction_fd);
+                transaction_fd = -1;
+            }
+        }
+
+        internal bool same_record (SteamRestartPendingRecord a, SteamRestartPendingRecord b) {
+            var left = new Json.Node (Json.NodeType.OBJECT);
+            left.set_object (record_to_json (a));
+            var right = new Json.Node (Json.NodeType.OBJECT);
+            right.set_object (record_to_json (b));
+            return Json.to_string (left, false) == Json.to_string (right, false);
+        }
+
         public SteamRestartStateStore (string? path = null) {
             this.path = path ?? Path.build_filename (Environment.get_user_state_dir (), "ProtonPlus", "steam-restart-state.json");
         }
@@ -70,6 +117,16 @@ namespace ProtonPlus.Services {
         }
 
         public virtual bool save (Gee.Collection<SteamRestartPendingRecord> records) {
+            if (!begin_transaction ())
+                return false;
+            try {
+                return save_locked (records);
+            } finally {
+                end_transaction ();
+            }
+        }
+
+        private bool save_locked (Gee.Collection<SteamRestartPendingRecord> records) {
             last_error = null;
             var parent = File.new_for_path (Path.get_dirname (path));
             try {

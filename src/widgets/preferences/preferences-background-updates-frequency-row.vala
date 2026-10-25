@@ -12,10 +12,10 @@ namespace ProtonPlus.Widgets.Preferences {
 
         construct {
             var model = new ListStore (typeof (Frequency));
-            model.append (new Frequency (_ ("1h"), 0));
-            model.append (new Frequency (_ ("3h"), 1));
-            model.append (new Frequency (_ ("6h"), 2));
-            model.append (new Frequency (_ ("12h"), 3));
+            model.append (new Frequency (_ ("Every hour"), 0));
+            model.append (new Frequency (_ ("Every 3 hours"), 1));
+            model.append (new Frequency (_ ("Every 6 hours"), 2));
+            model.append (new Frequency (_ ("Every 12 hours"), 3));
 
             var expression = new Gtk.PropertyExpression (typeof (Frequency), null, "title");
 

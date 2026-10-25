@@ -668,6 +668,7 @@ namespace AppTests.SteamTest {
         assert (FileUtils.remove (config_path) == 0);
         SteamConfigurationService.reset_configuration ();
         assert (DirUtils.remove (config_directory) == 0);
+        assert (FileUtils.remove (Path.build_filename (root, "restart-state.json.lock")) == 0);
         assert (DirUtils.remove (root) == 0);
     }
 
@@ -695,6 +696,7 @@ namespace AppTests.SteamTest {
         assert (FileUtils.remove (config_path) == 0);
 
         SteamConfigurationService.reset_configuration ();
+        assert (FileUtils.remove (Path.build_filename (root, "restart-state.json.lock")) == 0);
         assert (DirUtils.remove (root) == 0);
     }
 

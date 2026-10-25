@@ -18,6 +18,9 @@ namespace ProtonPlus.Services {
         private SteamConfigurationReconciler? configuration_reconciler;
         private ulong state_changed_handler_id = 0;
         private bool observation_started = false;
+        private uint transaction_depth = 0;
+        private FileMonitor? state_monitor;
+        private ulong state_monitor_handler = 0;
 
         public string? last_persistence_error { get; private set; default = null; }
         public string? last_load_error { get; private set; default = null; }
@@ -51,10 +54,16 @@ namespace ProtonPlus.Services {
             stop_observation ();
         }
 
-        public bool has_pending_restarts () { return pending.size > 0; }
-        public int pending_count () { return pending.size; }
+        private void refresh_pending_state () {
+            if (transaction_depth == 0 && begin_state_transaction (false))
+                end_state_transaction ();
+        }
+
+        public bool has_pending_restarts () { refresh_pending_state (); return pending.size > 0; }
+        public int pending_count () { refresh_pending_state (); return pending.size; }
 
         public int pending_count_for_target (SteamRestartTarget target) {
+            refresh_pending_state ();
             var count = 0;
             foreach (var record in pending.values) {
                 if (record.receipt.target.id == target.id)
@@ -64,6 +73,7 @@ namespace ProtonPlus.Services {
         }
 
         public Gee.List<SteamRestartPendingRecord> get_pending_changes () {
+            refresh_pending_state ();
             var copy = new Gee.ArrayList<SteamRestartPendingRecord> ();
             foreach (var record in pending.values)
                 copy.add (record);
@@ -71,6 +81,7 @@ namespace ProtonPlus.Services {
         }
 
         public Gee.List<SteamRestartPendingRecord> get_pending_changes_for_target (SteamRestartTarget target) {
+            refresh_pending_state ();
             var copy = new Gee.ArrayList<SteamRestartPendingRecord> ();
             foreach (var record in pending.values) {
                 if (record.receipt.target.id == target.id)
@@ -82,6 +93,7 @@ namespace ProtonPlus.Services {
         /* Configuration callers use this narrow lookup to coalesce against
          * accepted desired state before making an on-disk no-op decision. */
         public SteamConfigurationIntent? get_pending_configuration_intent (SteamRestartTarget target, string resource_key) {
+            refresh_pending_state ();
             foreach (var record in pending.values) {
                 if (record.receipt.target.id == target.id && record.receipt.resource_key == resource_key)
                     return record.receipt.configuration_intent;
@@ -92,13 +104,72 @@ namespace ProtonPlus.Services {
         /* Targets are immutable value objects.  Return a new collection so
          * presentation code cannot mutate the manager's ownership map. */
         public Gee.List<SteamRestartTarget> get_pending_targets () {
+            refresh_pending_state ();
             var copy = new Gee.ArrayList<SteamRestartTarget> ();
             foreach (var target in targets.values)
                 copy.add (target);
             return copy;
         }
 
+        // Refresh under the same lock used for the complete read/modify/write
+        // operation. Preserve unchanged objects so verification tokens stay valid.
+        private bool begin_state_transaction (bool report_error = true) {
+            if (transaction_depth > 0) {
+                transaction_depth++;
+                return true;
+            }
+            if (!state_store.begin_transaction ()) {
+                if (report_error)
+                    report_persistence_failure ();
+                return false;
+            }
+            var loaded = state_store.load ();
+            if (loaded.error != null) {
+                last_load_error = loaded.error;
+                state_store.end_transaction ();
+                if (report_error)
+                    report_persistence_failure ();
+                return false;
+            }
+            var next = new Gee.HashMap<string, SteamRestartPendingRecord> ();
+            foreach (var record in loaded.records) {
+                var key = record.receipt.deduplication_key;
+                var current = pending.get (key);
+                next.set (key, current != null && state_store.same_record (current, record) ? current : record);
+            }
+            transaction_depth = 1;
+            pending = next;
+            targets.clear ();
+            foreach (var record in pending.values) {
+                targets.set (record.receipt.target.id, record.receipt.target);
+                watch_target (record.receipt.target);
+            }
+            last_load_error = null;
+            return true;
+        }
+
+        private void end_state_transaction () {
+            assert (transaction_depth > 0);
+            if (--transaction_depth == 0)
+                state_store.end_transaction ();
+        }
+
+        private void report_persistence_failure () {
+            last_persistence_error = state_store.last_error ?? "Unable to save Steam restart state.";
+            persistence_failed ((!) last_persistence_error);
+        }
+
         public SteamRestartRecordResult record (SteamChangeReceipt receipt) {
+            if (!begin_state_transaction ())
+                return SteamRestartRecordResult.PERSISTENCE_FAILED;
+            try {
+                return record_locked (receipt);
+            } finally {
+                end_state_transaction ();
+            }
+        }
+
+        private SteamRestartRecordResult record_locked (SteamChangeReceipt receipt) {
             var snapshot = session_service.inspect (receipt.target);
             reconcile_snapshot (receipt.target, snapshot);
             if (is_confirmed_stopped (snapshot))
@@ -249,6 +320,18 @@ namespace ProtonPlus.Services {
         public void start_observation () {
             if (observation_started)
                 return;
+            refresh_pending_state ();
+            try {
+                state_monitor = File.new_for_path (Path.get_dirname (state_store.path)).monitor_directory (FileMonitorFlags.NONE);
+                state_monitor_handler = state_monitor.changed.connect ((file, other, event) => {
+                    if (file.get_path () == state_store.path || other?.get_path () == state_store.path) {
+                        refresh_pending_state ();
+                        pending_changed ();
+                    }
+                });
+            } catch (Error e) {
+                debug ("Unable to monitor Steam restart state: %s", e.message);
+            }
             state_changed_handler_id = session_service.state_changed.connect ((target, snapshot) => {
                 reconcile_snapshot (target, snapshot);
             });
@@ -271,6 +354,13 @@ namespace ProtonPlus.Services {
                 state_changed_handler_id = 0;
             }
             session_service.stop_monitoring ();
+            if (state_monitor != null) {
+                if (state_monitor_handler != 0)
+                    state_monitor.disconnect (state_monitor_handler);
+                state_monitor_handler = 0;
+                state_monitor.cancel ();
+                state_monitor = null;
+            }
             observation_started = false;
         }
 
@@ -283,6 +373,16 @@ namespace ProtonPlus.Services {
          * be discovered on the next launch.  Replayable configuration must be
          * reconciled successfully before its reminder can be cleared. */
         private void reconcile_startup_target (SteamRestartTarget target) {
+            if (!begin_state_transaction ())
+                return;
+            try {
+                reconcile_startup_target_locked (target);
+            } finally {
+                end_state_transaction ();
+            }
+        }
+
+        private void reconcile_startup_target_locked (SteamRestartTarget target) {
             var snapshot = session_service.inspect (target);
             if (snapshot.target_id != target.id || pending_count_for_target (target) == 0)
                 return;
@@ -322,6 +422,16 @@ namespace ProtonPlus.Services {
          * identity requires the exact instance ID.  Heuristic or incomplete
          * observations therefore cannot satisfy a pending requirement. */
         public void reconcile_snapshot (SteamRestartTarget target, SteamSessionSnapshot snapshot) {
+            if (!begin_state_transaction ())
+                return;
+            try {
+                reconcile_snapshot_locked (target, snapshot);
+            } finally {
+                end_state_transaction ();
+            }
+        }
+
+        private void reconcile_snapshot_locked (SteamRestartTarget target, SteamSessionSnapshot snapshot) {
             if (snapshot.target_id != target.id || pending_count_for_target (target) == 0)
                 return;
             if (is_confirmed_stopped (snapshot)) {
@@ -406,6 +516,16 @@ namespace ProtonPlus.Services {
         // Called only after an explicit configuration edit has been applied
         // with Steam confirmed stopped. Other resources retain their receipts.
         public bool clear_applied_configuration (SteamRestartTarget target, string resource_key) {
+            if (!begin_state_transaction ())
+                return false;
+            try {
+                return clear_applied_configuration_locked (target, resource_key);
+            } finally {
+                end_state_transaction ();
+            }
+        }
+
+        private bool clear_applied_configuration_locked (SteamRestartTarget target, string resource_key) {
             var records = new Gee.ArrayList<SteamRestartPendingRecord> ();
             foreach (var record in get_pending_changes_for_target (target)) {
                 if (record.receipt.resource_key == resource_key && record.receipt.configuration_intent != null)
@@ -446,6 +566,16 @@ namespace ProtonPlus.Services {
         }
 
         private bool clear_records (Gee.Collection<SteamRestartPendingRecord> records) {
+            if (!begin_state_transaction ())
+                return false;
+            try {
+                return clear_records_locked (records);
+            } finally {
+                end_state_transaction ();
+            }
+        }
+
+        private bool clear_records_locked (Gee.Collection<SteamRestartPendingRecord> records) {
             if (records.size == 0)
                 return true;
             var removed = new Gee.ArrayList<SteamRestartPendingRecord> ();

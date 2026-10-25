@@ -39,16 +39,11 @@ namespace ProtonPlus.Widgets.Games {
             check_button.update_property (
                 Gtk.AccessibleProperty.LABEL, _("Select game"), -1
             );
-            var navigation_spacer = new Gtk.Image.from_icon_name ("go-next-symbolic") {
-                opacity = 0.0,
-                can_target = false
-            };
             append (check_button);
             navigation_image = new Gtk.Image.from_icon_name ("go-next-symbolic") {
                 tooltip_text = _("Modify Game")
             };
             append (navigation_image);
-            append (navigation_spacer);
         }
 
         public void bind (GameListItem item) {
@@ -141,8 +136,7 @@ namespace ProtonPlus.Widgets.Games {
             this.actions_focus = actions_focus;
             this.activation_request = activation_request;
             set_focusable (true);
-            set_margin_start (6);
-            set_margin_end (6);
+            // ColumnView supplies matching padding for headers and cells.
             set_valign (Gtk.Align.CENTER);
 
             label = new Gtk.Label (null) {
@@ -216,8 +210,7 @@ namespace ProtonPlus.Widgets.Games {
         public GameTextCell (GameTextCellKind kind) {
             Object (orientation: Gtk.Orientation.HORIZONTAL);
             this.kind = kind;
-            set_margin_start (6);
-            set_margin_end (6);
+            // ColumnView supplies matching padding for headers and cells.
             set_valign (Gtk.Align.CENTER);
 
             label = new Gtk.Label (null) {

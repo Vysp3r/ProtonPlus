@@ -17,7 +17,6 @@ namespace ProtonPlus.Widgets.Tools {
 
         Gtk.Box input_box;
         Gtk.Button primary_button;
-        Adw.ButtonContent primary_content;
         Gtk.Button cancel_button;
         Gtk.Button progress_button;
         Widgets.CircularProgressBar progress_bar;
@@ -68,7 +67,7 @@ namespace ProtonPlus.Widgets.Tools {
             create_cancel_button ();
             create_actions_menu ();
 
-            action_button_size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.BOTH);
+            action_button_size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.VERTICAL);
             action_button_size_group.add_widget (primary_button);
             action_button_size_group.add_widget (actions_button);
 
@@ -91,11 +90,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void create_primary_button () {
-            primary_content = new Adw.ButtonContent () {
-                can_shrink = true
-            };
             primary_button = new Gtk.Button () {
-                child = primary_content,
                 valign = Gtk.Align.CENTER
             };
             primary_button.add_css_class ("flat");
@@ -713,8 +708,7 @@ namespace ProtonPlus.Widgets.Tools {
         void configure_primary_action (ReleaseRowPrimaryAction action) {
             switch (action) {
             case ReleaseRowPrimaryAction.INSTALL:
-                primary_content.set_icon_name ("folder-download-symbolic");
-                primary_content.set_label ("");
+                primary_button.set_label (_("Install"));
                 primary_button.set_tooltip_text (_("Install %s").printf (job.title));
                 primary_button.update_property (
                     Gtk.AccessibleProperty.LABEL,
@@ -723,8 +717,7 @@ namespace ProtonPlus.Widgets.Tools {
                 );
                 break;
             case ReleaseRowPrimaryAction.RETRY:
-                primary_content.set_icon_name ("view-refresh-symbolic");
-                primary_content.set_label (_("Retry"));
+                primary_button.set_label (_("Retry"));
                 primary_button.set_tooltip_text (_("Retry %s").printf (get_title ()));
                 primary_button.update_property (
                     Gtk.AccessibleProperty.LABEL,

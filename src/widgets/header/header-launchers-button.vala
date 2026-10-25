@@ -9,6 +9,7 @@ namespace ProtonPlus.Widgets.Header {
         Gtk.Label button_label;
         Gtk.ListBox list_box;
         Gtk.ListBoxRow? previous_row;
+        Gee.HashSet<string> ambiguous_titles = new Gee.HashSet<string> ();
 
         public LaunchersButton () {
             button_image = new Gtk.Image ();
@@ -18,6 +19,7 @@ namespace ProtonPlus.Widgets.Header {
             var button_content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             button_content.append (button_image);
             button_content.append (button_label);
+            button_content.append (new Gtk.Image.from_icon_name ("pan-down-symbolic"));
 
             list_box = new Gtk.ListBox ();
             list_box.set_activate_on_single_click (true);
@@ -46,6 +48,13 @@ namespace ProtonPlus.Widgets.Header {
         public void initialize (Gee.LinkedList<Models.Launcher> launchers) {
             list_box.remove_all ();
             previous_row = null;
+            previous_launcher = null;
+            ambiguous_titles.clear ();
+            var titles = new Gee.HashSet<string> ();
+            foreach (var launcher in launchers) {
+                if (!titles.add (launcher.title))
+                    ambiguous_titles.add (launcher.title);
+            }
 
             foreach (var launcher in launchers) {
                 list_box.append (create_row (launcher));
@@ -113,7 +122,12 @@ namespace ProtonPlus.Widgets.Header {
             previous_launcher = launcher;
 
             button_image.set_from_resource (launcher.icon_path);
-            button_label.set_label (launcher.title);
+            var selected_title = ambiguous_titles.contains (launcher.title)
+                ? _("%s · %s").printf (launcher.title, launcher.get_installation_type_title ())
+                : launcher.title;
+            button_label.set_label (selected_title);
+            update_property (Gtk.AccessibleProperty.LABEL,
+                _("Switch launcher: %s").printf (selected_title), -1);
 
             launcher_selected (launcher);
 
