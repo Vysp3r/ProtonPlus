@@ -21,14 +21,8 @@ namespace ProtonPlus.Widgets.Tools {
 
     public enum InlineReleaseEmptyReason {
         CATALOG,
-        SEARCH,
         FILTER,
         UNAVAILABLE
-    }
-
-    public enum InlineReleaseActionsPlacement {
-        HEADER,
-        TOOLBAR
     }
 
     public class InlineReleasePresentation : Object {
@@ -68,10 +62,8 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public static InlineReleaseEmptyReason empty_reason (
-            string query, Filter filter, bool compatible
+            Filter filter, bool compatible
         ) {
-            if (query.strip () != "")
-                return InlineReleaseEmptyReason.SEARCH;
             if (filter != Filter.ALL)
                 return InlineReleaseEmptyReason.FILTER;
             if (!compatible)
@@ -79,13 +71,7 @@ namespace ProtonPlus.Widgets.Tools {
             return InlineReleaseEmptyReason.CATALOG;
         }
 
-        public static InlineReleaseActionsPlacement actions_placement (
-            bool show_build_selector
-        ) {
-            return show_build_selector
-                ? InlineReleaseActionsPlacement.TOOLBAR
-                : InlineReleaseActionsPlacement.HEADER;
-        }
+
     }
 
     public class InlineReleaseInteractionState : Object {
@@ -143,13 +129,7 @@ namespace ProtonPlus.Widgets.Tools {
             scroll_position = 0.0;
         }
 
-        public static bool matches_filter (
-            string query, string tool_title, bool expanded, bool has_loaded_release_match
-        ) {
-            var normalized = query.strip ().down ();
-            return normalized == "" || tool_title.down ().contains (normalized) ||
-                (expanded && has_loaded_release_match);
-        }
+
     }
 
     public class InlineReleaseRequestGuard : Object {
@@ -176,7 +156,6 @@ namespace ProtonPlus.Widgets.Tools {
         Utils.ControllerActivationHandler {
         public signal void changelog_requested (Services.InstallJob job);
         public signal void games_requested (Services.InstallJob job);
-        public signal void clear_search_requested ();
         public signal void reset_filter_requested ();
 
         Gtk.Box tool_box { get; set; }
@@ -227,16 +206,6 @@ namespace ProtonPlus.Widgets.Tools {
             get { return _filter; }
             set {
                 _filter = value;
-                list_box.invalidate_filter ();
-                update_visibility ();
-            }
-        }
-
-        private string _search_text = "";
-        public string search_text {
-            get { return _search_text; }
-            set {
-                _search_text = value;
                 list_box.invalidate_filter ();
                 update_visibility ();
             }
@@ -331,7 +300,7 @@ namespace ProtonPlus.Widgets.Tools {
             variant_list_items = new HashTable<Gtk.StringObject, Gtk.ListItem> (null, null);
 
             var refresh_button_content = new Adw.ButtonContent () {
-                icon_name = "arrows-rotate-symbolic",
+                icon_name = "view-refresh-symbolic",
                 label = _("Check for new releases")
             };
             refresh_button = new Gtk.Button () {
@@ -345,7 +314,7 @@ namespace ProtonPlus.Widgets.Tools {
             refresh_button.clicked.connect (on_refresh_clicked);
 
             var repository_button_content = new Adw.ButtonContent () {
-                icon_name = "globe-symbolic",
+                icon_name = "web-browser-symbolic",
                 label = _("Open Repository")
             };
             repository_button = new Gtk.Button () {
@@ -392,6 +361,13 @@ namespace ProtonPlus.Widgets.Tools {
             var variant_controls = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8) {
                 hexpand = true
             };
+            var releases_label = new Gtk.Label (_("Releases")) {
+                halign = Gtk.Align.START,
+                css_classes = { "dim-label" }
+            };
+            variant_dropdown.bind_property ("visible", releases_label, "visible",
+                BindingFlags.SYNC_CREATE | BindingFlags.INVERT_BOOLEAN);
+            variant_controls.append (releases_label);
             variant_controls.append (variant_label);
             variant_controls.append (variant_dropdown);
 
@@ -422,8 +398,7 @@ namespace ProtonPlus.Widgets.Tools {
                 halign = Gtk.Align.CENTER,
                 hexpand = true
             };
-            load_more_button.add_css_class ("pill");
-            load_more_button.add_css_class ("suggested-action");
+            load_more_button.add_css_class ("flat");
             load_more_button.clicked.connect (on_load_more_clicked);
 
             load_more_row = new Gtk.ListBoxRow () {
@@ -458,13 +433,14 @@ namespace ProtonPlus.Widgets.Tools {
 
             content_stack = new Gtk.Stack () {
                 vexpand = false,
+                vhomogeneous = false,
                 overflow = Gtk.Overflow.HIDDEN
             };
 
             status_page = new Adw.StatusPage () {
                 title = _("No releases available"),
                 description = _("Check again for new releases."),
-                icon_name = "box-open-symbolic"
+                icon_name = "package-x-generic-symbolic"
             };
             empty_action_button = new Gtk.Button () {
                 label = _("Refresh"),
@@ -557,24 +533,12 @@ namespace ProtonPlus.Widgets.Tools {
 
             var button = (!) actions_button;
             var header_host = (!) actions_header_host;
-            var placement = InlineReleasePresentation.actions_placement (
-                variant_dropdown.get_visible ()
-            );
-            if (placement == InlineReleaseActionsPlacement.TOOLBAR) {
-                if (button.get_parent () == header_host)
-                    header_host.remove (button);
-                if (button.get_parent () != variant_box)
-                    variant_box.append (button);
-                header_host.set_visible (false);
-                variant_box.set_visible (current_tool != null);
-            } else {
-                if (button.get_parent () == variant_box)
-                    variant_box.remove (button);
-                if (button.get_parent () != header_host)
-                    header_host.append (button);
-                header_host.set_visible (current_tool != null);
-                variant_box.set_visible (false);
-            }
+            if (button.get_parent () == header_host)
+                header_host.remove (button);
+            if (button.get_parent () != variant_box)
+                variant_box.append (button);
+            header_host.set_visible (false);
+            variant_box.set_visible (current_tool != null);
             button.set_visible (current_tool != null);
             update_release_row_up_targets ();
         }
@@ -708,20 +672,6 @@ namespace ProtonPlus.Widgets.Tools {
             return current_tool == tool && request_in_progress;
         }
 
-        public bool has_release_title_match (string query) {
-            if (query.strip () == "")
-                return true;
-            var normalized = query.strip ().down ();
-            var child = list_box.get_first_child ();
-            while (child != null) {
-                var job = child.get_data<Services.InstallJob> ("job");
-                if (job != null && job.title.down ().contains (normalized))
-                    return true;
-                child = child.get_next_sibling ();
-            }
-            return false;
-        }
-
         void announce_state (string message) {
             if (last_announced_state == message)
                 return;
@@ -789,11 +739,8 @@ namespace ProtonPlus.Widgets.Tools {
 
         void on_empty_action_clicked () {
             switch (InlineReleasePresentation.empty_reason (
-                search_text, filter, provider_has_compatible_variants
+                filter, provider_has_compatible_variants
             )) {
-            case InlineReleaseEmptyReason.SEARCH:
-                clear_search_requested ();
-                break;
             case InlineReleaseEmptyReason.FILTER:
                 reset_filter_requested ();
                 break;
@@ -807,16 +754,10 @@ namespace ProtonPlus.Widgets.Tools {
 
         void update_empty_status () {
             var reason = InlineReleasePresentation.empty_reason (
-                search_text, filter, provider_has_compatible_variants
+                filter, provider_has_compatible_variants
             );
             empty_action_button.set_visible (true);
             switch (reason) {
-            case InlineReleaseEmptyReason.SEARCH:
-                status_page.set_title (_("No matching releases"));
-                status_page.set_description (_("Try a different search term or clear the search."));
-                status_page.set_icon_name ("edit-find-symbolic");
-                empty_action_button.set_label (_("Clear Search"));
-                break;
             case InlineReleaseEmptyReason.FILTER:
                 status_page.set_title (_("No releases match this filter"));
                 status_page.set_description (_("Reset the filters to see all releases."));
@@ -832,7 +773,7 @@ namespace ProtonPlus.Widgets.Tools {
             default:
                 status_page.set_title (_("No releases available"));
                 status_page.set_description (_("Check again for new releases."));
-                status_page.set_icon_name ("box-open-symbolic");
+                status_page.set_icon_name ("package-x-generic-symbolic");
                 empty_action_button.set_label (_("Refresh"));
                 break;
             }
@@ -1577,11 +1518,6 @@ namespace ProtonPlus.Widgets.Tools {
             if (job == null)
                 return true;
 
-            if (search_text != "" &&
-                !job.release.title.down ().contains (search_text.down ()) &&
-                !job.title.down ().contains (search_text.down ()))
-                return false;
-
             var provider_tool = current_tool as Models.Tools.ProviderTool;
             if (provider_tool != null && !provider_has_compatible_variants)
                 return false;
@@ -1596,9 +1532,6 @@ namespace ProtonPlus.Widgets.Tools {
 
             if (filter == Filter.USED)
                 return usage_count > 0;
-
-            if (filter == Filter.UNUSED)
-                return usage_count == 0;
 
             return true;
         }

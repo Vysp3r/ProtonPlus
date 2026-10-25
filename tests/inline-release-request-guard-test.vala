@@ -54,14 +54,6 @@ namespace AppTests.InlineReleaseRequestGuardTest {
         assert (state.expanded_owner == null);
     }
 
-    private void test_filter_uses_only_loaded_expansion_matches () {
-        assert (InlineReleaseInteractionState.matches_filter ("proton", "GE-Proton", false, false));
-        assert (InlineReleaseInteractionState.matches_filter ("  ", "GE-Proton", false, false));
-        assert (InlineReleaseInteractionState.matches_filter ("9-25", "GE-Proton", true, true));
-        assert (!InlineReleaseInteractionState.matches_filter ("9-25", "GE-Proton", false, true));
-        assert (!InlineReleaseInteractionState.matches_filter ("wine", "GE-Proton", true, false));
-    }
-
     private void test_navigation_restore_is_owner_and_release_scoped () {
         var state = new InlineReleaseInteractionState ();
         var tool_a = new Object ();
@@ -140,28 +132,14 @@ namespace AppTests.InlineReleaseRequestGuardTest {
 
     private void test_empty_reason_is_specific () {
         assert (InlineReleasePresentation.empty_reason (
-            "proton", Filter.ALL, true
-        ) == InlineReleaseEmptyReason.SEARCH);
-        assert (InlineReleasePresentation.empty_reason (
-            "", Filter.INSTALLED, true
+            Filter.INSTALLED, true
         ) == InlineReleaseEmptyReason.FILTER);
         assert (InlineReleasePresentation.empty_reason (
-            "", Filter.ALL, false
+            Filter.ALL, false
         ) == InlineReleaseEmptyReason.UNAVAILABLE);
         assert (InlineReleasePresentation.empty_reason (
-            "", Filter.ALL, true
+            Filter.ALL, true
         ) == InlineReleaseEmptyReason.CATALOG);
-    }
-
-    private void test_tool_actions_follow_build_selector () {
-        assert (
-            InlineReleasePresentation.actions_placement (false) ==
-            InlineReleaseActionsPlacement.HEADER
-        );
-        assert (
-            InlineReleasePresentation.actions_placement (true) ==
-            InlineReleaseActionsPlacement.TOOLBAR
-        );
     }
 
     public void register_tests () {
@@ -169,15 +147,10 @@ namespace AppTests.InlineReleaseRequestGuardTest {
         Test.add_func ("/inline-release-request/new-selection-invalidates-previous", test_new_selection_invalidates_previous_completion);
         Test.add_func ("/inline-release-request/reselection-uses-new-generation", test_reselection_uses_new_generation);
         Test.add_func ("/inline-release-request/single-expansion", test_single_expansion_transition);
-        Test.add_func ("/inline-release-request/filter-loaded-expansion", test_filter_uses_only_loaded_expansion_matches);
         Test.add_func ("/inline-release-request/navigation-restore", test_navigation_restore_is_owner_and_release_scoped);
         Test.add_func ("/inline-release-request/presentation-cached-refresh", test_presentation_keeps_cached_content_during_refresh);
         Test.add_func ("/inline-release-request/presentation-initial-states", test_presentation_initial_loading_empty_and_error);
         Test.add_func ("/inline-release-request/presentation-load-more-retry", test_presentation_load_more_retry_keeps_content);
         Test.add_func ("/inline-release-request/empty-reason", test_empty_reason_is_specific);
-        Test.add_func (
-            "/inline-release-request/tool-actions-placement",
-            test_tool_actions_follow_build_selector
-        );
     }
 }

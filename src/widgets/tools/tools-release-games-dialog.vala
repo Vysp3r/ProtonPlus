@@ -106,7 +106,7 @@ namespace ProtonPlus.Widgets.Tools {
             } else {
                 content = new Adw.StatusPage () {
                     title = _("No games have this tool selected"),
-                    icon_name = "gamepad-symbolic",
+                    icon_name = "input-gaming-symbolic",
                     vexpand = true
                 };
             }

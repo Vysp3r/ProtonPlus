@@ -23,7 +23,7 @@ namespace ProtonPlus.Widgets.MangoHud {
             preset_basic_btn = create_preset_button (_ ("Basic"), "square-poll-vertical-symbolic", ref preset_group_button);
             preset_basic_horiz_btn = create_preset_button (_ ("Basic Horizontal"), "square-poll-horizontal-symbolic", ref preset_group_button);
             preset_fps_only_btn = create_preset_button (_ ("FPS Only"), "gauge-high-symbolic", ref preset_group_button);
-            preset_custom_btn = create_preset_button (_ ("Custom"), "gear-symbolic", ref preset_group_button);
+            preset_custom_btn = create_preset_button (_ ("Custom"), "emblem-system-symbolic", ref preset_group_button);
 
             preset_buttons[Utils.MangoHudPreset.FULL] = preset_full_btn;
             preset_buttons[Utils.MangoHudPreset.BASIC] = preset_basic_btn;
@@ -51,7 +51,7 @@ namespace ProtonPlus.Widgets.MangoHud {
 
             theme_stock_btn = create_preset_button (_ ("Stock"), "palette-2-symbolic", ref theme_group_button);
             theme_white_btn = create_preset_button (_ ("White"), "palette-2-symbolic", ref theme_group_button);
-            theme_custom_btn = create_preset_button (_ ("Custom"), "gear-symbolic", ref theme_group_button);
+            theme_custom_btn = create_preset_button (_ ("Custom"), "emblem-system-symbolic", ref theme_group_button);
 
             theme_buttons[Utils.MangoHudTheme.STOCK] = theme_stock_btn;
             theme_buttons[Utils.MangoHudTheme.SIMPLE_WHITE] = theme_white_btn;

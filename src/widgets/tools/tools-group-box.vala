@@ -2,7 +2,6 @@ namespace ProtonPlus.Widgets.Tools {
     public class GroupBox : Gtk.Box, Utils.ControllerDirectionalFocus,
         Utils.ControllerActivationHandler {
         public signal void tool_expansion_changed (Models.Tool tool, bool expanded);
-        public signal void clear_search_requested ();
         public signal void reset_filter_requested ();
         public Gtk.Box header_title { get; private set; }
         public Gtk.Box header_actions { get; private set; }
@@ -36,20 +35,6 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
-        private string _search_text = "";
-        public string search_text {
-            get { return _search_text; }
-            set {
-                visibility_change_generation++;
-                _search_text = value;
-                list_box.invalidate_filter ();
-                update_status_page ();
-                update_visibility ();
-                collapse_if_hidden ();
-                update_release_section_boundary ();
-            }
-        }
-
         public GroupBox (Models.Group group, Gtk.Widget? controller_up_target = null) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
             this.controller_up_target = controller_up_target;
@@ -59,7 +44,7 @@ namespace ProtonPlus.Widgets.Tools {
             // and comparator callbacks below.
             group.refresh_installed_state ();
 
-            var icon = new Gtk.Image.from_icon_name ("layer-group-symbolic");
+            var icon = new Gtk.Image.from_icon_name ("view-grid-symbolic");
 
             var title_label = new Gtk.Label (group.title) {
                 halign = Gtk.Align.START,
@@ -174,9 +159,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void activate_empty_action () {
-            if (search_text.strip () != "")
-                clear_search_requested ();
-            else if (filter != Filter.ALL)
+            if (filter != Filter.ALL)
                 reset_filter_requested ();
         }
 
@@ -383,24 +366,14 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public void populate_header_actions (
-            Gtk.Widget refresh, Gtk.Widget filter, Gtk.Widget search
+            Gtk.Widget refresh, Gtk.Widget filter
         ) {
             clear_header_actions ();
             header_actions.append (refresh);
             header_actions.append (filter);
-            header_actions.append (search);
         }
 
         void update_status_page () {
-            if (search_text.strip () != "") {
-                status_page.set_title (_ ("No matching tools"));
-                status_page.set_description (_ ("Try a different search term or clear the search."));
-                status_page.set_icon_name ("edit-find-symbolic");
-                empty_action_button.set_label (_ ("Clear Search"));
-                empty_action_button.set_visible (true);
-                return;
-            }
-
             empty_action_button.set_visible (filter != Filter.ALL);
             if (filter != Filter.ALL)
                 empty_action_button.set_label (_ ("Reset Filters"));
@@ -408,17 +381,12 @@ namespace ProtonPlus.Widgets.Tools {
                 case Filter.INSTALLED:
                     status_page.set_title (_ ("No installed tools"));
                     status_page.set_description (_ ("Install a compatibility tool to see it here."));
-                    status_page.set_icon_name ("box-open-symbolic");
+                    status_page.set_icon_name ("package-x-generic-symbolic");
                     break;
                 case Filter.USED:
                     status_page.set_title (_ ("No tools in use"));
                     status_page.set_description (_ ("No games currently use a tool from this group."));
-                    status_page.set_icon_name ("gamepad2-symbolic");
-                    break;
-                case Filter.UNUSED:
-                    status_page.set_title (_ ("No unused tools"));
-                    status_page.set_description (_ ("Every tool in this group is currently in use."));
-                    status_page.set_icon_name ("check-round-outline-symbolic");
+                    status_page.set_icon_name ("input-gaming-symbolic");
                     break;
                 default:
                     status_page.set_title (_ ("No tools found"));
@@ -549,28 +517,9 @@ namespace ProtonPlus.Widgets.Tools {
             row.add_row (release_host);
             connect_expansion (this, row, tool);
 
-            if (tool is Models.Tools.ProviderTool) {
-                var provider_tool = (Models.Tools.ProviderTool) tool;
-                if (provider_tool.tag != null && provider_tool.tag != "") {
-                    var tag_label = new Gtk.Label (
-                        Utils.safe_translate (provider_tool.tag)
-                    ) {
-                        valign = Gtk.Align.CENTER,
-                        css_classes = { "tool-metadata-pill" }
-                    };
-                    if (provider_tool.tag == "Recommended")
-                        tag_label.set_tooltip_text (
-                            _ ("Recommended compatibility tool")
-                        );
-
-                    metadata_box.append (tag_label);
-                }
-
-            }
-
             var state_label = new Gtk.Label ("") {
                 valign = Gtk.Align.CENTER,
-                css_classes = { "tool-metadata-pill" }
+                css_classes = { "caption", "dim-label" }
             };
             row.set_data ("state-label", state_label);
             metadata_box.append (state_label);
@@ -816,14 +765,6 @@ namespace ProtonPlus.Widgets.Tools {
             if (tool == null)
             return true;
 
-            var expanded = tool == expanded_tool && releases_section != null;
-            var has_release_match = expanded &&
-                ((!) releases_section).has_release_title_match (search_text);
-            if (!InlineReleaseInteractionState.matches_filter (
-                search_text, tool.title, expanded, has_release_match
-            ))
-                return false;
-
             if (tool is Models.Tools.SteamTinkerLaunch && !tool.is_installed ())
                 return false;
             if (Globals.SETTINGS != null && !Globals.SETTINGS.get_boolean ("show-legacy-tools") && tool.legacy &&
@@ -838,9 +779,6 @@ namespace ProtonPlus.Widgets.Tools {
 
             if (filter == Filter.USED)
             return tool.is_used ();
-
-            if (filter == Filter.UNUSED)
-            return !tool.is_used ();
 
             return true;
         }

@@ -916,7 +916,7 @@ namespace ProtonPlus.Widgets.Games {
                     if (!launcher.game_library_available || steam.profiles.length () == 0) {
                         error = true;
                         show_status_box (
-                            "bug-symbolic",
+                            "dialog-error-symbolic",
                             _("Steam games couldn’t be loaded"),
                             _("Steam’s library or profile data is missing or invalid. Finish setting up Steam, then restart ProtonPlus. Tools and other launchers remain available.") // vala-lint=line-length
                         );
@@ -1051,7 +1051,7 @@ namespace ProtonPlus.Widgets.Games {
                 empty_status_page.set_description (
                     _("No games are available for this launcher.")
                 );
-                empty_status_page.set_icon_name ("gamepad-symbolic");
+                empty_status_page.set_icon_name ("input-gaming-symbolic");
                 empty_action_button.set_visible (false);
             }
             list_stack.set_visible_child_name ("empty");
@@ -1128,7 +1128,7 @@ namespace ProtonPlus.Widgets.Games {
                 };
                 var content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
                 content.add_css_class ("selection-popover-row");
-                content.append (new Gtk.Image.from_icon_name ("gamepad-symbolic"));
+                content.append (new Gtk.Image.from_icon_name ("input-gaming-symbolic"));
                 content.append (title);
                 selection_list_box.append (new Gtk.ListBoxRow () {
                     activatable = false,

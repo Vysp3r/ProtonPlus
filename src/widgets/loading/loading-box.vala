@@ -45,14 +45,13 @@ namespace ProtonPlus.Widgets.Loading {
                 return;
 
             loading = true;
-            status_page.add_css_class ("loading-status-page");
 
             bug_box.visible = false;
             welcome_box.visible = false;
 
             status_page.set_icon_name ("com.vysp3r.ProtonPlus");
             status_page.set_title (_ ("Loading"));
-            status_page.set_description (_ ("Please wait while we're loading your launchers."));
+            status_page.set_description (_ ("Finding your game launchers."));
 
             if (slow_warning_timeout_id != 0)
                 Source.remove (slow_warning_timeout_id);
@@ -73,14 +72,13 @@ namespace ProtonPlus.Widgets.Loading {
             var success = yield Models.Launcher.get_all (out launchers);
 
             loading = false;
-            status_page.remove_css_class ("loading-status-page");
             if (slow_warning_timeout_id != 0) {
                 Source.remove (slow_warning_timeout_id);
                 slow_warning_timeout_id = 0;
             }
 
             if (!success) {
-                status_page.set_icon_name ("bug-symbolic");
+                status_page.set_icon_name ("dialog-error-symbolic");
                 status_page.set_title (_ ("An unexpected error occurred"));
                 status_page.set_description (_ ("We encountered a problem while loading your application.\nPlease try again or report the problem."));
                 retry_button.visible = true;
