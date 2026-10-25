@@ -773,7 +773,7 @@ namespace ProtonPlus.Widgets.Tools {
             }
             if (job.tool.group.launcher is Models.Launchers.Steam) {
                 details_section.append (
-                    _("_Games Using This Tool"), "release.games"
+                    _("_Games with this tool selected"), "release.games"
                 );
             }
             menu.append_section (null, details_section);
@@ -829,8 +829,6 @@ namespace ProtonPlus.Widgets.Tools {
         void refresh_status_text () {
             var details = new Gee.ArrayList<string> ();
             var presentation = current_presentation ();
-            if (presentation.recommended)
-                details.add (_("Recommended"));
             if (retry_action != ReleaseRowRetryAction.NONE)
                 details.add (_("Failed"));
             if (operation_error_message != null)
@@ -864,7 +862,7 @@ namespace ProtonPlus.Widgets.Tools {
             var current_usage_count = usage_count ();
             if (presentation.in_use) {
                 details.add (ngettext (
-                    "In use by %i game", "In use by %i games", current_usage_count
+                    "Selected by %i game", "Selected by %i games", current_usage_count
                 ).printf (current_usage_count));
             }
 

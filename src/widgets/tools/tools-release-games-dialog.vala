@@ -8,10 +8,10 @@ namespace ProtonPlus.Widgets.Tools {
         bool updating_select_all = false;
 
         public ReleaseGamesDialog (Services.InstallJob job) {
-            Object (title: _("Games using %s").printf (job.title));
+            Object (title: _("Games with %s selected").printf (job.title));
 
             var window_title = new Adw.WindowTitle (
-                _("Games Using This Tool"), ReleaseRow.release_display_title (job)
+                _("Games with this tool selected"), ReleaseRow.release_display_title (job)
             );
             var header_bar = new Adw.HeaderBar ();
             header_bar.set_title_widget (window_title);
@@ -105,7 +105,7 @@ namespace ProtonPlus.Widgets.Tools {
                 };
             } else {
                 content = new Adw.StatusPage () {
-                    title = _("No Games Use This Tool"),
+                    title = _("No games have this tool selected"),
                     icon_name = "gamepad-symbolic",
                     vexpand = true
                 };

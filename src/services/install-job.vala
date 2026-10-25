@@ -249,7 +249,16 @@ namespace ProtonPlus.Services {
         // Small overridable I/O seams keep transaction characterization tests
         // local without making InstallJob own a filesystem transaction.
         public virtual async bool download_archive (string url, string path, out string? error_message) {
-            return yield Utils.PartialDownloadCache.download (selected_asset, url, path, operation_cancellable, report_progress, report_recovery, out error_message);
+            // Snapshot before any yield so retries keep the same endpoint.
+            string request_url;
+            try {
+                request_url = Utils.GitHubDownloadMirror.resolve (url, Globals.SETTINGS == null ? "" :
+                    Globals.SETTINGS.get_string (Utils.GitHubDownloadMirror.SETTINGS_KEY));
+            } catch (Error e) {
+                error_message = e.message;
+                return false;
+            }
+            return yield Utils.PartialDownloadCache.download (selected_asset, request_url, path, operation_cancellable, report_progress, report_recovery, out error_message);
         }
 
         public virtual async bool promote_staged_installation (string staged_install_path) {
