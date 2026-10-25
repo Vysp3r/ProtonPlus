@@ -638,6 +638,31 @@ namespace ProtonPlus.Widgets.Tools {
                 pending_download_job = null;
         }
 
+        static void connect_group_actions (Box box, GroupBox group_box) {
+            var owner_ref = WeakRef (box);
+            var group_ref = WeakRef (group_box);
+            group_box.tool_expansion_changed.connect ((tool, expanded) => {
+                var owner = owner_ref.get () as Box;
+                var group = group_ref.get () as GroupBox;
+                if (owner != null && group != null)
+                    owner.on_tool_expansion_changed (group, tool, expanded);
+            });
+            group_box.clear_search_requested.connect (() => {
+                var owner = owner_ref.get () as Box;
+                if (owner != null) {
+                    owner.search_entry.set_text ("");
+                    owner.search_button.grab_focus ();
+                }
+            });
+            group_box.reset_filter_requested.connect (() => {
+                var owner = owner_ref.get () as Box;
+                if (owner != null) {
+                    owner.all_filter_button.active = true;
+                    owner.filter_button.grab_focus ();
+                }
+            });
+        }
+
         public void set_selected_launcher (Models.Launcher launcher) {
             collapse_current_expansion (false);
             clear_root_heading ();
@@ -655,17 +680,7 @@ namespace ProtonPlus.Widgets.Tools {
                 var group_box = new GroupBox (group, search_button);
                 group_box.filter = current_filter;
                 group_box.search_text = search_entry.get_text ();
-                group_box.tool_expansion_changed.connect ((tool, expanded) => {
-                    on_tool_expansion_changed (group_box, tool, expanded);
-                });
-                group_box.clear_search_requested.connect (() => {
-                    search_entry.set_text ("");
-                    search_button.grab_focus ();
-                });
-                group_box.reset_filter_requested.connect (() => {
-                    all_filter_button.active = true;
-                    filter_button.grab_focus ();
-                });
+                connect_group_actions (this, group_box);
                 groups_stack.add_titled_with_icon (group_box, group.title.down (), group.title, "layer-group-symbolic");
             }
 

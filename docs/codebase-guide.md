@@ -147,7 +147,9 @@ For provider-backed jobs, `InstallationService` resolves an exact compatible
 variant before registering an operation, downloading, or touching the
 filesystem. It then:
 
-1. Rejects duplicate/busy target operations.
+1. Reserves the destination before any asynchronous check, rejecting overlapping
+   install, update and removal requests. The reservation lasts through update
+   finalization and rollback; each accepted operation resets cancellation once.
 2. Checks for active compatibility processes.
 3. Selects the workflow from explicit job capability/context.
 4. Registers download and cache-operation lifecycle.
@@ -217,11 +219,13 @@ and validation failure discard partials. Only interrupted transfers with a
 strong validator are retained; metadata is checkpointed after terminal recovery,
 so a process crash during transfer may safely fall back to a fresh download.
 Per-asset OS locks reject concurrent writers, including other processes. A shared
-cache lock prevents clearing active downloads; its small lock file lives beside
+cache lock covers each complete installation transaction, including cache hits,
+verification, extraction and staging, so another GUI or CLI process cannot clear
+its working files. Its small lock file lives beside
 the disposable cache tree so clearing cannot replace a locked inode.
 
-Cleanup runs off the UI thread before/after downloads, under an exclusive cache
-lock, and never prunes active transfers. Retained partials expire after **7 days**;
+Cleanup runs off the UI thread under an exclusive cache lock, after installation
+transactions and around standalone downloads. It never prunes active transfers. Retained partials expire after **7 days**;
 cleanup keeps at most **32 entries / 2 GiB total**, preferring recent entries.
 Active transfers are exempt from these retention limits; when all leases finish,
 cleanup applies them. Clear Cache waits for active operations and removes both
@@ -251,6 +255,12 @@ in memory so accepted state remains visible after a ProtonPlus restart.
 
 `SteamRestartManager` deduplicates receipts by physical Steam target/resource,
 persists them, watches session evidence, and clears only satisfied records.
+Each state mutation takes a nonblocking process lock, reloads current records,
+and holds the lock through reconciliation and persistence. A busy lock reports
+failure for retry instead of overwriting another GUI or CLI writer. Read
+boundaries and file observation refresh external changes; unchanged records
+retain their verification identity, while stale verification cannot clear a
+newer edit.
 `SteamSessionService` keeps native process evidence separate from Flatpak
 instance evidence. `SteamRestartOrchestrator` owns preflight, shutdown,
 confirmed exit, configuration reconciliation, detached relaunch, and new-session

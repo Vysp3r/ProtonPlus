@@ -7,6 +7,9 @@ namespace ProtonPlus.Widgets.Tools {
         public Gtk.Box header_title { get; private set; }
         public Gtk.Box header_actions { get; private set; }
         Gtk.ListBox list_box;
+        Models.Group group;
+        ulong invalidated_handler;
+        ulong refreshed_handler;
         Gtk.ScrolledWindow scrolled;
         Gtk.Stack stack;
         Adw.StatusPage status_page;
@@ -50,6 +53,7 @@ namespace ProtonPlus.Widgets.Tools {
         public GroupBox (Models.Group group, Gtk.Widget? controller_up_target = null) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
             this.controller_up_target = controller_up_target;
+            this.group = group;
 
             // Build this once before Gtk begins repeatedly invoking the filter
             // and comparator callbacks below.
@@ -94,13 +98,10 @@ namespace ProtonPlus.Widgets.Tools {
             };
             list_box.add_css_class ("boxed-list");
             list_box.add_css_class ("tools-tools-card");
-            list_box.set_filter_func (filter_func);
-            list_box.set_sort_func (sort_func);
+            configure_list_callbacks (this);
 
-            group.installed_tool_index_invalidated.connect (() => {
-                group.refresh_installed_state ();
-            });
-            group.installed_state_refreshed.connect (() => refresh ());
+            invalidated_handler = group.installed_tool_index_invalidated.connect (refresh_installed_state);
+            refreshed_handler = group.installed_state_refreshed.connect (refresh);
 
             scrolled = new Gtk.ScrolledWindow () {
                 child = list_box,
@@ -120,12 +121,7 @@ namespace ProtonPlus.Widgets.Tools {
                 visible = false
             };
             empty_action_button.add_css_class ("suggested-action");
-            empty_action_button.clicked.connect (() => {
-                if (search_text.strip () != "")
-                    clear_search_requested ();
-                else if (filter != Filter.ALL)
-                    reset_filter_requested ();
-            });
+            empty_action_button.clicked.connect (activate_empty_action);
             status_page.set_child (empty_action_button);
 
             stack = new Gtk.Stack () {
@@ -160,6 +156,53 @@ namespace ProtonPlus.Widgets.Tools {
             append (clamp);
 
             update_visibility ();
+        }
+
+        static void connect_expansion (GroupBox box, Adw.ExpanderRow row, Models.Tool tool) {
+            var owner_ref = WeakRef (box);
+            var row_ref = WeakRef (row);
+            row.notify["expanded"].connect (() => {
+                var owner = owner_ref.get () as GroupBox;
+                var current_row = row_ref.get () as Adw.ExpanderRow;
+                if (owner != null && current_row != null)
+                    owner.on_row_expanded_changed (current_row, tool);
+            });
+        }
+
+        void refresh_installed_state () {
+            group.refresh_installed_state ();
+        }
+
+        void activate_empty_action () {
+            if (search_text.strip () != "")
+                clear_search_requested ();
+            else if (filter != Filter.ALL)
+                reset_filter_requested ();
+        }
+
+        static void configure_list_callbacks (GroupBox box) {
+            // GtkListBox owns these delegates. They must not retain its parent.
+            var owner_ref = WeakRef (box);
+            box.list_box.set_filter_func ((row) => {
+                var owner = owner_ref.get () as GroupBox;
+                return owner != null && owner.filter_func (row);
+            });
+            box.list_box.set_sort_func ((a, b) => {
+                var owner = owner_ref.get () as GroupBox;
+                return owner != null ? owner.sort_func (a, b) : 0;
+            });
+        }
+
+        public override void dispose () {
+            if (invalidated_handler != 0) {
+                group.disconnect (invalidated_handler);
+                invalidated_handler = 0;
+            }
+            if (refreshed_handler != 0) {
+                group.disconnect (refreshed_handler);
+                refreshed_handler = 0;
+            }
+            base.dispose ();
         }
 
         public bool controller_focus_direction (
@@ -504,7 +547,7 @@ namespace ProtonPlus.Widgets.Tools {
             var release_host = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             row.set_data ("inline-release-host", release_host);
             row.add_row (release_host);
-            row.notify["expanded"].connect (() => on_row_expanded_changed (row, tool));
+            connect_expansion (this, row, tool);
 
             if (tool is Models.Tools.ProviderTool) {
                 var provider_tool = (Models.Tools.ProviderTool) tool;

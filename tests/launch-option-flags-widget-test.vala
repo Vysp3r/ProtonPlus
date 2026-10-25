@@ -12,11 +12,44 @@ void check_rows (Gtk.Widget widget, ref int count) {
         check_rows (child, ref count);
 }
 
+class WidgetLifetimeProbe : Object {
+    public WeakRef widget;
+    public WidgetLifetimeProbe (Object widget) { this.widget = WeakRef (widget); }
+}
+
+WidgetLifetimeProbe detach_tool_group (ProtonPlus.Models.Group group) {
+    var box = new ProtonPlus.Widgets.Tools.GroupBox (group);
+    var reference = new WidgetLifetimeProbe (box);
+    var parent = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+    parent.append (box);
+    parent.remove (box);
+    return reference;
+}
+
+void check_tool_group_lifetime () {
+    string root;
+    try { root = DirUtils.make_tmp ("protonplus-widget-lifetime-XXXXXX"); }
+    catch (Error e) { error ("%s", e.message); }
+    var launcher = new ProtonPlus.Models.Launcher ("Fixture",
+        ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM, "", { root }, "steam");
+    var group = new ProtonPlus.Models.Group ("Proton", "", "", launcher, "proton");
+    group.tools = new Gee.LinkedList<ProtonPlus.Models.Tool> ();
+    group.tools.add (new ProtonPlus.Models.Tools.TinkerGame (group));
+    for (var i = 0; i < 3; i++) {
+        var reference = detach_tool_group (group);
+        assert (reference.widget.get () == null);
+        // Retired views must no longer receive model invalidations.
+        group.invalidate_installed_state ();
+    }
+    assert (DirUtils.remove (root) == 0);
+}
+
 int main (string[] args) {
     Environment.set_variable ("GSETTINGS_BACKEND", "memory", true);
     if (!Gtk.init_check ())
         return 77;
     Adw.init ();
+    check_tool_group_lifetime ();
     string[] ids = { "vkd3d-config", "amd-radv-perftest", "amd-radv-debug", "amd-aco-debug" };
     LaunchOptionCustomPairs[] editors = {
         new LaunchOptionVKD3DConfig (), new LaunchOptionRadvPerftest (),

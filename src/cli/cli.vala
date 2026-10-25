@@ -600,32 +600,16 @@ namespace ProtonPlus.CLI {
             }
         }
 
-        private Gee.LinkedList<Models.Tools.ProviderTool> collect_latest_runners (Gee.LinkedList<Models.Launcher> scope) {
-            var latest_runners = new Gee.LinkedList<Models.Tools.ProviderTool> ();
+        private Gee.LinkedList<Models.Tool> collect_latest_runners (Gee.LinkedList<Models.Launcher> scope) {
+            var latest_runners = new Gee.LinkedList<Models.Tool> ();
             var collected_runner_ids = new Gee.HashSet<string> ();
 
             foreach (var launcher in scope) {
                 foreach (var group in launcher.groups) {
                     group.refresh_installed_state ();
-                    var entries = group.get_installed_tool_snapshot ();
-
-                    foreach (var tool in group.tools) {
-                        var provider_tool = tool as Models.Tools.ProviderTool;
-                        if (provider_tool == null) {
-                            continue;
-                        }
-
-                        foreach (var entry in entries) {
-                            var latest = "%s Latest".printf (tool.title);
-                            var backup = "%s Backup".printf (latest);
-                            if (entry.directory_name == latest ||
-                                entry.directory_name.has_prefix ("%s-".printf (latest)) ||
-                                entry.directory_name == backup) {
-                                if (collected_runner_ids.add (provider_tool.id))
-                                    latest_runners.add (provider_tool);
-                                continue;
-                            }
-                        }
+                    foreach (var tool in Services.InstallationService.instance.get_update_candidates (group)) {
+                        if (collected_runner_ids.add (tool.id))
+                            latest_runners.add (tool);
                     }
                 }
             }
@@ -633,7 +617,7 @@ namespace ProtonPlus.CLI {
             return latest_runners;
         }
 
-        private async int update_runner_batch (Gee.LinkedList<Models.Tools.ProviderTool> runners) {
+        private async int update_runner_batch (Gee.LinkedList<Models.Tool> runners) {
             if (runners.size == 0) {
                 output.success (_ ("Already up to date\n"));
                 return 0;
@@ -659,11 +643,11 @@ namespace ProtonPlus.CLI {
             return failed ? 1 : 0;
         }
 
-        private async ReturnCode update_runner_with_progress (Models.Tools.ProviderTool runner) {
+        private async ReturnCode update_runner_with_progress (Models.Tool runner) {
             output.info (_ ("Updating %s...") + "\r", runner.title);
             output.flush_stdout ();
 
-            var code = yield Services.InstallationService.instance.update_specific_runner (runner);
+            var code = yield Services.InstallationService.instance.update_installed_tool (runner);
 
             output.info ("\r\033[2K\r");
             return code;

@@ -3,12 +3,27 @@ namespace AppTests.TinkerGameTest {
     using ProtonPlus.Models;
     using ProtonPlus.Services;
 
+    [CCode (cname = "flock", cheader_filename = "sys/file.h")]
+    private static extern int flock (int fd, int operation);
+
+    private class DelayedGuard : Object, CompatibilityProcessQueryBackend {
+        public int calls = 0;
+        public async CompatibilityProcessInspectionResult inspect_processes () {
+            calls++;
+            Timeout.add (25, () => { inspect_processes.callback (); return Source.REMOVE; });
+            yield;
+            return CompatibilityProcessInspectionResult.clear ();
+        }
+    }
+
     private class FixtureSource : Object, ProtonPlus.Providers.Sources.ReleaseSource {
         public Release? latest_release;
         public bool fail = false;
+        public int requests = 0;
         public async Models.Tools.ReleasePageResult fetch_page (
             Models.Providers.ProviderDefinition definition, int page, int limit
         ) {
+            requests++;
             if (fail)
                 return Models.Tools.ReleasePageResult.failure (ReturnCode.REQUEST_FAILED);
             var releases = new Gee.LinkedList<Release> ();
@@ -31,6 +46,11 @@ namespace AppTests.TinkerGameTest {
             return yield base.write_registration (path);
         }
         protected override async ReturnCode prepare_staged_installation (InstallJob job, string path) {
+            // Protection must survive download completion and also cover cache hits.
+            int fd = Posix.open (Globals.CACHE_PATH + ".downloads.lock", Posix.O_RDWR);
+            assert (fd >= 0);
+            assert (flock (fd, 2 | 4) != 0);
+            Posix.close (fd);
             if (incomplete)
                 FileUtils.remove (Path.build_filename (path, "lib", "core", "common.sh"));
             if (unsafe_manifest)
@@ -126,6 +146,10 @@ namespace AppTests.TinkerGameTest {
     }
 
     public void register_tests () {
+        Test.add_func ("/tinkergame/cancelled-update-can-retry", () => run (21));
+        Test.add_func ("/tinkergame/overlapping-target-operations", () => run (22));
+        Test.add_func ("/tinkergame/gui-bulk-update", () => run (19));
+        Test.add_func ("/tinkergame/cli-bulk-update", () => run (20));
         Test.add_func ("/tinkergame/release-discovery-failure-preserves-install", () => run (18));
         Test.add_func ("/tinkergame/automatic-release-update", () => run (17));
         Test.add_func ("/tinkergame/release-discovery", test_release_discovery);
@@ -217,7 +241,102 @@ namespace AppTests.TinkerGameTest {
             assert (tool.is_installed () && legacy.is_installed ());
             assert (job.get_usage_identifier () == "Proton-tg");
             assert (recorder.receipts.size == 1);
-            if (scenario == 6 || scenario == 7 || scenario == 11) {
+            if (scenario == 21 || scenario == 22) {
+                var replacement = new FixtureJob (tool, archive, "fixture-2");
+                source.latest_release = replacement.release;
+                if (scenario == 21) {
+                    replacement.cancel_after_download = true;
+                    assert ((yield replacement.update ()) == ReturnCode.EXTRACTION_FAILED);
+                    assert (replacement.canceled);
+                    replacement.cancel_after_download = false;
+                    assert ((yield replacement.update ()) == ReturnCode.RUNNER_UPDATED);
+                    assert (!replacement.canceled);
+                    var finished = false;
+                    ReturnCode lookup_result = ReturnCode.RUNNER_UPDATED;
+                    replacement.update.begin ((obj, res) => {
+                        lookup_result = replacement.update.end (res);
+                        finished = true;
+                    });
+                    replacement.canceled = true;
+                    while (!finished) {
+                        Timeout.add (5, () => { scenario_async.callback (); return Source.REMOVE; });
+                        yield;
+                    }
+                    assert (lookup_result == ReturnCode.EXTRACTION_FAILED);
+                    assert ((yield replacement.update ()) == ReturnCode.NOTHING_TO_UPDATE);
+                } else {
+                    var guard = new DelayedGuard ();
+                    service.configure_compatibility_process_guard (new CompatibilityProcessGuard (guard));
+                    var finished = false;
+                    ReturnCode result = ReturnCode.DOWNLOAD_FAILED;
+                    replacement.update.begin ((obj, res) => {
+                        result = replacement.update.end (res);
+                        finished = true;
+                    });
+                    var competing = new FixtureJob (tool, archive, "fixture-2");
+                    assert ((yield competing.update ()) == ReturnCode.OPERATION_IN_PROGRESS);
+                    assert ((yield competing.install_replacement ()) == ReturnCode.OPERATION_IN_PROGRESS);
+                    assert ((yield competing.remove ()) == ReturnCode.OPERATION_IN_PROGRESS);
+                    assert ((yield replacement.update ()) == ReturnCode.OPERATION_IN_PROGRESS);
+                    while (!finished) {
+                        Timeout.add (5, () => { scenario_async.callback (); return Source.REMOVE; });
+                        yield;
+                    }
+                    assert (result == ReturnCode.RUNNER_UPDATED);
+                    assert (guard.calls == 2);
+                    assert ((yield competing.update ()) == ReturnCode.NOTHING_TO_UPDATE);
+                    finished = false;
+                    competing.remove.begin (false, (obj, res) => {
+                        result = competing.remove.end (res);
+                        finished = true;
+                    });
+                    assert ((yield replacement.install_replacement ()) == ReturnCode.OPERATION_IN_PROGRESS);
+                    assert ((yield replacement.update ()) == ReturnCode.OPERATION_IN_PROGRESS);
+                    while (!finished) {
+                        Timeout.add (5, () => { scenario_async.callback (); return Source.REMOVE; });
+                        yield;
+                    }
+                    assert (result == ReturnCode.RUNNER_REMOVED);
+                    assert ((yield replacement.install ()) == ReturnCode.RUNNER_INSTALLED);
+                }
+                assert (Utils.Metadata.load (job.install_location).release_id == "fixture-2");
+            } else if (scenario == 19 || scenario == 20) {
+                launcher.groups = { group };
+                // Seed a validated fixture archive for the next revision so bulk
+                // updates exercise the production job without network access.
+                var next = new FixtureJob (tool, archive, "fixture-2");
+                var archive_key = Checksum.compute_for_string (ChecksumType.SHA256, next.release.asset.download_url);
+                assert (yield Utils.Filesystem.copy_file (archive,
+                    Path.build_filename (Globals.CACHE_PATH, "archives", archive_key + ".zip")));
+                if (scenario == 19) {
+                    var launchers = new List<Launcher> ();
+                    launchers.append (launcher);
+                    launchers.append (launcher); // Shared targets are updated once.
+                    assert ((yield service.check_for_updates (launchers)) == ReturnCode.NOTHING_TO_UPDATE);
+                    assert (source.requests == 1);
+                    source.latest_release = next.release;
+                    assert ((yield service.check_for_updates (launchers)) == ReturnCode.RUNNERS_UPDATED);
+                    assert (source.requests == 2);
+                    source.fail = true;
+                    assert ((yield service.check_for_updates (launchers)) == ReturnCode.REQUEST_FAILED);
+                } else {
+                    var launchers = new Gee.LinkedList<Launcher> ();
+                    launchers.add (launcher);
+                    launchers.add (launcher);
+                    var output = new CLI.RecordingCliOutputSink ();
+                    var handler = new CLI.Handler (launchers, output);
+                    assert ((yield handler.run ({ "protonplus", "update", "all" })) == 0);
+                    assert (source.requests == 1);
+                    source.latest_release = next.release;
+                    assert ((yield handler.run ({ "protonplus", "update", "all" })) == 0);
+                    assert (source.requests == 2);
+                    source.fail = true;
+                    assert ((yield handler.run ({ "protonplus", "update", launcher.instance_id })) == 1);
+                }
+                assert (source.requests == 3);
+                assert (Utils.Metadata.load (job.install_location).release_id == "fixture-2");
+                assert (recorder.receipts.size == 2);
+            } else if (scenario == 6 || scenario == 7 || scenario == 11) {
                 yield migration_scenario (job, root, scenario == 7, scenario == 11);
             } else if (scenario == 18) {
                 source.fail = true;
