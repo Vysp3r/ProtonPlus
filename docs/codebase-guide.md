@@ -198,7 +198,12 @@ shared global speed limiter.
 `PartialDownloadCache` owns unvalidated bytes under `partials/`, separate from
 validated `archives/`. Version-1 metadata records catalog asset identity (URL,
 name, size, digest), strong ETag, byte count, total representation length, identity
-encoding, and update time. A new operation checks metadata types/version, expiry,
+encoding, and update time. Mirrored downloads use version 2 with the effective
+endpoint so older builds reject their partial bytes. Changing the endpoint
+invalidates the partial while retaining the per-asset lock. The optional
+`github-download-mirror` setting is resolved once at the `InstallJob` download
+boundary; catalog URLs and completed archive identities remain canonical.
+A new operation checks metadata types/version, expiry,
 regular files without following symlinks, and exact byte count before sending
 `Range`/`If-Range`. Missing or weak validators cannot resume. A `206` must match
 the validator, offset, total, and complete remaining range. A `200` replaces the

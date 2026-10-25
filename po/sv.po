@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-24 16:46-0400\n"
+"POT-Creation-Date: 2026-10-25 10:07-0400\n"
 "PO-Revision-Date: 2026-08-11 12:51+0000\n"
 "Last-Translator: CrissZollo <depth-broaden-oboe@duck.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/protonplus/"
@@ -339,33 +339,33 @@ msgstr "ETA: %s"
 msgid "ETA: --"
 msgstr "ETA: --"
 
-#: src/cli/cli.vala:870 src/widgets/tools/tools-release-row.vala:853
+#: src/cli/cli.vala:870 src/widgets/tools/tools-release-row.vala:851
 msgid "Updating"
 msgstr "Uppdaterar"
 
 #: src/cli/cli.vala:870 src/widgets/header/header-downloads-indicator.vala:315
-#: src/widgets/tools/tools-release-row.vala:849
+#: src/widgets/tools/tools-release-row.vala:847
 msgid "Installing"
 msgstr "Installerar"
 
-#: src/cli/cli.vala:883 src/widgets/tools/tools-release-row.vala:979
+#: src/cli/cli.vala:883 src/widgets/tools/tools-release-row.vala:977
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%dh %dm %ds"
 
-#: src/cli/cli.vala:885 src/widgets/tools/tools-release-row.vala:983
+#: src/cli/cli.vala:885 src/widgets/tools/tools-release-row.vala:981
 #, c-format
 msgid "%dm %ds"
 msgstr "%dm %ds"
 
-#: src/cli/cli.vala:887 src/widgets/tools/tools-release-row.vala:984
+#: src/cli/cli.vala:887 src/widgets/tools/tools-release-row.vala:982
 #, c-format
 msgid "%ds"
 msgstr "%ds"
 
 #. System Page
 #: src/globals.vala:31 src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:311
+#: src/widgets/preferences/preferences-dialog.vala:342
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr "System"
@@ -539,7 +539,6 @@ msgstr ""
 "jämfört med Valves egna Proton."
 
 #: src/models/providers/definitions/proton.vala:35
-#: src/widgets/tools/tools-release-row.vala:833
 msgid "Recommended"
 msgstr "Rekommenderas"
 
@@ -820,6 +819,11 @@ msgstr ""
 msgid "The TinkerGame archive is invalid or incomplete."
 msgstr "SteamTinkerLaunch-arkivet är ogiltigt eller ofullständigt"
 
+#: src/utils/github-download-mirror.vala:14
+#: src/widgets/preferences/preferences-dialog.vala:293
+msgid "Enter an HTTPS mirror URL without credentials, a query, or a fragment."
+msgstr ""
+
 #: src/utils/partial-download-cache.vala:17
 msgid "Could not create cache parent"
 msgstr ""
@@ -828,19 +832,19 @@ msgstr ""
 msgid "Could not open download cache lock"
 msgstr ""
 
-#: src/utils/partial-download-cache.vala:42
+#: src/utils/partial-download-cache.vala:44
 msgid "The download cache is busy. Try again later."
 msgstr ""
 
-#: src/utils/partial-download-cache.vala:46
+#: src/utils/partial-download-cache.vala:48
 msgid "Symlink in partial cache path"
 msgstr ""
 
-#: src/utils/partial-download-cache.vala:49
+#: src/utils/partial-download-cache.vala:51
 msgid "Could not create partial download directory"
 msgstr ""
 
-#: src/utils/partial-download-cache.vala:54
+#: src/utils/partial-download-cache.vala:56
 msgid "This archive is already being downloaded. Try again later."
 msgstr ""
 
@@ -2279,7 +2283,7 @@ msgstr "Systemstandard"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
-#: src/widgets/preferences/preferences-dialog.vala:364
+#: src/widgets/preferences/preferences-dialog.vala:395
 msgid "Gamescope"
 msgstr "Gamescope"
 
@@ -2290,7 +2294,7 @@ msgstr "Gamescope"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
-#: src/widgets/preferences/preferences-dialog.vala:367
+#: src/widgets/preferences/preferences-dialog.vala:398
 msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
 
@@ -3684,7 +3688,7 @@ msgid "Advanced"
 msgstr "Avancerat"
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
-#: src/widgets/preferences/preferences-dialog.vala:290
+#: src/widgets/preferences/preferences-dialog.vala:321
 msgid "Experimental"
 msgstr "Experimentell"
 
@@ -3816,19 +3820,19 @@ msgstr "Avbryt"
 #: src/widgets/header/header-downloads-indicator.vala:285
 #: src/widgets/header/header-downloads-indicator.vala:287
 #: src/widgets/tools/tools-release-row.vala:609
-#: src/widgets/tools/tools-release-row.vala:890
+#: src/widgets/tools/tools-release-row.vala:888
 msgid "Cancelling"
 msgstr "Avbrytning"
 
 #: src/widgets/header/header-downloads-indicator.vala:313
-#: src/widgets/tools/tools-release-row.vala:895
+#: src/widgets/tools/tools-release-row.vala:893
 msgid "Extracting"
 msgstr "Extraherar"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
-#: src/widgets/tools/tools-release-row.vala:857
-#: src/widgets/tools/tools-release-row.vala:899
-#: src/widgets/tools/tools-release-row.vala:904
+#: src/widgets/tools/tools-release-row.vala:855
+#: src/widgets/tools/tools-release-row.vala:897
+#: src/widgets/tools/tools-release-row.vala:902
 msgid "Removing"
 msgstr "Borttagning"
 
@@ -4086,7 +4090,7 @@ msgid "Tools"
 msgstr "Verktyg"
 
 #: src/widgets/main/main-box.vala:75
-#: src/widgets/preferences/preferences-dialog.vala:358
+#: src/widgets/preferences/preferences-dialog.vala:389
 msgid "MangoHud"
 msgstr "MangoHud"
 
@@ -4170,7 +4174,7 @@ msgid "Download canceled"
 msgstr "Nedladdning avbruten"
 
 #: src/widgets/main/main-box.vala:379
-#: src/widgets/tools/tools-release-row.vala:1099
+#: src/widgets/tools/tools-release-row.vala:1097
 msgid "Download failed"
 msgstr "Nedladdning misslyckades"
 
@@ -5152,105 +5156,120 @@ msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:269
-msgid "Download speed limit"
-msgstr "Nedladdningshastighetsgräns"
-
-#: src/widgets/preferences/preferences-dialog.vala:270
-msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
+msgid "GitHub download mirror"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:273
+msgid "Example: https://mirror.example/"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:275
+#: src/widgets/preferences/preferences-dialog.vala:290
+msgid ""
+"Optional. Leave empty to download directly from GitHub. Only release "
+"downloads use this mirror. Only use a mirror you trust."
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:300
+msgid "Download speed limit"
+msgstr "Nedladdningshastighetsgräns"
+
+#: src/widgets/preferences/preferences-dialog.vala:301
+msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:304
 msgid "This limit is shared across all active downloads."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:295
+#: src/widgets/preferences/preferences-dialog.vala:326
 msgid "Preview features"
 msgstr "Förhandsvisningsfunktioner"
 
-#: src/widgets/preferences/preferences-dialog.vala:296
+#: src/widgets/preferences/preferences-dialog.vala:327
 msgid "Enable experimental features for early testing"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:302
+#: src/widgets/preferences/preferences-dialog.vala:333
 msgid "Maintenance"
 msgstr "Underhåll"
 
-#: src/widgets/preferences/preferences-dialog.vala:303
+#: src/widgets/preferences/preferences-dialog.vala:334
 msgid "Refresh app data or clear cached files"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:317
+#: src/widgets/preferences/preferences-dialog.vala:348
 msgid "Software Environment"
 msgstr "Mjukvarumiljö"
 
-#: src/widgets/preferences/preferences-dialog.vala:322
+#: src/widgets/preferences/preferences-dialog.vala:353
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr "SteamOS"
 
-#: src/widgets/preferences/preferences-dialog.vala:322
-#: src/widgets/preferences/preferences-dialog.vala:325
+#: src/widgets/preferences/preferences-dialog.vala:353
+#: src/widgets/preferences/preferences-dialog.vala:356
 #: src/widgets/tools/tools-stl-release-row.vala:170
 msgid "Yes"
 msgstr "Ja"
 
-#: src/widgets/preferences/preferences-dialog.vala:322
-#: src/widgets/preferences/preferences-dialog.vala:325
+#: src/widgets/preferences/preferences-dialog.vala:353
+#: src/widgets/preferences/preferences-dialog.vala:356
 #: src/widgets/tools/tools-stl-release-row.vala:169
 msgid "No"
 msgstr "Nej"
 
-#: src/widgets/preferences/preferences-dialog.vala:325
+#: src/widgets/preferences/preferences-dialog.vala:356
 msgid "Flatpak"
 msgstr "Flatpak"
 
-#: src/widgets/preferences/preferences-dialog.vala:329
+#: src/widgets/preferences/preferences-dialog.vala:360
 msgid "Hardware"
 msgstr "Hårdvara"
 
-#: src/widgets/preferences/preferences-dialog.vala:341
+#: src/widgets/preferences/preferences-dialog.vala:372
 #, fuzzy
 msgid "CPU Features"
 msgstr "CPU Temperatur"
 
-#: src/widgets/preferences/preferences-dialog.vala:342
+#: src/widgets/preferences/preferences-dialog.vala:373
 #, fuzzy
 msgid "None detected"
 msgstr "Autoupptäck"
 
-#: src/widgets/preferences/preferences-dialog.vala:347
+#: src/widgets/preferences/preferences-dialog.vala:378
 msgid "Dependencies"
 msgstr "Nödvändigheter"
 
-#: src/widgets/preferences/preferences-dialog.vala:352
+#: src/widgets/preferences/preferences-dialog.vala:383
 msgid "Protontricks"
 msgstr "Protontricks"
 
-#: src/widgets/preferences/preferences-dialog.vala:355
+#: src/widgets/preferences/preferences-dialog.vala:386
 msgid "Protontricks (Flatpak)"
 msgstr "Protontricks (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:361
+#: src/widgets/preferences/preferences-dialog.vala:392
 msgid "MangoHud (Flatpak)"
 msgstr "MangoHud (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:370
+#: src/widgets/preferences/preferences-dialog.vala:401
 msgid "Feral Gamemode"
 msgstr "Feral Gamemode"
 
-#: src/widgets/preferences/preferences-dialog.vala:374
+#: src/widgets/preferences/preferences-dialog.vala:405
 msgid "Detected Launchers"
 msgstr "Upptäckta Launchers"
 
-#: src/widgets/preferences/preferences-dialog.vala:406
+#: src/widgets/preferences/preferences-dialog.vala:437
 #: src/widgets/tools/tools-box.vala:189
 #: src/widgets/tools/tools-group-box.vala:749
-#: src/widgets/tools/tools-release-row.vala:842
-#: src/widgets/tools/tools-release-row.vala:846
+#: src/widgets/tools/tools-release-row.vala:840
+#: src/widgets/tools/tools-release-row.vala:844
 msgid "Installed"
 msgstr "Installerad"
 
-#: src/widgets/preferences/preferences-dialog.vala:407
+#: src/widgets/preferences/preferences-dialog.vala:438
 msgid "Not installed"
 msgstr "Inte installerad"
 
@@ -5483,12 +5502,13 @@ msgstr "Detaljer"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:11
 #, fuzzy, c-format
-msgid "Games using %s"
-msgstr "Händelser"
+msgid "Games with %s selected"
+msgstr "1 spel markerat"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:14
-msgid "Games Using This Tool"
-msgstr ""
+#, fuzzy
+msgid "Games with this tool selected"
+msgstr "1 spel markerat"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:29
 msgid "Migrate selected games to another tool"
@@ -5502,8 +5522,9 @@ msgid "Select all games"
 msgstr "Välj"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:108
-msgid "No Games Use This Tool"
-msgstr ""
+#, fuzzy
+msgid "No games have this tool selected"
+msgstr "1 spel markerat"
 
 #: src/widgets/tools/tools-release-row.vala:136
 #: src/widgets/tools/tools-release-row.vala:138
@@ -5515,7 +5536,7 @@ msgid "Speed: 0 KB/s"
 msgstr "Hastighet: 0 KB/s"
 
 #: src/widgets/tools/tools-release-row.vala:146
-#: src/widgets/tools/tools-release-row.vala:970
+#: src/widgets/tools/tools-release-row.vala:968
 msgid "Remaining time: --"
 msgstr "Återstående tid: -"
 
@@ -5635,8 +5656,9 @@ msgid "Open Release Page"
 msgstr "Händelser"
 
 #: src/widgets/tools/tools-release-row.vala:776
-msgid "_Games Using This Tool"
-msgstr ""
+#, fuzzy
+msgid "_Games with this tool selected"
+msgstr "1 spel markerat"
 
 #: src/widgets/tools/tools-release-row.vala:783
 msgid "Copy SteamTinkerLaunch Settings…"
@@ -5662,56 +5684,56 @@ msgstr "Utmatningsmapp"
 msgid "_Delete…"
 msgstr "Radera"
 
-#: src/widgets/tools/tools-release-row.vala:835
+#: src/widgets/tools/tools-release-row.vala:833
 msgid "Failed"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:843
+#: src/widgets/tools/tools-release-row.vala:841
 #, fuzzy
 msgid "Update available"
 msgstr "Batchuppdatering misslyckades"
 
-#: src/widgets/tools/tools-release-row.vala:862
+#: src/widgets/tools/tools-release-row.vala:860
 msgid "Unavailable for the selected variant"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:867
-#, c-format
-msgid "In use by %i game"
-msgid_plural "In use by %i games"
-msgstr[0] ""
-msgstr[1] ""
+#: src/widgets/tools/tools-release-row.vala:865
+#, fuzzy, c-format
+msgid "Selected by %i game"
+msgid_plural "Selected by %i games"
+msgstr[0] "Välj"
+msgstr[1] "Välj"
 
-#: src/widgets/tools/tools-release-row.vala:882
+#: src/widgets/tools/tools-release-row.vala:880
 #, c-format
 msgid "%s. Open Release Details"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:883
+#: src/widgets/tools/tools-release-row.vala:881
 #, fuzzy
 msgid "Open Release Details"
 msgstr "Händelser"
 
-#: src/widgets/tools/tools-release-row.vala:897
+#: src/widgets/tools/tools-release-row.vala:895
 msgid "Moving"
 msgstr "Flyttar"
 
-#: src/widgets/tools/tools-release-row.vala:902
+#: src/widgets/tools/tools-release-row.vala:900
 #, fuzzy
 msgid "Preparing update"
 msgstr "Förbereder"
 
-#: src/widgets/tools/tools-release-row.vala:905
+#: src/widgets/tools/tools-release-row.vala:903
 #, fuzzy
 msgid "Preparing installation"
 msgstr "Avbryt installationen"
 
-#: src/widgets/tools/tools-release-row.vala:961
+#: src/widgets/tools/tools-release-row.vala:959
 #, c-format
 msgid "Speed: %s/s"
 msgstr "Hastighet: %s/s"
 
-#: src/widgets/tools/tools-release-row.vala:967
+#: src/widgets/tools/tools-release-row.vala:965
 #, c-format
 msgid "Remaining time: %s"
 msgstr "Återstående tid: %s"
@@ -5948,6 +5970,10 @@ msgid ""
 msgstr ""
 
 #, fuzzy, c-format
+#~ msgid "Games using %s"
+#~ msgstr "Händelser"
+
+#, fuzzy, c-format
 #~ msgid "%s installation failed"
 #~ msgstr "Installation misslyckades"
 
@@ -6042,9 +6068,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Steam-kompatibilitetsverktyg baserat på Proton-GE med ytterligare patchar "
 #~ "för att förbättra RTSP-codecs för VRChat."
-
-#~ msgid "1 game selected"
-#~ msgstr "1 spel markerat"
 
 #~ msgid "DXVK Frame Limit"
 #~ msgstr "DXVK-bildgräns"

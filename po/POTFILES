@@ -95,6 +95,7 @@ src/utils/controller-surface-policy.vala
 src/utils/controller-text-input-policy.vala
 src/utils/download-manager.vala
 src/utils/filesystem.vala
+src/utils/github-download-mirror.vala
 src/utils/i18n.vala
 src/utils/internal/metainfo-loader.vala
 src/utils/mangohud-manager.vala

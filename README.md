@@ -278,11 +278,28 @@ Application preferences are available from the preferences dialog. They include:
 - Background update frequency and update checks at launch or system startup
 - Default Steam compatibility tool and selected Steam profile
 - GitHub and GitLab API tokens for higher API limits or authenticated access
-- System or manual proxy configuration and a shared download speed limit
+- System or manual proxy configuration, an optional GitHub download mirror, and a shared download speed limit
 - Legacy-tool visibility, experimental features, and default-prefix migration behavior
 - Cache deletion and application environment diagnostics
 
 Native builds use the XDG user cache directory, normally `~/.cache/ProtonPlus`. Flatpak builds use the corresponding sandboxed XDG directories.
+
+### GitHub download mirrors
+
+In **Preferences > Advanced > Network**, set **GitHub download mirror** to an
+HTTPS URL prefix and apply the field, or leave it empty for direct downloads.
+For example, `https://mirror.example/` turns a release asset URL into
+`https://mirror.example/https://github.com/owner/repo/releases/download/tag/asset`.
+A missing trailing slash is added automatically. Credentials, query strings,
+and fragments are not accepted in the prefix. Only use a mirror you trust.
+
+This setting is independent of the HTTP/SOCKS proxy setting. It applies to new
+GitHub release asset downloads in both the GUI and CLI; ongoing downloads keep
+their original endpoint. API requests, release lists, source archives, Actions
+artifacts, and other hosts are unchanged, so GitHub API access is still needed.
+Changing endpoints discards incompatible partial downloads. Existing validated
+archive caches remain reusable, and upstream size and digest checks still apply;
+not every upstream asset supplies a digest.
 
 ## Troubleshooting
 

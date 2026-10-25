@@ -31,12 +31,14 @@ namespace ProtonPlus.Utils {
             public int64 total { get; private set; default = -1; }
             public string? etag { get; private set; }
             private string identity;
+            private string endpoint;
             private string metadata_path;
             private int cache_fd = -1;
             private int entry_fd = -1;
 
-            internal Lease (string root, string identity) throws Error {
+            internal Lease (string root, string identity, string endpoint) throws Error {
                 this.identity = identity;
+                this.endpoint = endpoint;
                 cache_fd = lock_cache (root, false);
                 if (cache_fd < 0)
                     throw new IOError.BUSY (_("The download cache is busy. Try again later."));
@@ -78,11 +80,14 @@ namespace ProtonPlus.Utils {
                         throw new IOError.INVALID_DATA ("Invalid partial file");
                     var metadata = new KeyFile ();
                     metadata.load_from_file (metadata_path, KeyFileFlags.NONE);
+                    var saved_endpoint = metadata.has_key ("download", "endpoint") ? metadata.get_string ("download", "endpoint") : "";
+                    if (saved_endpoint != endpoint)
+                        throw new IOError.INVALID_DATA ("Partial download endpoint changed");
                     var saved_etag = metadata.get_string ("download", "etag");
                     var size = metadata.get_int64 ("download", "bytes");
                     var expected = metadata.get_int64 ("download", "total");
                     var age = new DateTime.now_utc ().to_unix () - metadata.get_int64 ("download", "updated");
-                    if (metadata.get_integer ("download", "version") != 1 ||
+                    if (metadata.get_integer ("download", "version") != (endpoint == "" ? 1 : 2) ||
                         metadata.get_string ("download", "identity") != identity ||
                         metadata.get_string ("download", "encoding") != "identity" ||
                         !Web.is_strong_etag (saved_etag) || size <= 0 || size > MAX_BYTES ||
@@ -121,8 +126,10 @@ namespace ProtonPlus.Utils {
                     return;
                 }
                 var metadata = new KeyFile ();
-                metadata.set_integer ("download", "version", 1);
+                // Older builds must reject mirror bytes rather than resume them directly.
+                metadata.set_integer ("download", "version", endpoint == "" ? 1 : 2);
                 metadata.set_string ("download", "identity", identity);
+                metadata.set_string ("download", "endpoint", endpoint);
                 metadata.set_string ("download", "encoding", "identity");
                 metadata.set_string ("download", "etag", validator);
                 metadata.set_int64 ("download", "bytes", bytes);
@@ -144,7 +151,7 @@ namespace ProtonPlus.Utils {
             try {
                 var node = new Json.Node (Json.NodeType.OBJECT);
                 node.set_object (asset.to_json (true));
-                lease = acquire (root, Json.to_string (node, false));
+                lease = acquire (root, Json.to_string (node, false), url == asset.download_url ? "" : url);
                 result = yield Web.download_with_recovery (url, destination, cancellable, progress, recovery, lease, null, out error_message);
             } catch (Error e) {
                 error_message = e.message;
@@ -156,8 +163,8 @@ namespace ProtonPlus.Utils {
             return result;
         }
 
-        public static Lease acquire (string root, string identity) throws Error {
-            return new Lease (root, identity);
+        public static Lease acquire (string root, string identity, string endpoint = "") throws Error {
+            return new Lease (root, identity, endpoint);
         }
 
         /// Run off the GTK thread. Exclusive tree lock makes pruning safe across processes.

@@ -3,6 +3,8 @@ namespace AppTests.WebTest {
 
     public void register_tests () {
         Test.add_func ("/web/api-session-isolation", test_api_isolation);
+        Test.add_func ("/web/github-mirror-routing", test_mirror_routing);
+        Test.add_func ("/web/github-mirror-partial-endpoint", test_mirror_partial_endpoint);
         foreach (var scenario in new string[] { "resume", "cancel", "changed", "ignored", "range", "416", "exhaustion", "window", "deadline", "redirect", "permanent", "permanent-after-retry" }) {
             var name = scenario;
             Test.add_data_func ("/web/persistent/" + name, () => { run_persistent_test (name); });
@@ -39,6 +41,60 @@ namespace AppTests.WebTest {
         Test.add_func ("/web/download-shares-global-speed-limit", test_download_shares_global_speed_limit);
         Test.add_func ("/web/download-throttle-credits-transfer-time", test_download_throttle_credits_transfer_time);
         Test.add_func ("/web/download-throttle-reacts-to-limit-change", test_download_throttle_reacts_to_limit_change);
+    }
+
+    private void test_mirror_routing () {
+        var original = "https://github.com/owner/repo/releases/download/v1/tool%20name.tar.gz?download=1";
+        try {
+            assert (ProtonPlus.Utils.GitHubDownloadMirror.resolve (original, "") == original);
+            assert (ProtonPlus.Utils.GitHubDownloadMirror.resolve (original, "  https://mirror.example/prefix  ") ==
+                "https://mirror.example/prefix/" + original);
+            foreach (var url in new string[] {
+                "https://api.github.com/repos/owner/repo/releases",
+                "https://github.com.evil.example/owner/repo/releases/download/v1/a",
+                "https://github.com@evil.example/owner/repo/releases/download/v1/a",
+                "https://gitlab.com/owner/repo/releases/download/v1/a",
+                "https://github.com/owner/repo/archive/refs/tags/v1.tar.gz",
+                "https://github.com/owner/repo/actions/artifacts/123",
+                "https://github.com/owner/repo/releases/download//a",
+                "https://github.com/owner/repo/releases/download/v1/"
+            })
+                assert (ProtonPlus.Utils.GitHubDownloadMirror.resolve (url, "https://mirror.example/") == url);
+            foreach (var prefix in new string[] { "http://mirror.example", "https://user:pass@mirror.example", "https://mirror.example/?q=x", "https://mirror.example/#fragment", "not a URL", "https://mirror.example/a b" }) {
+                bool rejected = false;
+                try { ProtonPlus.Utils.GitHubDownloadMirror.normalize (prefix); }
+                catch (Error e) { rejected = true; }
+                assert (rejected);
+            }
+        } catch (Error e) { assert_not_reached (); }
+    }
+
+    private void test_mirror_partial_endpoint () {
+        string root = "";
+        try {
+            root = DirUtils.make_tmp ("protonplus-mirror-test-XXXXXX");
+            var lease = ProtonPlus.Utils.PartialDownloadCache.acquire (root, "asset", "https://mirror-a.example/asset");
+            FileUtils.set_contents (lease.path, "12345");
+            lease.save (5, 10, "\"same-etag\"");
+            lease.release ();
+            lease = ProtonPlus.Utils.PartialDownloadCache.acquire (root, "asset", "https://mirror-a.example/asset");
+            assert (lease.offset == 5);
+            bool busy = false;
+            try { ProtonPlus.Utils.PartialDownloadCache.acquire (root, "asset", "https://mirror-b.example/asset"); }
+            catch (IOError.BUSY e) { busy = true; }
+            assert (busy);
+            lease.release ();
+            lease = ProtonPlus.Utils.PartialDownloadCache.acquire (root, "asset", "https://mirror-b.example/asset");
+            assert (lease.offset == 0 && lease.etag == null);
+            FileUtils.set_contents (lease.path, "12345");
+            lease.save (5, 10, "\"same-etag\"");
+            lease.release ();
+            lease = ProtonPlus.Utils.PartialDownloadCache.acquire (root, "asset");
+            assert (lease.offset == 0);
+            lease.release ();
+            Process.spawn_command_line_sync ("rm -rf " + Shell.quote (root));
+            FileUtils.remove (root + ".downloads.lock");
+        } catch (Error e) { assert_not_reached (); }
     }
 
     private void run_recovery_test (string scenario) {
