@@ -91,7 +91,9 @@ int main (string[] args) {
         assert (help.controller_navigate_back ());
         settle ();
         assert (!help.controller_can_navigate_back ());
-        assert (row.has_focus);
+        // Other GUI tests may own global focus on a shared Xvfb display.
+        // Back must restore this window's focus target regardless of activation.
+        assert (row.is_focus ());
     }
     help.close ();
     settle ();
