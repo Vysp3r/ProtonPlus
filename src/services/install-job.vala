@@ -24,6 +24,7 @@ namespace ProtonPlus.Services {
             VERSIONED,
             LATEST,
             STEAM_TINKER_LAUNCH,
+            TINKER_GAME,
         }
 
         public Models.Release release { get; private set; }
@@ -40,6 +41,8 @@ namespace ProtonPlus.Services {
         internal string? replacement_backup_path { get; set; default = null; }
         public SteamTinkerLaunchContext? steam_tinker_launch_context { get; private set; default = null; }
 
+        public TinkerGameContext? tinker_game_context { get; private set; default = null; }
+
         private Cancellable operation_cancellable = new Cancellable ();
         private bool _canceled = false;
         public bool canceled {
@@ -55,6 +58,23 @@ namespace ProtonPlus.Services {
         }
 
         public string? progress { get; internal set; default = null; }
+        public Utils.Web.DownloadPhase download_phase { get; private set; default = Utils.Web.DownloadPhase.DOWNLOADING; }
+        public int download_attempt { get; private set; default = 1; }
+        public int retry_delay_seconds { get; private set; default = 0; }
+        public string download_status {
+            owned get {
+                switch (download_phase) {
+                case Utils.Web.DownloadPhase.WAITING:
+                    return ngettext ("Waiting to retry in %d second (attempt %d)",
+                                     "Waiting to retry in %d seconds (attempt %d)", retry_delay_seconds)
+                        .printf (retry_delay_seconds, download_attempt);
+                case Utils.Web.DownloadPhase.RECONNECTING:
+                    return _("Reconnecting (attempt %d)").printf (download_attempt);
+                default:
+                    return _("Downloading");
+                }
+            }
+        }
         public double speed_kbps { get; internal set; default = 0.0; }
         public double seconds_remaining { get; internal set; default = -1.0; }
         public bool is_percent { get; internal set; default = false; }
@@ -89,7 +109,11 @@ namespace ProtonPlus.Services {
                 release.kind == Models.Release.Kind.STEAM_TINKER_LAUNCH;
             this.mode = is_steam_tinker_launch ? Mode.STEAM_TINKER_LAUNCH : mode;
 
-            if (is_steam_tinker_launch) {
+            if (release.kind == Models.Release.Kind.TINKER_GAME || mode == Mode.TINKER_GAME) {
+                this.mode = Mode.TINKER_GAME;
+                tinker_game_context = new TinkerGameContext (tool, installation_location_override);
+                install_location = tinker_game_context.install_location;
+            } else if (is_steam_tinker_launch) {
                 steam_tinker_launch_context = new SteamTinkerLaunchContext (tool, steam_tinker_launch_home_override);
                 install_location = steam_tinker_launch_context.base_location;
             } else {
@@ -121,7 +145,7 @@ namespace ProtonPlus.Services {
         }
 
         public string usage_name {
-            owned get { return steam_tinker_launch_context != null ? "Proton-stl" : title; }
+            owned get { return tinker_game_context != null ? "Proton-tg" : steam_tinker_launch_context != null ? "Proton-stl" : title; }
         }
 
         public string operation_id {
@@ -133,7 +157,7 @@ namespace ProtonPlus.Services {
                 // view can resolve the in-flight job reliably.
                 var release_identity = mode == Mode.VERSIONED
                     ? (release.upstream_release_id != "" ? release.upstream_release_id : release.source_tag)
-                    : mode == Mode.LATEST ? "latest" : "steam-tinker-launch";
+                    : mode == Mode.LATEST ? "latest" : mode == Mode.TINKER_GAME ? "tinkergame" : "steam-tinker-launch";
                 var variant_id = selected_variant_identity ();
                 return "%s/%s/%s/%s/%s".printf (
                     tool.group.launcher.tool_target_id,
@@ -147,6 +171,8 @@ namespace ProtonPlus.Services {
 
         private string mode_id () {
             switch (mode) {
+            case Mode.TINKER_GAME:
+                return "tinkergame";
             case Mode.LATEST:
                 return "latest";
             case Mode.STEAM_TINKER_LAUNCH:
@@ -157,7 +183,7 @@ namespace ProtonPlus.Services {
         }
 
         public string get_usage_identifier () {
-            if (steam_tinker_launch_context != null)
+            if (steam_tinker_launch_context != null || tinker_game_context != null)
                 return usage_name;
 
             var installed_identifier = tool.group.installed_tool_inventory
@@ -223,7 +249,16 @@ namespace ProtonPlus.Services {
         // Small overridable I/O seams keep transaction characterization tests
         // local without making InstallJob own a filesystem transaction.
         public virtual async bool download_archive (string url, string path, out string? error_message) {
-            return yield Utils.Web.download (url, path, operation_cancellable, report_progress, out error_message);
+            // Snapshot before any yield so retries keep the same endpoint.
+            string request_url;
+            try {
+                request_url = Utils.GitHubDownloadMirror.resolve (url, Globals.SETTINGS == null ? "" :
+                    Globals.SETTINGS.get_string (Utils.GitHubDownloadMirror.SETTINGS_KEY));
+            } catch (Error e) {
+                error_message = e.message;
+                return false;
+            }
+            return yield Utils.PartialDownloadCache.download (selected_asset, request_url, path, operation_cancellable, report_progress, report_recovery, out error_message);
         }
 
         public virtual async bool promote_staged_installation (string staged_install_path) {
@@ -243,6 +278,9 @@ namespace ProtonPlus.Services {
             install_success = false;
             error_message = null;
             progress = null;
+            download_phase = Utils.Web.DownloadPhase.DOWNLOADING;
+            download_attempt = 1;
+            retry_delay_seconds = 0;
             speed_kbps = 0.0;
             seconds_remaining = -1.0;
             is_percent = false;
@@ -266,6 +304,16 @@ namespace ProtonPlus.Services {
             if (state == State.BUSY_INSTALLING || state == State.BUSY_REMOVING || state == State.BUSY_UPDATING)
                 state = State.NOT_INSTALLED;
             refresh_state ();
+        }
+
+        internal void report_recovery (Utils.Web.DownloadPhase phase, int attempt, int delay) {
+            download_phase = phase;
+            download_attempt = attempt;
+            retry_delay_seconds = delay;
+            speed_kbps = 0;
+            seconds_remaining = -1;
+            progress_updated ();
+            Utils.DownloadManager.instance.progress_updated (this);
         }
 
         internal void report_progress (bool is_percent, int64 progress, double speed_kbps, double? remaining_seconds) {
@@ -339,7 +387,7 @@ namespace ProtonPlus.Services {
         }
 
         private void update_install_location (string? override_location) {
-            if (steam_tinker_launch_context != null)
+            if (steam_tinker_launch_context != null || tinker_game_context != null)
                 return;
             if (installation_location_override != null) {
                 install_location = (!) installation_location_override;

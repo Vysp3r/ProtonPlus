@@ -26,9 +26,10 @@ using Gtk;
                 string[] options_values,
                 HashTable<string, string>? tooltips = null,
                 string? separator = ",",
-                string? environment_variable = null
+                string? environment_variable = null,
+                bool allow_custom = true
         ) {
-            base (switch_title, switch_subtitle, options_display, options_values, tooltips);
+            base (switch_title, switch_subtitle, options_display, options_values, tooltips, allow_custom);
             this._children = new Gee.ArrayList<ILaunchOption> ();
 
             this.separator = separator != null ? separator : ",";
@@ -53,16 +54,13 @@ using Gtk;
                 this.separator = ",";
             }
 
+            // Loading replaces the previous projection, including custom rows.
+            clear_custom_items ();
+            foreach (var row in rows_map.get_values ())
+                row.selected = 0;
+
             if (raw_value == null || raw_value == "") {
                 this.enable_expansion = false;
-                clear_custom_items ();
-                if (rows_map != null) {
-                    foreach (var row in rows_map.get_values ()) {
-                        if (row != null) {
-                            row.selected = 0;
-                        }
-                    }
-                }
                 is_updating = false;
                 return;
             }

@@ -878,13 +878,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         string[] selectable_values_for (string id) {
             switch (id) {
                 case "vkd3d-log-level": return { "none", "err", "warn", "fixme", "info", "trace" };
-                case "vkd3d-config": return { "vk_debug", "skip_application_workarounds", "nodxr", "dxr", "dxr12", "force_static_cbv", "single_queue", "no_upload_hvv", "force_host_cached", "no_invariant_position", "pipeline_library_app_cache" };
-                case "amd-radv-perftest": return { "cswave32", "dccmsaa", "dmashaders", "gewave32", "localbos", "lowlatencydec", "lowlatencyenc", "nggc", "nircache", "nogttspill", "nosam", "pswave32", "rtcps" };
-                /* RADV_DEBUG and ACO_DEBUG are diagnostic flag lists. Keep
-                 * only flags documented by current Mesa, rather than the
-                 * historical widget's guessed boolean pairs. */
-                case "amd-radv-debug": return { "hang", "syncshaders", "noibs", "nocache", "nodcc", "nogpl", "nooptvariant", "nosam", "novrs", "precompile", "psocachestats" };
-                case "amd-aco-debug": return { "validate", "perfinfo", "force-waitcnt", "nosched", "nowave32" };
+                case "vkd3d-config":
+                case "amd-radv-perftest":
+                case "amd-radv-debug":
+                case "amd-aco-debug":
+                    return LaunchOptionFlags.values (id);
                 default: return {};
             }
         }

@@ -278,7 +278,9 @@ namespace ProtonPlus.Widgets.Main {
                     show_restart_message (message, result.target);
                 return;
             }
-            var failure = SteamRestartPresentation.failure_message (result.reason, result.steam_confirmed_stopped);
+            var failure = SteamRestartPresentation.failure_message (result.reason, result.steam_confirmed_stopped, result.diagnostic_detail);
+            if (result.final_state == Models.SteamRestartOperationState.FAILED)
+                message ("Steam restart failed: %s", result.diagnostic_detail);
             if (failure.toast != null) {
                 if (result.reason != Models.SteamRestartFailureReason.CANCELLED || result.shutdown_request_sent || result.launch_request_sent)
                     send_toast ((!) failure.toast);
@@ -290,6 +292,7 @@ namespace ProtonPlus.Widgets.Main {
 
         private void show_restart_message (SteamRestartMessage message, Models.SteamRestartTarget target) {
             var dialog = new Adw.AlertDialog (message.heading, message.body);
+            dialog.body_use_markup = false;
             dialog.add_response ("later", _ ("Later"));
             dialog.set_close_response ("later");
             dialog.set_default_response ("later");

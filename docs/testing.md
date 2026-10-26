@@ -50,6 +50,13 @@ paths relative to that directory; running from the repository root can produce
 false missing-fixture failures. Meson's registered unit test already supplies
 the correct working directory.
 
+For download changes, run all three levels explicitly (`-p /web`,
+`-p /web/persistent`, `-p /web/partial-cache`): GLib's `-p` selection does not
+recursively include nested suites. HTTP fixtures require loopback socket access.
+They use temporary cache directories and injected short recovery policies; no
+real downloads or Steam profiles are touched. Sparse files exercise the 2 GiB
+retention limit without allocating that much disk space.
+
 The argument after `-p` is a GLib test path or prefix, not a Meson test name.
 To run the entire registered unit executable through Meson:
 
@@ -67,6 +74,7 @@ meson test -C build --print-errorlogs "ProtonPlus unit tests"
 | CPU/variant selection | `/cpu-capabilities`, `/variant-compatibility`, `/variant-selector`. |
 | Installed state and metadata | `/installed-tool-inventory`, `/metadata`, `/compatibility-tool`. |
 | Steam selectable-tool discovery | `/steam-compatibility-tool-discovery`; injected Steam-library, native-system, and Flatpak extension roots only. `/steam/library-compatibility-tools-use-stable-identities` covers the library-loading projection. |
+| Download recovery | `/web`, `/web/persistent`, `/web/partial-cache`, `web_test.vala`: loopback HTTP fixtures for retry deadlines, both Retry-After formats, resume/restart rates, validator/range safety, cancellation, persistent metadata, locks, expiry/storage limits, cache clearing, and API session/proxy isolation. |
 | Installation and updates | `/compatibility-process-guard`, `/installer-transaction`, `/update-transaction`, `/steamtinkerlaunch`. |
 | VDF and Steam library parsing | `/vdf`, `/vdf-binary`, `/vdf-shortcuts`, `/steam`. |
 | Steam lifecycle | `/steam-session`, `/steam-configuration`, `/steam-restart-manager`, `/steam-restart-orchestrator`, `/steam-restart-presentation`. |

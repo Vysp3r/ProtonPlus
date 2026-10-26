@@ -82,6 +82,32 @@ Primary references:
 - [obs-vkcapture](https://github.com/nowrep/obs-vkcapture)
 - [CachyOS gaming configuration](https://github.com/CachyOS/wiki/blob/next/src/content/docs/bg/configuration/gaming.mdx)
 
+## Driver flag editors
+
+`LaunchOptionFlags` owns the selectable keys and translated descriptions for
+VKD3D configuration, RADV performance tests, RADV debugging, and ACO debugging.
+Both the catalog and widgets consume these definitions. Do not add a separate
+widget list or accept obsolete values merely to make a control pass validation.
+
+Descriptions and offered flags were checked on 2026-10-24 against the
+[Mesa environment-variable documentation](https://docs.mesa3d.org/envvars.html)
+and the [VKD3D-Proton README](https://github.com/HansKristian-Work/vkd3d-proton/blob/master/README.md).
+These are curated subsets, not every upstream debugging switch. Support still
+depends on the installed driver or bundled VKD3D version. ACO uses `validateir`;
+old `validate`/`nowave32` and removed RADV debug flags are not offered for new edits.
+
+Constrained flag editors do not offer arbitrary custom additions. Existing
+unknown or legacy flags can still load and be removed. Unrelated edits preserve
+the original raw command through `LaunchCommandWriter`; explicit Clear still
+removes the whole command. Loading a new list replaces all old selections,
+including custom rows. An enabled editor with no selected flags emits no option.
+DLL overrides retain their custom-entry control.
+
+The widget regression executable checks descriptions, selection/composition,
+legacy loading, replacement, and clearing. Meson uses an isolated Xvfb display
+when available; otherwise it needs a display and skips when none is available.
+On Arch, `xorg-server-xvfb` provides Xvfb.
+
 ## Validation
 
 Run the focused capability, catalog, composer, writer, and projection paths from

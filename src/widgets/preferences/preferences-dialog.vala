@@ -265,6 +265,35 @@ namespace ProtonPlus.Widgets.Preferences {
             proxy_mode_changed_handler = Globals.SETTINGS.changed["proxy-mode"].connect (update_proxy_url_sensitivity);
             network_group.add (proxy_url_row);
 
+            var mirror_row = new Adw.EntryRow () {
+                title = _("GitHub download mirror"),
+                show_apply_button = true
+            };
+            Utils.TextInputMetadataPolicy.apply (mirror_row, Utils.TextInputFieldKind.URL);
+            mirror_row.set_tooltip_text (_("Example: https://mirror.example/"));
+            Globals.SETTINGS.bind (Utils.GitHubDownloadMirror.SETTINGS_KEY, mirror_row, "text", SettingsBindFlags.GET);
+            var mirror_help = new Gtk.Label (_("Optional. Leave empty to download directly from GitHub. Only release downloads use this mirror. Only use a mirror you trust.")) {
+                wrap = true,
+                xalign = 0,
+                margin_top = 6,
+                margin_bottom = 6,
+                margin_start = 12,
+                margin_end = 12
+            };
+            mirror_help.add_css_class ("dim-label");
+            mirror_row.apply.connect (() => {
+                try {
+                    var prefix = Utils.GitHubDownloadMirror.normalize (mirror_row.text);
+                    Globals.SETTINGS.set_string (Utils.GitHubDownloadMirror.SETTINGS_KEY, prefix);
+                    mirror_row.text = prefix;
+                    mirror_row.remove_css_class ("error");
+                    mirror_help.label = _("Optional. Leave empty to download directly from GitHub. Only release downloads use this mirror. Only use a mirror you trust.");
+                } catch (Error e) {
+                    mirror_row.add_css_class ("error");
+                    mirror_help.label = _("Enter an HTTPS mirror URL without credentials, a query, or a fragment.");
+                }
+            });
+
             download_speed_limit_row = new Adw.SpinRow.with_range (0, 10240, 1) {
                 title = _("Download speed limit"),
                 subtitle = _("Maximum total speed in KB/s for all downloads. Set to 0 for unlimited.")
@@ -285,6 +314,10 @@ namespace ProtonPlus.Widgets.Preferences {
                 update_download_speed_limit_row
             );
             network_group.add ((!) download_speed_limit_row);
+            // PreferencesGroup places non-row children below its entire row list.
+            // Keep the mirror last so its help and validation text sit beneath it.
+            network_group.add (mirror_row);
+            network_group.add (mirror_help);
 
             var experimental_group = new Adw.PreferencesGroup () {
                 title = _("Experimental")

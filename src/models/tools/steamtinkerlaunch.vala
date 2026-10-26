@@ -7,6 +7,7 @@ namespace ProtonPlus.Models.Tools {
                     description: _ (
                         "Steam tool for easy, graphical configuration of your other compatibility tools for both Windows games and native Linux games."
             ));
+            legacy = true;
             set_identity ("steam-tinker-launch", "github");
 
             // Remote commit lookup is performed explicitly by the installation

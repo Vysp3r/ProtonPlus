@@ -110,6 +110,18 @@ namespace ProtonPlus.Widgets.Tools {
     /// UI-free mapping from the observable installation lifecycle and row
     /// capabilities to the controls that a release row may present.
     public class ReleaseRowPresentation : Object {
+        public static string failure_message (ReturnCode code, string? detail) {
+            if (detail == null || detail.strip () == "")
+                return get_return_code_message (code);
+            var lines = new Gee.ArrayList<string> ();
+            foreach (var line in detail.split ("\n")) {
+                var trimmed = line.strip ();
+                if (trimmed != "")
+                    lines.add (trimmed);
+            }
+            return string.joinv (" ", lines.to_array ());
+        }
+
         public ReleaseRowPrimaryAction primary_action { get; private set; }
         public bool installed { get; private set; }
         public bool recommended { get; private set; }

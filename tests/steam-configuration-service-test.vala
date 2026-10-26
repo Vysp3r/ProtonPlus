@@ -216,9 +216,130 @@ namespace AppTests.SteamConfigurationServiceTest {
         var externally_changed = read (config).replace ("proton-d", "external-tool");
         write (config, externally_changed);
         backend.native_query = new NativeProcessQuery (true);
-        assert (service.reconcile_target (launcher.get_steam_restart_target ()).result == SteamConfigurationMutationResult.CONFLICT);
+        var conflict = service.reconcile_target (launcher.get_steam_restart_target ());
+        assert (conflict.result == SteamConfigurationMutationResult.CONFLICT);
+        assert (conflict.error.contains (config));
+        assert (conflict.error.contains ("compatibility-mapping: 42"));
+        assert (!conflict.error.contains ("external-tool"));
+        assert (!conflict.error.contains ("proton-e"));
         assert (read (config).contains ("external-tool"));
         assert (read (config).contains ("unrelated edit"));
+    }
+
+    private void test_stopped_edit_replaces_pending_configuration () {
+        foreach (var same_selection in new bool[] { false, true }) {
+            var root = temporary_root (); string config; string localconfig;
+            prepare_text_files (root, out config, out localconfig);
+            var launcher = steam (root); var target = launcher.get_steam_restart_target ();
+            var backend = new SessionFixture (); set_running (backend, target);
+            SteamRestartManager manager; var service = service_for (root, backend, out manager);
+            var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+            assert (service.change_game_compatibility_tool (game, "proton-a").accepted);
+            assert (service.change_game_launch_options (game, "mangohud %command%", localconfig).accepted);
+            // Reload durable receipts, then simulate conflicting Steam writes.
+            SteamRestartManager restored_manager;
+            service = service_for (root, backend, out restored_manager);
+            backend.native_query = new NativeProcessQuery (true);
+            write (config, read (config).replace ("\"Steam\"\n\t\t\t{", "\"Steam\"\n\t\t\t{\n\"CompatToolMapping\" { \"42\" { \"name\" \"external\" } }"));
+            write (localconfig, read (localconfig).replace ("\"42\"\n\t\t\t\t\t{", "\"42\"\n\t\t\t\t\t{\n\"LaunchOptions\" \"external\""));
+            assert (service.reconcile_target (target).result == SteamConfigurationMutationResult.CONFLICT);
+            var tool = same_selection ? "proton-a" : "proton-b";
+            var options = same_selection ? "mangohud %command%" : "PROTON_LOG=1 %command%";
+            assert (service.change_game_compatibility_tool (game, tool).result == SteamConfigurationMutationResult.CHANGED);
+            assert (restored_manager.pending_count () == 1);
+            assert (read (config).contains (tool));
+            assert (service.change_game_launch_options (game, options, localconfig).result == SteamConfigurationMutationResult.CHANGED);
+            assert (read (localconfig).contains (options));
+            assert (restored_manager.pending_count () == 0);
+            SteamRestartManager reloaded;
+            service = service_for (root, backend, out reloaded);
+            assert (reloaded.pending_count () == 0);
+            assert (service.reconcile_target (target).result == SteamConfigurationMutationResult.UNCHANGED);
+        }
+    }
+
+    private void test_stopped_edit_cleanup_persistence_failure () {
+        var root = temporary_root (); string config; string localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var launcher = steam (root); var target = launcher.get_steam_restart_target ();
+        var backend = new SessionFixture (); set_running (backend, target);
+        var store = new FailingStateStore (Path.build_filename (root, "restart-state.json"));
+        SteamRestartManager manager; var service = service_for (root, backend, out manager, null, store);
+        var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+        assert (service.change_game_compatibility_tool (game, "proton-a").accepted);
+        backend.native_query = new NativeProcessQuery (true);
+        store.fail_saves = true;
+        assert (service.change_game_compatibility_tool (game, "proton-b").result == SteamConfigurationMutationResult.PERSISTENCE_FAILED);
+        assert (manager.pending_count () == 1);
+        assert (store.load ().records.size == 1);
+        store.fail_saves = false;
+        assert (service.change_game_compatibility_tool (game, "proton-b").result == SteamConfigurationMutationResult.CHANGED);
+        assert (manager.pending_count () == 0);
+        assert (store.load ().records.size == 0);
+    }
+
+    private void test_automatic_reconciliation_reports_failure () {
+        foreach (var startup in new bool[] { false, true }) {
+            var root = temporary_root (); string config; string localconfig;
+            prepare_text_files (root, out config, out localconfig);
+            var launcher = steam (root); var target = launcher.get_steam_restart_target ();
+            var backend = new SessionFixture (); set_running (backend, target);
+            SteamRestartManager manager; var service = service_for (root, backend, out manager);
+            assert (service.change_default_compatibility_tool (launcher, "proton-a").accepted);
+            write (config, "invalid VDF");
+            backend.native_query = new NativeProcessQuery (true);
+            Test.expect_message (null, LogLevelFlags.LEVEL_MESSAGE, "*Automatic Steam configuration reconciliation failed:*config.vdf*compatibility-mapping: 0*");
+            if (startup) {
+                manager.start_observation ();
+                manager.stop_observation ();
+            } else {
+                manager.reconcile_target (target);
+            }
+            Test.assert_expected_messages ();
+            assert (manager.pending_count () == 1);
+        }
+    }
+
+    private void test_pending_changes_survive_steam_key_casing () {
+        var root = temporary_root (); string config; string localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var launcher = steam (root); var target = launcher.get_steam_restart_target ();
+        var backend = new SessionFixture (); set_running (backend, target);
+        SteamRestartManager manager; var service = service_for (root, backend, out manager);
+        var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+        assert (service.change_default_compatibility_tool (launcher, "proton-a").result
+            == SteamConfigurationMutationResult.STAGED);
+        assert (service.change_game_compatibility_tool (game, "").result
+            == SteamConfigurationMutationResult.STAGED);
+        assert (service.change_game_launch_options (game, "mangohud %command%", localconfig).result
+            == SteamConfigurationMutationResult.STAGED);
+
+        // Steam KeyValues keys are case-insensitive and can be rewritten on exit.
+        write (config, read (config).replace ("Valve", "valve").replace ("Steam", "steam"));
+        write (localconfig, read (localconfig).replace ("Software", "software")
+            .replace ("Valve", "valve").replace ("Steam", "steam"));
+        backend.native_query = new NativeProcessQuery (true);
+        SteamRestartManager restored_manager;
+        var restored = service_for (root, backend, out restored_manager);
+        assert (restored_manager.pending_count () == 3);
+        assert (restored.reconcile_target (target).result == SteamConfigurationMutationResult.CHANGED);
+        assert (read (config).contains ("proton-a"));
+        assert (read (config).contains ("\"valve\""));
+        assert (read (localconfig).contains ("mangohud %command%"));
+        assert (restored.reconcile_target (target).result == SteamConfigurationMutationResult.UNCHANGED);
+        assert (restored.verify_target_after_session (target));
+        assert (restored_manager.pending_count () == 0);
+
+        // Existing values with different key casing must be replaced, not duplicated.
+        write (config, read (config).replace ("CompatToolMapping", "compattoolmapping")
+            .replace ("name", "Name"));
+        write (localconfig, read (localconfig).replace ("LaunchOptions", "launchoptions"));
+        assert (restored.change_game_compatibility_tool (game, "proton-b").result
+            == SteamConfigurationMutationResult.CHANGED);
+        assert (read (config).contains ("proton-b"));
+        assert (restored.change_game_launch_options (game, "", localconfig).result
+            == SteamConfigurationMutationResult.CHANGED);
+        assert (!read (localconfig).contains ("mangohud"));
     }
 
     private void test_unconfirmed_states_never_apply_pending_configuration () {
@@ -539,7 +660,41 @@ namespace AppTests.SteamConfigurationServiceTest {
         loop.run (); return (!) result;
     }
 
+    private void test_tinkergame_reassignment_preserves_launch_options () {
+        var root = temporary_root (); string config; string localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var launcher = steam (root);
+        var backend = new SessionFixture ();
+        SteamRestartManager manager;
+        var service = service_for (root, backend, out manager);
+        var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+        assert (service.change_game_compatibility_tool (game, "Proton-stl").result == SteamConfigurationMutationResult.CHANGED);
+        var raw = "steamtinkerlaunch %command% 'steamtinkerlaunch quoted'";
+        assert (service.change_game_launch_options (game, raw, localconfig).result == SteamConfigurationMutationResult.CHANGED);
+        var original_launch = read (localconfig);
+        set_running (backend, launcher.get_steam_restart_target ());
+        assert (service.change_game_compatibility_tool (game, "Proton-tg").result == SteamConfigurationMutationResult.STAGED);
+        assert (read (config).contains ("Proton-stl"));
+        assert (!read (config).contains ("Proton-tg"));
+        // Reload persisted intents, then reconcile only after confirmed stop.
+        SteamRestartManager reloaded_manager;
+        var reloaded = service_for (root, backend, out reloaded_manager);
+        backend.native_query = new NativeProcessQuery (true);
+        assert (reloaded.reconcile_target (launcher.get_steam_restart_target ()).result == SteamConfigurationMutationResult.CHANGED);
+        assert (read (config).contains ("Proton-tg"));
+        assert (!read (config).contains ("Proton-stl"));
+        assert (read (localconfig) == original_launch);
+        SteamChangeKind legacy_kind;
+        assert (SteamChangeReceipt.try_kind_from_identifier ("steamtinkerlaunch-changed", out legacy_kind));
+        assert (legacy_kind == SteamChangeKind.STEAMTINKERLAUNCH_CHANGED);
+    }
+
     public void register_tests () {
+        Test.add_func ("/steam-configuration/tinkergame-reassignment-preserves-launch-options", test_tinkergame_reassignment_preserves_launch_options);
+        Test.add_func ("/steam-configuration/stopped-edit-replaces-pending", test_stopped_edit_replaces_pending_configuration);
+        Test.add_func ("/steam-configuration/stopped-edit-persistence-failure", test_stopped_edit_cleanup_persistence_failure);
+        Test.add_func ("/steam-configuration/automatic-reconciliation-diagnostics", test_automatic_reconciliation_reports_failure);
+        Test.add_func ("/steam-configuration/pending-changes-key-casing", test_pending_changes_survive_steam_key_casing);
         Test.add_func ("/steam-configuration/default-and-game-compatibility-lifecycle", test_default_and_game_compatibility_lifecycle);
         Test.add_func ("/steam-configuration/staged-reconciliation-and-conflict", test_staged_configuration_reconciles_or_detects_conflict);
         Test.add_func ("/steam-configuration/replaced-executable-keeps-changes-staged", test_replaced_executable_keeps_changes_staged);

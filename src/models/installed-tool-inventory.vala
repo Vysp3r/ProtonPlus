@@ -85,6 +85,28 @@ namespace ProtonPlus.Models {
             return snapshot;
         }
 
+        // Resolve every recorded release, not just the one used for a tool's
+        // installed-state projection. This is a cached, read-only lookup: bare
+        // directory/VDF names are not evidence of a ProtonPlus installation.
+        public Tools.ProviderTool? get_provider_tool_for_entry (InstalledToolEntry entry) {
+            if (group.tools == null)
+                return null;
+
+            foreach (var candidate in group.tools) {
+                var tool = candidate as Tools.ProviderTool;
+                if (tool == null)
+                    continue;
+                if (entry.has_persisted_identity ()) {
+                    if (persisted_identity_matches_tool (entry, tool))
+                        return tool;
+                } else if (legacy_metadata_matches_tool (entry, tool) &&
+                           legacy_metadata_match_is_unambiguous (entry)) {
+                    return tool;
+                }
+            }
+            return null;
+        }
+
         // Pure cached lookup for consumers that already know the physical
         // installation target.  This deliberately performs no discovery or
         // manifest parsing.
@@ -176,6 +198,15 @@ namespace ProtonPlus.Models {
                 return;
 
             foreach (var tool in group.tools) {
+                if (tool is Tools.TinkerGame) {
+                    foreach (var entry in entries) {
+                        if (entry.directory_name == "TinkerGame" && entry.internal_title == "Proton-tg") {
+                            set_tool_state (tool, entry, "Proton-tg");
+                            break;
+                        }
+                    }
+                    continue;
+                }
                 var steam_tinker_launch = tool as Tools.SteamTinkerLaunch;
                 if (steam_tinker_launch != null) {
                     resolve_steam_tinker_launch (tool);

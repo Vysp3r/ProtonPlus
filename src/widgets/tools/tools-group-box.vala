@@ -781,7 +781,10 @@ namespace ProtonPlus.Widgets.Tools {
             ))
                 return false;
 
-            if (Globals.SETTINGS != null && !Globals.SETTINGS.get_boolean ("show-legacy-tools") && tool.legacy)
+            if (tool is Models.Tools.SteamTinkerLaunch && !tool.is_installed ())
+                return false;
+            if (Globals.SETTINGS != null && !Globals.SETTINGS.get_boolean ("show-legacy-tools") && tool.legacy &&
+                !(tool is Models.Tools.SteamTinkerLaunch && tool.is_installed ()))
             return false;
 
             if (filter == Filter.ALL)

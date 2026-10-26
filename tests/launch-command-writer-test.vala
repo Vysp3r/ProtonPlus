@@ -163,6 +163,20 @@ namespace AppTests.LaunchCommandWriterTest {
         assert (merged.writing_allowed);
         assert (merged.launch_line == "PROTON_LOG=1 gamemoderun %command% --custom-argument");
 
+        foreach (var prefix in new string[] {
+            "VKD3D_CONFIG='shader_cache,no_alloc_view_descriptor_caches'",
+            "RADV_DEBUG='novrs,precompile'", "ACO_DEBUG='validate,nowave32'"
+        }) {
+            var source = prefix + " %command% --custom-argument";
+            var preserved = write (source, { new LaunchCommandSelection ("gamemode") },
+                { "gamemode" }, { LaunchOptionCapability.GAMEMODE });
+            assert (preserved.writing_allowed);
+            assert (preserved.launch_line == prefix + " gamemoderun %command% --custom-argument");
+            var clear = write (source, {}, {}, {}, true);
+            assert (clear.writing_allowed);
+            assert (clear.launch_line == "");
+        }
+
         var unsupported = write ("VKD3D_GPUVA=1 %command% --custom-argument",
             { new LaunchCommandSelection ("gamemode") }, { "gamemode" },
             { LaunchOptionCapability.GAMEMODE });

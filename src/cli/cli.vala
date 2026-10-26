@@ -63,6 +63,10 @@ namespace ProtonPlus.CLI {
             sink.write_stdout (format.vprintf (args));
         }
 
+        public void bold_line (string text) {
+            sink.write_stdout (BOLD + text + RESET + "\n");
+        }
+
         public void success (string format, ...) {
             var args = va_list ();
             sink.write_stdout (GREEN + format.vprintf (args) + RESET);
@@ -85,6 +89,82 @@ namespace ProtonPlus.CLI {
 
         public void flush_stdout () {
             sink.flush_stdout ();
+        }
+    }
+
+    // Buffer presentation rows so every column fits its header and contents.
+    private class TableRow : Object {
+        public string[] cells;
+        public string? heading;
+
+        public TableRow (string[] cells, string? heading = null) {
+            this.cells = cells;
+            this.heading = heading;
+        }
+    }
+
+    private class Table : Object {
+        private string[] labels;
+        private int[] widths;
+        private Gee.ArrayList<TableRow> rows = new Gee.ArrayList<TableRow> ();
+
+        public Table (string[] labels) {
+            this.labels = labels;
+            widths = new int[labels.length];
+            for (var i = 0; i < labels.length; i++)
+                widths[i] = display_width (labels[i]);
+        }
+
+        public void add (string[] cells, string? heading = null) {
+            assert (cells.length == labels.length);
+            rows.add (new TableRow (cells, heading));
+            for (var i = 0; i < cells.length; i++)
+                widths[i] = int.max (widths[i], display_width (cells[i]));
+        }
+
+        private static int display_width (string value) {
+            var width = 0;
+            var index = 0;
+            unichar character;
+            while (value.get_next_char (ref index, out character)) {
+                if (!character.iszerowidth ())
+                    width += character.iswide () ? 2 : 1;
+            }
+            return width;
+        }
+
+        private void print_row (Output output, string[] cells, bool labels = false) {
+            var line = new StringBuilder ("  ");
+            for (var i = 0; i < cells.length; i++) {
+                line.append (cells[i]);
+                if (i + 1 < cells.length)
+                    line.append (string.nfill (widths[i] - display_width (cells[i]) + 2, ' '));
+            }
+            if (labels)
+                output.bold_line (line.str);
+            else
+                output.info ("%s\n", line.str);
+        }
+
+        public void print (Output output, bool leading_blank = true) {
+            if (rows.size == 0)
+                return;
+            if (rows[0].heading == null) {
+                if (leading_blank)
+                    output.info ("\n");
+                print_row (output, labels, true);
+            }
+            var first_row = true;
+            foreach (var row in rows) {
+                if (row.heading != null) {
+                    if (!first_row || leading_blank)
+                        output.info ("\n");
+                    output.bold_line ("%s:".printf (row.heading));
+                    print_row (output, labels, true);
+                }
+                print_row (output, row.cells);
+                first_row = false;
+            }
         }
     }
 
@@ -172,10 +252,7 @@ namespace ProtonPlus.CLI {
 
         private int handle_list (string[] args) {
             if (args.length < 3) {
-                output.header (_ ("Detected launchers:\n"));
-                foreach (var launcher in launchers) {
-                    output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
-                }
+                print_launcher_table (false);
                 return 0;
             }
 
@@ -184,25 +261,37 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
-            output.header (_ ("Installed runners for %s:\n"), launcher.title);
             var found = false;
+            var table = new Table ({ _ ("Runner ID"), _ ("Version"), _ ("Name") });
             foreach (var group in launcher.groups) {
                 group.refresh_installed_state ();
                 var installed = group.get_installed_tool_snapshot ();
                 var group_found = false;
+                foreach (var tool in group.tools) {
+                    if (!(tool is Models.Tools.TinkerGame) && !(tool is Models.Tools.SteamTinkerLaunch))
+                        continue;
+                    var entry = tool.resolved_installed_entry;
+                    if (entry == null)
+                        continue;
+                    table.add ({ get_runner_id (tool), entry.tag != "" ? entry.tag : "—", tool.title },
+                        group_found ? null : group.title);
+                    group_found = true;
+                    found = true;
+                }
                 foreach (var entry in installed) {
-                    // This was intentionally omitted by Group's former raw
-                    // directory helper, so retain the CLI listing behavior.
+                    // Preserve the former directory helper's runtime exclusion.
                     if (entry.directory_name == "LegacyRuntime")
                         continue;
-                    if (!group_found) {
-                        output.info ("\n%s:\n", group.title);
-                        group_found = true;
-                    }
-                    output.info ("  %s\n", entry.display_title);
+                    var runner = group.installed_tool_inventory.get_provider_tool_for_entry (entry);
+                    if (runner == null)
+                        continue;
+                    table.add ({ get_runner_id (runner), entry.tag != "" ? entry.tag : "—", entry.display_title },
+                        group_found ? null : group.title);
+                    group_found = true;
                     found = true;
                 }
             }
+            table.print (output, false);
             if (!found) {
                 output.warning (_ ("No runners installed\n"));
             }
@@ -223,6 +312,9 @@ namespace ProtonPlus.CLI {
             if (runner == null) {
                 return 1;
             }
+
+            if (runner is Models.Tools.TinkerGame || runner is Models.Tools.SteamTinkerLaunch)
+                return yield handle_specialized_tool (runner, CMD_INSTALL);
 
             var provider_tool = get_provider_tool (runner, CMD_INSTALL);
             if (provider_tool == null) {
@@ -251,6 +343,9 @@ namespace ProtonPlus.CLI {
             if (runner == null) {
                 return 1;
             }
+
+            if (runner is Models.Tools.TinkerGame || runner is Models.Tools.SteamTinkerLaunch)
+                return yield handle_specialized_tool (runner, CMD_UNINSTALL);
 
             var provider_tool = get_provider_tool (runner, CMD_UNINSTALL);
             if (provider_tool == null) {
@@ -281,6 +376,9 @@ namespace ProtonPlus.CLI {
                     return 1;
                 }
 
+                if (runner is Models.Tools.TinkerGame || runner is Models.Tools.SteamTinkerLaunch)
+                    return yield handle_specialized_tool (runner, CMD_UPDATE);
+
                 var provider_tool = get_provider_tool (runner, CMD_UPDATE);
                 if (provider_tool == null) {
                     return 1;
@@ -288,6 +386,46 @@ namespace ProtonPlus.CLI {
                 return yield update_runner (provider_tool);
             }
             return yield update_launcher (launcher);
+        }
+
+        private async int handle_specialized_tool (Models.Tool tool, string operation) {
+            var catalog = tool.release_catalog;
+            if (catalog == null)
+                return 1;
+            Models.Release release;
+            if (operation == CMD_UNINSTALL && tool is Models.Tools.TinkerGame) {
+                // Removal uses local ownership, so it must also work offline.
+                release = new Models.Release (tool.title, "", "", new Models.Assets.Asset ("", ""),
+                    "", 0, "", "", Models.Release.Kind.TINKER_GAME);
+            } else {
+                var loaded = yield catalog.load (true);
+                if (!loaded.succeeded || catalog.releases.size == 0)
+                    return 1;
+                release = catalog.releases[0];
+            }
+            var job = new Services.InstallJob (release, tool);
+            // Legacy IDs always refer to the legacy product. Keep removal and
+            // updates available, but direct new users to its successor.
+            if (job.steam_tinker_launch_context != null) {
+                if (operation == CMD_INSTALL) {
+                    output.error (_("SteamTinkerLaunch is legacy. Install tinkergame for a new installation.\n"));
+                    return 1;
+                }
+                if (operation == CMD_UPDATE)
+                    yield Services.InstallationService.instance.refresh_steam_tinker_launch_release (job);
+            }
+            ReturnCode result;
+            if (operation == CMD_UNINSTALL)
+                result = yield job.remove ();
+            else if (operation == CMD_UPDATE)
+                result = yield job.update ();
+            else
+                result = yield job.install ();
+            var success = result == ReturnCode.RUNNER_INSTALLED || result == ReturnCode.RUNNER_UPDATED ||
+                result == ReturnCode.RUNNER_REMOVED || result == ReturnCode.NOTHING_TO_UPDATE;
+            if (!success)
+                output.error ("%s: %s\n", tool.title, job.error_message ?? get_return_code_message (result));
+            return success ? 0 : 1;
         }
 
         private async int install_latest (Models.Tools.ProviderTool provider_tool) {
@@ -329,10 +467,13 @@ namespace ProtonPlus.CLI {
             }
 
             output.header (_ ("Available releases for %s:\n"), provider_tool.title);
+            var table = new Table ({ _ ("Number"), _ ("Release date"), _ ("Name") });
             for (var i = 0; i < catalog.releases.size; i++) {
                 var release = catalog.releases[i] as Models.Release;
-                output.info ("%d. %s (%s)\n", i + 1, release.title, release.release_date);
+                table.add ({ (i + 1).to_string (),
+                    release.release_date != "" ? release.release_date : "—", release.title });
             }
+            table.print (output);
 
             var index = read_user_selection (_ ("Select release number"), (int) catalog.releases.size);
             if (index < 0) {
@@ -360,9 +501,12 @@ namespace ProtonPlus.CLI {
             }
 
             output.header (_ ("Installed releases for %s:\n"), runner.title);
+            var table = new Table ({ _ ("Number"), _ ("Version"), _ ("Name") });
             for (var i = 0; i < installed.size; i++) {
-                output.info ("%d. %s\n", i + 1, installed[i].display_title);
+                table.add ({ (i + 1).to_string (), installed[i].tag != "" ? installed[i].tag : "—",
+                    installed[i].display_title });
             }
+            table.print (output);
 
             var index = read_user_selection (_ ("Select release number"), installed.size);
             if (index < 0) {
@@ -582,9 +726,7 @@ namespace ProtonPlus.CLI {
             var installed = new Gee.ArrayList<Models.InstalledToolEntry> ();
 
             foreach (var entry in entries) {
-                if (entry.provider_id == runner.provider_id &&
-                    entry.tool_id == runner.id &&
-                    entry.launcher_id == runner.group.launcher.tool_target_id)
+                if (runner.group.installed_tool_inventory.get_provider_tool_for_entry (entry) == runner)
                     installed.add (entry);
             }
             return installed;
@@ -655,7 +797,7 @@ namespace ProtonPlus.CLI {
         }
 
         private int read_user_selection (string prompt, int max) {
-            output.info ("%s: ", prompt);
+            output.info ("\n%s: ", prompt);
             output.flush_stdout ();
             var input = stdin.read_line ();
 
@@ -679,35 +821,44 @@ namespace ProtonPlus.CLI {
 
         private void print_usage () {
             output.header (_ ("Usage:\n"));
-            output.info ("  protonplus <command> [options]\n\n");
+            output.info ("\n  protonplus <command> [options]\n\n");
             output.header (_ ("Commands:\n"));
-            output.info ("  %-45s %s\n", "version", _ ("Show version"));
-            output.info ("  %-45s %s\n", "help", _ ("Show this help"));
-            output.info ("  %-45s %s\n", "list [launcher_id]", _ ("List launchers or installed runners"));
-            output.info ("  %-45s %s\n", "install <launcher_id> <runner_id> [latest]", _ ("Install runner"));
-            output.info ("  %-45s %s\n", "uninstall <launcher_id> <runner_id|all> [all]", _ ("Uninstall runner"));
-            output.info ("  %-45s %s\n", "update <all|launcher_id> [runner_id]", _ ("Update runner"));
+            var table = new Table ({ _ ("Command"), _ ("Description") });
+            table.add ({ "version", _ ("Show version") });
+            table.add ({ "help", _ ("Show this help") });
+            table.add ({ "list [launcher_id]", _ ("List launchers or installed runners") });
+            table.add ({ "install <launcher_id> <runner_id> [latest]", _ ("Install runner") });
+            table.add ({ "uninstall <launcher_id> <runner_id|all> [all]", _ ("Uninstall runner") });
+            table.add ({ "update <all|launcher_id> [runner_id]", _ ("Update runner") });
+            table.print (output);
         }
 
         private void print_available_launchers () {
             output.header (_ ("\nAvailable launchers:\n"));
-            foreach (var launcher in launchers) {
-                output.info ("  %-45s (%s)\n", get_launcher_id (launcher), launcher.title);
-            }
+            print_launcher_table ();
+        }
+
+        private void print_launcher_table (bool leading_blank = true) {
+            var table = new Table ({ _ ("Launcher ID"), _ ("Name") });
+            foreach (var launcher in launchers)
+                table.add ({ get_launcher_id (launcher), launcher.title });
+            table.print (output, leading_blank);
         }
 
         private void print_available_runners (Models.Launcher launcher) {
             output.header (_ ("\nAvailable runners for %s:\n"), launcher.title);
+            var table = new Table ({ _ ("Runner ID"), _ ("Name") });
             foreach (var group in launcher.groups) {
                 foreach (var runner in group.tools) {
-                    output.info ("  %-45s (%s)\n", get_runner_id (runner), runner.title);
+                    table.add ({ get_runner_id (runner), runner.title });
                 }
             }
+            table.print (output);
         }
 
         private void on_progress_updated (Services.InstallJob job) {
             var speed = Utils.Filesystem.convert_bytes_to_string ((int64) (job.speed_kbps * 1024));
-            var progress = job.progress;
+            var progress = job.progress ?? "";
 
             string eta_text;
             if (job.seconds_remaining >= 0) {
@@ -718,7 +869,7 @@ namespace ProtonPlus.CLI {
 
             var label = job.state == Services.InstallJob.State.BUSY_UPDATING ? _ ("Updating") : _ ("Installing");
 
-            output.info ("\r\033[2K%s %s... %s (%s/s) [%s]\r", label, job.title, progress, speed, eta_text);
+            output.info ("\r\033[2K%s %s... %s · %s (%s/s) [%s]\r", label, job.title, job.download_status, progress, speed, eta_text);
             output.flush_stdout ();
         }
 

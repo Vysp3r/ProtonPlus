@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-13 12:08-0400\n"
+"POT-Creation-Date: 2026-10-25 10:07-0400\n"
 "PO-Revision-Date: 2026-09-10 16:26+0000\n"
 "Last-Translator: EdgeArcher129840 <RimacC2EV@outlook.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -77,205 +77,234 @@ msgctxt "shortcut window"
 msgid "Search Current View"
 msgstr ""
 
-#: src/cli/cli.vala:128
+#: src/cli/cli.vala:208
 #, c-format
 msgid "Error: Unknown command '%s'\n"
 msgstr "错误：未知命令 ‘%s’\n"
 
-#: src/cli/cli.vala:137
+#: src/cli/cli.vala:217
 #, c-format
 msgid "Warning: %s\n"
 msgstr "警告：%s\n"
 
-#: src/cli/cli.vala:175
-msgid "Detected launchers:\n"
-msgstr "检测到的启动器：\n"
+#: src/cli/cli.vala:265 src/cli/cli.vala:850
+msgid "Runner ID"
+msgstr ""
 
-#: src/cli/cli.vala:187
-#, c-format
-msgid "Installed runners for %s:\n"
-msgstr "已为 %s 安装的运行器：\n"
+#: src/cli/cli.vala:265 src/cli/cli.vala:504
+#, fuzzy
+msgid "Version"
+msgstr "HUD 版本"
 
-#: src/cli/cli.vala:207
+#: src/cli/cli.vala:265 src/cli/cli.vala:470 src/cli/cli.vala:504
+#: src/cli/cli.vala:842 src/cli/cli.vala:850
+msgid "Name"
+msgstr "名称"
+
+#: src/cli/cli.vala:296
 msgid "No runners installed\n"
 msgstr "没有已安装的运行器\n"
 
-#: src/cli/cli.vala:299 src/cli/cli.vala:547
+#: src/cli/cli.vala:411
+msgid ""
+"SteamTinkerLaunch is legacy. Install tinkergame for a new installation.\n"
+msgstr ""
+
+#: src/cli/cli.vala:437 src/cli/cli.vala:691
 #, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr "错误：无法加载版本：%s\n"
 
-#: src/cli/cli.vala:304 src/cli/cli.vala:549
+#: src/cli/cli.vala:442 src/cli/cli.vala:693
 msgid "Error: No releases are available\n"
 msgstr "错误：没有可用的版本\n"
 
-#: src/cli/cli.vala:308
+#: src/cli/cli.vala:446
 #, c-format
 msgid "Installing %s Latest...\n"
 msgstr "正在安装 %s 最新版…\n"
 
-#: src/cli/cli.vala:316
+#: src/cli/cli.vala:454
 #, c-format
 msgid "Successfully installed %s Latest\n"
 msgstr "已成功安装 %s 最新版\n"
 
-#: src/cli/cli.vala:318 src/cli/cli.vala:351
+#: src/cli/cli.vala:456 src/cli/cli.vala:492
 #, c-format
 msgid "Error: Installation failed: %s\n"
 msgstr "错误：安装失败：%s\n"
 
-#: src/cli/cli.vala:331
+#: src/cli/cli.vala:469
 #, c-format
 msgid "Available releases for %s:\n"
 msgstr "%s 的可用版本：\n"
 
-#: src/cli/cli.vala:337 src/cli/cli.vala:367
+#: src/cli/cli.vala:470 src/cli/cli.vala:504
+msgid "Number"
+msgstr ""
+
+#: src/cli/cli.vala:470
+#, fuzzy
+msgid "Release date"
+msgstr "未找到版本"
+
+#: src/cli/cli.vala:478 src/cli/cli.vala:511
 msgid "Select release number"
 msgstr "选择版本号"
 
-#: src/cli/cli.vala:343
+#: src/cli/cli.vala:484
 #, c-format
 msgid "Installing %s...\n"
 msgstr "正在安装 %s…\n"
 
-#: src/cli/cli.vala:349
+#: src/cli/cli.vala:490
 #, c-format
 msgid "Successfully installed %s\n"
 msgstr "已成功安装 %s 最新版\n"
 
-#: src/cli/cli.vala:358 src/cli/cli.vala:378
+#: src/cli/cli.vala:499 src/cli/cli.vala:522
 #, c-format
 msgid "No installed releases found for %s\n"
 msgstr "未找到已安装的 %s 版本\n"
 
-#: src/cli/cli.vala:362
+#: src/cli/cli.vala:503
 #, c-format
 msgid "Installed releases for %s:\n"
 msgstr "已安装的 %s 版本：\n"
 
-#: src/cli/cli.vala:382
+#: src/cli/cli.vala:526
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
 msgstr "正在卸载所有版本的 %s：\n"
 
-#: src/cli/cli.vala:394
+#: src/cli/cli.vala:538
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
 msgstr "正在卸载所有版本的启动器 %s…\n"
 
-#: src/cli/cli.vala:420
+#: src/cli/cli.vala:564
 #, c-format
 msgid "Uninstalling %s...\n"
 msgstr "正在卸载 %s…\n"
 
-#: src/cli/cli.vala:424
+#: src/cli/cli.vala:568
 #, c-format
 msgid "Successfully uninstalled %s\n"
 msgstr "已成功卸载 %s\n"
 
-#: src/cli/cli.vala:426
+#: src/cli/cli.vala:570
 #, c-format
 msgid "Error: Uninstallation failed: %s\n"
 msgstr "错误：卸载失败：%s\n"
 
-#: src/cli/cli.vala:431
+#: src/cli/cli.vala:575
 msgid "Updating all runners...\n"
 msgstr "正在更新所有运行器…\n"
 
-#: src/cli/cli.vala:437
+#: src/cli/cli.vala:581
 #, c-format
 msgid "Updating runners for %s...\n"
 msgstr "正在更新 %s 的运行器…\n"
 
-#: src/cli/cli.vala:448 src/cli/cli.vala:504
+#: src/cli/cli.vala:592 src/cli/cli.vala:648
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr "已成功更新 %s\n"
 
-#: src/cli/cli.vala:451 src/cli/cli.vala:507
+#: src/cli/cli.vala:595 src/cli/cli.vala:651
 #, c-format
 msgid "Already up to date: %s\n"
 msgstr "已是最新：%s\n"
 
-#: src/cli/cli.vala:454 src/cli/cli.vala:510
+#: src/cli/cli.vala:598 src/cli/cli.vala:654
 #, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr "错误：无法更新 %s：%s\n"
 
-#: src/cli/cli.vala:494
+#: src/cli/cli.vala:638
 msgid "Already up to date\n"
 msgstr "已是最新\n"
 
-#: src/cli/cli.vala:519
+#: src/cli/cli.vala:663
 #, c-format
 msgid "Updating %s..."
 msgstr "正在更新 %s…"
 
-#: src/cli/cli.vala:535
+#: src/cli/cli.vala:679
 msgid "Error: Failed to load launchers\n"
 msgstr "错误：加载启动器失败\n"
 
-#: src/cli/cli.vala:559
+#: src/cli/cli.vala:703
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr "错误：未找到启动器 '%s'\n"
 
-#: src/cli/cli.vala:572
+#: src/cli/cli.vala:716
 #, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr "错误：未找到工具 '%s'\n"
 
-#: src/cli/cli.vala:644
+#: src/cli/cli.vala:786
 #, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr "错误：运行程序 ‘%s’ 不支持 %s\n"
 
-#: src/cli/cli.vala:651
+#: src/cli/cli.vala:793
 #, c-format
 msgid "Usage: %s\n"
 msgstr "用法：%s\n"
 
-#: src/cli/cli.vala:668
+#: src/cli/cli.vala:810
 msgid "Error: Invalid input, please enter a number\n"
 msgstr "错误：无效输入，请输入一个数字\n"
 
-#: src/cli/cli.vala:674
+#: src/cli/cli.vala:816
 msgid "Error: Selection out of range\n"
 msgstr "错误：选择超出范围\n"
 
-#: src/cli/cli.vala:681
+#: src/cli/cli.vala:823
 msgid "Usage:\n"
 msgstr "用法：\n"
 
-#: src/cli/cli.vala:683
+#: src/cli/cli.vala:825
 msgid "Commands:\n"
 msgstr "命令：\n"
 
-#: src/cli/cli.vala:684
+#: src/cli/cli.vala:826
+#, fuzzy
+msgid "Command"
+msgstr "命令：\n"
+
+#: src/cli/cli.vala:826
+#, fuzzy
+msgid "Description"
+msgstr "持续时间"
+
+#: src/cli/cli.vala:827
 msgid "Show version"
 msgstr "显示版本"
 
-#: src/cli/cli.vala:685
+#: src/cli/cli.vala:828
 msgid "Show this help"
 msgstr "显示此帮助"
 
-#: src/cli/cli.vala:686
+#: src/cli/cli.vala:829
 msgid "List launchers or installed runners"
 msgstr "列出启动器或已安装的运行器"
 
-#: src/cli/cli.vala:687
+#: src/cli/cli.vala:830
 msgid "Install runner"
 msgstr "安装运行器"
 
-#: src/cli/cli.vala:688
+#: src/cli/cli.vala:831
 msgid "Uninstall runner"
 msgstr "卸载运行器"
 
-#: src/cli/cli.vala:689
+#: src/cli/cli.vala:832
 msgid "Update runner"
 msgstr "更新运行器"
 
-#: src/cli/cli.vala:693
+#: src/cli/cli.vala:837
 msgid ""
 "\n"
 "Available launchers:\n"
@@ -283,7 +312,12 @@ msgstr ""
 "\n"
 "可用的启动器：\n"
 
-#: src/cli/cli.vala:700
+#: src/cli/cli.vala:842
+#, fuzzy
+msgid "Launcher ID"
+msgstr "启动器"
+
+#: src/cli/cli.vala:849
 #, c-format
 msgid ""
 "\n"
@@ -292,42 +326,42 @@ msgstr ""
 "\n"
 "可用的 %s 运行器：\n"
 
-#: src/cli/cli.vala:714
+#: src/cli/cli.vala:865
 #, c-format
 msgid "ETA: %s"
 msgstr "预计剩余时间：%s"
 
-#: src/cli/cli.vala:716 src/widgets/header/header-downloads-indicator.vala:325
+#: src/cli/cli.vala:867 src/widgets/header/header-downloads-indicator.vala:325
 msgid "ETA: --"
 msgstr "预计剩余时间：--"
 
-#: src/cli/cli.vala:719 src/widgets/tools/tools-release-row.vala:726
+#: src/cli/cli.vala:870 src/widgets/tools/tools-release-row.vala:851
 msgid "Updating"
 msgstr "正在更新"
 
-#: src/cli/cli.vala:719 src/widgets/header/header-downloads-indicator.vala:315
-#: src/widgets/tools/tools-release-row.vala:722
+#: src/cli/cli.vala:870 src/widgets/header/header-downloads-indicator.vala:315
+#: src/widgets/tools/tools-release-row.vala:847
 msgid "Installing"
 msgstr "正在安装"
 
-#: src/cli/cli.vala:732 src/widgets/tools/tools-release-row.vala:849
+#: src/cli/cli.vala:883 src/widgets/tools/tools-release-row.vala:977
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%d时 %d分 %d秒"
 
-#: src/cli/cli.vala:734 src/widgets/tools/tools-release-row.vala:853
+#: src/cli/cli.vala:885 src/widgets/tools/tools-release-row.vala:981
 #, c-format
 msgid "%dm %ds"
 msgstr "%d分 %d秒"
 
-#: src/cli/cli.vala:736 src/widgets/tools/tools-release-row.vala:854
+#: src/cli/cli.vala:887 src/widgets/tools/tools-release-row.vala:982
 #, c-format
 msgid "%ds"
 msgstr "%d秒"
 
 #. System Page
 #: src/globals.vala:31 src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:311
+#: src/widgets/preferences/preferences-dialog.vala:342
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr "系统"
@@ -436,21 +470,21 @@ msgstr "中文"
 msgid "Chinese (Traditional)"
 msgstr "中文（繁体）"
 
-#: src/models/launcher.vala:277
+#: src/models/launcher.vala:278
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr "基于 Vulkan 实现的 Direct3D 8、9、10 和 11，适用于 Linux/Wine。"
 
-#: src/models/launcher.vala:279
+#: src/models/launcher.vala:280
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr "Wine 的 VKD3D 变体，旨在 Vulkan 之上实现完整的 Direct3D 12 API。"
 
-#: src/models/launcher.vala:281
+#: src/models/launcher.vala:282
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr "Valve 提供的兼容性工具，用于在 Linux 系统上运行 Windows 软件。"
 
-#: src/models/launcher.vala:283
+#: src/models/launcher.vala:284
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr "适用于在 Linux 上运行 Windows 软件的兼容性工具。"
 
@@ -464,7 +498,7 @@ msgstr ""
 msgid "Grant ProtonPlus access, restart it, and try the installation again:"
 msgstr ""
 
-#: src/models/launchers/steam.vala:363
+#: src/models/launchers/steam.vala:391
 #, c-format
 msgid "%s (Unavailable)"
 msgstr ""
@@ -474,8 +508,10 @@ msgid "DXVK builds with gplasync patch by Ph42oN."
 msgstr "由 Ph42oN 制作的带有 gplasync 补丁的 DXVK 版本。"
 
 #: src/models/providers/definitions/dxvk.vala:22
-msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
-msgstr "适用于 Vulkan 1.3 之前版本的 DXVK 构建。"
+msgid ""
+"DXVK build targeting Vulkan 1.1/1.2 hardware, with backported fixes and "
+"support for older GPUs."
+msgstr ""
 
 #: src/models/providers/definitions/proton.vala:7
 msgid ""
@@ -494,57 +530,52 @@ msgstr ""
 "于 Valve 默认的 Proton 工具。"
 
 #: src/models/providers/definitions/proton.vala:35
-#: src/widgets/tools/tools-release-row.vala:706
 #, fuzzy
 msgid "Recommended"
 msgstr "圆形"
 
 #: src/models/providers/definitions/proton.vala:39
-msgid "Dawn Winery's custom Proton fork with fixes for various games :xdd:"
+#, fuzzy
+msgid ""
+"Dawn Winery's custom Proton build with additional game fixes and "
+"compatibility patches."
 msgstr "Dawn Winery 的定制 Proton 分支，包含针对多款游戏的修复  :xdd:"
 
 #: src/models/providers/definitions/proton.vala:49
+#, fuzzy
 msgid ""
-"Steam compatibility tool based on Proton-GE with additional patches to "
-"improve RTSP codecs for VRChat."
+"Custom Proton build based on Proton Experimental with additional patches for "
+"VRChat RTSP and media playback."
 msgstr ""
 "基于 Proton-GE 打造的 Steam 兼容性工具，包含针对 VRChat 的额外补丁以改进 "
 "RTSP 编解码器支持。"
 
-#: src/models/providers/definitions/proton.vala:57
+#: src/models/providers/definitions/proton.vala:59
 msgid "Custom Proton build for running Windows games, based on Wine-tkg."
 msgstr "用于运行 Windows 游戏的自定义 Proton 构建版，基于 Wine-tkg。"
 
-#: src/models/providers/definitions/proton.vala:68
-#, fuzzy
+#: src/models/providers/definitions/proton.vala:69
 msgid ""
-"Steam compatibility tool for running Windows games with improvements over "
-"Valve's default Proton. By Etaash Mathamsetty, adding FSR4 support and Wine "
-"Wayland tweaks."
+"Development-oriented custom Proton build with FSR 4 support, Wine Wayland "
+"work, and other experimental patches."
 msgstr ""
-"一款适用于 Steam 平台的兼容工具，可让运行 Windows 游戏时获得比 Valve 默认的 "
-"Proton 更出色的性能提升。由 Etaash Mathamsetty 开发，新增了 FSR4 支持以及对 "
-"Wine Wayland 的调整优化。"
 
 #: src/models/providers/definitions/proton.vala:79
-#, fuzzy
 msgid ""
-"Steam compatibility tool based on CachyOS Proton with Wayland improvements, "
-"especially for Windows launcher applications."
+"Steam compatibility tool built with native Wayland support, smoother desktop "
+"integration, Steam overlay and other new features."
 msgstr ""
-"基于 Proton-GE 打造的 Steam 兼容性工具，包含针对 VRChat 的额外补丁以改进 "
-"RTSP 编解码器支持。"
 
-#: src/models/providers/definitions/proton.vala:92
+#: src/models/providers/definitions/proton.vala:96
 msgid ""
 "Luxtorpeda provides Linux-native game engines for certain Windows-only games."
 msgstr "Luxtorpeda 为某些仅限 Windows 的游戏提供了 Linux 原生的游戏引擎。"
 
-#: src/models/providers/definitions/proton.vala:101
+#: src/models/providers/definitions/proton.vala:105
 msgid "Steam compatibility tool for running DOS games using DOSBox for Linux."
 msgstr "用于在 Linux 上通过 DOSBox 运行 DOS 游戏的 Steam 兼容性工具。"
 
-#: src/models/providers/definitions/proton.vala:109
+#: src/models/providers/definitions/proton.vala:113
 msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr "用于在 Linux 上通过 ScummVM 运行冒险游戏的 Steam 兼容性工具。"
@@ -580,6 +611,12 @@ msgid ""
 msgstr ""
 "适用于 Windows 游戏和原生 Linux 游戏的 Steam 工具，可轻松、直观地配置您的其他"
 "兼容性工具。"
+
+#: src/models/tools/tinkergame.vala:6
+msgid ""
+"Configure game tools and custom commands. Alpha software; review migrated "
+"settings before playing."
+msgstr ""
 
 #: src/return_codes.vala:35
 msgid "The request could not be completed."
@@ -661,7 +698,22 @@ msgstr ""
 msgid "The operation could not be completed."
 msgstr "无法完成此操作。"
 
-#: src/services/installation-service.vala:457
+#: src/services/install-job.vala:68
+#, c-format
+msgid "Waiting to retry in %d second (attempt %d)"
+msgid_plural "Waiting to retry in %d seconds (attempt %d)"
+msgstr[0] ""
+
+#: src/services/install-job.vala:72
+#, c-format
+msgid "Reconnecting (attempt %d)"
+msgstr ""
+
+#: src/services/install-job.vala:74
+msgid "Downloading"
+msgstr "正在下载"
+
+#: src/services/installation-service.vala:463
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
@@ -673,24 +725,46 @@ msgstr "兼容性工具已更改，但无法保存 Steam 重启提醒。"
 msgid "Extraction failed"
 msgstr "解压失败"
 
-#: src/services/standard-archive-workflow.vala:59
-#: src/services/standard-archive-workflow.vala:99
+#: src/services/standard-archive-workflow.vala:57
+#: src/services/standard-archive-workflow.vala:111
 #: src/services/steam-tinker-launch-workflow.vala:61
 #: src/services/steam-tinker-launch-workflow.vala:108
 msgid "Moving failed"
 msgstr "移动失败"
 
-#: src/services/standard-archive-workflow.vala:68
+#: src/services/standard-archive-workflow.vala:73
 msgid "Failed to save compatibility tool metadata"
 msgstr "无法保存兼容性工具元数据"
 
-#: src/services/standard-archive-workflow.vala:358
+#: src/services/standard-archive-workflow.vala:370
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "无法更新 compatibilitytool.vdf"
 
-#: src/services/standard-archive-workflow.vala:375
+#: src/services/standard-archive-workflow.vala:387
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "兼容性工具清单无效或不完整。"
+
+#: src/services/steam-configuration-service.vala:277
+#, fuzzy
+msgid "Unable to create shortcuts.vdf."
+msgstr "无法创建快捷方式"
+
+#: src/services/steam-configuration-service.vala:285
+msgid "Configuration file is missing."
+msgstr ""
+
+#: src/services/steam-configuration-service.vala:290
+#, fuzzy
+msgid "Configuration file could not be parsed."
+msgstr "无法完成此操作。"
+
+#: src/services/steam-configuration-service.vala:293
+msgid "The targeted Steam setting changed externally."
+msgstr ""
+
+#: src/services/steam-configuration-service.vala:295
+msgid "Unable to apply a pending Steam setting."
+msgstr ""
 
 #: src/services/steam-tinker-launch-workflow.vala:71
 #, fuzzy
@@ -714,19 +788,105 @@ msgstr "无法更新 compatibilitytool.vdf"
 msgid "Failed to initialize SteamTinkerLaunch"
 msgstr "🐛 修复了 Steam Tinker Launch 的 yad 检查问题"
 
-#: src/utils/web.vala:221
+#: src/services/tinker-game-workflow.vala:10
+msgid ""
+"TinkerGame currently requires native Steam and native ProtonPlus outside "
+"SteamOS."
+msgstr ""
+
+#: src/services/tinker-game-workflow.vala:14
+msgid "This TinkerGame installation is not managed by ProtonPlus."
+msgstr ""
+
+#: src/services/tinker-game-workflow.vala:65
+#, c-format
+msgid ""
+"Missing TinkerGame dependencies:\n"
+"%s"
+msgstr ""
+
+#: src/services/tinker-game-workflow.vala:86
+#, fuzzy
+msgid "The TinkerGame archive is invalid or incomplete."
+msgstr "所需数据无效或不完整。"
+
+#: src/utils/github-download-mirror.vala:14
+#: src/widgets/preferences/preferences-dialog.vala:293
+msgid "Enter an HTTPS mirror URL without credentials, a query, or a fragment."
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:17
+#, fuzzy
+msgid "Could not create cache parent"
+msgstr "无法创建 Steam 中的快捷方式"
+
+#: src/utils/partial-download-cache.vala:20
+msgid "Could not open download cache lock"
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:44
+msgid "The download cache is busy. Try again later."
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:48
+msgid "Symlink in partial cache path"
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:51
+msgid "Could not create partial download directory"
+msgstr ""
+
+#: src/utils/partial-download-cache.vala:56
+msgid "This archive is already being downloaded. Try again later."
+msgstr ""
+
+#: src/utils/web.vala:291
 msgid "The download timed out. Check your connection and try again."
 msgstr "下载超时.请检查连接并重试"
+
+#: src/utils/web.vala:336
+#, c-format
+msgid "HTTP %u: %s"
+msgstr ""
+
+#: src/utils/web.vala:342
+msgid "Server rejected the download range"
+msgstr ""
+
+#: src/utils/web.vala:350
+msgid "Unexpected download content encoding"
+msgstr ""
+
+#: src/utils/web.vala:361
+msgid "Invalid resumed download response"
+msgstr ""
+
+#: src/utils/web.vala:424
+msgid "The download exceeded its expected size."
+msgstr ""
+
+#: src/utils/web.vala:453
+msgid "Incomplete download response"
+msgstr ""
+
+#: src/utils/web.vala:546 src/utils/web.vala:575
+msgid "Download recovery time limit reached. Retry to continue."
+msgstr ""
 
 #: src/widgets/application.vala:243
 msgid "Website"
 msgstr "网站"
 
-#: src/widgets/application.vala:248
+#: src/widgets/application.vala:244
+#, fuzzy
+msgid "Discord"
+msgstr "Discord 桥接"
+
+#: src/widgets/application.vala:249
 msgid "translator-credits"
 msgstr "Markson Hosben <marksonhosben@proton.me>nick.exe <nick.exe@gmail.com>"
 
-#: src/widgets/application.vala:249
+#: src/widgets/application.vala:250
 msgid "Special thanks to"
 msgstr "特别鸣谢"
 
@@ -796,7 +956,7 @@ msgid "Search"
 msgstr "搜索"
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-box.vala:841 src/widgets/tools/tools-box.vala:181
+#: src/widgets/games/games-box.vala:842 src/widgets/tools/tools-box.vala:181
 #: src/widgets/tools/tools-box.vala:183 src/widgets/tools/tools-box.vala:363
 msgid "Filter"
 msgstr "过滤器"
@@ -867,7 +1027,7 @@ msgstr "上"
 msgid "Top face button"
 msgstr "上方正面按键"
 
-#: src/widgets/games/games-box.vala:393 src/widgets/games/games-box.vala:1049
+#: src/widgets/games/games-box.vala:393 src/widgets/games/games-box.vala:1050
 msgid "No games found"
 msgstr "未找到游戏"
 
@@ -888,8 +1048,13 @@ msgid ""
 msgstr "使用批量编辑功能前，请务必至少选择一款游戏。"
 
 #: src/widgets/games/games-box.vala:490 src/widgets/games/games-box.vala:493
-#: src/widgets/games/games-box.vala:534 src/widgets/main/main-box.vala:73
+#: src/widgets/main/main-box.vala:73
 msgid "Games"
+msgstr "游戏"
+
+#: src/widgets/games/games-box.vala:534
+#, fuzzy
+msgid "Game"
 msgstr "游戏"
 
 #: src/widgets/games/games-box.vala:541
@@ -905,109 +1070,109 @@ msgstr "工具"
 msgid "Actions"
 msgstr "操作"
 
-#: src/widgets/games/games-box.vala:808 src/widgets/tools/tools-box.vala:186
+#: src/widgets/games/games-box.vala:809 src/widgets/tools/tools-box.vala:186
 msgid "All"
 msgstr "全部"
 
-#: src/widgets/games/games-box.vala:811
+#: src/widgets/games/games-box.vala:812
 #: src/widgets/games/games-collection.vala:72
 #: src/widgets/games/games-mass-edit-view.vala:178
 msgid "Native"
 msgstr "原生"
 
-#: src/widgets/games/games-box.vala:813
+#: src/widgets/games/games-box.vala:814
 msgid "Non-Steam"
 msgstr "非Steam"
 
-#: src/widgets/games/games-box.vala:846
+#: src/widgets/games/games-box.vala:847
 #, fuzzy
 msgid "Filter Games"
 msgstr "筛选：全部游戏"
 
-#: src/widgets/games/games-box.vala:856
+#: src/widgets/games/games-box.vala:857
 msgid "Search games"
 msgstr "搜索游戏"
 
-#: src/widgets/games/games-box.vala:870 src/widgets/games/games-box.vala:874
+#: src/widgets/games/games-box.vala:871 src/widgets/games/games-box.vala:875
 msgid "Select all visible games"
 msgstr "选择所有可见游戏"
 
-#: src/widgets/games/games-box.vala:919
+#: src/widgets/games/games-box.vala:920
 #, fuzzy
 msgid "Steam games couldn’t be loaded"
 msgstr "无法重新打开 Steam"
 
-#: src/widgets/games/games-box.vala:920
+#: src/widgets/games/games-box.vala:921
 msgid ""
 "Steam’s library or profile data is missing or invalid. Finish setting up "
 "Steam, then restart ProtonPlus. Tools and other launchers remain available."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:930
+#: src/widgets/games/games-box.vala:931
 msgid "Unsupported launcher"
 msgstr "不支持的启动器"
 
-#: src/widgets/games/games-box.vala:932
+#: src/widgets/games/games-box.vala:933
 #, c-format
 msgid "%s is currently not supported."
 msgstr "%s 目前不受支持。"
 
-#: src/widgets/games/games-box.vala:933
+#: src/widgets/games/games-box.vala:934
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr "如果你想让我加快开发进度，请务必表达你的支持！"
 
-#: src/widgets/games/games-box.vala:977
+#: src/widgets/games/games-box.vala:978
 #: src/widgets/games/games-collection.vala:78
 #: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
 msgstr "默认"
 
-#: src/widgets/games/games-box.vala:1020
+#: src/widgets/games/games-box.vala:1021
 msgid "Filter: Native"
 msgstr "筛选：原生"
 
-#: src/widgets/games/games-box.vala:1022
+#: src/widgets/games/games-box.vala:1023
 msgid "Filter: Non-Steam"
 msgstr "过滤器：非Steam"
 
-#: src/widgets/games/games-box.vala:1024
+#: src/widgets/games/games-box.vala:1025
 msgid "Filter: All games"
 msgstr "筛选：全部游戏"
 
-#: src/widgets/games/games-box.vala:1033
+#: src/widgets/games/games-box.vala:1034
 msgid "No matching games"
 msgstr "没有匹配的游戏"
 
-#: src/widgets/games/games-box.vala:1035
-#: src/widgets/tools/tools-group-box.vala:333
-#: src/widgets/tools/tools-releases-box.vala:799
+#: src/widgets/games/games-box.vala:1036
+#: src/widgets/tools/tools-group-box.vala:354
+#: src/widgets/tools/tools-releases-box.vala:816
 msgid "Try a different search term or clear the search."
 msgstr "尝试其他搜索词或清除搜索。"
 
-#: src/widgets/games/games-box.vala:1038
-#: src/widgets/tools/tools-group-box.vala:335
-#: src/widgets/tools/tools-releases-box.vala:801
+#: src/widgets/games/games-box.vala:1039
+#: src/widgets/tools/tools-group-box.vala:356
+#: src/widgets/tools/tools-releases-box.vala:818
 #, fuzzy
 msgid "Clear Search"
 msgstr "搜索"
 
-#: src/widgets/games/games-box.vala:1041
+#: src/widgets/games/games-box.vala:1042
 msgid "No games match this filter"
 msgstr "没有游戏符合此筛选条件"
 
-#: src/widgets/games/games-box.vala:1043
+#: src/widgets/games/games-box.vala:1044
 msgid "Choose All games to see your complete library."
 msgstr "选择“全部游戏”以查看完整库。"
 
-#: src/widgets/games/games-box.vala:1046
-#: src/widgets/tools/tools-group-box.vala:342
-#: src/widgets/tools/tools-releases-box.vala:807
+#: src/widgets/games/games-box.vala:1047
+#: src/widgets/tools/tools-group-box.vala:363
+#: src/widgets/tools/tools-releases-box.vala:824
 #, fuzzy
 msgid "Reset Filters"
 msgstr "滤镜"
 
-#: src/widgets/games/games-box.vala:1051
+#: src/widgets/games/games-box.vala:1052
 msgid "No games are available for this launcher."
 msgstr "此启动器没有可用游戏。"
 
@@ -1017,8 +1182,8 @@ msgid "Game Actions"
 msgstr "操作"
 
 #: src/widgets/games/games-extra-button.vala:91
-#: src/widgets/tools/tools-release-row.vala:201
-#: src/widgets/tools/tools-release-row.vala:506
+#: src/widgets/tools/tools-release-row.vala:213
+#: src/widgets/tools/tools-release-row.vala:629
 #, fuzzy, c-format
 msgid "Actions for %s"
 msgstr "操作"
@@ -1070,7 +1235,7 @@ msgid "Denied"
 msgstr ""
 
 #: src/widgets/games/games-extra-button.vala:197
-#: src/widgets/tools/tools-releases-box.vala:1440
+#: src/widgets/tools/tools-releases-box.vala:1488
 #, fuzzy
 msgid "Loading…"
 msgstr "正在加载"
@@ -1088,32 +1253,32 @@ msgstr ""
 msgid "Select executable"
 msgstr "选择可执行程序"
 
-#: src/widgets/games/games-extra-button.vala:219
+#: src/widgets/games/games-extra-button.vala:241
 msgid "Executables (*.exe, *.msi, *.msu, *.bat)"
 msgstr "可执行程序（*.exe, *.msi, *.msu, *.bat）"
 
-#: src/widgets/games/games-extra-button.vala:249
+#: src/widgets/games/games-extra-button.vala:271
 msgid "Compatibility Tool Not Found"
 msgstr "未找到兼容性工具"
 
-#: src/widgets/games/games-extra-button.vala:250
+#: src/widgets/games/games-extra-button.vala:272
 #, c-format
 msgid ""
 "The compatibility tool required for %s is missing from your system. Please "
 "ensure it is correctly installed."
 msgstr "您的系统中缺少 %s 所需的兼容性工具。请确保它已被正确安装。"
 
-#: src/widgets/games/games-extra-button.vala:268
+#: src/widgets/games/games-extra-button.vala:290
 #, c-format
 msgid "Exit status: %d"
 msgstr ""
 
-#: src/widgets/games/games-extra-button.vala:274
+#: src/widgets/games/games-extra-button.vala:296
 #, fuzzy
 msgid "Custom Executable Failed"
 msgstr "启动自定义可执行程序"
 
-#: src/widgets/games/games-extra-button.vala:275
+#: src/widgets/games/games-extra-button.vala:297
 #, fuzzy, c-format
 msgid "The custom executable for %s could not be launched."
 msgstr "请求无法完成。"
@@ -1139,13 +1304,10 @@ msgid_plural "Modify %d selected games all at once"
 msgstr[0] "一次编辑 %d 个所选游戏"
 
 #: src/widgets/games/games-mass-edit-view.vala:27
-msgid "1 game selected"
-msgstr "已选择 1 款游戏"
-
-#: src/widgets/games/games-mass-edit-view.vala:27
-#, c-format
-msgid "%u games selected"
-msgstr "已选择 %u 款游戏"
+#, fuzzy, c-format
+msgid "%u game selected"
+msgid_plural "%u games selected"
+msgstr[0] "已选择 %u 款游戏"
 
 #: src/widgets/games/games-mass-edit-view.vala:37
 #: src/widgets/games/games-mass-edit-view.vala:40
@@ -1198,26 +1360,26 @@ msgid ""
 "available."
 msgstr "未选择兼容性工具，因此没有游戏被更改。"
 
-#: src/widgets/games/games-mass-edit-view.vala:317
+#: src/widgets/games/games-mass-edit-view.vala:321
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr "所选启动选项不完整或不受这些游戏支持。"
 
-#: src/widgets/games/games-mass-edit-view.vala:318
+#: src/widgets/games/games-mass-edit-view.vala:322
 msgid "Launch options cannot be applied"
 msgstr "无法应用启动选项"
 
-#: src/widgets/games/games-mass-edit-view.vala:319
+#: src/widgets/games/games-mass-edit-view.vala:323
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr "无法安全准备启动命令，因此没有游戏被更改。"
 
-#: src/widgets/games/games-mass-edit-view.vala:370
+#: src/widgets/games/games-mass-edit-view.vala:374
 msgid "Batch Update Failed"
 msgstr "批量更新失败"
 
-#: src/widgets/games/games-mass-edit-view.vala:371
+#: src/widgets/games/games-mass-edit-view.vala:375
 msgid ""
 "Some games could not be updated with the new compatibility tool or launch "
 "options. This may be due to missing permissions or file access issues."
@@ -1226,35 +1388,45 @@ msgstr ""
 "文件访问问题造成的。"
 
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
-#: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:471
-#: src/widgets/games/games-row.vala:475 src/widgets/games/games-row.vala:549
+#: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:489
+#: src/widgets/games/games-row.vala:493 src/widgets/games/games-row.vala:567
 #, fuzzy
 msgid "Select game"
 msgstr "选择"
 
-#: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:487
+#: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:505
 #, fuzzy
 msgid "Modify Game"
 msgstr "修改游戏"
 
-#: src/widgets/games/games-row.vala:63 src/widgets/games/games-row.vala:522
+#: src/widgets/games/games-row.vala:63 src/widgets/games/games-row.vala:540
 #: src/widgets/tools/tools-game-row.vala:15
 #: src/widgets/tools/tools-game-row.vala:19
 #, fuzzy, c-format
 msgid "Select %s"
 msgstr "选择"
 
-#: src/widgets/games/games-row.vala:119 src/widgets/games/games-row.vala:588
+#: src/widgets/games/games-row.vala:119 src/widgets/games/games-row.vala:606
 #, c-format
 msgid "Toggle selection for %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:165 src/widgets/games/games-row.vala:589
+#: src/widgets/games/games-row.vala:165 src/widgets/games/games-row.vala:607
 #, c-format
 msgid "Modify %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:318 src/widgets/games/games-row.vala:321
+#: src/widgets/games/games-row.vala:309
+#, fuzzy
+msgid "Game Launch Failed"
+msgstr "启动后端"
+
+#: src/widgets/games/games-row.vala:310
+#, fuzzy, c-format
+msgid "%s could not be launched."
+msgstr "请求无法完成。"
+
+#: src/widgets/games/games-row.vala:336 src/widgets/games/games-row.vala:339
 #, fuzzy, c-format
 msgid "Launch %s"
 msgstr "启动器"
@@ -1273,7 +1445,7 @@ msgid "Extra control over the final Steam launch command."
 msgstr "额外控制最终的Steam启动命令。"
 
 #: src/widgets/games/launch-options-editor/groups/advanced-options-group.vala:17
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1325
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1338
 msgid "Custom game arguments"
 msgstr "自定义游戏参数"
 
@@ -1290,7 +1462,7 @@ msgid "Audio-related launch options."
 msgstr "音频相关的启动选项。"
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:18
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1315
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1328
 msgid "PulseAudio latency"
 msgstr "PulseAudio 延迟"
 
@@ -1310,7 +1482,7 @@ msgstr "MSEC"
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:36
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:11
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:26
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:11
 msgid "Disabled"
 msgstr "已禁用"
 
@@ -1325,7 +1497,7 @@ msgid ""
 msgstr "设置 Wine 使用的 ALSA 输出通道数。可从 GE-Proton11-1 获取。"
 
 #: src/widgets/games/launch-options-editor/groups/audio-options-group.vala:56
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1317
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1330
 msgid "Wine ALSA spatial downmix"
 msgstr "Wine ALSA 空间下混"
 
@@ -1347,7 +1519,7 @@ msgstr "最常用启动选项的快捷切换开关。"
 
 #. Performance & monitoring
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:20
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1231
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1244
 msgid "MangoHud performance overlay"
 msgstr "Mangohud 性能叠加层"
 
@@ -1356,7 +1528,7 @@ msgid "Shows an in-game overlay with FPS, CPU/GPU usage, and temps."
 msgstr "在游戏内显示帧率、CPU/GPU 使用率和温度等信息。"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:30
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1242
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
 msgid "Use desktop game profile"
 msgstr "使用桌面游戏个人资料"
 
@@ -1365,7 +1537,7 @@ msgid "Disables the Steam Deck-specific profile that some games use."
 msgstr "禁用某些游戏使用的 Steam Deck 特定配置文件。"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:39
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1241
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1254
 msgid "Native Wayland"
 msgstr "Wayland 原生支持"
 
@@ -1378,7 +1550,7 @@ msgstr ""
 "Steam 界面。"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:48
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1232
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1245
 #: src/widgets/mangohud/mangohud-extras-page.vala:100
 msgid "GameMode"
 msgstr "Gamescope"
@@ -1390,7 +1562,7 @@ msgid ""
 msgstr "游戏运行时，请求对系统性能进行临时优化（CPU调速器、进程优先级）。"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:57
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1233
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
 msgid "CachyOS game-performance profile"
 msgstr "CachyOS 游戏性能配置文件"
 
@@ -1401,7 +1573,7 @@ msgid ""
 msgstr "使用 CachyOS 性能和 sched_ext 游戏配置文件，直到游戏退出。"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:63
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1234
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
 msgid "MangoHud Vulkan environment mode"
 msgstr "MangoHud Vulkan 环境模式"
 
@@ -1414,7 +1586,7 @@ msgstr ""
 "装器。"
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:69
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1235
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
 msgid "OBS Vulkan/OpenGL capture"
 msgstr "OBS Vulkan/OpenGL 捕获"
 
@@ -1454,8 +1626,10 @@ msgid ""
 "Sets DXVK's log level to none which can improve performance in some games."
 msgstr "将 DXVK 的日志级别设置为“无”。这可以提高某些游戏的性能。"
 
+#. Graphics translation
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:30
-msgid "DXVK Frame Limit"
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1288
+msgid "DXVK frame limit"
 msgstr "DXVK 帧率限制"
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:31
@@ -1469,7 +1643,7 @@ msgid "FPS"
 msgstr "FPS"
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:43
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1280
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
 msgid "Proton-CachyOS DX11 low latency"
 msgstr "Proton-CachyOS DX11 低延迟"
 
@@ -1478,7 +1652,7 @@ msgid "Enables the custom DXVK low-latency path for Direct3D 9–11."
 msgstr "为 Direct3D 9–11 启用自定义 DXVK 低延迟路径。"
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:49
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
 msgid "Proton-CachyOS Vulkan Anti-Lag 2 layer"
 msgstr "Proton-CachyOS Vulkan Anti-Lag 2 层"
 
@@ -1488,7 +1662,7 @@ msgid ""
 msgstr "将 VK_AMD_anti_lag 暴露给已经支持 Anti-Lag 2 的 Vulkan 游戏。"
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:55
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
 msgid "Expose Vulkan Reflex instead of Anti-Lag 2"
 msgstr "启用 Vulkan Reflex 而非 Anti-Lag 2"
 
@@ -1499,7 +1673,7 @@ msgid ""
 msgstr "将低延迟 Vulkan 层切换到 VK_NV_low_latency2，以支持 Reflex 的游戏。"
 
 #: src/widgets/games/launch-options-editor/groups/dxvk-options-group.vala:61
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
 msgid "Proton-CachyOS NVIDIA Reflex Vulkan layer"
 msgstr "Proton-CachyOS NVIDIA Reflex Vulkan 层"
 
@@ -1510,7 +1684,7 @@ msgid ""
 msgstr "为支持 VK_NV_low_latency2 的游戏启用 NVIDIA Vulkan Reflex 层。"
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:14
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:357
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:359
 msgid "Game arguments"
 msgstr "游戏参数"
 
@@ -1520,7 +1694,7 @@ msgstr "直接传递给游戏的参数。"
 
 #. Game arguments
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:18
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1320
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1333
 msgid "Skip launcher"
 msgstr "跳过启动器"
 
@@ -1529,7 +1703,7 @@ msgid "Adds -skip-launcher to bypass launchers in games that support it."
 msgstr "添加 -skip-launcher 参数，用于在支持该参数的游戏中跳过启动器。"
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:22
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1321
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1334
 msgid "Vulkan renderer"
 msgstr "Vulkan 渲染器"
 
@@ -1538,7 +1712,7 @@ msgid "Adds -vulkan to make the game use its Vulkan renderer."
 msgstr "添加 -vulkan 参数以使游戏使用 Vulkan 渲染器"
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:23
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1322
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1335
 msgid "DirectX 11 renderer"
 msgstr "DirectX 11 渲染器"
 
@@ -1547,7 +1721,7 @@ msgid "Adds -dx11 to make the game use its DirectX 11 renderer."
 msgstr "添加 -dx11 参数以使游戏使用 DirectX 11 渲染器"
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:24
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1336
 msgid "DirectX 12 renderer"
 msgstr "DirectX 12 渲染器"
 
@@ -1556,7 +1730,7 @@ msgid "Adds -dx12 to make the game use its DirectX 12 renderer."
 msgstr "添加 -dx12 参数以使游戏使用 DirectX 12 渲染器"
 
 #: src/widgets/games/launch-options-editor/groups/game-arguments-group.vala:25
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1324
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1337
 msgid "Developer console"
 msgstr "开发者控制台"
 
@@ -1565,18 +1739,18 @@ msgid "Adds -console to open the game's developer console when supported."
 msgstr "添加 -console 参数，以便打开支持的游戏的开发者控制台。"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:29
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1288
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1301
 msgid "Mesa Anti-Lag"
 msgstr "Mesa 抗延迟"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:29
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1288
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1301
 msgid "Reduces latency on supported AMD Mesa setups."
 msgstr "降低支持的 AMD Mesa 配置的延迟。"
 
 #. Hardware & drivers
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:30
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1287
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1300
 msgid "Use discrete GPU"
 msgstr "使用独显"
 
@@ -1585,7 +1759,7 @@ msgid "Makes the game use the AMD dGPU on hybrid systems."
 msgstr "使游戏在混合系统上使用 AMD 独显。"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:32
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
 msgid "Treat APU as a discrete GPU"
 msgstr "将 APU 视为独立 GPU"
 
@@ -1597,7 +1771,7 @@ msgstr ""
 "使 Proton 将 AMD APU 报告为独立显卡，以解决游戏错误检测集成显卡的问题。"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:37
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
 msgid "FSR 4 upgrade (current path)"
 msgstr "升级到 FSR 4（当前路径）"
 
@@ -1610,7 +1784,7 @@ msgstr ""
 "用 Anti-Lag 2。"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:46
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1303
 msgid "FSR 4 RDNA3 upgrade (legacy path)"
 msgstr "升级到 FSR 4 RDNA3（旧版路径）"
 
@@ -1623,7 +1797,7 @@ msgstr ""
 "CachyOS 中移除。"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:56
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
 msgid "FSR 4 ML frame generation"
 msgstr "FSR 4 ML 帧生成"
 
@@ -1636,7 +1810,7 @@ msgstr ""
 "DXIL_SPIRV_CONFIG=wmma_rdna3_workaround。"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:61
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
 msgid "RDNA3 ML frame-generation workaround"
 msgstr "RDNA3 ML 帧生成变通方案"
 
@@ -1647,7 +1821,7 @@ msgid ""
 msgstr "仅在 RDNA3 ML 帧生成需要时应用 DXIL-SPIR-V WMMA 变通方案。"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:67
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
 msgid "AMD Reflex preset: allow DXVK-NVAPI"
 msgstr "AMD Reflex 预设：允许 DXVK-NVAPI"
 
@@ -1659,7 +1833,7 @@ msgstr ""
 "侵入性最小的预设。允许在 AMD 上使用 DXVK-NVAPI；在 GPU 伪装之前尝试此项。"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:73
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
 msgid "AMD Reflex preset: hide AMD GPU"
 msgstr "AMD Reflex 预设：隐藏 AMD GPU"
 
@@ -1670,7 +1844,7 @@ msgid ""
 msgstr "DXVK 回退方案，可以暴露 Reflex，但可能破坏 FSR 4 和 ML 帧生成。"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:79
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
 msgid "AMD Reflex preset: force NVAPI"
 msgstr "AMD Reflex 预设：强制 NVAPI"
 
@@ -1682,7 +1856,7 @@ msgstr ""
 "针对仍隐藏 Reflex 的游戏的侵入性回退方案。可能破坏 FSR 4 和游戏 GPU 检测。"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:85
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
 msgid "AMD Reflex preset: layer NVIDIA spoof"
 msgstr "AMD Reflex 预设：层级 NVIDIA 伪装"
 
@@ -1692,7 +1866,7 @@ msgid ""
 msgstr "上游不鼓励的最后手段伪装，因为它可能会破坏 Proton FSR 4。"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-amd-options-group.vala:92
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1299
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1312
 msgid "Staging shared memory"
 msgstr "暂存共享内存"
 
@@ -1751,7 +1925,7 @@ msgstr ""
 "谨慎使用。"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-intel-options-group.vala:10
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
 msgid "XeSS component upgrade"
 msgstr "XeSS 组件升级"
 
@@ -1759,32 +1933,32 @@ msgstr "XeSS 组件升级"
 msgid "Upgrades XeSS in supported games."
 msgstr "为支持的游戏升级 XeSS。"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:18
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:14
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1318
 msgid "NVAPI"
 msgstr "NVAPI"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:18
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:14
 msgid "Lets games access NVIDIA-specific features like DLSS."
 msgstr "让游戏能够使用 NVIDIA 特有的功能，比如 DLSS。"
 
 #. gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NVAPI=1" }, nvapi_tile.toggle));
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:24
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:17
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1319
 msgid "DLSS component updates"
 msgstr "DLSS 组件升级"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:25
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:18
 msgid "Auto upgrades DLSS components for supported games."
 msgstr "为支持的游戏自动升级 DLSS 组件。"
 
 #. gpu_vendor_bindings.append (new LaunchOptionBinding ({ "PROTON_ENABLE_NGX_UPDATER=1" }, nvidia_ngx_updater_tile.toggle));
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:33
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:23
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1322
 msgid "Report GPU as AMD"
 msgstr "将 GPU 报告为 AMD"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:34
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:24
 msgid ""
 "Makes Proton report an NVIDIA GPU as AMD for games that expect Windows-only "
 "NVIDIA driver behavior."
@@ -1792,21 +1966,21 @@ msgstr ""
 "让 Proton 将 NVIDIA GPU 报告为 AMD GPU，以应对那些仅预期 Windows 版 NVIDIA 驱"
 "动行为的游戏。"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:37
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:27
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1320
 msgid "DLSS indicator"
 msgstr "DLSS 指示器"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:37
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:27
 msgid "Shows a DLSS status indicator in-game."
 msgstr "在游戏内显示 DLSS 状态指示器。"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:39
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:29
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1321
 msgid "NVIDIA libraries"
 msgstr "NVIDIA 运行库"
 
-#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:40
+#: src/widgets/games/launch-options-editor/groups/gpu-vendor-nvidia-options-group.vala:30
 msgid ""
 "Enables NVIDIA-specific libraries (PhysX, CUDA). This is not needed for DLSS "
 "or ray tracing."
@@ -1823,36 +1997,36 @@ msgstr "使用针对 AMD、NVIDIA 和 Intel 硬件的 GPU 特定兼容性开关�
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:55
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:71
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1287
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1288
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1298
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1299
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1300
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1301
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1303
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1311
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1312
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1313
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1314
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1315
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1316
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1317
 msgid "AMD"
 msgstr "AMD"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:56
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:75
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1318
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1319
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1320
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1321
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1322
 msgid "NVIDIA"
 msgstr "NVIDIA"
 
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:57
 #: src/widgets/games/launch-options-editor/groups/gpu-vendor-options-group.vala:79
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
 msgid "Intel"
 msgstr "Intel"
 
@@ -1866,7 +2040,7 @@ msgid "More options"
 msgstr "更多选项"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:22
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1243
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
 msgid "vkBasalt visual effects"
 msgstr "vkBasalt 视觉效果"
 
@@ -1876,7 +2050,7 @@ msgstr "添加锐化和色彩调整等视觉效果。"
 
 #. Proton & Wine compatibility
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:24
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1275
 msgid "OpenGL fallback (WineD3D)"
 msgstr "OpenGL 备用方案 (WineD3D)"
 
@@ -1886,7 +2060,7 @@ msgid ""
 msgstr "使用 OpenGL 而非 Vulkan。仅当 DXVK 出现问题时才启用。"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:30
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
 msgid "NTSync mode"
 msgstr "NTSync 模式"
 
@@ -1898,7 +2072,7 @@ msgstr ""
 "使用 FSync 而非 NTSync。可以修复某些与 NTSync 兼容性不佳的游戏出现的问题。"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:36
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1237
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1250
 msgid "Per-game shader cache"
 msgstr "每款游戏独立着色器缓存"
 
@@ -1911,7 +2085,7 @@ msgstr ""
 
 #. Input & audio
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:41
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1313
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1326
 msgid "Prefer SDL controller input"
 msgstr "优先使用 SDL 控制器输入"
 
@@ -1920,7 +2094,7 @@ msgid "Workaround for controller detection issues."
 msgstr "解决控制器检测问题的变通方案。"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:43
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1314
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1327
 msgid "Bypass Steam Input"
 msgstr "绕过 Steam Input"
 
@@ -1929,7 +2103,7 @@ msgid "Disables Steam Input support. Fixes Wayland controller/gamepad issues."
 msgstr "禁用 Steam Input 支持。修复 Wayland 控制器/游戏手柄问题。"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:48
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
 msgid "Vulkan synchronization 2"
 msgstr "Vulkan 同步 2"
 
@@ -1942,7 +2116,7 @@ msgstr ""
 "象。"
 
 #: src/widgets/games/launch-options-editor/groups/more-options-group.vala:53
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1269
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
 msgid "Futex waitv synchronization"
 msgstr "Futex waitv 同步"
 
@@ -1973,7 +2147,7 @@ msgid "Extra Proton settings and launch behaviors."
 msgstr "更多 Proton 设置和启动行为。"
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:22
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1236
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
 msgid "High process priority"
 msgstr "高进程优先级"
 
@@ -1984,7 +2158,7 @@ msgid ""
 msgstr "赋予游戏更高的 CPU 优先级，这在某些情况下可以提高性能。"
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:27
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
 msgid "WoW64 mode"
 msgstr "WoW64 模式"
 
@@ -1997,7 +2171,7 @@ msgstr ""
 "兼容性。"
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:32
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
 msgid "Large address awareness for 32-bit games"
 msgstr "32 位游戏的大地址感知"
 
@@ -2010,7 +2184,7 @@ msgstr ""
 
 #. Diagnostics & raw command
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:37
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1328
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1341
 msgid "Proton debug log"
 msgstr "Proton 调试日志"
 
@@ -2023,7 +2197,7 @@ msgstr ""
 "中。"
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:42
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
 msgid "OptiScaler integration"
 msgstr "OptiScaler 集成"
 
@@ -2035,7 +2209,7 @@ msgstr ""
 "启用 Proton OptiScaler，可以提高某些游戏的性能和图像质量（11-1 版本起可用）。"
 
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:47
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
 msgid "Discord bridge"
 msgstr "Discord 桥接"
 
@@ -2064,7 +2238,7 @@ msgid "VKD3D options"
 msgstr "VKD3D 选项"
 
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:21
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:65
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:18
 msgid "Configure Direct3D 12 to Vulkan translation behavior"
 msgstr "配置 Direct3D 12 到 Vulkan 的转换行为"
 
@@ -2096,7 +2270,7 @@ msgid ""
 msgstr "启用 VKD3D 的内部着色器缓存机制，以最大限度地减少游戏内卡顿。"
 
 #: src/widgets/games/launch-options-editor/groups/vkd3d-options-group.vala:41
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 msgid "Proton-CachyOS DX12 low latency"
 msgstr "Proton-CachyOS DX12 低延迟"
 
@@ -2108,7 +2282,7 @@ msgstr "使用 Reflex 标记或可等待交换链。不支持 Intel GPU 和帧�
 
 #. Display & launch tools
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:19
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1240
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
 msgid "Launch backend"
 msgstr "启动后端"
 
@@ -2123,24 +2297,24 @@ msgid "System default"
 msgstr "系统默认"
 
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:49
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1250
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
-#: src/widgets/preferences/preferences-dialog.vala:364
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1261
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1263
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
+#: src/widgets/preferences/preferences-dialog.vala:395
 msgid "Gamescope"
 msgstr "Gamescope"
 
 #: src/widgets/games/launch-options-editor/groups/wrapper-group.vala:54
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1254
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
-#: src/widgets/preferences/preferences-dialog.vala:367
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1269
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
+#: src/widgets/preferences/preferences-dialog.vala:398
 msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
 
@@ -2267,59 +2441,179 @@ msgstr "所选的 Proton 构建版本未声明支持低延迟 Vulkan 层。"
 msgid "The selected Proton build does not advertise its Vulkan Reflex layer."
 msgstr "所选的 Proton 构建版本未声明其 Vulkan Reflex 层。"
 
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:18
+msgid "Loads Vulkan validation layers and enables debug extensions."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:19
+#, fuzzy
+msgid "Turns off game-specific workarounds for debugging."
+msgstr "配置 RADV 兼容性变通方案和调试。"
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:20
+msgid "Turns off DirectX Raytracing support."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:21
+msgid "Forces DirectX Raytracing support even when considered unsafe."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:22
+msgid ""
+"Enables experimental DXR 1.2 support when opacity micromaps are available."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:23
+msgid "Uses an unsafe constant-buffer optimization intended for NVIDIA GPUs."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:24
+msgid "Uses one queue instead of asynchronous compute and transfer queues."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:25
+msgid ""
+"Prevents upload heaps from using CPU-visible video memory. May reduce GPU "
+"performance."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:26
+msgid "Uses cached memory for host-visible allocations to speed up captures."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:27
+msgid "Turns off the invariant-position workaround."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:28
+msgid ""
+"Lets the application manage pipeline caches instead of using the automatic "
+"shader cache."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:31
+msgid "Uses 32-thread waves for compute shaders on GFX10 and newer GPUs."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:32
+#, fuzzy
+msgid "Enables Delta Color Compression for multisampled images."
+msgstr "禁用 Delta 颜色压缩。可以修复特定的渲染瑕疵。"
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:33
+msgid "Uploads shaders to video memory that the CPU cannot directly access."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:34
+msgid ""
+"Uses 32-thread waves for vertex, tessellation, and geometry shaders on GFX10 "
+"and newer GPUs."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:35
+msgid "Enables local buffer objects."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:36
+msgid "Enables low-latency video decoding."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:37
+msgid "Enables low-latency video encoding."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:38
+#, fuzzy
+msgid "Enables Next-Gen Geometry culling on GFX11 and newer GPUs."
+msgstr "启用 Next-Gen Geometry Culling，以提升几何性能。"
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:39
+msgid ""
+"Caches intermediate shader code for individual graphics pipeline stages."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:40
+msgid ""
+"Prevents memory allocations from spilling into system memory through GTT."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:41
+msgid ""
+"Disables optimizations for systems whose entire video memory is CPU-visible."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:42
+msgid "Uses 32-thread waves for pixel shaders on GFX10 and newer GPUs."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:43
+msgid ""
+"Uses continuation-passing lowering for ray tracing instead of function calls."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:46
+msgid "Detects GPU hangs and writes a diagnostic report."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:47
+msgid "Synchronizes shader execution after every draw and dispatch."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:48
+msgid "Turns off shader caching."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:49
+msgid "Turns off Delta Color Compression for images."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:50
+msgid "Turns off Vulkan graphics pipeline libraries."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:51
+msgid ""
+"Reports pipeline cache hits and misses to inspect shader precompilation."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:54
+msgid ""
+"Checks the shader compiler intermediate representation during compilation."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:55
+msgid "Prints information used to calculate pipeline statistics."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:56
+msgid ""
+"Forces wait instructions whenever outstanding operations need to finish."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-option-flags.vala:57
+#, fuzzy
+msgid "Turns off instruction scheduling for compiler debugging."
+msgstr "禁用指令调度过程。这有助于定位编译器错误。"
+
 #: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:11
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:11
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:26
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:11
 msgid "Enabled"
 msgstr "已启用"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:15
-msgid ""
-"Validates the compiler's internal representation after each pass. Used for "
-"driver debugging."
-msgstr "每次编译后验证编译器的内部表示。用于驱动程序调试。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:16
-msgid ""
-"Disables FP gathering optimizations. Workaround for specific texture issues "
-"in older games."
-msgstr "禁用FP收集优化。解决老游戏中特定纹理问题的变通方案。"
-
 #: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:17
-msgid ""
-"Prints detailed compilation performance stats and register usage to system "
-"log."
-msgstr "将详细的编译性能统计信息和寄存器使用情况打印到系统日志中。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:18
-msgid ""
-"Forces the use of the instruction selector pass even when it could be "
-"bypassed."
-msgstr "强制使用指令选择器传递，即使它可以被绕过。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:19
-msgid ""
-"Disables the instruction scheduling pass. Can help isolate compiler bugs."
-msgstr "禁用指令调度过程。这有助于定位编译器错误。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:20
-msgid ""
-"Forces Wave64 mode execution on RDNA hardware instead of the default Wave32."
-msgstr "强制在 RDNA 硬件上执行 Wave64 模式，而不是默认的 Wave32 模式。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:23
 msgid "AMD ACO Debug Options"
 msgstr "AMD ACO 调试选项"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:24
+#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:18
 msgid "Fine-tune AMD ACO shader compiler behavior"
 msgstr "微调 AMD ACO 着色器编译器行为"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:25
+#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:19
 msgid "Enable ACO Debug"
 msgstr "启用 ACO 调试"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:26
+#: src/widgets/games/launch-options-editor/launch-options-editor-aco-debug.vala:20
 msgid "Apply low-level shader compiler flags and overrides"
 msgstr "应用底层着色器编译器标志和覆盖"
 
@@ -2435,11 +2729,11 @@ msgstr "仅在游戏需要时，才更改 Steam 命令占位符。"
 msgid "Unable to safely prepare these launch options."
 msgstr "无法安全地准备这些启动选项。"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:40
+#: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:42
 msgid "Add custom item (Type name and press Enter)..."
 msgstr "添加自定义项目（输入名称并按回车键）……"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:52
+#: src/widgets/games/launch-options-editor/launch-options-editor-custom-expander-row.vala:54
 #, fuzzy
 msgid "Add custom item"
 msgstr "添加自定义参数"
@@ -2513,7 +2807,8 @@ msgid "Windows Internet HTTP API (fixes network connectivity in launchers)"
 msgstr "Windows Internet HTTP API（修复启动器中的网络连接问题）"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:63
-msgid "OLE Monkers library for URL handling and launcher updates"
+#, fuzzy
+msgid "OLE Monikers library for URL handling and launcher updates"
 msgstr "OLE Monkers 库用于 URL 处理和启动器更新"
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-dll-overrides.vala:64
@@ -2576,111 +2871,35 @@ msgstr "保存前，原始或无法识别的内容需要处理。"
 msgid "Enabled (Enforce)"
 msgstr "已启用（强制执行）"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:15
-msgid "Disables Next-Gen Geometry (NGG). Fixes crashes in older Vulkan games."
-msgstr "禁用 Next-Gen Geometry（NGG）。修复旧版 Vulkan 游戏崩溃的问题。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:16
-msgid "Disables internal application binary interface caching."
-msgstr "禁用内部应用程序二进制接口缓存。"
-
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:17
-msgid "Disables background shader compilation."
-msgstr "禁用后台着色器编译。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:18
-msgid "Disables Delta Color Compression. Can fix specific rendering artifacts."
-msgstr "禁用 Delta 颜色压缩。可以修复特定的渲染瑕疵。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:19
-msgid "Disables Variable Rate Shading (VRS). Fixes UI artifacts in some games."
-msgstr "禁用可变速率着色（VRS）。修复部分游戏中出现的 UI 问题。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:20
-msgid ""
-"Disables Graphics Pipeline Library (GPL) to troubleshoot startup crashes."
-msgstr "禁用 Graphics Pipeline Library (GPL) 以排查启动崩溃问题。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:21
-msgid "Forces fallback command submission mode. Helps diagnosing GPU hangs."
-msgstr "强制使用备用命令提交模式。有助于诊断 GPU 挂起问题。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:22
-msgid "Disables Vertex Runtime Shading. Can fix specific rendering artifacts."
-msgstr "禁用 Vertex Runtime Shading，可修复特定的渲染异常。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:23
-msgid ""
-"Precompiles shaders during loading screens to reduce in-game stuttering."
-msgstr "在加载画面期间预编译着色器，以减少游戏内卡顿。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:24
-msgid ""
-"Disables AMD Texture Compression. Fixes texture glitches on APUs and Steam "
-"Deck."
-msgstr "禁用 AMD 纹理压缩。这可以修复 APU 和 Steam Deck 平台上的纹理错误。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:27
 msgid "AMD RADV Debug Options"
 msgstr "AMD RADV 调试选项"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:28
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:18
 msgid "Fine-tune AMD Radeon Vulkan driver behavior"
 msgstr "微调 AMD Radeon Vulkan 驱动程序行为"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:29
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:19
 msgid "Enable RADV Debug"
 msgstr "启用 RADV 调试"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:30
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-debug.vala:20
 msgid "Apply low-level driver bugfixes and overrides"
 msgstr "应用底层驱动修复补丁及覆盖设置"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:15
-msgid "Enables experimental hardware Ray Tracing support."
-msgstr "启用实验性硬件光线追踪支持。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:16
-msgid "Optimizes Smart Access Memory / Resizable BAR utilization."
-msgstr "优化 Smart Access Memory / Resizable BAR 的使用。"
-
 #: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:17
-msgid "Enables Next-Gen Geometry Culling for better geometry performance."
-msgstr "启用 Next-Gen Geometry Culling，以提升几何性能。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:18
-msgid "Graphics Pipeline Library. Drastically reduces shader stuttering."
-msgstr "Graphics Pipeline Library，可大幅减少着色器编译卡顿。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:19
-msgid ""
-"Enables User Space Queue submission. Can improve CPU-bound game performance "
-"on modern kernels."
-msgstr ""
-"启用 User Space Queue Submission，可提升现代内核下 CPU 密集型游戏的性能。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:22
-msgid ""
-"Emulates hardware Ray Tracing using software compute shaders on AMD GPUs. "
-"Enables RT features on unsupported hardware at the cost of a drastic "
-"performance drop."
-msgstr ""
-"在 AMD GPU 上使用软件计算着色器模拟硬件光线追踪。这可实现在不支持的硬件上使用"
-"光线追踪，但性能会大幅下降。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:26
 msgid "AMD RADV Performance Tests"
 msgstr "AMD RADV 性能测试"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:27
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:18
 msgid "Enable experimental AMD performance features"
 msgstr "启用实验性 AMD 性能功能"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:28
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:19
 msgid "Enable RADV Perftest"
 msgstr "启用 RADV 性能测试"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:29
+#: src/widgets/games/launch-options-editor/launch-options-editor-radv-perf-test.vala:20
 msgid "Test bleeding-edge driver optimizations (use with caution)"
 msgstr "测试最新的驱动程序优化（谨慎使用）"
 
@@ -2699,112 +2918,15 @@ msgstr "自定义"
 msgid "Set"
 msgstr "设置"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:32
-msgid ""
-"Enables VKD3D's internal shader cache on disk. Drastically reduces micro-"
-"stuttering and speeds up consecutive loading times."
-msgstr "启用 VKD3D 的磁盘内部着色器缓存。大幅减少微卡顿，加快连续加载速度。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:36
-msgid ""
-"Forces VKD3D to use system RAM instead of VRAM for caching shader "
-"compilation data, ensuring smoother data stream between CPU and GPU."
-msgstr ""
-"强制 VKD3D 使用系统内存而非显存来缓存着色器编译数据，从而确保 CPU 和 GPU 之间"
-"更流畅的数据流。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:38
-msgid ""
-"Uses host-visible VRAM for staging buffers. Drastically reduces stuttering "
-"if Resizable BAR / SAM is enabled."
-msgstr ""
-"为暂存缓冲区使用主机可见的显存。若已启用 Resizable BAR / SAM，可大幅减少卡"
-"顿。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:41
-msgid ""
-"Disables host-visible VRAM staging buffers. Use as a compatibility fallback "
-"if experiencing memory-related crashes."
-msgstr ""
-"禁用主机可见的显存暂存缓冲区。如果遇到内存相关的崩溃，可用作兼容性回退方案。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:45
-msgid ""
-"Disables D3D12 Ray Tracing (DXR) capabilities entirely. Significantly "
-"improves performance and stability on GPUs without strong hardware RT "
-"support."
-msgstr ""
-"完全禁用 D3D12 光线追踪 (DXR) 功能。显著提升在硬件光线追踪支持较弱的 GPU 上的"
-"性能和稳定性。"
-
-#. vala-lint=line-length
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:47
-msgid ""
-"Exposes D3D12 Ray Tracing (DXR 1.1 and 1.0) capabilities to the game via "
-"Vulkan extensions."
-msgstr "通过 Vulkan 扩展，向游戏开放 D3D12 光线追踪（DXR 1.1 和 1.0）功能。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:48
-msgid ""
-"Restricts Ray Tracing capabilities to DXR 1.0 only. Useful for older RT "
-"games that crash with DXR 1.1."
-msgstr ""
-"将光线追踪功能限制为仅支持 DXR 1.0。这对于在 DXR 1.1 下会崩溃的旧版光线追踪游"
-"戏很有用。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:51
-msgid ""
-"Forces Ray Tracing BVH acceleration structures to be built on the CPU "
-"instead of the GPU. Severe performance impact!"
-msgstr "强制在 CPU 而非 GPU 上构建光线追踪 BVH 加速结构。会严重影响性能！"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:53
-msgid ""
-"Aggressively unifies memory allocators for textures and buffers to save a "
-"small amount of VRAM."
-msgstr "激进地统一纹理和缓冲区的内存分配器，以节省少量显存。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:54
-msgid ""
-"Enables advanced GPU Virtual Addressing to improve Direct3D 12 memory "
-"mapping in massive open-world games."
-msgstr "启用高级 GPU 虚拟寻址，以改善大型开放世界游戏中 Direct3D 12 内存映射。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:55
-msgid ""
-"Disables descriptor caches. Workaround for specific games suffering from "
-"memory leaks."
-msgstr "禁用描述符缓存。针对特定存在内存泄漏问题的游戏的临时解决方案。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:56
-msgid ""
-"Forces the GPU to maintain stable clock rates. Intended for accurate "
-"benchmarking only."
-msgstr "强制GPU保持稳定的时钟频率。仅用于精确的基准测试。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:59
-msgid ""
-"Alters how root parameters are passed to compute shaders. Can fix specific "
-"rendering glitches."
-msgstr "改变根参数传递给计算着色器的方式。可以修复特定的渲染故障。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:61
-msgid ""
-"Allows unaligned stencil buffer clears. Workaround for certain older "
-"Direct3D 12 renderers."
-msgstr ""
-"允许未对齐的模板缓冲区清除操作。针对某些较旧的 Direct3D 12 渲染器的兼容性修"
-"正。"
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:64
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:17
 msgid "VKD3D Proton Configurations"
 msgstr "VKD3D Proton 配置"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:66
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:19
 msgid "Enable VKD3D Option"
 msgstr "启用 VKD3D 选项"
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:67
+#: src/widgets/games/launch-options-editor/launch-options-editor-vkd3d-config.vala:20
 msgid "Test specific Direct3D 12 compatibility workarounds and optimizations"
 msgstr "测试针对 Direct3D 12 的特定兼容性变通方案和优化措施"
 
@@ -2816,45 +2938,45 @@ msgstr "调整 VKD3D 输出多少调试信息到终端。"
 msgid "No launch options configured yet."
 msgstr "目前还没配置启动选项。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:351
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:353
 msgid "Performance & monitoring"
 msgstr "性能与监控"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:352
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:354
 msgid "Display & launch tools"
 msgstr "显示与启动工具"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:353
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:355
 msgid "Proton & Wine compatibility"
 msgstr "Proton 与 Wine 兼容性"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:354
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:356
 msgid "Graphics translation"
 msgstr "图形转译"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:355
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:357
 msgid "Hardware & drivers"
 msgstr "硬件与驱动程序"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:356
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:358
 msgid "Input & audio"
 msgstr "输入与音频"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:358
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:360
 msgid "Diagnostics & raw command"
 msgstr "诊断与原始命令"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1231
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1244
 msgid "Shows FPS, CPU/GPU usage, and temperatures in game."
 msgstr "在游戏中显示帧率、CPU/GPU 使用率和温度。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1232
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1245
 msgid ""
 "Requests temporary system performance optimizations while the game is "
 "running."
 msgstr "请求在游戏运行期间对系统性能进行临时优化。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1233
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
 msgid ""
 "Runs the game with CachyOS's performance power profile and gaming sched_ext "
 "profile, then restores them when the game exits."
@@ -2862,11 +2984,11 @@ msgstr ""
 "在运行游戏时启用 CachyOS 的高性能电源配置与游戏专用 sched_ext 配置，并在游戏"
 "退出后将其恢复。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1233
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
 msgid "Requires the game-performance command"
 msgstr "需要 game-performance 命令"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1234
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
 msgid ""
 "Enables MangoHud for Vulkan through MANGOHUD=1. Use the MangoHud wrapper for "
 "OpenGL; inside Gamescope, use Gamescope's MangoApp support instead."
@@ -2874,11 +2996,11 @@ msgstr ""
 "通过设置 `MANGOHUD=1` 为 Vulkan 启用 MangoHud。对于 OpenGL，请使用 MangoHud "
 "包装器；若在 Gamescope 环境下，则应改用 Gamescope 内置的 MangoApp 支持。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1234
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
 msgid "Requires MangoHud; Vulkan only"
 msgstr "需要 MangoHud；仅限 Vulkan"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1235
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
 msgid ""
 "Loads obs-vkcapture for Vulkan or OpenGL capture. Install the native "
 "package, or both the Flatpak OBS plugin and Flatpak capture-tools layer; "
@@ -2888,40 +3010,40 @@ msgstr ""
 "装 Flatpak 版 OBS 插件和 Flatpak 版 capture-tools 层；NVIDIA 环境要求启用 "
 "modesetting 并使用 515.43.04 或更新版本的驱动程序。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1235
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
 msgid "Requires obs-vkcapture and a compatible OBS installation"
 msgstr "需要 obs-vkcapture 和兼容的 OBS 安装"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1236
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
 msgid "Gives the game a higher CPU priority."
 msgstr "为游戏分配更高的 CPU 优先级。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1237
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1250
 msgid "Keeps this game's shader cache separate."
 msgstr "将此游戏的着色器缓存单独存放。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1240
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
 msgid "Choose the system default, Gamescope, or ScopeBuddy."
 msgstr "选择系统默认、Gamescope 或 ScopeBuddy。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1241
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1254
 msgid "Runs the game on Wayland instead of XWayland."
 msgstr "在 Wayland 而非 XWayland 上运行游戏。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1242
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
 msgid "Uses the desktop profile instead of a Steam Deck-specific profile."
 msgstr "使用桌面配置文件，而非 Steam Deck 专属配置文件。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1243
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
 msgid "Adds visual effects such as sharpening and color adjustments."
 msgstr "添加锐化、色彩调整等视觉效果。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1244
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:18
 msgid "DXVK HDR"
 msgstr "DXVK HDR"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1244
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 msgid ""
 "Advertises HDR10 color space to DXVK games. Current Proton-CachyOS enables "
 "HDR automatically; use this only when explicit DXVK HDR exposure is needed. "
@@ -2932,18 +3054,18 @@ msgstr ""
 "暴露 DXVK HDR 时使用此项。当前 DXVK 2.7 需要 Vulkan 1.3 和较新驱动（RADV "
 "25.0、NVIDIA 575.51.02 或 Intel/NVK Mesa 25.1）；旧版 Proton 捆绑可能不同。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1244
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
 msgid ""
 "Requires an HDR-capable compositor, display, Vulkan 1.3, and a compatible "
 "driver"
 msgstr "需要支持 HDR 的合成器、显示器、Vulkan 1.3 和兼容驱动"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1245
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:26
 msgid "Legacy custom-Proton HDR"
 msgstr "旧版自定义 Proton HDR"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1245
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
 msgid ""
 "Enables the older PROTON_ENABLE_HDR path only when the selected Proton build "
 "still advertises it. It also enables native Wayland in Proton-GE, where "
@@ -2952,17 +3074,17 @@ msgstr ""
 "仅当所选 Proton 版本仍声明支持时，启用旧版 PROTON_ENABLE_HDR 路径。同时会在 "
 "Proton-GE 中启用原生 Wayland，但 Steam 界面会失效，Steam 输入可能不可靠。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1245
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
 msgid ""
 "Only available in custom Proton builds that still support PROTON_ENABLE_HDR"
 msgstr "仅在仍支持 PROTON_ENABLE_HDR 的自定义 Proton 版本中可用"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:34
 msgid "Disable custom-Proton automatic HDR"
 msgstr "禁用自定义 Proton 自动 HDR"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
 msgid ""
 "Sets DXVK_NO_HDR=1 for custom Proton builds such as current Proton-CachyOS "
 "that automatically expose HDR. This conflicts with the explicit HDR enable "
@@ -2971,17 +3093,17 @@ msgstr ""
 "为自动暴露 HDR 的自定义 Proton 版本（如当前 Proton-CachyOS）设置 "
 "\"DXVK_NO_HDR=1。此选项与显式启用 HDR 的选项冲突。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1246
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
 msgid ""
 "Only available when the selected custom Proton build advertises DXVK_NO_HDR"
 msgstr "仅当选定的自定义 Proton 版本声明支持 DXVK_NO_HDR 时可用"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1260
 #: src/widgets/games/launch-options-editor/wrappers/none.vala:42
 msgid "NVIDIA legacy HDR WSI"
 msgstr "NVIDIA 旧版 HDR WSI"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1260
 msgid ""
 "Enables the Vulkan HDR WSI layer needed by NVIDIA proprietary drivers older "
 "than 595. Do not enable it on driver 595 or newer."
@@ -2989,251 +3111,246 @@ msgstr ""
 "启用 NVIDIA 专有驱动 595 以下版本所需的 Vulkan HDR WSI 层。请勿在 595 或更新"
 "版本上启用。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1247
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1260
 msgid "NVIDIA proprietary driver older than 595 only"
 msgstr "仅限 NVIDIA 专有驱动 595 以下版本"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1254
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1261
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:36
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:38
 msgid "Fullscreen"
 msgstr "全屏模式"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1261
 msgid "Runs the game in a fullscreen Gamescope session."
 msgstr "在全屏 Gamescope 会话中运行游戏。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1250
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1261
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1263
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
 msgid "Requires Gamescope"
 msgstr "需要 Gamescope"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
 msgid "Output resolution"
 msgstr "输出分辨率"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:51
 msgid "Sets the Gamescope output resolution."
 msgstr "设置 Gamescope 的输出分辨率。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1250
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1263
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:38
 msgid "HDR"
 msgstr "HDR"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1250
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1263
 msgid "Outputs HDR colors through Gamescope."
 msgstr "通过 Gamescope 输出 HDR 色彩。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:40
 msgid "Variable refresh rate"
 msgstr "可变刷新率"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1251
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
 msgid "Matches the display refresh rate to the game's FPS."
 msgstr "将显示器刷新率与游戏帧率同步。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:42
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:53
 msgid "Frame limit"
 msgstr "帧率限制"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1252
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:42
 msgid "Caps the frame rate inside Gamescope."
 msgstr "在 Gamescope 中限制帧速率。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:73
 msgid "Additional Gamescope arguments"
 msgstr "附加 Gamescope 参数"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1253
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
 msgid "Keeps extra Gamescope flags such as output selection."
 msgstr "保留额外的 Gamescope 参数，例如输出选择。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1254
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
 msgid "Runs the game in a fullscreen ScopeBuddy session."
 msgstr "在 ScopeBuddy 全屏会话中运行游戏。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1254
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1269
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
 msgid "Requires ScopeBuddy"
 msgstr "需要 ScopeBuddy"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:65
 msgid "Sets the ScopeBuddy output resolution."
 msgstr "设置 ScopeBuddy 的输出分辨率。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1269
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:43
 msgid "Automatic HDR"
 msgstr "自动 HDR"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1269
 msgid "Enables HDR automatically when the display supports it."
 msgstr "当显示器支持时自动启用 HDR。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1257
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:48
 msgid "Automatic variable refresh rate"
 msgstr "自动可变刷新率"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1258
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:53
 msgid "Caps the frame rate inside ScopeBuddy."
 msgstr "在 ScopeBuddy 中限制帧速率。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:79
 msgid "Additional ScopeBuddy arguments"
 msgstr "附加 ScopeBuddy 参数"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1259
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:80
 msgid "Keeps extra ScopeBuddy flags such as preferred output selection."
 msgstr "保留额外的 ScopeBuddy 参数，例如首选输出选择。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1262
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1275
 msgid "Uses OpenGL instead of Vulkan when DXVK causes problems."
 msgstr "当 DXVK 导致问题时，使用 OpenGL 替代 Vulkan。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1263
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
 msgid "D7VK for older Direct3D games"
 msgstr "适用于旧版 Direct3D 游戏的 D7VK"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1263
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
 msgid "Enables D7VK for older Direct3D games."
 msgstr "为旧版 Direct3D 游戏启用 D7VK。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1263
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
 msgid "Requires a compatible Proton version"
 msgstr "需要兼容的 Proton 版本"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
 msgid ""
 "Uses FSync instead of NTSync for games that need that compatibility mode."
 msgstr "为需要该兼容模式的游戏使用 FSync 替代 NTSync。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
 msgid "Lets supported 32-bit games use more than 2GB of memory."
 msgstr "让支持的 32 位游戏使用超过 2GB 的内存。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
 msgid "Enables WoW64 support for 32-bit games on 64-bit Proton builds."
 msgstr "为 64 位 Proton 版本上的 32 位游戏启用 WoW64 支持。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1280
 msgid "Write-copy memory workaround"
 msgstr "写复制内存变通方案"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1267
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1280
 msgid "Simulates page write protection for initialization errors."
 msgstr "为初始化错误模拟页面写入保护。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1268
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
 msgid "Enables WINE_VK_USE_SYNC2."
 msgstr "启用 WINE_VK_USE_SYNC2。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1269
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
 msgid "Enables WINE_SYNC_USE_FUTEX_WAITV."
 msgstr "启用 WINE_SYNC_USE_FUTEX_WAITV。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
 msgid "Enables Proton OptiScaler."
 msgstr "启用 Proton OptiScaler。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1316
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1329
 msgid "Requires Proton 11-1 or newer"
 msgstr "需要 Proton 11-1 或更新版本"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
 msgid "Enables Proton's Discord bridge."
 msgstr "启用 Proton 的 Discord 桥接。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1285
 msgid "Wine DLL overrides"
 msgstr "Wine DLL 覆盖"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1285
 msgid "Choose builtin or native Windows DLL behavior."
 msgstr "选择内置或原生 Windows DLL 行为。"
 
-#. Graphics translation
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1275
-msgid "DXVK frame limit"
-msgstr "DXVK 帧率限制"
-
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1275
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1288
 msgid "Caps the frame rate with DXVK's built-in limiter."
 msgstr "使用 DXVK 内置限制器限制帧率。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1275
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1288
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
 msgid "DXVK"
 msgstr "DXVK"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
 msgid "Asynchronous pipeline compilation"
 msgstr "异步管线编译"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
 msgid "Enables DXVK asynchronous pipeline compilation."
 msgstr "启用 DXVK 异步管线编译。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1276
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
 msgid "Requires compatible patched DXVK"
 msgstr "需要兼容的已修补 DXVK"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
 msgid "VKD3D shader cache"
 msgstr "VKD3D 着色器缓存"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
 msgid "Enables VKD3D's internal shader cache."
 msgstr "启用 VKD3D 内部着色器缓存。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1277
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
 msgid "VKD3D-Proton"
 msgstr "更多选项VKD3D-Proton"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
 msgid "VKD3D GPU virtual addressing"
 msgstr "VKD3D 着色器缓存"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1278
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
 msgid "Enables VKD3D GPU virtual addressing."
 msgstr "启用 VKD3D 的内部着色器缓存。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
 msgid "VKD3D compatibility settings"
 msgstr "VKD3D 兼容性设置"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1279
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
 msgid "Configure Direct3D 12 to Vulkan compatibility workarounds."
 msgstr "配置 Direct3D 12 到 Vulkan 的兼容性变通方案。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1280
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
 msgid ""
 "Enables the Proton-CachyOS DXVK low-latency path for Direct3D 9–11. Requires "
 "a selected custom Proton build that advertises this option."
@@ -3241,19 +3358,19 @@ msgstr ""
 "为 Direct3D 9–11 启用 Proton-CachyOS DXVK 低延迟路径。需要选择声明此选项的自"
 "定义 Proton 版本。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1280
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
 msgid "Proton-CachyOS"
 msgstr "Proton-CachyOS"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1280
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
 msgid "Requires a compatible Proton-CachyOS build"
 msgstr "需要兼容的 Proton-CachyOS 版本"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 msgid ""
 "Enables hardware-agnostic VKD3D-Proton low latency for Direct3D 12 games "
 "that use Reflex markers or waitable swapchains. Intel GPUs, frame "
@@ -3262,13 +3379,13 @@ msgstr ""
 "为使用 Reflex 标记或可等待交换链的 Direct3D 12 游戏启用硬件无关的 VKD3D-"
 "Proton 低延迟。不支持 Intel GPU、帧生成和不含标记的游戏。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1281
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
 msgid ""
 "Requires a compatible Proton-CachyOS build; not compatible with frame "
 "generation"
 msgstr "需要兼容的 Proton-CachyOS 版本；与帧生成不兼容"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
 msgid ""
 "Enables the low-latency Vulkan layer with VK_AMD_anti_lag exposure. The game "
 "must support AMD Anti-Lag 2; this does not add latency markers to "
@@ -3277,12 +3394,12 @@ msgstr ""
 "启用暴露 VK_AMD_anti_lag 的低延迟 Vulkan 层。游戏必须支持 AMD Anti-Lag 2；此"
 "选项不会为不支持的游戏添加延迟标记。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1282
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
 msgid ""
 "Requires a compatible Proton-CachyOS build and game support for Anti-Lag 2"
 msgstr "需要兼容的 Proton-CachyOS 版本和游戏对 Anti-Lag 2 的支持"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
 msgid ""
 "Switches the Proton-CachyOS low-latency Vulkan layer from VK_AMD_anti_lag to "
 "VK_NV_low_latency2. Enable only for games with Vulkan Reflex support."
@@ -3290,11 +3407,11 @@ msgstr ""
 "将 Proton-CachyOS 低延迟 Vulkan 层从 VK_AMD_anti_lag 切换为 "
 "VK_NV_low_latency2。仅对支持 Vulkan Reflex 的游戏启用。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1283
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
 msgid "Requires the Vulkan low-latency layer"
 msgstr "需要低延迟 Vulkan 层"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
 msgid ""
 "Enables Proton-CachyOS's NVIDIA Reflex layer for native Vulkan games. The "
 "game must already support VK_NV_low_latency2."
@@ -3302,15 +3419,15 @@ msgstr ""
 "为原生 Vulkan 游戏启用 Proton-CachyOS 的 NVIDIA Reflex 层。游戏必须已支持 "
 "VK_NV_low_latency2。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1284
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
 msgid "Requires NVIDIA and a compatible Proton-CachyOS build"
 msgstr "需要 NVIDIA 和兼容的 Proton-CachyOS 版本"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1287
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1300
 msgid "Uses the AMD discrete GPU on hybrid systems."
 msgstr "在混合系统中使用AMD独立GPU。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
 msgid ""
 "Upgrades supported FSR 3.1 games through the selected custom Proton build. "
 "Value 1 selects that build's default FSR 4 release; supported builds also "
@@ -3323,7 +3440,7 @@ msgstr ""
 "Mesa 25.2，旧款 RDNA 使用较慢的兼容层。当前 Proton-GE 在启用此项时会禁用 "
 "Anti-Lag 2。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1289
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
 msgid ""
 "Requires a custom Proton build that advertises PROTON_FSR4_UPGRADE, a "
 "supported game, and compatible AMD hardware/drivers"
@@ -3331,7 +3448,7 @@ msgstr ""
 "需要声明 PROTON_FSR4_UPGRADE 的自定义 Proton 版本、受支持的游戏以及兼容的 "
 "AMD 硬件/驱动"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1303
 msgid ""
 "Uses the older RDNA3-specific upgrade switch retained by some Proton-GE "
 "builds. New Proton-CachyOS releases removed it in favor of the current FSR 4 "
@@ -3340,13 +3457,13 @@ msgstr ""
 "使用某些 Proton-GE 版本保留的旧 RDNA3 专用升级开关。新版 Proton-CachyOS 已移"
 "除，改用当前的 FSR 4 路径。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1290
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1303
 msgid ""
 "Only available when the selected custom Proton build still advertises this "
 "legacy switch"
 msgstr "仅当选定的自定义 Proton 版本仍声明此旧开关时可用"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
 msgid ""
 "Requests ML frame generation in supported custom Proton builds. Proton-"
 "CachyOS requires FSR 4.0.3 or newer; RDNA3 may require "
@@ -3357,7 +3474,7 @@ msgstr ""
 "更新；RDNA3 可能需要 DXIL_SPIRV_CONFIG=wmma_rdna3_workaround。Proton-EM 默认"
 "在 FSR 4 中启用 MLFG，使用值 0 可禁用它。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1291
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
 msgid ""
 "Requires a custom Proton build that advertises MLFG, FSR 4.0.3 or newer, and "
 "supported AMD hardware/drivers"
@@ -3365,7 +3482,7 @@ msgstr ""
 "需要声明 MLFG、FSR 4.0.3 或更新版本以及受支持的 AMD 硬件/驱动的自定义 Proton "
 "版本"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
 msgid ""
 "Enables the DXIL-SPIR-V WMMA workaround that some RDNA3 systems need for ML "
 "frame generation. Do not use it on other GPU generations."
@@ -3373,11 +3490,11 @@ msgstr ""
 "启用部分 RDNA3 系统进行 ML 帧生成所需的 DXIL-SPIR-V WMMA 变通方案。请勿在其"
 "他 GPU 代次上使用。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1292
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
 msgid "RDNA3 only; enable only if ML frame generation requires it"
 msgstr "仅限 RDNA3；仅在 ML 帧生成需要时启用"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
 msgid ""
 "Allows DXVK-NVAPI on non-NVIDIA drivers. Try this least-invasive Reflex "
 "compatibility preset first; the game must support Reflex and the low-latency "
@@ -3386,18 +3503,18 @@ msgstr ""
 "允许在非 NVIDIA 驱动上使用 DXVK-NVAPI。首先尝试此侵入性最小的 Reflex 兼容预"
 "设；游戏必须支持 Reflex 且低延迟 Vulkan 层必须处于活动状态。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
 msgid "AMD Reflex compatibility"
 msgstr "AMD Reflex 兼容性"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1293
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
 msgid "May not convince games that explicitly require an NVIDIA GPU"
 msgstr "可能无法让明确要求 NVIDIA GPU 的游戏生效"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
 msgid ""
 "Makes DXVK hide the AMD GPU so some games expose Reflex. This fallback can "
 "break FSR 4 and ML frame generation; use only if allowing DXVK-NVAPI is "
@@ -3406,11 +3523,11 @@ msgstr ""
 "让 DXVK 隐藏 AMD GPU，从而使某些游戏暴露 Reflex。此回退方案可能破坏 FSR 4 和"
 "ML 帧生成；仅在允许 DXVK-NVAPI 不够用时使用。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1294
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
 msgid "GPU spoofing can break FSR 4 and other vendor-specific paths"
 msgstr "GPU 伪装可能破坏 FSR 4 和其他供应商特定路径"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
 msgid ""
 "Forces Proton's NVAPI path for games that still hide Reflex. This invasive "
 "fallback can break FSR 4 and should be used only after the safer presets "
@@ -3419,11 +3536,11 @@ msgstr ""
 "为仍隐藏 Reflex 的游戏强制使用 Proton 的 NVAPI 路径。此侵入性回退方案可能破"
 "坏 FSR 4，仅在较安全的预设失效后使用。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1295
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
 msgid "Can break FSR 4 and game-specific GPU detection"
 msgstr "可能破坏 FSR 4 和游戏特定的 GPU 检测"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
 msgid ""
 "Makes the low-latency Vulkan layer report an NVIDIA GPU. Upstream recommends "
 "against this last-resort spoof because it can break Proton FSR 4."
@@ -3431,179 +3548,180 @@ msgstr ""
 "让低延迟 Vulkan 层报告 NVIDIA GPU。上游不建议使用此最后手段伪装，因为它可能破"
 "坏 Proton FSR 4。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1296
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
 msgid "Last resort; can break FSR 4 and other GPU detection"
 msgstr "最后手段；可能破坏 FSR 4 和其他 GPU 检测"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1297
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
 msgid ""
 "Reports an AMD APU as a discrete GPU for games that mis-detect integrated "
 "graphics."
 msgstr "将 AMD APU 报告为独立显卡，以解决游戏错误检测集成显卡的问题。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1298
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1311
+#: src/widgets/mangohud/mangohud-metrics-page.vala:120
 msgid "Vulkan driver"
 msgstr "Vulkan 驱动程序"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1298
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1311
 msgid "Chooses the AMD Vulkan driver for this game."
 msgstr "为此游戏选择 AMD Vulkan 驱动。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1299
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1312
 msgid "Enables AMD driver shared memory support."
 msgstr "启用 AMD 驱动共享内存支持。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1300
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1313
 msgid "Mesa GL threading"
 msgstr "Mesa GL 线程"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1300
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1313
 msgid "Enables Mesa GLThread."
 msgstr "启用 Mesa GLThread。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1301
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1314
 msgid "Mesa shader-cache control"
 msgstr "Mesa 着色器缓存控制"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1301
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1314
 msgid "Controls Mesa's shader cache."
 msgstr "控制 Mesa 着色器缓存。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1315
 msgid "Experimental RADV features"
 msgstr "实验性 RADV 功能"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1302
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1315
 msgid "Tests experimental RADV performance features."
 msgstr "测试实验性 RADV 性能功能。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1303
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1316
 msgid "RADV workarounds and debugging"
 msgstr "RADV 变通方案和调试"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1303
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1316
 msgid "Configure RADV compatibility workarounds and debugging."
 msgstr "配置 RADV 兼容性变通方案和调试。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1317
 msgid "ACO shader-compiler debugging"
 msgstr "ACO 着色器编译器调试。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1304
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1317
 msgid "Configure AMD ACO shader compiler debugging."
 msgstr "配置 AMD ACO 着色器编译器调试。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1305
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1318
 msgid "Lets games access NVIDIA-specific features such as DLSS."
 msgstr "让游戏能够使用 DLSS 等 NVIDIA 专属功能。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1306
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1319
 msgid "Updates DLSS components for supported games."
 msgstr "为支持的游戏更新 DLSS 组件。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1307
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1320
 msgid "Shows an in-game DLSS status indicator."
 msgstr "在游戏中显示 DLSS 状态指示器。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1308
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1321
 msgid "Enables NVIDIA-specific libraries."
 msgstr "启用 NVIDIA 专用库。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1309
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1322
 msgid "Reports an NVIDIA GPU as AMD for affected games."
 msgstr "受影响的游戏会将 NVIDIA GPU 报告为 AMD。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1310
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
 msgid "Updates XeSS in supported games."
 msgstr "为支持的游戏更新 XeSS。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1313
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1326
 msgid "Works around controller detection issues."
 msgstr "解决控制器检测问题的临时方案。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1314
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1327
 msgid "Disables Steam Input support."
 msgstr "禁用 Steam Input 支持。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1315
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1328
 msgid "Sets the PulseAudio latency target."
 msgstr "设置 PulseAudio 延迟目标值。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1316
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1329
 msgid "Wine ALSA output channels"
 msgstr "Wine ALSA 输出通道数"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1316
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1329
 msgid "Sets the Wine ALSA output channel count."
 msgstr "设置 Wine ALSA 输出通道数。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1317
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1330
 msgid "Enables Wine ALSA spatial downmix for 4, 6, or 8 channels."
 msgstr "启用 Wine ALSA 空间下混，支持 4、6 或 8 声道。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1317
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1330
 msgid "Requires 4, 6, or 8 output channels"
 msgstr "需要 4、6 或 8 个输出通道"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1320
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1333
 msgid "Adds -skip-launcher for games that support it."
 msgstr "为支持的游戏添加 -skip-launcher 参数。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1321
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1334
 msgid "Adds -vulkan."
 msgstr "添加 -vulkan 参数。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1322
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1335
 msgid "Adds -dx11."
 msgstr "添加 -dx11 参数。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1323
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1336
 msgid "Adds -dx12."
 msgstr "添加 -dx12 参数。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1324
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1337
 msgid "Adds -console when the game supports it."
 msgstr "当游戏支持时添加 -console 参数。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1325
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1338
 msgid ""
 "Adds individual custom arguments and preserves unrecognized launch options "
 "exactly as loaded."
 msgstr "添加单独的自定义参数，并完全按加载时的原样保留无法识别的启动选项。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1328
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1341
 msgid "Enables Proton troubleshooting logs."
 msgstr "启用 Proton 故障排查日志。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1329
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1342
 msgid "DXVK log level"
 msgstr "DXVK 日志级别"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1329
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1342
 msgid "Controls DXVK logging."
 msgstr "控制 DXVK 日志记录。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1330
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1343
 msgid "VKD3D log level"
 msgstr "VKD3D 日志级别"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1330
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1343
 msgid "Controls VKD3D troubleshooting logs."
 msgstr "控制 VKD3D 故障排查日志。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1331
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1344
 msgid "Steam command placeholder (%command%)"
 msgstr "Steam 命令占位符（%command%）"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1331
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1344
 msgid "Marks where Steam inserts the game's command."
 msgstr "标记 Steam 插入游戏命令的位置。"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1332
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1345
 msgid "Preserved unrecognized launch options"
 msgstr "保留无法识别的启动选项"
 
-#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1332
+#: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1345
 msgid "Keeps unrecognized, quoted, and opaque shell content exactly as loaded."
 msgstr "保持无法识别、带引号及不透明的 Shell 内容与加载时完全一致。"
 
@@ -3615,7 +3733,7 @@ msgid "Advanced"
 msgstr "高级"
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
-#: src/widgets/preferences/preferences-dialog.vala:290
+#: src/widgets/preferences/preferences-dialog.vala:321
 msgid "Experimental"
 msgstr "实验性"
 
@@ -3733,35 +3851,31 @@ msgstr "限制器"
 
 #: src/widgets/header/header-downloads-indicator.vala:231
 #: src/widgets/header/header-downloads-indicator.vala:233
-#: src/widgets/tools/tools-release-row.vala:160
+#: src/widgets/tools/tools-release-row.vala:169
+#: src/widgets/tools/tools-release-row.vala:249
 #: src/widgets/tools/tools-remove-dialog.vala:26
 #: src/widgets/tools/tools-stl-release-row.vala:117 src/widgets/window.vala:173
 #: src/widgets/window.vala:381
 msgid "Cancel"
 msgstr "取消"
 
-#: src/widgets/header/header-downloads-indicator.vala:284
-#: src/widgets/header/header-downloads-indicator.vala:286
-#: src/widgets/header/header-downloads-indicator.vala:288
-#: src/widgets/tools/tools-release-row.vala:486
-#: src/widgets/tools/tools-release-row.vala:762
+#: src/widgets/header/header-downloads-indicator.vala:283
+#: src/widgets/header/header-downloads-indicator.vala:285
+#: src/widgets/header/header-downloads-indicator.vala:287
+#: src/widgets/tools/tools-release-row.vala:609
+#: src/widgets/tools/tools-release-row.vala:888
 msgid "Cancelling"
 msgstr "正在取消"
 
-#: src/widgets/header/header-downloads-indicator.vala:311
-#: src/widgets/tools/tools-release-row.vala:765
-msgid "Downloading"
-msgstr "正在下载"
-
 #: src/widgets/header/header-downloads-indicator.vala:313
-#: src/widgets/tools/tools-release-row.vala:767
+#: src/widgets/tools/tools-release-row.vala:893
 msgid "Extracting"
 msgstr "正在解压"
 
 #: src/widgets/header/header-downloads-indicator.vala:317
-#: src/widgets/tools/tools-release-row.vala:730
-#: src/widgets/tools/tools-release-row.vala:771
-#: src/widgets/tools/tools-release-row.vala:776
+#: src/widgets/tools/tools-release-row.vala:855
+#: src/widgets/tools/tools-release-row.vala:897
+#: src/widgets/tools/tools-release-row.vala:902
 msgid "Removing"
 msgstr "正在移除"
 
@@ -4026,7 +4140,7 @@ msgid "Tools"
 msgstr "工具"
 
 #: src/widgets/main/main-box.vala:75
-#: src/widgets/preferences/preferences-dialog.vala:358
+#: src/widgets/preferences/preferences-dialog.vala:389
 msgid "MangoHud"
 msgstr "MangoHud"
 
@@ -4058,7 +4172,7 @@ msgstr ""
 msgid "Restart Steam?"
 msgstr "重启 Steam？"
 
-#: src/widgets/main/main-box.vala:242 src/widgets/main/main-box.vala:293
+#: src/widgets/main/main-box.vala:242 src/widgets/main/main-box.vala:296
 #: src/widgets/main/steam-restart-dialog.vala:28
 msgid "Later"
 msgstr "稍后"
@@ -4069,66 +4183,67 @@ msgstr "稍后"
 msgid "Restart Steam"
 msgstr "重启 Steam"
 
-#: src/widgets/main/main-box.vala:297
+#: src/widgets/main/main-box.vala:300
 msgid "Try Again"
 msgstr "重试"
 
-#: src/widgets/main/main-box.vala:332 src/widgets/tools/tools-box.vala:762
+#: src/widgets/main/main-box.vala:335 src/widgets/tools/tools-box.vala:762
 msgid "Checking for updates"
 msgstr "正在检查更新"
 
-#: src/widgets/main/main-box.vala:343 src/widgets/tools/tools-box.vala:770
+#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:770
 msgid "Can't update while a game is running"
 msgstr "游戏运行时不能更新"
 
-#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:773
+#: src/widgets/main/main-box.vala:349 src/widgets/tools/tools-box.vala:773
 msgid "Nothing to update"
 msgstr "暂无更新"
 
-#: src/widgets/main/main-box.vala:350 src/widgets/tools/tools-box.vala:777
+#: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:777
 msgid "Everything is now up-to-date"
 msgstr "所有内容现已是最新"
 
-#: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:780
+#: src/widgets/main/main-box.vala:356 src/widgets/tools/tools-box.vala:780
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "无法检查更新（原因：%s）"
 
-#: src/widgets/main/main-box.vala:360
+#: src/widgets/main/main-box.vala:363
 msgid "Update started"
 msgstr "已开始更新"
 
-#: src/widgets/main/main-box.vala:362
+#: src/widgets/main/main-box.vala:365
 msgid "Download started"
 msgstr "已开始下载"
 
-#: src/widgets/main/main-box.vala:368
+#: src/widgets/main/main-box.vala:371
 msgid "Download finished"
 msgstr "下载完成"
 
-#: src/widgets/main/main-box.vala:370
+#: src/widgets/main/main-box.vala:373
 msgid "Download canceled"
 msgstr "下载已取消"
 
-#: src/widgets/main/main-box.vala:376
+#: src/widgets/main/main-box.vala:379
+#: src/widgets/tools/tools-release-row.vala:1097
 msgid "Download failed"
 msgstr "下载失败"
 
-#: src/widgets/main/main-box.vala:395 src/widgets/main/main-box.vala:397
+#: src/widgets/main/main-box.vala:398 src/widgets/main/main-box.vala:400
 msgid "Update finished"
 msgstr "更新已完成"
 
-#: src/widgets/main/main-box.vala:395
+#: src/widgets/main/main-box.vala:398
 #, c-format
 msgid "%s is now up-to-date"
 msgstr "%s 现已是最新"
 
-#: src/widgets/main/main-box.vala:397
+#: src/widgets/main/main-box.vala:400
 #, c-format
 msgid "%s is already up-to-date"
 msgstr "%s 已是最新"
 
-#: src/widgets/main/main-box.vala:402
+#: src/widgets/main/main-box.vala:405
 msgid "Deleted"
 msgstr "已删除"
 
@@ -4207,7 +4322,7 @@ msgid "Waiting for Steam to start…"
 msgstr "正在等待 Steam 启动…"
 
 #: src/widgets/main/steam-restart-presentation.vala:97
-#: src/widgets/main/steam-restart-presentation.vala:151
+#: src/widgets/main/steam-restart-presentation.vala:156
 msgid "SteamOS is restarting Steam"
 msgstr "SteamOS 正在重启 Steam"
 
@@ -4305,30 +4420,46 @@ msgstr "Steam 没有关闭。"
 msgid "No force termination was attempted. Close Steam manually or try again."
 msgstr "未尝试强制终止。请手动关闭 Steam 或重试。"
 
-#: src/widgets/main/steam-restart-presentation.vala:132
+#: src/widgets/main/steam-restart-presentation.vala:130
 msgid "Steam couldn’t be reopened"
 msgstr "无法重新打开 Steam"
 
-#: src/widgets/main/steam-restart-presentation.vala:132
+#: src/widgets/main/steam-restart-presentation.vala:130
+#, fuzzy
 msgid ""
-"Steam is currently closed. Start it manually. ProtonPlus will keep the "
+"If Steam is not already open, start it manually. ProtonPlus will keep the "
 "reminder until it confirms a new session."
 msgstr ""
 "Steam 当前处于关闭状态，请手动启动。ProtonPlus 将持续显示此提示，直到检测到新"
 "的会话。"
 
 #: src/widgets/main/steam-restart-presentation.vala:132
+#, fuzzy
+msgid "Steam startup could not be confirmed"
+msgstr "无法确认 Steam 状态"
+
+#: src/widgets/main/steam-restart-presentation.vala:132
 msgid ""
-"Start Steam manually. ProtonPlus will keep the reminder until it confirms a "
-"new session."
+"Steam may still be starting. If it is already open, you do not need to start "
+"it again. ProtonPlus will keep checking for a new session."
 msgstr ""
-"请手动启动 Steam。ProtonPlus 将持续显示该提示，直到确认已开启新的会话。"
 
 #: src/widgets/main/steam-restart-presentation.vala:134
-msgid "Steam changes need attention"
-msgstr "Steam 的更改需要注意"
+#: src/widgets/main/steam-restart-presentation.vala:143
+#: src/widgets/main/steam-restart-presentation.vala:152
+msgid "Steam restarted"
+msgstr "Steam 已重启"
 
 #: src/widgets/main/steam-restart-presentation.vala:134
+#, fuzzy
+msgid ""
+"Steam reopened, but ProtonPlus could not verify every pending change. The "
+"reminder will remain until those changes are confirmed."
+msgstr ""
+"Steam 已关闭。ProtonPlus 无法安全应用所有待处理的更改；请解决冲突后重试，或手"
+"动启动 Steam。"
+
+#: src/widgets/main/steam-restart-presentation.vala:136
 msgid ""
 "Steam is closed. ProtonPlus could not safely apply every pending change; "
 "retry or start Steam manually after resolving the conflict."
@@ -4336,44 +4467,43 @@ msgstr ""
 "Steam 已关闭。ProtonPlus 无法安全应用所有待处理的更改；请解决冲突后重试，或手"
 "动启动 Steam。"
 
-#: src/widgets/main/steam-restart-presentation.vala:136
+#: src/widgets/main/steam-restart-presentation.vala:139
+msgid "Steam changes need attention"
+msgstr "Steam 的更改需要注意"
+
+#: src/widgets/main/steam-restart-presentation.vala:141
 msgid "Steam restart was cancelled"
 msgstr "Steam 重启已取消"
 
-#: src/widgets/main/steam-restart-presentation.vala:138
-#: src/widgets/main/steam-restart-presentation.vala:147
-msgid "Steam restarted"
-msgstr "Steam 已重启"
-
-#: src/widgets/main/steam-restart-presentation.vala:138
+#: src/widgets/main/steam-restart-presentation.vala:143
 msgid ""
 "Steam restarted successfully, but ProtonPlus could not save the cleared "
 "reminder state."
 msgstr "Steam 已成功重启，但 ProtonPlus 无法保存已清除的提醒状态。"
 
-#: src/widgets/main/steam-restart-presentation.vala:140
+#: src/widgets/main/steam-restart-presentation.vala:145
 msgid "Steam couldn’t restart"
 msgstr "Steam 无法重启"
 
-#: src/widgets/main/steam-restart-presentation.vala:140
+#: src/widgets/main/steam-restart-presentation.vala:145
 msgid "Try again later or restart Steam manually."
 msgstr "请稍后再试，或手动重启 Steam。"
 
-#: src/widgets/main/steam-restart-presentation.vala:147
+#: src/widgets/main/steam-restart-presentation.vala:152
 msgid "Steam restarted; other changes still need a restart"
 msgstr "Steam 已重启；其他更改仍需重启"
 
-#: src/widgets/main/steam-restart-presentation.vala:169
-#: src/widgets/main/steam-restart-presentation.vala:196
+#: src/widgets/main/steam-restart-presentation.vala:174
+#: src/widgets/main/steam-restart-presentation.vala:201
 msgid "Steam needs to restart to apply your changes"
 msgstr "Steam 需要重启以应用更改"
 
-#: src/widgets/main/steam-restart-presentation.vala:173
-#: src/widgets/main/steam-restart-presentation.vala:200
+#: src/widgets/main/steam-restart-presentation.vala:178
+#: src/widgets/main/steam-restart-presentation.vala:205
 msgid "Multiple changes will be applied after Steam restarts"
 msgstr "多项更改将于 Steam 重启后应用"
 
-#: src/widgets/main/steam-restart-presentation.vala:219
+#: src/widgets/main/steam-restart-presentation.vala:224
 msgid "Steam restart needed"
 msgstr "需要重启 Steam"
 
@@ -4661,10 +4791,6 @@ msgstr "功耗限制"
 #: src/widgets/mangohud/mangohud-metrics-page.vala:119
 msgid "Model"
 msgstr "型号"
-
-#: src/widgets/mangohud/mangohud-metrics-page.vala:120
-msgid "Vulkan Driver"
-msgstr "Vulkan 驱动"
 
 #: src/widgets/mangohud/mangohud-metrics-page.vala:121
 #: src/widgets/mangohud/mangohud-metrics-page.vala:182
@@ -5091,105 +5217,121 @@ msgstr "如：http://127.0.0.1:7890 或 socks5://127.0.0.1:1080"
 
 #: src/widgets/preferences/preferences-dialog.vala:269
 #, fuzzy
+msgid "GitHub download mirror"
+msgstr "保存下载历史记录"
+
+#: src/widgets/preferences/preferences-dialog.vala:273
+msgid "Example: https://mirror.example/"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:275
+#: src/widgets/preferences/preferences-dialog.vala:290
+msgid ""
+"Optional. Leave empty to download directly from GitHub. Only release "
+"downloads use this mirror. Only use a mirror you trust."
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:300
+#, fuzzy
 msgid "Download speed limit"
 msgstr "已开始下载"
 
-#: src/widgets/preferences/preferences-dialog.vala:270
+#: src/widgets/preferences/preferences-dialog.vala:301
 msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:273
+#: src/widgets/preferences/preferences-dialog.vala:304
 msgid "This limit is shared across all active downloads."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:295
+#: src/widgets/preferences/preferences-dialog.vala:326
 msgid "Preview features"
 msgstr "预览功能"
 
-#: src/widgets/preferences/preferences-dialog.vala:296
+#: src/widgets/preferences/preferences-dialog.vala:327
 msgid "Enable experimental features for early testing"
 msgstr "启用实验性功能以便尽早测试"
 
-#: src/widgets/preferences/preferences-dialog.vala:302
+#: src/widgets/preferences/preferences-dialog.vala:333
 msgid "Maintenance"
 msgstr "维护"
 
-#: src/widgets/preferences/preferences-dialog.vala:303
+#: src/widgets/preferences/preferences-dialog.vala:334
 msgid "Refresh app data or clear cached files"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:317
+#: src/widgets/preferences/preferences-dialog.vala:348
 msgid "Software Environment"
 msgstr "软件环境"
 
-#: src/widgets/preferences/preferences-dialog.vala:322
+#: src/widgets/preferences/preferences-dialog.vala:353
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr "SteamOS"
 
-#: src/widgets/preferences/preferences-dialog.vala:322
-#: src/widgets/preferences/preferences-dialog.vala:325
+#: src/widgets/preferences/preferences-dialog.vala:353
+#: src/widgets/preferences/preferences-dialog.vala:356
 #: src/widgets/tools/tools-stl-release-row.vala:170
 msgid "Yes"
 msgstr "是"
 
-#: src/widgets/preferences/preferences-dialog.vala:322
-#: src/widgets/preferences/preferences-dialog.vala:325
+#: src/widgets/preferences/preferences-dialog.vala:353
+#: src/widgets/preferences/preferences-dialog.vala:356
 #: src/widgets/tools/tools-stl-release-row.vala:169
 msgid "No"
 msgstr "否"
 
-#: src/widgets/preferences/preferences-dialog.vala:325
+#: src/widgets/preferences/preferences-dialog.vala:356
 msgid "Flatpak"
 msgstr "Flatpak"
 
-#: src/widgets/preferences/preferences-dialog.vala:329
+#: src/widgets/preferences/preferences-dialog.vala:360
 msgid "Hardware"
 msgstr "硬件"
 
-#: src/widgets/preferences/preferences-dialog.vala:341
+#: src/widgets/preferences/preferences-dialog.vala:372
 #, fuzzy
 msgid "CPU Features"
 msgstr "CPU 温度"
 
-#: src/widgets/preferences/preferences-dialog.vala:342
+#: src/widgets/preferences/preferences-dialog.vala:373
 #, fuzzy
 msgid "None detected"
 msgstr "自动检测"
 
-#: src/widgets/preferences/preferences-dialog.vala:347
+#: src/widgets/preferences/preferences-dialog.vala:378
 msgid "Dependencies"
 msgstr "依赖项"
 
-#: src/widgets/preferences/preferences-dialog.vala:352
+#: src/widgets/preferences/preferences-dialog.vala:383
 msgid "Protontricks"
 msgstr "Protontricks"
 
-#: src/widgets/preferences/preferences-dialog.vala:355
+#: src/widgets/preferences/preferences-dialog.vala:386
 msgid "Protontricks (Flatpak)"
 msgstr "Protontricks (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:361
+#: src/widgets/preferences/preferences-dialog.vala:392
 msgid "MangoHud (Flatpak)"
 msgstr "MangoHud (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:370
+#: src/widgets/preferences/preferences-dialog.vala:401
 msgid "Feral Gamemode"
 msgstr "Feral Gamemode"
 
-#: src/widgets/preferences/preferences-dialog.vala:374
+#: src/widgets/preferences/preferences-dialog.vala:405
 msgid "Detected Launchers"
 msgstr "检测到的启动器"
 
-#: src/widgets/preferences/preferences-dialog.vala:406
+#: src/widgets/preferences/preferences-dialog.vala:437
 #: src/widgets/tools/tools-box.vala:189
-#: src/widgets/tools/tools-group-box.vala:728
-#: src/widgets/tools/tools-release-row.vala:715
-#: src/widgets/tools/tools-release-row.vala:719
+#: src/widgets/tools/tools-group-box.vala:749
+#: src/widgets/tools/tools-release-row.vala:840
+#: src/widgets/tools/tools-release-row.vala:844
 msgid "Installed"
 msgstr "已安装"
 
-#: src/widgets/preferences/preferences-dialog.vala:407
+#: src/widgets/preferences/preferences-dialog.vala:438
 msgid "Not installed"
 msgstr "未安装"
 
@@ -5308,7 +5450,7 @@ msgid "Filter is active"
 msgstr "已激活过滤器"
 
 #: src/widgets/tools/tools-group-box.vala:114
-#: src/widgets/tools/tools-group-box.vala:360
+#: src/widgets/tools/tools-group-box.vala:381
 msgid "No tools found"
 msgstr "未找到工具"
 
@@ -5316,60 +5458,60 @@ msgstr "未找到工具"
 msgid "No tools match the current filter."
 msgstr "没有工具符合当前筛选条件。"
 
-#: src/widgets/tools/tools-group-box.vala:332
+#: src/widgets/tools/tools-group-box.vala:353
 msgid "No matching tools"
 msgstr "没有匹配的工具"
 
-#: src/widgets/tools/tools-group-box.vala:345
+#: src/widgets/tools/tools-group-box.vala:366
 msgid "No installed tools"
 msgstr "没有已安装的工具"
 
-#: src/widgets/tools/tools-group-box.vala:346
+#: src/widgets/tools/tools-group-box.vala:367
 msgid "Install a compatibility tool to see it here."
 msgstr "安装兼容性工具后会显示在此处。"
 
-#: src/widgets/tools/tools-group-box.vala:350
+#: src/widgets/tools/tools-group-box.vala:371
 msgid "No tools in use"
 msgstr "没有正在使用的工具"
 
-#: src/widgets/tools/tools-group-box.vala:351
+#: src/widgets/tools/tools-group-box.vala:372
 msgid "No games currently use a tool from this group."
 msgstr "目前没有任何游戏使用该组中的工具。"
 
-#: src/widgets/tools/tools-group-box.vala:355
+#: src/widgets/tools/tools-group-box.vala:376
 msgid "No unused tools"
 msgstr "没有未使用的工具"
 
-#: src/widgets/tools/tools-group-box.vala:356
+#: src/widgets/tools/tools-group-box.vala:377
 msgid "Every tool in this group is currently in use."
 msgstr "该组中的每一项工具目前都在使用中。"
 
-#: src/widgets/tools/tools-group-box.vala:361
+#: src/widgets/tools/tools-group-box.vala:382
 msgid "No tools are available in this group."
 msgstr "该组中没有可用工具。"
 
-#: src/widgets/tools/tools-group-box.vala:463
-#: src/widgets/tools/tools-group-box.vala:467
+#: src/widgets/tools/tools-group-box.vala:484
+#: src/widgets/tools/tools-group-box.vala:488
 #, fuzzy
 msgid "Tool Actions"
 msgstr "操作"
 
-#: src/widgets/tools/tools-group-box.vala:499
+#: src/widgets/tools/tools-group-box.vala:520
 msgid "Recommended compatibility tool"
 msgstr "建议的兼容性工具"
 
-#: src/widgets/tools/tools-group-box.vala:724
+#: src/widgets/tools/tools-group-box.vala:745
 #, fuzzy
 msgid "Used by games"
 msgstr "正被 1 款游戏使用。"
 
-#: src/widgets/tools/tools-group-box.vala:725
+#: src/widgets/tools/tools-group-box.vala:746
 msgid ""
 "One or more releases of this tool is installed and currently used by one or "
 "more games"
 msgstr "该工具的一个或多个版本已安装，并正被一款或多款游戏使用"
 
-#: src/widgets/tools/tools-group-box.vala:729
+#: src/widgets/tools/tools-group-box.vala:750
 msgid ""
 "One or more releases of this tool is installed, but not currently used by "
 "any games"
@@ -5421,12 +5563,13 @@ msgstr "详细信息"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:11
 #, fuzzy, c-format
-msgid "Games using %s"
-msgstr "操作"
+msgid "Games with %s selected"
+msgstr "已选择 1 款游戏"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:14
-msgid "Games Using This Tool"
-msgstr ""
+#, fuzzy
+msgid "Games with this tool selected"
+msgstr "已选择 1 款游戏"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:29
 msgid "Migrate selected games to another tool"
@@ -5440,306 +5583,361 @@ msgid "Select all games"
 msgstr "选择"
 
 #: src/widgets/tools/tools-release-games-dialog.vala:108
-msgid "No Games Use This Tool"
-msgstr ""
+#, fuzzy
+msgid "No games have this tool selected"
+msgstr "没有游戏符合此筛选条件"
 
-#: src/widgets/tools/tools-release-row.vala:127
-#: src/widgets/tools/tools-release-row.vala:129
+#: src/widgets/tools/tools-release-row.vala:136
+#: src/widgets/tools/tools-release-row.vala:138
 msgid "Show installation details"
 msgstr "显示安装详情"
 
-#: src/widgets/tools/tools-release-row.vala:134
+#: src/widgets/tools/tools-release-row.vala:143
 msgid "Speed: 0 KB/s"
 msgstr "速度：0 KB/s"
 
-#: src/widgets/tools/tools-release-row.vala:137
-#: src/widgets/tools/tools-release-row.vala:840
+#: src/widgets/tools/tools-release-row.vala:146
+#: src/widgets/tools/tools-release-row.vala:968
 msgid "Remaining time: --"
 msgstr "剩余时间：--"
 
-#: src/widgets/tools/tools-release-row.vala:198
+#: src/widgets/tools/tools-release-row.vala:210
 #, fuzzy
 msgid "Release Actions"
 msgstr "操作"
 
-#: src/widgets/tools/tools-release-row.vala:465
+#: src/widgets/tools/tools-release-row.vala:242
+msgid "Install TinkerGame First"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:243
+msgid "Install or update TinkerGame before copying SteamTinkerLaunch settings."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:247
+#, fuzzy
+msgid "Copy SteamTinkerLaunch Settings?"
+msgstr "Steam Tinker Launch"
+
+#: src/widgets/tools/tools-release-row.vala:248
+msgid ""
+"The original settings and installation will be kept. Existing TinkerGame "
+"settings will never be overwritten. Review custom commands, scripts, "
+"symbolic links and absolute paths before playing. Steam assignments and "
+"launch options will stay unchanged. After testing your games, you can remove "
+"SteamTinkerLaunch separately."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:250
+msgid "Copy Settings"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:272
+msgid ""
+"Settings copied. Review custom commands and paths before playing. Select "
+"TinkerGame for individual games in Games when ready; SteamTinkerLaunch "
+"remains installed."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:274
+msgid ""
+"TinkerGame settings already exist. Nothing was overwritten. Review and merge "
+"your settings manually."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:275
+msgid ""
+"Settings could not be copied. The original settings were preserved. You can "
+"retry after resolving the problem."
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:276
+msgid "TinkerGame Migration"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:590
 #, c-format
 msgid "Step: %s"
 msgstr "步数：%s"
 
-#: src/widgets/tools/tools-release-row.vala:468
+#: src/widgets/tools/tools-release-row.vala:593
 #, fuzzy, c-format
 msgid "%s for %s"
 msgstr "操作"
 
-#: src/widgets/tools/tools-release-row.vala:473
+#: src/widgets/tools/tools-release-row.vala:598
 #, fuzzy, c-format
 msgid "Progress for %s"
 msgstr "操作"
 
-#: src/widgets/tools/tools-release-row.vala:530
-#: src/widgets/tools/tools-release-row.vala:533
+#: src/widgets/tools/tools-release-row.vala:653
+#: src/widgets/tools/tools-release-row.vala:656
 #, fuzzy
 msgid "Latest"
 msgstr "稍后"
 
-#: src/widgets/tools/tools-release-row.vala:595
-#: src/widgets/tools/tools-release-row.vala:598
+#: src/widgets/tools/tools-release-row.vala:718
+#: src/widgets/tools/tools-release-row.vala:721
 #, c-format
 msgid "Install %s"
 msgstr "安装 %s"
 
-#: src/widgets/tools/tools-release-row.vala:604
-#: src/widgets/tools/tools-release-row.vala:661
-#: src/widgets/tools/tools-releases-box.vala:476
-#: src/widgets/tools/tools-releases-box.vala:488
+#: src/widgets/tools/tools-release-row.vala:727
+#: src/widgets/tools/tools-release-row.vala:788
+#: src/widgets/tools/tools-releases-box.vala:477
+#: src/widgets/tools/tools-releases-box.vala:489
 #, fuzzy
 msgid "Retry"
 msgstr "复古"
 
-#: src/widgets/tools/tools-release-row.vala:605
-#: src/widgets/tools/tools-release-row.vala:608
+#: src/widgets/tools/tools-release-row.vala:728
+#: src/widgets/tools/tools-release-row.vala:731
 #, fuzzy, c-format
 msgid "Retry %s"
 msgstr "复古"
 
-#: src/widgets/tools/tools-release-row.vala:619
+#: src/widgets/tools/tools-release-row.vala:742
 #, fuzzy, c-format
 msgid "Cancelling %s"
 msgstr "正在取消"
 
-#: src/widgets/tools/tools-release-row.vala:620
+#: src/widgets/tools/tools-release-row.vala:743
 #, fuzzy, c-format
 msgid "Cancel %s"
 msgstr "取消"
 
-#: src/widgets/tools/tools-release-row.vala:645
+#: src/widgets/tools/tools-release-row.vala:768
 #, fuzzy
 msgid "_Changelog"
 msgstr "更新日志"
 
-#: src/widgets/tools/tools-release-row.vala:648
+#: src/widgets/tools/tools-release-row.vala:771
 #, fuzzy
 msgid "Open Release Page"
 msgstr "打开令牌创建页面"
 
-#: src/widgets/tools/tools-release-row.vala:653
-msgid "_Games Using This Tool"
+#: src/widgets/tools/tools-release-row.vala:776
+#, fuzzy
+msgid "_Games with this tool selected"
+msgstr "已选择 1 款游戏"
+
+#: src/widgets/tools/tools-release-row.vala:783
+msgid "Copy SteamTinkerLaunch Settings…"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:663
+#: src/widgets/tools/tools-release-row.vala:790
 #, fuzzy
 msgid "Update"
 msgstr "更新"
 
-#: src/widgets/tools/tools-release-row.vala:664
+#: src/widgets/tools/tools-release-row.vala:791
 #, fuzzy
 msgid "_Check for Updates"
 msgstr "检查更新"
 
-#: src/widgets/tools/tools-release-row.vala:668
+#: src/widgets/tools/tools-release-row.vala:795
 #, fuzzy
 msgid "_Open Folder"
 msgstr "输出文件夹"
 
-#: src/widgets/tools/tools-release-row.vala:670
+#: src/widgets/tools/tools-release-row.vala:797
 #, fuzzy
 msgid "_Delete…"
 msgstr "删除"
 
-#: src/widgets/tools/tools-release-row.vala:708
+#: src/widgets/tools/tools-release-row.vala:833
 msgid "Failed"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:716
+#: src/widgets/tools/tools-release-row.vala:841
 #, fuzzy
 msgid "Update available"
 msgstr "批量更新失败"
 
-#: src/widgets/tools/tools-release-row.vala:735
+#: src/widgets/tools/tools-release-row.vala:860
 msgid "Unavailable for the selected variant"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:740
+#: src/widgets/tools/tools-release-row.vala:865
 #, fuzzy, c-format
-msgid "In use by %i game"
-msgid_plural "In use by %i games"
+msgid "Selected by %i game"
+msgid_plural "Selected by %i games"
 msgstr[0] "被 %i 款游戏使用。"
 
-#: src/widgets/tools/tools-release-row.vala:754
+#: src/widgets/tools/tools-release-row.vala:880
 #, fuzzy, c-format
 msgid "%s. Open Release Details"
 msgstr "打开令牌创建页面"
 
-#: src/widgets/tools/tools-release-row.vala:755
+#: src/widgets/tools/tools-release-row.vala:881
 #, fuzzy
 msgid "Open Release Details"
 msgstr "打开令牌创建页面"
 
-#: src/widgets/tools/tools-release-row.vala:769
+#: src/widgets/tools/tools-release-row.vala:895
 msgid "Moving"
 msgstr "正在移动"
 
-#: src/widgets/tools/tools-release-row.vala:774
+#: src/widgets/tools/tools-release-row.vala:900
 #, fuzzy
 msgid "Preparing update"
 msgstr "正在准备"
 
-#: src/widgets/tools/tools-release-row.vala:777
+#: src/widgets/tools/tools-release-row.vala:903
 #, fuzzy
 msgid "Preparing installation"
 msgstr "取消安装"
 
-#: src/widgets/tools/tools-release-row.vala:831
+#: src/widgets/tools/tools-release-row.vala:959
 #, c-format
 msgid "Speed: %s/s"
 msgstr "速度： %s/s"
 
-#: src/widgets/tools/tools-release-row.vala:837
+#: src/widgets/tools/tools-release-row.vala:965
 #, c-format
 msgid "Remaining time: %s"
 msgstr "剩余时间：%s"
 
-#: src/widgets/tools/tools-releases-box.vala:255
+#: src/widgets/tools/tools-releases-box.vala:256
 msgid "Standard 64-bit build for most Intel and AMD PCs."
 msgstr "适用于大多数 Intel 和 AMD PC 的标准 64 位版本。"
 
-#: src/widgets/tools/tools-releases-box.vala:257
+#: src/widgets/tools/tools-releases-box.vala:258
 msgid ""
 "Optimized 64-bit build for Intel and AMD CPUs that support the x86-64-v3 "
 "instruction set."
 msgstr "针对支持 x86-64-v3 指令集的 Intel 和 AMD CPU 优化的 64 位构建版本。"
 
-#: src/widgets/tools/tools-releases-box.vala:260
+#: src/widgets/tools/tools-releases-box.vala:261
 msgid "64-bit ARM build. Choose this only on ARM64 hardware."
 msgstr "64 位 ARM 构建版本。仅在 ARM64 硬件上选择此项。"
 
-#: src/widgets/tools/tools-releases-box.vala:262
+#: src/widgets/tools/tools-releases-box.vala:263
 msgid "32-bit x86 build. Choose this only when a 32-bit runner is required."
 msgstr "32 位 x86 构建版本。仅在需要 32 位运行程序时选择此项。"
 
-#: src/widgets/tools/tools-releases-box.vala:265
+#: src/widgets/tools/tools-releases-box.vala:266
 msgid ""
 "64-bit build with WoW64 support for running 32-bit Windows applications."
 msgstr "支持 WoW64 以运行 32 位 Windows 应用程序的 64 位版本。"
 
-#: src/widgets/tools/tools-releases-box.vala:267
+#: src/widgets/tools/tools-releases-box.vala:268
 msgid "The provider's recommended build for most systems."
 msgstr "这是服务提供商针对大多数系统推荐的构建版本。"
 
-#: src/widgets/tools/tools-releases-box.vala:269
+#: src/widgets/tools/tools-releases-box.vala:270
 #, c-format
 msgid "Select the %s build variant."
 msgstr "选择 %s 构建变体。"
 
-#: src/widgets/tools/tools-releases-box.vala:334
-#: src/widgets/tools/tools-releases-box.vala:342
-#: src/widgets/tools/tools-releases-box.vala:1290
+#: src/widgets/tools/tools-releases-box.vala:335
+#: src/widgets/tools/tools-releases-box.vala:343
+#: src/widgets/tools/tools-releases-box.vala:1341
 msgid "Check for new releases"
 msgstr "检查新版本"
 
-#: src/widgets/tools/tools-releases-box.vala:348
-#: src/widgets/tools/tools-releases-box.vala:357
-#: src/widgets/tools/tools-releases-box.vala:359
+#: src/widgets/tools/tools-releases-box.vala:349
+#: src/widgets/tools/tools-releases-box.vala:358
+#: src/widgets/tools/tools-releases-box.vala:360
 #, fuzzy
 msgid "Open Repository"
 msgstr "打开安装目录"
 
-#: src/widgets/tools/tools-releases-box.vala:370
+#: src/widgets/tools/tools-releases-box.vala:371
 msgid "Choose which architecture or build variant to show."
 msgstr "选择要显示的架构或构建变体。"
 
-#: src/widgets/tools/tools-releases-box.vala:373
-#: src/widgets/tools/tools-releases-box.vala:385
+#: src/widgets/tools/tools-releases-box.vala:374
+#: src/widgets/tools/tools-releases-box.vala:386
 msgid "Build"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:416
-#: src/widgets/tools/tools-releases-box.vala:1481
+#: src/widgets/tools/tools-releases-box.vala:417
+#: src/widgets/tools/tools-releases-box.vala:1529
 msgid "Load More"
 msgstr "加载更多"
 
-#: src/widgets/tools/tools-releases-box.vala:455
-#: src/widgets/tools/tools-releases-box.vala:615
-#: src/widgets/tools/tools-releases-box.vala:1110
-#: src/widgets/tools/tools-releases-box.vala:1441
+#: src/widgets/tools/tools-releases-box.vala:456
+#: src/widgets/tools/tools-releases-box.vala:632
+#: src/widgets/tools/tools-releases-box.vala:1161
+#: src/widgets/tools/tools-releases-box.vala:1489
 #, fuzzy
 msgid "Loading releases"
 msgstr "正在加载"
 
-#: src/widgets/tools/tools-releases-box.vala:464
-#: src/widgets/tools/tools-releases-box.vala:633
-#: src/widgets/tools/tools-releases-box.vala:816
+#: src/widgets/tools/tools-releases-box.vala:465
+#: src/widgets/tools/tools-releases-box.vala:650
+#: src/widgets/tools/tools-releases-box.vala:833
 #, fuzzy
 msgid "No releases available"
 msgstr "错误：没有可用的版本\n"
 
-#: src/widgets/tools/tools-releases-box.vala:465
-#: src/widgets/tools/tools-releases-box.vala:817
+#: src/widgets/tools/tools-releases-box.vala:466
+#: src/widgets/tools/tools-releases-box.vala:834
 #, fuzzy
 msgid "Check again for new releases."
 msgstr "检查新版本"
 
-#: src/widgets/tools/tools-releases-box.vala:469
-#: src/widgets/tools/tools-releases-box.vala:819
+#: src/widgets/tools/tools-releases-box.vala:470
+#: src/widgets/tools/tools-releases-box.vala:836
 #, fuzzy
 msgid "Refresh"
 msgstr "刷新率*"
 
-#: src/widgets/tools/tools-releases-box.vala:482
-#: src/widgets/tools/tools-releases-box.vala:739
+#: src/widgets/tools/tools-releases-box.vala:483
+#: src/widgets/tools/tools-releases-box.vala:756
 msgid "Failed to Fetch Releases"
 msgstr "获取版本失败"
 
-#: src/widgets/tools/tools-releases-box.vala:487
+#: src/widgets/tools/tools-releases-box.vala:488
 #, fuzzy
 msgid "Couldn’t load releases"
 msgstr "无法加载启动器"
 
-#: src/widgets/tools/tools-releases-box.vala:663
-#: src/widgets/tools/tools-releases-box.vala:1157
-#: src/widgets/tools/tools-releases-box.vala:1476
+#: src/widgets/tools/tools-releases-box.vala:680
+#: src/widgets/tools/tools-releases-box.vala:1208
+#: src/widgets/tools/tools-releases-box.vala:1524
 #, fuzzy
 msgid "Releases loaded"
 msgstr "未找到版本"
 
-#: src/widgets/tools/tools-releases-box.vala:732
+#: src/widgets/tools/tools-releases-box.vala:749
 #, fuzzy
 msgid "Couldn’t load more releases"
 msgstr "无法加载启动器"
 
-#: src/widgets/tools/tools-releases-box.vala:733
+#: src/widgets/tools/tools-releases-box.vala:750
 msgid "Couldn’t refresh releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:798
+#: src/widgets/tools/tools-releases-box.vala:815
 #, fuzzy
 msgid "No matching releases"
 msgstr "没有匹配的游戏"
 
-#: src/widgets/tools/tools-releases-box.vala:804
+#: src/widgets/tools/tools-releases-box.vala:821
 #, fuzzy
 msgid "No releases match this filter"
 msgstr "没有游戏符合此筛选条件"
 
-#: src/widgets/tools/tools-releases-box.vala:805
+#: src/widgets/tools/tools-releases-box.vala:822
 msgid "Reset the filters to see all releases."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:810
+#: src/widgets/tools/tools-releases-box.vala:827
 #, fuzzy
 msgid "No compatible releases"
 msgstr "正在加载"
 
-#: src/widgets/tools/tools-releases-box.vala:811
+#: src/widgets/tools/tools-releases-box.vala:828
 msgid "No compatible variants are available for this system."
 msgstr "该系统没有可用的兼容变体。"
 
-#: src/widgets/tools/tools-releases-box.vala:1289
+#: src/widgets/tools/tools-releases-box.vala:1340
 msgid "Refreshing…"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:1300
+#: src/widgets/tools/tools-releases-box.vala:1351
 #, c-format
 msgid "Last updated: %s"
 msgstr "上次更新：%s"
@@ -5829,6 +6027,225 @@ msgstr ""
 "应用程序当前正在下载工具。\n"
 "过早退出程序或许会引发问题。"
 
+#, fuzzy, c-format
+#~ msgid "Games using %s"
+#~ msgstr "操作"
+
+#, fuzzy, c-format
+#~ msgid "In use by %i game"
+#~ msgid_plural "In use by %i games"
+#~ msgstr[0] "被 %i 款游戏使用。"
+
+#, fuzzy, c-format
+#~ msgid "%s installation failed"
+#~ msgstr "安装失败"
+
+#~ msgid ""
+#~ "Validates the compiler's internal representation after each pass. Used "
+#~ "for driver debugging."
+#~ msgstr "每次编译后验证编译器的内部表示。用于驱动程序调试。"
+
+#~ msgid ""
+#~ "Disables FP gathering optimizations. Workaround for specific texture "
+#~ "issues in older games."
+#~ msgstr "禁用FP收集优化。解决老游戏中特定纹理问题的变通方案。"
+
+#~ msgid ""
+#~ "Prints detailed compilation performance stats and register usage to "
+#~ "system log."
+#~ msgstr "将详细的编译性能统计信息和寄存器使用情况打印到系统日志中。"
+
+#~ msgid ""
+#~ "Forces the use of the instruction selector pass even when it could be "
+#~ "bypassed."
+#~ msgstr "强制使用指令选择器传递，即使它可以被绕过。"
+
+#~ msgid ""
+#~ "Forces Wave64 mode execution on RDNA hardware instead of the default "
+#~ "Wave32."
+#~ msgstr "强制在 RDNA 硬件上执行 Wave64 模式，而不是默认的 Wave32 模式。"
+
+#~ msgid ""
+#~ "Disables Next-Gen Geometry (NGG). Fixes crashes in older Vulkan games."
+#~ msgstr "禁用 Next-Gen Geometry（NGG）。修复旧版 Vulkan 游戏崩溃的问题。"
+
+#~ msgid "Disables internal application binary interface caching."
+#~ msgstr "禁用内部应用程序二进制接口缓存。"
+
+#~ msgid "Disables background shader compilation."
+#~ msgstr "禁用后台着色器编译。"
+
+#~ msgid ""
+#~ "Disables Variable Rate Shading (VRS). Fixes UI artifacts in some games."
+#~ msgstr "禁用可变速率着色（VRS）。修复部分游戏中出现的 UI 问题。"
+
+#~ msgid ""
+#~ "Disables Graphics Pipeline Library (GPL) to troubleshoot startup crashes."
+#~ msgstr "禁用 Graphics Pipeline Library (GPL) 以排查启动崩溃问题。"
+
+#~ msgid "Forces fallback command submission mode. Helps diagnosing GPU hangs."
+#~ msgstr "强制使用备用命令提交模式。有助于诊断 GPU 挂起问题。"
+
+#~ msgid ""
+#~ "Disables Vertex Runtime Shading. Can fix specific rendering artifacts."
+#~ msgstr "禁用 Vertex Runtime Shading，可修复特定的渲染异常。"
+
+#~ msgid ""
+#~ "Precompiles shaders during loading screens to reduce in-game stuttering."
+#~ msgstr "在加载画面期间预编译着色器，以减少游戏内卡顿。"
+
+#~ msgid ""
+#~ "Disables AMD Texture Compression. Fixes texture glitches on APUs and "
+#~ "Steam Deck."
+#~ msgstr "禁用 AMD 纹理压缩。这可以修复 APU 和 Steam Deck 平台上的纹理错误。"
+
+#~ msgid ""
+#~ "Enables VKD3D's internal shader cache on disk. Drastically reduces micro-"
+#~ "stuttering and speeds up consecutive loading times."
+#~ msgstr "启用 VKD3D 的磁盘内部着色器缓存。大幅减少微卡顿，加快连续加载速度。"
+
+#~ msgid ""
+#~ "Forces VKD3D to use system RAM instead of VRAM for caching shader "
+#~ "compilation data, ensuring smoother data stream between CPU and GPU."
+#~ msgstr ""
+#~ "强制 VKD3D 使用系统内存而非显存来缓存着色器编译数据，从而确保 CPU 和 GPU "
+#~ "之间更流畅的数据流。"
+
+#~ msgid ""
+#~ "Uses host-visible VRAM for staging buffers. Drastically reduces "
+#~ "stuttering if Resizable BAR / SAM is enabled."
+#~ msgstr ""
+#~ "为暂存缓冲区使用主机可见的显存。若已启用 Resizable BAR / SAM，可大幅减少卡"
+#~ "顿。"
+
+#~ msgid ""
+#~ "Disables host-visible VRAM staging buffers. Use as a compatibility "
+#~ "fallback if experiencing memory-related crashes."
+#~ msgstr ""
+#~ "禁用主机可见的显存暂存缓冲区。如果遇到内存相关的崩溃，可用作兼容性回退方"
+#~ "案。"
+
+#~ msgid ""
+#~ "Disables D3D12 Ray Tracing (DXR) capabilities entirely. Significantly "
+#~ "improves performance and stability on GPUs without strong hardware RT "
+#~ "support."
+#~ msgstr ""
+#~ "完全禁用 D3D12 光线追踪 (DXR) 功能。显著提升在硬件光线追踪支持较弱的 GPU "
+#~ "上的性能和稳定性。"
+
+#~ msgid ""
+#~ "Exposes D3D12 Ray Tracing (DXR 1.1 and 1.0) capabilities to the game via "
+#~ "Vulkan extensions."
+#~ msgstr "通过 Vulkan 扩展，向游戏开放 D3D12 光线追踪（DXR 1.1 和 1.0）功能。"
+
+#~ msgid ""
+#~ "Restricts Ray Tracing capabilities to DXR 1.0 only. Useful for older RT "
+#~ "games that crash with DXR 1.1."
+#~ msgstr ""
+#~ "将光线追踪功能限制为仅支持 DXR 1.0。这对于在 DXR 1.1 下会崩溃的旧版光线追"
+#~ "踪游戏很有用。"
+
+#~ msgid ""
+#~ "Forces Ray Tracing BVH acceleration structures to be built on the CPU "
+#~ "instead of the GPU. Severe performance impact!"
+#~ msgstr "强制在 CPU 而非 GPU 上构建光线追踪 BVH 加速结构。会严重影响性能！"
+
+#~ msgid ""
+#~ "Aggressively unifies memory allocators for textures and buffers to save a "
+#~ "small amount of VRAM."
+#~ msgstr "激进地统一纹理和缓冲区的内存分配器，以节省少量显存。"
+
+#~ msgid ""
+#~ "Enables advanced GPU Virtual Addressing to improve Direct3D 12 memory "
+#~ "mapping in massive open-world games."
+#~ msgstr ""
+#~ "启用高级 GPU 虚拟寻址，以改善大型开放世界游戏中 Direct3D 12 内存映射。"
+
+#~ msgid ""
+#~ "Disables descriptor caches. Workaround for specific games suffering from "
+#~ "memory leaks."
+#~ msgstr "禁用描述符缓存。针对特定存在内存泄漏问题的游戏的临时解决方案。"
+
+#~ msgid ""
+#~ "Forces the GPU to maintain stable clock rates. Intended for accurate "
+#~ "benchmarking only."
+#~ msgstr "强制GPU保持稳定的时钟频率。仅用于精确的基准测试。"
+
+#~ msgid ""
+#~ "Alters how root parameters are passed to compute shaders. Can fix "
+#~ "specific rendering glitches."
+#~ msgstr "改变根参数传递给计算着色器的方式。可以修复特定的渲染故障。"
+
+#~ msgid ""
+#~ "Allows unaligned stencil buffer clears. Workaround for certain older "
+#~ "Direct3D 12 renderers."
+#~ msgstr ""
+#~ "允许未对齐的模板缓冲区清除操作。针对某些较旧的 Direct3D 12 渲染器的兼容性"
+#~ "修正。"
+
+#~ msgid "Detected launchers:\n"
+#~ msgstr "检测到的启动器：\n"
+
+#, c-format
+#~ msgid "Installed runners for %s:\n"
+#~ msgstr "已为 %s 安装的运行器：\n"
+
+#~ msgid ""
+#~ "Start Steam manually. ProtonPlus will keep the reminder until it confirms "
+#~ "a new session."
+#~ msgstr ""
+#~ "请手动启动 Steam。ProtonPlus 将持续显示该提示，直到确认已开启新的会话。"
+
+#~ msgid "DXVK builds that work with pre-Vulkan 1.3 versions."
+#~ msgstr "适用于 Vulkan 1.3 之前版本的 DXVK 构建。"
+
+#, fuzzy
+#~ msgid ""
+#~ "Steam compatibility tool for running Windows games with improvements over "
+#~ "Valve's default Proton. By Etaash Mathamsetty, adding FSR4 support and "
+#~ "Wine Wayland tweaks."
+#~ msgstr ""
+#~ "一款适用于 Steam 平台的兼容工具，可让运行 Windows 游戏时获得比 Valve 默认"
+#~ "的 Proton 更出色的性能提升。由 Etaash Mathamsetty 开发，新增了 FSR4 支持以"
+#~ "及对 Wine Wayland 的调整优化。"
+
+#, fuzzy
+#~ msgid ""
+#~ "Steam compatibility tool based on CachyOS Proton with Wayland "
+#~ "improvements, especially for Windows launcher applications."
+#~ msgstr ""
+#~ "基于 Proton-GE 打造的 Steam 兼容性工具，包含针对 VRChat 的额外补丁以改进 "
+#~ "RTSP 编解码器支持。"
+
+#~ msgid "DXVK Frame Limit"
+#~ msgstr "DXVK 帧率限制"
+
+#~ msgid "Enables experimental hardware Ray Tracing support."
+#~ msgstr "启用实验性硬件光线追踪支持。"
+
+#~ msgid "Optimizes Smart Access Memory / Resizable BAR utilization."
+#~ msgstr "优化 Smart Access Memory / Resizable BAR 的使用。"
+
+#~ msgid "Graphics Pipeline Library. Drastically reduces shader stuttering."
+#~ msgstr "Graphics Pipeline Library，可大幅减少着色器编译卡顿。"
+
+#~ msgid ""
+#~ "Enables User Space Queue submission. Can improve CPU-bound game "
+#~ "performance on modern kernels."
+#~ msgstr ""
+#~ "启用 User Space Queue Submission，可提升现代内核下 CPU 密集型游戏的性能。"
+
+#~ msgid ""
+#~ "Emulates hardware Ray Tracing using software compute shaders on AMD GPUs. "
+#~ "Enables RT features on unsupported hardware at the cost of a drastic "
+#~ "performance drop."
+#~ msgstr ""
+#~ "在 AMD GPU 上使用软件计算着色器模拟硬件光线追踪。这可实现在不支持的硬件上"
+#~ "使用光线追踪，但性能会大幅下降。"
+
+#~ msgid "Vulkan Driver"
+#~ msgstr "Vulkan 驱动"
+
 #, fuzzy
 #~ msgid "Used By"
 #~ msgstr "使用者"
@@ -5873,9 +6290,6 @@ msgstr ""
 #~ msgid "HWCAPS"
 #~ msgstr "HWCAPS"
 
-#~ msgid "Name"
-#~ msgstr "名称"
-
 #~ msgid "Help"
 #~ msgstr "帮助"
 
@@ -5888,9 +6302,6 @@ msgstr ""
 
 #~ msgid "An error occurred while attempting to update the compatibility tool."
 #~ msgstr "更新兼容性工具时发生错误。"
-
-#~ msgid "Installation Failed"
-#~ msgstr "安装失败"
 
 #, c-format
 #~ msgid "ProtonPlus could not install %s on your system."
@@ -6147,9 +6558,6 @@ msgstr ""
 #~ msgid "Couldn't update %s (Reason: %s)"
 #~ msgstr "无法更新 %s（原因：%s）"
 
-#~ msgid "Save download history"
-#~ msgstr "保存下载历史记录"
-
 #~ msgid "Save the download history to a file"
 #~ msgstr "保存下载历史记录为文件"
 
@@ -6242,9 +6650,6 @@ msgstr ""
 
 #~ msgid "Couldn't delete the shortcut in Steam"
 #~ msgstr "无法删除 Steam 中的快捷方式"
-
-#~ msgid "Couldn't create the shortcut in Steam"
-#~ msgstr "无法创建 Steam 中的快捷方式"
 
 #~ msgid "Unselect all"
 #~ msgstr "全不选"

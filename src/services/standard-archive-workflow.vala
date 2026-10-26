@@ -44,8 +44,6 @@ namespace ProtonPlus.Services {
                     );
                 }
             }
-            if (!yield archive_support.publish_archive (archive))
-                return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
 
             job.step = InstallJob.Step.MOVING;
             var install_parent = Path.get_dirname (job.install_location);
@@ -59,6 +57,13 @@ namespace ProtonPlus.Services {
                 job.error_message = _ ("Moving failed");
                 return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
             }
+            var preparation = yield prepare_staged_installation (job, staged_install_path);
+            if (preparation != ReturnCode.RUNNER_INSTALLED)
+                return yield archive_support.complete_attempt (preparation, archive, true);
+            if (!yield archive_support.publish_archive (archive))
+                return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
+            if (job.canceled)
+                return yield archive_support.complete_attempt (ReturnCode.EXTRACTION_FAILED, archive);
             if (job.mode == InstallJob.Mode.LATEST) {
                 var manifest_code = rewrite_compatibility_tool_vdf (job, staged_install_path);
                 if (manifest_code != ReturnCode.RUNNER_INSTALLED)
@@ -82,6 +87,13 @@ namespace ProtonPlus.Services {
                     return yield archive_support.complete_attempt (guard_code, archive);
             }
 
+            if (job.canceled)
+                return yield archive_support.complete_attempt (ReturnCode.EXTRACTION_FAILED, archive);
+            // The destination may have changed during download, preparation,
+            // or the asynchronous process check. Revalidate before mutation.
+            var final_validation = validate_install (job, replace_existing);
+            if (final_validation != ReturnCode.RUNNER_INSTALLED)
+                return yield archive_support.complete_attempt (final_validation, archive);
             if (FileUtils.test (job.install_location, FileTest.EXISTS)) {
                 if (!replace_existing)
                     return yield archive_support.complete_attempt (ReturnCode.RUNNER_ALREADY_INSTALLED, archive);
@@ -376,7 +388,11 @@ namespace ProtonPlus.Services {
             return ReturnCode.INVALID_DATA;
         }
 
-        private bool persist_runner_install_metadata (InstallJob job, string path) {
+        protected virtual async ReturnCode prepare_staged_installation (InstallJob job, string path) {
+            return ReturnCode.RUNNER_INSTALLED;
+        }
+
+        protected virtual bool persist_runner_install_metadata (InstallJob job, string path) {
             var runner = job.tool as Models.Tools.ProviderTool;
             if (runner == null)
                 return false;

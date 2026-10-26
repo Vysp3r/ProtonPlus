@@ -3,6 +3,8 @@ sources += files(
     'archive-helper.vala',
     'filesystem.vala',
     'web.vala',
+    'github-download-mirror.vala',
+    'partial-download-cache.vala',
     'parser.vala',
     'metadata.vala',
     'system.vala',

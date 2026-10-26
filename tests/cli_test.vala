@@ -39,6 +39,16 @@ namespace AppTests.CliTest {
         }
     }
 
+    // Lutris uses the same physical /runners/wine directory for Proton and
+    // Wine, while DXVK and VKD3D live under /runtime/.
+    // Keep all paths inside the temporary fixture, never the user's Lutris.
+    private class FixtureLutrisLauncher : Launcher {
+        public FixtureLutrisLauncher (string root) {
+            base ("Lutris", InstallationTypes.SYSTEM, "", { root }, "lutris",
+                null, root, "lutris", "lutris-system");
+        }
+    }
+
     private class RecordingSteamChange : Object, SteamChangeRecorder {
         public SteamRestartRecordResult next_result = SteamRestartRecordResult.ADDED;
         public Gee.List<SteamChangeReceipt> receipts = new Gee.ArrayList<SteamChangeReceipt> ();
@@ -128,6 +138,10 @@ namespace AppTests.CliTest {
 
     public void register_tests () {
         Test.add_func ("/cli/exit-codes", test_exit_codes);
+        Test.add_func ("/cli/list-managed-releases", test_list_managed_releases);
+        Test.add_func ("/cli/list-lutris-runners", test_list_lutris_runners);
+        Test.add_func ("/cli/list-legacy-and-partial-identities", test_list_legacy_and_partial_identities);
+        Test.add_func ("/cli/list-invalid-records", test_list_invalid_records);
         Test.add_func ("/cli/uninstall-inventory-path", test_uninstall_uses_inventory_path);
         Test.add_func ("/cli/bulk-update-restores-backup-only-installation", test_bulk_update_restores_backup_only_installation);
         Test.add_func ("/cli/bulk-update-retains-backup-beside-primary", test_bulk_update_retains_backup_beside_primary);
@@ -180,15 +194,16 @@ namespace AppTests.CliTest {
     }
 
     private ProviderTool add_runner (
-        FixtureSteamLauncher launcher,
+        Launcher launcher,
         Group group,
         string provider_id,
         string title,
         Release value,
-        VariantCompatibility? compatibility = null
+        VariantCompatibility? compatibility = null,
+        Category category = Category.PROTON
     ) {
         var definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, provider_id, title, "",
+            category, SourceType.GITHUB, provider_id, title, "",
             "https://fixtures.invalid/releases", "https://fixtures.invalid/source", 1,
             { new VariantDefinition ("default", "Default", "$release_name", true, compatibility) },
             { InstallLayout.template ("default", "$release_name") }
@@ -340,6 +355,292 @@ namespace AppTests.CliTest {
         assert (run_cli ({ "protonplus", "unknown" }, null, unknown_output) == 1);
         assert (unknown_output.stderr_text.contains ("Unknown command 'unknown'"));
         assert (unknown_output.stdout_text.contains ("Usage:"));
+    }
+
+    // Identity assertions ignore padding; alignment is checked separately below.
+    private string compact_columns (string text) {
+        try {
+            return new Regex (" {2,}").replace (text.replace ("\033[1m", "").replace ("\033[0m", ""), -1, 0, "  ");
+        } catch (RegexError error) {
+            assert_not_reached ();
+        }
+    }
+
+    private void test_list_managed_releases () {
+        var root = temporary_directory ();
+        try {
+            ProviderTool runner;
+            var launcher = setup_launcher (
+                root, "ge-proton", "GE-Proton",
+                release ("GE-Proton9-27", "GE-Proton9-27",
+                    "https://fixtures.invalid/ge-proton.zip"),
+                out runner
+            );
+            var latest_path = seed_latest_state (runner, "GE-Proton Latest", "GE-Proton9-27");
+
+            var versioned_path = seed_managed_installation (
+                runner, "GE-Proton9-26", "GE-Proton9-26", "Proton-GE 9-26"
+            );
+            var metadata = Utils.Metadata.load (versioned_path);
+            metadata.tag = "GE-Proton9-26";
+            assert (metadata.save (versioned_path));
+
+            // A valid identity remains useful when the release tag is unknown.
+            assert (Utils.Filesystem.create_directory (Path.build_filename (
+                root, "compatibilitytools.d", "unmanaged-runner"
+            )));
+            var untagged_path = seed_managed_installation (
+                runner, "missing-release-tag", "missing-release-tag", "No release tag"
+            );
+
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            assert (run_cli ({ "protonplus", "list", launcher.instance_id },
+                new FixtureHandler (launcher_list (launcher),
+                    FixtureJobBehavior.NORMAL, output)) == 0);
+
+            var listing = compact_columns (output.stdout_text);
+            assert (listing.contains (
+                "  ge-proton  GE-Proton9-27  GE-Proton Latest\n"
+            ));
+            assert (!listing.contains ("unmanaged-runner"));
+            assert (listing.contains ("  ge-proton  GE-Proton9-26  Proton-GE 9-26\n"));
+            assert (listing.contains ("  ge-proton  —  No release tag\n"));
+            assert (listing.has_prefix ("Fixture:\n"));
+            assert (!listing.contains ("No runners installed"));
+
+            // The same directory becomes unmanaged if its receipt is removed.
+            assert (FileUtils.remove (Path.build_filename (latest_path, ".protonplus")) == 0);
+            assert (FileUtils.remove (Path.build_filename (versioned_path, ".protonplus")) == 0);
+            assert (FileUtils.remove (Path.build_filename (untagged_path, ".protonplus")) == 0);
+            var empty_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            assert (run_cli ({ "protonplus", "list", launcher.instance_id },
+                new FixtureHandler (launcher_list (launcher),
+                    FixtureJobBehavior.NORMAL, empty_output)) == 0);
+            assert (empty_output.stdout_text.contains ("No runners installed"));
+            assert (!empty_output.stdout_text.contains ("\nFixture:\n"));
+        } finally {
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_list_lutris_runners () {
+        var root = temporary_directory ();
+        try {
+            // Mirror Lutris's real group layout, including the shared Proton/Wine root.
+            assert (Utils.Filesystem.create_directory (Path.build_filename (root, "runners", "wine")));
+            assert (Utils.Filesystem.create_directory (Path.build_filename (root, "runtime", "dxvk")));
+            assert (Utils.Filesystem.create_directory (Path.build_filename (root, "runtime", "vkd3d")));
+
+            var launcher = new FixtureLutrisLauncher (root);
+            assert (launcher.instance_id == "lutris-system");
+            var proton = new Group ("Proton", "", "/runners/wine", launcher, "proton");
+            var wine = new Group ("Wine", "", "/runners/wine", launcher, "wine");
+            var dxvk = new Group ("DXVK", "", "/runtime/dxvk", launcher, "dxvk");
+            var vkd3d = new Group ("VKD3D", "", "/runtime/vkd3d", launcher, "vkd3d");
+            proton.tools = new Gee.LinkedList<Tool> ();
+            wine.tools = new Gee.LinkedList<Tool> ();
+            dxvk.tools = new Gee.LinkedList<Tool> ();
+            vkd3d.tools = new Gee.LinkedList<Tool> ();
+            launcher.groups = { proton, wine, dxvk, vkd3d };
+
+            var ge_proton = add_runner (launcher, proton, "ge-proton", "GE-Proton",
+                release ("GE-Proton9-27", "GE-Proton9-27", "https://fixtures.invalid/proton.zip"));
+            var wine_ge = add_runner (launcher, wine, "wine-ge", "Wine-GE",
+                release ("v8", "v8", "https://fixtures.invalid/wine.zip"), null, Category.WINE);
+            var doitsujin = add_runner (launcher, dxvk, "dxvk-doitsujin", "DXVK (doitsujin)",
+                release ("v3.1.1", "v3.1.1", "https://fixtures.invalid/dxvk.zip"), null, Category.DXVK);
+            var vkd3d_proton = add_runner (launcher, vkd3d, "vkd3d-proton", "VKD3D-Proton",
+                release ("v2.14", "v2.14", "https://fixtures.invalid/vkd3d.zip"), null, Category.VKD3D);
+
+            seed_latest_state (ge_proton, "GE-Proton Latest", "GE-Proton9-27");
+            seed_latest_state (wine_ge, "Wine-GE Latest", "v8");
+            var provider_only = seed_latest_state (wine_ge, "wine-provider-only", "v7");
+            var metadata = Utils.Metadata.load (provider_only);
+            metadata.tool_id = "";
+            metadata.launcher_id = "";
+            assert (metadata.save (provider_only));
+            var legacy_path = seed_latest_state (wine_ge, "wine-legacy", "v6");
+            metadata = new Utils.Metadata ();
+            metadata.runner_endpoint = wine_ge.endpoint;
+            metadata.runner_title = wine_ge.title;
+            metadata.tag = "v6";
+            assert (metadata.save (legacy_path));
+            seed_latest_state (doitsujin, "dxvk-3.1", "v3.1.0");
+            seed_latest_state (doitsujin, "DXVK (doitsujin) Latest", "v3.1.1");
+            seed_latest_state (vkd3d_proton, "vkd3d-proton-2.14", "v2.14");
+
+            // Real Lutris contains these bare directories without .protonplus records.
+            assert (Utils.Filesystem.create_directory (Path.build_filename (root, "runners", "wine", "unmanaged-wine")));
+            assert (Utils.Filesystem.create_directory (Path.build_filename (root, "runtime", "dxvk", "unmanaged-dxvk")));
+
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            assert (run_cli ({ "protonplus", "list", "lutris-system" },
+                new FixtureHandler (launcher_list (launcher),
+                    FixtureJobBehavior.NORMAL, output)) == 0);
+
+            var listing = compact_columns (output.stdout_text);
+            var version_column = -1;
+            var name_column = -1;
+            foreach (var line in output.stdout_text.replace ("\033[1m", "").replace ("\033[0m", "").split ("\n")) {
+                if (line.has_prefix ("  Runner ID")) {
+                    if (version_column < 0) {
+                        version_column = line.index_of ("Version");
+                        name_column = line.index_of ("Name");
+                    }
+                    assert (line.index_of ("Version") == version_column);
+                    assert (line.index_of ("Name") == name_column);
+                } else if (line.has_prefix ("  ")) {
+                    assert (line[version_column] != ' ');
+                    assert (line[name_column] != ' ');
+                    assert (line[version_column - 1] == ' ');
+                    assert (line[name_column - 1] == ' ');
+                }
+            }
+            assert (version_column > 2);
+            assert (listing.has_prefix ("Proton:\n"));
+            assert (listing.contains ("  ge-proton  GE-Proton9-27  GE-Proton Latest\n"));
+            assert (listing.contains ("  wine-ge  v8  Wine-GE Latest\n"));
+            assert (listing.contains ("  dxvk-doitsujin  v3.1.0  dxvk-3.1\n"));
+            assert (listing.contains ("  dxvk-doitsujin  v3.1.1  DXVK (doitsujin) Latest\n"));
+            assert (!listing.contains ("unmanaged-wine"));
+            assert (!listing.contains ("unmanaged-dxvk"));
+            assert (listing.contains ("\nVKD3D:\n  Runner ID  Version  Name\n  vkd3d-proton  v2.14  vkd3d-proton-2.14\n"));
+            assert (listing.split ("  ge-proton  ").length == 2);
+            assert (listing.contains ("  wine-ge  v7  wine-provider-only\n"));
+            assert (listing.contains ("  wine-ge  v6  wine-legacy\n"));
+            assert (listing.split ("  wine-ge  ").length == 4);
+            assert (listing.split ("  dxvk-doitsujin  ").length == 3);
+
+            // The two shared directories must not miscategorize or duplicate releases.
+            var before_wine = listing.split ("\nWine:\n");
+            assert (before_wine.length == 2);
+            assert (before_wine[0].has_prefix ("Proton:\n"));
+            assert (!before_wine[0].contains ("  wine-ge  "));
+            assert (!before_wine[1].contains ("  ge-proton  "));
+            var before_dxvk = before_wine[1].split ("\nDXVK:\n");
+            assert (before_dxvk.length == 2);
+            assert (!before_dxvk[0].contains ("  dxvk-doitsujin  "));
+            assert (!before_dxvk[1].contains ("  ge-proton  "));
+            assert (!before_dxvk[1].contains ("  wine-ge  "));
+        } finally {
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_list_legacy_and_partial_identities () {
+        var root = temporary_directory ();
+        InstallationService.reset_lifecycle_configuration_for_tests ();
+        try {
+            ProviderTool runner;
+            var launcher = setup_launcher (root, "fixture-legacy", "Fixture Legacy",
+                release ("v3", "v3", "https://fixtures.invalid/legacy.zip"), out runner);
+            // A stable installation causes the installed-state projection to
+            // stop at its first match. Listing must still resolve every release.
+            seed_latest_state (runner, "Fixture Legacy Latest", "v3");
+            foreach (var tag in new string[] { "v1", "v2" }) {
+                var path = seed_latest_state (runner, "legacy-" + tag, tag);
+                var metadata = new Utils.Metadata ();
+                metadata.runner_endpoint = runner.endpoint;
+                metadata.runner_title = runner.title;
+                metadata.tag = tag;
+                assert (metadata.save (path));
+            }
+            var provider_only = seed_latest_state (runner, "provider-only", "v0");
+            var metadata = Utils.Metadata.load (provider_only);
+            metadata.tool_id = "";
+            metadata.launcher_id = "";
+            assert (metadata.save (provider_only));
+            var tool_only = seed_latest_state (runner, "tool-only", "v0.1");
+            metadata = Utils.Metadata.load (tool_only);
+            metadata.provider_id = "";
+            assert (metadata.save (tool_only));
+
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            assert (run_cli ({ "protonplus", "list", launcher.instance_id },
+                new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, output)) == 0);
+            var listing = compact_columns (output.stdout_text);
+            assert (listing.contains ("  fixture-legacy  v1  legacy-v1\n"));
+            assert (listing.contains ("  fixture-legacy  v2  legacy-v2\n"));
+            assert (listing.contains ("  fixture-legacy  v0  provider-only\n"));
+            assert (listing.contains ("  fixture-legacy  v0.1  tool-only\n"));
+            assert (listing.split ("  fixture-legacy  ").length == 6);
+            assert (ProtonPlus.CLI.Handler.matches_runner_id (runner, "fixture-legacy"));
+
+            // The listed ID reaches the same inventory entries for removal,
+            // including legacy releases that have not been migrated to IDs.
+            configure_fixture_services (new RecordingSteamChange (), root);
+            var uninstall_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            assert (run_cli ({ "protonplus", "uninstall", launcher.instance_id, "fixture-legacy", "all" },
+                new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, uninstall_output)) == 0);
+            assert (uninstall_output.stdout_text.split ("Successfully uninstalled").length == 6);
+            assert (uninstall_output.stderr_text == "");
+            assert (!FileUtils.test (provider_only, FileTest.EXISTS));
+            assert (!FileUtils.test (tool_only, FileTest.EXISTS));
+        } finally {
+            InstallationService.reset_lifecycle_configuration_for_tests ();
+            SteamConfigurationService.reset_configuration ();
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_list_invalid_records () {
+        var root = temporary_directory ();
+        try {
+            ProviderTool runner;
+            var launcher = setup_launcher (root, "fixture-valid", "Fixture Valid",
+                release ("v1", "v1", "https://fixtures.invalid/valid.zip"), out runner);
+            // These all passed a tool-ID prefix check, despite conflicting or
+            // unknown identities. None may fall back to directory/title matching.
+            foreach (var name in new string[] { "foreign-launcher", "conflicting-provider", "unknown-tool" }) {
+                var path = seed_latest_state (runner, name, "v1");
+                var metadata = Utils.Metadata.load (path);
+                if (name == "foreign-launcher")
+                    metadata.launcher_id = "other-system";
+                else if (name == "conflicting-provider")
+                    metadata.provider_id = "other-provider";
+                else
+                    metadata.tool_id += "-unknown";
+                assert (metadata.save (path));
+            }
+            seed_latest_state (runner, "LegacyRuntime", "v1");
+            var invalid = seed_latest_state (runner, "invalid-json", "v1");
+            Utils.Filesystem.modify_file (Path.build_filename (invalid, ".protonplus"), "{broken");
+            var invalid_type = seed_latest_state (runner, "invalid-field-type", "v1");
+            Utils.Filesystem.modify_file (Path.build_filename (invalid_type, ".protonplus"),
+                "{\"provider_id\":42,\"runner_title\":\"Fixture Valid\",\"tag\":null}");
+            // Endpoint-only receipts can be ambiguous between real providers.
+            add_runner (launcher, runner.group, "fixture-other", "Fixture Other",
+                release ("v1", "v1", "https://fixtures.invalid/other.zip"));
+            var ambiguous = seed_latest_state (runner, "ambiguous-legacy", "v1");
+            var legacy = new Utils.Metadata ();
+            legacy.runner_endpoint = runner.endpoint;
+            assert (legacy.save (ambiguous));
+            var linked = Path.build_filename (root, "compatibilitytools.d", "linked-release");
+            var external = Path.build_filename (root, "external-release");
+            assert (Utils.Filesystem.create_directory (external));
+            var external_metadata = new Utils.Metadata ();
+            external_metadata.provider_id = runner.provider_id;
+            external_metadata.tool_id = runner.id;
+            external_metadata.launcher_id = launcher.tool_target_id;
+            external_metadata.tag = "v1";
+            assert (external_metadata.save (external));
+            assert (Posix.symlink (external, linked) == 0);
+            var linked_receipt = Path.build_filename (root, "compatibilitytools.d", "linked-receipt");
+            assert (Utils.Filesystem.create_directory (linked_receipt));
+            assert (Posix.symlink (Path.build_filename (external, ".protonplus"),
+                Path.build_filename (linked_receipt, ".protonplus")) == 0);
+
+            Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*unexpected*");
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            assert (run_cli ({ "protonplus", "list", launcher.instance_id },
+                new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, output)) == 0);
+            Test.assert_expected_messages ();
+            assert (output.stdout_text.contains ("No runners installed"));
+            assert (!output.stdout_text.contains ("\nFixture:\n"));
+            assert (output.stderr_text == "");
+        } finally {
+            assert (delete_directory (root));
+        }
     }
 
     private void test_uninstall_uses_inventory_path () {

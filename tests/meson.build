@@ -53,6 +53,7 @@ test_sources = files(
     'steam-restart-orchestrator-test.vala',
     'steam-restart-presentation-test.vala',
     'steamtinkerlaunch-test.vala',
+    'tinkergame-test.vala',
     'update-transaction-test.vala',
     'vdf_binary_test.vala',
 )
@@ -71,8 +72,29 @@ test(
     'ProtonPlus unit tests',
     test_exe,
     protocol: 'tap',
+    # Network recovery fixtures exercise real socket timeouts and retry backoff.
+    timeout: 120,
     workdir: meson.current_source_dir(),
 )
 
 python = import('python').find_installation()
 test('Maintenance script tests', python, args: files('scripts_test.py'))
+
+flag_widget_test = executable(
+    'launch-option-flags-widget-test',
+    'launch-option-flags-widget-test.vala',
+    resources,
+    dependencies: deps,
+    link_with: protonplus_lib,
+    include_directories: [config_inc, include_directories('../src')],
+    vala_args: ['--target-glib=2.58'],
+)
+xvfb_run = find_program('xvfb-run', required: false)
+if xvfb_run.found()
+    test('Launch option flag widgets', xvfb_run,
+        args: ['-a', flag_widget_test],
+        env: ['GDK_BACKEND=x11', 'GTK_A11Y=none'])
+else
+    test('Launch option flag widgets', flag_widget_test,
+        env: ['GTK_A11Y=none'])
+endif

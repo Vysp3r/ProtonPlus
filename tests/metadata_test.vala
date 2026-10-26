@@ -6,6 +6,8 @@ namespace AppTests.MetadataTest {
     public void register_tests () {
         Test.add_func ("/protonplus-metadata/saves-and-loads", test_saves_and_loads);
         Test.add_func ("/protonplus-metadata/loads-legacy-fields", test_loads_legacy_fields);
+        Test.add_func ("/protonplus-metadata/rejects-invalid-field-types", test_rejects_invalid_field_types);
+        Test.add_func ("/protonplus-metadata/ignores-symlinked-receipt", test_ignores_symlinked_receipt);
         Test.add_func ("/protonplus-installed-discovery/prefers-ids-and-upgrades-unambiguous-legacy-metadata", test_installed_discovery);
     }
 
@@ -73,6 +75,36 @@ namespace AppTests.MetadataTest {
                 "{\"runner_endpoint\":\"https://example.test/releases\",\"runner_title\":\"Example Runner\",\"tag\":\"v1.2.3\"}");
 
         ProtonPlus.Utils.Filesystem.delete_file (metadata_path);
+        assert (DirUtils.remove (directory) == 0);
+    }
+
+    private void test_rejects_invalid_field_types () {
+        var directory = create_temp_directory ();
+        var path = Path.build_filename (directory, ".protonplus");
+        foreach (var value in new string[] { "42", "null", "{}", "[]", "true" }) {
+            // A malformed identity must not leave usable legacy fields behind.
+            ProtonPlus.Utils.Filesystem.create_file (path,
+                "{\"runner_title\":\"Example Runner\",\"provider_id\":%s}".printf (value));
+            var metadata = ProtonPlus.Utils.Metadata.load (directory);
+            assert (metadata.runner_title == "");
+            assert (metadata.provider_id == "");
+            assert (FileUtils.remove (path) == 0);
+        }
+        assert (DirUtils.remove (directory) == 0);
+    }
+
+    private void test_ignores_symlinked_receipt () {
+        var directory = create_temp_directory ();
+        var target = Path.build_filename (directory, "external-receipt");
+        var path = Path.build_filename (directory, ".protonplus");
+        ProtonPlus.Utils.Filesystem.create_file (target,
+            "{\"runner_title\":\"External Runner\",\"provider_id\":\"external\"}");
+        assert (Posix.symlink (target, path) == 0);
+        var metadata = ProtonPlus.Utils.Metadata.load (directory);
+        assert (metadata.runner_title == "");
+        assert (metadata.provider_id == "");
+        assert (FileUtils.remove (path) == 0);
+        assert (FileUtils.remove (target) == 0);
         assert (DirUtils.remove (directory) == 0);
     }
 
