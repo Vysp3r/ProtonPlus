@@ -45,7 +45,7 @@ namespace AppTests.IdentityTest {
     private void test_provider_ids_are_nonempty_and_unique () {
         var ids = new Gee.HashSet<string> ();
         var definitions = new ProviderRegistry ().get_all ();
-        assert (definitions.length == 19);
+        assert (definitions.length == 20);
         foreach (var definition in definitions) {
             assert (definition.provider_id != "");
             assert (ids.add (definition.provider_id));

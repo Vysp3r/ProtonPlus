@@ -92,10 +92,18 @@ namespace ProtonPlus.Models.Providers {
                     null, { "beta" }
                 ),
                 new ProviderDefinition (
+                    Category.PROTON, SourceType.GITHUB, "proton-je", "Proton-JE",
+                    N_ ("Proton Experimental with Wine fixes that are pending upstream, currently for stale thread alerts and ntsync mutex abandonment."),
+                    "https://api.github.com/repos/jegglest/proton-je/releases",
+                    "https://github.com/jegglest/proton-je", 8,
+                    { new VariantDefinition ("standard", "default", "$tag_name.tar.xz", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)) },
+                    { InstallLayout.template ("default", "$release_name") }
+                ),
+                new ProviderDefinition (
                     Category.PROTON, SourceType.FORGEJO, "luxtorpeda", "Luxtorpeda",
                     N_ ("Luxtorpeda provides Linux-native game engines for certain Windows-only games."),
                     "https://codeberg.org/api/v1/repos/luxtorpeda/luxtorpeda/releases",
-                    "https://codeberg.org/luxtorpeda/luxtorpeda", 8,
+                    "https://codeberg.org/luxtorpeda/luxtorpeda", 9,
                     { new VariantDefinition ("standard", "default", "luxtorpeda-$release_name", true) },
                     { InstallLayout.template ("default", "$title $release_name") },
                     null, null, "", false, "", ArchiveInstallRequirement.STANDARD, true
@@ -104,7 +112,7 @@ namespace ProtonPlus.Models.Providers {
                     Category.PROTON, SourceType.GITHUB, "boxtron", "Boxtron",
                     N_ ("Steam compatibility tool for running DOS games using DOSBox for Linux."),
                     "https://api.github.com/repos/dreamer/boxtron/releases",
-                    "https://github.com/dreamer/boxtron", 9,
+                    "https://github.com/dreamer/boxtron", 10,
                     { new VariantDefinition ("standard", "default", "boxtron.tar.xz", true) },
                     { InstallLayout.template ("default", "$title $release_name") }, null, null, "", true
                 ),
@@ -112,7 +120,7 @@ namespace ProtonPlus.Models.Providers {
                     Category.PROTON, SourceType.GITHUB, "roberta", "Roberta",
                     N_ ("Steam compatibility tool for running adventure games using ScummVM for Linux."),
                     "https://api.github.com/repos/dreamer/roberta/releases",
-                    "https://github.com/dreamer/roberta", 10,
+                    "https://github.com/dreamer/roberta", 11,
                     { new VariantDefinition ("standard", "default", "roberta.tar.xz", true) },
                     { InstallLayout.template ("default", "$title $release_name") }, null, null, "", true
                 )
