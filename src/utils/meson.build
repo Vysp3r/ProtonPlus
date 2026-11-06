@@ -8,6 +8,7 @@ sources += files(
     'parser.vala',
     'metadata.vala',
     'system.vala',
+    'installed-components.vala',
     'i18n.vala',
     'controller-control-policy.vala',
     'controller-hint-policy.vala',
@@ -19,7 +20,6 @@ sources += files(
     'controller-manager.vala',
     'theme-manager.vala',
     'download-manager.vala',
-    'mangohud-manager.vala',
     'cache-manager.vala',
 )
 

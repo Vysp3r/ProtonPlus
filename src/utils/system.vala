@@ -471,25 +471,6 @@ namespace ProtonPlus.Utils {
             return output != "" && !output.contains ("which: no");
         }
 
-        public static bool check_flatpak_dependency_sync (string name) {
-            if (!Globals.IS_FLATPAK) {
-                return false;
-            }
-            var result = run_command_sync_result ("flatpak list --all --columns=application");
-            return flatpak_list_contains_dependency (result, name);
-        }
-
-        public static bool flatpak_list_contains_dependency (CommandResult result, string name) {
-            if (result.exit_status != 0 || name == "")
-                return false;
-
-            foreach (var line in result.stdout.split ("\n")) {
-                if (line.strip () == name)
-                    return true;
-            }
-            return false;
-        }
-
         public static GpuVendor get_gpu_vendor_from_pci_devices (string pci_devices) {
             foreach (var line in pci_devices.split ("\n")) {
                 // Display controller PCI classes range from 0x0300 to 0x03ff.

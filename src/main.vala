@@ -22,20 +22,10 @@ namespace ProtonPlus {
             var migration_manager = new ProtonPlus.Services.Migrations.Manager ();
             migration_manager.check_and_migrate_sync (Config.APP_VERSION);
 
-            ProtonPlus.Services.SteamRestartManager? steam_restart_manager = null;
+            ProtonPlus.Services.SteamLifecycle? steam_lifecycle = null;
             var command = args[1];
             if (command == "install" || command == "uninstall" || command == "update") {
-                var session_service = new ProtonPlus.Services.SteamSessionService ();
-                steam_restart_manager = new ProtonPlus.Services.SteamRestartManager (
-                    session_service, new ProtonPlus.Services.SteamRestartStateStore ()
-                );
-                var configuration_service = new ProtonPlus.Services.SteamConfigurationService (
-                    session_service, (!) steam_restart_manager
-                );
-                ((!) steam_restart_manager).configure_configuration_reconciler (configuration_service);
-                ProtonPlus.Services.SteamConfigurationService.configure (configuration_service);
-                ProtonPlus.Services.InstallationService.instance.configure_steam_change_recorder ((!) steam_restart_manager);
-                steam_restart_manager.start_observation ();
+                steam_lifecycle = new ProtonPlus.Services.SteamLifecycle ();
             }
             var cli = new CLI.Handler ();
             var loop = new MainLoop ();
@@ -45,10 +35,10 @@ namespace ProtonPlus {
                 loop.quit ();
             });
             loop.run ();
-            if (steam_restart_manager != null)
-                steam_restart_manager.stop_observation ();
-            ProtonPlus.Services.InstallationService.instance.reset_lifecycle_configuration ();
-            ProtonPlus.Services.SteamConfigurationService.reset_configuration ();
+            if (steam_lifecycle != null)
+                steam_lifecycle.stop ();
+            else
+                ProtonPlus.Services.InstallationService.instance.reset_lifecycle_configuration ();
             Notify.uninit ();
             return result;
         }

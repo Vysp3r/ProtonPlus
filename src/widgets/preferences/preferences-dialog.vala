@@ -358,18 +358,6 @@ namespace ProtonPlus.Widgets.Preferences {
             network_group.add (mirror_row);
             network_group.add (mirror_help);
 
-            var experimental_group = new Adw.PreferencesGroup () {
-                title = _("Experimental")
-            };
-            advanced_page.add (experimental_group);
-
-            var experimental_features_row = new Adw.SwitchRow () {
-                title = _("Preview Features"),
-                subtitle = _("Enable experimental features for early testing"),
-            };
-            Globals.SETTINGS.bind ("experimental-features", experimental_features_row, "active", SettingsBindFlags.DEFAULT);
-            experimental_group.add (experimental_features_row);
-
             var maintenance_group = new Adw.PreferencesGroup () {
                 title = _("Maintenance"),
                 description = _("Refresh app data or clear cached files")

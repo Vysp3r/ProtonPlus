@@ -125,15 +125,21 @@ namespace AppTests.ReleasePageTest {
                 new VariantDefinition ("alt", "alternate", "$release_name.zip", false)
             };
         }
-        return new ProviderDefinition (
-            Category.PROTON, source_type, "fixture-provider", "Fixture provider", "",
-            "https://example.test/releases", "https://example.test/source", 1, variants,
-            { InstallLayout.template ("default", "$release_name") },
-            null, exclusions, "", false,
-            source_type == SourceType.GITHUB_ACTIONS ? "https://example.test/artifacts/{id}/fixture-action.zip" : "",
-            ArchiveInstallRequirement.STANDARD,
-            source_type == SourceType.GITHUB_ACTIONS
-        );
+        return new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = source_type,
+            provider_id = "fixture-provider",
+            title = "Fixture provider",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = variants,
+            install_layouts = { InstallLayout.template ("default", "$release_name") },
+            asset_exclusions = exclusions,
+            url_template = source_type == SourceType.GITHUB_ACTIONS ? "https://example.test/artifacts/{id}/fixture-action.zip" : "",
+            single_archive_releases = source_type == SourceType.GITHUB_ACTIONS
+        });
     }
 
     private ReleaseCatalog catalog (string id, ProviderDefinition value, ReleaseSource source) {

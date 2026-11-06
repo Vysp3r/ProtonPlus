@@ -5,6 +5,11 @@ set -euo pipefail
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 ROOT_DIR="$(cd -- "${SCRIPT_DIR}/.." &>/dev/null && pwd)"
 
+BUILD_DIR="${BUILD_DIR:-build}"
+if [[ "${BUILD_DIR}" != /* ]]; then
+  BUILD_DIR="${ROOT_DIR}/${BUILD_DIR}"
+fi
+
 RESET="\033[0m"
 YELLOW="\033[33m"
 GREEN="\033[32m"
@@ -81,6 +86,10 @@ configure_meson_build() {
   local build_dir="$1"
   shift
 
+  if [[ -f "${build_dir}/meson-private/coredata.dat" ]] && (( $# == 0 )); then
+    return
+  fi
+
   local setup_args=(setup "${build_dir}" --prefix=/usr "$@")
   if [[ -f "${build_dir}/meson-private/coredata.dat" ]]; then
     setup_args+=(--reconfigure)
@@ -101,7 +110,7 @@ compile_schemas_for_build() {
 
 build_native() {
   local run_mode="${1:-}"
-  local build_dir="${ROOT_DIR}/build-native"
+  local build_dir="${BUILD_DIR}"
 
   case "${run_mode}" in
     "" | run | debug) ;;
@@ -233,11 +242,32 @@ clean() {
 }
 
 rebuild_translations() {
-  show_log "INFO" "Building the native project before updating translations..."
-  build_native
-  show_log "INFO" "Updating translation files..."
-  meson compile -C "${ROOT_DIR}/build-native" com.vysp3r.ProtonPlus-update-po
-  show_log "PASS" "Translations updated successfully."
+  local mode="${1:-}"
+  case "${mode}" in
+    "" | update) ;;
+    *)
+      show_log "ERROR" "Unknown translation mode: ${mode}; use translations [update]."
+      return 1
+      ;;
+  esac
+  check_dependencies find sort meson
+  show_log "INFO" "Regenerating translation source list..."
+  {
+    printf '%s\n' '# This file is generated automatically. Do not edit.'
+    find data -type f \( -name '*.in' -o -name '*.ui' \) \
+      -not -path '*/build/*' \
+      -not -path 'data/com.vysp3r.ProtonPlus.metainfo.xml.in'
+    find src -type f -name '*.vala' -not -path '*/build/*'
+  } | LC_ALL=C sort > "${ROOT_DIR}/po/POTFILES.tmp"
+  mv "${ROOT_DIR}/po/POTFILES.tmp" "${ROOT_DIR}/po/POTFILES"
+
+  configure_meson_build "${BUILD_DIR}"
+  show_log "INFO" "Extracting the gettext template..."
+  meson compile -C "${BUILD_DIR}" com.vysp3r.ProtonPlus-pot
+  if [[ "${mode}" == update ]]; then
+    show_log "INFO" "Merging the template into translation catalogs..."
+    meson compile -C "${BUILD_DIR}" com.vysp3r.ProtonPlus-update-po
+  fi
 }
 
 generate_icons() {
@@ -310,12 +340,15 @@ Commands:
   native [run|debug] Build natively, optionally running the result.
   native-debug       Build a native debug binary for an external debugger.
   native-deps        Check native build tools and libraries.
-  translations       Update translation files (.po).
+  translations [update]
+                     Extract POTFILES/template; optionally merge .po catalogs.
   icons              Regenerate application icons from the SVG source.
   linter             Run Flathub linters on the local source.
   appimage           Build an AppImage with sharun.
   clean              Remove build-related directories.
   help               Show this help message.
+
+Native builds, checks, and translations use BUILD_DIR (default: build).
 EOF
 }
 
@@ -344,8 +377,8 @@ main() {
       check_native_dependencies
       ;;
     translations)
-      check_argument_count "translations" 0 "${@:2}"
-      rebuild_translations
+      check_argument_count "translations" 1 "${@:2}"
+      rebuild_translations "${2:-}"
       ;;
     icons)
       check_argument_count "icons" 0 "${@:2}"

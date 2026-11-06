@@ -585,7 +585,7 @@ namespace ProtonPlus.CLI {
             return yield update_runner_batch (latest_runners);
         }
 
-        private async int update_runner (Models.Tools.ProviderTool runner) {
+        private async int update_runner (Models.Tool runner) {
             var code = yield update_runner_with_progress (runner);
             switch (code) {
                 case ReturnCode.RUNNER_UPDATED:
@@ -626,19 +626,9 @@ namespace ProtonPlus.CLI {
             var failed = false;
 
             foreach (var runner in runners) {
-                var code = yield update_runner_with_progress (runner);
-                switch (code) {
-                    case ReturnCode.RUNNER_UPDATED:
-                        output.success (_ ("Successfully updated %s\n"), runner.title);
-                        break;
-                    case ReturnCode.NOTHING_TO_UPDATE:
-                        output.success (_ ("Already up to date: %s\n"), runner.title);
-                        break;
-                    default:
-                        output.error (_ ("Error: Failed to update %s: %s\n"), runner.title, get_return_code_message (code));
-                        failed = true;
-                        break;
-                }
+                var code = yield update_runner (runner);
+                if (code != 0)
+                    failed = true;
             }
             return failed ? 1 : 0;
         }

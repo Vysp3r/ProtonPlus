@@ -378,12 +378,7 @@ namespace ProtonPlus.Services {
         }
 
         private string effective_directory_name (Models.Tools.ProviderTool provider_tool) {
-            var name = provider_tool.get_directory_name (title);
-            var selected = selected_variant ();
-            if (selected == null || selected.is_default)
-                return name;
-            var suffix = selected.name.replace (" ", "_").replace ("/", "_");
-            return "%s-%s".printf (name, suffix);
+            return provider_tool.get_directory_name (title, selected_variant ());
         }
 
         private void update_install_location (string? override_location) {

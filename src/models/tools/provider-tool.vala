@@ -44,11 +44,15 @@ namespace ProtonPlus.Models.Tools {
             }
         }
 
-        public string get_directory_name (string release_name) {
-            if (release_name.contains ("Latest"))
-                return release_name;
+        public string get_directory_name (string release_name, Variant? variant = null) {
+            var name = release_name.contains ("Latest")
+                ? release_name : install_layout.render (title, release_name);
+            if (variant == null || variant.is_default)
+                return name;
 
-            return install_layout.render (title, release_name);
+            // Persisted directory spelling must agree between installation
+            // and legacy inventory discovery. Keep that rule in one place.
+            return "%s-%s".printf (name, variant.name.replace (" ", "_").replace ("/", "_"));
         }
 
     }

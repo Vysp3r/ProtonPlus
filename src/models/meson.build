@@ -2,6 +2,7 @@ sources += files(
     'cpu-capabilities.vala',
     'variant-compatibility.vala',
     'variant-selector.vala',
+    'tool-variant-preferences.vala',
     'group.vala',
     'compatibility-tool.vala',
     'steam-compatibility-tool-discovery.vala',

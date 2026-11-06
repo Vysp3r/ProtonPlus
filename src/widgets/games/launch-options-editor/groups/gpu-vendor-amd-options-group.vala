@@ -26,84 +26,29 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             base (launch_option_handlers, true, presentation_registry, false);
             refreshing_controls = true;
 
-            amd_anti_lag_tile = create_tile (_("Mesa Anti-Lag"), _("Reduces latency on supported AMD Mesa setups."), { "ENABLE_LAYER_MESA_ANTI_LAG=1" }, false, LaunchLineType.ENVIRONMENT, "amd-anti-lag");
-            amd_prime_tile = create_tile (_("Use discrete GPU"), _("Makes the game use the AMD dGPU on hybrid systems."), { "DRI_PRIME=1" }, false, LaunchLineType.ENVIRONMENT, "amd-discrete-gpu");
-            amd_hide_apu_tile = create_tile (
-                _("Treat APU as a discrete GPU"),
-                _("Makes Proton report an AMD APU as a discrete GPU for games that mis-detect integrated graphics."),
-                { "PROTON_HIDE_APU=1" }, false, LaunchLineType.ENVIRONMENT, "amd-hide-apu"
-            );
-            amd_fsr4_upgrade_tile = create_tile (
-                _("FSR 4 upgrade (current path)"),
-                _("Uses the selected custom Proton build's default FSR 4 release. Current Proton-GE disables Anti-Lag 2 while active."),
-                { "PROTON_FSR4_UPGRADE=1" }, false, LaunchLineType.ENVIRONMENT, "amd-fsr4"
-            );
+            amd_anti_lag_tile = create_tile ("amd-anti-lag");
+            amd_prime_tile = create_tile ("amd-discrete-gpu");
+            amd_hide_apu_tile = create_tile ("amd-hide-apu");
+            amd_fsr4_upgrade_tile = create_tile ("amd-fsr4");
             amd_fsr4_upgrade_tile.toggle.notify["active"].connect (() => {
                 amd_fsr4_upgrade_toggle_changed ();
             });
 
-            amd_fsr4_rdna3_upgrade_tile = create_tile (
-                _("FSR 4 RDNA3 upgrade (legacy path)"),
-                _("Uses the older RDNA3 switch retained by some Proton-GE builds and removed from current Proton-CachyOS."),
-                { "PROTON_FSR4_RDNA3_UPGRADE=1" }, false, LaunchLineType.ENVIRONMENT,
-                "amd-fsr4-rdna3"
-            );
+            amd_fsr4_rdna3_upgrade_tile = create_tile ("amd-fsr4-rdna3");
             amd_fsr4_rdna3_upgrade_tile.toggle.notify["active"].connect (() => {
                 amd_fsr4_rdna3_upgrade_toggle_changed ();
             });
 
-            amd_mlfg_upgrade_tile = create_tile (
-                _("FSR 4 ML frame generation"),
-                _("Requires FSR 4.0.3 or newer. RDNA3 may also need DXIL_SPIRV_CONFIG=wmma_rdna3_workaround."),
-                { "PROTON_MLFG_UPGRADE=1" }, false, LaunchLineType.ENVIRONMENT, "amd-mlfg"
-            );
-            amd_mlfg_rdna3_workaround_tile = create_tile (
-                _("RDNA3 ML frame-generation workaround"),
-                _("Applies the DXIL-SPIR-V WMMA workaround only when RDNA3 ML frame generation needs it."),
-                { "DXIL_SPIRV_CONFIG=wmma_rdna3_workaround" }, false,
-                LaunchLineType.ENVIRONMENT, "amd-mlfg-rdna3-workaround"
-            );
-            amd_reflex_allow_other_drivers_tile = create_tile (
-                _("AMD Reflex preset: allow DXVK-NVAPI"),
-                _("Least-invasive preset. Allows DXVK-NVAPI on AMD; try this before GPU spoofing."),
-                { "DXVK_NVAPI_ALLOW_OTHER_DRIVERS=1" }, false, LaunchLineType.ENVIRONMENT,
-                "amd-reflex-allow-other-drivers"
-            );
-            amd_reflex_dxgi_spoof_tile = create_tile (
-                _("AMD Reflex preset: hide AMD GPU"),
-                _("DXVK fallback that can expose Reflex but can break FSR 4 and ML frame generation."),
-                { "DXVK_CONFIG=dxgi.hideAmdGpu=True" }, false, LaunchLineType.ENVIRONMENT,
-                "amd-reflex-dxgi-spoof"
-            );
-            amd_reflex_force_nvapi_tile = create_tile (
-                _("AMD Reflex preset: force NVAPI"),
-                _("Invasive fallback for games that still hide Reflex. Can break FSR 4 and game GPU detection."),
-                { "PROTON_FORCE_NVAPI=1" }, false, LaunchLineType.ENVIRONMENT,
-                "amd-reflex-force-nvapi"
-            );
-            amd_reflex_layer_spoof_tile = create_tile (
-                _("AMD Reflex preset: layer NVIDIA spoof"),
-                _("Last-resort spoof discouraged by upstream because it can break Proton FSR 4."),
-                { "LOW_LATENCY_LAYER_SPOOF_NVIDIA=1" }, false, LaunchLineType.ENVIRONMENT,
-                "amd-reflex-layer-spoof"
-            );
+            amd_mlfg_upgrade_tile = create_tile ("amd-mlfg");
+            amd_mlfg_rdna3_workaround_tile = create_tile ("amd-mlfg-rdna3-workaround");
+            amd_reflex_allow_other_drivers_tile = create_tile ("amd-reflex-allow-other-drivers");
+            amd_reflex_dxgi_spoof_tile = create_tile ("amd-reflex-dxgi-spoof");
+            amd_reflex_force_nvapi_tile = create_tile ("amd-reflex-force-nvapi");
+            amd_reflex_layer_spoof_tile = create_tile ("amd-reflex-layer-spoof");
 
-            amd_staging_shared_memory_tile = create_tile (
-                _("Staging shared memory"),
-                _("Enables shared memory support in the AMD GPU driver for better performance in some games."),
-                { "STAGING_SHARED_MEMORY=1" }, false, LaunchLineType.ENVIRONMENT, "amd-staging-shm"
-            );
-            amd_mesa_glthread_tile = create_tile (
-                _("Mesa GLThread"),
-                _("Enables Mesa's GLThread optimization for better performance in some games."),
-                { "mesa_glthread=true" },
-                true, LaunchLineType.ENVIRONMENT, "amd-glthread"
-            );
-            amd_mesa_shader_cache_disable_tile = create_tile (
-                _("Disable Mesa shader cache"),
-                _("Disables Mesa's shader cache which can cause stuttering in some games."),
-                { "MESA_SHADER_CACHE_DISABLE=0", "MESA_SHADER_CACHE_DISABLE=1" }, false, LaunchLineType.ENVIRONMENT, "amd-shader-cache"
-            );
+            amd_staging_shared_memory_tile = create_tile ("amd-staging-shm");
+            amd_mesa_glthread_tile = create_tile ("amd-glthread", true);
+            amd_mesa_shader_cache_disable_tile = create_tile ("amd-shader-cache");
 
             radv_debug_editor = new LaunchOptionRadvDebug ();
             radv_perf_editor = new LaunchOptionRadvPerftest ();

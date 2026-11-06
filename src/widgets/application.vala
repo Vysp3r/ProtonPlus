@@ -6,10 +6,8 @@ namespace ProtonPlus.Widgets {
         Preferences.PreferencesDialog? active_preferences_dialog = null;
         bool reopen_preferences_after_close = false;
         ProtonPlus.Services.Migrations.Manager? migration_manager = null;
-        ProtonPlus.Services.SteamSessionService? steam_session_service = null;
-        ProtonPlus.Services.SteamRestartManager? steam_restart_manager = null;
+        ProtonPlus.Services.SteamLifecycle? steam_lifecycle = null;
         ProtonPlus.Services.SteamRestartOrchestrator? steam_restart_orchestrator = null;
-        ProtonPlus.Services.SteamConfigurationService? steam_configuration_service = null;
         bool show_introduction = false;
 
         construct {
@@ -47,7 +45,20 @@ namespace ProtonPlus.Widgets {
                 return;
             }
 
-            window = new Window ((!) steam_restart_manager, (!) steam_restart_orchestrator);
+            window = new Window (((!) steam_lifecycle).restarts, (!) steam_restart_orchestrator);
+            var preferences_action = (SimpleAction) lookup_action ("preferences");
+            preferences_action.set_enabled (!window.launchers_loading);
+            weak Window observed_window = window;
+            window.notify["launchers-loading"].connect (() => {
+                if (observed_window == null)
+                    return;
+                preferences_action.set_enabled (!observed_window.launchers_loading);
+                if (!observed_window.launchers_loading && reopen_preferences_after_close &&
+                    active_preferences_dialog == null) {
+                    reopen_preferences_after_close = false;
+                    on_preferences_action ();
+                }
+            });
 
             Globals.SETTINGS.bind ("width",
                                    window,
@@ -99,14 +110,11 @@ namespace ProtonPlus.Widgets {
 
             /* This graph belongs to the GUI process, not individual rebuilt
              * windows.  CLI execution never instantiates Application. */
-            steam_session_service = new ProtonPlus.Services.SteamSessionService ();
-            steam_restart_manager = new ProtonPlus.Services.SteamRestartManager ((!) steam_session_service, new ProtonPlus.Services.SteamRestartStateStore ());
-            steam_configuration_service = new ProtonPlus.Services.SteamConfigurationService ((!) steam_session_service, (!) steam_restart_manager);
-            ((!) steam_restart_manager).configure_configuration_reconciler ((!) steam_configuration_service);
-            ProtonPlus.Services.SteamConfigurationService.configure ((!) steam_configuration_service);
-            steam_restart_orchestrator = new ProtonPlus.Services.SteamRestartOrchestrator ((!) steam_session_service, (!) steam_restart_manager, null, 500, 40, 60, (!) steam_configuration_service);
-            ProtonPlus.Services.InstallationService.instance.configure_steam_change_recorder ((!) steam_restart_manager);
-            steam_restart_manager.start_observation ();
+            var lifecycle = new ProtonPlus.Services.SteamLifecycle ();
+            steam_lifecycle = lifecycle;
+            steam_restart_orchestrator = new ProtonPlus.Services.SteamRestartOrchestrator (
+                lifecycle.sessions, lifecycle.restarts, null, 500, 40, 60, lifecycle.configuration
+            );
 
             if (Globals.SETTINGS != null) {
                 migration_manager = new ProtonPlus.Services.Migrations.Manager ();
@@ -134,10 +142,8 @@ namespace ProtonPlus.Widgets {
             var window = this.active_window as Window;
             if (window != null)
                 window.main_box.cancel_steam_restart ();
-            if (steam_restart_manager != null)
-                steam_restart_manager.stop_observation ();
-            ProtonPlus.Services.InstallationService.instance.reset_lifecycle_configuration ();
-            ProtonPlus.Services.SteamConfigurationService.reset_configuration ();
+            if (steam_lifecycle != null)
+                steam_lifecycle.stop ();
             Notify.uninit ();
             base.shutdown ();
         }
@@ -177,7 +183,7 @@ namespace ProtonPlus.Widgets {
 
         void on_preferences_action () {
             var window = this.active_window as Window;
-            if (window == null || active_preferences_dialog != null)
+            if (window == null || window.launchers_loading || active_preferences_dialog != null)
                 return;
 
             var preferences_dialog = new Preferences.PreferencesDialog (window.launchers);
@@ -189,7 +195,8 @@ namespace ProtonPlus.Widgets {
         void on_preferences_dialog_closed () {
             active_preferences_dialog = null;
 
-            if (reopen_preferences_after_close) {
+            var window = this.active_window as Window;
+            if (reopen_preferences_after_close && window != null && !window.launchers_loading) {
                 reopen_preferences_after_close = false;
                 on_preferences_action ();
             }

@@ -6,6 +6,19 @@ the only serializer used by preview and Apply. Unknown source tokens stay raw,
 in their original order and spelling, and an explicit Clear still replaces the
 whole source.
 
+## Adding or changing a control
+
+`LaunchOptionCatalog` owns titles, descriptions, recognition tokens, and command
+semantics. Simple toggles in presentation groups and wrappers use
+`create_tile("stable-option-id")`; keep their order and legacy advanced flag in
+the group, without repeating catalog metadata. They use the editor's shared
+catalog, so changing a definition also updates the control and its tooltip.
+
+Dynamic value, spin, and custom editors remain explicit because their input
+behavior differs. They still register their stable catalog ID and route preview
+and Apply through `LaunchCommandWriter`. Recognition tokens may include legacy
+off/on pairs; do not replace them with canonical emitted tokens.
+
 ## Eligibility model
 
 Generic runtime and component capabilities come from the selected compatibility

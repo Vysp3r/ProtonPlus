@@ -27,7 +27,6 @@
         <file alias="scalable/actions/globe-symbolic.svg">icons/globe.svg</file>
         <file alias="scalable/actions/gamepad-symbolic.svg">icons/gamepad.svg</file>
         <file alias="scalable/actions/bolt-2-symbolic.svg">icons/bolt.svg</file>
-        <file alias="scalable/actions/cube-symbolic.svg">icons/cube.svg</file>
         <file alias="scalable/actions/rocket-symbolic.svg">icons/rocket.svg</file>
         <file alias="scalable/actions/proton-symbolic.svg">icons/proton.svg</file>
         <file alias="scalable/actions/bug-symbolic.svg">icons/bug.svg</file>

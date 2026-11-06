@@ -60,10 +60,18 @@ namespace AppTests.InstallLayoutTest {
     }
 
     private ProviderDefinition fixture_definition (InstallLayout[] layouts) {
-        return new ProviderDefinition (
-            Category.DXVK, SourceType.GITHUB, "fixture", "Fixture title", "",
-            "https://example.test/releases", "https://example.test/source", 0, {}, layouts
-        );
+        return new ProviderDefinition (new ProviderConfig () {
+            category = Category.DXVK,
+            source_type = SourceType.GITHUB,
+            provider_id = "fixture",
+            title = "Fixture title",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 0,
+            variants = {},
+            install_layouts = layouts
+        });
     }
 
     private Group fixture_group (string family_id) {

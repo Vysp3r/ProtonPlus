@@ -101,6 +101,7 @@
         <key name="language" enum="com.vysp3r.ProtonPlus.Language">
             <default>'system'</default>
         </key>
+        <!-- Retained for compatibility with versions that offered the MangoHud editor. -->
         <key name="experimental-features" type="b">
             <default>false</default>
         </key>

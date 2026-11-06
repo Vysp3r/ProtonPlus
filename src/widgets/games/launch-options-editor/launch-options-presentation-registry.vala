@@ -57,7 +57,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
     }
 
     public class LaunchOptionPresentationRegistry : Object {
-        LaunchOptionCatalog catalog;
+        public LaunchOptionCatalog catalog { get; private set; }
         Gee.HashMap<string, LaunchOptionPresentation> by_id;
         Gee.ArrayList<ILaunchCommandSelectionSource> registered_selection_sources;
 

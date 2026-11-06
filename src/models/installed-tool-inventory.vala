@@ -353,17 +353,11 @@ namespace ProtonPlus.Models {
                 if (identifier == directory_name)
                     return true;
                 foreach (var variant in tool.variants) {
-                    if (identifier == "%s%s".printf (directory_name, variant_directory_suffix (variant)))
+                    if (identifier == tool.get_directory_name (release.title, variant))
                         return true;
                 }
             }
             return false;
-        }
-
-        private string variant_directory_suffix (Variant variant) {
-            if (variant.is_default)
-                return "";
-            return "-%s".printf (variant.name.replace (" ", "_").replace ("/", "_"));
         }
 
         private string usage_identifier_for (InstalledToolEntry entry) {
