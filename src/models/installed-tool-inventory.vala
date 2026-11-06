@@ -372,11 +372,38 @@ namespace ProtonPlus.Models {
             return entry.internal_title != "" ? entry.internal_title : entry.directory_name;
         }
 
+        // A tool card represents all installed releases. Keep the preferred
+        // installed entry for existing callers, but aggregate usage separately.
+        private bool provider_has_used_release (Tools.ProviderTool tool) {
+            foreach (var entry in entries) {
+                string? identifier = null;
+                if (entry.has_persisted_identity ()) {
+                    if (persisted_identity_matches_tool (entry, tool))
+                        identifier = usage_identifier_for (entry);
+                } else if (legacy_metadata_matches_tool (entry, tool) &&
+                           legacy_metadata_match_is_unambiguous (entry)) {
+                    identifier = usage_identifier_for (entry);
+                } else if (identifier_matches_tool (entry.directory_name, tool)) {
+                    identifier = entry.directory_name;
+                } else if (entry.has_compatibilitytool_vdf &&
+                           (identifier_matches_tool (entry.internal_title, tool) ||
+                            identifier_matches_tool (entry.display_title, tool))) {
+                    identifier = usage_identifier_for (entry);
+                }
+                if (identifier != null &&
+                    group.launcher.get_compatibility_tool_usage_count ((!) identifier) > 0)
+                    return true;
+            }
+            return false;
+        }
+
         private void set_tool_state (Tool tool, InstalledToolEntry entry, string usage_identifier) {
             tool.set_resolved_installation_state (
                 entry,
                 usage_identifier,
-                group.launcher.get_compatibility_tool_usage_count (usage_identifier) > 0
+                (tool is Tools.ProviderTool)
+                    ? provider_has_used_release ((Tools.ProviderTool) tool)
+                    : group.launcher.get_compatibility_tool_usage_count (usage_identifier) > 0
             );
         }
     }

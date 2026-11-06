@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-25 10:07-0400\n"
+"POT-Creation-Date: 2026-10-25 16:44-0400\n"
 "PO-Revision-Date: 2026-04-20 06:09+0000\n"
 "Last-Translator: Xarishark <Xarishark@outlook.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/protonplus/"
@@ -24,7 +24,7 @@ msgstr "_Σχετικά με το ProtonPlus"
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the com.vysp3r.ProtonPlus package.
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:241
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:253
 msgid "A modern compatibility tools manager"
 msgstr ""
 
@@ -83,7 +83,7 @@ msgstr ""
 msgid "Warning: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:265 src/cli/cli.vala:850
+#: src/cli/cli.vala:265 src/cli/cli.vala:834
 msgid "Runner ID"
 msgstr ""
 
@@ -92,7 +92,7 @@ msgid "Version"
 msgstr ""
 
 #: src/cli/cli.vala:265 src/cli/cli.vala:470 src/cli/cli.vala:504
-#: src/cli/cli.vala:842 src/cli/cli.vala:850
+#: src/cli/cli.vala:826 src/cli/cli.vala:834
 msgid "Name"
 msgstr ""
 
@@ -105,12 +105,12 @@ msgid ""
 "SteamTinkerLaunch is legacy. Install tinkergame for a new installation.\n"
 msgstr ""
 
-#: src/cli/cli.vala:437 src/cli/cli.vala:691
+#: src/cli/cli.vala:437 src/cli/cli.vala:675
 #, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:442 src/cli/cli.vala:693
+#: src/cli/cli.vala:442 src/cli/cli.vala:677
 msgid "Error: No releases are available\n"
 msgstr ""
 
@@ -200,155 +200,153 @@ msgstr ""
 msgid "Updating runners for %s...\n"
 msgstr ""
 
-#: src/cli/cli.vala:592 src/cli/cli.vala:648
+#: src/cli/cli.vala:592 src/cli/cli.vala:632
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:595 src/cli/cli.vala:651
+#: src/cli/cli.vala:595 src/cli/cli.vala:635
 #, c-format
 msgid "Already up to date: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:598 src/cli/cli.vala:654
+#: src/cli/cli.vala:598 src/cli/cli.vala:638
 #, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:638
+#: src/cli/cli.vala:622
 msgid "Already up to date\n"
 msgstr ""
 
-#: src/cli/cli.vala:663
+#: src/cli/cli.vala:647
 #, c-format
 msgid "Updating %s..."
 msgstr ""
 
-#: src/cli/cli.vala:679
+#: src/cli/cli.vala:663
 msgid "Error: Failed to load launchers\n"
 msgstr ""
 
-#: src/cli/cli.vala:703
+#: src/cli/cli.vala:687
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr ""
 
-#: src/cli/cli.vala:716
+#: src/cli/cli.vala:700
 #, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr ""
 
-#: src/cli/cli.vala:786
+#: src/cli/cli.vala:770
 #, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:793
+#: src/cli/cli.vala:777
 #, c-format
 msgid "Usage: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:810
+#: src/cli/cli.vala:794
 msgid "Error: Invalid input, please enter a number\n"
 msgstr ""
 
-#: src/cli/cli.vala:816
+#: src/cli/cli.vala:800
 msgid "Error: Selection out of range\n"
 msgstr ""
 
-#: src/cli/cli.vala:823
+#: src/cli/cli.vala:807
 msgid "Usage:\n"
 msgstr ""
 
-#: src/cli/cli.vala:825
+#: src/cli/cli.vala:809
 msgid "Commands:\n"
 msgstr ""
 
-#: src/cli/cli.vala:826
+#: src/cli/cli.vala:810
 msgid "Command"
 msgstr ""
 
-#: src/cli/cli.vala:826
+#: src/cli/cli.vala:810
 msgid "Description"
 msgstr ""
 
-#: src/cli/cli.vala:827
+#: src/cli/cli.vala:811
 msgid "Show version"
 msgstr ""
 
-#: src/cli/cli.vala:828
+#: src/cli/cli.vala:812
 msgid "Show this help"
 msgstr ""
 
-#: src/cli/cli.vala:829
+#: src/cli/cli.vala:813
 msgid "List launchers or installed runners"
 msgstr ""
 
-#: src/cli/cli.vala:830
+#: src/cli/cli.vala:814
 msgid "Install runner"
 msgstr ""
 
-#: src/cli/cli.vala:831
+#: src/cli/cli.vala:815
 msgid "Uninstall runner"
 msgstr ""
 
-#: src/cli/cli.vala:832
+#: src/cli/cli.vala:816
 msgid "Update runner"
 msgstr ""
 
-#: src/cli/cli.vala:837
+#: src/cli/cli.vala:821
 msgid ""
 "\n"
 "Available launchers:\n"
 msgstr ""
 
-#: src/cli/cli.vala:842
+#: src/cli/cli.vala:826
 msgid "Launcher ID"
 msgstr ""
 
-#: src/cli/cli.vala:849
+#: src/cli/cli.vala:833
 #, c-format
 msgid ""
 "\n"
 "Available runners for %s:\n"
 msgstr ""
 
-#: src/cli/cli.vala:865
+#: src/cli/cli.vala:849
 #, c-format
 msgid "ETA: %s"
 msgstr ""
 
-#: src/cli/cli.vala:867 src/widgets/header/header-downloads-indicator.vala:325
+#: src/cli/cli.vala:851 src/widgets/header/header-downloads-indicator.vala:321
 msgid "ETA: --"
 msgstr ""
 
-#: src/cli/cli.vala:870 src/widgets/tools/tools-release-row.vala:851
+#: src/cli/cli.vala:854 src/widgets/tools/tools-release-row.vala:844
 msgid "Updating"
 msgstr ""
 
-#: src/cli/cli.vala:870 src/widgets/header/header-downloads-indicator.vala:315
-#: src/widgets/tools/tools-release-row.vala:847
+#: src/cli/cli.vala:854 src/widgets/header/header-downloads-indicator.vala:311
+#: src/widgets/tools/tools-release-row.vala:840
 msgid "Installing"
 msgstr ""
 
-#: src/cli/cli.vala:883 src/widgets/tools/tools-release-row.vala:977
+#: src/cli/cli.vala:867 src/widgets/tools/tools-release-row.vala:970
 #, c-format
 msgid "%dh %dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:885 src/widgets/tools/tools-release-row.vala:981
+#: src/cli/cli.vala:869 src/widgets/tools/tools-release-row.vala:974
 #, c-format
 msgid "%dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:887 src/widgets/tools/tools-release-row.vala:982
+#: src/cli/cli.vala:871 src/widgets/tools/tools-release-row.vala:975
 #, c-format
 msgid "%ds"
 msgstr ""
 
-#. System Page
 #: src/globals.vala:31 src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:342
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr ""
@@ -683,7 +681,7 @@ msgstr ""
 msgid "Downloading"
 msgstr ""
 
-#: src/services/installation-service.vala:463
+#: src/services/installation-service.vala:604
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
@@ -706,11 +704,11 @@ msgstr ""
 msgid "Failed to save compatibility tool metadata"
 msgstr ""
 
-#: src/services/standard-archive-workflow.vala:370
+#: src/services/standard-archive-workflow.vala:385
 msgid "Failed to update compatibilitytool.vdf"
 msgstr ""
 
-#: src/services/standard-archive-workflow.vala:387
+#: src/services/standard-archive-workflow.vala:402
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr ""
 
@@ -775,7 +773,7 @@ msgid "The TinkerGame archive is invalid or incomplete."
 msgstr ""
 
 #: src/utils/github-download-mirror.vala:14
-#: src/widgets/preferences/preferences-dialog.vala:293
+#: src/widgets/preferences/preferences-dialog.vala:332
 msgid "Enter an HTTPS mirror URL without credentials, a query, or a fragment."
 msgstr ""
 
@@ -836,19 +834,19 @@ msgstr ""
 msgid "Download recovery time limit reached. Retry to continue."
 msgstr ""
 
-#: src/widgets/application.vala:243
+#: src/widgets/application.vala:255
 msgid "Website"
 msgstr ""
 
-#: src/widgets/application.vala:244
+#: src/widgets/application.vala:256
 msgid "Discord"
 msgstr ""
 
-#: src/widgets/application.vala:249
+#: src/widgets/application.vala:261
 msgid "translator-credits"
 msgstr ""
 
-#: src/widgets/application.vala:250
+#: src/widgets/application.vala:262
 msgid "Special thanks to"
 msgstr ""
 
@@ -875,6 +873,7 @@ msgid "Exit"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:121
+#: src/widgets/preferences/preferences-dialog.vala:192
 msgid "Close"
 msgstr ""
 
@@ -912,14 +911,12 @@ msgid "Switch section or page"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:145
-#: src/widgets/tools/tools-box.vala:129 src/widgets/tools/tools-box.vala:171
-#: src/widgets/tools/tools-box.vala:173 src/widgets/tools/tools-box.vala:353
 msgid "Search"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-box.vala:842 src/widgets/tools/tools-box.vala:181
-#: src/widgets/tools/tools-box.vala:183 src/widgets/tools/tools-box.vala:363
+#: src/widgets/games/games-box.vala:842 src/widgets/tools/tools-box.vala:123
+#: src/widgets/tools/tools-box.vala:125 src/widgets/tools/tools-box.vala:268
 msgid "Filter"
 msgstr ""
 
@@ -960,7 +957,7 @@ msgid "Bottom"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:215
-#: src/widgets/preferences/preferences-dialog.vala:39
+#: src/widgets/preferences/preferences-dialog.vala:41
 msgid "Bottom face button"
 msgstr ""
 
@@ -969,7 +966,7 @@ msgid "Right"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:219
-#: src/widgets/preferences/preferences-dialog.vala:40
+#: src/widgets/preferences/preferences-dialog.vala:42
 msgid "Right face button"
 msgstr ""
 
@@ -1031,7 +1028,7 @@ msgstr ""
 msgid "Actions"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:809 src/widgets/tools/tools-box.vala:186
+#: src/widgets/games/games-box.vala:809 src/widgets/tools/tools-box.vala:128
 msgid "All"
 msgstr ""
 
@@ -1104,14 +1101,10 @@ msgid "No matching games"
 msgstr ""
 
 #: src/widgets/games/games-box.vala:1036
-#: src/widgets/tools/tools-group-box.vala:354
-#: src/widgets/tools/tools-releases-box.vala:816
 msgid "Try a different search term or clear the search."
 msgstr ""
 
 #: src/widgets/games/games-box.vala:1039
-#: src/widgets/tools/tools-group-box.vala:356
-#: src/widgets/tools/tools-releases-box.vala:818
 msgid "Clear Search"
 msgstr ""
 
@@ -1124,8 +1117,8 @@ msgid "Choose All games to see your complete library."
 msgstr ""
 
 #: src/widgets/games/games-box.vala:1047
-#: src/widgets/tools/tools-group-box.vala:363
-#: src/widgets/tools/tools-releases-box.vala:824
+#: src/widgets/tools/tools-group-box.vala:379
+#: src/widgets/tools/tools-releases-box.vala:765
 msgid "Reset Filters"
 msgstr ""
 
@@ -1138,8 +1131,8 @@ msgid "Game Actions"
 msgstr ""
 
 #: src/widgets/games/games-extra-button.vala:91
-#: src/widgets/tools/tools-release-row.vala:213
-#: src/widgets/tools/tools-release-row.vala:629
+#: src/widgets/tools/tools-release-row.vala:208
+#: src/widgets/tools/tools-release-row.vala:624
 #, c-format
 msgid "Actions for %s"
 msgstr ""
@@ -1187,7 +1180,7 @@ msgid "Denied"
 msgstr ""
 
 #: src/widgets/games/games-extra-button.vala:197
-#: src/widgets/tools/tools-releases-box.vala:1488
+#: src/widgets/tools/tools-releases-box.vala:1429
 msgid "Loading…"
 msgstr ""
 
@@ -1336,42 +1329,42 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
-#: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:489
-#: src/widgets/games/games-row.vala:493 src/widgets/games/games-row.vala:567
+#: src/widgets/games/games-row.vala:70 src/widgets/games/games-row.vala:482
+#: src/widgets/games/games-row.vala:486 src/widgets/games/games-row.vala:560
 msgid "Select game"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:505
+#: src/widgets/games/games-row.vala:44 src/widgets/games/games-row.vala:498
 msgid "Modify Game"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:63 src/widgets/games/games-row.vala:540
+#: src/widgets/games/games-row.vala:58 src/widgets/games/games-row.vala:533
 #: src/widgets/tools/tools-game-row.vala:15
 #: src/widgets/tools/tools-game-row.vala:19
 #, c-format
 msgid "Select %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:119 src/widgets/games/games-row.vala:606
+#: src/widgets/games/games-row.vala:114 src/widgets/games/games-row.vala:599
 #, c-format
 msgid "Toggle selection for %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:165 src/widgets/games/games-row.vala:607
+#: src/widgets/games/games-row.vala:159 src/widgets/games/games-row.vala:600
 #, c-format
 msgid "Modify %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:309
+#: src/widgets/games/games-row.vala:302
 msgid "Game Launch Failed"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:310
+#: src/widgets/games/games-row.vala:303
 #, c-format
 msgid "%s could not be launched."
 msgstr ""
 
-#: src/widgets/games/games-row.vala:336 src/widgets/games/games-row.vala:339
+#: src/widgets/games/games-row.vala:329 src/widgets/games/games-row.vala:332
 #, c-format
 msgid "Launch %s"
 msgstr ""
@@ -2208,7 +2201,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
-#: src/widgets/preferences/preferences-dialog.vala:395
+#: src/widgets/preferences/preferences-dialog.vala:456
 msgid "Gamescope"
 msgstr ""
 
@@ -2219,7 +2212,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
-#: src/widgets/preferences/preferences-dialog.vala:398
+#: src/widgets/preferences/preferences-dialog.vala:459
 msgid "ScopeBuddy"
 msgstr ""
 
@@ -3585,12 +3578,12 @@ msgstr ""
 #. Advanced Page
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:40
 #: src/widgets/mangohud/mangohud-box.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:223
+#: src/widgets/preferences/preferences-dialog.vala:244
 msgid "Advanced"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
-#: src/widgets/preferences/preferences-dialog.vala:321
+#: src/widgets/preferences/preferences-dialog.vala:362
 msgid "Experimental"
 msgstr ""
 
@@ -3693,71 +3686,81 @@ msgstr ""
 msgid "Downloads"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:156
-#: src/widgets/header/header-downloads-indicator.vala:159
+#: src/widgets/header/header-downloads-indicator.vala:152
+#: src/widgets/header/header-downloads-indicator.vala:155
 #, c-format
 msgid "%u active download"
 msgid_plural "%u active downloads"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/header/header-downloads-indicator.vala:174
+#: src/widgets/header/header-downloads-indicator.vala:170
 #, c-format
 msgid "Limit: %s/s"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:231
-#: src/widgets/header/header-downloads-indicator.vala:233
-#: src/widgets/tools/tools-release-row.vala:169
-#: src/widgets/tools/tools-release-row.vala:249
+#: src/widgets/header/header-downloads-indicator.vala:227
+#: src/widgets/header/header-downloads-indicator.vala:229
+#: src/widgets/tools/tools-release-row.vala:164
+#: src/widgets/tools/tools-release-row.vala:244
 #: src/widgets/tools/tools-remove-dialog.vala:26
 #: src/widgets/tools/tools-stl-release-row.vala:117 src/widgets/window.vala:173
 #: src/widgets/window.vala:381
 msgid "Cancel"
 msgstr ""
 
+#: src/widgets/header/header-downloads-indicator.vala:279
+#: src/widgets/header/header-downloads-indicator.vala:281
 #: src/widgets/header/header-downloads-indicator.vala:283
-#: src/widgets/header/header-downloads-indicator.vala:285
-#: src/widgets/header/header-downloads-indicator.vala:287
-#: src/widgets/tools/tools-release-row.vala:609
-#: src/widgets/tools/tools-release-row.vala:888
+#: src/widgets/tools/tools-release-row.vala:604
+#: src/widgets/tools/tools-release-row.vala:881
 msgid "Cancelling"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:313
-#: src/widgets/tools/tools-release-row.vala:893
+#: src/widgets/header/header-downloads-indicator.vala:309
+#: src/widgets/tools/tools-release-row.vala:886
 msgid "Extracting"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:317
-#: src/widgets/tools/tools-release-row.vala:855
-#: src/widgets/tools/tools-release-row.vala:897
-#: src/widgets/tools/tools-release-row.vala:902
+#: src/widgets/header/header-downloads-indicator.vala:313
+#: src/widgets/tools/tools-release-row.vala:848
+#: src/widgets/tools/tools-release-row.vala:890
+#: src/widgets/tools/tools-release-row.vala:895
 msgid "Removing"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:319
+#: src/widgets/header/header-downloads-indicator.vala:315
 msgid "Preparing"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:333
+#: src/widgets/header/header-downloads-indicator.vala:329
 #, c-format
 msgid "ETA: %dh %dm"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:335
+#: src/widgets/header/header-downloads-indicator.vala:331
 #, c-format
 msgid "ETA: %dm %ds"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:336
+#: src/widgets/header/header-downloads-indicator.vala:332
 #, c-format
 msgid "ETA: %ds"
 msgstr ""
 
-#: src/widgets/header/header-launchers-button.vala:40
 #: src/widgets/header/header-launchers-button.vala:42
+#: src/widgets/header/header-launchers-button.vala:44
 msgid "Switch launcher"
+msgstr ""
+
+#: src/widgets/header/header-launchers-button.vala:126
+#, c-format
+msgid "%s · %s"
+msgstr ""
+
+#: src/widgets/header/header-launchers-button.vala:130
+#, c-format
+msgid "Switch launcher: %s"
 msgstr ""
 
 #: src/widgets/introduction/application.vala:8
@@ -3766,9 +3769,7 @@ msgid "Welcome to ProtonPlus"
 msgstr "_Σχετικά με το ProtonPlus"
 
 #: src/widgets/introduction/application.vala:9
-msgid ""
-"ProtonPlus helps you easily manage, install, and update compatibility layers "
-"for running Windows games on Linux."
+msgid "Install and manage compatibility tools for your Linux game launchers"
 msgstr ""
 
 #: src/widgets/introduction/controller.vala:31
@@ -3805,44 +3806,238 @@ msgid "Text input"
 msgstr ""
 
 #: src/widgets/introduction/controller.vala:62
+#: src/widgets/introduction/help-dialog.vala:50
 msgid ""
 "On Steam Deck, focus a text field and press Steam + X. Other systems may "
 "require a physical or system keyboard."
 msgstr ""
 
 #: src/widgets/introduction/forks.vala:8
-msgid "Custom Forks & Flavors"
+msgid "Choosing a Community Build"
 msgstr ""
 
 #: src/widgets/introduction/forks.vala:9
 msgid ""
-"Community versions like Proton-GE provide cutting-edge fixes, video codecs, "
-"and game-specific tweaks before they hit the official releases."
+"Community builds such as GE-Proton offer additional fixes and game-specific "
+"changes. Try one when a game needs it; a newer or different build is not "
+"always better for every game."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:10
+#: src/widgets/introduction/help-dialog.vala:23
+msgid "Help"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:21
+#, fuzzy
+msgid "Using ProtonPlus"
+msgstr "_Σχετικά με το ProtonPlus"
+
+#: src/widgets/introduction/help-dialog.vala:25
+msgid "Install a Compatibility Tool"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:26
+msgid "Choose a launcher and install a release"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:27
+msgid "1. Choose a game launcher from the top-left menu"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:28
+msgid "2. Open the Tools tab and select a tool to see its releases"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:29
+msgid "3. Choose a release and select Install"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:30
+msgid ""
+"Installing a tool makes it available to the selected launcher. Select it for "
+"a game before playing."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:32
+msgid "Choose a Tool for a Game"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:33
+msgid "Use an installed tool with a game"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:34
+msgid "1. Select the launcher where the tool is installed"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:35
+msgid ""
+"2. Open the Games tab and choose the game’s compatibility tool, where "
+"supported"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:36
+msgid "3. For other launchers, select the tool in the launcher’s game settings"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:37
+msgid ""
+"Follow any Steam restart prompt to finish applying changes. Close running "
+"games before restarting Steam."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:39
+#: src/widgets/tools/tools-box.vala:110
+msgid "Update Tools"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:40
+msgid "Update manually or set a schedule"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:41
+msgid "Select Update Tools in the Tools tab to update eligible installed tools"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:42
+msgid ""
+"Automatic updates check for and install updates. Configure scheduled updates "
+"or updates at startup in Preferences → Tools."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:43
+msgid ""
+"Scheduled updates can run while ProtonPlus is closed. System-startup and app-"
+"startup updates are separate options."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:44
+msgid "Open Update Preferences"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:45
+msgid "Use a Controller"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:46
+msgid "Navigation, buttons, and text input"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:47
+msgid ""
+"Use the D-pad or sticks to move between controls. Use the shoulder buttons "
+"to switch sections where available."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:48
+msgid ""
+"Follow the on-screen button hints for Confirm, Back, Search, and Filter. "
+"Hints match the controller’s button labels."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:49
+msgid "Choose the Confirm button and enable vibration in Preferences → General"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:51
+msgid "Open Controller Preferences"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:53
+#: src/widgets/introduction/introduction.vala:39
+msgid "Learn More"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:55
+msgid "Understand Wine and Proton"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:56
+msgid "Compatibility tools and community builds"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:57
+msgid ""
+"Wine lets Windows applications run on Linux. Launchers such as Lutris use "
+"Wine builds."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:58
+msgid ""
+"Proton combines Wine with gaming components for Steam Play. Choose a Proton "
+"build for Steam games."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:59
+msgid ""
+"Community builds such as GE-Proton include additional fixes and game-"
+"specific changes. A newer or different build is not always better for every "
+"game."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:60
+msgid ""
+"Keep multiple versions installed when different games need different builds"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:62
+#: src/widgets/preferences/preferences-dialog.vala:387
+msgid "Troubleshooting"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:63
+msgid "Missing tools, game issues, and system information"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:64
+msgid ""
+"If a tool is missing, check that the selected launcher matches the "
+"installation used to run the game"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:65
+msgid "If Steam has not picked up a change, follow the pending restart prompt"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:66
+msgid ""
+"If a game stops working after changing tools, try the previously working "
+"version"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:67
+msgid ""
+"For support, open Preferences → Advanced → System Information and copy the "
+"detected environment details"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:68
+msgid "Open Advanced Preferences"
 msgstr ""
 
 #: src/widgets/introduction/how-to-use.vala:8
-msgid "How to Use"
+msgid "Install and Select a Tool"
 msgstr ""
 
 #: src/widgets/introduction/how-to-use.vala:9
 msgid ""
-"Simply browse the available compatibility tools, click download, and "
-"ProtonPlus will automatically configure them for your launchers like Steam, "
-"Heroic, or Lutris."
+"Open a tool in the Tools tab, choose a release, and select Install. Then "
+"select the installed tool for your game in ProtonPlus’s Games tab where "
+"supported, or in your launcher’s settings. Follow any Steam restart prompt "
+"to finish applying changes."
 msgstr ""
 
-#: src/widgets/introduction/introduction.vala:17
-msgid "Introduction"
+#: src/widgets/introduction/introduction.vala:8
+msgid "Welcome"
 msgstr ""
 
-#: src/widgets/introduction/introduction.vala:53
-#: src/widgets/introduction/introduction.vala:55
-msgid "Previous Page"
+#: src/widgets/introduction/introduction.vala:27
+msgid "Choose a launcher from the top-left menu, then select a tool to install"
 msgstr ""
 
-#: src/widgets/introduction/introduction.vala:62
-#: src/widgets/introduction/introduction.vala:64
-msgid "Next Page"
+#: src/widgets/introduction/introduction.vala:35
+msgid "Get Started"
 msgstr ""
 
 #: src/widgets/introduction/proton.vala:8
@@ -3851,8 +4046,9 @@ msgstr ""
 
 #: src/widgets/introduction/proton.vala:9
 msgid ""
-"Developed by Valve, Proton is a tool based on Wine specifically optimized "
-"for gaming, ensuring high performance and Steam Play integration."
+"Proton combines Wine with gaming components for Steam Play. For Steam games, "
+"choose a Proton build. You can keep several versions installed for games "
+"with different needs."
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:8
@@ -3866,37 +4062,34 @@ msgid ""
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:17
-#: src/widgets/preferences/preferences-dialog.vala:77
-msgid "Background updates"
+msgid "Scheduled updates"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:18
-#: src/widgets/preferences/preferences-dialog.vala:78
-msgid "Automatically update the tools in the background"
+#: src/widgets/preferences/preferences-dialog.vala:81
+msgid ""
+"Check for and install updates on a schedule, even when ProtonPlus is closed"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:24
-#: src/widgets/preferences/preferences-dialog.vala:84
-msgid "Set how often to check for updates in the background"
+msgid "Time between scheduled update checks"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:30
-#: src/widgets/preferences/preferences-dialog.vala:90
 msgid "Update tools at system startup"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:31
-#: src/widgets/preferences/preferences-dialog.vala:91
+#: src/widgets/preferences/preferences-dialog.vala:100
 msgid "Automatically check for and install updates when the system starts"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:37
-#: src/widgets/preferences/preferences-dialog.vala:97
 msgid "Update tools when ProtonPlus starts"
 msgstr ""
 
 #: src/widgets/introduction/updates.vala:38
-#: src/widgets/preferences/preferences-dialog.vala:98
+#: src/widgets/preferences/preferences-dialog.vala:107
 msgid "Automatically check for and install updates when ProtonPlus starts"
 msgstr ""
 
@@ -3906,58 +4099,59 @@ msgstr ""
 
 #: src/widgets/introduction/wine.vala:9
 msgid ""
-"Wine is a compatibility layer capable of running Windows applications on "
-"Linux systems by translating Windows API calls on the fly."
+"Wine lets Windows applications run on Linux by translating Windows API "
+"calls. Launchers such as Lutris use Wine builds; choose a build that suits "
+"the game you want to play."
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:54
+#: src/widgets/loading/loading-box.vala:53
 msgid "Loading"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:55
-msgid "Please wait while we're loading your launchers."
+#: src/widgets/loading/loading-box.vala:54
+msgid "Finding your game launchers."
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:62
+#: src/widgets/loading/loading-box.vala:61
 msgid "Taking longer than normal?"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:84
+#: src/widgets/loading/loading-box.vala:82
 msgid "An unexpected error occurred"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:85
+#: src/widgets/loading/loading-box.vala:83
 msgid ""
 "We encountered a problem while loading your application.\n"
 "Please try again or report the problem."
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:97
+#: src/widgets/loading/loading-box.vala:95
 #, c-format
 msgid "Welcome to %s"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:136
+#: src/widgets/loading/loading-box.vala:134
 msgid "Retry loading"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:141
+#: src/widgets/loading/loading-box.vala:139
 msgid "Report issue"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:161
+#: src/widgets/loading/loading-box.vala:159
 msgid "You need a game launcher to use ProtonPlus."
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:163
+#: src/widgets/loading/loading-box.vala:161
 msgid "Install one of these to get started:"
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:204
+#: src/widgets/loading/loading-box.vala:202
 msgid "Important: Run the launcher once to initialize it properly."
 msgstr ""
 
-#: src/widgets/loading/loading-box.vala:206
+#: src/widgets/loading/loading-box.vala:204
 msgid "Check again"
 msgstr ""
 
@@ -3975,13 +4169,13 @@ msgstr ""
 
 #. Tools Page
 #: src/widgets/main/main-box.vala:72
-#: src/widgets/preferences/preferences-dialog.vala:65
-#: src/widgets/tools/tools-box.vala:104
+#: src/widgets/preferences/preferences-dialog.vala:67
+#: src/widgets/tools/tools-box.vala:96
 msgid "Tools"
 msgstr ""
 
 #: src/widgets/main/main-box.vala:75
-#: src/widgets/preferences/preferences-dialog.vala:389
+#: src/widgets/preferences/preferences-dialog.vala:450
 msgid "MangoHud"
 msgstr ""
 
@@ -4027,23 +4221,23 @@ msgstr ""
 msgid "Try Again"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:335 src/widgets/tools/tools-box.vala:762
+#: src/widgets/main/main-box.vala:335
 msgid "Checking for updates"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:770
+#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:671
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:349 src/widgets/tools/tools-box.vala:773
+#: src/widgets/main/main-box.vala:349 src/widgets/tools/tools-box.vala:674
 msgid "Nothing to update"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:777
+#: src/widgets/main/main-box.vala:353
 msgid "Everything is now up-to-date"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:356 src/widgets/tools/tools-box.vala:780
+#: src/widgets/main/main-box.vala:356
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr ""
@@ -4065,7 +4259,7 @@ msgid "Download canceled"
 msgstr ""
 
 #: src/widgets/main/main-box.vala:379
-#: src/widgets/tools/tools-release-row.vala:1097
+#: src/widgets/tools/tools-release-row.vala:1090
 msgid "Download failed"
 msgstr ""
 
@@ -4364,7 +4558,10 @@ msgid "Show vkcube"
 msgstr ""
 
 #. System Information section
+#. Read-only troubleshooting information
 #: src/widgets/mangohud/mangohud-extras-page.vala:59
+#: src/widgets/preferences/preferences-dialog.vala:383
+#: src/widgets/preferences/preferences-dialog.vala:390
 msgid "System Information"
 msgstr ""
 
@@ -4470,7 +4667,8 @@ msgid "Media Info"
 msgstr ""
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:130
-#: src/widgets/preferences/preferences-dialog.vala:251
+#: src/widgets/preferences/preferences-dialog.vala:285
+#: src/widgets/preferences/preferences-dialog.vala:291
 msgid "Network"
 msgstr ""
 
@@ -4910,19 +5108,19 @@ msgid "Open %s Token Page"
 msgstr ""
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:15
-msgid "1h"
+msgid "Every hour"
 msgstr ""
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:16
-msgid "3h"
+msgid "Every 3 hours"
 msgstr ""
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:17
-msgid "6h"
+msgid "Every 6 hours"
 msgstr ""
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:18
-msgid "12h"
+msgid "Every 12 hours"
 msgstr ""
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:26
@@ -4940,217 +5138,276 @@ msgid "Removes all cached information and temporary downloads"
 msgstr ""
 
 #. General Page
-#: src/widgets/preferences/preferences-dialog.vala:16
+#: src/widgets/preferences/preferences-dialog.vala:18
 msgid "General"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:22
+#: src/widgets/preferences/preferences-dialog.vala:25
 msgid "Appearance"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:33
+#: src/widgets/preferences/preferences-dialog.vala:36
 msgid "Controller"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:34
-msgid "Configure controller buttons and vibration"
+#: src/widgets/preferences/preferences-dialog.vala:44
+msgid "Confirm Button"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:42
-msgid "Confirm button"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:43
+#: src/widgets/preferences/preferences-dialog.vala:45
 msgid "Choose which face button activates the selected control"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:56
-msgid "Controller vibration"
+#: src/widgets/preferences/preferences-dialog.vala:58
+msgid "Controller Vibration"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:57
+#: src/widgets/preferences/preferences-dialog.vala:59
 msgid "Use subtle vibration for controller actions and navigation limits"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:71
-msgid "Updates"
+#: src/widgets/preferences/preferences-dialog.vala:74
+msgid "Automatic Updates"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:72
-msgid "Choose when installed tools are checked and updated"
+#: src/widgets/preferences/preferences-dialog.vala:75
+msgid "Check for and install updates to eligible installed tools"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:104
-msgid "Migrate default prefix"
+#: src/widgets/preferences/preferences-dialog.vala:80
+msgid "Scheduled Updates"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:105
-msgid "Automatically migrate the default prefix when updating"
+#: src/widgets/preferences/preferences-dialog.vala:87
+msgid "Update Frequency"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:111
+#: src/widgets/preferences/preferences-dialog.vala:93
+msgid "Update at Startup"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:94
+msgid "Update at startup, independently of the schedule"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:99
+msgid "At System Startup"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:106
+#, fuzzy
+msgid "When ProtonPlus Starts"
+msgstr "_Σχετικά με το ProtonPlus"
+
+#: src/widgets/preferences/preferences-dialog.vala:113
 msgid "Behavior"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:116
-msgid "Show legacy tools"
-msgstr ""
+#: src/widgets/preferences/preferences-dialog.vala:118
+#, fuzzy
+msgid "Show Legacy Tools"
+msgstr "Προσθήκη επιπλέον επιλογών εκκίνησης"
 
-#: src/widgets/preferences/preferences-dialog.vala:117
+#: src/widgets/preferences/preferences-dialog.vala:119
 msgid "Display older tools that are no longer actively maintained"
 msgstr ""
 
 #. Launchers Page
-#: src/widgets/preferences/preferences-dialog.vala:124
-msgid "Launchers"
+#: src/widgets/preferences/preferences-dialog.vala:126
+msgid "Steam"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:158
-msgid "Default compatibility tool"
+#: src/widgets/preferences/preferences-dialog.vala:136
+#, c-format
+msgid "Steam (%s)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:159
+#: src/widgets/preferences/preferences-dialog.vala:160
+msgid "Default Compatibility Tool"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:161
 msgid "The compatibility tool games will use by default"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:184
-msgid "Selected profile"
+#: src/widgets/preferences/preferences-dialog.vala:189
+msgid "Couldn’t change the default compatibility tool"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:185
-msgid "Currently selected profile for Steam"
+#: src/widgets/preferences/preferences-dialog.vala:190
+msgid ""
+"The previous selection has been restored. Check that Steam’s configuration "
+"is writable, then try again."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:229
+#: src/widgets/preferences/preferences-dialog.vala:206
+msgid "Steam Profile"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:251
+msgid "Tool Updates"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:256
+msgid "Migrate Default Prefix"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:257
+msgid ""
+"Carry over the tool’s bundled default Wine prefix when replacing it with an "
+"update"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:263
 msgid "API Tokens"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:230
+#: src/widgets/preferences/preferences-dialog.vala:264
 msgid "Optional tokens increase GitHub and GitLab request limits"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:259
+#: src/widgets/preferences/preferences-dialog.vala:292
+msgid "Proxy, download mirror, and speed limit"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:298
 msgid "Proxy URL"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:262
+#: src/widgets/preferences/preferences-dialog.vala:301
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:269
-msgid "GitHub download mirror"
+#: src/widgets/preferences/preferences-dialog.vala:308
+msgid "GitHub Download Mirror"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:273
+#: src/widgets/preferences/preferences-dialog.vala:312
 msgid "Example: https://mirror.example/"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:275
-#: src/widgets/preferences/preferences-dialog.vala:290
+#: src/widgets/preferences/preferences-dialog.vala:314
+#: src/widgets/preferences/preferences-dialog.vala:329
 msgid ""
 "Optional. Leave empty to download directly from GitHub. Only release "
 "downloads use this mirror. Only use a mirror you trust."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:300
-msgid "Download speed limit"
+#: src/widgets/preferences/preferences-dialog.vala:337
+msgid "Download Speed Limit"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:301
+#: src/widgets/preferences/preferences-dialog.vala:338
 msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:304
+#: src/widgets/preferences/preferences-dialog.vala:341
 msgid "This limit is shared across all active downloads."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:326
-msgid "Preview features"
+#: src/widgets/preferences/preferences-dialog.vala:367
+msgid "Preview Features"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:327
+#: src/widgets/preferences/preferences-dialog.vala:368
 msgid "Enable experimental features for early testing"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:333
+#: src/widgets/preferences/preferences-dialog.vala:374
 msgid "Maintenance"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:334
+#: src/widgets/preferences/preferences-dialog.vala:375
 msgid "Refresh app data or clear cached files"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:348
+#: src/widgets/preferences/preferences-dialog.vala:391
+msgid "Environment, dependencies, and detected launchers"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:395
+msgid "Copy System Information"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:401
+msgid "System information copied"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:407
 msgid "Software Environment"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:353
+#: src/widgets/preferences/preferences-dialog.vala:412
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:353
-#: src/widgets/preferences/preferences-dialog.vala:356
+#: src/widgets/preferences/preferences-dialog.vala:412
+#: src/widgets/preferences/preferences-dialog.vala:415
 #: src/widgets/tools/tools-stl-release-row.vala:170
 msgid "Yes"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:353
-#: src/widgets/preferences/preferences-dialog.vala:356
+#: src/widgets/preferences/preferences-dialog.vala:412
+#: src/widgets/preferences/preferences-dialog.vala:415
 #: src/widgets/tools/tools-stl-release-row.vala:169
 msgid "No"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:356
+#: src/widgets/preferences/preferences-dialog.vala:415
 msgid "Flatpak"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:360
+#: src/widgets/preferences/preferences-dialog.vala:419
 msgid "Hardware"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:372
+#: src/widgets/preferences/preferences-dialog.vala:430
+#: src/widgets/preferences/preferences-dialog.vala:433
 msgid "CPU Features"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:373
+#: src/widgets/preferences/preferences-dialog.vala:431
+#: src/widgets/preferences/preferences-dialog.vala:434
 msgid "None detected"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:378
+#: src/widgets/preferences/preferences-dialog.vala:439
 msgid "Dependencies"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:383
+#: src/widgets/preferences/preferences-dialog.vala:444
 #, fuzzy
 msgid "Protontricks"
 msgstr "_Σχετικά με το ProtonPlus"
 
-#: src/widgets/preferences/preferences-dialog.vala:386
+#: src/widgets/preferences/preferences-dialog.vala:447
 msgid "Protontricks (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:392
+#: src/widgets/preferences/preferences-dialog.vala:453
 msgid "MangoHud (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:401
+#: src/widgets/preferences/preferences-dialog.vala:462
 msgid "Feral Gamemode"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:405
+#: src/widgets/preferences/preferences-dialog.vala:466
 msgid "Detected Launchers"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:437
-#: src/widgets/tools/tools-box.vala:189
-#: src/widgets/tools/tools-group-box.vala:749
-#: src/widgets/tools/tools-release-row.vala:840
-#: src/widgets/tools/tools-release-row.vala:844
+#: src/widgets/preferences/preferences-dialog.vala:497
+#: src/widgets/preferences/preferences-dialog.vala:500
+#: src/widgets/tools/tools-box.vala:131
+#: src/widgets/tools/tools-group-box.vala:741
+#: src/widgets/tools/tools-release-row.vala:833
+#: src/widgets/tools/tools-release-row.vala:837
 msgid "Installed"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:438
+#: src/widgets/preferences/preferences-dialog.vala:497
+#: src/widgets/preferences/preferences-dialog.vala:501
 msgid "Not installed"
 msgstr ""
 
@@ -5240,94 +5497,83 @@ msgstr ""
 msgid "Proxy mode"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:105 src/widgets/tools/tools-box.vala:250
+#: src/widgets/tools/tools-box.vala:97 src/widgets/tools/tools-box.vala:181
 #: src/widgets/tools/tools-migrate-box.vala:43
 #: src/widgets/tools/tools-release-games-dialog.vala:20
 msgid "Migrate"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:121 src/widgets/tools/tools-box.vala:123
-msgid "Check for updates"
+#: src/widgets/tools/tools-box.vala:113 src/widgets/tools/tools-box.vala:115
+msgid "Update installed tools"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:192
+#: src/widgets/tools/tools-box.vala:134
 msgid "Used"
 msgstr ""
 
-#: src/widgets/tools/tools-box.vala:195
-msgid "Unused"
-msgstr ""
-
-#: src/widgets/tools/tools-box.vala:350
-msgid "Search is active"
-msgstr ""
-
-#: src/widgets/tools/tools-box.vala:360
+#: src/widgets/tools/tools-box.vala:265
 msgid "Filter is active"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:114
-#: src/widgets/tools/tools-group-box.vala:381
+#: src/widgets/tools/tools-box.vala:663
+msgid "Updating installed tools"
+msgstr ""
+
+#: src/widgets/tools/tools-box.vala:678
+msgid "Eligible installed tools are up to date"
+msgstr ""
+
+#: src/widgets/tools/tools-box.vala:681
+#, c-format
+msgid "Couldn't update installed tools (Reason: %s)"
+msgstr ""
+
+#: src/widgets/tools/tools-group-box.vala:100
+#: src/widgets/tools/tools-group-box.vala:392
 msgid "No tools found"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:115
+#: src/widgets/tools/tools-group-box.vala:101
 msgid "No tools match the current filter."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:353
-msgid "No matching tools"
-msgstr ""
-
-#: src/widgets/tools/tools-group-box.vala:366
+#: src/widgets/tools/tools-group-box.vala:382
 msgid "No installed tools"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:367
+#: src/widgets/tools/tools-group-box.vala:383
 msgid "Install a compatibility tool to see it here."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:371
+#: src/widgets/tools/tools-group-box.vala:387
 msgid "No tools in use"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:372
+#: src/widgets/tools/tools-group-box.vala:388
 msgid "No games currently use a tool from this group."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:376
-msgid "No unused tools"
-msgstr ""
-
-#: src/widgets/tools/tools-group-box.vala:377
-msgid "Every tool in this group is currently in use."
-msgstr ""
-
-#: src/widgets/tools/tools-group-box.vala:382
+#: src/widgets/tools/tools-group-box.vala:393
 msgid "No tools are available in this group."
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:484
-#: src/widgets/tools/tools-group-box.vala:488
+#: src/widgets/tools/tools-group-box.vala:495
+#: src/widgets/tools/tools-group-box.vala:499
 #, fuzzy
 msgid "Tool Actions"
 msgstr "_Σχετικά με το ProtonPlus"
 
-#: src/widgets/tools/tools-group-box.vala:520
-msgid "Recommended compatibility tool"
-msgstr ""
-
-#: src/widgets/tools/tools-group-box.vala:745
+#: src/widgets/tools/tools-group-box.vala:737
 msgid "Used by games"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:746
+#: src/widgets/tools/tools-group-box.vala:738
 msgid ""
 "One or more releases of this tool is installed and currently used by one or "
 "more games"
 msgstr ""
 
-#: src/widgets/tools/tools-group-box.vala:750
+#: src/widgets/tools/tools-group-box.vala:742
 msgid ""
 "One or more releases of this tool is installed, but not currently used by "
 "any games"
@@ -5401,37 +5647,37 @@ msgstr ""
 msgid "No games have this tool selected"
 msgstr "Επιλέχθηκε 1 παιχνίδι"
 
-#: src/widgets/tools/tools-release-row.vala:136
-#: src/widgets/tools/tools-release-row.vala:138
+#: src/widgets/tools/tools-release-row.vala:131
+#: src/widgets/tools/tools-release-row.vala:133
 msgid "Show installation details"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:143
+#: src/widgets/tools/tools-release-row.vala:138
 msgid "Speed: 0 KB/s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:146
-#: src/widgets/tools/tools-release-row.vala:968
+#: src/widgets/tools/tools-release-row.vala:141
+#: src/widgets/tools/tools-release-row.vala:961
 msgid "Remaining time: --"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:210
+#: src/widgets/tools/tools-release-row.vala:205
 msgid "Release Actions"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:242
+#: src/widgets/tools/tools-release-row.vala:237
 msgid "Install TinkerGame First"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:243
+#: src/widgets/tools/tools-release-row.vala:238
 msgid "Install or update TinkerGame before copying SteamTinkerLaunch settings."
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:247
+#: src/widgets/tools/tools-release-row.vala:242
 msgid "Copy SteamTinkerLaunch Settings?"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:248
+#: src/widgets/tools/tools-release-row.vala:243
 msgid ""
 "The original settings and installation will be kept. Existing TinkerGame "
 "settings will never be overwritten. Review custom commands, scripts, "
@@ -5440,296 +5686,299 @@ msgid ""
 "SteamTinkerLaunch separately."
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:250
+#: src/widgets/tools/tools-release-row.vala:245
 msgid "Copy Settings"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:272
+#: src/widgets/tools/tools-release-row.vala:267
 msgid ""
 "Settings copied. Review custom commands and paths before playing. Select "
 "TinkerGame for individual games in Games when ready; SteamTinkerLaunch "
 "remains installed."
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:274
+#: src/widgets/tools/tools-release-row.vala:269
 msgid ""
 "TinkerGame settings already exist. Nothing was overwritten. Review and merge "
 "your settings manually."
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:275
+#: src/widgets/tools/tools-release-row.vala:270
 msgid ""
 "Settings could not be copied. The original settings were preserved. You can "
 "retry after resolving the problem."
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:276
+#: src/widgets/tools/tools-release-row.vala:271
 msgid "TinkerGame Migration"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:590
+#: src/widgets/tools/tools-release-row.vala:585
 #, c-format
 msgid "Step: %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:593
+#: src/widgets/tools/tools-release-row.vala:588
 #, c-format
 msgid "%s for %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:598
+#: src/widgets/tools/tools-release-row.vala:593
 #, c-format
 msgid "Progress for %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:653
-#: src/widgets/tools/tools-release-row.vala:656
+#: src/widgets/tools/tools-release-row.vala:648
+#: src/widgets/tools/tools-release-row.vala:651
 msgid "Latest"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:718
-#: src/widgets/tools/tools-release-row.vala:721
+#: src/widgets/tools/tools-release-row.vala:711
+msgid "Install"
+msgstr ""
+
+#: src/widgets/tools/tools-release-row.vala:712
+#: src/widgets/tools/tools-release-row.vala:715
 #, c-format
 msgid "Install %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:727
-#: src/widgets/tools/tools-release-row.vala:788
-#: src/widgets/tools/tools-releases-box.vala:477
-#: src/widgets/tools/tools-releases-box.vala:489
+#: src/widgets/tools/tools-release-row.vala:720
+#: src/widgets/tools/tools-release-row.vala:781
+#: src/widgets/tools/tools-releases-box.vala:453
+#: src/widgets/tools/tools-releases-box.vala:465
 msgid "Retry"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:728
-#: src/widgets/tools/tools-release-row.vala:731
+#: src/widgets/tools/tools-release-row.vala:721
+#: src/widgets/tools/tools-release-row.vala:724
 #, c-format
 msgid "Retry %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:742
+#: src/widgets/tools/tools-release-row.vala:735
 #, c-format
 msgid "Cancelling %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:743
+#: src/widgets/tools/tools-release-row.vala:736
 #, c-format
 msgid "Cancel %s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:768
+#: src/widgets/tools/tools-release-row.vala:761
 msgid "_Changelog"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:771
+#: src/widgets/tools/tools-release-row.vala:764
 msgid "Open Release Page"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:776
+#: src/widgets/tools/tools-release-row.vala:769
 #, fuzzy
 msgid "_Games with this tool selected"
 msgstr "Επιλέχθηκε 1 παιχνίδι"
 
-#: src/widgets/tools/tools-release-row.vala:783
+#: src/widgets/tools/tools-release-row.vala:776
 msgid "Copy SteamTinkerLaunch Settings…"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:790
+#: src/widgets/tools/tools-release-row.vala:783
 msgid "Update"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:791
+#: src/widgets/tools/tools-release-row.vala:784
 msgid "_Check for Updates"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:795
+#: src/widgets/tools/tools-release-row.vala:788
 msgid "_Open Folder"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:797
+#: src/widgets/tools/tools-release-row.vala:790
 msgid "_Delete…"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:833
+#: src/widgets/tools/tools-release-row.vala:826
 msgid "Failed"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:841
+#: src/widgets/tools/tools-release-row.vala:834
 msgid "Update available"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:860
+#: src/widgets/tools/tools-release-row.vala:853
 msgid "Unavailable for the selected variant"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:865
+#: src/widgets/tools/tools-release-row.vala:858
 #, c-format
 msgid "Selected by %i game"
 msgid_plural "Selected by %i games"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/tools/tools-release-row.vala:880
+#: src/widgets/tools/tools-release-row.vala:873
 #, c-format
 msgid "%s. Open Release Details"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:881
+#: src/widgets/tools/tools-release-row.vala:874
 msgid "Open Release Details"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:895
+#: src/widgets/tools/tools-release-row.vala:888
 msgid "Moving"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:900
+#: src/widgets/tools/tools-release-row.vala:893
 msgid "Preparing update"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:903
+#: src/widgets/tools/tools-release-row.vala:896
 msgid "Preparing installation"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:959
+#: src/widgets/tools/tools-release-row.vala:952
 #, c-format
 msgid "Speed: %s/s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:965
+#: src/widgets/tools/tools-release-row.vala:958
 #, c-format
 msgid "Remaining time: %s"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:256
+#: src/widgets/tools/tools-releases-box.vala:225
 msgid "Standard 64-bit build for most Intel and AMD PCs."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:258
+#: src/widgets/tools/tools-releases-box.vala:227
 msgid ""
 "Optimized 64-bit build for Intel and AMD CPUs that support the x86-64-v3 "
 "instruction set."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:261
+#: src/widgets/tools/tools-releases-box.vala:230
 msgid "64-bit ARM build. Choose this only on ARM64 hardware."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:263
+#: src/widgets/tools/tools-releases-box.vala:232
 msgid "32-bit x86 build. Choose this only when a 32-bit runner is required."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:266
+#: src/widgets/tools/tools-releases-box.vala:235
 msgid ""
 "64-bit build with WoW64 support for running 32-bit Windows applications."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:268
+#: src/widgets/tools/tools-releases-box.vala:237
 msgid "The provider's recommended build for most systems."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:270
+#: src/widgets/tools/tools-releases-box.vala:239
 #, c-format
 msgid "Select the %s build variant."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:335
-#: src/widgets/tools/tools-releases-box.vala:343
-#: src/widgets/tools/tools-releases-box.vala:1341
+#: src/widgets/tools/tools-releases-box.vala:304
+#: src/widgets/tools/tools-releases-box.vala:312
+#: src/widgets/tools/tools-releases-box.vala:1282
 msgid "Check for new releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:349
-#: src/widgets/tools/tools-releases-box.vala:358
-#: src/widgets/tools/tools-releases-box.vala:360
+#: src/widgets/tools/tools-releases-box.vala:318
+#: src/widgets/tools/tools-releases-box.vala:327
+#: src/widgets/tools/tools-releases-box.vala:329
 #, fuzzy
 msgid "Open Repository"
 msgstr "_Σχετικά με το ProtonPlus"
 
-#: src/widgets/tools/tools-releases-box.vala:371
+#: src/widgets/tools/tools-releases-box.vala:340
 msgid "Choose which architecture or build variant to show."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:374
-#: src/widgets/tools/tools-releases-box.vala:386
+#: src/widgets/tools/tools-releases-box.vala:343
+#: src/widgets/tools/tools-releases-box.vala:355
 msgid "Build"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:417
-#: src/widgets/tools/tools-releases-box.vala:1529
+#: src/widgets/tools/tools-releases-box.vala:364
+msgid "Releases"
+msgstr ""
+
+#: src/widgets/tools/tools-releases-box.vala:393
+#: src/widgets/tools/tools-releases-box.vala:1470
 msgid "Load More"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:456
-#: src/widgets/tools/tools-releases-box.vala:632
-#: src/widgets/tools/tools-releases-box.vala:1161
-#: src/widgets/tools/tools-releases-box.vala:1489
+#: src/widgets/tools/tools-releases-box.vala:431
+#: src/widgets/tools/tools-releases-box.vala:596
+#: src/widgets/tools/tools-releases-box.vala:1102
+#: src/widgets/tools/tools-releases-box.vala:1430
 msgid "Loading releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:465
-#: src/widgets/tools/tools-releases-box.vala:650
-#: src/widgets/tools/tools-releases-box.vala:833
+#: src/widgets/tools/tools-releases-box.vala:441
+#: src/widgets/tools/tools-releases-box.vala:614
+#: src/widgets/tools/tools-releases-box.vala:774
 msgid "No releases available"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:466
-#: src/widgets/tools/tools-releases-box.vala:834
+#: src/widgets/tools/tools-releases-box.vala:442
+#: src/widgets/tools/tools-releases-box.vala:775
 msgid "Check again for new releases."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:470
-#: src/widgets/tools/tools-releases-box.vala:836
+#: src/widgets/tools/tools-releases-box.vala:446
+#: src/widgets/tools/tools-releases-box.vala:777
 msgid "Refresh"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:483
-#: src/widgets/tools/tools-releases-box.vala:756
+#: src/widgets/tools/tools-releases-box.vala:459
+#: src/widgets/tools/tools-releases-box.vala:706
 msgid "Failed to Fetch Releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:488
+#: src/widgets/tools/tools-releases-box.vala:464
 msgid "Couldn’t load releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:680
-#: src/widgets/tools/tools-releases-box.vala:1208
-#: src/widgets/tools/tools-releases-box.vala:1524
+#: src/widgets/tools/tools-releases-box.vala:644
+#: src/widgets/tools/tools-releases-box.vala:1149
+#: src/widgets/tools/tools-releases-box.vala:1465
 msgid "Releases loaded"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:749
+#: src/widgets/tools/tools-releases-box.vala:699
 msgid "Couldn’t load more releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:750
+#: src/widgets/tools/tools-releases-box.vala:700
 msgid "Couldn’t refresh releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:815
-#, fuzzy
-msgid "No matching releases"
-msgstr "Προσθήκη επιπλέον επιλογών εκκίνησης"
-
-#: src/widgets/tools/tools-releases-box.vala:821
+#: src/widgets/tools/tools-releases-box.vala:762
 msgid "No releases match this filter"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:822
+#: src/widgets/tools/tools-releases-box.vala:763
 msgid "Reset the filters to see all releases."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:827
+#: src/widgets/tools/tools-releases-box.vala:768
 msgid "No compatible releases"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:828
+#: src/widgets/tools/tools-releases-box.vala:769
 msgid "No compatible variants are available for this system."
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:1340
+#: src/widgets/tools/tools-releases-box.vala:1281
 msgid "Refreshing…"
 msgstr ""
 
-#: src/widgets/tools/tools-releases-box.vala:1351
+#: src/widgets/tools/tools-releases-box.vala:1292
 #, c-format
 msgid "Last updated: %s"
 msgstr ""
@@ -5815,6 +6064,10 @@ msgid ""
 "The application is currently downloading a tool.\n"
 "Exiting the application early may cause issues."
 msgstr ""
+
+#, fuzzy
+#~ msgid "No matching releases"
+#~ msgstr "Προσθήκη επιπλέον επιλογών εκκίνησης"
 
 #, fuzzy
 #~ msgid "Open repository"

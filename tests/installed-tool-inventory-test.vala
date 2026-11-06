@@ -31,6 +31,7 @@ namespace AppTests.InstalledToolInventoryTest {
         Test.add_func ("/installed-tool-inventory/legacy-tag-and-directory-fallbacks", test_legacy_tag_and_directory_fallbacks);
         Test.add_func ("/installed-tool-inventory/vdf-internal-and-display-title-fallbacks", test_vdf_fallbacks);
         Test.add_func ("/installed-tool-inventory/latest-and-variant-directories", test_latest_and_variant_directories);
+        Test.add_func ("/installed-tool-inventory/usage-spans-installed-releases", test_usage_spans_installed_releases);
         Test.add_func ("/installed-tool-inventory/job-usage-identity-follows-installed-entry", test_job_usage_identity);
         Test.add_func ("/installed-tool-inventory/steam-tinker-launch-usage", test_steam_tinker_launch_usage);
         Test.add_func ("/installed-tool-inventory/queries-are-cached-and-invalidation-refreshes", test_cached_queries_and_refresh);
@@ -286,6 +287,51 @@ namespace AppTests.InstalledToolInventoryTest {
         value.refresh_installed_state ();
         assert (tool.is_installed ());
 
+        assert (delete_directory (root));
+    }
+
+    private void test_usage_spans_installed_releases () {
+        var root = temporary_directory ();
+        var launcher = new InventoryLauncher (root);
+        var value = group (launcher);
+        var tool = add_tool (value, definition ("runner", "Runner"));
+        string[] versions = { "Runner v1", "Runner v2" };
+        foreach (var version in versions) {
+            var path = Path.build_filename (root, version);
+            assert (ProtonPlus.Utils.Filesystem.create_directory (path));
+            save_metadata (path, tool.provider_id, tool.id, launcher.tool_target_id);
+        }
+        value.refresh_installed_state ();
+        assert (tool.is_installed ());
+        assert (!tool.is_used ());
+        var preferred_path = tool.resolved_installed_entry.path;
+
+        // Both orders must work, independent of filesystem enumeration order.
+        foreach (var version in versions) {
+            launcher.used_identifier = version;
+            value.refresh_installed_state ();
+            assert (tool.is_used ());
+            assert (tool.resolved_installed_entry.path == preferred_path);
+        }
+
+        // An installed release belonging to another target cannot mark this
+        // tool as used, even if its directory looks like a matching release.
+        var foreign_path = Path.build_filename (root, "Runner Latest");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (foreign_path));
+        save_metadata (foreign_path, tool.provider_id, tool.id, "other-target");
+        launcher.used_identifier = "Runner Latest";
+        value.refresh_installed_state ();
+        assert (!tool.is_used ());
+        assert (tool.is_installed ());
+
+        launcher.used_identifier = versions[1];
+        value.refresh_installed_state ();
+        assert (tool.is_used ());
+        assert (delete_directory (Path.build_filename (root, versions[1])));
+        value.invalidate_installed_state ();
+        value.refresh_installed_state ();
+        assert (tool.is_installed ());
+        assert (!tool.is_used ());
         assert (delete_directory (root));
     }
 

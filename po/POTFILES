@@ -182,6 +182,7 @@ src/widgets/introduction/application.vala
 src/widgets/introduction/base.vala
 src/widgets/introduction/controller.vala
 src/widgets/introduction/forks.vala
+src/widgets/introduction/help-dialog.vala
 src/widgets/introduction/how-to-use.vala
 src/widgets/introduction/introduction.vala
 src/widgets/introduction/proton.vala

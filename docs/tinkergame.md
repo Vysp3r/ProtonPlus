@@ -114,7 +114,8 @@ Individual `install`, `update`, and `uninstall` commands accept `tinkergame`;
 `list <launcher>` includes both installed products. Legacy IDs continue to
 address SteamTinkerLaunch for update/removal. A legacy fresh-install request
 reports that TinkerGame is the offered successor; it never silently redirects.
-Bulk provider update/removal commands retain their existing provider-only scope.
+GUI bulk updates and CLI `update all` / `update <launcher>` also check installed
+TinkerGame releases. Bulk removal retains its existing provider-only scope.
 
 `/tinkergame` tests use a structural archive fixture with inert executable and
 module contents and injected dependencies/process queries. They exercise

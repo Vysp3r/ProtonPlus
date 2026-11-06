@@ -64,22 +64,9 @@
     padding: 12px;
 }
 
-.selection-popover-list > row {
-    background: transparent;
-    border-radius: 8px;
-}
-
-.selection-popover-list > row:hover {
-    background-color: alpha(var(--accent-bg-color), 0.08);
-}
-
 .selection-popover-row {
     min-height: 28px;
     padding: 6px 8px;
-}
-
-.selection-popover-row image {
-    color: var(--accent-color);
 }
 
 .launch-options-preview-surface {
@@ -91,10 +78,6 @@
     min-height: 24px;
 }
 
-.card {
-    border-radius: 12px;
-}
-
 .card.transparent-card {
     background-color: transparent;
 }
@@ -103,16 +86,9 @@
     margin-bottom: 12px;
 }
 
-.launchers-popover-list > row.launcher-selected,
-.launchers-popover-list > row:selected {
-    background-color: alpha(var(--accent-bg-color), 0.14);
-    box-shadow: inset 0 0 0 2px alpha(var(--accent-bg-color), 0.6);
-}
-
 flowboxchild {
     background-color: transparent;
 }
-
 
 .controller-focus {
     box-shadow: inset 0 0 0 2px var(--accent-bg-color);
@@ -163,14 +139,6 @@ menubutton.controller-focus > button {
     opacity: 0.78;
 }
 
-.tool-metadata-pill {
-    border-radius: 9999px;
-    padding: 2px 8px;
-    color: var(--window-fg-color);
-    background-color: alpha(var(--window-fg-color), 0.12);
-    font-size: 0.8em;
-}
-
 button.tools-filter-active {
     background-color: alpha(var(--accent-bg-color), 0.14);
     color: var(--accent-color);
@@ -179,32 +147,6 @@ button.tools-filter-active {
 row.controller-focus {
     background-color: alpha(var(--accent-bg-color), 0.12);
     box-shadow: inset 0 0 0 2px var(--accent-bg-color);
-}
-
-@keyframes dance {
-    0% {
-        transform: translateY(0) rotate(0deg);
-    }
-    25% {
-        transform: translateY(-4px) rotate(8deg);
-    }
-    50% {
-        transform: translateY(0) rotate(0deg);
-    }
-    75% {
-        transform: translateY(-4px) rotate(-8deg);
-    }
-    100% {
-        transform: translateY(0) rotate(0deg);
-    }
-}
-
-.loading-status-page image {
-    animation: dance 2s infinite ease-in-out;
-}
-
-.loading-status-page button image {
-    animation: none;
 }
 
 .tools-group-card {
@@ -235,10 +177,6 @@ row.controller-focus {
     background-color: transparent;
 }
 
-.tools-release-row-input-box button {
-    padding: 5px;
-}
-
 .tools-release-install-button {
     color: inherit;
 }
@@ -253,25 +191,6 @@ row.controller-focus {
     font-weight: bold;
 }
 
-@keyframes downloads-bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    25% {
-        transform: translateY(-3px);
-    }
-    50% {
-        transform: translateY(0);
-    }
-    65% {
-        transform: translateY(-1px);
-    }
-}
-
-.downloads-indicator-active {
-    animation: downloads-bounce 1.2s infinite ease-in-out;
-}
-
 .downloads-popover-list > row:not(:last-child) {
     margin-bottom: 6px;
 }
@@ -279,4 +198,23 @@ row.controller-focus {
 row.download-highlight {
     background-color: alpha(var(--accent-bg-color), 0.16);
     box-shadow: inset 0 0 0 2px alpha(var(--accent-bg-color), 0.7);
+}
+
+/* Keep column-header focus inside the cell; only its color should animate. */
+columnview.list-content > header > button {
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+    box-shadow: none;
+    transition-property: background-color, color, outline-color;
+}
+
+columnview.list-content > header > button:focus-visible,
+columnview.list-content > header > button.games-sort-header-controller-focus {
+    outline-color: var(--accent-color);
+}
+
+/* Inline releases share the parent boxed list surface. */
+.tools-releases-card {
+    background: transparent;
+    box-shadow: none;
 }

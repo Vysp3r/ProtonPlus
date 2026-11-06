@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-25 10:07-0400\n"
+"POT-Creation-Date: 2026-10-25 16:44-0400\n"
 "PO-Revision-Date: 2026-09-04 07:51+0000\n"
 "Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/protonplus/"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "ProtonPlus"
 msgstr "ProtonPlus"
 
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:241
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:253
 msgid "A modern compatibility tools manager"
 msgstr "Pengelola alat kompatibilitas modern"
 
@@ -80,7 +80,7 @@ msgstr "Error: Perintah tidak dikenal '%s'\n"
 msgid "Warning: %s\n"
 msgstr "Peringatan: %s\n"
 
-#: src/cli/cli.vala:265 src/cli/cli.vala:850
+#: src/cli/cli.vala:265 src/cli/cli.vala:834
 #, fuzzy
 msgid "Runner ID"
 msgstr "Runner"
@@ -91,7 +91,7 @@ msgid "Version"
 msgstr "Versi HUD"
 
 #: src/cli/cli.vala:265 src/cli/cli.vala:470 src/cli/cli.vala:504
-#: src/cli/cli.vala:842 src/cli/cli.vala:850
+#: src/cli/cli.vala:826 src/cli/cli.vala:834
 msgid "Name"
 msgstr "Nama"
 
@@ -104,12 +104,12 @@ msgid ""
 "SteamTinkerLaunch is legacy. Install tinkergame for a new installation.\n"
 msgstr ""
 
-#: src/cli/cli.vala:437 src/cli/cli.vala:691
+#: src/cli/cli.vala:437 src/cli/cli.vala:675
 #, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr "Error: Gagal memuat rilis: %s\n"
 
-#: src/cli/cli.vala:442 src/cli/cli.vala:693
+#: src/cli/cli.vala:442 src/cli/cli.vala:677
 msgid "Error: No releases are available\n"
 msgstr "Error: Tidak ada rilis yang tersedia\n"
 
@@ -200,105 +200,105 @@ msgstr "Memperbarui semua runner...\n"
 msgid "Updating runners for %s...\n"
 msgstr "Memperbarui runner untuk %s...\n"
 
-#: src/cli/cli.vala:592 src/cli/cli.vala:648
+#: src/cli/cli.vala:592 src/cli/cli.vala:632
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr "Berhasil memperbarui %s\n"
 
-#: src/cli/cli.vala:595 src/cli/cli.vala:651
+#: src/cli/cli.vala:595 src/cli/cli.vala:635
 #, c-format
 msgid "Already up to date: %s\n"
 msgstr "Sudah terbaru: %s\n"
 
-#: src/cli/cli.vala:598 src/cli/cli.vala:654
+#: src/cli/cli.vala:598 src/cli/cli.vala:638
 #, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr "Error: Gagal memperbarui %s: %s\n"
 
-#: src/cli/cli.vala:638
+#: src/cli/cli.vala:622
 msgid "Already up to date\n"
 msgstr "Sudah yang terbaru\n"
 
-#: src/cli/cli.vala:663
+#: src/cli/cli.vala:647
 #, c-format
 msgid "Updating %s..."
 msgstr "Memperbarui %s..."
 
-#: src/cli/cli.vala:679
+#: src/cli/cli.vala:663
 msgid "Error: Failed to load launchers\n"
 msgstr "Kesalahan: Gagal memuat peluncur\n"
 
-#: src/cli/cli.vala:703
+#: src/cli/cli.vala:687
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr "Error: Launcher '%s' tidak ditemukan\n"
 
-#: src/cli/cli.vala:716
+#: src/cli/cli.vala:700
 #, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr "Error: Tool '%s' tidak ditemukan\n"
 
-#: src/cli/cli.vala:786
+#: src/cli/cli.vala:770
 #, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr "Error: Alat '%s' tidak mendukung %s\n"
 
-#: src/cli/cli.vala:793
+#: src/cli/cli.vala:777
 #, c-format
 msgid "Usage: %s\n"
 msgstr "Penggunaan: %s\n"
 
-#: src/cli/cli.vala:810
+#: src/cli/cli.vala:794
 msgid "Error: Invalid input, please enter a number\n"
 msgstr "Error: Input tidak valid, masukkan angka\n"
 
-#: src/cli/cli.vala:816
+#: src/cli/cli.vala:800
 msgid "Error: Selection out of range\n"
 msgstr "Error: Pilihan di luar jangkauan\n"
 
-#: src/cli/cli.vala:823
+#: src/cli/cli.vala:807
 msgid "Usage:\n"
 msgstr "Penggunaan:\n"
 
-#: src/cli/cli.vala:825
+#: src/cli/cli.vala:809
 msgid "Commands:\n"
 msgstr "Perintah:\n"
 
-#: src/cli/cli.vala:826
+#: src/cli/cli.vala:810
 #, fuzzy
 msgid "Command"
 msgstr "Perintah:\n"
 
-#: src/cli/cli.vala:826
+#: src/cli/cli.vala:810
 #, fuzzy
 msgid "Description"
 msgstr "Durasi"
 
-#: src/cli/cli.vala:827
+#: src/cli/cli.vala:811
 msgid "Show version"
 msgstr "Tampilkan versi"
 
-#: src/cli/cli.vala:828
+#: src/cli/cli.vala:812
 msgid "Show this help"
 msgstr "Tampilkan bantuan ini"
 
-#: src/cli/cli.vala:829
+#: src/cli/cli.vala:813
 msgid "List launchers or installed runners"
 msgstr "Daftar launcher atau runner yang terinstal"
 
-#: src/cli/cli.vala:830
+#: src/cli/cli.vala:814
 msgid "Install runner"
 msgstr "Instal runner"
 
-#: src/cli/cli.vala:831
+#: src/cli/cli.vala:815
 msgid "Uninstall runner"
 msgstr "Hapus runner"
 
-#: src/cli/cli.vala:832
+#: src/cli/cli.vala:816
 msgid "Update runner"
 msgstr "Perbarui runner"
 
-#: src/cli/cli.vala:837
+#: src/cli/cli.vala:821
 msgid ""
 "\n"
 "Available launchers:\n"
@@ -306,12 +306,12 @@ msgstr ""
 "\n"
 "Peluncur yang tersedia:\n"
 
-#: src/cli/cli.vala:842
+#: src/cli/cli.vala:826
 #, fuzzy
 msgid "Launcher ID"
 msgstr "Launcher"
 
-#: src/cli/cli.vala:849
+#: src/cli/cli.vala:833
 #, c-format
 msgid ""
 "\n"
@@ -320,42 +320,40 @@ msgstr ""
 "\n"
 "Runner yang tersedia untuk %s:\n"
 
-#: src/cli/cli.vala:865
+#: src/cli/cli.vala:849
 #, c-format
 msgid "ETA: %s"
 msgstr "ETA: %s"
 
-#: src/cli/cli.vala:867 src/widgets/header/header-downloads-indicator.vala:325
+#: src/cli/cli.vala:851 src/widgets/header/header-downloads-indicator.vala:321
 msgid "ETA: --"
 msgstr "ETA: --"
 
-#: src/cli/cli.vala:870 src/widgets/tools/tools-release-row.vala:851
+#: src/cli/cli.vala:854 src/widgets/tools/tools-release-row.vala:844
 msgid "Updating"
 msgstr "Memperbarui"
 
-#: src/cli/cli.vala:870 src/widgets/header/header-downloads-indicator.vala:315
-#: src/widgets/tools/tools-release-row.vala:847
+#: src/cli/cli.vala:854 src/widgets/header/header-downloads-indicator.vala:311
+#: src/widgets/tools/tools-release-row.vala:840
 msgid "Installing"
 msgstr "Menginstal"
 
-#: src/cli/cli.vala:883 src/widgets/tools/tools-release-row.vala:977
+#: src/cli/cli.vala:867 src/widgets/tools/tools-release-row.vala:970
 #, c-format
 msgid "%dh %dm %ds"
 msgstr "%dj %dm %dd"
 
-#: src/cli/cli.vala:885 src/widgets/tools/tools-release-row.vala:981
+#: src/cli/cli.vala:869 src/widgets/tools/tools-release-row.vala:974
 #, c-format
 msgid "%dm %ds"
 msgstr "%dm %dd"
 
-#: src/cli/cli.vala:887 src/widgets/tools/tools-release-row.vala:982
+#: src/cli/cli.vala:871 src/widgets/tools/tools-release-row.vala:975
 #, c-format
 msgid "%ds"
 msgstr "%dd"
 
-#. System Page
 #: src/globals.vala:31 src/widgets/mangohud/mangohud-extras-page.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:342
 #: src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr "Sistem"
@@ -719,7 +717,7 @@ msgstr ""
 msgid "Downloading"
 msgstr "Mengunduh"
 
-#: src/services/installation-service.vala:463
+#: src/services/installation-service.vala:604
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
@@ -744,11 +742,11 @@ msgstr "Pemindahan gagal"
 msgid "Failed to save compatibility tool metadata"
 msgstr "Gagal menyimpan metadata alat kompatibilitas"
 
-#: src/services/standard-archive-workflow.vala:370
+#: src/services/standard-archive-workflow.vala:385
 msgid "Failed to update compatibilitytool.vdf"
 msgstr "Gagal memperbarui compatibilitytool.vdf"
 
-#: src/services/standard-archive-workflow.vala:387
+#: src/services/standard-archive-workflow.vala:402
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr "Manifes alat kompatibilitas tidak valid atau tidak lengkap"
 
@@ -816,7 +814,7 @@ msgid "The TinkerGame archive is invalid or incomplete."
 msgstr "Arsip SteamTinkerLaunch tidak valid atau tidak lengkap"
 
 #: src/utils/github-download-mirror.vala:14
-#: src/widgets/preferences/preferences-dialog.vala:293
+#: src/widgets/preferences/preferences-dialog.vala:332
 msgid "Enter an HTTPS mirror URL without credentials, a query, or a fragment."
 msgstr ""
 
@@ -878,20 +876,20 @@ msgstr ""
 msgid "Download recovery time limit reached. Retry to continue."
 msgstr ""
 
-#: src/widgets/application.vala:243
+#: src/widgets/application.vala:255
 msgid "Website"
 msgstr "Situs web"
 
-#: src/widgets/application.vala:244
+#: src/widgets/application.vala:256
 #, fuzzy
 msgid "Discord"
 msgstr "Jembatan Discord"
 
-#: src/widgets/application.vala:249
+#: src/widgets/application.vala:261
 msgid "translator-credits"
 msgstr "translator-credits"
 
-#: src/widgets/application.vala:250
+#: src/widgets/application.vala:262
 msgid "Special thanks to"
 msgstr "Terima kasih khusus kepada"
 
@@ -918,6 +916,7 @@ msgid "Exit"
 msgstr "Keluar"
 
 #: src/widgets/controller-hint-bar.vala:121
+#: src/widgets/preferences/preferences-dialog.vala:192
 msgid "Close"
 msgstr "Tutup"
 
@@ -955,14 +954,12 @@ msgid "Switch section or page"
 msgstr "Ganti bagian atau halaman"
 
 #: src/widgets/controller-hint-bar.vala:145
-#: src/widgets/tools/tools-box.vala:129 src/widgets/tools/tools-box.vala:171
-#: src/widgets/tools/tools-box.vala:173 src/widgets/tools/tools-box.vala:353
 msgid "Search"
 msgstr "Cari"
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-box.vala:842 src/widgets/tools/tools-box.vala:181
-#: src/widgets/tools/tools-box.vala:183 src/widgets/tools/tools-box.vala:363
+#: src/widgets/games/games-box.vala:842 src/widgets/tools/tools-box.vala:123
+#: src/widgets/tools/tools-box.vala:125 src/widgets/tools/tools-box.vala:268
 msgid "Filter"
 msgstr "Filter"
 
@@ -1003,7 +1000,7 @@ msgid "Bottom"
 msgstr "Bawah"
 
 #: src/widgets/controller-hint-bar.vala:215
-#: src/widgets/preferences/preferences-dialog.vala:39
+#: src/widgets/preferences/preferences-dialog.vala:41
 msgid "Bottom face button"
 msgstr "Tombol wajah bawah"
 
@@ -1012,7 +1009,7 @@ msgid "Right"
 msgstr "Kanan"
 
 #: src/widgets/controller-hint-bar.vala:219
-#: src/widgets/preferences/preferences-dialog.vala:40
+#: src/widgets/preferences/preferences-dialog.vala:42
 msgid "Right face button"
 msgstr "Tombol wajah kanan"
 
@@ -1077,7 +1074,7 @@ msgstr "Alat"
 msgid "Actions"
 msgstr "Aksi"
 
-#: src/widgets/games/games-box.vala:809 src/widgets/tools/tools-box.vala:186
+#: src/widgets/games/games-box.vala:809 src/widgets/tools/tools-box.vala:128
 msgid "All"
 msgstr "Semua"
 
@@ -1155,14 +1152,10 @@ msgid "No matching games"
 msgstr "Tidak ada game yang cocok"
 
 #: src/widgets/games/games-box.vala:1036
-#: src/widgets/tools/tools-group-box.vala:354
-#: src/widgets/tools/tools-releases-box.vala:816
 msgid "Try a different search term or clear the search."
 msgstr "Coba istilah pencarian berbeda atau hapus pencarian."
 
 #: src/widgets/games/games-box.vala:1039
-#: src/widgets/tools/tools-group-box.vala:356
-#: src/widgets/tools/tools-releases-box.vala:818
 msgid "Clear Search"
 msgstr "Hapus Pencarian"
 
@@ -1175,8 +1168,8 @@ msgid "Choose All games to see your complete library."
 msgstr "Pilih Semua game untuk melihat pustaka lengkap Anda."
 
 #: src/widgets/games/games-box.vala:1047
-#: src/widgets/tools/tools-group-box.vala:363
-#: src/widgets/tools/tools-releases-box.vala:824
+#: src/widgets/tools/tools-group-box.vala:379
+#: src/widgets/tools/tools-releases-box.vala:765
 msgid "Reset Filters"
 msgstr "Setel Ulang Filter"
 
@@ -1189,8 +1182,8 @@ msgid "Game Actions"
 msgstr "Aksi Game"
 
 #: src/widgets/games/games-extra-button.vala:91
-#: src/widgets/tools/tools-release-row.vala:213
-#: src/widgets/tools/tools-release-row.vala:629
+#: src/widgets/tools/tools-release-row.vala:208
+#: src/widgets/tools/tools-release-row.vala:624
 #, c-format
 msgid "Actions for %s"
 msgstr "Aksi untuk %s"
@@ -1236,7 +1229,7 @@ msgid "Denied"
 msgstr "Ditolak"
 
 #: src/widgets/games/games-extra-button.vala:197
-#: src/widgets/tools/tools-releases-box.vala:1488
+#: src/widgets/tools/tools-releases-box.vala:1429
 msgid "Loading…"
 msgstr "Memuat…"
 
@@ -1394,43 +1387,43 @@ msgstr ""
 "akses berkas."
 
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
-#: src/widgets/games/games-row.vala:75 src/widgets/games/games-row.vala:489
-#: src/widgets/games/games-row.vala:493 src/widgets/games/games-row.vala:567
+#: src/widgets/games/games-row.vala:70 src/widgets/games/games-row.vala:482
+#: src/widgets/games/games-row.vala:486 src/widgets/games/games-row.vala:560
 msgid "Select game"
 msgstr "Pilih game"
 
-#: src/widgets/games/games-row.vala:48 src/widgets/games/games-row.vala:505
+#: src/widgets/games/games-row.vala:44 src/widgets/games/games-row.vala:498
 msgid "Modify Game"
 msgstr "Ubah Game"
 
-#: src/widgets/games/games-row.vala:63 src/widgets/games/games-row.vala:540
+#: src/widgets/games/games-row.vala:58 src/widgets/games/games-row.vala:533
 #: src/widgets/tools/tools-game-row.vala:15
 #: src/widgets/tools/tools-game-row.vala:19
 #, c-format
 msgid "Select %s"
 msgstr "Pilih %s"
 
-#: src/widgets/games/games-row.vala:119 src/widgets/games/games-row.vala:606
+#: src/widgets/games/games-row.vala:114 src/widgets/games/games-row.vala:599
 #, c-format
 msgid "Toggle selection for %s"
 msgstr "Alihkan pilihan untuk %s"
 
-#: src/widgets/games/games-row.vala:165 src/widgets/games/games-row.vala:607
+#: src/widgets/games/games-row.vala:159 src/widgets/games/games-row.vala:600
 #, c-format
 msgid "Modify %s"
 msgstr "Ubah %s"
 
-#: src/widgets/games/games-row.vala:309
+#: src/widgets/games/games-row.vala:302
 #, fuzzy
 msgid "Game Launch Failed"
 msgstr "Backend peluncuran"
 
-#: src/widgets/games/games-row.vala:310
+#: src/widgets/games/games-row.vala:303
 #, fuzzy, c-format
 msgid "%s could not be launched."
 msgstr "Eksekutable khusus untuk %s tidak dapat dijalankan."
 
-#: src/widgets/games/games-row.vala:336 src/widgets/games/games-row.vala:339
+#: src/widgets/games/games-row.vala:329 src/widgets/games/games-row.vala:332
 #, c-format
 msgid "Launch %s"
 msgstr "Luncurkan %s"
@@ -2370,7 +2363,7 @@ msgstr "Bawaan sistem"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1264
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1265
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1266
-#: src/widgets/preferences/preferences-dialog.vala:395
+#: src/widgets/preferences/preferences-dialog.vala:456
 msgid "Gamescope"
 msgstr "Gamescope"
 
@@ -2381,7 +2374,7 @@ msgstr "Gamescope"
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1270
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1271
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1272
-#: src/widgets/preferences/preferences-dialog.vala:398
+#: src/widgets/preferences/preferences-dialog.vala:459
 msgid "ScopeBuddy"
 msgstr "ScopeBuddy"
 
@@ -3856,12 +3849,12 @@ msgstr ""
 #. Advanced Page
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:40
 #: src/widgets/mangohud/mangohud-box.vala:74
-#: src/widgets/preferences/preferences-dialog.vala:223
+#: src/widgets/preferences/preferences-dialog.vala:244
 msgid "Advanced"
 msgstr "Lanjutan"
 
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:42
-#: src/widgets/preferences/preferences-dialog.vala:321
+#: src/widgets/preferences/preferences-dialog.vala:362
 msgid "Experimental"
 msgstr "Eksperimental"
 
@@ -3972,70 +3965,80 @@ msgstr "Unduhan aktif"
 msgid "Downloads"
 msgstr "Unduhan"
 
-#: src/widgets/header/header-downloads-indicator.vala:156
-#: src/widgets/header/header-downloads-indicator.vala:159
+#: src/widgets/header/header-downloads-indicator.vala:152
+#: src/widgets/header/header-downloads-indicator.vala:155
 #, c-format
 msgid "%u active download"
 msgid_plural "%u active downloads"
 msgstr[0] "%u unduhan aktif"
 
-#: src/widgets/header/header-downloads-indicator.vala:174
+#: src/widgets/header/header-downloads-indicator.vala:170
 #, c-format
 msgid "Limit: %s/s"
 msgstr "Batas: %s/d"
 
-#: src/widgets/header/header-downloads-indicator.vala:231
-#: src/widgets/header/header-downloads-indicator.vala:233
-#: src/widgets/tools/tools-release-row.vala:169
-#: src/widgets/tools/tools-release-row.vala:249
+#: src/widgets/header/header-downloads-indicator.vala:227
+#: src/widgets/header/header-downloads-indicator.vala:229
+#: src/widgets/tools/tools-release-row.vala:164
+#: src/widgets/tools/tools-release-row.vala:244
 #: src/widgets/tools/tools-remove-dialog.vala:26
 #: src/widgets/tools/tools-stl-release-row.vala:117 src/widgets/window.vala:173
 #: src/widgets/window.vala:381
 msgid "Cancel"
 msgstr "Batal"
 
+#: src/widgets/header/header-downloads-indicator.vala:279
+#: src/widgets/header/header-downloads-indicator.vala:281
 #: src/widgets/header/header-downloads-indicator.vala:283
-#: src/widgets/header/header-downloads-indicator.vala:285
-#: src/widgets/header/header-downloads-indicator.vala:287
-#: src/widgets/tools/tools-release-row.vala:609
-#: src/widgets/tools/tools-release-row.vala:888
+#: src/widgets/tools/tools-release-row.vala:604
+#: src/widgets/tools/tools-release-row.vala:881
 msgid "Cancelling"
 msgstr "Membatalkan"
 
-#: src/widgets/header/header-downloads-indicator.vala:313
-#: src/widgets/tools/tools-release-row.vala:893
+#: src/widgets/header/header-downloads-indicator.vala:309
+#: src/widgets/tools/tools-release-row.vala:886
 msgid "Extracting"
 msgstr "Mengekstrak"
 
-#: src/widgets/header/header-downloads-indicator.vala:317
-#: src/widgets/tools/tools-release-row.vala:855
-#: src/widgets/tools/tools-release-row.vala:897
-#: src/widgets/tools/tools-release-row.vala:902
+#: src/widgets/header/header-downloads-indicator.vala:313
+#: src/widgets/tools/tools-release-row.vala:848
+#: src/widgets/tools/tools-release-row.vala:890
+#: src/widgets/tools/tools-release-row.vala:895
 msgid "Removing"
 msgstr "Menghapus"
 
-#: src/widgets/header/header-downloads-indicator.vala:319
+#: src/widgets/header/header-downloads-indicator.vala:315
 msgid "Preparing"
 msgstr "Menyiapkan"
 
-#: src/widgets/header/header-downloads-indicator.vala:333
+#: src/widgets/header/header-downloads-indicator.vala:329
 #, c-format
 msgid "ETA: %dh %dm"
 msgstr "ETA: %dj %dm"
 
-#: src/widgets/header/header-downloads-indicator.vala:335
+#: src/widgets/header/header-downloads-indicator.vala:331
 #, c-format
 msgid "ETA: %dm %ds"
 msgstr "ETA: %dm %dd"
 
-#: src/widgets/header/header-downloads-indicator.vala:336
+#: src/widgets/header/header-downloads-indicator.vala:332
 #, c-format
 msgid "ETA: %ds"
 msgstr "ETA: %dd"
 
-#: src/widgets/header/header-launchers-button.vala:40
 #: src/widgets/header/header-launchers-button.vala:42
+#: src/widgets/header/header-launchers-button.vala:44
 msgid "Switch launcher"
+msgstr "Ganti launcher"
+
+#: src/widgets/header/header-launchers-button.vala:126
+#, c-format
+msgid "%s · %s"
+msgstr ""
+
+#: src/widgets/header/header-launchers-button.vala:130
+#, fuzzy, c-format
+msgid "Switch launcher: %s"
 msgstr "Ganti launcher"
 
 #: src/widgets/introduction/application.vala:8
@@ -4043,12 +4046,9 @@ msgid "Welcome to ProtonPlus"
 msgstr "Selamat datang di ProtonPlus"
 
 #: src/widgets/introduction/application.vala:9
-msgid ""
-"ProtonPlus helps you easily manage, install, and update compatibility layers "
-"for running Windows games on Linux."
-msgstr ""
-"ProtonPlus membantu Anda mengelola, menginstal, dan memperbarui lapisan "
-"kompatibilitas untuk menjalankan game Windows di Linux dengan mudah."
+#, fuzzy
+msgid "Install and manage compatibility tools for your Linux game launchers"
+msgstr "Instal alat kompatibilitas untuk melihatnya di sini."
 
 #: src/widgets/introduction/controller.vala:31
 msgid "Controller support"
@@ -4088,6 +4088,7 @@ msgid "Text input"
 msgstr "Input teks"
 
 #: src/widgets/introduction/controller.vala:62
+#: src/widgets/introduction/help-dialog.vala:50
 msgid ""
 "On Steam Deck, focus a text field and press Steam + X. Other systems may "
 "require a physical or system keyboard."
@@ -4096,44 +4097,253 @@ msgstr ""
 "memerlukan keyboard fisik atau sistem."
 
 #: src/widgets/introduction/forks.vala:8
-msgid "Custom Forks & Flavors"
-msgstr "Fork & Varian Khusus"
+msgid "Choosing a Community Build"
+msgstr ""
 
 #: src/widgets/introduction/forks.vala:9
 msgid ""
-"Community versions like Proton-GE provide cutting-edge fixes, video codecs, "
-"and game-specific tweaks before they hit the official releases."
+"Community builds such as GE-Proton offer additional fixes and game-specific "
+"changes. Try one when a game needs it; a newer or different build is not "
+"always better for every game."
 msgstr ""
-"Versi komunitas seperti Proton-GE menyediakan perbaikan mutakhir, codec "
-"video, dan penyesuaian khusus game sebelum dirilis resmi."
+
+#: src/widgets/introduction/help-dialog.vala:10
+#: src/widgets/introduction/help-dialog.vala:23
+#, fuzzy
+msgid "Help"
+msgstr "Bantuan"
+
+#: src/widgets/introduction/help-dialog.vala:21
+#, fuzzy
+msgid "Using ProtonPlus"
+msgstr "ProtonPlus"
+
+#: src/widgets/introduction/help-dialog.vala:25
+#, fuzzy
+msgid "Install a Compatibility Tool"
+msgstr "Alat kompatibilitas default"
+
+#: src/widgets/introduction/help-dialog.vala:26
+#, fuzzy
+msgid "Choose a launcher and install a release"
+msgstr "Daftar launcher atau runner yang terinstal"
+
+#: src/widgets/introduction/help-dialog.vala:27
+msgid "1. Choose a game launcher from the top-left menu"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:28
+msgid "2. Open the Tools tab and select a tool to see its releases"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:29
+msgid "3. Choose a release and select Install"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:30
+msgid ""
+"Installing a tool makes it available to the selected launcher. Select it for "
+"a game before playing."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:32
+msgid "Choose a Tool for a Game"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:33
+#, fuzzy
+msgid "Use an installed tool with a game"
+msgstr "Tidak ada alat yang terinstal"
+
+#: src/widgets/introduction/help-dialog.vala:34
+msgid "1. Select the launcher where the tool is installed"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:35
+msgid ""
+"2. Open the Games tab and choose the game’s compatibility tool, where "
+"supported"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:36
+msgid "3. For other launchers, select the tool in the launcher’s game settings"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:37
+msgid ""
+"Follow any Steam restart prompt to finish applying changes. Close running "
+"games before restarting Steam."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:39
+#: src/widgets/tools/tools-box.vala:110
+#, fuzzy
+msgid "Update Tools"
+msgstr "Memperbarui %s"
+
+#: src/widgets/introduction/help-dialog.vala:40
+#, fuzzy
+msgid "Update manually or set a schedule"
+msgstr "Pembaruan selesai"
+
+#: src/widgets/introduction/help-dialog.vala:41
+#, fuzzy
+msgid "Select Update Tools in the Tools tab to update eligible installed tools"
+msgstr "Secara otomatis periksa dan instal pembaruan saat sistem dimulai"
+
+#: src/widgets/introduction/help-dialog.vala:42
+msgid ""
+"Automatic updates check for and install updates. Configure scheduled updates "
+"or updates at startup in Preferences → Tools."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:43
+msgid ""
+"Scheduled updates can run while ProtonPlus is closed. System-startup and app-"
+"startup updates are separate options."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:44
+#, fuzzy
+msgid "Open Update Preferences"
+msgstr "Preferensi"
+
+#: src/widgets/introduction/help-dialog.vala:45
+#, fuzzy
+msgid "Use a Controller"
+msgstr "Kontroler"
+
+#: src/widgets/introduction/help-dialog.vala:46
+msgid "Navigation, buttons, and text input"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:47
+#, fuzzy
+msgid ""
+"Use the D-pad or sticks to move between controls. Use the shoulder buttons "
+"to switch sections where available."
+msgstr ""
+"Gunakan D-pad atau stik untuk bergerak melalui halaman, dialog, dan menu. "
+"Ganti bagian dengan tombol bahu."
+
+#: src/widgets/introduction/help-dialog.vala:48
+#, fuzzy
+msgid ""
+"Follow the on-screen button hints for Confirm, Back, Search, and Filter. "
+"Hints match the controller’s button labels."
+msgstr ""
+"Gunakan tombol wajah untuk Konfirmasi, Kembali, Cari, dan Filter. Petunjuk "
+"cocok dengan label tombol kontroler Anda."
+
+#: src/widgets/introduction/help-dialog.vala:49
+#, fuzzy
+msgid "Choose the Confirm button and enable vibration in Preferences → General"
+msgstr "Pilih tombol Konfirmasi dan aktifkan getaran kontroler di Preferensi."
+
+#: src/widgets/introduction/help-dialog.vala:51
+msgid "Open Controller Preferences"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:53
+#: src/widgets/introduction/introduction.vala:39
+#, fuzzy
+msgid "Learn More"
+msgstr "Muat Lebih Banyak"
+
+#: src/widgets/introduction/help-dialog.vala:55
+msgid "Understand Wine and Proton"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:56
+#, fuzzy
+msgid "Compatibility tools and community builds"
+msgstr "Alat kompatibilitas tidak dapat diterapkan"
+
+#: src/widgets/introduction/help-dialog.vala:57
+msgid ""
+"Wine lets Windows applications run on Linux. Launchers such as Lutris use "
+"Wine builds."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:58
+msgid ""
+"Proton combines Wine with gaming components for Steam Play. Choose a Proton "
+"build for Steam games."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:59
+msgid ""
+"Community builds such as GE-Proton include additional fixes and game-"
+"specific changes. A newer or different build is not always better for every "
+"game."
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:60
+msgid ""
+"Keep multiple versions installed when different games need different builds"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:62
+#: src/widgets/preferences/preferences-dialog.vala:387
+msgid "Troubleshooting"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:63
+msgid "Missing tools, game issues, and system information"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:64
+msgid ""
+"If a tool is missing, check that the selected launcher matches the "
+"installation used to run the game"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:65
+msgid "If Steam has not picked up a change, follow the pending restart prompt"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:66
+msgid ""
+"If a game stops working after changing tools, try the previously working "
+"version"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:67
+msgid ""
+"For support, open Preferences → Advanced → System Information and copy the "
+"detected environment details"
+msgstr ""
+
+#: src/widgets/introduction/help-dialog.vala:68
+#, fuzzy
+msgid "Open Advanced Preferences"
+msgstr "Preferensi"
 
 #: src/widgets/introduction/how-to-use.vala:8
-msgid "How to Use"
-msgstr "Cara Menggunakan"
+msgid "Install and Select a Tool"
+msgstr ""
 
 #: src/widgets/introduction/how-to-use.vala:9
 msgid ""
-"Simply browse the available compatibility tools, click download, and "
-"ProtonPlus will automatically configure them for your launchers like Steam, "
-"Heroic, or Lutris."
+"Open a tool in the Tools tab, choose a release, and select Install. Then "
+"select the installed tool for your game in ProtonPlus’s Games tab where "
+"supported, or in your launcher’s settings. Follow any Steam restart prompt "
+"to finish applying changes."
 msgstr ""
-"Cukup jelajahi alat kompatibilitas yang tersedia, klik unduh, dan ProtonPlus "
-"akan mengonfigurasinya secara otomatis untuk launcher Anda seperti Steam, "
-"Heroic, atau Lutris."
 
-#: src/widgets/introduction/introduction.vala:17
-msgid "Introduction"
-msgstr "Pengantar"
+#: src/widgets/introduction/introduction.vala:8
+#, fuzzy
+msgid "Welcome"
+msgstr "Selamat datang di %s"
 
-#: src/widgets/introduction/introduction.vala:53
-#: src/widgets/introduction/introduction.vala:55
-msgid "Previous Page"
-msgstr "Halaman Sebelumnya"
+#: src/widgets/introduction/introduction.vala:27
+msgid "Choose a launcher from the top-left menu, then select a tool to install"
+msgstr ""
 
-#: src/widgets/introduction/introduction.vala:62
-#: src/widgets/introduction/introduction.vala:64
-msgid "Next Page"
-msgstr "Halaman Selanjutnya"
+#: src/widgets/introduction/introduction.vala:35
+#, fuzzy
+msgid "Get Started"
+msgstr "Pembaruan dimulai"
 
 #: src/widgets/introduction/proton.vala:8
 msgid "What is Proton?"
@@ -4141,11 +4351,10 @@ msgstr "Apa itu Proton?"
 
 #: src/widgets/introduction/proton.vala:9
 msgid ""
-"Developed by Valve, Proton is a tool based on Wine specifically optimized "
-"for gaming, ensuring high performance and Steam Play integration."
+"Proton combines Wine with gaming components for Steam Play. For Steam games, "
+"choose a Proton build. You can keep several versions installed for games "
+"with different needs."
 msgstr ""
-"Dikembangkan oleh Valve, Proton adalah alat berbasis Wine yang dioptimalkan "
-"khusus untuk gaming, memastikan kinerja tinggi dan integrasi Steam Play."
 
 #: src/widgets/introduction/updates.vala:8
 msgid "Keep Everything Updated"
@@ -4160,37 +4369,36 @@ msgstr ""
 "menjaga pengalaman gaming Anda tetap lancar."
 
 #: src/widgets/introduction/updates.vala:17
-#: src/widgets/preferences/preferences-dialog.vala:77
-msgid "Background updates"
-msgstr "Pembaruan latar belakang"
+#, fuzzy
+msgid "Scheduled updates"
+msgstr "Berhasil memperbarui %s\n"
 
 #: src/widgets/introduction/updates.vala:18
-#: src/widgets/preferences/preferences-dialog.vala:78
-msgid "Automatically update the tools in the background"
-msgstr "Perbarui alat secara otomatis di latar belakang"
+#: src/widgets/preferences/preferences-dialog.vala:81
+#, fuzzy
+msgid ""
+"Check for and install updates on a schedule, even when ProtonPlus is closed"
+msgstr "Secara otomatis periksa dan instal pembaruan saat ProtonPlus dimulai"
 
 #: src/widgets/introduction/updates.vala:24
-#: src/widgets/preferences/preferences-dialog.vala:84
-msgid "Set how often to check for updates in the background"
-msgstr "Atur seberapa sering memeriksa pembaruan di latar belakang"
+msgid "Time between scheduled update checks"
+msgstr ""
 
 #: src/widgets/introduction/updates.vala:30
-#: src/widgets/preferences/preferences-dialog.vala:90
 msgid "Update tools at system startup"
 msgstr "Perbarui alat saat sistem dimulai"
 
 #: src/widgets/introduction/updates.vala:31
-#: src/widgets/preferences/preferences-dialog.vala:91
+#: src/widgets/preferences/preferences-dialog.vala:100
 msgid "Automatically check for and install updates when the system starts"
 msgstr "Secara otomatis periksa dan instal pembaruan saat sistem dimulai"
 
 #: src/widgets/introduction/updates.vala:37
-#: src/widgets/preferences/preferences-dialog.vala:97
 msgid "Update tools when ProtonPlus starts"
 msgstr "Perbarui alat saat ProtonPlus dimulai"
 
 #: src/widgets/introduction/updates.vala:38
-#: src/widgets/preferences/preferences-dialog.vala:98
+#: src/widgets/preferences/preferences-dialog.vala:107
 msgid "Automatically check for and install updates when ProtonPlus starts"
 msgstr "Secara otomatis periksa dan instal pembaruan saat ProtonPlus dimulai"
 
@@ -4200,29 +4408,28 @@ msgstr "Apa itu Wine?"
 
 #: src/widgets/introduction/wine.vala:9
 msgid ""
-"Wine is a compatibility layer capable of running Windows applications on "
-"Linux systems by translating Windows API calls on the fly."
+"Wine lets Windows applications run on Linux by translating Windows API "
+"calls. Launchers such as Lutris use Wine builds; choose a build that suits "
+"the game you want to play."
 msgstr ""
-"Wine adalah lapisan kompatibilitas yang mampu menjalankan aplikasi Windows "
-"di sistem Linux dengan menerjemahkan panggilan API Windows secara langsung."
 
-#: src/widgets/loading/loading-box.vala:54
+#: src/widgets/loading/loading-box.vala:53
 msgid "Loading"
 msgstr "Memuat"
 
-#: src/widgets/loading/loading-box.vala:55
-msgid "Please wait while we're loading your launchers."
-msgstr "Tunggu sementara kami memuat launcher Anda."
+#: src/widgets/loading/loading-box.vala:54
+msgid "Finding your game launchers."
+msgstr ""
 
-#: src/widgets/loading/loading-box.vala:62
+#: src/widgets/loading/loading-box.vala:61
 msgid "Taking longer than normal?"
 msgstr "Memerlukan waktu lebih lama dari biasanya?"
 
-#: src/widgets/loading/loading-box.vala:84
+#: src/widgets/loading/loading-box.vala:82
 msgid "An unexpected error occurred"
 msgstr "Terjadi kesalahan yang tidak diharapkan"
 
-#: src/widgets/loading/loading-box.vala:85
+#: src/widgets/loading/loading-box.vala:83
 msgid ""
 "We encountered a problem while loading your application.\n"
 "Please try again or report the problem."
@@ -4230,33 +4437,33 @@ msgstr ""
 "Kami mengalami masalah saat memuat aplikasi Anda.\n"
 "Coba lagi atau laporkan masalah tersebut."
 
-#: src/widgets/loading/loading-box.vala:97
+#: src/widgets/loading/loading-box.vala:95
 #, c-format
 msgid "Welcome to %s"
 msgstr "Selamat datang di %s"
 
-#: src/widgets/loading/loading-box.vala:136
+#: src/widgets/loading/loading-box.vala:134
 msgid "Retry loading"
 msgstr "Coba muat ulang"
 
-#: src/widgets/loading/loading-box.vala:141
+#: src/widgets/loading/loading-box.vala:139
 msgid "Report issue"
 msgstr "Laporkan masalah"
 
-#: src/widgets/loading/loading-box.vala:161
+#: src/widgets/loading/loading-box.vala:159
 msgid "You need a game launcher to use ProtonPlus."
 msgstr "Anda memerlukan launcher game untuk menggunakan ProtonPlus."
 
-#: src/widgets/loading/loading-box.vala:163
+#: src/widgets/loading/loading-box.vala:161
 msgid "Install one of these to get started:"
 msgstr "Instal salah satu dari ini untuk memulai:"
 
-#: src/widgets/loading/loading-box.vala:204
+#: src/widgets/loading/loading-box.vala:202
 msgid "Important: Run the launcher once to initialize it properly."
 msgstr ""
 "Penting: Jalankan launcher sekali untuk menginisialisasinya dengan benar."
 
-#: src/widgets/loading/loading-box.vala:206
+#: src/widgets/loading/loading-box.vala:204
 msgid "Check again"
 msgstr "Periksa lagi"
 
@@ -4274,13 +4481,13 @@ msgstr "OK"
 
 #. Tools Page
 #: src/widgets/main/main-box.vala:72
-#: src/widgets/preferences/preferences-dialog.vala:65
-#: src/widgets/tools/tools-box.vala:104
+#: src/widgets/preferences/preferences-dialog.vala:67
+#: src/widgets/tools/tools-box.vala:96
 msgid "Tools"
 msgstr "Alat"
 
 #: src/widgets/main/main-box.vala:75
-#: src/widgets/preferences/preferences-dialog.vala:389
+#: src/widgets/preferences/preferences-dialog.vala:450
 msgid "MangoHud"
 msgstr "MangoHud"
 
@@ -4328,23 +4535,23 @@ msgstr "Restart Steam"
 msgid "Try Again"
 msgstr "Coba Lagi"
 
-#: src/widgets/main/main-box.vala:335 src/widgets/tools/tools-box.vala:762
+#: src/widgets/main/main-box.vala:335
 msgid "Checking for updates"
 msgstr "Memeriksa pembaruan"
 
-#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:770
+#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:671
 msgid "Can't update while a game is running"
 msgstr "Tidak dapat memperbarui saat game berjalan"
 
-#: src/widgets/main/main-box.vala:349 src/widgets/tools/tools-box.vala:773
+#: src/widgets/main/main-box.vala:349 src/widgets/tools/tools-box.vala:674
 msgid "Nothing to update"
 msgstr "Tidak ada yang perlu diperbarui"
 
-#: src/widgets/main/main-box.vala:353 src/widgets/tools/tools-box.vala:777
+#: src/widgets/main/main-box.vala:353
 msgid "Everything is now up-to-date"
 msgstr "Semuanya kini sudah yang terbaru"
 
-#: src/widgets/main/main-box.vala:356 src/widgets/tools/tools-box.vala:780
+#: src/widgets/main/main-box.vala:356
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr "Tidak dapat memeriksa pembaruan (Alasan: %s)"
@@ -4366,7 +4573,7 @@ msgid "Download canceled"
 msgstr "Unduhan dibatalkan"
 
 #: src/widgets/main/main-box.vala:379
-#: src/widgets/tools/tools-release-row.vala:1097
+#: src/widgets/tools/tools-release-row.vala:1090
 msgid "Download failed"
 msgstr "Unduhan gagal"
 
@@ -4699,7 +4906,10 @@ msgid "Show vkcube"
 msgstr "Tampilkan vkcube"
 
 #. System Information section
+#. Read-only troubleshooting information
 #: src/widgets/mangohud/mangohud-extras-page.vala:59
+#: src/widgets/preferences/preferences-dialog.vala:383
+#: src/widgets/preferences/preferences-dialog.vala:390
 msgid "System Information"
 msgstr "Informasi Sistem"
 
@@ -4805,7 +5015,8 @@ msgid "Media Info"
 msgstr "Info Media"
 
 #: src/widgets/mangohud/mangohud-extras-page.vala:130
-#: src/widgets/preferences/preferences-dialog.vala:251
+#: src/widgets/preferences/preferences-dialog.vala:285
+#: src/widgets/preferences/preferences-dialog.vala:291
 msgid "Network"
 msgstr "Jaringan"
 
@@ -5245,20 +5456,20 @@ msgid "Open %s Token Page"
 msgstr "Buka Halaman Token %s"
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:15
-msgid "1h"
-msgstr "1j"
+msgid "Every hour"
+msgstr ""
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:16
-msgid "3h"
-msgstr "3j"
+msgid "Every 3 hours"
+msgstr ""
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:17
-msgid "6h"
-msgstr "6j"
+msgid "Every 6 hours"
+msgstr ""
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:18
-msgid "12h"
-msgstr "12j"
+msgid "Every 12 hours"
+msgstr ""
 
 #: src/widgets/preferences/preferences-background-updates-frequency-row.vala:26
 msgid "Update frequency"
@@ -5275,220 +5486,298 @@ msgid "Removes all cached information and temporary downloads"
 msgstr "Menghapus semua informasi yang di-cache dan unduhan sementara"
 
 #. General Page
-#: src/widgets/preferences/preferences-dialog.vala:16
+#: src/widgets/preferences/preferences-dialog.vala:18
 msgid "General"
 msgstr "Umum"
 
-#: src/widgets/preferences/preferences-dialog.vala:22
+#: src/widgets/preferences/preferences-dialog.vala:25
 msgid "Appearance"
 msgstr "Tampilan"
 
-#: src/widgets/preferences/preferences-dialog.vala:33
+#: src/widgets/preferences/preferences-dialog.vala:36
 msgid "Controller"
 msgstr "Kontroler"
 
-#: src/widgets/preferences/preferences-dialog.vala:34
-msgid "Configure controller buttons and vibration"
-msgstr "Konfigurasi tombol dan getaran kontroler"
-
-#: src/widgets/preferences/preferences-dialog.vala:42
-msgid "Confirm button"
+#: src/widgets/preferences/preferences-dialog.vala:44
+#, fuzzy
+msgid "Confirm Button"
 msgstr "Tombol konfirmasi"
 
-#: src/widgets/preferences/preferences-dialog.vala:43
+#: src/widgets/preferences/preferences-dialog.vala:45
 msgid "Choose which face button activates the selected control"
 msgstr "Pilih tombol wajah mana yang mengaktifkan kontrol yang dipilih"
 
-#: src/widgets/preferences/preferences-dialog.vala:56
-msgid "Controller vibration"
+#: src/widgets/preferences/preferences-dialog.vala:58
+#, fuzzy
+msgid "Controller Vibration"
 msgstr "Getaran kontroler"
 
-#: src/widgets/preferences/preferences-dialog.vala:57
+#: src/widgets/preferences/preferences-dialog.vala:59
 msgid "Use subtle vibration for controller actions and navigation limits"
 msgstr "Gunakan getaran halus untuk aksi kontroler dan batas navigasi"
 
-#: src/widgets/preferences/preferences-dialog.vala:71
-msgid "Updates"
-msgstr "Pembaruan"
+#: src/widgets/preferences/preferences-dialog.vala:74
+#, fuzzy
+msgid "Automatic Updates"
+msgstr "Pembaruan otomatis"
 
-#: src/widgets/preferences/preferences-dialog.vala:72
-msgid "Choose when installed tools are checked and updated"
-msgstr "Pilih kapan alat yang terinstal diperiksa dan diperbarui"
+#: src/widgets/preferences/preferences-dialog.vala:75
+#, fuzzy
+msgid "Check for and install updates to eligible installed tools"
+msgstr "Secara otomatis periksa dan instal pembaruan saat sistem dimulai"
 
-#: src/widgets/preferences/preferences-dialog.vala:104
-msgid "Migrate default prefix"
-msgstr "Migrasikan prefix default"
+#: src/widgets/preferences/preferences-dialog.vala:80
+#, fuzzy
+msgid "Scheduled Updates"
+msgstr "Berhasil memperbarui %s\n"
 
-#: src/widgets/preferences/preferences-dialog.vala:105
-msgid "Automatically migrate the default prefix when updating"
-msgstr "Secara otomatis migrasikan prefix default saat memperbarui"
+#: src/widgets/preferences/preferences-dialog.vala:87
+#, fuzzy
+msgid "Update Frequency"
+msgstr "Frekuensi pembaruan"
 
-#: src/widgets/preferences/preferences-dialog.vala:111
+#: src/widgets/preferences/preferences-dialog.vala:93
+#, fuzzy
+msgid "Update at Startup"
+msgstr "Pembaruan dimulai"
+
+#: src/widgets/preferences/preferences-dialog.vala:94
+#, fuzzy
+msgid "Update at startup, independently of the schedule"
+msgstr "Perbarui alat secara otomatis di latar belakang"
+
+#: src/widgets/preferences/preferences-dialog.vala:99
+msgid "At System Startup"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:106
+#, fuzzy
+msgid "When ProtonPlus Starts"
+msgstr "Perbarui alat saat ProtonPlus dimulai"
+
+#: src/widgets/preferences/preferences-dialog.vala:113
 msgid "Behavior"
 msgstr "Perilaku"
 
-#: src/widgets/preferences/preferences-dialog.vala:116
-msgid "Show legacy tools"
+#: src/widgets/preferences/preferences-dialog.vala:118
+#, fuzzy
+msgid "Show Legacy Tools"
 msgstr "Tampilkan alat warisan"
 
-#: src/widgets/preferences/preferences-dialog.vala:117
+#: src/widgets/preferences/preferences-dialog.vala:119
 msgid "Display older tools that are no longer actively maintained"
 msgstr "Tampilkan alat lama yang tidak lagi dirawat secara aktif"
 
 #. Launchers Page
-#: src/widgets/preferences/preferences-dialog.vala:124
-msgid "Launchers"
-msgstr "Launcher"
+#: src/widgets/preferences/preferences-dialog.vala:126
+#, fuzzy
+msgid "Steam"
+msgstr "SteamOS"
 
-#: src/widgets/preferences/preferences-dialog.vala:158
-msgid "Default compatibility tool"
+#: src/widgets/preferences/preferences-dialog.vala:136
+#, c-format
+msgid "Steam (%s)"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:160
+#, fuzzy
+msgid "Default Compatibility Tool"
 msgstr "Alat kompatibilitas default"
 
-#: src/widgets/preferences/preferences-dialog.vala:159
+#: src/widgets/preferences/preferences-dialog.vala:161
 msgid "The compatibility tool games will use by default"
 msgstr "Alat kompatibilitas yang akan digunakan game secara default"
 
-#: src/widgets/preferences/preferences-dialog.vala:184
-msgid "Selected profile"
+#: src/widgets/preferences/preferences-dialog.vala:189
+#, fuzzy
+msgid "Couldn’t change the default compatibility tool"
+msgstr "Tidak dapat mengubah alat kompatibilitas default"
+
+#: src/widgets/preferences/preferences-dialog.vala:190
+msgid ""
+"The previous selection has been restored. Check that Steam’s configuration "
+"is writable, then try again."
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:206
+#, fuzzy
+msgid "Steam Profile"
 msgstr "Profil yang dipilih"
 
-#: src/widgets/preferences/preferences-dialog.vala:185
-msgid "Currently selected profile for Steam"
-msgstr "Profil yang saat ini dipilih untuk Steam"
+#: src/widgets/preferences/preferences-dialog.vala:251
+#, fuzzy
+msgid "Tool Updates"
+msgstr "Pembaruan"
 
-#: src/widgets/preferences/preferences-dialog.vala:229
+#: src/widgets/preferences/preferences-dialog.vala:256
+#, fuzzy
+msgid "Migrate Default Prefix"
+msgstr "Migrasikan prefix default"
+
+#: src/widgets/preferences/preferences-dialog.vala:257
+msgid ""
+"Carry over the tool’s bundled default Wine prefix when replacing it with an "
+"update"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:263
 msgid "API Tokens"
 msgstr "Token API"
 
-#: src/widgets/preferences/preferences-dialog.vala:230
+#: src/widgets/preferences/preferences-dialog.vala:264
 msgid "Optional tokens increase GitHub and GitLab request limits"
 msgstr "Token opsional meningkatkan batas permintaan GitHub dan GitLab"
 
-#: src/widgets/preferences/preferences-dialog.vala:259
+#: src/widgets/preferences/preferences-dialog.vala:292
+#, fuzzy
+msgid "Proxy, download mirror, and speed limit"
+msgstr "Batas kecepatan unduh"
+
+#: src/widgets/preferences/preferences-dialog.vala:298
 msgid "Proxy URL"
 msgstr "URL Proxy"
 
-#: src/widgets/preferences/preferences-dialog.vala:262
+#: src/widgets/preferences/preferences-dialog.vala:301
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr ""
 "Contoh: [http://127.0.0.1:7890](http://127.0.0.1:7890) atau "
 "socks5://127.0.0.1:1080"
 
-#: src/widgets/preferences/preferences-dialog.vala:269
-msgid "GitHub download mirror"
+#: src/widgets/preferences/preferences-dialog.vala:308
+msgid "GitHub Download Mirror"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:273
+#: src/widgets/preferences/preferences-dialog.vala:312
 msgid "Example: https://mirror.example/"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:275
-#: src/widgets/preferences/preferences-dialog.vala:290
+#: src/widgets/preferences/preferences-dialog.vala:314
+#: src/widgets/preferences/preferences-dialog.vala:329
 msgid ""
 "Optional. Leave empty to download directly from GitHub. Only release "
 "downloads use this mirror. Only use a mirror you trust."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:300
-msgid "Download speed limit"
+#: src/widgets/preferences/preferences-dialog.vala:337
+#, fuzzy
+msgid "Download Speed Limit"
 msgstr "Batas kecepatan unduh"
 
-#: src/widgets/preferences/preferences-dialog.vala:301
+#: src/widgets/preferences/preferences-dialog.vala:338
 msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
 msgstr ""
 "Kecepatan total maksimum dalam KB/s untuk semua unduhan. Atur ke 0 untuk "
 "tanpa batas."
 
-#: src/widgets/preferences/preferences-dialog.vala:304
+#: src/widgets/preferences/preferences-dialog.vala:341
 msgid "This limit is shared across all active downloads."
 msgstr "Batas ini dibagi di semua unduhan aktif."
 
-#: src/widgets/preferences/preferences-dialog.vala:326
-msgid "Preview features"
+#: src/widgets/preferences/preferences-dialog.vala:367
+#, fuzzy
+msgid "Preview Features"
 msgstr "Fitur pratinjau"
 
-#: src/widgets/preferences/preferences-dialog.vala:327
+#: src/widgets/preferences/preferences-dialog.vala:368
 msgid "Enable experimental features for early testing"
 msgstr "Aktifkan fitur eksperimental untuk pengujian awal"
 
-#: src/widgets/preferences/preferences-dialog.vala:333
+#: src/widgets/preferences/preferences-dialog.vala:374
 msgid "Maintenance"
 msgstr "Pemeliharaan"
 
-#: src/widgets/preferences/preferences-dialog.vala:334
+#: src/widgets/preferences/preferences-dialog.vala:375
 msgid "Refresh app data or clear cached files"
 msgstr "Segarkan data aplikasi atau hapus berkas yang di-cache"
 
-#: src/widgets/preferences/preferences-dialog.vala:348
+#: src/widgets/preferences/preferences-dialog.vala:391
+msgid "Environment, dependencies, and detected launchers"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:395
+#, fuzzy
+msgid "Copy System Information"
+msgstr "Informasi Sistem"
+
+#: src/widgets/preferences/preferences-dialog.vala:401
+#, fuzzy
+msgid "System information copied"
+msgstr "Informasi Sistem"
+
+#: src/widgets/preferences/preferences-dialog.vala:407
 msgid "Software Environment"
 msgstr "Lingkungan Perangkat Lunak"
 
-#: src/widgets/preferences/preferences-dialog.vala:353
+#: src/widgets/preferences/preferences-dialog.vala:412
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr "SteamOS"
 
-#: src/widgets/preferences/preferences-dialog.vala:353
-#: src/widgets/preferences/preferences-dialog.vala:356
+#: src/widgets/preferences/preferences-dialog.vala:412
+#: src/widgets/preferences/preferences-dialog.vala:415
 #: src/widgets/tools/tools-stl-release-row.vala:170
 msgid "Yes"
 msgstr "Ya"
 
-#: src/widgets/preferences/preferences-dialog.vala:353
-#: src/widgets/preferences/preferences-dialog.vala:356
+#: src/widgets/preferences/preferences-dialog.vala:412
+#: src/widgets/preferences/preferences-dialog.vala:415
 #: src/widgets/tools/tools-stl-release-row.vala:169
 msgid "No"
 msgstr "Tidak"
 
-#: src/widgets/preferences/preferences-dialog.vala:356
+#: src/widgets/preferences/preferences-dialog.vala:415
 msgid "Flatpak"
 msgstr "Flatpak"
 
-#: src/widgets/preferences/preferences-dialog.vala:360
+#: src/widgets/preferences/preferences-dialog.vala:419
 msgid "Hardware"
 msgstr "Perangkat Keras"
 
-#: src/widgets/preferences/preferences-dialog.vala:372
+#: src/widgets/preferences/preferences-dialog.vala:430
+#: src/widgets/preferences/preferences-dialog.vala:433
 msgid "CPU Features"
 msgstr "Fitur CPU"
 
-#: src/widgets/preferences/preferences-dialog.vala:373
+#: src/widgets/preferences/preferences-dialog.vala:431
+#: src/widgets/preferences/preferences-dialog.vala:434
 msgid "None detected"
 msgstr "Tidak terdeteksi"
 
-#: src/widgets/preferences/preferences-dialog.vala:378
+#: src/widgets/preferences/preferences-dialog.vala:439
 msgid "Dependencies"
 msgstr "Dependensi"
 
-#: src/widgets/preferences/preferences-dialog.vala:383
+#: src/widgets/preferences/preferences-dialog.vala:444
 msgid "Protontricks"
 msgstr "Protontricks"
 
-#: src/widgets/preferences/preferences-dialog.vala:386
+#: src/widgets/preferences/preferences-dialog.vala:447
 msgid "Protontricks (Flatpak)"
 msgstr "Protontricks (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:392
+#: src/widgets/preferences/preferences-dialog.vala:453
 msgid "MangoHud (Flatpak)"
 msgstr "MangoHud (Flatpak)"
 
-#: src/widgets/preferences/preferences-dialog.vala:401
+#: src/widgets/preferences/preferences-dialog.vala:462
 msgid "Feral Gamemode"
 msgstr "Feral Gamemode"
 
-#: src/widgets/preferences/preferences-dialog.vala:405
+#: src/widgets/preferences/preferences-dialog.vala:466
 msgid "Detected Launchers"
 msgstr "Launcher Terdeteksi"
 
-#: src/widgets/preferences/preferences-dialog.vala:437
-#: src/widgets/tools/tools-box.vala:189
-#: src/widgets/tools/tools-group-box.vala:749
-#: src/widgets/tools/tools-release-row.vala:840
-#: src/widgets/tools/tools-release-row.vala:844
+#: src/widgets/preferences/preferences-dialog.vala:497
+#: src/widgets/preferences/preferences-dialog.vala:500
+#: src/widgets/tools/tools-box.vala:131
+#: src/widgets/tools/tools-group-box.vala:741
+#: src/widgets/tools/tools-release-row.vala:833
+#: src/widgets/tools/tools-release-row.vala:837
 msgid "Installed"
 msgstr "Terinstal"
 
-#: src/widgets/preferences/preferences-dialog.vala:438
+#: src/widgets/preferences/preferences-dialog.vala:497
+#: src/widgets/preferences/preferences-dialog.vala:501
 msgid "Not installed"
 msgstr "Tidak terinstal"
 
@@ -5582,87 +5871,79 @@ msgstr "Proxy manual"
 msgid "Proxy mode"
 msgstr "Mode proxy"
 
-#: src/widgets/tools/tools-box.vala:105 src/widgets/tools/tools-box.vala:250
+#: src/widgets/tools/tools-box.vala:97 src/widgets/tools/tools-box.vala:181
 #: src/widgets/tools/tools-migrate-box.vala:43
 #: src/widgets/tools/tools-release-games-dialog.vala:20
 msgid "Migrate"
 msgstr "Migrasi"
 
-#: src/widgets/tools/tools-box.vala:121 src/widgets/tools/tools-box.vala:123
-msgid "Check for updates"
-msgstr "Periksa pembaruan"
+#: src/widgets/tools/tools-box.vala:113 src/widgets/tools/tools-box.vala:115
+#, fuzzy
+msgid "Update installed tools"
+msgstr "Tidak ada alat yang terinstal"
 
-#: src/widgets/tools/tools-box.vala:192
+#: src/widgets/tools/tools-box.vala:134
 msgid "Used"
 msgstr "Digunakan"
 
-#: src/widgets/tools/tools-box.vala:195
-msgid "Unused"
-msgstr "Tidak digunakan"
-
-#: src/widgets/tools/tools-box.vala:350
-msgid "Search is active"
-msgstr "Pencarian aktif"
-
-#: src/widgets/tools/tools-box.vala:360
+#: src/widgets/tools/tools-box.vala:265
 msgid "Filter is active"
 msgstr "Filter aktif"
 
-#: src/widgets/tools/tools-group-box.vala:114
-#: src/widgets/tools/tools-group-box.vala:381
+#: src/widgets/tools/tools-box.vala:663
+#, fuzzy
+msgid "Updating installed tools"
+msgstr "Tidak ada alat yang terinstal"
+
+#: src/widgets/tools/tools-box.vala:678
+#, fuzzy
+msgid "Eligible installed tools are up to date"
+msgstr "Pilih kapan alat yang terinstal diperiksa dan diperbarui"
+
+#: src/widgets/tools/tools-box.vala:681
+#, fuzzy, c-format
+msgid "Couldn't update installed tools (Reason: %s)"
+msgstr "Tidak dapat memperbarui %s (Alasan: %s)"
+
+#: src/widgets/tools/tools-group-box.vala:100
+#: src/widgets/tools/tools-group-box.vala:392
 msgid "No tools found"
 msgstr "Tidak ada alat yang ditemukan"
 
-#: src/widgets/tools/tools-group-box.vala:115
+#: src/widgets/tools/tools-group-box.vala:101
 msgid "No tools match the current filter."
 msgstr "Tidak ada alat yang cocok dengan filter saat ini."
 
-#: src/widgets/tools/tools-group-box.vala:353
-msgid "No matching tools"
-msgstr "Tidak ada alat yang cocok"
-
-#: src/widgets/tools/tools-group-box.vala:366
+#: src/widgets/tools/tools-group-box.vala:382
 msgid "No installed tools"
 msgstr "Tidak ada alat yang terinstal"
 
-#: src/widgets/tools/tools-group-box.vala:367
+#: src/widgets/tools/tools-group-box.vala:383
 msgid "Install a compatibility tool to see it here."
 msgstr "Instal alat kompatibilitas untuk melihatnya di sini."
 
-#: src/widgets/tools/tools-group-box.vala:371
+#: src/widgets/tools/tools-group-box.vala:387
 msgid "No tools in use"
 msgstr "Tidak ada alat yang digunakan"
 
-#: src/widgets/tools/tools-group-box.vala:372
+#: src/widgets/tools/tools-group-box.vala:388
 msgid "No games currently use a tool from this group."
 msgstr "Tidak ada game yang saat ini menggunakan alat dari grup ini."
 
-#: src/widgets/tools/tools-group-box.vala:376
-msgid "No unused tools"
-msgstr "Tidak ada alat yang tidak digunakan"
-
-#: src/widgets/tools/tools-group-box.vala:377
-msgid "Every tool in this group is currently in use."
-msgstr "Setiap alat di grup ini sedang digunakan."
-
-#: src/widgets/tools/tools-group-box.vala:382
+#: src/widgets/tools/tools-group-box.vala:393
 msgid "No tools are available in this group."
 msgstr "Tidak ada alat yang tersedia di grup ini."
 
-#: src/widgets/tools/tools-group-box.vala:484
-#: src/widgets/tools/tools-group-box.vala:488
+#: src/widgets/tools/tools-group-box.vala:495
+#: src/widgets/tools/tools-group-box.vala:499
 msgid "Tool Actions"
 msgstr "Aksi Alat"
 
-#: src/widgets/tools/tools-group-box.vala:520
-msgid "Recommended compatibility tool"
-msgstr "Alat kompatibilitas yang direkomendasikan"
-
-#: src/widgets/tools/tools-group-box.vala:745
+#: src/widgets/tools/tools-group-box.vala:737
 msgid "Used by games"
 msgstr "Digunakan oleh game"
 
-#: src/widgets/tools/tools-group-box.vala:746
+#: src/widgets/tools/tools-group-box.vala:738
 msgid ""
 "One or more releases of this tool is installed and currently used by one or "
 "more games"
@@ -5670,7 +5951,7 @@ msgstr ""
 "Satu atau lebih rilis alat ini terinstal dan saat ini digunakan oleh satu "
 "atau lebih game"
 
-#: src/widgets/tools/tools-group-box.vala:750
+#: src/widgets/tools/tools-group-box.vala:742
 msgid ""
 "One or more releases of this tool is installed, but not currently used by "
 "any games"
@@ -5747,38 +6028,38 @@ msgstr "Pilih semua game"
 msgid "No games have this tool selected"
 msgstr "Tidak Ada Game yang Menggunakan Alat Ini"
 
-#: src/widgets/tools/tools-release-row.vala:136
-#: src/widgets/tools/tools-release-row.vala:138
+#: src/widgets/tools/tools-release-row.vala:131
+#: src/widgets/tools/tools-release-row.vala:133
 msgid "Show installation details"
 msgstr "Tampilkan detail instalasi"
 
-#: src/widgets/tools/tools-release-row.vala:143
+#: src/widgets/tools/tools-release-row.vala:138
 msgid "Speed: 0 KB/s"
 msgstr "Kecepatan: 0 KB/s"
 
-#: src/widgets/tools/tools-release-row.vala:146
-#: src/widgets/tools/tools-release-row.vala:968
+#: src/widgets/tools/tools-release-row.vala:141
+#: src/widgets/tools/tools-release-row.vala:961
 msgid "Remaining time: --"
 msgstr "Sisa waktu: --"
 
-#: src/widgets/tools/tools-release-row.vala:210
+#: src/widgets/tools/tools-release-row.vala:205
 msgid "Release Actions"
 msgstr "Aksi Rilis"
 
-#: src/widgets/tools/tools-release-row.vala:242
+#: src/widgets/tools/tools-release-row.vala:237
 msgid "Install TinkerGame First"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:243
+#: src/widgets/tools/tools-release-row.vala:238
 msgid "Install or update TinkerGame before copying SteamTinkerLaunch settings."
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:247
+#: src/widgets/tools/tools-release-row.vala:242
 #, fuzzy
 msgid "Copy SteamTinkerLaunch Settings?"
 msgstr "SteamTinkerLaunch mungkin tidak berfungsi"
 
-#: src/widgets/tools/tools-release-row.vala:248
+#: src/widgets/tools/tools-release-row.vala:243
 msgid ""
 "The original settings and installation will be kept. Existing TinkerGame "
 "settings will never be overwritten. Review custom commands, scripts, "
@@ -5787,169 +6068,174 @@ msgid ""
 "SteamTinkerLaunch separately."
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:250
+#: src/widgets/tools/tools-release-row.vala:245
 msgid "Copy Settings"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:272
+#: src/widgets/tools/tools-release-row.vala:267
 msgid ""
 "Settings copied. Review custom commands and paths before playing. Select "
 "TinkerGame for individual games in Games when ready; SteamTinkerLaunch "
 "remains installed."
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:274
+#: src/widgets/tools/tools-release-row.vala:269
 msgid ""
 "TinkerGame settings already exist. Nothing was overwritten. Review and merge "
 "your settings manually."
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:275
+#: src/widgets/tools/tools-release-row.vala:270
 msgid ""
 "Settings could not be copied. The original settings were preserved. You can "
 "retry after resolving the problem."
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:276
+#: src/widgets/tools/tools-release-row.vala:271
 msgid "TinkerGame Migration"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:590
+#: src/widgets/tools/tools-release-row.vala:585
 #, c-format
 msgid "Step: %s"
 msgstr "Langkah: %s"
 
-#: src/widgets/tools/tools-release-row.vala:593
+#: src/widgets/tools/tools-release-row.vala:588
 #, c-format
 msgid "%s for %s"
 msgstr "%s untuk %s"
 
-#: src/widgets/tools/tools-release-row.vala:598
+#: src/widgets/tools/tools-release-row.vala:593
 #, c-format
 msgid "Progress for %s"
 msgstr "Progres untuk %s"
 
-#: src/widgets/tools/tools-release-row.vala:653
-#: src/widgets/tools/tools-release-row.vala:656
+#: src/widgets/tools/tools-release-row.vala:648
+#: src/widgets/tools/tools-release-row.vala:651
 msgid "Latest"
 msgstr "Terbaru"
 
-#: src/widgets/tools/tools-release-row.vala:718
-#: src/widgets/tools/tools-release-row.vala:721
+#: src/widgets/tools/tools-release-row.vala:711
+#, fuzzy
+msgid "Install"
+msgstr "Terinstal"
+
+#: src/widgets/tools/tools-release-row.vala:712
+#: src/widgets/tools/tools-release-row.vala:715
 #, c-format
 msgid "Install %s"
 msgstr "Instal %s"
 
-#: src/widgets/tools/tools-release-row.vala:727
-#: src/widgets/tools/tools-release-row.vala:788
-#: src/widgets/tools/tools-releases-box.vala:477
-#: src/widgets/tools/tools-releases-box.vala:489
+#: src/widgets/tools/tools-release-row.vala:720
+#: src/widgets/tools/tools-release-row.vala:781
+#: src/widgets/tools/tools-releases-box.vala:453
+#: src/widgets/tools/tools-releases-box.vala:465
 msgid "Retry"
 msgstr "Coba Lagi"
 
-#: src/widgets/tools/tools-release-row.vala:728
-#: src/widgets/tools/tools-release-row.vala:731
+#: src/widgets/tools/tools-release-row.vala:721
+#: src/widgets/tools/tools-release-row.vala:724
 #, c-format
 msgid "Retry %s"
 msgstr "Coba Lagi %s"
 
-#: src/widgets/tools/tools-release-row.vala:742
+#: src/widgets/tools/tools-release-row.vala:735
 #, c-format
 msgid "Cancelling %s"
 msgstr "Membatalkan %s"
 
-#: src/widgets/tools/tools-release-row.vala:743
+#: src/widgets/tools/tools-release-row.vala:736
 #, c-format
 msgid "Cancel %s"
 msgstr "Batal %s"
 
-#: src/widgets/tools/tools-release-row.vala:768
+#: src/widgets/tools/tools-release-row.vala:761
 msgid "_Changelog"
 msgstr "_Catatan Perubahan"
 
-#: src/widgets/tools/tools-release-row.vala:771
+#: src/widgets/tools/tools-release-row.vala:764
 msgid "Open Release Page"
 msgstr "Buka Halaman Rilis"
 
-#: src/widgets/tools/tools-release-row.vala:776
+#: src/widgets/tools/tools-release-row.vala:769
 #, fuzzy
 msgid "_Games with this tool selected"
 msgstr "_Game yang Menggunakan Alat Ini"
 
-#: src/widgets/tools/tools-release-row.vala:783
+#: src/widgets/tools/tools-release-row.vala:776
 msgid "Copy SteamTinkerLaunch Settings…"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:790
+#: src/widgets/tools/tools-release-row.vala:783
 msgid "Update"
 msgstr "Perbarui"
 
-#: src/widgets/tools/tools-release-row.vala:791
+#: src/widgets/tools/tools-release-row.vala:784
 msgid "_Check for Updates"
 msgstr "_Periksa Pembaruan"
 
-#: src/widgets/tools/tools-release-row.vala:795
+#: src/widgets/tools/tools-release-row.vala:788
 msgid "_Open Folder"
 msgstr "_Buka Folder"
 
-#: src/widgets/tools/tools-release-row.vala:797
+#: src/widgets/tools/tools-release-row.vala:790
 msgid "_Delete…"
 msgstr "_Hapus…"
 
-#: src/widgets/tools/tools-release-row.vala:833
+#: src/widgets/tools/tools-release-row.vala:826
 msgid "Failed"
 msgstr "Gagal"
 
-#: src/widgets/tools/tools-release-row.vala:841
+#: src/widgets/tools/tools-release-row.vala:834
 msgid "Update available"
 msgstr "Pembaruan tersedia"
 
-#: src/widgets/tools/tools-release-row.vala:860
+#: src/widgets/tools/tools-release-row.vala:853
 msgid "Unavailable for the selected variant"
 msgstr "Tidak tersedia untuk varian yang dipilih"
 
-#: src/widgets/tools/tools-release-row.vala:865
+#: src/widgets/tools/tools-release-row.vala:858
 #, fuzzy, c-format
 msgid "Selected by %i game"
 msgid_plural "Selected by %i games"
 msgstr[0] "Digunakan oleh %i game."
 
-#: src/widgets/tools/tools-release-row.vala:880
+#: src/widgets/tools/tools-release-row.vala:873
 #, c-format
 msgid "%s. Open Release Details"
 msgstr "%s. Buka Detail Rilis"
 
-#: src/widgets/tools/tools-release-row.vala:881
+#: src/widgets/tools/tools-release-row.vala:874
 msgid "Open Release Details"
 msgstr "Buka Detail Rilis"
 
-#: src/widgets/tools/tools-release-row.vala:895
+#: src/widgets/tools/tools-release-row.vala:888
 msgid "Moving"
 msgstr "Memindahkan"
 
-#: src/widgets/tools/tools-release-row.vala:900
+#: src/widgets/tools/tools-release-row.vala:893
 msgid "Preparing update"
 msgstr "Menyiapkan pembaruan"
 
-#: src/widgets/tools/tools-release-row.vala:903
+#: src/widgets/tools/tools-release-row.vala:896
 msgid "Preparing installation"
 msgstr "Menyiapkan instalasi"
 
-#: src/widgets/tools/tools-release-row.vala:959
+#: src/widgets/tools/tools-release-row.vala:952
 #, c-format
 msgid "Speed: %s/s"
 msgstr "Kecepatan: %s/d"
 
-#: src/widgets/tools/tools-release-row.vala:965
+#: src/widgets/tools/tools-release-row.vala:958
 #, c-format
 msgid "Remaining time: %s"
 msgstr "Sisa waktu: %s"
 
-#: src/widgets/tools/tools-releases-box.vala:256
+#: src/widgets/tools/tools-releases-box.vala:225
 msgid "Standard 64-bit build for most Intel and AMD PCs."
 msgstr "Build 64-bit standar untuk sebagian besar PC Intel dan AMD."
 
-#: src/widgets/tools/tools-releases-box.vala:258
+#: src/widgets/tools/tools-releases-box.vala:227
 msgid ""
 "Optimized 64-bit build for Intel and AMD CPUs that support the x86-64-v3 "
 "instruction set."
@@ -5957,126 +6243,127 @@ msgstr ""
 "Build 64-bit yang dioptimalkan untuk CPU Intel dan AMD yang mendukung set "
 "instruksi x86-64-v3."
 
-#: src/widgets/tools/tools-releases-box.vala:261
+#: src/widgets/tools/tools-releases-box.vala:230
 msgid "64-bit ARM build. Choose this only on ARM64 hardware."
 msgstr "Build ARM 64-bit. Pilih ini hanya pada perangkat keras ARM64."
 
-#: src/widgets/tools/tools-releases-box.vala:263
+#: src/widgets/tools/tools-releases-box.vala:232
 msgid "32-bit x86 build. Choose this only when a 32-bit runner is required."
 msgstr "Build x86 32-bit. Pilih ini hanya ketika runner 32-bit diperlukan."
 
-#: src/widgets/tools/tools-releases-box.vala:266
+#: src/widgets/tools/tools-releases-box.vala:235
 msgid ""
 "64-bit build with WoW64 support for running 32-bit Windows applications."
 msgstr ""
 "Build 64-bit dengan dukungan WoW64 untuk menjalankan aplikasi Windows 32-bit."
 
-#: src/widgets/tools/tools-releases-box.vala:268
+#: src/widgets/tools/tools-releases-box.vala:237
 msgid "The provider's recommended build for most systems."
 msgstr "Build yang direkomendasikan penyedia untuk sebagian besar sistem."
 
-#: src/widgets/tools/tools-releases-box.vala:270
+#: src/widgets/tools/tools-releases-box.vala:239
 #, c-format
 msgid "Select the %s build variant."
 msgstr "Pilih varian build %s."
 
-#: src/widgets/tools/tools-releases-box.vala:335
-#: src/widgets/tools/tools-releases-box.vala:343
-#: src/widgets/tools/tools-releases-box.vala:1341
+#: src/widgets/tools/tools-releases-box.vala:304
+#: src/widgets/tools/tools-releases-box.vala:312
+#: src/widgets/tools/tools-releases-box.vala:1282
 msgid "Check for new releases"
 msgstr "Periksa rilis baru"
 
-#: src/widgets/tools/tools-releases-box.vala:349
-#: src/widgets/tools/tools-releases-box.vala:358
-#: src/widgets/tools/tools-releases-box.vala:360
+#: src/widgets/tools/tools-releases-box.vala:318
+#: src/widgets/tools/tools-releases-box.vala:327
+#: src/widgets/tools/tools-releases-box.vala:329
 msgid "Open Repository"
 msgstr "Buka Repositori"
 
-#: src/widgets/tools/tools-releases-box.vala:371
+#: src/widgets/tools/tools-releases-box.vala:340
 msgid "Choose which architecture or build variant to show."
 msgstr "Pilih arsitektur atau varian build yang akan ditampilkan."
 
-#: src/widgets/tools/tools-releases-box.vala:374
-#: src/widgets/tools/tools-releases-box.vala:386
+#: src/widgets/tools/tools-releases-box.vala:343
+#: src/widgets/tools/tools-releases-box.vala:355
 msgid "Build"
 msgstr "Build"
 
-#: src/widgets/tools/tools-releases-box.vala:417
-#: src/widgets/tools/tools-releases-box.vala:1529
+#: src/widgets/tools/tools-releases-box.vala:364
+#, fuzzy
+msgid "Releases"
+msgstr "Rilis dimuat"
+
+#: src/widgets/tools/tools-releases-box.vala:393
+#: src/widgets/tools/tools-releases-box.vala:1470
 msgid "Load More"
 msgstr "Muat Lebih Banyak"
 
-#: src/widgets/tools/tools-releases-box.vala:456
-#: src/widgets/tools/tools-releases-box.vala:632
-#: src/widgets/tools/tools-releases-box.vala:1161
-#: src/widgets/tools/tools-releases-box.vala:1489
+#: src/widgets/tools/tools-releases-box.vala:431
+#: src/widgets/tools/tools-releases-box.vala:596
+#: src/widgets/tools/tools-releases-box.vala:1102
+#: src/widgets/tools/tools-releases-box.vala:1430
 msgid "Loading releases"
 msgstr "Memuat rilis"
 
-#: src/widgets/tools/tools-releases-box.vala:465
-#: src/widgets/tools/tools-releases-box.vala:650
-#: src/widgets/tools/tools-releases-box.vala:833
+#: src/widgets/tools/tools-releases-box.vala:441
+#: src/widgets/tools/tools-releases-box.vala:614
+#: src/widgets/tools/tools-releases-box.vala:774
 msgid "No releases available"
 msgstr "Tidak ada rilis yang tersedia"
 
-#: src/widgets/tools/tools-releases-box.vala:466
-#: src/widgets/tools/tools-releases-box.vala:834
+#: src/widgets/tools/tools-releases-box.vala:442
+#: src/widgets/tools/tools-releases-box.vala:775
 msgid "Check again for new releases."
 msgstr "Periksa lagi untuk rilis baru."
 
-#: src/widgets/tools/tools-releases-box.vala:470
-#: src/widgets/tools/tools-releases-box.vala:836
+#: src/widgets/tools/tools-releases-box.vala:446
+#: src/widgets/tools/tools-releases-box.vala:777
 msgid "Refresh"
 msgstr "Segarkan"
 
-#: src/widgets/tools/tools-releases-box.vala:483
-#: src/widgets/tools/tools-releases-box.vala:756
+#: src/widgets/tools/tools-releases-box.vala:459
+#: src/widgets/tools/tools-releases-box.vala:706
 msgid "Failed to Fetch Releases"
 msgstr "Gagal Mengambil Rilis"
 
-#: src/widgets/tools/tools-releases-box.vala:488
+#: src/widgets/tools/tools-releases-box.vala:464
 msgid "Couldn’t load releases"
 msgstr "Tidak dapat memuat rilis"
 
-#: src/widgets/tools/tools-releases-box.vala:680
-#: src/widgets/tools/tools-releases-box.vala:1208
-#: src/widgets/tools/tools-releases-box.vala:1524
+#: src/widgets/tools/tools-releases-box.vala:644
+#: src/widgets/tools/tools-releases-box.vala:1149
+#: src/widgets/tools/tools-releases-box.vala:1465
 msgid "Releases loaded"
 msgstr "Rilis dimuat"
 
-#: src/widgets/tools/tools-releases-box.vala:749
+#: src/widgets/tools/tools-releases-box.vala:699
 msgid "Couldn’t load more releases"
 msgstr "Tidak dapat memuat lebih banyak rilis"
 
-#: src/widgets/tools/tools-releases-box.vala:750
+#: src/widgets/tools/tools-releases-box.vala:700
 msgid "Couldn’t refresh releases"
 msgstr "Tidak dapat menyegarkan rilis"
 
-#: src/widgets/tools/tools-releases-box.vala:815
-msgid "No matching releases"
-msgstr "Tidak ada rilis yang cocok"
-
-#: src/widgets/tools/tools-releases-box.vala:821
+#: src/widgets/tools/tools-releases-box.vala:762
 msgid "No releases match this filter"
 msgstr "Tidak ada rilis yang cocok dengan filter ini"
 
-#: src/widgets/tools/tools-releases-box.vala:822
+#: src/widgets/tools/tools-releases-box.vala:763
 msgid "Reset the filters to see all releases."
 msgstr "Setel ulang filter untuk melihat semua rilis."
 
-#: src/widgets/tools/tools-releases-box.vala:827
+#: src/widgets/tools/tools-releases-box.vala:768
 msgid "No compatible releases"
 msgstr "Tidak ada rilis yang kompatibel"
 
-#: src/widgets/tools/tools-releases-box.vala:828
+#: src/widgets/tools/tools-releases-box.vala:769
 msgid "No compatible variants are available for this system."
 msgstr "Tidak ada varian yang kompatibel tersedia untuk sistem ini."
 
-#: src/widgets/tools/tools-releases-box.vala:1340
+#: src/widgets/tools/tools-releases-box.vala:1281
 msgid "Refreshing…"
 msgstr "Menyegarkan…"
 
-#: src/widgets/tools/tools-releases-box.vala:1351
+#: src/widgets/tools/tools-releases-box.vala:1292
 #, c-format
 msgid "Last updated: %s"
 msgstr "Terakhir diperbarui: %s"
@@ -6172,6 +6459,149 @@ msgid ""
 msgstr ""
 "Aplikasi saat ini sedang mengunduh alat.\n"
 "Keluar dari aplikasi lebih awal dapat menyebabkan masalah."
+
+#~ msgid "Previous Page"
+#~ msgstr "Halaman Sebelumnya"
+
+#, fuzzy
+#~ msgid "Next"
+#~ msgstr "Halaman Selanjutnya"
+
+#~ msgid "Next Page"
+#~ msgstr "Halaman Selanjutnya"
+
+#~ msgid "Configure controller buttons and vibration"
+#~ msgstr "Konfigurasi tombol dan getaran kontroler"
+
+#, fuzzy
+#~ msgid "Additional Update Triggers"
+#~ msgstr "Argumen Gamescope tambahan"
+
+#~ msgid "Launchers"
+#~ msgstr "Launcher"
+
+#~ msgid "Currently selected profile for Steam"
+#~ msgstr "Profil yang saat ini dipilih untuk Steam"
+
+#~ msgid "Recommended compatibility tool"
+#~ msgstr "Alat kompatibilitas yang direkomendasikan"
+
+#, fuzzy
+#~ msgid "Other Versions"
+#~ msgstr "Versi HUD"
+
+#~ msgid "Please wait while we're loading your launchers."
+#~ msgstr "Tunggu sementara kami memuat launcher Anda."
+
+#, fuzzy
+#~ msgid "Startup Updates"
+#~ msgstr "Pembaruan"
+
+#~ msgid ""
+#~ "ProtonPlus helps you easily manage, install, and update compatibility "
+#~ "layers for running Windows games on Linux."
+#~ msgstr ""
+#~ "ProtonPlus membantu Anda mengelola, menginstal, dan memperbarui lapisan "
+#~ "kompatibilitas untuk menjalankan game Windows di Linux dengan mudah."
+
+#~ msgid "Custom Forks & Flavors"
+#~ msgstr "Fork & Varian Khusus"
+
+#~ msgid ""
+#~ "Community versions like Proton-GE provide cutting-edge fixes, video "
+#~ "codecs, and game-specific tweaks before they hit the official releases."
+#~ msgstr ""
+#~ "Versi komunitas seperti Proton-GE menyediakan perbaikan mutakhir, codec "
+#~ "video, dan penyesuaian khusus game sebelum dirilis resmi."
+
+#~ msgid "How to Use"
+#~ msgstr "Cara Menggunakan"
+
+#~ msgid ""
+#~ "Simply browse the available compatibility tools, click download, and "
+#~ "ProtonPlus will automatically configure them for your launchers like "
+#~ "Steam, Heroic, or Lutris."
+#~ msgstr ""
+#~ "Cukup jelajahi alat kompatibilitas yang tersedia, klik unduh, dan "
+#~ "ProtonPlus akan mengonfigurasinya secara otomatis untuk launcher Anda "
+#~ "seperti Steam, Heroic, atau Lutris."
+
+#~ msgid "Introduction"
+#~ msgstr "Pengantar"
+
+#~ msgid ""
+#~ "Developed by Valve, Proton is a tool based on Wine specifically optimized "
+#~ "for gaming, ensuring high performance and Steam Play integration."
+#~ msgstr ""
+#~ "Dikembangkan oleh Valve, Proton adalah alat berbasis Wine yang "
+#~ "dioptimalkan khusus untuk gaming, memastikan kinerja tinggi dan integrasi "
+#~ "Steam Play."
+
+#~ msgid "Background updates"
+#~ msgstr "Pembaruan latar belakang"
+
+#~ msgid "Set how often to check for updates in the background"
+#~ msgstr "Atur seberapa sering memeriksa pembaruan di latar belakang"
+
+#~ msgid ""
+#~ "Wine is a compatibility layer capable of running Windows applications on "
+#~ "Linux systems by translating Windows API calls on the fly."
+#~ msgstr ""
+#~ "Wine adalah lapisan kompatibilitas yang mampu menjalankan aplikasi "
+#~ "Windows di sistem Linux dengan menerjemahkan panggilan API Windows secara "
+#~ "langsung."
+
+#~ msgid "1h"
+#~ msgstr "1j"
+
+#~ msgid "3h"
+#~ msgstr "3j"
+
+#~ msgid "6h"
+#~ msgstr "6j"
+
+#~ msgid "12h"
+#~ msgstr "12j"
+
+#~ msgid "Choose when installed tools are checked and updated"
+#~ msgstr "Pilih kapan alat yang terinstal diperiksa dan diperbarui"
+
+#~ msgid "Automatically migrate the default prefix when updating"
+#~ msgstr "Secara otomatis migrasikan prefix default saat memperbarui"
+
+#, fuzzy
+#~ msgid "Search tools"
+#~ msgstr "Tampilkan alat warisan"
+
+#, fuzzy
+#~ msgid "Tool search is active"
+#~ msgstr "Pencarian aktif"
+
+#~ msgid "No matching tools"
+#~ msgstr "Tidak ada alat yang cocok"
+
+#, fuzzy
+#~ msgid "Search loaded releases"
+#~ msgstr "Periksa rilis baru"
+
+#~ msgid "No matching releases"
+#~ msgstr "Tidak ada rilis yang cocok"
+
+#, fuzzy
+#~ msgid "Installed but unused"
+#~ msgstr "Instal runner"
+
+#~ msgid "No unused tools"
+#~ msgstr "Tidak ada alat yang tidak digunakan"
+
+#~ msgid "Every tool in this group is currently in use."
+#~ msgstr "Setiap alat di grup ini sedang digunakan."
+
+#~ msgid "Check for updates"
+#~ msgstr "Periksa pembaruan"
+
+#~ msgid "Unused"
+#~ msgstr "Tidak digunakan"
 
 #, c-format
 #~ msgid "Games using %s"
@@ -6440,14 +6870,6 @@ msgstr ""
 #~ msgid "Used By"
 #~ msgstr "Digunakan"
 
-#, fuzzy, c-format
-#~ msgid "Update %s"
-#~ msgstr "Memperbarui %s"
-
-#, fuzzy
-#~ msgid "Install"
-#~ msgstr "Terinstal"
-
 #~ msgid "Clear the current launch options"
 #~ msgstr "Hapus opsi peluncuran saat ini"
 
@@ -6653,9 +7075,6 @@ msgstr ""
 #~ msgid "DXVK Async builds that work with pre-Vulkan 1.3 versions."
 #~ msgstr "Build DXVK Async yang berfungsi dengan versi sebelum Vulkan 1.3."
 
-#~ msgid "Automatic updates"
-#~ msgstr "Pembaruan otomatis"
-
 #, fuzzy
 #~ msgid "Check if any tool needs to be updated automatically"
 #~ msgstr ""
@@ -6766,10 +7185,6 @@ msgstr ""
 #~ msgid "No update found for %s"
 #~ msgstr "Tidak ditemukan pembaruan untuk %s"
 
-#, c-format
-#~ msgid "Couldn't update %s (Reason: %s)"
-#~ msgstr "Tidak dapat memperbarui %s (Alasan: %s)"
-
 #~ msgid "Refresh profiles"
 #~ msgstr "Segarkan profil"
 
@@ -6822,9 +7237,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Pilih alat kompatibilitas default yang harus digunakan Steam untuk game "
 #~ "tanpa penggantian eksplisit."
-
-#~ msgid "Couldn't change the default compatibility tool"
-#~ msgstr "Tidak dapat mengubah alat kompatibilitas default"
 
 #~ msgid "Checking for updates..."
 #~ msgstr "Memeriksa pembaruan..."

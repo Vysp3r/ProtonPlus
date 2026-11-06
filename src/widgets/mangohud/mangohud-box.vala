@@ -32,11 +32,11 @@ namespace ProtonPlus.Widgets.MangoHud {
             metrics_page = new MetricsPage (config);
             extras_page = new ExtrasPage (config);
 
-            stack.add_titled_with_icon (create_scrolled_window (presets_page), "presets", _ ("Presets"), "list-symbolic");
-            stack.add_titled_with_icon (create_scrolled_window (visual_page), "visual", _ ("Visual"), "eye-symbolic");
+            stack.add_titled_with_icon (create_scrolled_window (presets_page), "presets", _ ("Presets"), "view-list-symbolic");
+            stack.add_titled_with_icon (create_scrolled_window (visual_page), "visual", _ ("Visual"), "view-reveal-symbolic");
             stack.add_titled_with_icon (create_scrolled_window (performance_page), "performance", _ ("Performance"), "gauge-high-symbolic");
             stack.add_titled_with_icon (create_scrolled_window (metrics_page), "metrics", _ ("Metrics"), "chart-area-symbolic");
-            stack.add_titled_with_icon (create_scrolled_window (extras_page), "extras", _ ("Extras"), "plus-symbolic");
+            stack.add_titled_with_icon (create_scrolled_window (extras_page), "extras", _ ("Extras"), "list-add-symbolic");
 
             presets_page.changed.connect (refresh_all);
             visual_page.changed.connect (refresh_all);

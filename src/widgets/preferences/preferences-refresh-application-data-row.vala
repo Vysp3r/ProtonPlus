@@ -4,7 +4,7 @@ namespace ProtonPlus.Widgets.Preferences {
         Adw.Spinner spinner;
 
         construct {
-            refresh_button = new Gtk.Button.from_icon_name ("arrows-rotate-symbolic");
+            refresh_button = new Gtk.Button.from_icon_name ("view-refresh-symbolic");
             refresh_button.add_css_class ("flat");
             refresh_button.set_valign (Gtk.Align.CENTER);
             refresh_button.set_tooltip_text (_("Refresh application data"));
@@ -33,7 +33,7 @@ namespace ProtonPlus.Widgets.Preferences {
 
             spinner?.unparent ();
 
-            refresh_button?.set_icon_name ("arrows-rotate-symbolic");
+            refresh_button?.set_icon_name ("view-refresh-symbolic");
             refresh_button?.set_sensitive (true);
         }
     }

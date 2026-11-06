@@ -577,3 +577,52 @@ switch:disabled slider {
   outline-color: @insensitive_borders_protonplus_breeze;
   background: @theme_button_background_insensitive_protonplus_breeze;
 }
+
+/* Keep column-header focus inside the cell; only its color should animate. */
+columnview.list-content > header > button {
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+    box-shadow: none;
+    transition-property: background-color, color, outline-color;
+}
+
+columnview.list-content > header > button:focus-visible,
+columnview.list-content > header > button.games-sort-header-controller-focus {
+    outline-color: var(--accent-color);
+}
+
+/* Breeze-specific component styling. */
+.card {
+    border-radius: 12px;
+}
+
+.selection-popover-list > row {
+    background: transparent;
+    border-radius: 8px;
+}
+
+.selection-popover-list > row:hover {
+    background-color: alpha(var(--accent-bg-color), 0.08);
+}
+
+.selection-popover-row image {
+    color: var(--accent-color);
+}
+
+.launchers-popover-list > row.launcher-selected,
+.launchers-popover-list > row:selected {
+    background-color: alpha(var(--accent-bg-color), 0.14);
+    box-shadow: inset 0 0 0 2px alpha(var(--accent-bg-color), 0.6);
+}
+
+.tool-metadata-pill {
+    border-radius: 9999px;
+    padding: 2px 8px;
+    color: var(--window-fg-color);
+    background-color: alpha(var(--window-fg-color), 0.12);
+    font-size: 0.8em;
+}
+
+.tools-release-row-input-box button {
+    padding: 5px;
+}

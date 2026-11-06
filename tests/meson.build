@@ -98,3 +98,38 @@ else
     test('Launch option flag widgets', flag_widget_test,
         env: ['GTK_A11Y=none'])
 endif
+
+presentation_test = executable(
+    'tools-presentation-test',
+    'tools-presentation-test.vala',
+    resources,
+    dependencies: deps,
+    link_with: protonplus_lib,
+    include_directories: [config_inc, include_directories('../src')],
+    vala_args: ['--target-glib=2.58'],
+)
+if xvfb_run.found()
+    test('Tools presentation', xvfb_run,
+        args: ['-a', presentation_test],
+        env: ['GDK_BACKEND=x11', 'GTK_A11Y=none'])
+else
+    test('Tools presentation', presentation_test, env: ['GTK_A11Y=none'])
+endif
+
+help_presentation_test = executable(
+    'help-presentation-test',
+    'help-presentation-test.vala',
+    resources,
+    dependencies: deps,
+    link_with: protonplus_lib,
+    include_directories: [config_inc, include_directories('../src')],
+    vala_args: ['--target-glib=2.58'],
+)
+if xvfb_run.found()
+    test('Help presentation', xvfb_run,
+        args: ['-a', help_presentation_test],
+        env: ['GDK_BACKEND=x11', 'GTK_A11Y=none', 'GSK_RENDERER=cairo', 'LC_ALL=C'])
+else
+    test('Help presentation', help_presentation_test,
+        env: ['GTK_A11Y=none', 'GSK_RENDERER=cairo', 'LC_ALL=C'])
+endif

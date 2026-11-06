@@ -281,12 +281,13 @@ namespace ProtonPlus.Utils {
             return get_file_content (path) == content;
         }
 
-        public static bool copy_symlink (string src_path, string dest_path) {
+        public static bool copy_symlink (string src_path, string dest_path, bool overwrite = false) {
             try {
                 File src = File.new_for_path (src_path);
                 File dest = File.new_for_path (dest_path);
 
-                return src.copy (dest, FileCopyFlags.NOFOLLOW_SYMLINKS);
+                return src.copy (dest, FileCopyFlags.NOFOLLOW_SYMLINKS |
+                    (overwrite ? FileCopyFlags.OVERWRITE : FileCopyFlags.NONE));
             } catch (Error e) {
                 warning (e.message);
 

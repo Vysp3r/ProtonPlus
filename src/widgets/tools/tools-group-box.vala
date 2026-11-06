@@ -2,11 +2,13 @@ namespace ProtonPlus.Widgets.Tools {
     public class GroupBox : Gtk.Box, Utils.ControllerDirectionalFocus,
         Utils.ControllerActivationHandler {
         public signal void tool_expansion_changed (Models.Tool tool, bool expanded);
-        public signal void clear_search_requested ();
         public signal void reset_filter_requested ();
         public Gtk.Box header_title { get; private set; }
         public Gtk.Box header_actions { get; private set; }
         Gtk.ListBox list_box;
+        Models.Group group;
+        ulong invalidated_handler;
+        ulong refreshed_handler;
         Gtk.ScrolledWindow scrolled;
         Gtk.Stack stack;
         Adw.StatusPage status_page;
@@ -33,29 +35,16 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
-        private string _search_text = "";
-        public string search_text {
-            get { return _search_text; }
-            set {
-                visibility_change_generation++;
-                _search_text = value;
-                list_box.invalidate_filter ();
-                update_status_page ();
-                update_visibility ();
-                collapse_if_hidden ();
-                update_release_section_boundary ();
-            }
-        }
-
         public GroupBox (Models.Group group, Gtk.Widget? controller_up_target = null) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
             this.controller_up_target = controller_up_target;
+            this.group = group;
 
             // Build this once before Gtk begins repeatedly invoking the filter
             // and comparator callbacks below.
             group.refresh_installed_state ();
 
-            var icon = new Gtk.Image.from_icon_name ("layer-group-symbolic");
+            var icon = new Gtk.Image.from_icon_name ("view-grid-symbolic");
 
             var title_label = new Gtk.Label (group.title) {
                 halign = Gtk.Align.START,
@@ -94,13 +83,10 @@ namespace ProtonPlus.Widgets.Tools {
             };
             list_box.add_css_class ("boxed-list");
             list_box.add_css_class ("tools-tools-card");
-            list_box.set_filter_func (filter_func);
-            list_box.set_sort_func (sort_func);
+            configure_list_callbacks (this);
 
-            group.installed_tool_index_invalidated.connect (() => {
-                group.refresh_installed_state ();
-            });
-            group.installed_state_refreshed.connect (() => refresh ());
+            invalidated_handler = group.installed_tool_index_invalidated.connect (refresh_installed_state);
+            refreshed_handler = group.installed_state_refreshed.connect (refresh);
 
             scrolled = new Gtk.ScrolledWindow () {
                 child = list_box,
@@ -120,12 +106,7 @@ namespace ProtonPlus.Widgets.Tools {
                 visible = false
             };
             empty_action_button.add_css_class ("suggested-action");
-            empty_action_button.clicked.connect (() => {
-                if (search_text.strip () != "")
-                    clear_search_requested ();
-                else if (filter != Filter.ALL)
-                    reset_filter_requested ();
-            });
+            empty_action_button.clicked.connect (activate_empty_action);
             status_page.set_child (empty_action_button);
 
             stack = new Gtk.Stack () {
@@ -160,6 +141,51 @@ namespace ProtonPlus.Widgets.Tools {
             append (clamp);
 
             update_visibility ();
+        }
+
+        static void connect_expansion (GroupBox box, Adw.ExpanderRow row, Models.Tool tool) {
+            var owner_ref = WeakRef (box);
+            var row_ref = WeakRef (row);
+            row.notify["expanded"].connect (() => {
+                var owner = owner_ref.get () as GroupBox;
+                var current_row = row_ref.get () as Adw.ExpanderRow;
+                if (owner != null && current_row != null)
+                    owner.on_row_expanded_changed (current_row, tool);
+            });
+        }
+
+        void refresh_installed_state () {
+            group.refresh_installed_state ();
+        }
+
+        void activate_empty_action () {
+            if (filter != Filter.ALL)
+                reset_filter_requested ();
+        }
+
+        static void configure_list_callbacks (GroupBox box) {
+            // GtkListBox owns these delegates. They must not retain its parent.
+            var owner_ref = WeakRef (box);
+            box.list_box.set_filter_func ((row) => {
+                var owner = owner_ref.get () as GroupBox;
+                return owner != null && owner.filter_func (row);
+            });
+            box.list_box.set_sort_func ((a, b) => {
+                var owner = owner_ref.get () as GroupBox;
+                return owner != null ? owner.sort_func (a, b) : 0;
+            });
+        }
+
+        public override void dispose () {
+            if (invalidated_handler != 0) {
+                group.disconnect (invalidated_handler);
+                invalidated_handler = 0;
+            }
+            if (refreshed_handler != 0) {
+                group.disconnect (refreshed_handler);
+                refreshed_handler = 0;
+            }
+            base.dispose ();
         }
 
         public bool controller_focus_direction (
@@ -340,24 +366,14 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public void populate_header_actions (
-            Gtk.Widget refresh, Gtk.Widget filter, Gtk.Widget search
+            Gtk.Widget refresh, Gtk.Widget filter
         ) {
             clear_header_actions ();
             header_actions.append (refresh);
             header_actions.append (filter);
-            header_actions.append (search);
         }
 
         void update_status_page () {
-            if (search_text.strip () != "") {
-                status_page.set_title (_ ("No matching tools"));
-                status_page.set_description (_ ("Try a different search term or clear the search."));
-                status_page.set_icon_name ("edit-find-symbolic");
-                empty_action_button.set_label (_ ("Clear Search"));
-                empty_action_button.set_visible (true);
-                return;
-            }
-
             empty_action_button.set_visible (filter != Filter.ALL);
             if (filter != Filter.ALL)
                 empty_action_button.set_label (_ ("Reset Filters"));
@@ -365,17 +381,12 @@ namespace ProtonPlus.Widgets.Tools {
                 case Filter.INSTALLED:
                     status_page.set_title (_ ("No installed tools"));
                     status_page.set_description (_ ("Install a compatibility tool to see it here."));
-                    status_page.set_icon_name ("box-open-symbolic");
+                    status_page.set_icon_name ("package-x-generic-symbolic");
                     break;
                 case Filter.USED:
                     status_page.set_title (_ ("No tools in use"));
                     status_page.set_description (_ ("No games currently use a tool from this group."));
-                    status_page.set_icon_name ("gamepad2-symbolic");
-                    break;
-                case Filter.UNUSED:
-                    status_page.set_title (_ ("No unused tools"));
-                    status_page.set_description (_ ("Every tool in this group is currently in use."));
-                    status_page.set_icon_name ("check-round-outline-symbolic");
+                    status_page.set_icon_name ("input-gaming-symbolic");
                     break;
                 default:
                     status_page.set_title (_ ("No tools found"));
@@ -504,30 +515,11 @@ namespace ProtonPlus.Widgets.Tools {
             var release_host = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             row.set_data ("inline-release-host", release_host);
             row.add_row (release_host);
-            row.notify["expanded"].connect (() => on_row_expanded_changed (row, tool));
-
-            if (tool is Models.Tools.ProviderTool) {
-                var provider_tool = (Models.Tools.ProviderTool) tool;
-                if (provider_tool.tag != null && provider_tool.tag != "") {
-                    var tag_label = new Gtk.Label (
-                        Utils.safe_translate (provider_tool.tag)
-                    ) {
-                        valign = Gtk.Align.CENTER,
-                        css_classes = { "tool-metadata-pill" }
-                    };
-                    if (provider_tool.tag == "Recommended")
-                        tag_label.set_tooltip_text (
-                            _ ("Recommended compatibility tool")
-                        );
-
-                    metadata_box.append (tag_label);
-                }
-
-            }
+            connect_expansion (this, row, tool);
 
             var state_label = new Gtk.Label ("") {
                 valign = Gtk.Align.CENTER,
-                css_classes = { "tool-metadata-pill" }
+                css_classes = { "caption", "dim-label" }
             };
             row.set_data ("state-label", state_label);
             metadata_box.append (state_label);
@@ -773,14 +765,6 @@ namespace ProtonPlus.Widgets.Tools {
             if (tool == null)
             return true;
 
-            var expanded = tool == expanded_tool && releases_section != null;
-            var has_release_match = expanded &&
-                ((!) releases_section).has_release_title_match (search_text);
-            if (!InlineReleaseInteractionState.matches_filter (
-                search_text, tool.title, expanded, has_release_match
-            ))
-                return false;
-
             if (tool is Models.Tools.SteamTinkerLaunch && !tool.is_installed ())
                 return false;
             if (Globals.SETTINGS != null && !Globals.SETTINGS.get_boolean ("show-legacy-tools") && tool.legacy &&
@@ -795,9 +779,6 @@ namespace ProtonPlus.Widgets.Tools {
 
             if (filter == Filter.USED)
             return tool.is_used ();
-
-            if (filter == Filter.UNUSED)
-            return !tool.is_used ();
 
             return true;
         }
