@@ -464,12 +464,18 @@ namespace AppTests.FaugusLauncherTest {
         var steam_launcher = new Launcher (
             "Steam", Launcher.InstallationTypes.SYSTEM, "", { target }, "steam"
         );
-        var provider = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "fixture-provider", "Fixture Runner", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("default", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name"), InstallLayout.template ("steam", "$release_name") }
-        );
+        var provider = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "fixture-provider",
+            title = "Fixture Runner",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("default", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name"), InstallLayout.template ("steam", "$release_name") }
+        });
 
         var steam_group = new Group ("Proton", "", "", steam_launcher, "proton");
         steam_group.tools = new Gee.LinkedList<Tool> ();

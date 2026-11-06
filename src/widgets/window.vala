@@ -67,7 +67,8 @@ namespace ProtonPlus.Widgets {
         const int MINIMUM_WINDOW_WIDTH = 384;
         const int MINIMUM_WINDOW_HEIGHT = 360;
 
-        public Gee.LinkedList<Models.Launcher> launchers { get; set; }
+        public Gee.LinkedList<Models.Launcher> launchers { get; private set; default = new Gee.LinkedList<Models.Launcher> (); }
+        public bool launchers_loading { get; private set; default = true; }
         Utils.ControllerManager controller_manager { get; set; }
 
         Header.Box header_box { get; set; }
@@ -268,7 +269,16 @@ namespace ProtonPlus.Widgets {
             });
 
             loading_box = new Loading.Box ();
+            weak Loading.Box observed_loading_box = loading_box;
+            launchers = new Gee.LinkedList<Models.Launcher> ();
+            launchers_loading = true;
+            loading_box.notify["loading"].connect (() => {
+                if (observed_loading_box == loading_box)
+                    launchers_loading = loading_box.loading;
+            });
             loading_box.loaded.connect ((launchers) => {
+                if (observed_loading_box != loading_box)
+                    return;
                 this.launchers = launchers;
 
                 header_box.initialize (launchers, main_box.view_switcher);
@@ -358,6 +368,9 @@ namespace ProtonPlus.Widgets {
         public void reload () {
             main_content_visible = false;
             search_action.set_enabled (false);
+            header_box.set_launchers_available (false);
+            main_box.view_switcher_bar.set_visible (false);
+            launchers = new Gee.LinkedList<Models.Launcher> ();
             toolbar_view.set_content (loading_box);
 
             loading_box.load.begin ();

@@ -19,17 +19,21 @@ namespace AppTests.ReleaseIdentityTest {
     }
 
     private ProviderDefinition definition (SourceType source_type, string id = "fixture-provider") {
-        return new ProviderDefinition (
-            Category.PROTON, source_type, id, "Fixture provider", "", "https://example.test/releases",
-            "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") },
-            null, null, "", false,
-            source_type == SourceType.GITHUB_ACTIONS ?
-                "https://example.test/artifacts/{id}/fixture-action.zip?signature=example" : "",
-            ArchiveInstallRequirement.STANDARD,
-            true
-        );
+        return new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = source_type,
+            provider_id = id,
+            title = "Fixture provider",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") },
+            url_template = source_type == SourceType.GITHUB_ACTIONS ?
+            "https://example.test/artifacts/{id}/fixture-action.zip?signature=example" : "",
+            single_archive_releases = true
+        });
     }
 
     private void test_github_numeric_id_and_tag () {

@@ -184,12 +184,18 @@ namespace AppTests.SteamCompatibilityToolDiscoveryTest {
     }
 
     private ProviderDefinition definition () {
-        return new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "external-match", "Proton-CachyOS", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("default", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+        return new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "external-match",
+            title = "Proton-CachyOS",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("default", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
     }
 
     private void test_steam_library_app_identities () {

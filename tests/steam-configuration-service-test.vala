@@ -689,7 +689,42 @@ namespace AppTests.SteamConfigurationServiceTest {
         assert (legacy_kind == SteamChangeKind.STEAMTINKERLAUNCH_CHANGED);
     }
 
+    private void test_shared_lifecycle_preserves_pending_edits () {
+        var root = temporary_root ();
+        string config;
+        string localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var backend = new SessionFixture ();
+        var launcher = steam (root);
+        set_running (backend, launcher.get_steam_restart_target ());
+        var sessions = new SteamSessionService (backend);
+        var state_path = Path.build_filename (root, "restart-state.json");
+        var lifecycle = new SteamLifecycle (sessions, new SteamRestartStateStore (state_path));
+        assert (lifecycle.restarts.is_observing);
+        assert (SteamConfigurationService.instance == lifecycle.configuration);
+
+        var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+        var before = read (localconfig);
+        assert (lifecycle.configuration.change_game_launch_options (game,
+            "TEST=1 %command%", localconfig).result == SteamConfigurationMutationResult.STAGED);
+        assert (read (localconfig) == before);
+        lifecycle.stop ();
+        lifecycle.stop ();
+        assert (!lifecycle.restarts.is_observing);
+        assert (SteamConfigurationService.instance == null);
+
+        var reopened = new SteamLifecycle (sessions, new SteamRestartStateStore (state_path));
+        assert (reopened.restarts.get_pending_changes ().size == 1);
+        assert (read (localconfig) == before);
+        backend.native_query = new NativeProcessQuery (true);
+        assert (reopened.configuration.reconcile_target (launcher.get_steam_restart_target ()).result
+            == SteamConfigurationMutationResult.CHANGED);
+        assert (read (localconfig).contains ("TEST=1 %command%"));
+        reopened.stop ();
+    }
+
     public void register_tests () {
+        Test.add_func ("/steam-configuration/shared-lifecycle-preserves-pending-edits", test_shared_lifecycle_preserves_pending_edits);
         Test.add_func ("/steam-configuration/tinkergame-reassignment-preserves-launch-options", test_tinkergame_reassignment_preserves_launch_options);
         Test.add_func ("/steam-configuration/stopped-edit-replaces-pending", test_stopped_edit_replaces_pending_configuration);
         Test.add_func ("/steam-configuration/stopped-edit-persistence-failure", test_stopped_edit_cleanup_persistence_failure);

@@ -31,6 +31,7 @@ namespace AppTests.InstalledToolInventoryTest {
         Test.add_func ("/installed-tool-inventory/legacy-tag-and-directory-fallbacks", test_legacy_tag_and_directory_fallbacks);
         Test.add_func ("/installed-tool-inventory/vdf-internal-and-display-title-fallbacks", test_vdf_fallbacks);
         Test.add_func ("/installed-tool-inventory/latest-and-variant-directories", test_latest_and_variant_directories);
+        Test.add_func ("/installed-tool-inventory/job-directory-names-round-trip", test_job_directory_names_round_trip);
         Test.add_func ("/installed-tool-inventory/usage-spans-installed-releases", test_usage_spans_installed_releases);
         Test.add_func ("/installed-tool-inventory/job-usage-identity-follows-installed-entry", test_job_usage_identity);
         Test.add_func ("/installed-tool-inventory/steam-tinker-launch-usage", test_steam_tinker_launch_usage);
@@ -65,15 +66,22 @@ namespace AppTests.InstalledToolInventoryTest {
         string endpoint = "https://example.test/releases",
         string[]? legacy_endpoints = null
     ) {
-        return new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, id, title, "", endpoint, "https://example.test/source", 1,
-            {
+        return new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = id,
+            title = title,
+            description = "",
+            endpoint = endpoint,
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = {
                 new VariantDefinition ("default", "default", "$release_name", true),
                 new VariantDefinition ("arm", "Arm 64", "$release_name-arm", false)
             },
-            { InstallLayout.template ("default", "$release_name") },
-            null, null, "", false, "", ArchiveInstallRequirement.STANDARD, false, legacy_endpoints
-        );
+            install_layouts = { InstallLayout.template ("default", "$release_name") },
+            legacy_endpoints = legacy_endpoints
+        });
     }
 
     private Tools.ProviderTool add_tool (Group group, ProviderDefinition definition) {
@@ -287,6 +295,59 @@ namespace AppTests.InstalledToolInventoryTest {
         value.refresh_installed_state ();
         assert (tool.is_installed ());
 
+        assert (delete_directory (root));
+    }
+
+    private void test_job_directory_names_round_trip () {
+        var root = temporary_directory ();
+        var launcher = new InventoryLauncher (root);
+        var value = group (launcher);
+        var configured = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "runner",
+            title = "Runner",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = {
+                new VariantDefinition ("default", "Default", "$release_name", true),
+                new VariantDefinition ("arm", "Arm / 64", "$release_name-arm", false)
+            },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
+        var tool = add_tool (value, configured);
+        var remote_release = release ("v1");
+        foreach (var variant in tool.variants)
+            remote_release.variants.add (variant);
+        tool.release_catalog.releases.add (remote_release);
+
+        // Lock the existing spelling, including default variants and the
+        // replacement of spaces and slashes in non-default variant names.
+        string[] expected_names = { "v1", "v1-Arm___64" };
+        for (var index = 0; index < tool.variants.size; index++) {
+            var variant = tool.variants[index];
+            var job = new ProtonPlus.Services.InstallJob (remote_release, tool);
+            job.set_selected_variant (variant.name, null, variant.id);
+            assert (job.install_location == Path.build_filename (root, expected_names[index]));
+
+            // Directory-only discovery must recognize the path produced by
+            // a job even when old installations have no metadata or VDF.
+            assert (ProtonPlus.Utils.Filesystem.create_directory (job.install_location));
+            value.refresh_installed_state ();
+            assert (tool.is_installed ());
+            assert (tool.resolved_installed_entry.path == job.install_location);
+            assert (delete_directory (job.install_location));
+        }
+
+        var latest = new ProtonPlus.Services.InstallJob (
+            remote_release, tool, ProtonPlus.Services.InstallJob.Mode.LATEST
+        );
+        latest.set_selected_variant ("Arm / 64", null, "arm");
+        assert (latest.install_location == Path.build_filename (root, "Runner Latest-Arm___64"));
+        latest.set_selected_variant ("Default", null, "default");
+        assert (latest.install_location == Path.build_filename (root, "Runner Latest"));
         assert (delete_directory (root));
     }
 

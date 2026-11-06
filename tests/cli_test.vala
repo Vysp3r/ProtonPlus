@@ -202,12 +202,18 @@ namespace AppTests.CliTest {
         VariantCompatibility? compatibility = null,
         Category category = Category.PROTON
     ) {
-        var definition = new ProviderDefinition (
-            category, SourceType.GITHUB, provider_id, title, "",
-            "https://fixtures.invalid/releases", "https://fixtures.invalid/source", 1,
-            { new VariantDefinition ("default", "Default", "$release_name", true, compatibility) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+        var definition = new ProviderDefinition (new ProviderConfig () {
+            category = category,
+            source_type = SourceType.GITHUB,
+            provider_id = provider_id,
+            title = title,
+            description = "",
+            endpoint = "https://fixtures.invalid/releases",
+            repository_url = "https://fixtures.invalid/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("default", "Default", "$release_name", true, compatibility) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
         var runner = new ProviderTool.with_catalog (
             definition, new StaticReleaseSource (value), group,
             InstallLayout.template ("default", "$release_name")

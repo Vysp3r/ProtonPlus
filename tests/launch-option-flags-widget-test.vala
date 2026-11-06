@@ -133,6 +133,92 @@ void check_release_install_button () {
     assert (DirUtils.remove (root) == 0);
 }
 
+void check_catalog_driven_controls () {
+    var defaults = new LaunchOptionCatalog ();
+    var definitions = new Gee.ArrayList<LaunchOptionMetadata> ();
+    var wrappers = new Gee.ArrayList<LaunchWrapperDefinition> ();
+    // A definition change must reach the real control without duplicating it
+    // in a group constructor. This fixture changes text, tokens and line type.
+    foreach (var metadata in defaults.get_ordered ()) {
+        if (metadata.id != "desktop-game-profile") {
+            definitions.add (metadata);
+            continue;
+        }
+        definitions.add (new LaunchOptionMetadata (
+            metadata.id, "Fixture profile", "Fixture profile details",
+            metadata.category, metadata.subsection, metadata.display_rank,
+            metadata.quick_setting, metadata.expertise, metadata.applicability,
+            metadata.unavailable_reason, metadata.dependencies, metadata.aliases,
+            { "--fixture-profile" }, LaunchLineType.ARGUMENT, metadata.command_order_rank,
+            new LaunchOptionSemantics (
+                LaunchOptionSemanticKind.GAME_ARGUMENT, LaunchPlaceholderPolicy.OPTIONAL,
+                LaunchOptionEmissionMode.FIXED_TOKENS, "", "", { "--fixture-profile" },
+                {}, "", {}, {}, {}, LaunchOptionApplicability.GENERIC, {}, false,
+                LaunchOptionSupport.VERIFIED_CURRENT, true
+            )
+        ));
+    }
+    foreach (var wrapper in defaults.get_wrappers ())
+        wrappers.add (wrapper);
+    var catalog = new LaunchOptionCatalog.with_definitions (
+        definitions.to_array (), wrappers.to_array ()
+    );
+    var presentations = new LaunchOptionPresentationRegistry (catalog);
+    var handlers = new LaunchOptionsList ();
+    var common = new Groups.CommonOptionsGroup (handlers, presentations);
+    var profile = presentations.lookup ("desktop-game-profile");
+    var row = profile.widgets[0] as Adw.ActionRow;
+    assert (row != null && row.title == "Fixture profile");
+    assert (row.subtitle == "Fixture profile details");
+    assert (row.tooltip_text == row.subtitle);
+    assert (profile.option.line_type == LaunchLineType.ARGUMENT);
+    handlers.load_from_string ("%command% --fixture-profile");
+    assert (profile.option.is_active ());
+    var selection = profile.selection_sources[0].get_selection ();
+    assert (selection != null && selection.option_id == "desktop-game-profile");
+    var written = new LaunchCommandWriter (catalog).prepare_source (
+        "%command%", { selection }, { "desktop-game-profile" }, {},
+        new LaunchCommandCapabilityContext ()
+    );
+    assert (written.writing_allowed && written.launch_line == "%command% --fixture-profile");
+
+    // Off/on recognition remains separate from the writer's one canonical
+    // assignment. Loading the historical off token must not activate it.
+    var amd = new Groups.GpuVendorAmdOptionsGroup (handlers, presentations);
+    var shader_cache = presentations.lookup ("amd-shader-cache");
+    handlers.load_from_string ("MESA_SHADER_CACHE_DISABLE=0 %command%");
+    assert (!shader_cache.option.is_active ());
+    handlers.load_from_string ("MESA_SHADER_CACHE_DISABLE=1 %command%");
+    assert (shader_cache.option.is_active ());
+    written = new LaunchCommandWriter (catalog).prepare_source (
+        "%command%", { shader_cache.selection_sources[0].get_selection () },
+        { "amd-shader-cache" }, {},
+        new LaunchCommandCapabilityContext ({ LaunchOptionCapability.AMD })
+    );
+    assert (written.writing_allowed && written.launch_line == "MESA_SHADER_CACHE_DISABLE=1 %command%");
+
+    var gamescope = new Wrappers.Gamescope (handlers, presentations);
+    var wrapper_page = gamescope.create_page ();
+    var fullscreen = presentations.lookup ("gamescope-fullscreen");
+    row = fullscreen.widgets[0] as Adw.ActionRow;
+    assert (row != null && row.title == catalog.lookup ("gamescope-fullscreen").title);
+    assert (row.tooltip_text == catalog.lookup ("gamescope-fullscreen").description);
+    assert (fullscreen.option.line_type == LaunchLineType.WRAPPER_ARGUMENT);
+    handlers.load_from_string ("gamescope -f -- %command%");
+    assert (fullscreen.option.is_active ());
+    written = new LaunchCommandWriter (catalog).prepare_source (
+        "%command%", {
+            new LaunchCommandSelection ("launch-backend", {}, "gamescope"),
+            fullscreen.selection_sources[0].get_selection ()
+        }, { "launch-backend", "gamescope-fullscreen" }, {},
+        new LaunchCommandCapabilityContext ({ LaunchOptionCapability.GAMESCOPE })
+    );
+    assert (written.writing_allowed && written.launch_line == "gamescope -f -- %command%");
+
+    // Keep the owners alive until all unowned control adapters have been used.
+    assert (common != null && amd != null && wrapper_page != null);
+}
+
 int main (string[] args) {
     Environment.set_variable ("GSETTINGS_BACKEND", "memory", true);
     if (!Gtk.init_check ())
@@ -141,6 +227,7 @@ int main (string[] args) {
     check_tool_group_lifetime ();
     check_game_column_alignment ();
     check_release_install_button ();
+    check_catalog_driven_controls ();
     string[] ids = { "vkd3d-config", "amd-radv-perftest", "amd-radv-debug", "amd-aco-debug" };
     LaunchOptionCustomPairs[] editors = {
         new LaunchOptionVKD3DConfig (), new LaunchOptionRadvPerftest (),

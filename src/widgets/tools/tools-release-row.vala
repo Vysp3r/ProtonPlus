@@ -168,33 +168,30 @@ namespace ProtonPlus.Widgets.Tools {
             cancel_button.clicked.connect (cancel_button_clicked);
         }
 
+        static SimpleAction register_action (SimpleActionGroup group, string name) {
+            var action = new SimpleAction (name, null);
+            group.add_action (action);
+            return action;
+        }
+
         void create_actions_menu () {
             var action_group = new SimpleActionGroup ();
-            migrate_action = new SimpleAction ("migrate", null);
+            migrate_action = register_action (action_group, "migrate");
             migrate_action.activate.connect (request_migration);
-            action_group.add_action (migrate_action);
-            changelog_action = new SimpleAction ("changelog", null);
+            changelog_action = register_action (action_group, "changelog");
             changelog_action.activate.connect (changelog_action_activated);
-            action_group.add_action (changelog_action);
-            games_action = new SimpleAction ("games", null);
+            games_action = register_action (action_group, "games");
             games_action.activate.connect (games_action_activated);
-            action_group.add_action (games_action);
-            open_release_page_action = new SimpleAction (
-                "open-release-page", null
-            );
+            open_release_page_action = register_action (action_group, "open-release-page");
             open_release_page_action.activate.connect (
                 open_release_page_action_activated
             );
-            action_group.add_action (open_release_page_action);
-            update_action = new SimpleAction ("update", null);
+            update_action = register_action (action_group, "update");
             update_action.activate.connect (update_action_activated);
-            action_group.add_action (update_action);
-            open_folder_action = new SimpleAction ("open-folder", null);
+            open_folder_action = register_action (action_group, "open-folder");
             open_folder_action.activate.connect (open_folder_action_activated);
-            action_group.add_action (open_folder_action);
-            delete_action = new SimpleAction ("delete", null);
+            delete_action = register_action (action_group, "delete");
             delete_action.activate.connect (delete_action_activated);
-            action_group.add_action (delete_action);
             actions_button = new Gtk.MenuButton () {
                 icon_name = "view-more-symbolic",
                 valign = Gtk.Align.CENTER

@@ -5,12 +5,18 @@ namespace ProtonPlus.Models.Tools {
                 repository_url: "https://github.com/360900/tinkergame",
                 description: _("Configure game tools and custom commands. Alpha software; review migrated settings before playing."));
             set_identity ("tinkergame", "github");
-            var definition = new Providers.ProviderDefinition (
-                Providers.Category.PROTON, Providers.SourceType.GITHUB,
-                "tinkergame", title, description,
-                "https://api.github.com/repos/360900/tinkergame/releases",
-                repository_url, 1000, {}, {}
-            );
+            var definition = new Providers.ProviderDefinition (new Providers.ProviderConfig () {
+                category = Providers.Category.PROTON,
+                source_type = Providers.SourceType.GITHUB,
+                provider_id = "tinkergame",
+                title = title,
+                description = description,
+                endpoint = "https://api.github.com/repos/360900/tinkergame/releases",
+                repository_url = repository_url,
+                sort_priority = 1000,
+                variants = {},
+                install_layouts = {}
+            });
             initialize_release_catalog (new ReleaseCatalog (id, title, definition,
                 source ?? new ProtonPlus.Providers.Sources.TinkerGameReleaseSource ()));
         }

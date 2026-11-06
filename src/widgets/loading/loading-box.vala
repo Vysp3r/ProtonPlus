@@ -71,7 +71,6 @@ namespace ProtonPlus.Widgets.Loading {
 
             var success = yield Models.Launcher.get_all (out launchers);
 
-            loading = false;
             if (slow_warning_timeout_id != 0) {
                 Source.remove (slow_warning_timeout_id);
                 slow_warning_timeout_id = 0;
@@ -84,6 +83,7 @@ namespace ProtonPlus.Widgets.Loading {
                 retry_button.visible = true;
                 report_button.visible = true;
                 bug_box.visible = true;
+                loading = false;
                 return;
             }
 
@@ -92,10 +92,12 @@ namespace ProtonPlus.Widgets.Loading {
             if (launchers.size > 0) {
                 loaded (launchers);
             } else {
-                status_page.set_title (_ ("Welcome to %s").printf (Config.APP_NAME));
+                status_page.set_icon_name ("system-search-symbolic");
+                status_page.set_title (_ ("No game launcher found"));
                 status_page.set_description (null);
                 welcome_box.visible = true;
             }
+            loading = false;
         }
 
         Gtk.Button create_icon_button (string label, string icon_name, bool suggested = false) {
@@ -111,12 +113,22 @@ namespace ProtonPlus.Widgets.Loading {
             var button_image = new Gtk.Image.from_resource ("%s/%s".printf (Config.RESOURCE_BASE, filename));
 
             var button_label = new Gtk.Label (label);
+            button_label.set_hexpand (true);
+            button_label.set_xalign (0);
+
+            var external_icon = new Gtk.Image.from_icon_name ("web-browser-symbolic");
+            external_icon.add_css_class ("dim-label");
 
             var button_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12);
             button_box.append (button_image);
             button_box.append (button_label);
+            button_box.append (external_icon);
 
-            return create_button (button_box, suggested);
+            var button = create_button (button_box, suggested);
+            button.remove_css_class ("pill");
+            button.set_halign (Gtk.Align.FILL);
+            button.set_tooltip_text (_ ("Open launcher website"));
+            return button;
         }
 
         Gtk.Button create_button (Gtk.Widget child, bool suggested) {
@@ -156,9 +168,20 @@ namespace ProtonPlus.Widgets.Loading {
         }
 
         Gtk.Box create_welcome_box () {
-            var first_label = create_wrapping_label (_ ("You need a game launcher to use ProtonPlus."));
+            var description_label = create_wrapping_label (_ ("A supported launcher is required to get started."));
 
-            var second_label = create_wrapping_label (_ ("Install one of these to get started:"));
+            var steps_label = create_wrapping_label (_ ("Open the launcher once, then check again."));
+            steps_label.add_css_class ("dim-label");
+            steps_label.set_margin_top (12);
+
+            var check_button = create_icon_button (_ ("Check again"), "view-refresh-symbolic", true);
+            check_button.clicked.connect (() => {
+                load.begin ();
+            });
+
+            var launchers_label = create_wrapping_label (_ ("Supported launchers"));
+            launchers_label.add_css_class ("heading");
+            launchers_label.set_margin_top (8);
 
             var steam_button = create_image_button ("Steam", "steam.svg");
             steam_button.clicked.connect (() => {
@@ -190,8 +213,15 @@ namespace ProtonPlus.Widgets.Loading {
                 Utils.System.open_uri ("https://github.com/fastrizwaan/WineZGUI");
             });
 
-            var launchers_box = new Gtk.FlowBox ();
-            launchers_box.set_selection_mode (Gtk.SelectionMode.NONE);
+            var launchers_box = new Gtk.FlowBox () {
+                selection_mode = Gtk.SelectionMode.NONE,
+                homogeneous = true,
+                min_children_per_line = 1,
+                max_children_per_line = 2,
+                column_spacing = 8,
+                row_spacing = 8,
+                halign = Gtk.Align.CENTER
+            };
             launchers_box.append (steam_button);
             launchers_box.append (faugus_button);
             launchers_box.append (lutris_button);
@@ -199,19 +229,22 @@ namespace ProtonPlus.Widgets.Loading {
             launchers_box.append (bottles_button);
             launchers_box.append (winezgui_button);
 
-            var third_label = create_wrapping_label (_ ("Important: Run the launcher once to initialize it properly."));
-
-            var check_button = create_icon_button (_ ("Check again"), "view-refresh-symbolic", true);
-            check_button.clicked.connect (() => {
-                load.begin ();
+            var help_button = new Gtk.Button ();
+            help_button.set_child (create_wrapping_label (_ ("Already installed a launcher? Troubleshooting")));
+            help_button.add_css_class ("flat");
+            help_button.add_css_class ("dim-label");
+            help_button.set_halign (Gtk.Align.CENTER);
+            help_button.clicked.connect (() => {
+                Utils.System.open_uri ("https://github.com/Vysp3r/ProtonPlus#a-launcher-is-not-detected");
             });
 
             var welcome_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-            welcome_box.append (first_label);
-            welcome_box.append (second_label);
+            welcome_box.append (description_label);
+            welcome_box.append (launchers_label);
             welcome_box.append (launchers_box);
-            welcome_box.append (third_label);
+            welcome_box.append (steps_label);
             welcome_box.append (check_button);
+            welcome_box.append (help_button);
 
             return welcome_box;
         }

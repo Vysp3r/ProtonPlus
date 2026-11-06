@@ -52,6 +52,24 @@ Gtk.DropDown? find_build_selector (Gtk.Widget widget) {
     return null;
 }
 
+Adw.Window fixture_window (Gtk.Widget content, int width, int height) {
+    // A compositor may tile or maximize the toplevel. Constrain the content
+    // viewport so layout assertions still exercise the requested logical width.
+    var viewport = new Adw.Clamp () {
+        maximum_size = width,
+        tightening_threshold = width,
+        child = content
+    };
+    return new Adw.Window () {
+        content = viewport, default_width = width, default_height = height
+    };
+}
+
+void close_fixture_window (Adw.Window window) {
+    ((Adw.Clamp) window.content).child = null;
+    window.destroy ();
+}
+
 void check_build_choices (Models.Group group) {
     Globals.CPU_CAPABILITIES = new Models.CpuCapabilities (Models.CpuArchitecture.X86_64);
     var definition = new Models.Providers.ProviderRegistry ().get_by_id ("proton-ge");
@@ -62,7 +80,7 @@ void check_build_choices (Models.Group group) {
     var group_box = new Widgets.Tools.GroupBox (group);
     group_box.expand_tool (tool);
     group_box.attach_release_section (tool, box);
-    var window = new Adw.Window () { content = group_box, default_width = 600, default_height = 400 };
+    var window = fixture_window (group_box, 600, 400);
     window.present ();
     bool loaded = false;
     box.set_selected_tool.begin (tool, (obj, res) => { loaded = box.set_selected_tool.end (res); });
@@ -83,7 +101,7 @@ void check_build_choices (Models.Group group) {
     assert (job.selected_variant_id == "alternate");
     assert (tool.variants.size == 2 && tool.release_catalog.releases.size == 2);
     assert (tool.release_catalog.releases[1].variants.size == 2);
-    window.destroy ();
+    close_fixture_window (window);
 }
 
 void collect_rows (Gtk.Widget widget, Gee.ArrayList<Widgets.Tools.ReleaseRow> rows) {
@@ -117,7 +135,7 @@ Gtk.Label? find_label (Gtk.Widget widget, string text) {
 
 void check_tool_heading (Widgets.Tools.GroupBox group_box, Widgets.Tools.ReleasesBox box) {
     var row = group_box.get_expanded_row ();
-    var actions = row.get_data<Gtk.MenuButton> ("tool-actions-button");
+    var actions = box.actions_button;
     assert (actions.get_parent () == box.variant_box);
     var state = row.get_data<Gtk.Label> ("state-label");
     // Exercise the layout of an installed status without touching tool storage.
@@ -133,6 +151,67 @@ void check_tool_heading (Widgets.Tools.GroupBox group_box, Widgets.Tools.Release
     assert (Math.fabs (state_bounds.origin.x - description_bounds.origin.x) < 1.0);
 }
 
+Widgets.Tools.GroupBox? find_group_box (Gtk.Widget widget, Models.Tool tool) {
+    var group = widget as Widgets.Tools.GroupBox;
+    if (group != null && group.contains_tool (tool))
+        return group;
+    for (var child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
+        var found = find_group_box (child, tool);
+        if (found != null)
+            return found;
+    }
+    return null;
+}
+
+void check_inline_transitions (Models.Launcher launcher, Models.Group group) {
+    var first = new PresentationFixtureTool (group);
+    var second = new PresentationFixtureTool (group);
+    second.title = "Second Fixture";
+    group.tools = new Gee.LinkedList<Models.Tool> ();
+    group.tools.add (first);
+    group.tools.add (second);
+    launcher.groups = { group };
+    var page = new Widgets.Tools.Box ();
+    page.set_selected_launcher (launcher);
+    var window = fixture_window (page, 600, 500);
+    window.present ();
+    var group_box = find_group_box (page, first);
+    assert (group_box != null);
+    assert (group_box.expand_tool (first));
+    settle ();
+    var first_row = (Adw.ExpanderRow) group_box.get_expanded_row ();
+    var host = first_row.get_data<Gtk.Box> ("inline-release-host");
+    var releases = (Widgets.Tools.ReleasesBox) host.get_first_child ();
+    var menu = releases.actions_button;
+    var toolbar = menu.get_parent ();
+    assert (releases.is_showing_tool (first));
+    assert (page.get_controller_page_id () == "tools:groups");
+
+    assert (group_box.expand_tool (second));
+    settle ();
+    assert (!first_row.expanded);
+    assert (releases.is_showing_tool (second));
+    assert (menu.get_parent () == toolbar && menu.get_visible ());
+    assert (page.controller_navigate_back ());
+    settle ();
+    assert (group_box.get_expanded_row () == null);
+    assert (!menu.get_visible () && menu.get_parent () == toolbar);
+
+    assert (group_box.expand_tool (first));
+    settle ();
+    page.current_filter = Widgets.Tools.Filter.INSTALLED;
+    settle ();
+    assert (group_box.get_expanded_row () == null);
+    assert (!releases.is_showing_tool (first));
+    page.current_filter = Widgets.Tools.Filter.ALL;
+    assert (group_box.expand_tool (second));
+    settle ();
+    page.set_selected_launcher (launcher);
+    settle ();
+    assert (!releases.is_showing_tool (second));
+    close_fixture_window (window);
+}
+
 void settle () {
     var loop = new MainLoop ();
     Timeout.add (350, () => { loop.quit (); return Source.REMOVE; });
@@ -143,9 +222,10 @@ void snapshot (Gtk.Window window, string name) {
     var directory = Environment.get_variable ("PROTONPLUS_UI_SNAPSHOTS");
     if (directory == null)
         return;
-    var paintable = new Gtk.WidgetPaintable (window);
+    var content = ((Adw.Clamp) ((Adw.Window) window).content).child;
+    var paintable = new Gtk.WidgetPaintable (content);
     var capture = new Gtk.Snapshot ();
-    paintable.snapshot (capture, window.get_width (), window.get_height ());
+    paintable.snapshot (capture, content.get_width (), content.get_height ());
     var node = capture.free_to_node ();
     assert (node != null);
     var texture = window.get_renderer ().render_texture (node, null);
@@ -176,7 +256,7 @@ int main (string[] args) {
     var group_box = new Widgets.Tools.GroupBox (group);
     group_box.expand_tool (tool);
     group_box.attach_release_section (tool, box);
-    var window = new Adw.Window () { content = group_box, default_width = 600, default_height = 400 };
+    var window = fixture_window (group_box, 600, 400);
     window.present ();
     bool loaded = false;
     box.set_selected_tool.begin (tool, (obj, res) => { loaded = box.set_selected_tool.end (res); });
@@ -225,26 +305,28 @@ int main (string[] args) {
     foreach (var theme in new string[] { "light", "dark" }) {
         Adw.StyleManager.get_default ().color_scheme = theme == "dark"
             ? Adw.ColorScheme.FORCE_DARK : Adw.ColorScheme.FORCE_LIGHT;
-        window.content = null;
-        window.destroy ();
-        window = new Adw.Window () { content = group_box, default_width = 400, default_height = 500 };
+        close_fixture_window (window);
+        window = fixture_window (group_box, 400, 500);
         window.present ();
         settle ();
         snapshot (window, "adwaita-" + theme);
         breeze.load_from_resource ("/com/vysp3r/ProtonPlus/breeze-" + theme + ".css");
         Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), breeze,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1);
-        window.content = null;
-        window.destroy ();
-        window = new Adw.Window () { content = group_box, default_width = 400, default_height = 500 };
+        close_fixture_window (window);
+        window = fixture_window (group_box, 400, 500);
         window.present ();
         settle ();
         snapshot (window, "breeze-" + theme);
-        assert (window.get_width () <= 400 && window.get_width () >= 360);
+        int minimum_width;
+        group_box.measure (Gtk.Orientation.HORIZONTAL, -1, out minimum_width, null, null, null);
+        assert (minimum_width <= 400);
+        assert (group_box.get_width () <= 400 && group_box.get_width () >= 360);
         Gtk.StyleContext.remove_provider_for_display (Gdk.Display.get_default (), breeze);
     }
-    window.destroy ();
+    close_fixture_window (window);
     check_build_choices (group);
+    check_inline_transitions (launcher, group);
     assert (DirUtils.remove (root) == 0);
     return 0;
 }

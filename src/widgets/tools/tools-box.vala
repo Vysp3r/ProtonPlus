@@ -27,7 +27,9 @@ namespace ProtonPlus.Widgets.Tools {
         Header.Presentation migrate_presentation { get; set; }
         ulong show_legacy_tools_changed_handler = 0;
         ulong migrate_back_handler = 0;
-        GroupBox? expanded_group;
+        GroupBox? expanded_group {
+            get { return interaction_state.expanded_owner as GroupBox; }
+        }
         Services.InstallJob? pending_download_job;
         InlineReleaseInteractionState interaction_state = new InlineReleaseInteractionState ();
 
@@ -329,12 +331,8 @@ namespace ProtonPlus.Widgets.Tools {
             var group_box = expanded_group;
             if (group_box == null)
                 return;
-            interaction_state.clear_navigation ((!) group_box);
+            // The expansion callback owns clearing selection and navigation.
             ((!) group_box).collapse_expanded_tool (restore_focus);
-            if (expanded_group == group_box)
-                expanded_group = null;
-            interaction_state.collapse ((!) group_box);
-            releases_box.clear_selected_tool ();
         }
 
         void focus_download_job (Services.InstallJob job, GroupBox group_box) {
@@ -578,23 +576,21 @@ namespace ProtonPlus.Widgets.Tools {
 
         void on_tool_expansion_changed (GroupBox group_box, Models.Tool tool, bool expanded) {
             if (!expanded) {
-                interaction_state.collapse (group_box);
                 interaction_state.clear_navigation (group_box);
                 if (expanded_group == group_box) {
                     if (pending_download_job != null && ((!) pending_download_job).tool == tool)
                         pending_download_job = null;
                     releases_box.clear_selected_tool ();
-                    expanded_group = null;
+                    interaction_state.collapse (group_box);
                 }
                 return;
             }
 
             var previous_group = interaction_state.expanded_owner as GroupBox;
-            interaction_state.expand (group_box);
             if (previous_group != null && previous_group != group_box)
                 ((!) previous_group).collapse_expanded_tool (false);
 
-            expanded_group = group_box;
+            interaction_state.expand (group_box);
             group_box.attach_release_section (tool, releases_box);
             releases_box.filter = current_filter;
             if (releases_box.is_showing_tool (tool)) {

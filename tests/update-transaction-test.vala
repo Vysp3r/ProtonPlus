@@ -163,12 +163,18 @@ namespace AppTests.UpdateTransactionTest {
     private ProviderTool failing_runner (string root, ReturnCode code) {
         var launcher = new Launcher ("Fixture", Launcher.InstallationTypes.SYSTEM, "", { root });
         var group = new Group ("Fixture", "", "", launcher);
-        var definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "fixture-failing",
-            "Fixture Runner", "", "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+        var definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "fixture-failing",
+            title = "Fixture Runner",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
         return new ProviderTool.with_catalog (
             definition, new FailingReleaseSource (code), group, InstallLayout.template ("default", "$release_name")
         );
@@ -177,12 +183,18 @@ namespace AppTests.UpdateTransactionTest {
     private ProviderTool static_runner (string root, Release release) {
         var launcher = new Launcher ("Fixture", Launcher.InstallationTypes.SYSTEM, "", { root });
         var group = new Group ("Fixture", "", "", launcher);
-        var definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "fixture-static", "Fixture Runner", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+        var definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "fixture-static",
+            title = "Fixture Runner",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
         if (release.variants.size == 0) {
             release.variants.add (new ProtonPlus.Models.Variant (
                 "default", "Default", "", true, release.asset.download_url
@@ -742,18 +754,30 @@ namespace AppTests.UpdateTransactionTest {
             VariantCompatibility.for_x86_64_level (X86_64Level.V3)
         ));
 
-        var compatible_definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "compatible-fixture", "Compatible Runner", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("base", "Baseline", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
-        var incompatible_definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "incompatible-fixture", "Incompatible Runner", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("v3", "Optimized", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+        var compatible_definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "compatible-fixture",
+            title = "Compatible Runner",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("base", "Baseline", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
+        var incompatible_definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "incompatible-fixture",
+            title = "Incompatible Runner",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("v3", "Optimized", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
         var compatible_source = new StaticReleaseSource (compatible_release);
         var incompatible_source = new StaticReleaseSource (incompatible_release);
         var compatible_runner = new ProviderTool.with_catalog (
@@ -863,13 +887,19 @@ namespace AppTests.UpdateTransactionTest {
             );
             update_release.variants.add (new Models.Variant ("base", "Baseline", "", true, update_url,
                 VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)));
-            var update_definition = new ProviderDefinition (
-                Category.PROTON, SourceType.GITHUB, "background-provider", "Background Runner", "",
-                "https://fixtures.invalid/releases", "https://fixtures.invalid/source", 1,
-                { new VariantDefinition ("base", "Baseline", "$release_name", true,
-                    VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)) },
-                { InstallLayout.template ("default", "$release_name") }
-            );
+            var update_definition = new ProviderDefinition (new ProviderConfig () {
+                category = Category.PROTON,
+                source_type = SourceType.GITHUB,
+                provider_id = "background-provider",
+                title = "Background Runner",
+                description = "",
+                endpoint = "https://fixtures.invalid/releases",
+                repository_url = "https://fixtures.invalid/source",
+                sort_priority = 1,
+                variants = { new VariantDefinition ("base", "Baseline", "$release_name", true,
+                VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)) },
+                install_layouts = { InstallLayout.template ("default", "$release_name") }
+            });
             var update_source = new StaticReleaseSource (update_release);
             var update_runner = new ProviderTool.with_catalog (
                 update_definition, update_source, steam_group,
@@ -892,12 +922,18 @@ namespace AppTests.UpdateTransactionTest {
                 "background-current-v2", "v2"
             );
             current_release.variants.add (new Models.Variant ("base", "Baseline", "", true, current_url));
-            var current_definition = new ProviderDefinition (
-                Category.PROTON, SourceType.GITHUB, "background-current", "Current Runner", "",
-                "https://fixtures.invalid/releases", "https://fixtures.invalid/source", 1,
-                { new VariantDefinition ("base", "Baseline", "$release_name", true) },
-                { InstallLayout.template ("default", "$release_name") }
-            );
+            var current_definition = new ProviderDefinition (new ProviderConfig () {
+                category = Category.PROTON,
+                source_type = SourceType.GITHUB,
+                provider_id = "background-current",
+                title = "Current Runner",
+                description = "",
+                endpoint = "https://fixtures.invalid/releases",
+                repository_url = "https://fixtures.invalid/source",
+                sort_priority = 1,
+                variants = { new VariantDefinition ("base", "Baseline", "$release_name", true) },
+                install_layouts = { InstallLayout.template ("default", "$release_name") }
+            });
             var current_source = new StaticReleaseSource (current_release);
             var current_runner = new ProviderTool.with_catalog (
                 current_definition, current_source, steam_group,
@@ -913,13 +949,19 @@ namespace AppTests.UpdateTransactionTest {
             );
             incompatible_release.variants.add (new Models.Variant ("v3", "Optimized", "", true,
                 incompatible_url, VariantCompatibility.for_x86_64_level (X86_64Level.V3)));
-            var incompatible_definition = new ProviderDefinition (
-                Category.PROTON, SourceType.GITHUB, "background-incompatible", "Incompatible Runner", "",
-                "https://fixtures.invalid/releases", "https://fixtures.invalid/source", 1,
-                { new VariantDefinition ("v3", "Optimized", "$release_name", true,
-                    VariantCompatibility.for_x86_64_level (X86_64Level.V3)) },
-                { InstallLayout.template ("default", "$release_name") }
-            );
+            var incompatible_definition = new ProviderDefinition (new ProviderConfig () {
+                category = Category.PROTON,
+                source_type = SourceType.GITHUB,
+                provider_id = "background-incompatible",
+                title = "Incompatible Runner",
+                description = "",
+                endpoint = "https://fixtures.invalid/releases",
+                repository_url = "https://fixtures.invalid/source",
+                sort_priority = 1,
+                variants = { new VariantDefinition ("v3", "Optimized", "$release_name", true,
+                VariantCompatibility.for_x86_64_level (X86_64Level.V3)) },
+                install_layouts = { InstallLayout.template ("default", "$release_name") }
+            });
             var incompatible_source = new StaticReleaseSource (incompatible_release);
             var incompatible_runner = new ProviderTool.with_catalog (
                 incompatible_definition, incompatible_source, steam_group,
@@ -1013,12 +1055,18 @@ namespace AppTests.UpdateTransactionTest {
             );
             group.tools = new Gee.LinkedList<Models.Tool> ();
             launcher.groups = { group };
-            var definition = new ProviderDefinition (
-                Category.PROTON, SourceType.GITHUB, "fixture-bulk-guard", "Fixture Runner", "",
-                "https://example.test/releases", "https://example.test/source", 1,
-                { new VariantDefinition ("standard", "default", "$release_name", true) },
-                { InstallLayout.template ("default", "$release_name") }
-            );
+            var definition = new ProviderDefinition (new ProviderConfig () {
+                category = Category.PROTON,
+                source_type = SourceType.GITHUB,
+                provider_id = "fixture-bulk-guard",
+                title = "Fixture Runner",
+                description = "",
+                endpoint = "https://example.test/releases",
+                repository_url = "https://example.test/source",
+                sort_priority = 1,
+                variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+                install_layouts = { InstallLayout.template ("default", "$release_name") }
+            });
             var runner = new ProviderTool.with_catalog (
                 definition, new StaticReleaseSource (release), group,
                 InstallLayout.template ("default", "$release_name")

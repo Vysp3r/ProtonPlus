@@ -11,7 +11,6 @@ namespace ProtonPlus.Widgets.Main {
 
         Tools.Box tools_box { get; set; }
         Games.Box games_box { get; set; }
-        MangoHud.Box mangohud_box { get; set; }
         private Services.SteamRestartManager? restart_manager;
         private Services.SteamRestartOrchestrator? restart_orchestrator;
         private SteamRestartBanner? restart_banner;
@@ -65,20 +64,10 @@ namespace ProtonPlus.Widgets.Main {
                 search_availability_changed (search_available ());
             });
 
-            mangohud_box = new MangoHud.Box ();
-
             view_stack = new Adw.ViewStack ();
             view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
             view_stack.add_titled_with_icon (tools_box, "tools", _ ("Tools"), "applications-system-symbolic");
             view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "input-gaming-symbolic");
-
-            var mangohud_page = view_stack.add_titled_with_icon (mangohud_box, "mangohud", _ ("MangoHud"), "view-grid-symbolic");
-
-            if (Globals.MANGOHUD_INSTALLED || Globals.MANGOHUD_FLATPAK_INSTALLED) {
-                Globals.SETTINGS.bind ("experimental-features", mangohud_page, "visible", SettingsBindFlags.DEFAULT);
-            } else {
-                mangohud_page.visible = false;
-            }
 
             view_switcher = new Adw.ViewSwitcher ();
             view_switcher.set_stack (view_stack);
@@ -428,9 +417,6 @@ namespace ProtonPlus.Widgets.Main {
                 case "games":
                     games_box.show_games_list_page ();
                     break;
-                case "mangohud":
-                    mangohud_box.show_presets_page ();
-                    break;
             }
 
             previous_view_name = view_stack.get_visible_child_name ();
@@ -468,9 +454,6 @@ namespace ProtonPlus.Widgets.Main {
                     break;
                 case "games":
                     games_box.show_games_list_page ();
-                    break;
-                case "mangohud":
-                    mangohud_box.show_presets_page ();
                     break;
             }
         }

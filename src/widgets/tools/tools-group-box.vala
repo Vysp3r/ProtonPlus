@@ -201,24 +201,6 @@ namespace ProtonPlus.Widgets.Tools {
             if (in_release_section)
                 return false;
 
-            var actions_button = focused_row.get_data<Gtk.MenuButton> (
-                "tool-actions-button"
-            );
-            bool in_header_actions = actions_button != null && focused != null &&
-                (focused == actions_button ||
-                 ((!) focused).is_ancestor ((!) actions_button));
-            if (in_header_actions)
-                return focus_from_header_actions (
-                    focused_row, (!) actions_button, direction
-                );
-
-            if (direction == Utils.ControllerNavigationDirection.RIGHT &&
-                actions_button != null && ((!) actions_button).get_mapped () &&
-                ((!) actions_button).is_visible () &&
-                ((!) actions_button).is_sensitive () &&
-                ((!) actions_button).get_can_focus ())
-                return ((!) actions_button).grab_focus ();
-
             if (direction == Utils.ControllerNavigationDirection.LEFT) {
                 if (focused_row.expanded)
                     focused_row.expanded = false;
@@ -247,32 +229,6 @@ namespace ProtonPlus.Widgets.Tools {
                 ((!) controller_up_target).grab_focus ();
         }
 
-        bool focus_from_header_actions (
-            Adw.ExpanderRow row, Gtk.MenuButton actions_button,
-            Utils.ControllerNavigationDirection direction
-        ) {
-            if (direction == Utils.ControllerNavigationDirection.LEFT)
-                return row.grab_focus ();
-            if (direction == Utils.ControllerNavigationDirection.RIGHT)
-                return actions_button.grab_focus ();
-            if (direction == Utils.ControllerNavigationDirection.DOWN &&
-                row == expanded_row && releases_section != null)
-                return ((!) releases_section).focus_first_controller_target ();
-            if (direction != Utils.ControllerNavigationDirection.UP &&
-                direction != Utils.ControllerNavigationDirection.DOWN)
-                return false;
-
-            var adjacent = find_adjacent_visible_row (row, direction);
-            if (adjacent != null)
-                return ((!) adjacent).grab_focus ();
-            return direction == Utils.ControllerNavigationDirection.UP &&
-                controller_up_target != null &&
-                ((!) controller_up_target).get_mapped () &&
-                ((!) controller_up_target).is_visible () &&
-                ((!) controller_up_target).is_sensitive () &&
-                ((!) controller_up_target).grab_focus ();
-        }
-
         public bool controller_activate (Object focused_object) {
             var focused = focused_object as Gtk.Widget;
             if (focused == null)
@@ -289,16 +245,6 @@ namespace ProtonPlus.Widgets.Tools {
             var row = find_expander_row_ancestor (focused);
             if (row == null)
                 return false;
-
-            var actions_button = ((!) row).get_data<Gtk.MenuButton> (
-                "tool-actions-button"
-            );
-            if (actions_button != null &&
-                (focused == actions_button ||
-                 ((!) focused).is_ancestor ((!) actions_button))) {
-                ((!) actions_button).popup ();
-                return true;
-            }
 
             ((!) row).expanded = !((!) row).expanded;
             return true;
@@ -488,28 +434,6 @@ namespace ProtonPlus.Widgets.Tools {
             content_box.append (text_box);
             row.add_prefix (content_box);
 
-            var actions_button = new Gtk.MenuButton () {
-                icon_name = "view-more-symbolic",
-                valign = Gtk.Align.CENTER,
-                visible = false,
-                tooltip_text = _("Tool Actions")
-            };
-            actions_button.update_property (
-                Gtk.AccessibleProperty.LABEL,
-                "%s — %s".printf (_("Tool Actions"), tool.title),
-                -1
-            );
-            row.set_data ("tool-actions-button", actions_button);
-            var actions_header_host = new Gtk.Box (
-                Gtk.Orientation.HORIZONTAL, 0
-            ) {
-                visible = false,
-                valign = Gtk.Align.CENTER
-            };
-            actions_header_host.append (actions_button);
-            row.set_data ("tool-actions-header-host", actions_header_host);
-            row.add_suffix (actions_header_host);
-
             // Keep one lightweight host per row so the reusable release section
             // can move without dynamically adding and removing expander rows.
             var release_host = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -608,16 +532,6 @@ namespace ProtonPlus.Widgets.Tools {
             ((!) host).append (section);
             releases_section = section;
             releases_host = host;
-            var actions_button = ((!) expanded_row).get_data<Gtk.MenuButton> (
-                "tool-actions-button"
-            );
-            var actions_header_host = ((!) expanded_row).get_data<Gtk.Box> (
-                "tool-actions-header-host"
-            );
-            if (actions_button != null && actions_header_host != null)
-                section.attach_actions_button (
-                    (!) actions_header_host, (!) actions_button
-                );
             section.set_controller_up_target ((!) expanded_row);
             section.set_controller_down_target (find_adjacent_visible_row (
                 (!) expanded_row, Utils.ControllerNavigationDirection.DOWN

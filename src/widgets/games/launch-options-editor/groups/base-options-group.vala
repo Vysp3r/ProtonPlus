@@ -5,6 +5,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         protected unowned LaunchOptionsList launch_option_handlers;
         protected unowned LaunchOptionPresentationRegistry? presentation_registry;
         protected bool presentation_movable;
+        LaunchOptionCatalog catalog;
         public signal void changed ();
         public signal void advanced_changed ();
 
@@ -20,29 +21,25 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.is_advanced_group = is_advanced_group;
             this.presentation_registry = presentation_registry;
             this.presentation_movable = presentation_movable;
+            catalog = presentation_registry != null
+                ? presentation_registry.catalog : new LaunchOptionCatalog ();
         }
 
-        internal LaunchOptionTile create_game_argument_tile (
-            string title, string subtitle, string[] tokens, bool is_advanced = false, string id = ""
-        ) {
-            return create_tile (title, subtitle, tokens, is_advanced, LaunchLineType.ARGUMENT, id);
-        }
-
-        internal LaunchOptionTile create_tile (
-            string title,
-            string subtitle,
-            string[] tokens,
-            bool is_advanced = false,
-            LaunchLineType type = LaunchLineType.ENVIRONMENT,
-            string id = ""
-        ) {
-            var tile = new LaunchOptionTile (title, subtitle, tokens, is_advanced, type);
+        internal LaunchOptionTile create_tile (string id, bool is_advanced = false) {
+            var metadata = catalog.lookup (id);
+            assert (metadata != null);
+            // Recognition tokens can include an old off/on pair. The writer
+            // continues to own canonical emission through catalog semantics.
+            var tile = new LaunchOptionTile (
+                metadata.title, metadata.description, metadata.raw_tokens,
+                is_advanced, metadata.serialization_type
+            );
             tile.toggle.notify["active"].connect (() => {
                 this.changed ();
             });
 
             this.launch_option_handlers.add (tile);
-            if (id != "" && presentation_registry != null)
+            if (presentation_registry != null)
                 presentation_registry.register (id, tile, tile, presentation_movable);
 
             return tile;
