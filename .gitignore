@@ -3,27 +3,23 @@
 /.flatpak-builder/
 /.flatpak/
 /build/
-/build-appimage/
-/build-dir/
-/build-flatpak/
-/build-native/
-/build-native-debug/
-/build-tests/
+/build-*/
 /builddir/
 /dist/
 /src/translatables.vala
 /tmp/
+/po/POTFILES.tmp
+/compile_commands.json
 
 # Python caches.
 __pycache__/
 *.py[cod]
+.pytest_cache/
+.ruff_cache/
 
 # Miscellaneous.
 /.idea/
-/.vscode/*
-!.vscode/extensions.json
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-/gdb.sh
-/com.vysp3r.ProtonPlus.flatpak
+/.vscode/
+*.swp
+*.swo
+*~

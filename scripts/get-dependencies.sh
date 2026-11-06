@@ -21,6 +21,7 @@ pacman -Syu --noconfirm \
     desktop-file-utils \
     appstream \
     appstream-glib \
+    libxml2 \
     bluez-libs \
     libnm \
     glib-networking \

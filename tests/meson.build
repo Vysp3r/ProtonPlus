@@ -79,6 +79,7 @@ test(
 
 python = import('python').find_installation()
 test('Maintenance script tests', python, args: files('scripts_test.py'))
+test('Check command tests', python, args: files('check_script_test.py'))
 
 flag_widget_test = executable(
     'launch-option-flags-widget-test',
