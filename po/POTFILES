@@ -38,6 +38,7 @@ src/models/steam-restart-operation.vala
 src/models/steam-restart-target.vala
 src/models/steam/library-folder.vala
 src/models/steam/steam-library-config.vala
+src/models/tool-variant-preferences.vala
 src/models/tool.vala
 src/models/tools/provider-tool.vala
 src/models/tools/release-page-result.vala
@@ -72,6 +73,7 @@ src/services/standard-archive-workflow.vala
 src/services/steam-change-recorder.vala
 src/services/steam-configuration-service.vala
 src/services/steam-game-launch-service.vala
+src/services/steam-lifecycle.vala
 src/services/steam-restart-backend.vala
 src/services/steam-restart-manager.vala
 src/services/steam-restart-orchestrator.vala
@@ -97,8 +99,8 @@ src/utils/download-manager.vala
 src/utils/filesystem.vala
 src/utils/github-download-mirror.vala
 src/utils/i18n.vala
+src/utils/installed-components.vala
 src/utils/internal/metainfo-loader.vala
-src/utils/mangohud-manager.vala
 src/utils/metadata.vala
 src/utils/parser.vala
 src/utils/partial-download-cache.vala
@@ -118,6 +120,8 @@ src/widgets/games/games-action-policy.vala
 src/widgets/games/games-box.vala
 src/widgets/games/games-collection.vala
 src/widgets/games/games-extra-button.vala
+src/widgets/games/games-list-controller.vala
+src/widgets/games/games-list-view.vala
 src/widgets/games/games-mass-edit-button.vala
 src/widgets/games/games-mass-edit-view.vala
 src/widgets/games/games-row.vala
@@ -195,13 +199,6 @@ src/widgets/main/steam-restart-banner.vala
 src/widgets/main/steam-restart-dialog.vala
 src/widgets/main/steam-restart-presentation.vala
 src/widgets/main/warning-dialog.vala
-src/widgets/mangohud/mangohud-box.vala
-src/widgets/mangohud/mangohud-extras-page.vala
-src/widgets/mangohud/mangohud-metrics-page.vala
-src/widgets/mangohud/mangohud-page.vala
-src/widgets/mangohud/mangohud-performance-page.vala
-src/widgets/mangohud/mangohud-presets-page.vala
-src/widgets/mangohud/mangohud-visual-page.vala
 src/widgets/preferences/preferences-access-token-row.vala
 src/widgets/preferences/preferences-background-updates-frequency-row.vala
 src/widgets/preferences/preferences-delete-cache-row.vala
@@ -222,6 +219,7 @@ src/widgets/tools/tools-release-changelog.vala
 src/widgets/tools/tools-release-games-dialog.vala
 src/widgets/tools/tools-release-row-presentation.vala
 src/widgets/tools/tools-release-row.vala
+src/widgets/tools/tools-release-state.vala
 src/widgets/tools/tools-releases-box.vala
 src/widgets/tools/tools-remove-dialog.vala
 src/widgets/tools/tools-stl-release-row.vala
