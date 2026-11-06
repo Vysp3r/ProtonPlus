@@ -83,10 +83,19 @@ body:
       required: true
 
   - type: textarea
+    id: affected-integration
+    attributes:
+      label: Affected launcher and compatibility tool
+      description: Include the launcher's installation type (system, Flatpak, or Snap). For release or installation problems, include the tool, variant, and exact release or upstream URL.
+      placeholder: "e.g., Flatpak Steam; Proton-GE; default variant; release GE-Proton..."
+    validations:
+      required: false
+
+  - type: textarea
     id: logs
     attributes:
       label: Logs
-      description: If applicable, add any logs to help explain your problem. You can get logs by running the application from a terminal.
+      description: Run `protonplus` or `flatpak run com.vysp3r.ProtonPlus` from a terminal and copy the relevant error. If the app opens, also copy System Information from Preferences. Remove API tokens and other private information.
       render: text
       placeholder: PASTE LOGS HERE
     validations:

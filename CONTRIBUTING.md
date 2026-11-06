@@ -62,7 +62,7 @@ source and is primarily used for release packaging.
 The project helper is the easiest way to build a development checkout:
 
 ~~~bash
-# Build natively into build-native/
+# Build natively into build/
 ./scripts/build.sh native
 
 # Build and run the native application
@@ -74,7 +74,7 @@ data and locale paths needed when running from the checkout. To install a
 native build system-wide, use the normal privilege boundary explicitly:
 
 ~~~bash
-sudo meson install -C build-native
+sudo meson install -C build
 ~~~
 
 For a native debug build, use either of these commands:
@@ -84,8 +84,7 @@ For a native debug build, use either of these commands:
 ./scripts/build.sh native-debug       # build /tmp/protonplus-build-debug
 ~~~
 
-The debug modes require GDB. The VS Code configuration uses the latter build
-directory.
+The debug modes require GDB.
 
 To check native build tools and development libraries without creating a
 project build directory:
@@ -109,28 +108,30 @@ The Flatpak build runs in a sandbox and uses the permissions declared in the
 local manifest. It is useful for checking packaging, runtime integration, and
 launcher detection in the same general environment as the distributed app.
 
-The Makefile provides shortcuts for common operations, including make build,
-make build-run, make build-debug, make local, make flathub, and make clean.
+Run `./scripts/build.sh help` to see all build and maintenance commands.
 
 ## Test changes
 
-For a fresh test build, configure it once, then compile and run the complete
-suite:
+Build and run the complete suite with:
 
 ~~~bash
-meson setup build-tests
-meson compile -C build-tests
-meson test -C build-tests --print-errorlogs
+./scripts/check.sh
 ~~~
 
-If build-tests/ already exists, reconfigure it with:
+Native builds and checks share `build/` by default. The check command configures
+it if needed, compiles, runs the tests, and checks the diff for whitespace
+errors. For another build directory, use
+`BUILD_DIR=build-tests ./scripts/check.sh`.
+
+To work on one GLib test group:
 
 ~~~bash
-meson setup build-tests --reconfigure
+./scripts/check.sh launch-options
+./scripts/check.sh /launch-command-writer
 ~~~
 
-make tests is a verbose shortcut that configures build-tests/ when needed,
-reconfigures an existing build, then compiles and runs the complete suite.
+Focused runs use the fixture directory automatically. See
+[docs/testing.md](docs/testing.md) for the test map and direct Meson commands.
 
 The test suite includes Vala unit tests, maintenance-script tests, and—when
 the corresponding host tools are available—desktop-file, AppStream, and
@@ -142,8 +143,8 @@ asynchronous UI state.
 Useful commands for a targeted run are:
 
 ~~~bash
-meson test -C build-tests --list
-meson test -C build-tests --print-errorlogs "ProtonPlus unit tests"
+meson test -C build --list
+meson test -C build --print-errorlogs "ProtonPlus unit tests"
 ~~~
 
 When testing installation or launcher behavior manually, use a disposable
@@ -155,10 +156,8 @@ restore, and close games before testing compatibility-tool updates or removal.
 Run these checks before opening a pull request:
 
 ~~~bash
-git diff --check
+./scripts/check.sh
 pre-commit run --all-files
-meson compile -C build-tests
-meson test -C build-tests --print-errorlogs
 ~~~
 
 Install the pre-commit package with your distribution or Python tooling, then
@@ -178,13 +177,17 @@ advisory.
 Additional helper commands:
 
 ~~~bash
-make translations
+./scripts/build.sh translations
 ./scripts/build.sh linter
 ./scripts/build.sh icons
 ./scripts/build.sh clean
 ~~~
 
-make translations regenerates po/POTFILES and updates .po files.
+`./scripts/build.sh translations` regenerates `po/POTFILES` and the gettext
+template without rewriting `.po` catalogs or compiling the application. Use
+`./scripts/build.sh translations update` when synchronizing language catalogs,
+usually during translation or release work. Both use the same `BUILD_DIR` as
+native builds and checks.
 ./scripts/build.sh linter runs flatpak-builder-lint on the local manifest.
 ./scripts/build.sh icons regenerates tracked PNG icons from the SVG source.
 ./scripts/build.sh clean removes ignored build and distribution directories.
@@ -207,7 +210,7 @@ are tracked and should only be regenerated when the source icon changes.
 - src/utils/ — filesystem, archive, network, cache, system, translation, and
   VDF helpers.
 - src/widgets/ — GTK4/libadwaita application, window, preferences, tools,
-  games, and MangoHud UI.
+  and games.
 - data/ — resources, icons, CSS, desktop metadata, AppStream metadata,
   GSettings schema, and systemd units.
 - po/ — gettext catalogs and the generated source-file list.
@@ -220,6 +223,8 @@ are tracked and should only be regenerated when the source icon changes.
   model.
 - docs/testing.md — focused test paths, fixture rules, safety constraints, and
   manual-validation expectations.
+- docs/maintenance.md — everyday maintenance, debugging paths, release steps,
+  and a ranked assessment of recurring work.
 
 ### Adding a provider
 
@@ -254,8 +259,8 @@ tests, documentation, and translations when the change affects them.
 
 ## Coding and UI guidelines
 
-- Use four spaces for Vala and Python. Use tabs for Makefile recipes and follow
-  .editorconfig for Meson, YAML, JSON, and other files.
+- Use four spaces for Vala and Python. Follow .editorconfig for Meson, YAML,
+  JSON, and other files.
 - Follow the existing Vala and GLib conventions. Keep changes focused and avoid
   unrelated formatting or architectural rewrites.
 - Keep network, filesystem, archive, and other blocking work out of GTK filter,
@@ -277,10 +282,10 @@ tests, documentation, and translations when the change affects them.
 User-facing text is translated with gettext and coordinated through
 [Weblate](https://hosted.weblate.org/projects/protonplus/protonplus/). When
 adding or removing translatable source files, regenerate the source list and
-translation catalogs:
+the gettext template:
 
 ~~~bash
-make translations
+./scripts/build.sh translations
 ~~~
 
 Do not hand-edit generated translation output unless you are intentionally
@@ -331,12 +336,14 @@ Passing CI is necessary but does not replace manual review of behavior and UI.
 
 ## Release and versioning notes
 
-Release work is maintainer-led. The project version is declared in meson.build;
-scripts/set-version.py VERSION updates the Meson version and the tagged source
-reference in the Flathub manifest. Release notes in
-data/com.vysp3r.ProtonPlus.metainfo.xml.in and the Git tag (vVERSION) are
-updated separately. Publishing a GitHub release triggers the AppImage
-workflow.
+Release work is maintainer-led. Follow the preparation and verification steps
+in [docs/maintenance.md](docs/maintenance.md#prepare-a-release). The project
+version is declared in meson.build; ./scripts/set-version.sh VERSION updates it
+and the tagged source reference in the Flathub manifest. AppStream release
+notes and the Git tag are updated separately. `./scripts/set-version.sh --check`
+checks the release fields without modifying them and requires `xmllint` from
+the libxml2 tools package. Publishing a GitHub release
+triggers the AppImage workflow.
 
 Contributors should not change the project version or release metadata unless
 the pull request is specifically part of a release. If a version-related
@@ -348,9 +355,7 @@ update before committing.
 Before requesting review:
 
 ~~~bash
-git diff --check
-meson compile -C build-tests
-meson test -C build-tests --print-errorlogs
+./scripts/check.sh
 pre-commit run --all-files
 ~~~
 

@@ -28,8 +28,10 @@ Run focused GLib paths from `tests/` so fixtures resolve correctly:
 ```
 
 See [`docs/testing.md`](docs/testing.md) for the test map. Run
-`make translations` after changing translatable UI strings or adding/removing
-Vala sources; documentation-only edits do not require it.
+`./scripts/build.sh translations` after changing translatable UI strings or
+adding/removing Vala sources; this updates the source list and POT template.
+Use `./scripts/build.sh translations update` only when intentionally merging
+language catalogs. Documentation-only edits do not require translation work.
 
 ## Required contracts
 

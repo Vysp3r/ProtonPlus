@@ -2,8 +2,9 @@
 
 This guide maps the current ProtonPlus codebase and the boundaries that matter
 when changing it. It complements the contributor setup in
-[`CONTRIBUTING.md`](../CONTRIBUTING.md) and the provider-specific extension
-guide in [`provider-architecture.md`](provider-architecture.md).
+[`CONTRIBUTING.md`](../CONTRIBUTING.md), the everyday debugging and release
+workflow in [`maintenance.md`](maintenance.md), and the provider-specific
+extension guide in [`provider-architecture.md`](provider-architecture.md).
 
 ## System overview
 
@@ -13,7 +14,8 @@ eligible for each launcher, obtains releases from upstream hosting APIs, and
 installs those releases into launcher-specific layouts. Steam adds game
 library, VDF configuration, launch-option editing, and restart coordination.
 
-There are two process composition roots in `src/main.vala`:
+There are two process entry paths in `src/main.vala`. Both use `SteamLifecycle`
+for shared Steam service construction, observation, and shutdown:
 
 - With no command argument, `Widgets.Application` creates the GUI process,
   initializes global settings and host capabilities, composes the Steam
@@ -47,6 +49,12 @@ games and installed inventory           releases and variants
 Widgets may coordinate presentation, but they should not become remote API
 parsers, provider registries, filesystem transactions, or persistence owners.
 
+`Utils.InstalledComponents` takes the optional-component snapshot at startup.
+It detects known host commands and, for Flatpak ProtonPlus only, queries the
+host's installed Flatpak IDs once. Lookups read that snapshot; tests inject a
+`ComponentDetectionBackend` instead of probing the developer's host. `Globals`
+continues to expose the resulting flags to existing consumers.
+
 ## Repository map
 
 | Path | Responsibility |
@@ -58,7 +66,7 @@ parsers, provider registries, filesystem transactions, or persistence owners.
 | `src/providers/sources/` | Stateless GitHub, GitHub Actions, GitLab, and Forgejo fetch/normalization adapters. |
 | `src/services/` | Install/update/remove coordination, archive transactions, Steam configuration and restart lifecycle, process guards, and migrations. |
 | `src/utils/` | Filesystem, archive, network, cache, process, metadata, translation, VDF, and platform helpers. |
-| `src/widgets/` | GTK4/libadwaita application, loading flow, main navigation, Tools, Games, preferences, downloads, introduction, and MangoHud UI. |
+| `src/widgets/` | GTK4/libadwaita application, loading flow, main navigation, Tools, Games, preferences, downloads, and introduction. |
 | `src/cli/` | Command parsing, stable/legacy identity matching, progress, return codes, and injectable terminal output. |
 | `data/` | GResources, CSS, icons, desktop/AppStream metadata, GSettings schema, and systemd user units. |
 | `tests/` | One TAP-producing Vala test executable, Python maintenance tests, and host-independent fixtures. |
@@ -94,6 +102,9 @@ the loading view, CLI listing, and potentially physical target identity.
 
 ### Provider and release browsing
 
+Provider entries use named `ProviderConfig` fields. `ProviderDefinition` takes
+a defensive snapshot, keeping shared runtime definitions immutable.
+
 The ordinary provider path is definition-driven:
 
 ```text
@@ -107,6 +118,11 @@ mutable page, pagination, cached snapshot, refresh behavior, and latest-release
 lookup for one tool. A forced refresh replaces published releases only after a
 successful page fetch; latest discovery starts at upstream page one without
 mutating browse state.
+
+`ToolVariantPreferences` owns the `selected-tool-variants` preference. It reads
+the stable tool ID first and falls back to the legacy display-name key. Saving
+changes only the tool's canonical entry and preserves other entries. The
+release widget selects and displays variants; it does not parse preference JSON.
 
 Use [`provider-architecture.md`](provider-architecture.md) for the exact
 provider, source, and specialized-workflow extension rules.
@@ -292,6 +308,19 @@ and is the only serializer used by preview and Apply.
 explicit Clear. Clear changes the session to a full-source replacement; later
 edits must not merge old source content back. Mass edit shares control state
 but calls the writer independently for every game's original command.
+
+### Games list presentation
+
+`GameCollection` owns the game projection, sorting, filtering, and selection.
+`GameListView` owns wide/narrow widgets, recycled cell bindings, scrolling, and
+deferred row focus. Its `detach()` releases factories and cancels pending focus
+before the page goes away. `GameListControllerBox` adapts sort-header and list
+boundary focus to controller navigation.
+
+`Games.Box` coordinates search/filter controls, launcher changes, boundary
+decisions, and single-game/mass-edit navigation. List factories belong in
+`games-list-view.vala`; page navigation belongs in `games-box.vala`. Both views
+share the same collection so changing width preserves selection and sort order.
 
 ## Identity and persistence contracts
 

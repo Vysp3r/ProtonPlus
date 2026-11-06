@@ -5,7 +5,40 @@ parsers, asynchronous service tests, GTK-adjacent presentation tests, and
 manual integration behavior. Use the smallest relevant checks while iterating,
 then broaden validation in proportion to the change.
 
-## Configure a test build
+## Everyday checks
+
+From the repository root, run:
+
+```bash
+./scripts/check.sh
+./scripts/check.sh launch-options
+./scripts/check.sh /launch-command-writer
+```
+
+`./scripts/check.sh` configures `build/` only when needed, compiles it, runs the
+full Meson suite, and checks diff whitespace. Named areas include all nested
+tests; a GLib path argument runs just that path from `tests/`, where fixtures
+resolve correctly. Run the full command
+before releasing or handing off a change. Use
+`BUILD_DIR=build-tests ./scripts/check.sh` to reuse an older test build.
+
+Available areas are `downloads`, `providers`, `installation`, `steam`,
+`launch-options`, `controller`, and `cli`. They run GLib tests; use the full
+command for the separate GUI and maintenance-script tests.
+
+For download recovery, including nested fixture groups:
+
+```bash
+./scripts/check.sh downloads
+```
+
+The helper also works when invoked from another directory. Relative
+`BUILD_DIR` values always resolve against the repository root. It stops at the
+first failed build, test, or whitespace check and preserves that exit status.
+Focused checks also fail when the requested path selects no tests, so a typo
+cannot produce a successful check without exercising anything.
+
+## Configure a test build manually
 
 Choose one build directory and use it consistently. The examples below use
 `build/`:
@@ -23,16 +56,28 @@ and an explicit reconfigure is needed:
 meson setup build --reconfigure
 ```
 
-`build-tests/` is the contributor guide's fresh-test convention and works the
-same way. The Makefile's `make tests` target configures it when missing and
-reconfigures it when it already exists.
+`build-tests/` also works if you already use it. Meson automatically regenerates
+an existing build during compilation when its inputs change; everyday checks
+do not need an explicit reconfigure.
 
 The Meson suite currently contains:
 
 - `ProtonPlus unit tests`: the Vala/GLib test binary using TAP.
-- `Maintenance script tests`: Python tests for repository scripts.
+- `Maintenance script tests`: Python tests for repository scripts. Release
+  metadata checks use `xmllint` and skip when it is unavailable.
+- `Check command tests`: isolated command stubs covering build setup, focused
+  fixture paths, and failure propagation without compiling or touching user data.
+- `Games presentation`: fixture-backed wide/narrow list bindings, selection
+  presentation, activation forwarding, model replacement, and focus cleanup.
 - Host-tool validation added from `data/` when the matching validation tools
   are available, including desktop, AppStream, and GSettings checks.
+
+GUI tests use Xvfb when available, otherwise the current display, and skip if
+neither can be opened. The Tools layout fixture constrains its content viewport
+to the requested logical width: a tiling compositor can enlarge the toplevel
+without changing the width under test. Narrow-layout checks assert both the
+content's minimum width and its allocation. Optional snapshots capture that
+viewport, rather than the compositor-sized window.
 
 ## Focused GLib test paths
 
@@ -80,7 +125,9 @@ meson test -C build --print-errorlogs "ProtonPlus unit tests"
 | Steam lifecycle | `/steam-session`, `/steam-configuration`, `/steam-restart-manager`, `/steam-restart-orchestrator`, `/steam-restart-presentation`. |
 | Launch options | `/launch-options`, `/launch-command`, `/launch-command-parser`, `/launch-command-composer`, `/launch-command-writer`, `/launch-command-editor-projection`, `/launch-option-capabilities`; see [`launch-options.md`](launch-options.md) for feature-probe fixtures and compatibility contracts. |
 | CLI | `/cli`, using `RecordingCliOutputSink` for output assertions. |
-| Repository scripts | `tests/scripts_test.py`, normally run by Meson. |
+| Saved variant preferences | `/variant-settings`: canonical/legacy keys, damaged JSON, unknown-entry preservation, and memory-backed GSettings persistence. |
+| Optional component detection | `/system/components`, `/system/flatpak-dependency`: injected command availability, a single Flatpak query, exact IDs, aliases, failures, and immutable lookup state. |
+| Repository scripts | `tests/scripts_test.py`, `tests/check_script_test.py`, normally run by Meson. |
 
 Prefer behavior assertions over source-text or formatting assertions. For a
 bug fix, add the smallest regression that fails for the observed behavior and
@@ -130,16 +177,19 @@ available, say so. Compilation is not a substitute for that evidence.
 Run these only when the change requires them:
 
 ```bash
-make translations              # translatable strings or Vala source list
-pre-commit run --all-files      # Vala lint
-./scripts/build.sh local        # local Flatpak packaging/integration
-./scripts/build.sh linter       # advisory Flathub lint suite
-./scripts/build.sh icons        # source application icon changed
+./scripts/build.sh translations # translatable strings or Vala source list
+pre-commit run --all-files       # Vala lint
+./scripts/build.sh local         # local Flatpak packaging/integration
+./scripts/build.sh linter        # advisory Flathub lint suite
+./scripts/build.sh icons         # source application icon changed
 ```
 
-`make translations` updates many tracked files by design. Icon generation also
-updates tracked PNG assets. Flatpak commands require installed runtimes,
-network access, and substantially more time than native unit tests.
+`./scripts/build.sh translations` updates only `po/POTFILES` and the POT
+template. `./scripts/build.sh translations update` also merges language catalogs;
+keep that larger generated diff separate from code changes where practical.
+Neither command builds the application. Icon generation updates tracked PNG
+assets. Flatpak commands require installed runtimes, network access, and
+substantially more time than native unit tests.
 
 ## Final verification and report
 
