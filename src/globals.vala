@@ -64,9 +64,9 @@ namespace ProtonPlus.Globals {
         if (Globals.SETTINGS != null) {
             int saved_enum_value = Globals.SETTINGS.get_enum ("language");
 
-            for (uint i = 0; i < LANGUAGES ().length; i++) {
-                if (LANGUAGES ()[i].index == saved_enum_value) {
-                    current_locale = LANGUAGES ()[i].code;
+            foreach (var language in LANGUAGES ()) {
+                if (language.index == saved_enum_value) {
+                    current_locale = language.code;
                     break;
                 }
             }

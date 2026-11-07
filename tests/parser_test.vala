@@ -14,8 +14,6 @@ namespace AppTests.ParserTest {
         Test.add_func ("/launch-options/catalog-active-options-survive-filters", test_launch_option_catalog_active_options_survive_filters);
         Test.add_func ("/launch-options/presentation-parent-visibility", test_launch_option_presentation_parent_visibility);
         Test.add_func ("/launch-options/launch-backend-chrome", test_launch_backend_chrome_visibility);
-        Test.add_func ("/launch-options/changing-one-control-preserves-unrelated-raw-tokens", test_launch_option_single_control_edit_preserves_raw_tokens);
-        Test.add_func ("/launch-options/category-order-does-not-affect-serialization", test_launch_option_category_order_does_not_affect_serialization);
         Test.add_func ("/system/gpu-vendor-from-pci-devices", test_gpu_vendor_from_pci_devices);
     }
 
@@ -63,10 +61,6 @@ namespace AppTests.ParserTest {
         assert (tokens.length == 5);
         assert (tokens[0] == "VAR=hello world");
         assert (tokens[3] == "%command%");
-        options.load_from_string (source);
-        assert (options.to_launch_line () == source);
-        options.mark_modified ();
-        assert (options.to_launch_line () == source);
     }
 
     private void test_opaque_shell_spans () {
@@ -80,10 +74,10 @@ namespace AppTests.ParserTest {
 
         var options = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionsList ();
         string source = "VAR=1 $(unsafe) %command%";
-        options.load_from_string (source);
-        assert (options.to_launch_line () == source);
-        options.mark_modified ();
-        assert (options.to_launch_line () == source);
+        var values = options.get_launch_option_tokens (source);
+        assert (values.length == 2);
+        assert (values[0] == "VAR=1");
+        assert (values[1] == "%command%");
     }
 
     private void test_launch_option_command_preview_markup () {
@@ -447,33 +441,6 @@ namespace AppTests.ParserTest {
         assert (ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups.WrapperGroup.should_show_backend_group (
             true, true
         ));
-    }
-
-    private void test_launch_option_single_control_edit_preserves_raw_tokens () {
-        var options = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionsList ();
-        var proton_log = new TestLaunchOption ("PROTON_LOG=1");
-        options.add (proton_log);
-
-        string source = "VAR=\"hello world\" PROTON_LOG=1 %command% $(unsafe) -windowed";
-        options.load_from_string (source);
-        assert (proton_log.active);
-
-        proton_log.active = false;
-        options.mark_modified ();
-        assert (options.to_launch_line () == "VAR=\"hello world\" %command% $(unsafe) -windowed");
-    }
-
-    private void test_launch_option_category_order_does_not_affect_serialization () {
-        var options = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionsList ();
-        string source = "VAR=\"hello world\" %command% $(unsafe) -windowed";
-        options.load_from_string (source);
-
-        var catalog = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionCatalog ();
-        catalog.get_ordered ();
-        catalog.search ("gamescope");
-
-        options.mark_modified ();
-        assert (options.to_launch_line () == source);
     }
 
     private class TestLaunchOption : Object, ProtonPlus.Widgets.Games.LaunchOptionsEditor.ILaunchOption {

@@ -103,7 +103,7 @@ namespace ProtonPlus.Widgets {
 
             Globals.load ();
             Globals.setupLanguage ();
-            Notify.init (Config.APP_NAME);
+            Environment.set_application_name (Config.APP_NAME);
             ProtonPlus.Services.InstallationService.instance.configure_compatibility_process_guard (
                 new ProtonPlus.Services.CompatibilityProcessGuard.for_package (Globals.IS_FLATPAK)
             );
@@ -144,7 +144,6 @@ namespace ProtonPlus.Widgets {
                 window.main_box.cancel_steam_restart ();
             if (steam_lifecycle != null)
                 steam_lifecycle.stop ();
-            Notify.uninit ();
             base.shutdown ();
         }
 
@@ -233,6 +232,11 @@ namespace ProtonPlus.Widgets {
         }
 
         void on_about_action () {
+            var about_dialog = create_about_dialog ();
+            Window.present_dialog_for_controller (about_dialog, this.active_window);
+        }
+
+        public static Adw.AboutDialog create_about_dialog () {
             const string[] devs = {
                 "Vysp3r https://github.com/Vysp3r",
                 "nick.exe https://github.com/nickexe",
@@ -249,17 +253,14 @@ namespace ProtonPlus.Widgets {
                 null
             };
 
-            var meta = new Utils.Internal.MetaInfoLoader ();
-            var model = meta.load ();
-
-
-            var about_dialog = new Adw.AboutDialog ();
+            var about_dialog = new Adw.AboutDialog.from_appdata (
+                "/com/vysp3r/ProtonPlus/metainfo.xml", Config.APP_VERSION
+            );
             about_dialog.set_application_name (Config.APP_NAME);
             about_dialog.set_application_icon (Config.APP_ID);
             about_dialog.set_version ("v" + Config.APP_VERSION);
             about_dialog.set_comments (_("A modern compatibility tools manager"));
             about_dialog.add_link ("GitHub", "https://github.com/Vysp3r/ProtonPlus");
-            about_dialog.add_link (_("Website"), "https://protonplus.vysp3r.com/");
             about_dialog.add_link (_("Discord"), "https://discord.gg/qNRPQvC7m4");
             about_dialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
             about_dialog.set_copyright (get_copyright ());
@@ -268,13 +269,7 @@ namespace ProtonPlus.Widgets {
             about_dialog.set_translator_credits (_("translator-credits"));
             about_dialog.add_credit_section (_("Special thanks to"), thanks);
 
-            if (model != null) {
-                var last_release = model.get_last_release ();
-
-                about_dialog.set_release_notes (last_release.description);
-                about_dialog.set_release_notes_version (last_release.version);
-            }
-            Window.present_dialog_for_controller (about_dialog, this.active_window);
+            return about_dialog;
         }
 
         private static string get_copyright () {

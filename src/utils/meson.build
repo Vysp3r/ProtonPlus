@@ -20,8 +20,8 @@ sources += files(
     'controller-manager.vala',
     'theme-manager.vala',
     'download-manager.vala',
+    'desktop-notifications.vala',
     'cache-manager.vala',
 )
 
-subdir('internal')
 subdir('vdf')

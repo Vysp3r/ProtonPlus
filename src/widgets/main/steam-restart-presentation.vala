@@ -219,13 +219,19 @@ namespace ProtonPlus.Widgets.Main {
         public abstract void send_restart_required (string message) throws Error;
     }
 
-    public class LibnotifySteamRestartNotificationSender : Object, SteamRestartNotificationSender {
+    public class GioSteamRestartNotificationSender : Object, SteamRestartNotificationSender {
+        private Utils.DesktopNotificationDispatch dispatch;
+
+        public GioSteamRestartNotificationSender (owned Utils.DesktopNotificationDispatch? dispatch = null) {
+            if (dispatch == null)
+                this.dispatch = Utils.send_desktop_notification;
+            else
+                this.dispatch = (owned) dispatch;
+        }
+
         public void send_restart_required (string message) throws Error {
-            var notification = new Notify.Notification (_ ("Steam restart needed"), message, null);
             try {
-                var icon = new Gdk.Pixbuf.from_resource ("%s/steam.svg".printf (Config.RESOURCE_BASE));
-                notification.set_image_from_pixbuf (icon);
-                notification.show ();
+                dispatch (_ ("Steam restart needed"), message, new ThemedIcon (Config.APP_ID));
             } catch (Error e) {
                 throw new SteamRestartNotificationError.DELIVERY_FAILED ("%s", e.message);
             }

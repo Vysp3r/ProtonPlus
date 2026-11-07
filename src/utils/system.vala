@@ -451,10 +451,6 @@ namespace ProtonPlus.Utils {
             return (owned) hwcaps;
         }
 
-        public static List<string> get_hwcaps () {
-            return get_hwcaps_for_capabilities (get_cpu_capabilities ());
-        }
-
         public static async bool check_dependency (string name) {
             if (!Globals.IS_FLATPAK)
                 return Environment.find_program_in_path (name) != null;

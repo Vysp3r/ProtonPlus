@@ -14,7 +14,6 @@ namespace ProtonPlus {
         if (args.length > 1) {
             Globals.load ();
             Globals.setupLanguage ();
-            Notify.init (Config.APP_NAME);
             ProtonPlus.Services.InstallationService.instance.configure_compatibility_process_guard (
                 new ProtonPlus.Services.CompatibilityProcessGuard.for_package (Globals.IS_FLATPAK)
             );
@@ -39,7 +38,6 @@ namespace ProtonPlus {
                 steam_lifecycle.stop ();
             else
                 ProtonPlus.Services.InstallationService.instance.reset_lifecycle_configuration ();
-            Notify.uninit ();
             return result;
         }
 

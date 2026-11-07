@@ -66,13 +66,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             _selections = selections;
         }
 
-        public string[] get_selections_ids () {
-            var ids = new ArrayList<string> ();
-            foreach (var selection in _selections)
-                ids.add (selection.option_id);
-            return ids.to_array ();
-        }
-
         public LaunchCommandSelection[] get_selections () { return _selections; }
     }
 

@@ -75,9 +75,9 @@ flatpak_dependency_check() {
 
   show_log "INFO" "Ensuring required Flatpak dependencies are installed..."
   flatpak install -y \
-    "runtime/org.gnome.Sdk/${architecture}/50" \
-    "runtime/org.gnome.Platform/${architecture}/50" \
-    "runtime/org.freedesktop.Sdk.Extension.vala/${architecture}/25.08" \
+    "runtime/org.gnome.Sdk/${architecture}/51" \
+    "runtime/org.gnome.Platform/${architecture}/51" \
+    "runtime/org.freedesktop.Sdk.Extension.vala/${architecture}/26.08" \
     org.flatpak.Builder
   show_log "PASS" "Required Flatpak dependencies are installed."
 }

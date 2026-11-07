@@ -117,6 +117,39 @@ namespace AppTests.SteamRestartPresentationTest {
         assert (policy.update (0, 1, false, false) != null);
     }
 
+    private void test_gio_notification_payload_and_delivery_failure () {
+        string? title = null;
+        string? body = null;
+        ThemedIcon? icon = null;
+        var sender = new GioSteamRestartNotificationSender ((sent_title, sent_body, sent_icon) => {
+            title = sent_title;
+            body = sent_body;
+            icon = sent_icon as ThemedIcon;
+        });
+        try {
+            sender.send_restart_required ("Steam needs to restart to apply your changes");
+        } catch (Error e) {
+            assert_not_reached ();
+        }
+        assert (title == "Steam restart needed");
+        assert (body == "Steam needs to restart to apply your changes");
+        assert (icon != null && icon.get_names ()[0] == ProtonPlus.Config.APP_ID);
+
+        sender = new GioSteamRestartNotificationSender ((sent_title, sent_body, sent_icon) => {
+            throw new IOError.FAILED ("fixture delivery failure");
+        });
+        bool failed = false;
+        try {
+            sender.send_restart_required ("Steam needs to restart to apply your changes");
+        } catch (SteamRestartNotificationError.DELIVERY_FAILED e) {
+            assert (e.message == "fixture delivery failure");
+            failed = true;
+        } catch (Error e) {
+            assert_not_reached ();
+        }
+        assert (failed);
+    }
+
     private void test_notification_delivery_is_private_and_deduplicated () {
         var sender = new RecordingNotificationSender ();
         var coordinator = new SteamRestartNotificationCoordinator (sender);
@@ -165,6 +198,7 @@ namespace AppTests.SteamRestartPresentationTest {
         Test.add_func ("/steam-restart-presentation/toast-policy", test_toast_policy);
         Test.add_func ("/steam-restart-presentation/failure-messages", test_failure_messages_are_actionable);
         Test.add_func ("/steam-restart-presentation/inactive-notification-policy", test_inactive_notification_policy);
+        Test.add_func ("/steam-restart-presentation/gio-notification-payload-and-delivery-failure", test_gio_notification_payload_and_delivery_failure);
         Test.add_func ("/steam-restart-presentation/notification-delivery-private-and-deduplicated", test_notification_delivery_is_private_and_deduplicated);
     }
 }

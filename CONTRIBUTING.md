@@ -38,7 +38,7 @@ distribution for:
 
 - Git, a C compiler, pkg-config, Meson 1.0 or newer, Ninja, and Vala
 - GLib, including glib-compile-schemas, GTK4, and libadwaita 1.6 or newer
-- json-glib, libsoup 3, libgee, libarchive, libnotify, Cairo, AppStream, and
+- json-glib, libsoup 3, libgee, libarchive, Cairo, and
   SDL 3.2 or newer
 - gettext and desktop-file-utils
 - Python 3 for the maintenance-script tests
@@ -50,7 +50,7 @@ be run unchanged on other distributions.
 ### Flatpak build dependencies
 
 For the sandboxed build, install Flatpak, configure a Flathub remote, and have
-network access. The build helper installs the GNOME 50 SDK and runtime, the
+network access. The build helper installs the GNOME 51 SDK and runtime, the
 Vala SDK extension, and Flatpak Builder when needed.
 
 Use com.vysp3r.ProtonPlus.local.yml for development. It builds the current
