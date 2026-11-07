@@ -4,6 +4,10 @@ namespace AppTests.LaunchCommandWriterTest {
 
     public void register_tests () {
         Test.add_func ("/launch-command-writer/pristine-and-clear", test_pristine_and_clear);
+        Test.add_func ("/launch-command-writer/quoted-source-survives-no-op", test_quoted_source_survives_no_op);
+        Test.add_func ("/launch-command-writer/opaque-source-survives-no-op", test_opaque_source_survives_no_op);
+        Test.add_func ("/launch-command-writer/removing-control-preserves-raw-content", test_removing_control_preserves_raw_content);
+        Test.add_func ("/launch-command-writer/catalog-views-do-not-affect-serialization", test_catalog_views_do_not_affect_serialization);
         Test.add_func ("/launch-command-writer/fresh-and-preserving-merge", test_fresh_and_preserving_merge);
         Test.add_func ("/launch-command-writer/unsafe-source-is-blocked", test_unsafe_source_is_blocked);
         Test.add_func ("/launch-command-writer/custom-prefix-combines-with-managed-options", test_custom_prefix_combines_with_managed_options);
@@ -29,6 +33,47 @@ namespace AppTests.LaunchCommandWriterTest {
         return new LaunchCommandWriter ().prepare (new LaunchCommandWriteRequest (parser.parse (source), selections,
             changed, {}, new LaunchCommandCapabilityContext (capabilities), clear,
             source == "%command%"));
+    }
+
+    private void test_quoted_source_survives_no_op () {
+        var source = "VAR=\"hello world\" gamescope -- %command% -windowed";
+        var result = write (source, {});
+        assert (result.writing_allowed);
+        assert (!result.requires_persistence);
+        assert (result.launch_line == source);
+    }
+
+    private void test_opaque_source_survives_no_op () {
+        var source = "VAR=1 $(unsafe) %command%";
+        var result = write (source, {});
+        assert (result.writing_allowed);
+        assert (!result.requires_persistence);
+        assert (result.launch_line == source);
+    }
+
+    private void test_removing_control_preserves_raw_content () {
+        var source = "VAR=\"hello world\" PROTON_LOG=1 %command% $(unsafe) -windowed";
+        var result = write (source, {}, { "proton-debug-log" }, { LaunchOptionCapability.PROTON });
+        assert (result.writing_allowed);
+        assert (result.requires_persistence);
+        assert (result.launch_line == "VAR=\"hello world\" %command% $(unsafe) -windowed");
+    }
+
+    private void test_catalog_views_do_not_affect_serialization () {
+        var source = "VAR=\"hello world\" %command% $(unsafe) -windowed";
+        var catalog = new LaunchOptionCatalog ();
+        var writer = new LaunchCommandWriter (catalog);
+        LaunchCommandSelection[] selections = { new LaunchCommandSelection ("gamemode") };
+        var capabilities = new LaunchCommandCapabilityContext ({ LaunchOptionCapability.GAMEMODE });
+        var before = writer.prepare_source (source, selections, { "gamemode" }, {}, capabilities);
+
+        catalog.get_ordered ();
+        catalog.search ("gamescope");
+        var after = writer.prepare_source (source, selections, { "gamemode" }, {}, capabilities);
+        assert (before.writing_allowed);
+        assert (after.writing_allowed);
+        assert (before.launch_line == "VAR=\"hello world\" gamemoderun %command% $(unsafe) -windowed");
+        assert (after.launch_line == before.launch_line);
     }
 
     private void test_pristine_and_clear () {

@@ -70,6 +70,17 @@ void close_fixture_window (Adw.Window window) {
     window.destroy ();
 }
 
+void remove_fixture_directory (string path) {
+    var loop = new MainLoop ();
+    bool removed = false;
+    Utils.Filesystem.delete_directory.begin (path, (obj, result) => {
+        removed = Utils.Filesystem.delete_directory.end (result);
+        loop.quit ();
+    });
+    loop.run ();
+    assert (removed);
+}
+
 void check_build_choices (Models.Group group) {
     Globals.CPU_CAPABILITIES = new Models.CpuCapabilities (Models.CpuArchitecture.X86_64);
     var definition = new Models.Providers.ProviderRegistry ().get_by_id ("proton-ge");
@@ -236,10 +247,16 @@ int main (string[] args) {
     string root;
     try { root = DirUtils.make_tmp ("protonplus-presentation-XXXXXX"); }
     catch (Error e) { error ("%s", e.message); }
-    Environment.set_variable ("XDG_CONFIG_HOME", root, true);
+    // GTK input methods may create their own config files, especially on X11.
+    // Keep them inside the fixture and exercise cleanup with a nonempty root.
+    var config_root = Path.build_filename (root, "config");
+    assert (DirUtils.create_with_parents (config_root, 0700) == 0);
+    Environment.set_variable ("XDG_CONFIG_HOME", config_root, true);
     Environment.set_variable ("GSETTINGS_BACKEND", "memory", true);
-    if (!Gtk.init_check ())
+    if (!Gtk.init_check ()) {
+        remove_fixture_directory (root);
         return 77;
+    }
     Adw.init ();
     Gtk.Settings.get_default ().gtk_enable_animations = false;
     var launcher = new Models.Launcher ("Fixture", Models.Launcher.InstallationTypes.SYSTEM,
@@ -327,6 +344,6 @@ int main (string[] args) {
     close_fixture_window (window);
     check_build_choices (group);
     check_inline_transitions (launcher, group);
-    assert (DirUtils.remove (root) == 0);
+    remove_fixture_directory (root);
     return 0;
 }

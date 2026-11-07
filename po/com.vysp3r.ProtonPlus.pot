@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-02 21:18-0500\n"
+"POT-Creation-Date: 2026-11-07 18:00-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "ProtonPlus"
 msgstr ""
 
-#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:260
+#: data/com.vysp3r.ProtonPlus.desktop.in:5 src/widgets/application.vala:262
 msgid "A modern compatibility tools manager"
 msgstr ""
 
@@ -830,19 +830,15 @@ msgstr ""
 msgid "Download recovery time limit reached. Retry to continue."
 msgstr ""
 
-#: src/widgets/application.vala:262
-msgid "Website"
-msgstr ""
-
-#: src/widgets/application.vala:263
+#: src/widgets/application.vala:264
 msgid "Discord"
 msgstr ""
 
-#: src/widgets/application.vala:268
+#: src/widgets/application.vala:269
 msgid "translator-credits"
 msgstr ""
 
-#: src/widgets/application.vala:269
+#: src/widgets/application.vala:270
 msgid "Special thanks to"
 msgstr ""
 
@@ -1986,17 +1982,17 @@ msgid "Browse"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:131
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:471
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:456
 msgid "Quick settings"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:131
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:473
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:458
 msgid "Active options"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:131
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:475
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:460
 msgid "All options"
 msgstr ""
 
@@ -2008,7 +2004,7 @@ msgstr ""
 msgid "Change the Steam command placeholder only when a game requires it."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:550
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:535
 msgid "Unable to safely prepare these launch options."
 msgstr ""
 
@@ -2212,7 +2208,7 @@ msgstr ""
 msgid "Adjust how much debugging information VKD3D prints to the terminal."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-list.vala:173
+#: src/widgets/games/launch-options-editor/launch-options-list.vala:155
 msgid "No launch options configured yet."
 msgstr ""
 
@@ -3798,21 +3794,21 @@ msgstr ""
 msgid "Download failed"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:387 src/widgets/main/main-box.vala:389
+#: src/widgets/main/main-box.vala:386 src/widgets/main/main-box.vala:388
 msgid "Update finished"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:387
+#: src/widgets/main/main-box.vala:386
 #, c-format
 msgid "%s is now up-to-date"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:389
+#: src/widgets/main/main-box.vala:388
 #, c-format
 msgid "%s is already up-to-date"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:394
+#: src/widgets/main/main-box.vala:393
 msgid "Deleted"
 msgstr ""
 
@@ -4055,7 +4051,7 @@ msgstr ""
 msgid "Multiple changes will be applied after Steam restarts"
 msgstr ""
 
-#: src/widgets/main/steam-restart-presentation.vala:224
+#: src/widgets/main/steam-restart-presentation.vala:234
 msgid "Steam restart needed"
 msgstr ""
 
@@ -4381,7 +4377,7 @@ msgstr ""
 msgid "Not installed"
 msgstr ""
 
-#: src/widgets/preferences/preferences-language-row.vala:25
+#: src/widgets/preferences/preferences-language-row.vala:26
 msgid "Language"
 msgstr ""
 

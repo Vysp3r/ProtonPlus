@@ -20,15 +20,13 @@ pacman -Syu --noconfirm \
     gettext \
     desktop-file-utils \
     appstream \
-    appstream-glib \
     libxml2 \
     bluez-libs \
     libnm \
     glib-networking \
     libproxy \
     patchelf \
-    sdl3 \
-    libnotify
+    sdl3
 
 if command -v get-debloated-pkgs >/dev/null 2>&1; then
     echo "Installing debloated packages..."

@@ -46,6 +46,20 @@ int main (string[] args) {
     Gtk.Settings.get_default ().gtk_enable_animations = false;
     var window = new Adw.Window () { default_width = 800, default_height = 700 };
     window.present ();
+
+    var about = Widgets.Application.create_about_dialog ();
+    assert (about.application_name == Config.APP_NAME);
+    assert (about.version == "v" + Config.APP_VERSION);
+    assert (about.website == "https://protonplus.vysp3r.com/");
+    assert (about.release_notes_version == Config.APP_VERSION);
+    assert (about.release_notes.contains ("<ul>"));
+    assert (about.release_notes.contains ("<li>"));
+    about.present (window);
+    settle ();
+    snapshot (window, "about");
+    about.close ();
+    settle ();
+
     var welcome = new Widgets.Introduction.Introduction ();
     welcome.present (window);
     settle ();
@@ -133,6 +147,6 @@ int main (string[] args) {
     snapshot (narrow, "help-topic-narrow");
     narrow_help.close ();
     narrow.destroy ();
-    print ("Help navigation, preference shortcuts, and Welcome dismissal passed\n");
+    print ("About metadata, Help navigation, preference shortcuts, and Welcome dismissal passed\n");
     return 0;
 }

@@ -168,9 +168,7 @@ A native build requires a Linux development environment with:
 - libsoup 3
 - libgee
 - libarchive
-- libnotify
 - Cairo
-- AppStream
 - SDL 3.2 or newer
 - gettext and desktop-file-utils
 
@@ -204,7 +202,7 @@ The local Flatpak manifest builds the source tree and installs the result for th
 ./scripts/build.sh local run
 ```
 
-The local command installs the GNOME 50 SDK and runtime, the Vala SDK extension, and Flatpak Builder when they are missing. Use `./scripts/build.sh local` to build and install without launching the application.
+The local command installs the GNOME 51 SDK and runtime, the Vala SDK extension, and Flatpak Builder when they are missing. Use `./scripts/build.sh local` to build and install without launching the application.
 
 ## Usage
 

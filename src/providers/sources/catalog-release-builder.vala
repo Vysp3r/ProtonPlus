@@ -98,15 +98,6 @@ namespace ProtonPlus.Providers.Sources {
             return false;
         }
 
-        public static string render_asset_name (
-            Models.Providers.VariantDefinition variant,
-            string title,
-            string release_name,
-            string tag_name
-        ) {
-            return render_asset_format (variant.format, title, release_name, tag_name);
-        }
-
         private static Models.Assets.Asset? find_variant_asset (
             Models.Providers.VariantDefinition variant,
             string title,

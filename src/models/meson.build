@@ -23,7 +23,6 @@ sources += files(
 
 subdir('games')
 subdir('assets')
-subdir('internal')
 subdir('launchers')
 subdir('providers')
 subdir('tools')

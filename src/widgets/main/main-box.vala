@@ -87,7 +87,7 @@ namespace ProtonPlus.Widgets.Main {
 
             if (restart_manager != null && restart_orchestrator != null)
                 setup_steam_restart_presentation ((!) restart_manager, (!) restart_orchestrator,
-                    restart_notification_sender ?? new LibnotifySteamRestartNotificationSender ());
+                    restart_notification_sender ?? new GioSteamRestartNotificationSender ());
             append (toast_overlay);
 
             Utils.DownloadManager.instance.download_added.connect (on_download_added);
@@ -374,9 +374,8 @@ namespace ProtonPlus.Widgets.Main {
             var window = get_root () as Gtk.Window;
             if (window != null && window.is_active)
                 return;
-            var notification = new Notify.Notification (title, body, icon);
             try {
-                notification.show ();
+                Utils.send_desktop_notification (title, body, new ThemedIcon (icon));
             } catch (Error error) {
                 warning ("Unable to show notification: %s", error.message);
             }
@@ -395,18 +394,8 @@ namespace ProtonPlus.Widgets.Main {
         }
 
         void send_notification (string title, string body, string icon = "folder-download-symbolic") {
-            var window = get_root () as Gtk.Window;
-
             send_toast ("%s: %s".printf (title, body));
-
-            if (window == null || !window.is_active) {
-                var notification = new Notify.Notification (title, body, icon);
-                try {
-                    notification.show ();
-                } catch (Error e) {
-                    warning ("Failed to send notification: %s", e.message);
-                }
-            }
+            send_background_notification (title, body, icon);
         }
 
         void view_stack_visible_child_name_changed () {

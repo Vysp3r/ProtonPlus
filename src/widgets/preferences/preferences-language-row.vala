@@ -15,9 +15,10 @@ namespace ProtonPlus.Widgets.Preferences {
         bool is_initializing = true;
 
         construct {
+            var languages = Globals.LANGUAGES ();
             var model = new ListStore (typeof (Language));
-            foreach (var lang in Globals.LANGUAGES ()) {
-                model.append (new Language (_ (lang.name), lang.index, lang.code));
+            foreach (var lang in languages) {
+                model.append (new Language (lang.name, lang.index, lang.code));
             }
 
             var expression = new Gtk.PropertyExpression (typeof (Language), null, "name");
@@ -29,8 +30,8 @@ namespace ProtonPlus.Widgets.Preferences {
             if (Globals.SETTINGS != null) {
                 int saved_enum_value = Globals.SETTINGS.get_enum ("language");
 
-                for (uint i = 0; i < Globals.LANGUAGES ().length; i++) {
-                    if (Globals.LANGUAGES ()[i].index == saved_enum_value) {
+                for (uint i = 0; i < languages.length; i++) {
+                    if (languages[i].index == saved_enum_value) {
                         set_selected (i);
                         break;
                     }

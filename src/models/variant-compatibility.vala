@@ -48,18 +48,6 @@ namespace ProtonPlus.Models {
             return new VariantCompatibility ({ architecture });
         }
 
-        public static VariantCompatibility for_architectures (CpuArchitecture[] architectures) {
-            var x86_64_level = X86_64Level.UNKNOWN;
-            var aarch64_level = Aarch64Level.UNKNOWN;
-            foreach (var architecture in architectures) {
-                if (architecture == CpuArchitecture.X86_64)
-                    x86_64_level = X86_64Level.BASELINE;
-                if (architecture == CpuArchitecture.AARCH64)
-                    aarch64_level = Aarch64Level.V8_0;
-            }
-            return new VariantCompatibility (architectures, x86_64_level, false, aarch64_level);
-        }
-
         public static VariantCompatibility for_x86_64_level (X86_64Level level) {
             return new VariantCompatibility ({ CpuArchitecture.X86_64 }, level);
         }

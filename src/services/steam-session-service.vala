@@ -390,13 +390,6 @@ namespace ProtonPlus.Services {
             }
         }
 
-        public Gee.List<SteamSessionSnapshot> inspect_all (Gee.List<SteamRestartTarget> targets) {
-            var snapshots = new Gee.ArrayList<SteamSessionSnapshot> ();
-            foreach (var target in targets)
-                snapshots.add (inspect (target));
-            return snapshots;
-        }
-
         public void start_monitoring () {
             if (monitoring_source_id != 0)
                 return;

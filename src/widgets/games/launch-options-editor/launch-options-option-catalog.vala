@@ -34,8 +34,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         EXPERIMENTAL
     }
 
-    /* Command semantics are deliberately separate from LaunchLineType, which
-     * remains the legacy serialization detail used by the current editor. */
+    /* Command semantics are independent of the token classifications retained
+     * by legacy control adapters. */
     public enum LaunchOptionSemanticKind {
         ENVIRONMENT_ASSIGNMENT,
         PREFIX_WRAPPER,
