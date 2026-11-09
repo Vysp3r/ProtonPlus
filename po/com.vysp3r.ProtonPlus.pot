@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-09 08:10-0500\n"
+"POT-Creation-Date: 2026-11-09 09:08-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -870,7 +870,6 @@ msgid "Exit"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:121
-#: src/widgets/main/steam-repair-guide-dialog.vala:25
 #: src/widgets/preferences/preferences-dialog.vala:192
 msgid "Close"
 msgstr ""
@@ -3717,146 +3716,146 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:187
+#: src/widgets/main/main-box.vala:189
 msgid "Couldn’t save the Steam restart reminder"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:199
+#: src/widgets/main/main-box.vala:201
 msgid "Saved Steam restart reminders couldn’t be loaded"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:235
+#: src/widgets/main/main-box.vala:237
 #, c-format
 msgid "Steam needs to restart before this change takes effect."
 msgid_plural "Steam needs to restart before these %u changes take effect."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/main/main-box.vala:236
+#: src/widgets/main/main-box.vala:238
 msgid ""
 "Save your progress and close any running games before continuing. In SteamOS "
 "Gaming Mode, Steam, running games, and ProtonPlus will close while Steam "
 "restarts."
 msgstr ""
 
-#: src/widgets/main/main-box.vala:237
+#: src/widgets/main/main-box.vala:239
 #: src/widgets/main/steam-restart-dialog.vala:8
 msgid "Restart Steam?"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:238 src/widgets/main/main-box.vala:292
+#: src/widgets/main/main-box.vala:240 src/widgets/main/main-box.vala:294
 #: src/widgets/main/steam-restart-dialog.vala:28
 msgid "Later"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:239
+#: src/widgets/main/main-box.vala:241
 #: src/widgets/main/steam-restart-banner.vala:13
 #: src/widgets/main/steam-restart-banner.vala:21
 msgid "Restart Steam"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:296
+#: src/widgets/main/main-box.vala:298
 msgid "Try Again"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:333
+#: src/widgets/main/main-box.vala:335
 msgid "Checking for updates"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:344 src/widgets/tools/tools-box.vala:667
+#: src/widgets/main/main-box.vala:346 src/widgets/tools/tools-box.vala:667
 msgid "Can't update while a game is running"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:347 src/widgets/tools/tools-box.vala:670
+#: src/widgets/main/main-box.vala:349 src/widgets/tools/tools-box.vala:670
 msgid "Nothing to update"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:351
+#: src/widgets/main/main-box.vala:353
 msgid "Everything is now up-to-date"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:354
+#: src/widgets/main/main-box.vala:356
 #, c-format
 msgid "Couldn't check for updates (Reason: %s)"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:361
+#: src/widgets/main/main-box.vala:363
 msgid "Update started"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:363
+#: src/widgets/main/main-box.vala:365
 msgid "Download started"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:369
+#: src/widgets/main/main-box.vala:371
 msgid "Download finished"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:371
+#: src/widgets/main/main-box.vala:373
 msgid "Download canceled"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:377
+#: src/widgets/main/main-box.vala:379
 #: src/widgets/tools/tools-release-row.vala:1087
 msgid "Download failed"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:395 src/widgets/main/main-box.vala:397
+#: src/widgets/main/main-box.vala:397 src/widgets/main/main-box.vala:399
 msgid "Update finished"
-msgstr ""
-
-#: src/widgets/main/main-box.vala:395
-#, c-format
-msgid "%s is now up-to-date"
 msgstr ""
 
 #: src/widgets/main/main-box.vala:397
 #, c-format
+msgid "%s is now up-to-date"
+msgstr ""
+
+#: src/widgets/main/main-box.vala:399
+#, c-format
 msgid "%s is already up-to-date"
 msgstr ""
 
-#: src/widgets/main/main-box.vala:402
+#: src/widgets/main/main-box.vala:404
 msgid "Deleted"
 msgstr ""
 
-#: src/widgets/main/steam-repair-banner.vala:19
-msgid "Dismiss"
-msgstr ""
-
-#: src/widgets/main/steam-repair-banner.vala:58
+#: src/widgets/main/steam-repair-banner.vala:52
 #, c-format
 msgid "“%s” appears unavailable in Steam (%s)"
 msgstr ""
 
-#: src/widgets/main/steam-repair-banner.vala:60
+#: src/widgets/main/steam-repair-banner.vala:54
 #, c-format
 msgid "%d tool appears unavailable in Steam (%s)"
 msgid_plural "%d tools appear unavailable in Steam (%s)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/main/steam-repair-guide-dialog.vala:8
+#: src/widgets/main/steam-repair-guide-dialog.vala:9
 msgid "Steam compatibility tool problem"
 msgstr ""
 
-#: src/widgets/main/steam-repair-guide-dialog.vala:10
+#: src/widgets/main/steam-repair-guide-dialog.vala:11
 msgid ""
 "Steam reported a compatibility tool failure, or a completed installation is "
 "missing required files. Games that depend on these tools may fail to start."
 msgstr ""
 
-#: src/widgets/main/steam-repair-guide-dialog.vala:17
+#: src/widgets/main/steam-repair-guide-dialog.vala:18
 #, c-format
 msgid "%s (Steam app %u)"
 msgstr ""
 
-#: src/widgets/main/steam-repair-guide-dialog.vala:22
+#: src/widgets/main/steam-repair-guide-dialog.vala:23
 msgid ""
 "Check this Steam installation and verify the affected tool in Steam. The "
 "recovery guide explains further checks and manual recovery options."
 msgstr ""
 
 #: src/widgets/main/steam-repair-guide-dialog.vala:26
+msgid "Dismiss"
+msgstr ""
+
+#: src/widgets/main/steam-repair-guide-dialog.vala:27
 msgid "Open Recovery Guide"
 msgstr ""
 

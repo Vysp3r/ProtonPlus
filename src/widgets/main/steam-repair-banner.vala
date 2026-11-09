@@ -7,7 +7,7 @@ namespace ProtonPlus.Widgets.Main {
         private Gee.HashMap<string, string> dismissed = new Gee.HashMap<string, string> ();
 
         public SteamRepairBanner () {
-            Object (orientation: Gtk.Orientation.HORIZONTAL);
+            Object (orientation: Gtk.Orientation.VERTICAL);
             banner = new Adw.Banner ("") { hexpand = true, use_markup = false };
             banner.button_label = _("Learn More");
             banner.button_clicked.connect (() => {
@@ -15,17 +15,6 @@ namespace ProtonPlus.Widgets.Main {
                     guidance_requested (launcher);
             });
             append (banner);
-            var dismiss = new Gtk.Button.from_icon_name ("window-close-symbolic") {
-                tooltip_text = _("Dismiss"), valign = Gtk.Align.CENTER,
-                margin_start = 6, margin_end = 6
-            };
-            dismiss.add_css_class ("flat");
-            dismiss.clicked.connect (() => {
-                if (launcher != null)
-                    dismissed.set (launcher.directory, fingerprint (launcher));
-                set_visible (false);
-            });
-            append (dismiss);
             set_visible (false);
         }
 
@@ -34,6 +23,11 @@ namespace ProtonPlus.Widgets.Main {
             launcher = selected as Models.Launchers.Steam;
             if (launcher != null)
                 diagnostics_handler = launcher.notify["broken-compatibility-tools"].connect (update);
+            update ();
+        }
+
+        public void dismiss_for (Models.Launchers.Steam steam) {
+            dismissed.set (steam.directory, fingerprint (steam));
             update ();
         }
 

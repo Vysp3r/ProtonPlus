@@ -3,6 +3,7 @@ namespace ProtonPlus.Widgets.Main {
      * in documentation rather than an in-app depot/manifest editing wizard. */
     public class SteamRepairGuideDialog : Adw.AlertDialog {
         public const string GUIDE_URI = "https://github.com/Vysp3r/ProtonPlus/blob/main/docs/steam-tool-troubleshooting.md";
+        public signal void dismiss_requested ();
 
         public SteamRepairGuideDialog (Models.Launchers.Steam launcher) {
             Object (heading: _("Steam compatibility tool problem"));
@@ -22,13 +23,15 @@ namespace ProtonPlus.Widgets.Main {
             description.append ("\n\n" + _("Check this Steam installation and verify the affected tool in Steam. The recovery guide explains further checks and manual recovery options."));
             body = description.str;
             body_use_markup = false;
-            add_response ("close", _("Close"));
+            add_response ("dismiss", _("Dismiss"));
             add_response ("guide", _("Open Recovery Guide"));
-            default_response = "close";
+            default_response = "dismiss";
             close_response = "close";
             response.connect ((id) => {
                 if (id == "guide")
                     Utils.System.open_uri (GUIDE_URI);
+                else if (id == "dismiss")
+                    dismiss_requested ();
             });
         }
     }

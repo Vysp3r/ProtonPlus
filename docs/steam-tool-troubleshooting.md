@@ -46,7 +46,8 @@ Steam's appmanifests as a repair.
    Windows game that needs Proton assigned to it. Avoid assigning Proton to
    runtime apps through mass edits or external configuration changes.
 4. Restart ProtonPlus after Steam finishes recovery to refresh the diagnostics.
-   Dismissing the warning only hides it for the current ProtonPlus session.
+   Choose **Learn More → Dismiss** to hide the warning for the current
+   ProtonPlus session.
 
 ## When normal verification does not recover the tool
 

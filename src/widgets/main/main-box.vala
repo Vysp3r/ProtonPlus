@@ -91,7 +91,9 @@ namespace ProtonPlus.Widgets.Main {
                     restart_notification_sender ?? new GioSteamRestartNotificationSender ());
             repair_banner = new SteamRepairBanner ();
             repair_banner.guidance_requested.connect ((launcher) => {
-                Window.present_dialog_for_controller (new SteamRepairGuideDialog (launcher), this);
+                var dialog = new SteamRepairGuideDialog (launcher);
+                dialog.dismiss_requested.connect (() => repair_banner.dismiss_for (launcher));
+                Window.present_dialog_for_controller (dialog, this);
             });
             append (repair_banner);
             append (toast_overlay);

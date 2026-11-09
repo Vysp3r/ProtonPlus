@@ -96,12 +96,16 @@ int main (string[] args) {
         return 77;
     Adw.init ();
     Gtk.Settings.get_default ().gtk_enable_animations = false;
+    var css = new Gtk.CssProvider ();
+    css.load_from_resource ("/com/vysp3r/ProtonPlus/style.css");
+    Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), css,
+        Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
     var native = new SteamFixture (Models.Launcher.InstallationTypes.SYSTEM, false);
     var flatpak = new SteamFixture (Models.Launcher.InstallationTypes.FLATPAK, true);
     var snap = new SteamFixture (Models.Launcher.InstallationTypes.SNAP, true);
     var warning = new Widgets.Main.SteamRepairBanner ();
     var banner = (Adw.Banner) warning.get_first_child ();
-    var dismiss = (Gtk.Button) warning.get_last_child ();
+    assert (banner.get_next_sibling () == null);
     var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
     content.append (new Adw.HeaderBar ());
     content.append (warning);
@@ -116,16 +120,24 @@ int main (string[] args) {
     assert (banner.title.contains ("Flatpak"));
     assert (banner.title.contains ("Runtime <test>&"));
     assert (!banner.use_markup);
+    settle ();
+    assert (banner.get_width () == warning.get_width ());
+    snapshot (window, "steam-diagnostics-banner");
     Models.Launchers.Steam? requested = null;
     warning.guidance_requested.connect ((steam) => requested = steam);
     banner.button_clicked ();
     assert (requested == flatpak.steam);
 
-    dismiss.clicked ();
+    var dismiss_dialog = new Widgets.Main.SteamRepairGuideDialog (flatpak.steam);
+    dismiss_dialog.dismiss_requested.connect (() => warning.dismiss_for (flatpak.steam));
+    dismiss_dialog.response ("dismiss");
     assert (!warning.visible);
     warning.set_launcher (snap.steam);
     assert (warning.visible);
     assert (banner.title.contains ("Snap"));
+    // A dialog for a previous selection must not hide the current launcher.
+    dismiss_dialog.response ("dismiss");
+    assert (warning.visible);
     snap.fail (true);
     snap.reload ();
     assert (banner.title.contains ("2 tools"));
@@ -143,12 +155,16 @@ int main (string[] args) {
     assert (dialog.body.contains ("Runtime <test>&"));
     assert (!dialog.body_use_markup);
     assert (dialog.has_response ("guide"));
-    assert (dialog.default_response == "close");
+    assert (dialog.has_response ("dismiss"));
+    assert (!dialog.has_response ("close"));
+    assert (dialog.default_response == "dismiss");
+    dialog.dismiss_requested.connect (() => warning.dismiss_for (flatpak.steam));
     dialog.present (window);
     settle ();
     snapshot (window, "steam-diagnostics");
     dialog.close ();
     settle ();
+    assert (warning.visible);
     // The banner's requested width must fit the supported narrow viewport.
     int minimum;
     int natural;
