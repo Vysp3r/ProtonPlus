@@ -620,7 +620,13 @@ namespace AppTests.SteamTest {
             "\"AppState\" { \"appid\" \"4183110\" \"name\" \"Steam Linux Runtime 4.0\" \"installdir\" \"SteamLinuxRuntime_4\" \"StateFlags\" \"4\" \"buildid\" \"0\" }"
         ));
 
-        // A real install with a normal buildid must never be flagged.
+        // A usable install must never be flagged.
+        var proton_path = Path.build_filename (steamapps_directory, "common", "Proton - Experimental");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (proton_path));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (proton_path, "toolmanifest.vdf"), "\"manifest\" { \"version\" \"2\" }"
+        ));
+        create_executable_fixture (Path.build_filename (proton_path, "proton"), "#!/bin/sh\n");
         assert (ProtonPlus.Utils.Filesystem.modify_file (
             Path.build_filename (steamapps_directory, "appmanifest_1493710.acf"),
             "\"AppState\" { \"appid\" \"1493710\" \"name\" \"Proton Experimental\" \"installdir\" \"Proton - Experimental\" \"StateFlags\" \"4\" \"buildid\" \"12345\" }"
@@ -651,6 +657,27 @@ namespace AppTests.SteamTest {
         // A second call must not accumulate stale candidates from the first.
         assert (load_steam_library (steam));
         assert (steam.broken_compatibility_tools.size == 1);
+
+        // Steam can fail before creating either the manifest or registration.
+        assert (FileUtils.remove (Path.build_filename (steamapps_directory, "appmanifest_4183110.acf")) == 0);
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (steamapps_directory, "libraryfolders.vdf"),
+            "\"libraryfolders\" { \"0\" { \"path\" \"%s\" \"apps\" { } } }".printf (root)
+        ));
+        var logs = Path.build_filename (root, "logs");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (logs));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (logs, "compat_log.txt"),
+            new DateTime.now_local ().format ("[%Y-%m-%d %H:%M:%S] ")
+                + "Tool 4183110 \"Steam Linux Runtime 4.0\" unsupported version 0.\n"
+        ));
+        assert (load_steam_library (steam));
+        assert (steam.broken_compatibility_tools.size == 1);
+        assert (steam.broken_compatibility_tools[0].install_path == "");
+        assert (!FileUtils.test (Path.build_filename (steamapps_directory, "appmanifest_4183110.acf"), FileTest.EXISTS));
+        assert (FileUtils.remove (Path.build_filename (logs, "compat_log.txt")) == 0);
+        assert (load_steam_library (steam));
+        assert (steam.broken_compatibility_tools.size == 0);
         assert (delete_directory (root));
     }
 

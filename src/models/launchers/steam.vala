@@ -193,12 +193,9 @@ namespace ProtonPlus.Models.Launchers {
 
             compatibility_tools.clear ();
             compatibility_tool_discovery.clear ();
-            broken_compatibility_tools = new Gee.ArrayList<SteamRuntimeRepairCandidate> ();
 
             var name_regex = /\"name\"\s+\"([^\"]+)\"/;
             var dir_regex = /\"installdir\"\s+\"([^\"]+)\"/;
-            var buildid_regex = /\"buildid\"\s+\"([^\"]+)\"/;
-            var state_flags_regex = /\"StateFlags\"\s+\"([^\"]+)\"/;
 
             var excluded_appids = new Gee.HashSet<string> ();
             excluded_appids.add_all_array (new string[] {
@@ -251,6 +248,8 @@ namespace ProtonPlus.Models.Launchers {
             if (libraryfolders == null)
                 return false;
 
+            var diagnostic_root = directory;
+            var diagnostic_libraries = new Gee.ArrayList<string> ();
             foreach (var libraryfolder in libraryfolders.children) {
                 int libraryfolder_id;
                 if (!int.try_parse (libraryfolder.key, out libraryfolder_id))
@@ -258,7 +257,10 @@ namespace ProtonPlus.Models.Launchers {
 
                 var path = libraryfolder.get_child ("path");
                 var apps = libraryfolder.get_child ("apps");
-                if (path == null || path.value == null || apps == null)
+                if (path == null || path.value == null)
+                    continue;
+                diagnostic_libraries.add (path.value);
+                if (apps == null)
                     continue;
 
                 foreach (var app in apps.children) {
@@ -296,31 +298,10 @@ namespace ProtonPlus.Models.Launchers {
                     if (SteamCompatibilityToolDiscovery.try_get_steam_library_tool_identity (
                             id, out steam_tool_internal_title, out steam_tool_runtime_kind
                         )) {
-                        var current_install_path = "%s/common/%s".printf (current_steamapps_path, current_installdir);
                         compatibility_tool_discovery.add_steam_library_app (
-                            current_install_path, id, steam_tool_internal_title, current_name, steam_tool_runtime_kind
+                            "%s/common/%s".printf (current_steamapps_path, current_installdir),
+                            id, steam_tool_internal_title, current_name, steam_tool_runtime_kind
                         );
-
-                        /* Steam should never report a fully installed app with
-                         * buildid 0; that combination means its download
-                         * pipeline silently failed after marking the transfer
-                         * complete, leaving nothing usable on disk. This check
-                         * is appid-agnostic on purpose: any Proton or Steam
-                         * Linux Runtime entry can hit the same corruption. */
-                        MatchInfo state_flags_match;
-                        MatchInfo buildid_match;
-                        var state_flags_present = state_flags_regex.match (current_manifest_content, 0, out state_flags_match);
-                        var buildid_present = buildid_regex.match (current_manifest_content, 0, out buildid_match);
-                        int state_flags = 0;
-                        if (state_flags_present)
-                            int.try_parse (state_flags_match.fetch (1), out state_flags);
-                        var manifest_claims_fully_installed = (state_flags & 4) != 0;
-                        var manifest_has_invalid_buildid = buildid_present && buildid_match.fetch (1) == "0";
-                        if (manifest_claims_fully_installed && manifest_has_invalid_buildid) {
-                            broken_compatibility_tools.add (new SteamRuntimeRepairCandidate (
-                                id, steam_tool_internal_title, current_name, current_install_path
-                            ));
-                        }
                         continue;
                     }
 
@@ -355,6 +336,13 @@ namespace ProtonPlus.Models.Launchers {
             }
 
             load_discovered_compatibility_tools ();
+
+            var diagnostics = yield new SteamLibraryDiagnostics ().inspect (
+                diagnostic_root, diagnostic_libraries.to_array ()
+            );
+            if (current_generation != game_library_generation || directory != diagnostic_root)
+                return false;
+            broken_compatibility_tools = diagnostics;
 
             schedule_awacy_enrichment (current_generation);
 

@@ -289,22 +289,34 @@ namespace ProtonPlus.Models {
                     appid, out expected_internal_title, out expected_runtime_kind
                 )
                 || expected_internal_title != tool.internal_title
-                || expected_runtime_kind != tool.runtime_kind
-                || !is_directory_without_following (tool.inspection_path))
+                || expected_runtime_kind != tool.runtime_kind)
+                return false;
+
+            return steam_library_app_is_usable (tool.inspection_path, appid);
+        }
+
+        public static bool steam_library_app_is_usable (string path, uint appid) {
+            string internal_title;
+            CompatibilityToolRuntimeKind runtime_kind;
+            if (!try_get_steam_library_tool_identity (appid, out internal_title, out runtime_kind))
+                return false;
+            Posix.Stat directory_stat;
+            if (Posix.lstat (path, out directory_stat) != 0
+                || !Posix.S_ISDIR (directory_stat.st_mode))
                 return false;
 
             Posix.Stat manifest_stat;
             if (Posix.lstat (
-                    Path.build_filename (tool.inspection_path, "toolmanifest.vdf"),
+                    Path.build_filename (path, "toolmanifest.vdf"),
                     out manifest_stat
                 ) != 0 || !Posix.S_ISREG (manifest_stat.st_mode))
                 return false;
-            if (expected_runtime_kind != CompatibilityToolRuntimeKind.PROTON)
+            if (runtime_kind != CompatibilityToolRuntimeKind.PROTON)
                 return true;
 
             Posix.Stat proton_stat;
             return Posix.lstat (
-                Path.build_filename (tool.inspection_path, "proton"), out proton_stat
+                Path.build_filename (path, "proton"), out proton_stat
             ) == 0 && Posix.S_ISREG (proton_stat.st_mode);
         }
 

@@ -119,6 +119,7 @@ meson test -C build --print-errorlogs "ProtonPlus unit tests"
 | CPU/variant selection | `/cpu-capabilities`, `/variant-compatibility`, `/variant-selector`. |
 | Installed state and metadata | `/installed-tool-inventory`, `/metadata`, `/compatibility-tool`. |
 | Steam selectable-tool discovery | `/steam-compatibility-tool-discovery`; injected Steam-library, native-system, and Flatpak extension roots only. `/steam/library-compatibility-tools-use-stable-identities` covers the library-loading projection. |
+| Steam tool diagnostics | `/steam-library-diagnostics`, `/steam/broken-steam-library-tool-is-detected`, and `Steam diagnostics presentation`: missing manifests/registration, real file checks, updating/recovered tools, stale logs, bounded reads, symlinks, and selection across native/Flatpak/Snap fixtures. |
 | Download recovery | `/web`, `/web/persistent`, `/web/partial-cache`, `web_test.vala`: loopback HTTP fixtures for retry deadlines, both Retry-After formats, resume/restart rates, validator/range safety, cancellation, persistent metadata, locks, expiry/storage limits, cache clearing, and API session/proxy isolation. |
 | Installation and updates | `/compatibility-process-guard`, `/installer-transaction`, `/update-transaction`, `/steamtinkerlaunch`. |
 | VDF and Steam library parsing | `/vdf`, `/vdf-binary`, `/vdf-shortcuts`, `/steam`. |

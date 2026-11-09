@@ -1,7 +1,8 @@
 namespace ProtonPlus.Models {
     /* A Steam-library compatibility tool or runtime (Proton, Steam Linux
-     * Runtime) whose appmanifest claims a fully installed state with an
-     * invalid buildid, while nothing usable is on disk. Diagnostic data only;
+     * Runtime) with missing files after a completed install or a recent
+     * Steam-reported failure. install_path is empty when no manifest exists.
+     * Diagnostic data only;
      * ProtonPlus never rewrites Steam's own install state to "fix" this. */
     public class SteamRuntimeRepairCandidate : Object {
         public uint appid { get; construct set; }

@@ -25,6 +25,7 @@ test_sources = files(
     'metadata_test.vala',
     'compatibility-tool-test.vala',
     'steam-compatibility-tool-discovery-test.vala',
+    'steam-library-diagnostics-test.vala',
     'installed-tool-inventory-test.vala',
     'parser_test.vala',
     'launch-command-test.vala',
@@ -85,6 +86,11 @@ test('Check command tests', python, args: files('check_script_test.py'))
 # display setup. Test-specific rendering or locale requirements stay explicit.
 xvfb_run = find_program('xvfb-run', required: false)
 foreach gui_test : [
+    {
+        'target': 'steam-diagnostics-presentation-test',
+        'name': 'Steam diagnostics presentation',
+        'environment': ['GSK_RENDERER=cairo', 'LC_ALL=C'],
+    },
     {
         'target': 'launch-option-flags-widget-test',
         'name': 'Launch option flag widgets',
