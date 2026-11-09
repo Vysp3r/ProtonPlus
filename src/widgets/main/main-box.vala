@@ -14,6 +14,7 @@ namespace ProtonPlus.Widgets.Main {
         private Services.SteamRestartManager? restart_manager;
         private Services.SteamRestartOrchestrator? restart_orchestrator;
         private SteamRestartBanner? restart_banner;
+        private SteamRepairBanner repair_banner;
         private SteamRestartToastPolicy? restart_toasts;
         private SteamRestartNotificationCoordinator? restart_notifications;
         private uint previous_restart_count = 0;
@@ -88,6 +89,13 @@ namespace ProtonPlus.Widgets.Main {
             if (restart_manager != null && restart_orchestrator != null)
                 setup_steam_restart_presentation ((!) restart_manager, (!) restart_orchestrator,
                     restart_notification_sender ?? new GioSteamRestartNotificationSender ());
+            repair_banner = new SteamRepairBanner ();
+            repair_banner.guidance_requested.connect ((launcher) => {
+                var dialog = new SteamRepairGuideDialog (launcher);
+                dialog.dismiss_requested.connect (() => repair_banner.dismiss_for (launcher));
+                Window.present_dialog_for_controller (dialog, this);
+            });
+            append (repair_banner);
             append (toast_overlay);
 
             Utils.DownloadManager.instance.download_added.connect (on_download_added);
@@ -130,6 +138,7 @@ namespace ProtonPlus.Widgets.Main {
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {
+            repair_banner.set_launcher (launcher);
             tools_box.set_selected_launcher (launcher);
             games_box.set_selected_launcher (launcher);
             search_availability_changed (search_available ());
@@ -296,6 +305,8 @@ namespace ProtonPlus.Widgets.Main {
         }
 
         public override void dispose () {
+            if (repair_banner != null)
+                repair_banner.detach ();
             view_switcher_bar_ready = false;
             if (tools_header_handler_id != 0) {
                 tools_box.disconnect (tools_header_handler_id);

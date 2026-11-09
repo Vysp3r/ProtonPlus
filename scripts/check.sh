@@ -46,6 +46,7 @@ for area in "$@"; do
                 /steam /steam-session /steam-configuration
                 /steam-restart-manager /steam-restart-orchestrator /steam-restart-presentation
                 /steam-game-launch /steam-compatibility-tool-discovery
+                /steam-library-diagnostics
             )
             ;;
         launch-options)

@@ -5,6 +5,9 @@ namespace ProtonPlus.Models.Launchers {
         public SteamProfile profile { get; set; }
         public string default_compatibility_tool { get; set; }
         public HashTable<uint, string> compatibility_tool_hashtable;
+        public Gee.List<SteamRuntimeRepairCandidate> broken_compatibility_tools {
+            get; private set; default = new Gee.ArrayList<SteamRuntimeRepairCandidate> ();
+        }
         private Games.AwacyGameCatalog awacy_game_catalog;
         private SteamCompatibilityToolDiscovery compatibility_tool_discovery;
         private uint game_library_generation;
@@ -245,6 +248,8 @@ namespace ProtonPlus.Models.Launchers {
             if (libraryfolders == null)
                 return false;
 
+            var diagnostic_root = directory;
+            var diagnostic_libraries = new Gee.ArrayList<string> ();
             foreach (var libraryfolder in libraryfolders.children) {
                 int libraryfolder_id;
                 if (!int.try_parse (libraryfolder.key, out libraryfolder_id))
@@ -252,7 +257,10 @@ namespace ProtonPlus.Models.Launchers {
 
                 var path = libraryfolder.get_child ("path");
                 var apps = libraryfolder.get_child ("apps");
-                if (path == null || path.value == null || apps == null)
+                if (path == null || path.value == null)
+                    continue;
+                diagnostic_libraries.add (path.value);
+                if (apps == null)
                     continue;
 
                 foreach (var app in apps.children) {
@@ -328,6 +336,13 @@ namespace ProtonPlus.Models.Launchers {
             }
 
             load_discovered_compatibility_tools ();
+
+            var diagnostics = yield new SteamLibraryDiagnostics ().inspect (
+                diagnostic_root, diagnostic_libraries.to_array ()
+            );
+            if (current_generation != game_library_generation || directory != diagnostic_root)
+                return false;
+            broken_compatibility_tools = diagnostics;
 
             schedule_awacy_enrichment (current_generation);
 

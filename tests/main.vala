@@ -33,6 +33,7 @@ int main (string[] args) {
     AppTests.MetadataTest.register_tests ();
     AppTests.CompatibilityToolTest.register_tests ();
     AppTests.SteamCompatibilityToolDiscoveryTest.register_tests ();
+    AppTests.SteamLibraryDiagnosticsTest.register_tests ();
     AppTests.InstalledToolInventoryTest.register_tests ();
     AppTests.ParserTest.register_tests ();
     AppTests.LaunchCommandTest.register_tests ();

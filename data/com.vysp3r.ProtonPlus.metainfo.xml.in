@@ -95,6 +95,7 @@
           <li>✨ Added automatic download retries and persistent resume after network interruptions or application restarts</li>
           <li>✨ Added an optional HTTPS mirror for GitHub release downloads</li>
           <li>✨ Added TinkerGame installation, updates, and copying of SteamTinkerLaunch settings</li>
+          <li>✨ Added warnings for incomplete Steam compatibility tools and a recovery guide</li>
           <li>✨ Improved CLI listings with stable tool IDs and installed release tags</li>
           <li>🔄 Updated the Flatpak runtime to GNOME 51</li>
           <li>🐛 Fixed Steam games not loading when Steam stores libraryfolders.vdf in the config directory</li>

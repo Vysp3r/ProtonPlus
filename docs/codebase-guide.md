@@ -153,6 +153,16 @@ Valve app ID mapping and require a regular `toolmanifest.vdf`; Proton entries
 also require a regular `proton` launcher. Display names never supply persisted
 Steam compatibility-tool IDs.
 
+`SteamLibraryDiagnostics` reads known Steam appmanifests and a bounded tail of
+that instance's compatibility log on a worker thread. It reports completed
+installs with missing required files and recent explicit Steam failures,
+including failures without an appmanifest or library registration. Updates,
+usable files, and later successful log entries suppress warnings. The launcher
+publishes the resulting snapshot after validating its library generation; the
+warning follows launcher selection and links to
+[`steam-tool-troubleshooting.md`](steam-tool-troubleshooting.md). These findings
+never enter the installation or Steam configuration mutation workflows.
+
 ### Install, update, and removal
 
 UI and CLI create an `InstallJob` containing the target tool, release/asset or

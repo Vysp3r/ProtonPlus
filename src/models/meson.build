@@ -11,6 +11,8 @@ sources += files(
     'steam-restart-target.vala',
     'steam-restart-operation.vala',
     'steam-change-receipt.vala',
+    'steam-runtime-repair-candidate.vala',
+    'steam-library-diagnostics.vala',
     'launcher.vala',
     'release.vala',
     'release-catalog-cache.vala',
