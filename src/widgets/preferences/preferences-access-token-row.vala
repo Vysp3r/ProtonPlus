@@ -14,7 +14,7 @@ namespace ProtonPlus.Widgets.Preferences {
 
             var resolved_token_url = token_url != "" ? token_url : get_default_token_url (source);
             if (resolved_token_url != "") {
-                var open_token_url_button = new Gtk.Button.from_icon_name ("external-link-symbolic");
+                var open_token_url_button = new Gtk.Button.from_icon_name ("go-jump-symbolic");
                 open_token_url_button.add_css_class ("flat");
                 var open_token_page_label = _("Open %s Token Page").printf (source);
                 open_token_url_button.set_tooltip_text (open_token_page_label);

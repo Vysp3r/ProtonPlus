@@ -261,20 +261,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             refresh_state (true);
         }
 
-        public bool has_clearable_state () {
-            foreach (var handler in launch_option_handlers) {
-                if (handler.is_active ())
-                    return true;
-            }
-            if (!edit_state.explicit_clear) {
-                foreach (var source in preview_sources) {
-                    if (source != "")
-                        return true;
-                }
-            }
-            return false;
-        }
-
         public LaunchCommandEditorProjectionState projection_state { get { return projection.state; } }
         public string managed_candidate { get { return projection.managed_candidate; } }
         public bool has_managed_candidate { get { return projection.has_managed_candidate; } }
@@ -351,7 +337,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             if (refreshing_controls)
                 return;
 
-            launch_option_handlers.mark_modified ();
             edit_state.update (collect_sources ());
             refresh_state (true);
         }

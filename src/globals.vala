@@ -64,9 +64,9 @@ namespace ProtonPlus.Globals {
         if (Globals.SETTINGS != null) {
             int saved_enum_value = Globals.SETTINGS.get_enum ("language");
 
-            for (uint i = 0; i < LANGUAGES ().length; i++) {
-                if (LANGUAGES ()[i].index == saved_enum_value) {
-                    current_locale = LANGUAGES ()[i].code;
+            foreach (var language in LANGUAGES ()) {
+                if (language.index == saved_enum_value) {
+                    current_locale = language.code;
                     break;
                 }
             }
@@ -110,31 +110,27 @@ namespace ProtonPlus.Globals {
         Globals.CPU_CAPABILITIES = Utils.System.get_cpu_capabilities ();
         Globals.HWCAPS = Utils.System.get_hwcaps_for_capabilities (Globals.CPU_CAPABILITIES);
 
-        Globals.PROTONTRICKS_INSTALLED = Utils.System.check_dependency_sync ("protontricks");
-        Globals.PROTONTRICKS_FLATPAK_INSTALLED = Utils.System.check_flatpak_dependency_sync ("com.github.Matoking.protontricks");
-        Globals.FAUGUS_FLATPAK_INSTALLED = Utils.System.check_flatpak_dependency_sync (
+        var components = new Utils.InstalledComponents (Globals.IS_FLATPAK);
+        Globals.PROTONTRICKS_INSTALLED = components.protontricks;
+        Globals.PROTONTRICKS_FLATPAK_INSTALLED = components.has_flatpak ("com.github.Matoking.protontricks");
+        Globals.FAUGUS_FLATPAK_INSTALLED = components.has_flatpak (
             Models.Launchers.FaugusLauncher.FLATPAK_ID
         );
 
-        Globals.MANGOHUD_INSTALLED = Utils.System.check_dependency_sync ("mangohud");
-        Globals.MANGOHUD_FLATPAK_INSTALLED = Utils.System.check_flatpak_dependency_sync ("org.freedesktop.Platform.VulkanLayer.MangoHud");
-
-        Globals.GAMESCOPE_INSTALLED = Utils.System.check_dependency_sync ("gamescope");
-
-        Globals.GAMEMODE_INSTALLED = Utils.System.check_dependency_sync ("gamemoderun");
-
-        Globals.GAME_PERFORMANCE_INSTALLED = Utils.System.check_dependency_sync ("game-performance");
-
-        Globals.OBS_VKCAPTURE_INSTALLED = Utils.System.check_dependency_sync ("obs-gamecapture");
-        Globals.OBS_VKCAPTURE_FLATPAK_INSTALLED = Utils.System.check_flatpak_dependency_sync (
+        Globals.MANGOHUD_INSTALLED = components.mangohud;
+        Globals.MANGOHUD_FLATPAK_INSTALLED = components.has_flatpak ("org.freedesktop.Platform.VulkanLayer.MangoHud");
+        Globals.GAMESCOPE_INSTALLED = components.gamescope;
+        Globals.GAMEMODE_INSTALLED = components.gamemode;
+        Globals.GAME_PERFORMANCE_INSTALLED = components.game_performance;
+        Globals.OBS_VKCAPTURE_INSTALLED = components.obs_vkcapture;
+        Globals.OBS_VKCAPTURE_FLATPAK_INSTALLED = components.has_flatpak (
             "org.freedesktop.Platform.VulkanLayer.OBSVkCapture"
         );
-        Globals.OBS_VKCAPTURE_FLATPAK_PLUGIN_INSTALLED = Utils.System.check_flatpak_dependency_sync (
+        Globals.OBS_VKCAPTURE_FLATPAK_PLUGIN_INSTALLED = components.has_flatpak (
             "com.obsproject.Studio.Plugin.OBSVkCapture"
         );
-
-        Globals.SCOPEBUDDY_INSTALLED = Utils.System.check_dependency_sync ("scopebuddy") || Utils.System.check_dependency_sync ("scb");
-        Globals.VKBASALT_INSTALLED = Utils.System.check_dependency_sync ("vkbasalt");
+        Globals.SCOPEBUDDY_INSTALLED = components.scopebuddy;
+        Globals.VKBASALT_INSTALLED = components.vkbasalt;
 
         Globals.CACHE_PATH = Path.build_filename (Environment.get_user_cache_dir (), "ProtonPlus");
         if (!FileUtils.test (Globals.CACHE_PATH, FileTest.IS_DIR)) {

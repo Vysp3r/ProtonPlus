@@ -39,16 +39,11 @@ namespace ProtonPlus.Widgets.Games {
             check_button.update_property (
                 Gtk.AccessibleProperty.LABEL, _("Select game"), -1
             );
-            var navigation_spacer = new Gtk.Image.from_icon_name ("go-next-symbolic") {
-                opacity = 0.0,
-                can_target = false
-            };
             append (check_button);
             navigation_image = new Gtk.Image.from_icon_name ("go-next-symbolic") {
                 tooltip_text = _("Modify Game")
             };
             append (navigation_image);
-            append (navigation_spacer);
         }
 
         public void bind (GameListItem item) {
@@ -141,8 +136,7 @@ namespace ProtonPlus.Widgets.Games {
             this.actions_focus = actions_focus;
             this.activation_request = activation_request;
             set_focusable (true);
-            set_margin_start (6);
-            set_margin_end (6);
+            // ColumnView supplies matching padding for headers and cells.
             set_valign (Gtk.Align.CENTER);
 
             label = new Gtk.Label (null) {
@@ -216,8 +210,7 @@ namespace ProtonPlus.Widgets.Games {
         public GameTextCell (GameTextCellKind kind) {
             Object (orientation: Gtk.Orientation.HORIZONTAL);
             this.kind = kind;
-            set_margin_start (6);
-            set_margin_end (6);
+            // ColumnView supplies matching padding for headers and cells.
             set_valign (Gtk.Align.CENTER);
 
             label = new Gtk.Label (null) {
@@ -294,8 +287,22 @@ namespace ProtonPlus.Widgets.Games {
             };
             launch_button.clicked.connect (() => {
                 var steam_game = target.item?.game as Models.Games.Steam;
-                if (steam_game != null)
-                    Utils.System.open_uri ("steam://run/" + ((!) steam_game).appid.to_string ());
+                if (steam_game == null)
+                    return;
+                var steam_target = steam_game.launcher.get_steam_restart_target ();
+                try {
+                    if (steam_target == null)
+                        throw new IOError.NOT_FOUND ("No Steam installation was found for this game.");
+                    new Services.SteamGameLaunchService ().launch (
+                        steam_target, steam_game.appid, steam_game.is_non_steam, Globals.IS_FLATPAK);
+                } catch (Error error) {
+                    var root = get_root () as Gtk.Window;
+                    if (root != null)
+                        Window.present_dialog_for_controller (new Main.ErrorDialog (
+                            _("Game Launch Failed"),
+                            _("%s could not be launched.").printf (steam_game.name),
+                            error.message), root);
+                }
             });
 
             extra_button = new ExtraButton (target);

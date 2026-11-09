@@ -15,10 +15,22 @@ namespace ProtonPlus.Utils {
             var metadata = new Metadata ();
             var metadata_path = Path.build_filename (directory_path, FILENAME);
 
-            if (FileUtils.test (metadata_path, FileTest.IS_REGULAR)) {
+            Posix.Stat metadata_stat;
+            if (Posix.lstat (metadata_path, out metadata_stat) == 0 && Posix.S_ISREG (metadata_stat.st_mode)) {
                 var root_node = Parser.get_node_from_json (Filesystem.get_file_content (metadata_path));
                 if (root_node != null && root_node.get_node_type () == Json.NodeType.OBJECT) {
                     var root_object = root_node.get_object ();
+                    // Receipts are external data. Reject invalid field types as
+                    // a whole rather than dropping an identity constraint and
+                    // accidentally falling back to legacy matching.
+                    foreach (var name in new string[] {
+                        "runner_endpoint", "runner_title", "tag", "provider_id",
+                        "tool_id", "launcher_id", "variant_id", "release_id"
+                    }) {
+                        var member = root_object.get_member (name);
+                        if (member != null && member.get_value_type () != typeof (string))
+                            return metadata;
+                    }
                     metadata.runner_endpoint = root_object.get_string_member_with_default ("runner_endpoint", "");
                     metadata.runner_title = root_object.get_string_member_with_default ("runner_title", "");
                     metadata.tag = root_object.get_string_member_with_default ("tag", "");

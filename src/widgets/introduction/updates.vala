@@ -7,21 +7,21 @@ namespace ProtonPlus.Widgets.Introduction {
             base (
                   _("Keep Everything Updated"),
                   _("ProtonPlus can automatically check for and install updates to keep your gaming experience smooth."),
-                  "arrows-rotate-symbolic"
+                  "view-refresh-symbolic"
             );
 
             var updates_group = new Adw.PreferencesGroup ();
             updates_group.margin_top = 12;
 
             var background_updates_row = new Adw.SwitchRow () {
-                title = _("Background updates"),
-                subtitle = _("Automatically update the tools in the background"),
+                title = _("Scheduled updates"),
+                subtitle = _("Check for and install updates on a schedule, even when ProtonPlus is closed"),
             };
             Globals.SETTINGS.bind ("background-updates", background_updates_row, "active", SettingsBindFlags.DEFAULT);
             updates_group.add (background_updates_row);
 
             var background_updates_frequency_row = new Preferences.BackgroundUpdatesFrequencyRow () {
-                subtitle = _("Set how often to check for updates in the background"),
+                subtitle = _("Time between scheduled update checks"),
             };
             background_updates_row.bind_property ("active", background_updates_frequency_row, "sensitive", BindingFlags.SYNC_CREATE);
             updates_group.add (background_updates_frequency_row);

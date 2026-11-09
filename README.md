@@ -1,8 +1,5 @@
 # ProtonPlus
 
-> [!IMPORTANT]
-> I will not be available until early October 2026.
-
 <p align="center">
   <img src="data/icons/com.vysp3r.ProtonPlus.svg" alt="ProtonPlus icon" width="128">
 </p>
@@ -38,6 +35,8 @@
   <a href="https://github.com/Vysp3r/ProtonPlus/releases">Releases</a>
   ·
   <a href="https://github.com/Vysp3r/ProtonPlus/issues">Issue tracker</a>
+  ·
+  <a href="https://discord.gg/qNRPQvC7m4">Discord</a>
 </p>
 
 ProtonPlus helps you install, update, remove, and organize compatibility tools used by Steam and other Linux game launchers. It discovers supported launcher installations, downloads releases from their upstream sources, and installs them into the layouts expected by each launcher.
@@ -54,7 +53,6 @@ ProtonPlus helps you install, update, remove, and organize compatibility tools u
 - Configure Steam profiles and create or remove a ProtonPlus shortcut in Steam from the preferences view.
 - Coordinate required Steam restarts after compatibility-tool or Steam configuration changes.
 - Navigate Tools, Games, preferences, dialogs, and menus with a gamepad, with contextual button hints and optional vibration.
-- Configure MangoHud presets when MangoHud is installed, including visual, performance, metrics, and extra settings.
 - Track downloads and updates from the application header, with a shared speed limit, cancellation, and desktop notifications.
 - Use the command-line interface for listing launchers, installing, updating, and uninstalling tools.
 - Configure background updates, API tokens, proxy settings, themes, language, legacy-tool visibility, and other application preferences.
@@ -94,10 +92,10 @@ The built-in provider catalog currently contains:
 - Proton-GE
 - Proton-CachyOS
 - DW-Proton
-- Proton-GE RTSP
+- Proton-RTSP
 - Proton-Tkg
 - Proton-EM
-- Proton-CachyOS Wineland
+- Proton-Wineland
 - Luxtorpeda
 - Boxtron
 - Roberta
@@ -170,42 +168,41 @@ A native build requires a Linux development environment with:
 - libsoup 3
 - libgee
 - libarchive
-- libnotify
 - Cairo
-- AppStream
 - SDL 3.2 or newer
 - gettext and desktop-file-utils
 
 Package names differ between distributions. The repository's `scripts/get-dependencies.sh` installs the native build dependencies on Arch Linux; it is intended for Arch-based build environments and should not be run unchanged on other distributions.
 
-Clone and build the application with the project Makefile:
+Clone and build the application with the project build helper:
 
 ```bash
 git clone https://github.com/Vysp3r/ProtonPlus.git
 cd ProtonPlus
-make build-run
+./scripts/build.sh native run
 ```
 
-If `protonplus` is not already available on `PATH`, `make build-run` installs
-the native build before launching it.
+`./scripts/build.sh native run` runs the checkout with its local data and
+translations. It does not require a system-wide installation.
 
 To build without launching it, then install it system-wide:
 
 ```bash
-make install
+./scripts/build.sh native
+sudo meson install -C build
 ```
 
-The native build is configured with `/usr` as its install prefix by the Makefile.
+The native build helper configures `/usr` as the install prefix.
 
 ### Build the Flatpak locally
 
 The local Flatpak manifest builds the source tree and installs the result for the current user. Flatpak, a configured Flathub remote, and network access are required.
 
 ```bash
-make local-run
+./scripts/build.sh local run
 ```
 
-The local target installs the GNOME 50 SDK and runtime, the Vala SDK extension, and Flatpak Builder when they are missing. Use `make local` to build and install without launching the application.
+The local command installs the GNOME 51 SDK and runtime, the Vala SDK extension, and Flatpak Builder when they are missing. Use `./scripts/build.sh local` to build and install without launching the application.
 
 ## Usage
 
@@ -217,7 +214,6 @@ The local target installs the GNOME 50 SDK and runtime, the Vala SDK extension, 
 4. Use the installed, used, and unused filters to review tool usage.
 5. Open a release to update, remove, open its upstream page, or migrate compatible games when supported.
 6. For Steam, use **Games** to select a profile, change compatibility tools, edit launch options, or perform a mass edit.
-7. If MangoHud is detected, enable experimental features to use the **MangoHud** view.
 
 Downloads and updates appear in the header indicator. ProtonPlus also sends desktop notifications when an operation finishes while the application is not active.
 
@@ -257,6 +253,12 @@ protonplus update steam-system
 protonplus update all
 protonplus uninstall steam-system proton-ge
 ```
+d
+For each managed release, `list <launcher_id>` prints the runner ID, recorded
+release tag, and display title in labeled, aligned columns, grouped by tool
+category. Older records without a tag display `—` in the Version column.
+Unmanaged directories and records that cannot be resolved to an available
+provider are omitted.
 
 The `latest` argument selects the latest eligible release during installation. The `all` argument can remove all releases for a tool or all provider-tool releases for a launcher.
 
@@ -270,11 +272,28 @@ Application preferences are available from the preferences dialog. They include:
 - Background update frequency and update checks at launch or system startup
 - Default Steam compatibility tool and selected Steam profile
 - GitHub and GitLab API tokens for higher API limits or authenticated access
-- System or manual proxy configuration and a shared download speed limit
-- Legacy-tool visibility, experimental features, and default-prefix migration behavior
+- System or manual proxy configuration, an optional GitHub download mirror, and a shared download speed limit
+- Legacy-tool visibility and default-prefix migration behavior
 - Cache deletion and application environment diagnostics
 
 Native builds use the XDG user cache directory, normally `~/.cache/ProtonPlus`. Flatpak builds use the corresponding sandboxed XDG directories.
+
+### GitHub download mirrors
+
+In **Preferences > Advanced > Network**, set **GitHub download mirror** to an
+HTTPS URL prefix and apply the field, or leave it empty for direct downloads.
+For example, `https://mirror.example/` turns a release asset URL into
+`https://mirror.example/https://github.com/owner/repo/releases/download/tag/asset`.
+A missing trailing slash is added automatically. Credentials, query strings,
+and fragments are not accepted in the prefix. Only use a mirror you trust.
+
+This setting is independent of the HTTP/SOCKS proxy setting. It applies to new
+GitHub release asset downloads in both the GUI and CLI; ongoing downloads keep
+their original endpoint. API requests, release lists, source archives, Actions
+artifacts, and other hosts are unchanged, so GitHub API access is still needed.
+Changing endpoints discards incompatible partial downloads. Existing validated
+archive caches remain reusable, and upstream size and digest checks still apply;
+not every upstream asset supplies a digest.
 
 ## Troubleshooting
 
@@ -303,19 +322,23 @@ The provider may have published an asset in an unsupported or incomplete format.
 Run the test suite after making changes:
 
 ```bash
-make tests
+./scripts/check.sh
 ```
 
-Useful maintenance commands are exposed through the Makefile:
+Useful maintenance commands are available through the build helper:
 
 ```bash
-make linter
-make translations
-make icons
-make clean
+./scripts/build.sh linter
+./scripts/build.sh translations
+./scripts/build.sh icons
+./scripts/build.sh clean
 ```
 
-Provider extension points and release-source architecture are documented in [docs/provider-architecture.md](docs/provider-architecture.md).
+Use `./scripts/check.sh /launch-command-writer` while working on a specific
+area.
+The [maintainer guide](docs/maintenance.md) covers debugging, release preparation,
+and the maintenance-cost audit. Provider extension points and release-source
+architecture are documented in [docs/provider-architecture.md](docs/provider-architecture.md).
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Bug reports and feature requests belong in the [issue tracker](https://github.com/Vysp3r/ProtonPlus/issues). Translation contributions are coordinated through [Weblate](https://hosted.weblate.org/projects/protonplus/protonplus/).
 

@@ -101,6 +101,7 @@
         <key name="language" enum="com.vysp3r.ProtonPlus.Language">
             <default>'system'</default>
         </key>
+        <!-- Retained for compatibility with versions that offered the MangoHud editor. -->
         <key name="experimental-features" type="b">
             <default>false</default>
         </key>
@@ -115,6 +116,10 @@
         </key>
         <key name="proxy-url" type="s">
             <default>''</default>
+        </key>
+        <key name="github-download-mirror" type="s">
+            <default>''</default>
+            <summary>Optional HTTPS prefix for GitHub release asset downloads</summary>
         </key>
         <key name="download-speed-limit-bps" type="x">
             <default>0</default>

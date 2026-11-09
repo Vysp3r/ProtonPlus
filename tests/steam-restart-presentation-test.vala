@@ -55,6 +55,24 @@ namespace AppTests.SteamRestartPresentationTest {
     }
 
     private void test_failure_messages_are_actionable () {
+        var detail = "Configuration file is missing.\n/tmp/<steam>/config.vdf\ncompatibility-mapping: 440";
+        var configuration = SteamRestartPresentation.failure_message (
+            SteamRestartFailureReason.CONFIGURATION_RECONCILIATION_FAILED, true, detail);
+        assert (configuration.body.contains (detail));
+        assert (configuration.can_retry);
+
+        // A confirmed shutdown is historical evidence, not the state after launch.
+        var timeout = SteamRestartPresentation.failure_message (SteamRestartFailureReason.START_TIMEOUT, true);
+        assert (timeout.heading == "Steam startup could not be confirmed");
+        assert (!timeout.body.contains ("currently closed"));
+        assert (timeout.body.contains ("already open"));
+        var reopened = SteamRestartPresentation.failure_message (SteamRestartFailureReason.NEW_SESSION_UNCONFIRMED, true);
+        assert (reopened.heading == "Steam restarted");
+        assert (reopened.body.contains ("could not verify every pending change"));
+        assert (!reopened.body.contains ("Start it manually"));
+        var failed_launch = SteamRestartPresentation.failure_message (SteamRestartFailureReason.RELAUNCH_FAILED, true);
+        assert (!failed_launch.body.contains ("currently closed"));
+
         var flatpak = SteamRestartPresentation.failure_message (SteamRestartFailureReason.GRACEFUL_SHUTDOWN_UNSUPPORTED);
         assert (flatpak.heading == "Close Steam manually" && flatpak.body.contains ("cannot safely close") && !flatpak.body.contains ("kill"));
         var blocker = SteamRestartPresentation.failure_message (SteamRestartFailureReason.GAME_OR_COMPATIBILITY_PROCESS);
@@ -97,6 +115,39 @@ namespace AppTests.SteamRestartPresentationTest {
         assert (policy.update (2, 3, false, false) == null);
         assert (policy.update (3, 0, false, false) == null);
         assert (policy.update (0, 1, false, false) != null);
+    }
+
+    private void test_gio_notification_payload_and_delivery_failure () {
+        string? title = null;
+        string? body = null;
+        ThemedIcon? icon = null;
+        var sender = new GioSteamRestartNotificationSender ((sent_title, sent_body, sent_icon) => {
+            title = sent_title;
+            body = sent_body;
+            icon = sent_icon as ThemedIcon;
+        });
+        try {
+            sender.send_restart_required ("Steam needs to restart to apply your changes");
+        } catch (Error e) {
+            assert_not_reached ();
+        }
+        assert (title == "Steam restart needed");
+        assert (body == "Steam needs to restart to apply your changes");
+        assert (icon != null && icon.get_names ()[0] == ProtonPlus.Config.APP_ID);
+
+        sender = new GioSteamRestartNotificationSender ((sent_title, sent_body, sent_icon) => {
+            throw new IOError.FAILED ("fixture delivery failure");
+        });
+        bool failed = false;
+        try {
+            sender.send_restart_required ("Steam needs to restart to apply your changes");
+        } catch (SteamRestartNotificationError.DELIVERY_FAILED e) {
+            assert (e.message == "fixture delivery failure");
+            failed = true;
+        } catch (Error e) {
+            assert_not_reached ();
+        }
+        assert (failed);
     }
 
     private void test_notification_delivery_is_private_and_deduplicated () {
@@ -147,6 +198,7 @@ namespace AppTests.SteamRestartPresentationTest {
         Test.add_func ("/steam-restart-presentation/toast-policy", test_toast_policy);
         Test.add_func ("/steam-restart-presentation/failure-messages", test_failure_messages_are_actionable);
         Test.add_func ("/steam-restart-presentation/inactive-notification-policy", test_inactive_notification_policy);
+        Test.add_func ("/steam-restart-presentation/gio-notification-payload-and-delivery-failure", test_gio_notification_payload_and_delivery_failure);
         Test.add_func ("/steam-restart-presentation/notification-delivery-private-and-deduplicated", test_notification_delivery_is_private_and_deduplicated);
     }
 }

@@ -8,7 +8,7 @@ namespace ProtonPlus.Utils {
             "check-updates-on-launch", "background-updates", "background-updates-frequency", "check-updates-on-boot",
             "github-api-key", "gitlab-api-key", "selected-tool-variants", "steam-selected-profile-id",
             "first-run", "theme", "language", "experimental-features", "show-legacy-tools",
-            "migrate-default-prefix", "proxy-mode", "proxy-url", "download-speed-limit-bps", "controller-confirm-button",
+            "migrate-default-prefix", "proxy-mode", "proxy-url", "github-download-mirror", "download-speed-limit-bps", "controller-confirm-button",
             "controller-haptics-enabled", "last-version"
         };
 
@@ -281,12 +281,13 @@ namespace ProtonPlus.Utils {
             return get_file_content (path) == content;
         }
 
-        public static bool copy_symlink (string src_path, string dest_path) {
+        public static bool copy_symlink (string src_path, string dest_path, bool overwrite = false) {
             try {
                 File src = File.new_for_path (src_path);
                 File dest = File.new_for_path (dest_path);
 
-                return src.copy (dest, FileCopyFlags.NOFOLLOW_SYMLINKS);
+                return src.copy (dest, FileCopyFlags.NOFOLLOW_SYMLINKS |
+                    (overwrite ? FileCopyFlags.OVERWRITE : FileCopyFlags.NONE));
             } catch (Error e) {
                 warning (e.message);
 

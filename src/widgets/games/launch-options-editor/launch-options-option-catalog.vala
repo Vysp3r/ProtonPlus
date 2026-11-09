@@ -34,8 +34,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         EXPERIMENTAL
     }
 
-    /* Command semantics are deliberately separate from LaunchLineType, which
-     * remains the legacy serialization detail used by the current editor. */
+    /* Command semantics are independent of the token classifications retained
+     * by legacy control adapters. */
     public enum LaunchOptionSemanticKind {
         ENVIRONMENT_ASSIGNMENT,
         PREFIX_WRAPPER,
@@ -172,6 +172,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public bool managed_emission { get; construct; }
         public string[] legacy_tokens { get; construct; }
         public string[] selectable_values { get; construct; }
+        public string value_separator { get; construct; }
         public LaunchOptionParseShape? parse_shape { get; construct; }
         LaunchOptionCapability[] _required_capabilities;
         public LaunchOptionApplicability applicability { get; construct; }
@@ -197,7 +198,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             bool managed_emission = false,
             string[] legacy_tokens = {},
             string[] selectable_values = {},
-            LaunchOptionParseShape? parse_shape = null
+            LaunchOptionParseShape? parse_shape = null,
+            string value_separator = ""
         ) {
             Object (
                 kind: kind, placeholder_policy: placeholder_policy,
@@ -209,7 +211,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 legacy_manual_representation: legacy_manual_representation,
                 support: support, managed_emission: managed_emission,
                 legacy_tokens: legacy_tokens, selectable_values: selectable_values,
-                parse_shape: parse_shape
+                parse_shape: parse_shape, value_separator: value_separator
             );
             this._required_capabilities = required_capabilities;
             this._composite_outputs = composite_outputs;
@@ -735,7 +737,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     conflict_group_for (id), conflicts_for (id),
                     scopebuddy_owner (id) != "" ? backend_dependencies (dependencies) : dependencies,
                     capabilities_for (id), applicability_for (id), {}, false,
-                    support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id)
+                    support_for (id), is_managed_emission (id), legacy_tokens_for (id), selectable_values_for (id),
+                    null, dynamic_environment_separator_for (id)
                 );
             }
 
@@ -782,6 +785,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     return new LaunchOptionParseShape ({ "-r" }, { 1 });
                 default:
                     return null;
+            }
+        }
+
+        string dynamic_environment_separator_for (string id) {
+            switch (id) {
+                case "vkd3d-config":
+                case "amd-radv-perftest":
+                case "amd-radv-debug":
+                case "amd-aco-debug":
+                    return ",";
+                default:
+                    return "";
             }
         }
 
@@ -863,13 +878,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         string[] selectable_values_for (string id) {
             switch (id) {
                 case "vkd3d-log-level": return { "none", "err", "warn", "fixme", "info", "trace" };
-                case "vkd3d-config": return { "vk_debug", "skip_application_workarounds", "nodxr", "dxr", "dxr12", "force_static_cbv", "single_queue", "no_upload_hvv", "force_host_cached", "no_invariant_position", "pipeline_library_app_cache" };
-                case "amd-radv-perftest": return { "cswave32", "dccmsaa", "dmashaders", "gewave32", "localbos", "lowlatencydec", "lowlatencyenc", "nggc", "nircache", "nogttspill", "nosam", "pswave32", "rtcps" };
-                /* RADV_DEBUG and ACO_DEBUG are diagnostic flag lists. Keep
-                 * only flags documented by current Mesa, rather than the
-                 * historical widget's guessed boolean pairs. */
-                case "amd-radv-debug": return { "hang", "syncshaders", "noibs", "nocache", "nodcc", "nogpl", "nooptvariant", "nosam", "novrs", "precompile", "psocachestats" };
-                case "amd-aco-debug": return { "validate", "perfinfo", "force-waitcnt", "nosched", "nowave32" };
+                case "vkd3d-config":
+                case "amd-radv-perftest":
+                case "amd-radv-debug":
+                case "amd-aco-debug":
+                    return LaunchOptionFlags.values (id);
                 default: return {};
             }
         }

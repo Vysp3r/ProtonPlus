@@ -460,7 +460,7 @@ namespace AppTests.SteamTest {
             "\"InstallConfigStore\" { \"Software\" { \"Valve\" { \"Steam\" { } } } }"
         ));
         assert (ProtonPlus.Utils.Filesystem.modify_file (
-            Path.build_filename (steamapps_directory, "libraryfolders.vdf"),
+            Path.build_filename (config_directory, "libraryfolders.vdf"),
             "\"libraryfolders\" { \"0\" { \"path\" \"%s\" \"apps\" { \"42\" \"1\" \"43\" \"1\" } } }".printf (root)
         ));
         assert (ProtonPlus.Utils.Filesystem.modify_file (
@@ -537,6 +537,10 @@ namespace AppTests.SteamTest {
         assert (ProtonPlus.Utils.Filesystem.modify_file (
             Path.build_filename (config_directory, "config.vdf"),
             "\"InstallConfigStore\" { \"Software\" { \"Valve\" { \"Steam\" { } } } }"
+        ));
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (config_directory, "libraryfolders.vdf"),
+            "not VDF"
         ));
         assert (ProtonPlus.Utils.Filesystem.modify_file (
             Path.build_filename (steamapps_directory, "libraryfolders.vdf"),
@@ -724,6 +728,7 @@ namespace AppTests.SteamTest {
         assert (FileUtils.remove (config_path) == 0);
         SteamConfigurationService.reset_configuration ();
         assert (DirUtils.remove (config_directory) == 0);
+        assert (FileUtils.remove (Path.build_filename (root, "restart-state.json.lock")) == 0);
         assert (DirUtils.remove (root) == 0);
     }
 
@@ -751,6 +756,7 @@ namespace AppTests.SteamTest {
         assert (FileUtils.remove (config_path) == 0);
 
         SteamConfigurationService.reset_configuration ();
+        assert (FileUtils.remove (Path.build_filename (root, "restart-state.json.lock")) == 0);
         assert (DirUtils.remove (root) == 0);
     }
 

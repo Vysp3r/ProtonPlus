@@ -1,40 +1,17 @@
-*Thank you for contributing to ProtonPlus! Please complete the relevant sections below.*
+### Problem and change
 
-### Category
+Describe the problem, the resulting behavior, and any related issue.
 
-- [ ] Bugfix
-- [ ] Feature
-- [ ] Code style update
-- [ ] Refactoring
-- [ ] Build related changes
-- [ ] Documentation
-- [ ] Translation
-- [ ] Other (Please specify!)
+### Validation
 
-### Overview
+List the commands run and their results (`./scripts/check.sh`, focused tests,
+or lint). For UI changes, include a screenshot and the interaction you checked.
+State any GUI, packaging, controller, or live Steam behavior that remains
+unverified.
 
-Briefly outline your changes and the motivation behind them.
+### Maintenance impact
 
-### Issue Number
-
-Related issue: #00
-
-### New Variables or Dependencies
-
-List any new build scripts, environment variables, configuration options, or dependencies.
-
-### How to Test
-
-Please describe how you tested your changes and how the reviewer can verify them.
-
-### Screenshots (if applicable)
-
-If you've introduced any significant UI changes, please include a screenshot or a GIF.
-
-### Checklist
-
-- [ ] My code follows the project's [style guide](https://github.com/Vysp3r/ProtonPlus/blob/main/CONTRIBUTING.md#style-guide).
-- [ ] I have tested my changes and verified that they work as expected.
-- [ ] I have updated the documentation accordingly (if applicable).
-- [ ] I have updated the translations by running `./scripts/build.sh translations` (if applicable).
-- [ ] I have checked for existing pull requests that cover these changes.
+Mention new dependencies, settings, persisted IDs, or migration requirements,
+if any. Update relevant documentation and run `./scripts/build.sh translations`
+when changing translatable strings or adding/removing Vala sources. See
+[CONTRIBUTING.md](../CONTRIBUTING.md) for the workflow.

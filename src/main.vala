@@ -1,9 +1,19 @@
 namespace ProtonPlus {
     public static int main (string[] args) {
+        if (FileUtils.test ("/.flatpak-info", FileTest.IS_REGULAR)) {
+            var host_config_dir = Environment.get_variable ("HOST_XDG_CONFIG_HOME");
+            if (host_config_dir == null || ((!) host_config_dir).strip () == "") {
+                Environment.set_variable (
+                    "HOST_XDG_CONFIG_HOME",
+                    Path.build_filename (Environment.get_home_dir (), ".config"),
+                    true
+                );
+            }
+        }
+
         if (args.length > 1) {
             Globals.load ();
             Globals.setupLanguage ();
-            Notify.init (Config.APP_NAME);
             ProtonPlus.Services.InstallationService.instance.configure_compatibility_process_guard (
                 new ProtonPlus.Services.CompatibilityProcessGuard.for_package (Globals.IS_FLATPAK)
             );
@@ -11,20 +21,10 @@ namespace ProtonPlus {
             var migration_manager = new ProtonPlus.Services.Migrations.Manager ();
             migration_manager.check_and_migrate_sync (Config.APP_VERSION);
 
-            ProtonPlus.Services.SteamRestartManager? steam_restart_manager = null;
+            ProtonPlus.Services.SteamLifecycle? steam_lifecycle = null;
             var command = args[1];
             if (command == "install" || command == "uninstall" || command == "update") {
-                var session_service = new ProtonPlus.Services.SteamSessionService ();
-                steam_restart_manager = new ProtonPlus.Services.SteamRestartManager (
-                    session_service, new ProtonPlus.Services.SteamRestartStateStore ()
-                );
-                var configuration_service = new ProtonPlus.Services.SteamConfigurationService (
-                    session_service, (!) steam_restart_manager
-                );
-                ((!) steam_restart_manager).configure_configuration_reconciler (configuration_service);
-                ProtonPlus.Services.SteamConfigurationService.configure (configuration_service);
-                ProtonPlus.Services.InstallationService.instance.configure_steam_change_recorder ((!) steam_restart_manager);
-                steam_restart_manager.start_observation ();
+                steam_lifecycle = new ProtonPlus.Services.SteamLifecycle ();
             }
             var cli = new CLI.Handler ();
             var loop = new MainLoop ();
@@ -34,11 +34,10 @@ namespace ProtonPlus {
                 loop.quit ();
             });
             loop.run ();
-            if (steam_restart_manager != null)
-                steam_restart_manager.stop_observation ();
-            ProtonPlus.Services.InstallationService.instance.reset_lifecycle_configuration ();
-            ProtonPlus.Services.SteamConfigurationService.reset_configuration ();
-            Notify.uninit ();
+            if (steam_lifecycle != null)
+                steam_lifecycle.stop ();
+            else
+                ProtonPlus.Services.InstallationService.instance.reset_lifecycle_configuration ();
             return result;
         }
 

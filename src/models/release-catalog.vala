@@ -4,6 +4,7 @@ namespace ProtonPlus.Models {
     // this class applies the result to the catalog and its persisted snapshot.
     public class ReleaseCatalog : Object {
         public const int RELEASE_PAGE_SIZE = 25;
+        public const int64 CACHE_TTL = TimeSpan.HOUR;
 
         private Providers.ProviderDefinition? definition;
         private ProtonPlus.Providers.Sources.ReleaseSource? release_source;
@@ -70,16 +71,18 @@ namespace ProtonPlus.Models {
                 return ReleaseCatalogResult.success (releases);
             }
 
-            if (releases.size > 0 && !force_refresh)
+            if (releases.size > 0 && !force_refresh && cache_is_fresh (last_updated))
                 return ReleaseCatalogResult.success (releases);
 
             loading = true;
-            if (!force_refresh && cache != null) {
+            if (!force_refresh && releases.size == 0 && cache != null) {
                 var snapshot = yield cache.load ();
                 if (snapshot != null && snapshot.releases.size > 0 && cached_releases_match_definition (snapshot.releases)) {
                     apply_snapshot (snapshot);
-                    loading = false;
-                    return ReleaseCatalogResult.success (releases);
+                    if (cache_is_fresh (snapshot.last_updated)) {
+                        loading = false;
+                        return ReleaseCatalogResult.success (releases);
+                    }
                 }
             }
 
@@ -153,6 +156,22 @@ namespace ProtonPlus.Models {
                     return ReleaseLookupResult.empty ();
                 requested_page = release_page.next_page;
             }
+        }
+
+        public static bool cache_timestamp_is_fresh (string last_updated, DateTime now) {
+            if (last_updated == "")
+                return false;
+
+            var updated = new DateTime.from_iso8601 (last_updated, null);
+            if (updated == null)
+                return false;
+
+            var age = now.difference (updated);
+            return age >= 0 && age < CACHE_TTL;
+        }
+
+        private bool cache_is_fresh (string timestamp) {
+            return cache_timestamp_is_fresh (timestamp, new DateTime.now_local ());
         }
 
         private async Tools.ReleasePageResult fetch_page (int requested_page) {

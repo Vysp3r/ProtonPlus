@@ -320,6 +320,22 @@ namespace AppTests.LaunchOptionCapabilityResolverTest {
         assert (variant.writing_allowed);
         assert (variant.launch_line == "PROTON_USE_D7VK=1 %command%");
 
+        var nvidia_proton = new LaunchCommandCapabilityContext ({
+            LaunchOptionCapability.PROTON, LaunchOptionCapability.NVIDIA
+        });
+        var dlss_update = writer.prepare_source ("", {
+            new LaunchCommandSelection ("nvidia-dlss-updater")
+        }, { "nvidia-dlss-updater" }, {}, nvidia_proton);
+        assert (dlss_update.writing_allowed);
+        assert (dlss_update.launch_line == "PROTON_ENABLE_NGX_UPDATER=1 %command%");
+
+        var legacy_nvapi = writer.prepare_source ("", {
+            new LaunchCommandSelection ("nvidia-nvapi")
+        }, { "nvidia-nvapi" }, {}, nvidia_proton);
+        assert (!legacy_nvapi.writing_allowed);
+        assert (legacy_nvapi.writer_diagnostics.size == 1);
+        assert (legacy_nvapi.writer_diagnostics[0].contains ("legacy option"));
+
         var native_variant = writer.prepare_source ("", { new LaunchCommandSelection ("d7vk") },
             { "d7vk" }, {}, native);
         assert (!native_variant.writing_allowed);

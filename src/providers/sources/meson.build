@@ -5,6 +5,7 @@ sources += files(
     'github-compatible-release-parser.vala',
     'release-source-registry.vala',
     'github-release-source.vala',
+    'tinkergame-release-source.vala',
     'github-actions-release-source.vala',
     'gitlab-release-source.vala',
     'forgejo-release-source.vala',

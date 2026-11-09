@@ -52,11 +52,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             launch_option_handlers.add (winealsa_channels_tile);
             register_option ("winealsa-channels", winealsa_channels_tile, winealsa_channels_tile);
 
-            winealsa_spacial_tile = create_tile (
-                _ ("Wine ALSA spatial downmix"),
-                _ ("Enables spatial mixing in Wine ALSA audio output. Requires WINEALSA Channels set to 4, 6, or 8. Available from GE-Proton11-1."),
-                { "WINEALSA_SPACIAL=1" }, false, LaunchLineType.ENVIRONMENT, "winealsa-spatial"
-            );
+            winealsa_spacial_tile = create_tile ("winealsa-spatial");
 
             refresh_winealsa_spacial_state ();
 

@@ -12,7 +12,7 @@ namespace ProtonPlus.Widgets.Games {
 
             mass_edit_button_content = new Adw.ButtonContent () {
                 label = _("Modify the selected games"),
-                icon_name = "screwdriver-wrench-symbolic"
+                icon_name = "document-edit-symbolic"
             };
             set_tooltip_text (_("Modify the selected games all at once"));
             set_halign (Gtk.Align.CENTER);

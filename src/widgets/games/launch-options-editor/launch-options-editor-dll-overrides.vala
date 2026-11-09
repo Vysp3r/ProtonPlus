@@ -60,7 +60,7 @@ using Gtk;
             tooltips.insert ("openal32", _ ("OpenAL 3D Audio library (enables hardware sound acceleration)"));
             tooltips.insert ("dinput8", _ ("DirectInput 8 (commonly used to inject scripts/ASI mod loaders)"));
             tooltips.insert ("winhttp", _ ("Windows Internet HTTP API (fixes network connectivity in launchers)"));
-            tooltips.insert ("urlmon", _ ("OLE Monkers library for URL handling and launcher updates"));
+            tooltips.insert ("urlmon", _ ("OLE Monikers library for URL handling and launcher updates"));
             tooltips.insert ("wininet", _ ("Windows Internet API layer (fixes online features in game launchers)"));
             tooltips.insert ("binkw32", _ ("Bink Video 32-bit decoder (fixes intro movie crashes)"));
             tooltips.insert ("bink2w64", _ ("Bink Video 64-bit decoder (fixes intro movie crashes in modern games)"));

@@ -11,12 +11,9 @@ namespace ProtonPlus.Widgets.Main {
 
         Tools.Box tools_box { get; set; }
         Games.Box games_box { get; set; }
-        MangoHud.Box mangohud_box { get; set; }
         private Services.SteamRestartManager? restart_manager;
         private Services.SteamRestartOrchestrator? restart_orchestrator;
         private SteamRestartBanner? restart_banner;
-        private SteamRepairBanner repair_banner;
-        private Gee.List<Models.SteamRuntimeRepairCandidate> repair_candidates = new Gee.ArrayList<Models.SteamRuntimeRepairCandidate> ();
         private SteamRestartToastPolicy? restart_toasts;
         private SteamRestartNotificationCoordinator? restart_notifications;
         private uint previous_restart_count = 0;
@@ -67,20 +64,10 @@ namespace ProtonPlus.Widgets.Main {
                 search_availability_changed (search_available ());
             });
 
-            mangohud_box = new MangoHud.Box ();
-
             view_stack = new Adw.ViewStack ();
             view_stack.notify["visible-child-name"].connect (view_stack_visible_child_name_changed);
-            view_stack.add_titled_with_icon (tools_box, "tools", _ ("Tools"), "toolbox-symbolic");
-            view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "gamepad-symbolic");
-
-            var mangohud_page = view_stack.add_titled_with_icon (mangohud_box, "mangohud", _ ("MangoHud"), "layer-group-symbolic");
-
-            if (Globals.MANGOHUD_INSTALLED || Globals.MANGOHUD_FLATPAK_INSTALLED) {
-                Globals.SETTINGS.bind ("experimental-features", mangohud_page, "visible", SettingsBindFlags.DEFAULT);
-            } else {
-                mangohud_page.visible = false;
-            }
+            view_stack.add_titled_with_icon (tools_box, "tools", _ ("Tools"), "applications-system-symbolic");
+            view_stack.add_titled_with_icon (games_box, "games", _ ("Games"), "input-gaming-symbolic");
 
             view_switcher = new Adw.ViewSwitcher ();
             view_switcher.set_stack (view_stack);
@@ -100,12 +87,7 @@ namespace ProtonPlus.Widgets.Main {
 
             if (restart_manager != null && restart_orchestrator != null)
                 setup_steam_restart_presentation ((!) restart_manager, (!) restart_orchestrator,
-                    restart_notification_sender ?? new LibnotifySteamRestartNotificationSender ());
-
-            repair_banner = new SteamRepairBanner ();
-            repair_banner.guidance_requested.connect (show_repair_guide);
-            append (repair_banner);
-
+                    restart_notification_sender ?? new GioSteamRestartNotificationSender ());
             append (toast_overlay);
 
             Utils.DownloadManager.instance.download_added.connect (on_download_added);
@@ -142,17 +124,9 @@ namespace ProtonPlus.Widgets.Main {
                 if (launcher is Models.Launchers.Steam) {
                     var steam_launcher = launcher as Models.Launchers.Steam;
                     steam_launcher.notify["profile"].connect (games_box.load_games);
-                    repair_candidates = steam_launcher.broken_compatibility_tools;
-                    repair_banner.show_for (repair_candidates);
                     break;
                 }
             }
-        }
-
-        private void show_repair_guide () {
-            if (repair_candidates.size == 0)
-                return;
-            Window.present_dialog_for_controller (new SteamRepairGuideDialog (repair_candidates), this);
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {
@@ -293,7 +267,9 @@ namespace ProtonPlus.Widgets.Main {
                     show_restart_message (message, result.target);
                 return;
             }
-            var failure = SteamRestartPresentation.failure_message (result.reason, result.steam_confirmed_stopped);
+            var failure = SteamRestartPresentation.failure_message (result.reason, result.steam_confirmed_stopped, result.diagnostic_detail);
+            if (result.final_state == Models.SteamRestartOperationState.FAILED)
+                message ("Steam restart failed: %s", result.diagnostic_detail);
             if (failure.toast != null) {
                 if (result.reason != Models.SteamRestartFailureReason.CANCELLED || result.shutdown_request_sent || result.launch_request_sent)
                     send_toast ((!) failure.toast);
@@ -305,6 +281,7 @@ namespace ProtonPlus.Widgets.Main {
 
         private void show_restart_message (SteamRestartMessage message, Models.SteamRestartTarget target) {
             var dialog = new Adw.AlertDialog (message.heading, message.body);
+            dialog.body_use_markup = false;
             dialog.add_response ("later", _ ("Later"));
             dialog.set_close_response ("later");
             dialog.set_default_response ("later");
@@ -397,9 +374,8 @@ namespace ProtonPlus.Widgets.Main {
             var window = get_root () as Gtk.Window;
             if (window != null && window.is_active)
                 return;
-            var notification = new Notify.Notification (title, body, icon);
             try {
-                notification.show ();
+                Utils.send_desktop_notification (title, body, new ThemedIcon (icon));
             } catch (Error error) {
                 warning ("Unable to show notification: %s", error.message);
             }
@@ -418,18 +394,8 @@ namespace ProtonPlus.Widgets.Main {
         }
 
         void send_notification (string title, string body, string icon = "folder-download-symbolic") {
-            var window = get_root () as Gtk.Window;
-
             send_toast ("%s: %s".printf (title, body));
-
-            if (window == null || !window.is_active) {
-                var notification = new Notify.Notification (title, body, icon);
-                try {
-                    notification.show ();
-                } catch (Error e) {
-                    warning ("Failed to send notification: %s", e.message);
-                }
-            }
+            send_background_notification (title, body, icon);
         }
 
         void view_stack_visible_child_name_changed () {
@@ -439,9 +405,6 @@ namespace ProtonPlus.Widgets.Main {
                     break;
                 case "games":
                     games_box.show_games_list_page ();
-                    break;
-                case "mangohud":
-                    mangohud_box.show_presets_page ();
                     break;
             }
 
@@ -480,9 +443,6 @@ namespace ProtonPlus.Widgets.Main {
                     break;
                 case "games":
                     games_box.show_games_list_page ();
-                    break;
-                case "mangohud":
-                    mangohud_box.show_presets_page ();
                     break;
             }
         }

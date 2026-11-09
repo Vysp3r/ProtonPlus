@@ -24,7 +24,7 @@ namespace ProtonPlus.Widgets.Introduction {
             content.margin_start = 16;
             content.margin_end = 16;
 
-            var image = new Gtk.Image.from_icon_name ("gamepad-symbolic");
+            var image = new Gtk.Image.from_icon_name ("input-gaming-symbolic");
             image.pixel_size = 56;
             content.append (image);
 

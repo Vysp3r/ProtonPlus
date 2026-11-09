@@ -14,38 +14,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         public Gtk.Widget create_page () {
             var group = new Adw.PreferencesGroup ();
 
-            dxvk_hdr_tile = create_tile (
-                _("DXVK HDR"),
-                _("Advertises HDR10 to DXVK games. Requires an HDR-capable compositor, display, and driver."),
-                { "DXVK_HDR=1" },
-                false,
-                LaunchLineType.ENVIRONMENT,
-                "dxvk-hdr"
-            );
-            legacy_proton_hdr_tile = create_tile (
-                _("Legacy custom-Proton HDR"),
-                _("Uses PROTON_ENABLE_HDR only in selected custom Proton builds that still advertise it."),
-                { "PROTON_ENABLE_HDR=1" },
-                false,
-                LaunchLineType.ENVIRONMENT,
-                "proton-hdr"
-            );
-            dxvk_no_hdr_tile = create_tile (
-                _("Disable custom-Proton automatic HDR"),
-                _("Uses DXVK_NO_HDR=1 only in custom Proton builds that advertise the automatic-HDR opt-out."),
-                { "DXVK_NO_HDR=1" },
-                false,
-                LaunchLineType.ENVIRONMENT,
-                "dxvk-no-hdr"
-            );
-            nvidia_hdr_wsi_tile = create_tile (
-                _("NVIDIA legacy HDR WSI"),
-                _("Needed by NVIDIA proprietary drivers older than 595; do not enable on driver 595 or newer."),
-                { "ENABLE_HDR_WSI=1" },
-                false,
-                LaunchLineType.ENVIRONMENT,
-                "nvidia-hdr-wsi"
-            );
+            dxvk_hdr_tile = create_tile ("dxvk-hdr");
+            legacy_proton_hdr_tile = create_tile ("proton-hdr");
+            dxvk_no_hdr_tile = create_tile ("dxvk-no-hdr");
+            nvidia_hdr_wsi_tile = create_tile ("nvidia-hdr-wsi");
 
             group.add (dxvk_hdr_tile);
             group.add (legacy_proton_hdr_tile);

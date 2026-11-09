@@ -84,7 +84,7 @@ namespace AppTests.ReleasePageTest {
         Test.add_func ("/release-catalog/github-actions-scans-filtered-pages", test_github_actions_scanning);
         Test.add_func ("/release-catalog/github-actions-later-page-failure", test_github_actions_later_page_failure);
         Test.add_func ("/release-catalog/github-actions-proton-tkg-cache-reuse", test_github_actions_proton_tkg_cache_reuse);
-        Test.add_func ("/release-catalog/in-memory-state-skips-cache-and-network", test_in_memory_state_skips_network);
+        Test.add_func ("/release-catalog/in-memory-state-without-timestamp-refreshes-network", test_in_memory_state_without_timestamp_refreshes_network);
         Test.add_func ("/release-catalog/valid-cache-skips-network", test_valid_cache_skips_network);
         Test.add_func ("/release-catalog/missing-and-malformed-cache-fetches", test_missing_and_malformed_cache_fetches);
         Test.add_func ("/release-catalog/stale-filtered-release-refreshes", test_stale_filtered_release_refreshes);
@@ -125,15 +125,21 @@ namespace AppTests.ReleasePageTest {
                 new VariantDefinition ("alt", "alternate", "$release_name.zip", false)
             };
         }
-        return new ProviderDefinition (
-            Category.PROTON, source_type, "fixture-provider", "Fixture provider", "",
-            "https://example.test/releases", "https://example.test/source", 1, variants,
-            { InstallLayout.template ("default", "$release_name") },
-            null, exclusions, "", false,
-            source_type == SourceType.GITHUB_ACTIONS ? "https://example.test/artifacts/{id}/fixture-action.zip" : "",
-            ArchiveInstallRequirement.STANDARD,
-            source_type == SourceType.GITHUB_ACTIONS
-        );
+        return new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = source_type,
+            provider_id = "fixture-provider",
+            title = "Fixture provider",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = variants,
+            install_layouts = { InstallLayout.template ("default", "$release_name") },
+            asset_exclusions = exclusions,
+            url_template = source_type == SourceType.GITHUB_ACTIONS ? "https://example.test/artifacts/{id}/fixture-action.zip" : "",
+            single_archive_releases = source_type == SourceType.GITHUB_ACTIONS
+        });
     }
 
     private ReleaseCatalog catalog (string id, ProviderDefinition value, ReleaseSource source) {
@@ -338,7 +344,7 @@ namespace AppTests.ReleasePageTest {
         assert (cached_source.requested_pages.size == 0);
     }
 
-    private void test_in_memory_state_skips_network () {
+    private void test_in_memory_state_without_timestamp_refreshes_network () {
         cache_path ();
         var source = new FixtureReleaseSource ();
         var value = catalog ("memory-tool", definition (), source);
@@ -353,7 +359,8 @@ namespace AppTests.ReleasePageTest {
 
         var result = load (value, false);
         assert (result.releases.size == 1 && result.succeeded);
-        assert (value.releases[0].title == "v1" && source.requested_pages.size == 0);
+        assert (value.releases[0].title == "v1");
+        assert (source.requested_pages.size == 1 && source.requested_pages[0] == 1);
     }
 
     private void test_valid_cache_skips_network () {
@@ -361,7 +368,8 @@ namespace AppTests.ReleasePageTest {
         var cache = new ReleaseCatalogCache ("cached-tool", "Fixture provider");
         var cached = new LinkedList<Release> ();
         cached.add (cached_release ("v1", "1"));
-        save_snapshot (cache, new ReleaseCatalogSnapshot (cached, 4, true, "2026-07-26T00:00:00Z"));
+        var now = new DateTime.now_local ().format_iso8601 ();
+        save_snapshot (cache, new ReleaseCatalogSnapshot (cached, 4, true, now));
 
         var source = new FixtureReleaseSource ();
         var value = catalog ("cached-tool", definition (), source);

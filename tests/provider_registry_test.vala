@@ -21,12 +21,18 @@ namespace AppTests.ProviderRegistryTest {
     }
 
     private ProviderDefinition valid_definition (string provider_id = "fixture") {
-        return new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, provider_id, "Fixture", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+        return new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = provider_id,
+            title = "Fixture",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
     }
 
     private Group fixture_group (string family_id = "fixture") {
@@ -96,6 +102,22 @@ namespace AppTests.ProviderRegistryTest {
     }
 
     private void test_defensive_collections () {
+        var config = new ProviderConfig () {
+            title = "Original",
+            variants = { new VariantDefinition ("original", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") },
+            asset_filters = { "original" }
+        };
+        var snapshot = new ProviderDefinition (config);
+        config.title = "Changed";
+        config.variants[0] = new VariantDefinition ("changed", "changed", "changed", false);
+        config.install_layouts[0] = InstallLayout.template ("default", "changed");
+        config.asset_filters[0] = "changed";
+        assert (snapshot.title == "Original");
+        assert (snapshot.get_variants ()[0].id == "original");
+        assert (snapshot.get_install_layout ("default").render ("Tool", "1.0") == "1.0");
+        assert (snapshot.asset_filters[0] == "original");
+
         var registry = new ProviderRegistry ();
         var by_category = registry.get (Category.DXVK);
         var all = registry.get_all ();
@@ -128,18 +150,24 @@ namespace AppTests.ProviderRegistryTest {
     }
 
     private void test_invalid_variant_validation () {
-        var definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "invalid-variants", "Fixture", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            {
+        var definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "invalid-variants",
+            title = "Fixture",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = {
                 new VariantDefinition ("duplicate", "", "", true),
                 new VariantDefinition (
                     "duplicate", "second", "$release_name", true, null,
                     { "", "$release_name", "$release_name-alt", "$release_name-alt" }
                 )
             },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
         var registry = new ProviderRegistry ({ definition });
         assert (!registry.is_valid);
         assert (has_message (registry, "variant ID is duplicated: duplicate"));
@@ -149,44 +177,62 @@ namespace AppTests.ProviderRegistryTest {
         assert (has_message (registry, "variant asset format is duplicated: duplicate"));
         assert (has_message (registry, "more than one default variant is configured"));
 
-        var missing_default = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "missing-default", "Fixture", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", false) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+        var missing_default = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "missing-default",
+            title = "Fixture",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", false) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
         registry = new ProviderRegistry ({ missing_default });
         assert (!registry.is_valid);
         assert (has_message (registry, "default variant is missing"));
     }
 
     private void test_single_archive_variant_validation () {
-        var definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "invalid-single-archive", "Fixture", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            {
+        var definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "invalid-single-archive",
+            title = "Fixture",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = {
                 new VariantDefinition ("default", "default", "$release_name", true),
                 new VariantDefinition ("alternate", "alternate", "$release_name-alt", false)
             },
-            { InstallLayout.template ("default", "$release_name") },
-            null, null, "", false, "", ArchiveInstallRequirement.STANDARD, true
-        );
+            install_layouts = { InstallLayout.template ("default", "$release_name") },
+            single_archive_releases = true
+        });
         var registry = new ProviderRegistry ({ definition });
         assert (!registry.is_valid);
         assert (has_message (registry, "single-archive releases require exactly one variant"));
     }
 
     private void test_invalid_layout_validation () {
-        var definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "invalid-layouts", "Fixture", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            {
+        var definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "invalid-layouts",
+            title = "Fixture",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = {
                 InstallLayout.template ("steam", "$release_name"),
                 InstallLayout.template ("steam", "$release_name"),
                 InstallLayout.template ("", "$release_name")
             }
-        );
+        });
         var registry = new ProviderRegistry ({ definition });
         assert (!registry.is_valid);
         assert (has_message (registry, "install layout is duplicated for launcher family: steam"));
@@ -195,19 +241,24 @@ namespace AppTests.ProviderRegistryTest {
     }
 
     private void test_legacy_endpoint_validation () {
-        var definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "invalid-legacy-endpoints", "Fixture", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") },
-            null, null, "", false, "", ArchiveInstallRequirement.STANDARD, false,
-            {
+        var definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "invalid-legacy-endpoints",
+            title = "Fixture",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") },
+            legacy_endpoints = {
                 "",
                 "https://example.test/releases",
                 "https://example.test/old-releases",
                 "https://example.test/old-releases"
             }
-        );
+        });
         var registry = new ProviderRegistry ({ definition });
         assert (!registry.is_valid);
         assert (has_message (registry, "legacy endpoint is empty"));
@@ -217,32 +268,53 @@ namespace AppTests.ProviderRegistryTest {
     }
 
     private void test_github_actions_template_validation () {
-        var definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB_ACTIONS, "invalid-actions", "Fixture", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+        var definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB_ACTIONS,
+            provider_id = "invalid-actions",
+            title = "Fixture",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
         var registry = new ProviderRegistry ({ definition });
         assert (!registry.is_valid);
         assert (has_message (registry, "GitHub Actions source requires a URL template"));
 
-        var accidental_template = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "invalid-template", "Fixture", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }, null, null, "", false,
-            "https://example.test/artifacts/{id}"
-        );
+        var accidental_template = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "invalid-template",
+            title = "Fixture",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") },
+            url_template = "https://example.test/artifacts/{id}"
+        });
         registry = new ProviderRegistry ({ accidental_template });
         assert (!registry.is_valid);
         assert (has_message (registry, "only GitHub Actions sources may have a URL template"));
     }
 
     private void test_required_field_and_source_validation () {
-        var definition = new ProviderDefinition (
-            Category.PROTON, (SourceType) 999, "", "", "", "", "", 1, {}, {}
-        );
+        var definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = (SourceType) 999,
+            provider_id = "",
+            title = "",
+            description = "",
+            endpoint = "",
+            repository_url = "",
+            sort_priority = 1,
+            variants = {},
+            install_layouts = {}
+        });
         var registry = new ProviderRegistry ({ definition });
         assert (!registry.is_valid);
         assert (has_message (registry, "provider ID is empty"));
@@ -306,12 +378,18 @@ namespace AppTests.ProviderRegistryTest {
     }
 
     private void test_unsupported_source_is_rejected () {
-        var definition = new ProviderDefinition (
-            Category.PROTON, (SourceType) 999, "unsupported-source", "Fixture", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+        var definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = (SourceType) 999,
+            provider_id = "unsupported-source",
+            title = "Fixture",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
         var registry = new ProviderRegistry ({ definition });
 
         assert (!registry.is_valid);

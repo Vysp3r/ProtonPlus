@@ -35,17 +35,17 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                 return cached_page;
             }
 
-            fullscreen_tile = create_tile (_("Fullscreen"), _("Runs the game in a fullscreen session."), { "-f" }, true, LaunchLineType.WRAPPER_ARGUMENT, "scopebuddy-fullscreen");
+            fullscreen_tile = create_tile ("scopebuddy-fullscreen", true);
             fullscreen_tile.toggle.notify["active"].connect (() => {
                 this.changed ();
             });
 
-            auto_hdr_tile = create_tile (_("Automatic HDR"), _("Outputs HDR colors if your display supports it."), { "SCB_AUTO_HDR=1" }, true, LaunchLineType.ENVIRONMENT, "scopebuddy-auto-hdr");
+            auto_hdr_tile = create_tile ("scopebuddy-auto-hdr", true);
             auto_hdr_tile.toggle.notify["active"].connect (() => {
                 this.changed ();
             });
 
-            auto_vrr_tile = create_tile (_("Automatic variable refresh rate"), _("Matches your display's refresh rate to the game's FPS."), { "SCB_AUTO_VRR=1" }, true, LaunchLineType.ENVIRONMENT, "scopebuddy-auto-vrr");
+            auto_vrr_tile = create_tile ("scopebuddy-auto-vrr", true);
             auto_vrr_tile.toggle.notify["active"].connect (() => {
                 this.changed ();
             });

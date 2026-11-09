@@ -11,8 +11,8 @@ namespace ProtonPlus.Services.Migrations {
         }
 
         private void register_migrations () {
-            this.migrations.add ( new Versions.v0_5_21 ());
             this.migrations.add ( new Versions.v0_6_0 ());
+            this.migrations.add ( new Versions.v0_6_6 ());
         }
 
         public async void check_and_migrate (string current_version) {

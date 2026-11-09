@@ -10,8 +10,9 @@ namespace AppTests.SteamRestartOrchestratorTest {
         public int native_query_calls = 0;
         public int replace_native_query_on_call = 0;
         public NativeProcessQuery? replacement_native_query = null;
+        public int64 now_usec = 60 * 1000 * 1000;
         public string? get_boot_id () { return "fixture-boot"; }
-        public int64 get_monotonic_time_usec () { return 60 * 1000 * 1000; }
+        public int64 get_monotonic_time_usec () { return now_usec; }
         public int64 get_clock_ticks_per_second () { return 100; }
         public NativeProcessQuery query_native_processes () {
             native_query_calls++;
@@ -35,6 +36,8 @@ namespace AppTests.SteamRestartOrchestratorTest {
         public bool start_on_launch = true;
         public bool update_before_second_launch = false;
         public bool reuse_original_identity = false;
+        public bool simulate_fresh_process = false;
+        public Gee.List<uint> delays = new Gee.ArrayList<uint> ();
         public int shutdown_requests = 0;
         public int launch_requests = 0;
         public Gee.List<string> last_argv = new Gee.ArrayList<string> ();
@@ -84,6 +87,9 @@ namespace AppTests.SteamRestartOrchestratorTest {
             return new SteamRestartCommandResult (fallback_status, null, "fixture native fallback");
         }
         public async bool delay (uint milliseconds, Cancellable? cancellable) {
+            delays.add (milliseconds);
+            if (simulate_fresh_process)
+                session.now_usec += (int64) milliseconds * 1000;
             if (update_before_second_launch && launch_requests == 1)
                 session.native_query = new NativeProcessQuery (true);
             return cancellable == null || !cancellable.is_cancelled ();
@@ -103,7 +109,8 @@ namespace AppTests.SteamRestartOrchestratorTest {
                 session.flatpak_query = new FlatpakProcessQuery (true, records);
             } else {
                 var processes = new Gee.ArrayList<SteamProcessRecord> ();
-                processes.add (new SteamProcessRecord (reuse_original_identity ? 101 : 202, Path.build_filename (target.data_root, "steam"), target.data_root, reuse_original_identity ? 100 : 200));
+                processes.add (new SteamProcessRecord (reuse_original_identity ? 101 : 202, Path.build_filename (target.data_root, "steam"), target.data_root,
+                    simulate_fresh_process ? session.now_usec / 10000 : (reuse_original_identity ? 100 : 200)));
                 session.native_query = new NativeProcessQuery (true, processes);
             }
         }
@@ -560,7 +567,47 @@ namespace AppTests.SteamRestartOrchestratorTest {
         assert (control.launch_requests == 0);
     }
 
+    private void test_default_wait_covers_session_stabilization () {
+        SessionFixture session; ControlFixture control; SteamRestartManager manager; SteamRestartTarget target;
+        setup_native (out session, out control, out manager, out target);
+        control.simulate_fresh_process = true;
+        var orchestrator = new SteamRestartOrchestrator (new SteamSessionService (session), manager, control);
+        var saw_starting = false;
+        orchestrator.progress_changed.connect ((snapshot) => {
+            if (snapshot.state == SteamSessionState.STARTING) saw_starting = true;
+        });
+        var result = run (orchestrator, target);
+        assert (saw_starting);
+        assert (session.now_usec == 65 * 1000 * 1000);
+        assert (result.final_state == SteamRestartOperationState.SUCCEEDED);
+        assert (result.new_running_session_confirmed);
+        assert (manager.pending_count () == 0);
+        assert (control.launch_requests == 1);
+    }
+
+    private void test_default_startup_polling_deadline () {
+        SessionFixture session; ControlFixture control; SteamRestartManager manager; SteamRestartTarget target;
+        setup_native (out session, out control, out manager, out target);
+        control.start_on_launch = false;
+        control.simulate_fresh_process = true;
+        var orchestrator = new SteamRestartOrchestrator (new SteamSessionService (session), manager, control);
+        var startup_observations = 0;
+        orchestrator.progress_changed.connect ((snapshot) => {
+            if (orchestrator.state == SteamRestartOperationState.WAITING_FOR_START)
+                startup_observations++;
+        });
+        var result = run (orchestrator, target);
+        assert (result.reason == SteamRestartFailureReason.START_TIMEOUT);
+        assert (control.delays.size == 240);
+        foreach (var delay in control.delays) assert (delay == 500);
+        assert (session.now_usec == 180 * 1000 * 1000);
+        assert (startup_observations == 241);
+        assert (manager.pending_count () > 0);
+    }
+
     public void register_tests () {
+        Test.add_func ("/steam-restart-orchestrator/default-startup-polling-deadline", test_default_startup_polling_deadline);
+        Test.add_func ("/steam-restart-orchestrator/default-wait-session-stabilization", test_default_wait_covers_session_stabilization);
         Test.add_func ("/steam-restart-orchestrator/no-pending-rejected", test_no_pending_rejected);
         Test.add_func ("/steam-restart-orchestrator/native-shutdown-and-new-generation", test_native_shutdown_and_new_generation);
         Test.add_func ("/steam-restart-orchestrator/native-runtime-duplicate-anchors", test_native_runtime_duplicate_anchors);

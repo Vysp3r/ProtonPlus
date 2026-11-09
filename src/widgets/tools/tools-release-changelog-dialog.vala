@@ -14,7 +14,7 @@ namespace ProtonPlus.Widgets.Tools {
                 job.release.description.strip () == "") {
                 content = new Adw.StatusPage () {
                     title = _("No Changelog Available"),
-                    icon_name = "book-open-symbolic",
+                    icon_name = "help-browser-symbolic",
                     vexpand = true
                 };
             } else {

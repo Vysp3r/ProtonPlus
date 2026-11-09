@@ -49,6 +49,19 @@ namespace AppTests.UpdateTransactionTest {
         }
     }
 
+    private class SettingsCollisionJob : InstallJob {
+        public SettingsCollisionJob (Release release, ProviderTool runner, string directory) {
+            base (release, runner, InstallJob.Mode.LATEST, directory);
+        }
+
+        public override async bool promote_staged_installation (string staged_install_path) {
+            // Model an archive whose settings path cannot accept a file.
+            assert (ProtonPlus.Utils.Filesystem.create_directory (
+                Path.build_filename (staged_install_path, "user_settings.py")));
+            return yield base.promote_staged_installation (staged_install_path);
+        }
+    }
+
     private class FixtureSteamLauncher : Launcher {
         private SteamRestartTarget target;
 
@@ -96,11 +109,15 @@ namespace AppTests.UpdateTransactionTest {
     }
 
     public void register_tests () {
+        Test.add_func ("/update-transaction/completion-follows-finalization", () => test_update_completion (false));
+        Test.add_func ("/update-transaction/completion-follows-rollback", () => test_update_completion (true));
         Test.add_func ("/update-transaction/migrates-settings-prefix-and-cleans-backup", test_migrates_settings_prefix_and_cleans_backup);
         Test.add_func ("/update-transaction/settings-collision-replaces-archive-copy", test_settings_collision_replaces_archive_copy);
         Test.add_func ("/update-transaction/settings-copy-failure-rolls-back-runner", test_settings_copy_failure_rolls_back_runner);
         Test.add_func ("/update-transaction/migrates-settings-symlink", test_migrates_settings_symlink);
-        Test.add_func ("/update-transaction/migration-failure-rolls-back-runner", test_migration_failure_rolls_back_runner);
+        Test.add_func ("/update-transaction/migrates-dangling-settings-symlink", test_migrates_dangling_settings_symlink);
+        Test.add_func ("/update-transaction/migrates-prefix-symlinks", test_migrates_prefix_symlinks);
+        Test.add_func ("/update-transaction/settings-symlink-replaces-archive-copy", test_settings_symlink_replaces_archive_copy);
         Test.add_func ("/update-transaction/latest-lookup-failures-are-propagated", test_latest_lookup_failures_are_propagated);
         Test.add_func ("/update-transaction/latest-identity-controls-update-detection", test_latest_identity_controls_update_detection);
         Test.add_func ("/update-transaction/latest-restores-installed-variant", test_latest_restores_installed_variant);
@@ -146,12 +163,18 @@ namespace AppTests.UpdateTransactionTest {
     private ProviderTool failing_runner (string root, ReturnCode code) {
         var launcher = new Launcher ("Fixture", Launcher.InstallationTypes.SYSTEM, "", { root });
         var group = new Group ("Fixture", "", "", launcher);
-        var definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "fixture-failing",
-            "Fixture Runner", "", "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+        var definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "fixture-failing",
+            title = "Fixture Runner",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
         return new ProviderTool.with_catalog (
             definition, new FailingReleaseSource (code), group, InstallLayout.template ("default", "$release_name")
         );
@@ -160,12 +183,18 @@ namespace AppTests.UpdateTransactionTest {
     private ProviderTool static_runner (string root, Release release) {
         var launcher = new Launcher ("Fixture", Launcher.InstallationTypes.SYSTEM, "", { root });
         var group = new Group ("Fixture", "", "", launcher);
-        var definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "fixture-static", "Fixture Runner", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+        var definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "fixture-static",
+            title = "Fixture Runner",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
         if (release.variants.size == 0) {
             release.variants.add (new ProtonPlus.Models.Variant (
                 "default", "Default", "", true, release.asset.download_url
@@ -200,7 +229,7 @@ namespace AppTests.UpdateTransactionTest {
         var loop = new MainLoop ();
         ReturnCode result = ReturnCode.FILESYSTEM_ERROR;
         var workflow = new ProtonPlus.Services.StandardArchiveWorkflow ();
-        workflow.update_specific_runner.begin (runner, coordinator, installation_location, (obj, response) => {
+        workflow.update_specific_runner.begin (runner, coordinator, installation_location, null, (obj, response) => {
             result = workflow.update_specific_runner.end (response);
             loop.quit ();
         });
@@ -250,6 +279,76 @@ namespace AppTests.UpdateTransactionTest {
         metadata.tool_id = runner.id;
         metadata.launcher_id = runner.group.launcher.tool_target_id;
         assert (metadata.save (directory));
+    }
+
+    private void assert_no_replacement_backup (string location) {
+        try {
+            var parent = Dir.open (Path.get_dirname (location));
+            string? name;
+            while ((name = parent.read_name ()) != null)
+                assert (!name.has_prefix (".protonplus-previous-"));
+        } catch (FileError e) {
+            assert_not_reached ();
+        }
+    }
+
+    private void test_update_completion (bool fail_migration) {
+        var root = create_temp_directory ();
+        var previous_cache = Globals.CACHE_PATH;
+        Globals.CACHE_PATH = Path.build_filename (root, "cache");
+        InstallationService.reset_lifecycle_configuration_for_tests ();
+        InstallationService.instance.configure_compatibility_process_guard (
+            new CompatibilityProcessGuard (new EmptyCompatibilityProcessQuery ()));
+        var manager = ProtonPlus.Utils.DownloadManager.instance;
+        ulong handler = 0;
+        try {
+            var url = "https://fixtures.invalid/completion.zip";
+            cache_archive (Globals.CACHE_PATH, url);
+            var release = new Release ("v2", "", "", new Models.Assets.Asset ("runner.zip", url), "", 0, "v2", "v2");
+            var runner = static_runner (root, release);
+            var directory = Path.build_filename (root, "runner");
+            assert (ProtonPlus.Utils.Filesystem.create_directory (directory));
+            var metadata = new ProtonPlus.Utils.Metadata ();
+            metadata.tag = "v1";
+            assert (metadata.save (directory));
+            create_file (Path.build_filename (directory, "old-marker"), "old");
+            create_file (Path.build_filename (directory, "user_settings.py"), "user settings");
+            InstallJob job = fail_migration
+                ? new SettingsCollisionJob (release, runner, directory)
+                : new InstallJob (release, runner, InstallJob.Mode.LATEST, directory);
+            var completions = 0;
+            handler = manager.download_finished.connect ((finished, success) => {
+                assert (finished == job);
+                completions++;
+                assert (success == !fail_migration);
+                assert (job.is_finished && job.install_success == success);
+                assert (!manager.active_downloads.contains (job));
+                assert (ProtonPlus.Utils.Filesystem.get_file_content (
+                    Path.build_filename (directory, "user_settings.py")) == "user settings");
+                assert (ProtonPlus.Utils.Metadata.load (directory).tag == (success ? "v2" : "v1"));
+                assert_no_replacement_backup (job.install_location);
+                assert (FileUtils.test (Path.build_filename (directory, "old-marker"), FileTest.EXISTS) == fail_migration);
+            });
+            if (fail_migration)
+                Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*Failed to copy*");
+            var loop = new MainLoop ();
+            ReturnCode result = ReturnCode.INVALID_DATA;
+            job.update.begin ((obj, response) => {
+                result = job.update.end (response);
+                loop.quit ();
+            });
+            loop.run ();
+            if (fail_migration)
+                Test.assert_expected_messages ();
+            assert (result == (fail_migration ? ReturnCode.FILESYSTEM_ERROR : ReturnCode.RUNNER_UPDATED));
+            assert (completions == 1);
+        } finally {
+            if (handler != 0)
+                manager.disconnect (handler);
+            InstallationService.reset_lifecycle_configuration_for_tests ();
+            Globals.CACHE_PATH = previous_cache;
+            assert (delete_directory (root));
+        }
     }
 
     private void test_migrates_settings_prefix_and_cleans_backup () {
@@ -337,7 +436,61 @@ namespace AppTests.UpdateTransactionTest {
         assert (delete_directory (root));
     }
 
-    private void test_migration_failure_rolls_back_runner () {
+    private void assert_symlink_target (string path, string target) {
+        assert (FileUtils.test (path, FileTest.IS_SYMLINK));
+        try {
+            assert (FileUtils.read_link (path) == target);
+        } catch (FileError e) {
+            assert_not_reached ();
+        }
+    }
+
+    private void test_migrates_dangling_settings_symlink () {
+        var root = create_temp_directory ();
+        var runner = Path.build_filename (root, "runner");
+        var backup = Path.build_filename (root, "backup");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (runner));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (backup));
+        var target = "../missing-settings.py";
+        assert (Posix.symlink (target, Path.build_filename (backup, "user_settings.py")) == 0);
+
+        assert (finalize_replacement (runner, backup, false) == ReturnCode.RUNNER_UPDATED);
+        assert_symlink_target (Path.build_filename (runner, "user_settings.py"), target);
+        assert (!FileUtils.test (backup, FileTest.EXISTS));
+        assert (delete_directory (root));
+    }
+
+    private void test_migrates_prefix_symlinks () {
+        foreach (var dangling in new bool[] { false, true }) {
+            // Replace both archive directories and live/dangling archive links.
+            for (var destination_kind = 0; destination_kind < 3; destination_kind++) {
+                var root = create_temp_directory ();
+                var runner = Path.build_filename (root, "runner");
+                var backup = Path.build_filename (root, "backup");
+                var prefix = Path.build_filename (runner, "files", "share", "default_pfx");
+                var backup_prefix = Path.build_filename (backup, "files", "share", "default_pfx");
+                var external = Path.build_filename (root, "shared-prefix");
+                assert (ProtonPlus.Utils.Filesystem.create_directory (Path.get_dirname (prefix)));
+                assert (ProtonPlus.Utils.Filesystem.create_directory (Path.get_dirname (backup_prefix)));
+                assert (ProtonPlus.Utils.Filesystem.create_directory (external));
+                create_file (Path.build_filename (external, "marker"), "shared prefix\n");
+                var target = dangling ? "../../../missing-prefix" : "../../../shared-prefix";
+                assert (Posix.symlink (target, backup_prefix) == 0);
+                if (destination_kind == 0)
+                    assert (ProtonPlus.Utils.Filesystem.create_directory (prefix));
+                else
+                    assert (Posix.symlink (destination_kind == 1 ? external : "missing-archive-prefix", prefix) == 0);
+
+                assert (finalize_replacement (runner, backup, true) == ReturnCode.RUNNER_UPDATED);
+                assert_symlink_target (prefix, target);
+                assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (external, "marker")) == "shared prefix\n");
+                assert (!FileUtils.test (backup, FileTest.EXISTS));
+                assert (delete_directory (root));
+            }
+        }
+    }
+
+    private void test_settings_symlink_replaces_archive_copy () {
         var root = create_temp_directory ();
         var runner_directory = Path.build_filename (root, "runner");
         var backup_directory = Path.build_filename (root, "backup");
@@ -352,11 +505,10 @@ namespace AppTests.UpdateTransactionTest {
         var backup_settings = Path.build_filename (backup_directory, "user_settings.py");
         assert (Posix.symlink (settings_target, backup_settings) == 0);
 
-        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*File exists*");
-        assert (finalize_replacement (runner_directory, backup_directory, false) == ReturnCode.FILESYSTEM_ERROR);
-        Test.assert_expected_messages ();
-        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (runner_directory, "marker.txt")) == "old runner\n");
-        assert (FileUtils.test (Path.build_filename (runner_directory, "user_settings.py"), FileTest.IS_SYMLINK));
+        assert (finalize_replacement (runner_directory, backup_directory, false) == ReturnCode.RUNNER_UPDATED);
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (runner_directory, "marker.txt")) == "new runner\n");
+        assert_symlink_target (Path.build_filename (runner_directory, "user_settings.py"), settings_target);
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (settings_target) == "old settings\n");
         assert (!FileUtils.test (backup_directory, FileTest.EXISTS));
         assert (!FileUtils.test ("%s.failed".printf (backup_directory), FileTest.EXISTS));
         assert (delete_directory (root));
@@ -602,18 +754,30 @@ namespace AppTests.UpdateTransactionTest {
             VariantCompatibility.for_x86_64_level (X86_64Level.V3)
         ));
 
-        var compatible_definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "compatible-fixture", "Compatible Runner", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("base", "Baseline", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
-        var incompatible_definition = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "incompatible-fixture", "Incompatible Runner", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("v3", "Optimized", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+        var compatible_definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "compatible-fixture",
+            title = "Compatible Runner",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("base", "Baseline", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
+        var incompatible_definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "incompatible-fixture",
+            title = "Incompatible Runner",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("v3", "Optimized", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
         var compatible_source = new StaticReleaseSource (compatible_release);
         var incompatible_source = new StaticReleaseSource (incompatible_release);
         var compatible_runner = new ProviderTool.with_catalog (
@@ -723,13 +887,19 @@ namespace AppTests.UpdateTransactionTest {
             );
             update_release.variants.add (new Models.Variant ("base", "Baseline", "", true, update_url,
                 VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)));
-            var update_definition = new ProviderDefinition (
-                Category.PROTON, SourceType.GITHUB, "background-provider", "Background Runner", "",
-                "https://fixtures.invalid/releases", "https://fixtures.invalid/source", 1,
-                { new VariantDefinition ("base", "Baseline", "$release_name", true,
-                    VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)) },
-                { InstallLayout.template ("default", "$release_name") }
-            );
+            var update_definition = new ProviderDefinition (new ProviderConfig () {
+                category = Category.PROTON,
+                source_type = SourceType.GITHUB,
+                provider_id = "background-provider",
+                title = "Background Runner",
+                description = "",
+                endpoint = "https://fixtures.invalid/releases",
+                repository_url = "https://fixtures.invalid/source",
+                sort_priority = 1,
+                variants = { new VariantDefinition ("base", "Baseline", "$release_name", true,
+                VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)) },
+                install_layouts = { InstallLayout.template ("default", "$release_name") }
+            });
             var update_source = new StaticReleaseSource (update_release);
             var update_runner = new ProviderTool.with_catalog (
                 update_definition, update_source, steam_group,
@@ -752,12 +922,18 @@ namespace AppTests.UpdateTransactionTest {
                 "background-current-v2", "v2"
             );
             current_release.variants.add (new Models.Variant ("base", "Baseline", "", true, current_url));
-            var current_definition = new ProviderDefinition (
-                Category.PROTON, SourceType.GITHUB, "background-current", "Current Runner", "",
-                "https://fixtures.invalid/releases", "https://fixtures.invalid/source", 1,
-                { new VariantDefinition ("base", "Baseline", "$release_name", true) },
-                { InstallLayout.template ("default", "$release_name") }
-            );
+            var current_definition = new ProviderDefinition (new ProviderConfig () {
+                category = Category.PROTON,
+                source_type = SourceType.GITHUB,
+                provider_id = "background-current",
+                title = "Current Runner",
+                description = "",
+                endpoint = "https://fixtures.invalid/releases",
+                repository_url = "https://fixtures.invalid/source",
+                sort_priority = 1,
+                variants = { new VariantDefinition ("base", "Baseline", "$release_name", true) },
+                install_layouts = { InstallLayout.template ("default", "$release_name") }
+            });
             var current_source = new StaticReleaseSource (current_release);
             var current_runner = new ProviderTool.with_catalog (
                 current_definition, current_source, steam_group,
@@ -773,13 +949,19 @@ namespace AppTests.UpdateTransactionTest {
             );
             incompatible_release.variants.add (new Models.Variant ("v3", "Optimized", "", true,
                 incompatible_url, VariantCompatibility.for_x86_64_level (X86_64Level.V3)));
-            var incompatible_definition = new ProviderDefinition (
-                Category.PROTON, SourceType.GITHUB, "background-incompatible", "Incompatible Runner", "",
-                "https://fixtures.invalid/releases", "https://fixtures.invalid/source", 1,
-                { new VariantDefinition ("v3", "Optimized", "$release_name", true,
-                    VariantCompatibility.for_x86_64_level (X86_64Level.V3)) },
-                { InstallLayout.template ("default", "$release_name") }
-            );
+            var incompatible_definition = new ProviderDefinition (new ProviderConfig () {
+                category = Category.PROTON,
+                source_type = SourceType.GITHUB,
+                provider_id = "background-incompatible",
+                title = "Incompatible Runner",
+                description = "",
+                endpoint = "https://fixtures.invalid/releases",
+                repository_url = "https://fixtures.invalid/source",
+                sort_priority = 1,
+                variants = { new VariantDefinition ("v3", "Optimized", "$release_name", true,
+                VariantCompatibility.for_x86_64_level (X86_64Level.V3)) },
+                install_layouts = { InstallLayout.template ("default", "$release_name") }
+            });
             var incompatible_source = new StaticReleaseSource (incompatible_release);
             var incompatible_runner = new ProviderTool.with_catalog (
                 incompatible_definition, incompatible_source, steam_group,
@@ -795,11 +977,23 @@ namespace AppTests.UpdateTransactionTest {
             launchers.append (faugus);
             var loop = new MainLoop ();
             ReturnCode result = ReturnCode.FILESYSTEM_ERROR;
+            var removal_checked = false;
+            var manager = ProtonPlus.Utils.DownloadManager.instance;
+            var removed_handler = manager.download_removed.connect ((job) => {
+                // Finalization has finished, but the update still owns its reservation.
+                assert_no_replacement_backup (job.install_location);
+                job.remove.begin (false, (obj, response) => {
+                    assert (job.remove.end (response) == ReturnCode.OPERATION_IN_PROGRESS);
+                    removal_checked = true;
+                });
+            });
             InstallationService.instance.check_for_updates.begin (launchers, (obj, response) => {
                 result = InstallationService.instance.check_for_updates.end (response);
                 loop.quit ();
             });
             loop.run ();
+            manager.disconnect (removed_handler);
+            assert (removal_checked);
 
             assert (result == ReturnCode.RUNNERS_UPDATED);
             assert (recorder.receipts.size == 1);
@@ -861,12 +1055,18 @@ namespace AppTests.UpdateTransactionTest {
             );
             group.tools = new Gee.LinkedList<Models.Tool> ();
             launcher.groups = { group };
-            var definition = new ProviderDefinition (
-                Category.PROTON, SourceType.GITHUB, "fixture-bulk-guard", "Fixture Runner", "",
-                "https://example.test/releases", "https://example.test/source", 1,
-                { new VariantDefinition ("standard", "default", "$release_name", true) },
-                { InstallLayout.template ("default", "$release_name") }
-            );
+            var definition = new ProviderDefinition (new ProviderConfig () {
+                category = Category.PROTON,
+                source_type = SourceType.GITHUB,
+                provider_id = "fixture-bulk-guard",
+                title = "Fixture Runner",
+                description = "",
+                endpoint = "https://example.test/releases",
+                repository_url = "https://example.test/source",
+                sort_priority = 1,
+                variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+                install_layouts = { InstallLayout.template ("default", "$release_name") }
+            });
             var runner = new ProviderTool.with_catalog (
                 definition, new StaticReleaseSource (release), group,
                 InstallLayout.template ("default", "$release_name")

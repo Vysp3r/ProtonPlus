@@ -149,10 +149,6 @@ namespace ProtonPlus.Widgets.Header {
             var count = entries.size;
             badge.set_label (count.to_string ());
             set_visible (global_header_visible && count > 0);
-            if (count > 0)
-                icon.add_css_class ("downloads-indicator-active");
-            else
-                icon.remove_css_class ("downloads-indicator-active");
             button.set_tooltip_text (ngettext ("%u active download", "%u active downloads", count).printf (count));
             button.update_property (
                 Gtk.AccessibleProperty.LABEL,
@@ -270,12 +266,11 @@ namespace ProtonPlus.Widgets.Header {
 
         private void update_display () {
             var step_text = get_step_text ();
-            var percent_text = "";
+            var progress_text = job.progress ?? "";
 
             if (job.is_percent && job.progress != null) {
                 var value = job.progress.replace ("%", "");
                 progress_bar.fraction = double.parse (value) / 100.0;
-                percent_text = job.progress;
             } else {
                 progress_bar.fraction = 0.0;
             }
@@ -290,8 +285,8 @@ namespace ProtonPlus.Widgets.Header {
             }
 
             var status = step_text;
-            if (percent_text != "")
-                status += " · %s".printf (percent_text);
+            if (progress_text != "")
+                status += " · %s".printf (progress_text);
 
             var speed = "--";
             if (job.step == Services.InstallJob.Step.DOWNLOADING) {
@@ -301,6 +296,7 @@ namespace ProtonPlus.Widgets.Header {
             }
 
             status_label.set_label (status);
+            status_label.set_tooltip_text (status);
             var eta = format_eta (job.step == Services.InstallJob.Step.DOWNLOADING ? job.seconds_remaining : -1);
             metrics_label.set_label ("%s · %s".printf (speed, eta));
         }
@@ -308,7 +304,7 @@ namespace ProtonPlus.Widgets.Header {
         private string get_step_text () {
             switch (job.step) {
                 case Services.InstallJob.Step.DOWNLOADING:
-                    return _("Downloading");
+                    return job.download_status;
                 case Services.InstallJob.Step.EXTRACTING:
                     return _("Extracting");
                 case Services.InstallJob.Step.MOVING:

@@ -88,6 +88,63 @@
   </screenshots>
 
   <releases>
+    <release version="0.6.9" date="2026-11-07">
+      <description>
+        <ul>
+          <li>✨ Refined the Tools, Games, preferences, and welcome interfaces, and added an in-app Help guide</li>
+          <li>✨ Added automatic download retries and persistent resume after network interruptions or application restarts</li>
+          <li>✨ Added an optional HTTPS mirror for GitHub release downloads</li>
+          <li>✨ Added TinkerGame installation, updates, and copying of SteamTinkerLaunch settings</li>
+          <li>✨ Improved CLI listings with stable tool IDs and installed release tags</li>
+          <li>🔄 Updated the Flatpak runtime to GNOME 51</li>
+          <li>🐛 Fixed Steam games not loading when Steam stores libraryfolders.vdf in the config directory</li>
+          <li>🐛 Improved pending Steam changes and restart tracking, including persistence across ProtonPlus restarts and clearer failure messages</li>
+          <li>🐛 Hardened tool installation, updates, and removal against overlapping operations, cancellation, and failed replacements</li>
+          <li>🐛 Fixed Steam game launch IDs and opened the custom executable picker in the selected prefix's C drive</li>
+          <li>🐛 Corrected provider metadata and release asset matching, and fixed DLSS updates being blocked by legacy NVAPI checks</li>
+          <li>🐛 Corrected launch-option descriptions and validation for RADV, ACO, and VKD3D flags</li>
+          <li>🐛 Fixed optional Flatpak components not being detected when multiple branches are installed</li>
+          <li>🔄 Removed the built-in MangoHud configuration editor; existing configurations and overlay launch options remain supported</li>
+          <li>🌐 Refreshed translation catalogs and improved translations and plural labels</li>
+        </ul>
+        <p>TinkerGame requires native ProtonPlus and native Steam outside SteamOS. Existing SteamTinkerLaunch installations remain supported and are not converted automatically.</p>
+      </description>
+    </release>
+    <release version="0.6.8" date="2026-09-08">
+      <description>
+        <ul>
+          <li>✨ Added a Discord community link to the About dialog</li>
+          <li>🐛 Fixed some release changelogs failing to render when inline code contains Markdown emphasis characters</li>
+          <li>🐛 Fixed the Steam restart notification missing its icon</li>
+          <li>🌐 Updated Polish localization</li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.6.7" date="2026-09-08">
+      <description>
+        <ul>
+          <li>🐛 Fixed Proton-Wineland WoW64 releases not being detected</li>
+          <li>🔄 Renamed Proton-CachyOS Wineland to Proton-Wineland</li>
+          <li>🌐 Updated Polish, Russian, and Spanish localizations</li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.6.6" date="2026-09-04">
+      <description>
+        <ul>
+          <li>🐛 Fixed scheduled tool updates not working when ProtonPlus is installed as a Flatpak</li>
+          <li>🌐 Updated Spanish and Indonesian localizations</li>
+        </ul>
+      </description>
+    </release>
+    <release version="0.6.5" date="2026-08-30">
+      <description>
+        <ul>
+          <li>🐛 Fixed release catalogs sometimes remaining stale until application data was refreshed manually</li>
+          <li>🌐 Updated Czech, German, French, Portuguese, Russian, Japanese, and Spanish localizations</li>
+        </ul>
+      </description>
+    </release>
     <release version="0.6.4" date="2026-08-13">
       <description>
         <ul>

@@ -4,6 +4,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
     public abstract class Base : Object, ILaunchOption {
         protected unowned LaunchOptionsList launch_option_handlers;
         protected unowned LaunchOptionPresentationRegistry? presentation_registry;
+        LaunchOptionCatalog catalog;
         public signal void changed ();
         public bool is_advanced { get; set; }
         public LaunchLineType line_type { get; set; }
@@ -14,6 +15,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         protected Base (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
             this.launch_option_handlers = launch_option_handlers;
             this.presentation_registry = presentation_registry;
+            catalog = presentation_registry != null
+                ? presentation_registry.catalog : new LaunchOptionCatalog ();
             this.line_type = LaunchLineType.WRAPPER;
             this._children = new Gee.ArrayList<ILaunchOption> ();
             this.is_advanced = false;
@@ -21,21 +24,19 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             this.active = false;
         }
 
-        internal LaunchOptionTile create_tile (
-            string title,
-            string subtitle,
-            string[] tokens,
-            bool is_advanced = false,
-            LaunchLineType type = LaunchLineType.WRAPPER_ARGUMENT,
-            string id = ""
-        ) {
-            var tile = new LaunchOptionTile (title, subtitle, tokens, is_advanced, type);
+        internal LaunchOptionTile create_tile (string id, bool is_advanced = false) {
+            var metadata = catalog.lookup (id);
+            assert (metadata != null);
+            var tile = new LaunchOptionTile (
+                metadata.title, metadata.description, metadata.raw_tokens,
+                is_advanced, metadata.serialization_type
+            );
             tile.toggle.notify["active"].connect (() => {
                 this.changed ();
             });
 
             this.add_child (tile);
-            if (id != "" && presentation_registry != null)
+            if (presentation_registry != null)
                 presentation_registry.register (id, tile, tile, false);
 
             return tile;

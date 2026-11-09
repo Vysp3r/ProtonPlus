@@ -43,6 +43,9 @@ namespace AppTests.SystemdTimerTest {
     }
 
     public void register_tests () {
+        Test.add_func ("/systemd-timer/native-user-directory", test_native_user_directory);
+        Test.add_func ("/systemd-timer/flatpak-host-user-directory", test_flatpak_host_user_directory);
+        Test.add_func ("/systemd-timer/flatpak-missing-host-directory-fallback", test_flatpak_missing_host_directory_fallback);
         Test.add_func ("/systemd-timer/new-schedule-starts-immediately", test_new_schedule_starts_immediately);
         Test.add_func ("/systemd-timer/schedule-change-restarts-active-timer", test_schedule_change_restarts_active_timer);
         Test.add_func ("/systemd-timer/startup-reenables-disabled-timer", test_startup_reenables_disabled_timer);
@@ -94,6 +97,33 @@ namespace AppTests.SystemdTimerTest {
         if (FileUtils.test (timer_path, FileTest.EXISTS))
             assert (FileUtils.remove (timer_path) == 0);
         assert (DirUtils.remove (root) == 0);
+    }
+
+    private void test_native_user_directory () {
+        var path = System.get_systemd_user_dir_for_environment (
+            false,
+            "/home/test/.config",
+            null
+        );
+        assert (path == "/home/test/.config/systemd/user");
+    }
+
+    private void test_flatpak_host_user_directory () {
+        var path = System.get_systemd_user_dir_for_environment (
+            true,
+            "/home/test/.var/app/com.vysp3r.ProtonPlus/config",
+            "/home/test/.config"
+        );
+        assert (path == "/home/test/.config/systemd/user");
+    }
+
+    private void test_flatpak_missing_host_directory_fallback () {
+        var path = System.get_systemd_user_dir_for_environment (
+            true,
+            "/home/test/.var/app/com.vysp3r.ProtonPlus/config",
+            ""
+        );
+        assert (path == "/home/test/.var/app/com.vysp3r.ProtonPlus/config/systemd/user");
     }
 
     private void test_new_schedule_starts_immediately () {

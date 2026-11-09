@@ -1,6 +1,6 @@
 id: com.vysp3r.ProtonPlus
 runtime: org.gnome.Platform
-runtime-version: '50'
+runtime-version: '51'
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.vala
@@ -52,7 +52,7 @@ modules:
     sources:
       - type: git
         url: https://github.com/Vysp3r/ProtonPlus.git
-        tag: v0.6.5
+        tag: v0.6.9
         x-checker-data:
           type: git
           tag-pattern: ^v(\d+\.\d+\.\d+(?:-[0-9A-Za-z.\-]+)?)$

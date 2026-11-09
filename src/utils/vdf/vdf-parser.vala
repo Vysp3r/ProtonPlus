@@ -33,7 +33,9 @@ namespace ProtonPlus.Utils.VDF {
 
         public VdfEntry? get_child (string child_key) {
             foreach (var child in children) {
-                if (child.key == child_key) {
+                // Steam KeyValues names are case-insensitive; retain the original
+                // spelling and source ranges when editing the document.
+                if (child.key.ascii_casecmp (child_key) == 0) {
                     return child;
                 }
             }

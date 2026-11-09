@@ -6,6 +6,19 @@ the only serializer used by preview and Apply. Unknown source tokens stay raw,
 in their original order and spelling, and an explicit Clear still replaces the
 whole source.
 
+## Adding or changing a control
+
+`LaunchOptionCatalog` owns titles, descriptions, recognition tokens, and command
+semantics. Simple toggles in presentation groups and wrappers use
+`create_tile("stable-option-id")`; keep their order and legacy advanced flag in
+the group, without repeating catalog metadata. They use the editor's shared
+catalog, so changing a definition also updates the control and its tooltip.
+
+Dynamic value, spin, and custom editors remain explicit because their input
+behavior differs. They still register their stable catalog ID and route preview
+and Apply through `LaunchCommandWriter`. Recognition tokens may include legacy
+off/on pairs; do not replace them with canonical emitted tokens.
+
 ## Eligibility model
 
 Generic runtime and component capabilities come from the selected compatibility
@@ -70,8 +83,8 @@ Primary references:
 - [Proton-GE README](https://github.com/GloriousEggroll/proton-ge-custom)
 - [Proton-CachyOS README](https://github.com/CachyOS/proton-cachyos)
 - [Proton-CachyOS changelog](https://github.com/CachyOS/proton-cachyos/blob/cachyos_main/CHANGELOG.md)
-- [Proton-EM FSR 4 documentation](https://github.com/Etaash-mathamsetty/Proton/blob/em-10/docs/FSR4.md)
-- [Proton-EM additions](https://github.com/Etaash-mathamsetty/Proton/blob/em-10/docs/EM-ADDITIONS.md)
+- [Proton-EM FSR 4 documentation](https://github.com/BananaWorks07/Proton/blob/em-10/docs/FSR4.md)
+- [Proton-EM additions](https://github.com/BananaWorks07/Proton/blob/em-10/docs/EM-ADDITIONS.md)
 - [DXVK configuration](https://github.com/doitsujin/dxvk/blob/master/dxvk.conf)
 - [DXVK driver support](https://github.com/doitsujin/dxvk/wiki/Driver-support)
 - [VKD3D low-latency layer](https://github.com/netborg-afps/vkd3d-low-latency)
@@ -81,6 +94,32 @@ Primary references:
 - [MangoHud](https://github.com/flightlessmango/MangoHud)
 - [obs-vkcapture](https://github.com/nowrep/obs-vkcapture)
 - [CachyOS gaming configuration](https://github.com/CachyOS/wiki/blob/next/src/content/docs/bg/configuration/gaming.mdx)
+
+## Driver flag editors
+
+`LaunchOptionFlags` owns the selectable keys and translated descriptions for
+VKD3D configuration, RADV performance tests, RADV debugging, and ACO debugging.
+Both the catalog and widgets consume these definitions. Do not add a separate
+widget list or accept obsolete values merely to make a control pass validation.
+
+Descriptions and offered flags were checked on 2026-10-24 against the
+[Mesa environment-variable documentation](https://docs.mesa3d.org/envvars.html)
+and the [VKD3D-Proton README](https://github.com/HansKristian-Work/vkd3d-proton/blob/master/README.md).
+These are curated subsets, not every upstream debugging switch. Support still
+depends on the installed driver or bundled VKD3D version. ACO uses `validateir`;
+old `validate`/`nowave32` and removed RADV debug flags are not offered for new edits.
+
+Constrained flag editors do not offer arbitrary custom additions. Existing
+unknown or legacy flags can still load and be removed. Unrelated edits preserve
+the original raw command through `LaunchCommandWriter`; explicit Clear still
+removes the whole command. Loading a new list replaces all old selections,
+including custom rows. An enabled editor with no selected flags emits no option.
+DLL overrides retain their custom-entry control.
+
+The widget regression executable checks descriptions, selection/composition,
+legacy loading, replacement, and clearing. Meson uses an isolated Xvfb display
+when available; otherwise it needs a display and skips when none is available.
+On Arch, `xorg-server-xvfb` provides Xvfb.
 
 ## Validation
 

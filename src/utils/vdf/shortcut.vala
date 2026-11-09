@@ -152,16 +152,6 @@ namespace ProtonPlus.Utils.VDF {
             return shortcut.AppName != null;
         }
 
-        public size_t get_shortcuts_count () {
-            size_t count = 0;
-            foreach (var entry in nodes.entries) {
-                if (is_shortcut_node (entry.key)) {
-                    count++;
-                }
-            }
-            return count;
-        }
-
         private bool get_shortcut_id_from_path (string path, out int id) {
             var components = path.split (".");
             id = -1;
@@ -229,17 +219,6 @@ namespace ProtonPlus.Utils.VDF {
                 }
             }
             return shortcut;
-        }
-
-        public void replace_shortcut_by_name (string name, VDF.Shortcut shortcut) {
-            foreach (var entry in nodes.entries) {
-                if (is_shortcut_node (entry.key)) {
-                    if (entry.value.get ("AppName").get_string () == name) {
-                        write_shortcut_on_node (entry.value, shortcut);
-                        return;
-                    }
-                }
-            }
         }
 
         public bool replace_shortcut_by_appid (uint appid, VDF.Shortcut shortcut) {

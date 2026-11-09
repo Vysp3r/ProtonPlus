@@ -1,297 +1,10 @@
 namespace ProtonPlus.Widgets.Games {
-    public delegate bool GameBoundaryFocusRequest ();
-
-    class GameSortHeaderTarget : Object {
-        weak Gtk.ColumnView? view;
-        Gtk.ColumnViewColumn column;
-        public Gtk.Widget header { get; private set; }
-        public Gtk.Button activation_target { get; private set; }
-        ulong activation_handler;
-
-        public GameSortHeaderTarget (Gtk.ColumnView view,
-            Gtk.ColumnViewColumn column, Gtk.Widget header) {
-            this.view = view;
-            this.column = column;
-            this.header = header;
-
-            activation_target = new Gtk.Button ();
-            activation_handler = activation_target.activate.connect (activate_sort);
-        }
-
-        public void set_controller_focus (bool focused) {
-            if (focused)
-                header.add_css_class ("games-sort-header-controller-focus");
-            else
-                header.remove_css_class ("games-sort-header-controller-focus");
-        }
-
-        public string get_title () {
-            return column.get_title () ?? "";
-        }
-
-        void activate_sort () {
-            if (view == null)
-                return;
-            var sorter = ((!) view).get_sorter () as Gtk.ColumnViewSorter;
-            var is_primary = sorter != null &&
-                ((!) sorter).get_primary_sort_column () == column;
-            var current_direction = sorter != null
-                ? ((!) sorter).get_primary_sort_order ()
-                : Gtk.SortType.ASCENDING;
-            if (!is_primary)
-                ((!) view).sort_by_column (null, Gtk.SortType.ASCENDING);
-            ((!) view).sort_by_column (
-                column,
-                GameControllerNavigationPolicy.next_sort_direction (
-                    is_primary, current_direction
-                )
-            );
-        }
-
-        public void detach () {
-            if (activation_handler != 0) {
-                activation_target.disconnect (activation_handler);
-                activation_handler = 0;
-            }
-            set_controller_focus (false);
-            view = null;
-        }
-    }
-
-    class GameSortHeaderMapTarget : Object {
-        weak GameListControllerBox? owner;
-
-        public GameSortHeaderMapTarget (GameListControllerBox owner) {
-            this.owner = owner;
-        }
-
-        public void mapped () {
-            if (owner != null)
-                ((!) owner).begin_sort_header_configuration ();
-        }
-    }
-
-    class GameListControllerBox : Gtk.Box, Utils.ControllerDirectionalFocus,
-        Utils.ControllerActivationRedirect {
-        const int SORT_HEADER_BIND_MAX_ATTEMPTS = 8;
-
-        Gtk.Widget toolbar;
-        Gtk.ColumnView wide_view;
-        Gtk.Widget narrow_view;
-        unowned GameBoundaryFocusRequest toolbar_focus;
-        unowned GameBoundaryFocusRequest first_game_focus;
-        unowned GameBoundaryFocusRequest first_game_title_focus;
-        Gee.ArrayList<GameSortHeaderTarget> sort_headers;
-        GameSortHeaderMapTarget sort_header_map_target;
-        ulong sort_header_map_handler;
-        uint sort_header_idle_id = 0;
-        int sort_header_attempt = 0;
-        int active_sort_header_index = -1;
-
-        public GameListControllerBox (Gtk.Widget toolbar, Gtk.ColumnView wide_view,
-            Gtk.Widget narrow_view, GameBoundaryFocusRequest toolbar_focus,
-            GameBoundaryFocusRequest first_game_focus,
-            GameBoundaryFocusRequest first_game_title_focus) {
-            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 12);
-            this.toolbar = toolbar;
-            this.wide_view = wide_view;
-            this.narrow_view = narrow_view;
-            this.toolbar_focus = toolbar_focus;
-            this.first_game_focus = first_game_focus;
-            this.first_game_title_focus = first_game_title_focus;
-            set_focusable (true);
-            add_css_class ("games-sort-header-focus-proxy");
-            sort_headers = new Gee.ArrayList<GameSortHeaderTarget> ();
-            sort_header_map_target = new GameSortHeaderMapTarget (this);
-            sort_header_map_handler = wide_view.map.connect (
-                sort_header_map_target.mapped
-            );
-            notify["has-focus"].connect (() => {
-                if (!has_focus)
-                    clear_sort_header_focus ();
-            });
-        }
-
-        public bool controller_focus_direction (
-            Object focused_object, Utils.ControllerNavigationDirection direction
-        ) {
-            var focused = focused_object as Gtk.Widget;
-            if (focused == null)
-                return false;
-
-            var sort_header_index = focused == this
-                ? active_sort_header_index
-                : -1;
-            if (sort_header_index >= 0) {
-                var header_action =
-                    GameControllerNavigationPolicy.sort_header_action (
-                        sort_header_index, sort_headers.size, direction
-                    );
-                switch (header_action) {
-                case GameSortHeaderNavigationAction.PREVIOUS_HEADER:
-                    return focus_sort_header (sort_header_index - 1);
-                case GameSortHeaderNavigationAction.NEXT_HEADER:
-                    return focus_sort_header (sort_header_index + 1);
-                case GameSortHeaderNavigationAction.FOCUS_TOOLBAR:
-                    return toolbar_focus ();
-                case GameSortHeaderNavigationAction.FOCUS_FIRST_GAME:
-                    return first_game_title_focus ();
-                default:
-                    return false;
-                }
-            }
-
-            var action = GameControllerNavigationPolicy.boundary_action (
-                is_inside_widget ((!) focused, toolbar),
-                is_inside_widget ((!) focused, wide_view) ||
-                    is_inside_widget ((!) focused, narrow_view),
-                direction,
-                wide_view.get_mapped ()
-            );
-            switch (action) {
-            case GameCollectionBoundaryAction.FOCUS_TOOLBAR:
-                return toolbar_focus ();
-            case GameCollectionBoundaryAction.FOCUS_FIRST_SORT_HEADER:
-                if (focus_first_sort_header ())
-                    return true;
-                return first_game_focus ();
-            case GameCollectionBoundaryAction.FOCUS_FIRST_GAME:
-                return first_game_focus ();
-            default:
-                return false;
-            }
-        }
-
-        public Object? get_controller_activation_target (Object focused_object) {
-            var focused = focused_object as Gtk.Widget;
-            if (focused == null)
-                return null;
-            var index = focused == this ? active_sort_header_index : -1;
-            if (index < 0)
-                return null;
-            return sort_headers[index].activation_target;
-        }
-
-        public bool focus_first_sort_header () {
-            configure_sort_headers ();
-            return focus_sort_header (0);
-        }
-
-        public void begin_sort_header_configuration () {
-            sort_header_attempt = 0;
-            configure_sort_headers ();
-        }
-
-        void configure_sort_headers () {
-            if (!wide_view.get_mapped () || sort_headers.size > 0)
-                return;
-
-            var headers = new Gee.ArrayList<Gtk.Widget> ();
-            collect_column_headers (wide_view, headers);
-            var columns = wide_view.get_columns ();
-            if (headers.size < columns.get_n_items ()) {
-                if (sort_header_attempt < SORT_HEADER_BIND_MAX_ATTEMPTS) {
-                    sort_header_attempt++;
-                    schedule_sort_header_configuration ();
-                }
-                return;
-            }
-
-            for (uint i = 0; i < columns.get_n_items (); i++) {
-                var column = columns.get_item (i) as Gtk.ColumnViewColumn;
-                if (column == null || ((!) column).get_sorter () == null)
-                    continue;
-                var header = headers[(int) i];
-                sort_headers.add (new GameSortHeaderTarget (
-                    wide_view, (!) column, header
-                ));
-            }
-        }
-
-        void schedule_sort_header_configuration () {
-            if (sort_header_idle_id != 0)
-                return;
-            weak GameListControllerBox weak_self = this;
-            sort_header_idle_id = Idle.add (() => {
-                if (weak_self == null)
-                    return Source.REMOVE;
-                ((!) weak_self).sort_header_idle_id = 0;
-                ((!) weak_self).configure_sort_headers ();
-                return Source.REMOVE;
-            });
-        }
-
-        void collect_column_headers (Gtk.Widget parent,
-            Gee.ArrayList<Gtk.Widget> headers) {
-            var child = parent.get_first_child ();
-            while (child != null) {
-                if (((Gtk.Accessible) child).get_accessible_role () ==
-                    Gtk.AccessibleRole.COLUMN_HEADER) {
-                    headers.add (child);
-                } else {
-                    collect_column_headers (child, headers);
-                }
-                child = child.get_next_sibling ();
-            }
-        }
-
-        bool focus_sort_header (int index) {
-            if (index < 0 || index >= sort_headers.size)
-                return false;
-            clear_sort_header_focus ();
-            active_sort_header_index = index;
-            sort_headers[index].set_controller_focus (true);
-            update_property (
-                Gtk.AccessibleProperty.LABEL,
-                sort_headers[index].get_title (),
-                -1
-            );
-            if (grab_focus ())
-                return true;
-            clear_sort_header_focus ();
-            return false;
-        }
-
-        void clear_sort_header_focus () {
-            if (active_sort_header_index >= 0 &&
-                active_sort_header_index < sort_headers.size) {
-                sort_headers[active_sort_header_index].set_controller_focus (
-                    false
-                );
-            }
-            active_sort_header_index = -1;
-            reset_property (Gtk.AccessibleProperty.LABEL);
-        }
-
-        bool is_inside_widget (Gtk.Widget focused, Gtk.Widget ancestor) {
-            return focused == ancestor || focused.is_ancestor (ancestor);
-        }
-
-        public override void dispose () {
-            clear_sort_header_focus ();
-            if (sort_header_idle_id != 0) {
-                Source.remove (sort_header_idle_id);
-                sort_header_idle_id = 0;
-            }
-            if (sort_header_map_handler != 0) {
-                wide_view.disconnect (sort_header_map_handler);
-                sort_header_map_handler = 0;
-            }
-            foreach (var target in sort_headers)
-                target.detach ();
-            sort_headers.clear ();
-            base.dispose ();
-        }
-    }
-
     public class Box : Gtk.Box, Utils.ControllerNavigationHost,
         Utils.ControllerPageShortcuts {
         const int NARROW_VIEW_WIDTH = 700;
-        const int FOCUS_BIND_MAX_ATTEMPTS = 8;
 
         bool error { get; set; }
         bool invalid { get; set; }
-        bool narrow_view_active = false;
         Models.Launcher launcher;
 
         Gtk.Image image;
@@ -305,13 +18,10 @@ namespace ProtonPlus.Widgets.Games {
         Adw.NavigationPage list_page;
         Adw.NavigationPage mass_edit_page;
         Gtk.Stack list_stack;
-        Gtk.Stack views_stack;
+        GameListView collection_view;
         Adw.StatusPage empty_status_page;
         Gtk.Button empty_action_button;
-        Gtk.ColumnView wide_view;
         GameListControllerBox games_controller_box;
-        Gtk.ColumnViewColumn actions_column;
-        Gtk.ListView narrow_view;
         Gtk.MenuButton filter_button;
         Gtk.CheckButton all_filter_check;
         Gtk.CheckButton non_steam_filter_check;
@@ -326,17 +36,11 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.ListBox selection_list_box;
         Gtk.Popover selection_popover;
         Gtk.Label selection_popover_title;
-        Gee.HashMap<GameListItem, GameRow> narrow_rows;
-        Gee.HashMap<GameListItem, GameSelectionCell> wide_selection_cells;
-        Gee.HashMap<GameListItem, GameTitleCell> wide_title_cells;
-        Gee.HashMap<GameListItem, GameActions> wide_action_cells;
         GameListItem? last_focused_item;
         string search_query = "";
         uint search_timeout_id = 0;
-        uint focus_idle_id = 0;
         bool updating_selection_toggle = false;
         bool mass_edit_cleanup_pending = false;
-        bool selection_mode_active = false;
 
         public signal void header_presentation_changed (Header.Presentation? presentation);
 
@@ -347,31 +51,13 @@ namespace ProtonPlus.Widgets.Games {
             };
 
             games = new GameCollection ();
-            narrow_rows = new Gee.HashMap<GameListItem, GameRow> ();
-            wide_selection_cells = new Gee.HashMap<GameListItem, GameSelectionCell> ();
-            wide_title_cells = new Gee.HashMap<GameListItem, GameTitleCell> ();
-            wide_action_cells = new Gee.HashMap<GameListItem, GameActions> ();
-
-            wide_view = build_wide_view ();
-            narrow_view = build_narrow_view ();
-
-            views_stack = new Gtk.Stack () {
-                hexpand = true,
-                vexpand = true,
-                transition_type = Gtk.StackTransitionType.CROSSFADE,
-                transition_duration = 150
-            };
-            views_stack.add_named (
-                create_collection_scroller (wide_view), "wide"
+            collection_view = new GameListView (
+                games, focus_relative, focus_wide_relative, activate_game_item
             );
-            views_stack.add_named (
-                create_collection_scroller (narrow_view), "narrow"
-            );
-            views_stack.set_visible_child_name ("wide");
 
             var responsive_views = new Adw.BreakpointBin ();
             responsive_views.set_size_request (360, 1);
-            responsive_views.set_child (views_stack);
+            responsive_views.set_child (collection_view);
             var narrow_breakpoint = new Adw.Breakpoint (
                 new Adw.BreakpointCondition.length (
                     Adw.BreakpointConditionLengthType.MAX_WIDTH,
@@ -463,7 +149,7 @@ namespace ProtonPlus.Widgets.Games {
             set_spacing (0);
 
             games_controller_box = new GameListControllerBox (
-                toolbar, wide_view, narrow_view,
+                toolbar, collection_view.wide_view, collection_view.narrow_view,
                 focus_games_toolbar, focus_first_visible_game,
                 focus_first_visible_game_title
             ) {
@@ -511,263 +197,6 @@ namespace ProtonPlus.Widgets.Games {
                 typeof (Models.CompatibilityTool), null, "display_title"
             );
             append (navigation_view);
-        }
-
-        Gtk.ColumnView build_wide_view () {
-            var view = new Gtk.ColumnView (games.selection_model) {
-                hexpand = true,
-                vexpand = true,
-                show_column_separators = false,
-                show_row_separators = true,
-                single_click_activate = true
-            };
-            view.add_css_class ("list-content");
-            view.activate.connect (activate_game_row);
-
-            var selection_column = new Gtk.ColumnViewColumn (
-                "", create_selection_factory ()
-            );
-            selection_column.set_expand (false);
-            view.append_column (selection_column);
-
-            var title_column = new Gtk.ColumnViewColumn (
-                _("Games"), create_title_factory ()
-            );
-            title_column.set_expand (false);
-            title_column.set_sorter (games.name_sorter);
-            view.append_column (title_column);
-
-            var prefix_column = new Gtk.ColumnViewColumn (
-                _("Prefix"), create_text_factory (GameTextCellKind.PREFIX)
-            );
-            prefix_column.set_expand (false);
-            prefix_column.set_sorter (games.prefix_sorter);
-            view.append_column (prefix_column);
-
-            var tool_column = new Gtk.ColumnViewColumn (
-                _("Tool"), create_text_factory (GameTextCellKind.TOOL)
-            );
-            tool_column.set_expand (true);
-            tool_column.set_sorter (games.tool_sorter);
-            view.append_column (tool_column);
-
-            actions_column = new Gtk.ColumnViewColumn (
-                _("Actions"), create_actions_factory ()
-            );
-            actions_column.set_expand (false);
-            view.append_column (actions_column);
-
-            view.sort_by_column (title_column, Gtk.SortType.ASCENDING);
-            var view_sorter = view.get_sorter ();
-            if (view_sorter != null)
-                games.set_sorter ((!) view_sorter);
-            return view;
-        }
-
-        Gtk.ListView build_narrow_view () {
-            var factory = new Gtk.SignalListItemFactory ();
-            factory.setup.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                var row = new GameRow (
-                    focus_narrow_relative, activate_game_item
-                );
-                list_item.set_activatable (true);
-                list_item.set_focusable (false);
-                list_item.set_selectable (false);
-                list_item.set_child (row);
-            });
-            factory.bind.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                var item = list_item.get_item () as GameListItem;
-                var row = list_item.get_child () as GameRow;
-                if (item == null || row == null)
-                    return;
-                ((!) row).bind ((!) item);
-                ((!) row).set_selection_mode (selection_mode_active);
-                narrow_rows.set ((!) item, (!) row);
-            });
-            factory.unbind.connect ((object) => {
-                var row = ((Gtk.ListItem) object).get_child () as GameRow;
-                if (row == null)
-                    return;
-                var item = ((!) row).get_item ();
-                if (item != null && narrow_rows.get ((!) item) == row)
-                    narrow_rows.unset ((!) item);
-                ((!) row).unbind ();
-            });
-            factory.teardown.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                var row = list_item.get_child () as GameRow;
-                row?.unbind ();
-                list_item.set_child (null);
-            });
-
-            var view = new Gtk.ListView (games.selection_model, factory) {
-                hexpand = true,
-                vexpand = true,
-                single_click_activate = true
-            };
-            view.add_css_class ("boxed-list");
-            view.add_css_class ("list-content");
-            view.activate.connect (activate_game_row);
-            return view;
-        }
-
-        Gtk.ScrolledWindow create_collection_scroller (Gtk.Widget view) {
-            return new Gtk.ScrolledWindow () {
-                hexpand = true,
-                vexpand = true,
-                hscrollbar_policy = Gtk.PolicyType.NEVER,
-                vscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
-                child = view
-            };
-        }
-
-        Gtk.SignalListItemFactory create_selection_factory () {
-            var factory = new Gtk.SignalListItemFactory ();
-            factory.setup.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                list_item.set_activatable (true);
-                list_item.set_focusable (false);
-                list_item.set_selectable (false);
-                list_item.set_child (new GameSelectionCell (
-                    focus_wide_relative, focus_wide_title
-                ));
-            });
-            factory.bind.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                var item = list_item.get_item () as GameListItem;
-                var cell = list_item.get_child () as GameSelectionCell;
-                if (item == null || cell == null)
-                    return;
-                ((!) cell).bind ((!) item);
-                ((!) cell).set_selection_mode (selection_mode_active);
-                wide_selection_cells.set ((!) item, (!) cell);
-            });
-            factory.unbind.connect ((object) => {
-                var cell = ((Gtk.ListItem) object).get_child () as GameSelectionCell;
-                if (cell == null)
-                    return;
-                var item = ((!) cell).get_item ();
-                if (item != null && wide_selection_cells.get ((!) item) == cell)
-                    wide_selection_cells.unset ((!) item);
-                ((!) cell).unbind ();
-            });
-            factory.teardown.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                var cell = list_item.get_child () as GameSelectionCell;
-                cell?.unbind ();
-                list_item.set_child (null);
-            });
-            return factory;
-        }
-
-        Gtk.SignalListItemFactory create_title_factory () {
-            var factory = new Gtk.SignalListItemFactory ();
-            factory.setup.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                list_item.set_activatable (true);
-                list_item.set_focusable (false);
-                list_item.set_selectable (false);
-                list_item.set_child (new GameTitleCell (
-                    focus_wide_relative, focus_wide_selection,
-                    focus_wide_actions, activate_game_item
-                ));
-            });
-            factory.bind.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                var item = list_item.get_item () as GameListItem;
-                var cell = list_item.get_child () as GameTitleCell;
-                if (item == null || cell == null)
-                    return;
-                ((!) cell).bind ((!) item);
-                ((!) cell).set_selection_mode (selection_mode_active);
-                wide_title_cells.set ((!) item, (!) cell);
-            });
-            factory.unbind.connect ((object) => {
-                var cell = ((Gtk.ListItem) object).get_child () as GameTitleCell;
-                if (cell == null)
-                    return;
-                var item = ((!) cell).get_item ();
-                if (item != null && wide_title_cells.get ((!) item) == cell)
-                    wide_title_cells.unset ((!) item);
-                ((!) cell).unbind ();
-            });
-            factory.teardown.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                var cell = list_item.get_child () as GameTitleCell;
-                cell?.unbind ();
-                list_item.set_child (null);
-            });
-            return factory;
-        }
-
-        Gtk.SignalListItemFactory create_text_factory (GameTextCellKind kind) {
-            var factory = new Gtk.SignalListItemFactory ();
-            factory.setup.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                list_item.set_activatable (true);
-                list_item.set_focusable (false);
-                list_item.set_selectable (false);
-                list_item.set_child (new GameTextCell (kind));
-            });
-            factory.bind.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                var item = list_item.get_item () as GameListItem;
-                var cell = list_item.get_child () as GameTextCell;
-                if (item != null && cell != null)
-                    ((!) cell).bind ((!) item);
-            });
-            factory.unbind.connect ((object) => {
-                var cell = ((Gtk.ListItem) object).get_child () as GameTextCell;
-                cell?.unbind ();
-            });
-            factory.teardown.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                var cell = list_item.get_child () as GameTextCell;
-                cell?.unbind ();
-                list_item.set_child (null);
-            });
-            return factory;
-        }
-
-        Gtk.SignalListItemFactory create_actions_factory () {
-            var factory = new Gtk.SignalListItemFactory ();
-            factory.setup.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                list_item.set_activatable (true);
-                list_item.set_focusable (false);
-                list_item.set_selectable (false);
-                list_item.set_child (new GameActions (
-                    focus_wide_relative, focus_wide_title
-                ));
-            });
-            factory.bind.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                var item = list_item.get_item () as GameListItem;
-                var actions = list_item.get_child () as GameActions;
-                if (item == null || actions == null)
-                    return;
-                ((!) actions).bind ((!) item);
-                ((!) actions).set_selection_mode (selection_mode_active);
-                wide_action_cells.set ((!) item, (!) actions);
-            });
-            factory.unbind.connect ((object) => {
-                var actions = ((Gtk.ListItem) object).get_child () as GameActions;
-                if (actions == null)
-                    return;
-                var item = ((!) actions).get_item ();
-                if (item != null && wide_action_cells.get ((!) item) == actions)
-                    wide_action_cells.unset ((!) item);
-                ((!) actions).unbind ();
-            });
-            factory.teardown.connect ((object) => {
-                var list_item = (Gtk.ListItem) object;
-                var actions = list_item.get_child () as GameActions;
-                actions?.unbind ();
-                list_item.set_child (null);
-            });
-            return factory;
         }
 
         void build_selection_popover () {
@@ -916,7 +345,7 @@ namespace ProtonPlus.Widgets.Games {
                     if (!launcher.game_library_available || steam.profiles.length () == 0) {
                         error = true;
                         show_status_box (
-                            "bug-symbolic",
+                            "dialog-error-symbolic",
                             _("Steam games couldn’t be loaded"),
                             _("Steam’s library or profile data is missing or invalid. Finish setting up Steam, then restart ProtonPlus. Tools and other launchers remain available.") // vala-lint=line-length
                         );
@@ -967,7 +396,7 @@ namespace ProtonPlus.Widgets.Games {
                 Source.remove (search_timeout_id);
                 search_timeout_id = 0;
             }
-            cancel_focus_idle ();
+            collection_view.cancel_focus ();
             search_query = search_entry.get_text ().down ();
             overlay.add_overlay (spinner);
 
@@ -1051,7 +480,7 @@ namespace ProtonPlus.Widgets.Games {
                 empty_status_page.set_description (
                     _("No games are available for this launcher.")
                 );
-                empty_status_page.set_icon_name ("gamepad-symbolic");
+                empty_status_page.set_icon_name ("input-gaming-symbolic");
                 empty_action_button.set_visible (false);
             }
             list_stack.set_visible_child_name ("empty");
@@ -1061,7 +490,7 @@ namespace ProtonPlus.Widgets.Games {
             var visible_count = games.visible_count ();
             var selected_visible_count = games.selected_visible_count ();
             var selected_count = games.selected_count ();
-            set_selection_mode (selected_count > 0);
+            collection_view.set_selection_mode (selected_count > 0);
             updating_selection_toggle = true;
             check_button.set_inconsistent (
                 selected_visible_count > 0 &&
@@ -1076,30 +505,8 @@ namespace ProtonPlus.Widgets.Games {
             mass_edit_button.set_visible (selected_count >= 2);
         }
 
-        void set_selection_mode (bool active) {
-            if (selection_mode_active == active)
-                return;
-            selection_mode_active = active;
-            actions_column.set_visible (!active);
-            foreach (var row in narrow_rows.values)
-                row.set_selection_mode (active);
-            foreach (var cell in wide_selection_cells.values)
-                cell.set_selection_mode (active);
-            foreach (var cell in wide_title_cells.values)
-                cell.set_selection_mode (active);
-            foreach (var actions in wide_action_cells.values)
-                actions.set_selection_mode (active);
-        }
-
-        void activate_game_row (uint position) {
-            var item = games.item_at (position);
-            if (item == null)
-                return;
-            activate_game_item ((!) item);
-        }
-
         void activate_game_item (GameListItem item) {
-            switch (GameActionAvailability.row_activation (selection_mode_active)) {
+            switch (GameActionAvailability.row_activation (collection_view.selection_mode_active)) {
             case GameRowActivation.TOGGLE_SELECTION:
                 item.selected = !item.selected;
                 break;
@@ -1128,7 +535,7 @@ namespace ProtonPlus.Widgets.Games {
                 };
                 var content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
                 content.add_css_class ("selection-popover-row");
-                content.append (new Gtk.Image.from_icon_name ("gamepad-symbolic"));
+                content.append (new Gtk.Image.from_icon_name ("input-gaming-symbolic"));
                 content.append (title);
                 selection_list_box.append (new Gtk.ListBoxRow () {
                     activatable = false,
@@ -1142,46 +549,9 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void switch_collection_view (bool narrow) {
-            var focused_item = find_focused_item ();
+            var focused_item = collection_view.show_narrow (narrow);
             if (focused_item != null)
                 last_focused_item = focused_item;
-            narrow_view_active = narrow;
-            views_stack.set_visible_child_name (narrow ? "narrow" : "wide");
-            if (focused_item != null) {
-                var position = games.position_of ((!) focused_item);
-                if (position >= 0)
-                    schedule_item_focus (
-                        (uint) position, GameFocusLane.SELECTION
-                    );
-            }
-        }
-
-        GameListItem? find_focused_item () {
-            var focused = get_root ()?.get_focus ();
-            if (focused == null)
-                return null;
-            foreach (var entry in narrow_rows.entries) {
-                if (focused == entry.value || ((!) focused).is_ancestor (entry.value))
-                    return entry.key;
-            }
-            foreach (var entry in wide_selection_cells.entries) {
-                if (focused == entry.value || ((!) focused).is_ancestor (entry.value))
-                    return entry.key;
-            }
-            foreach (var entry in wide_title_cells.entries) {
-                if (focused == entry.value || ((!) focused).is_ancestor (entry.value))
-                    return entry.key;
-            }
-            foreach (var entry in wide_action_cells.entries) {
-                if (focused == entry.value || ((!) focused).is_ancestor (entry.value))
-                    return entry.key;
-            }
-            return null;
-        }
-
-        bool focus_narrow_relative (GameListItem item, int delta,
-            GameFocusLane lane) {
-            return focus_relative (item, delta, lane);
         }
 
         bool focus_wide_relative (GameListItem item, int delta,
@@ -1214,7 +584,7 @@ namespace ProtonPlus.Widgets.Games {
                 return focus_launcher_selector ();
             }
             last_focused_item = games.item_at ((uint) target);
-            return focus_item ((uint) target, lane);
+            return collection_view.focus_item ((uint) target, lane);
         }
 
         bool focus_launcher_selector () {
@@ -1222,148 +592,21 @@ namespace ProtonPlus.Widgets.Games {
             return window != null && ((!) window).focus_launcher_selector ();
         }
 
-        bool focus_wide_actions (GameListItem item) {
-            var actions = wide_action_cells.get (item);
-            if (actions != null)
-                return ((!) actions).focus_first_action ();
-            var position = games.position_of (item);
-            return position >= 0 && focus_item (
-                (uint) position, GameFocusLane.FIRST_ACTION
-            );
-        }
-
-        bool focus_wide_title (GameListItem item) {
-            if (selection_mode_active)
-                return focus_wide_selection (item);
-            var cell = wide_title_cells.get (item);
-            if (cell != null)
-                return ((!) cell).grab_focus ();
-            var position = games.position_of (item);
-            return position >= 0 && focus_item (
-                (uint) position, GameFocusLane.ROW
-            );
-        }
-
-        bool focus_wide_selection (GameListItem item) {
-            var cell = wide_selection_cells.get (item);
-            return cell != null && ((!) cell).grab_focus ();
-        }
-
-        bool focus_item (uint position, GameFocusLane lane) {
-            var item = games.item_at (position);
-            if (item == null)
-                return false;
-            bool focus_ready;
-            if (try_focus_bound_item (
-                (!) item, lane, narrow_view_active, out focus_ready
-            )) {
-                scroll_collection_to (position, narrow_view_active);
-                return true;
-            }
-            if (focus_ready)
-                return false;
-            schedule_item_focus (position, lane);
-            return true;
-        }
-
-        bool try_focus_bound_item (GameListItem item, GameFocusLane lane,
-            bool narrow, out bool focus_ready) {
-            lane = GameControllerNavigationPolicy.selection_mode_lane (
-                lane, selection_mode_active
-            );
-            if (narrow) {
-                var row = narrow_rows.get (item);
-                focus_ready = row != null && ((!) row).get_mapped ();
-                return focus_ready && ((!) row).focus_lane (lane);
-            }
-            if (lane == GameFocusLane.ROW) {
-                var cell = wide_title_cells.get (item);
-                focus_ready = cell != null && ((!) cell).get_mapped ();
-                return focus_ready && ((!) cell).grab_focus ();
-            }
-            if (lane != GameFocusLane.SELECTION) {
-                var cell = wide_action_cells.get (item);
-                focus_ready = cell != null && ((!) cell).get_mapped ();
-                return focus_ready && ((!) cell).focus_lane (lane);
-            }
-            var cell = wide_selection_cells.get (item);
-            focus_ready = cell != null && ((!) cell).get_mapped ();
-            return focus_ready && ((!) cell).grab_focus ();
-        }
-
-        void scroll_collection_to (uint position, bool narrow) {
-            if (narrow) {
-                narrow_view.scroll_to (
-                    position, Gtk.ListScrollFlags.NONE, null
-                );
-            } else {
-                wide_view.scroll_to (
-                    position, null, Gtk.ListScrollFlags.NONE, null
-                );
-            }
-        }
-
-        void schedule_item_focus (uint position, GameFocusLane lane) {
-            cancel_focus_idle ();
-            var expected_generation = games.generation;
-            var expected_item = games.item_at (position);
-            if (expected_item == null)
-                return;
-            var expected_narrow = narrow_view_active;
-            scroll_collection_to (position, expected_narrow);
-            schedule_item_focus_attempt (
-                position, lane, expected_generation, (!) expected_item,
-                expected_narrow, 0
-            );
-        }
-
-        void schedule_item_focus_attempt (uint position, GameFocusLane lane,
-            uint64 expected_generation, GameListItem expected_item,
-            bool expected_narrow, int attempt) {
-            focus_idle_id = Timeout.add (attempt == 0 ? 1 : 16, () => {
-                focus_idle_id = 0;
-                if (games.generation != expected_generation ||
-                    narrow_view_active != expected_narrow ||
-                    games.item_at (position) != expected_item)
-                    return Source.REMOVE;
-                bool focus_ready;
-                if (try_focus_bound_item (
-                    expected_item, lane, expected_narrow, out focus_ready
-                )) {
-                    scroll_collection_to (position, expected_narrow);
-                } else if (!focus_ready && attempt < FOCUS_BIND_MAX_ATTEMPTS) {
-                    scroll_collection_to (position, expected_narrow);
-                    schedule_item_focus_attempt (
-                        position, lane, expected_generation, expected_item,
-                        expected_narrow, attempt + 1
-                    );
-                }
-                return Source.REMOVE;
-            });
-        }
-
-        void cancel_focus_idle () {
-            if (focus_idle_id == 0)
-                return;
-            Source.remove (focus_idle_id);
-            focus_idle_id = 0;
-        }
-
         bool focus_last_visible_game () {
             var count = games.visible_count ();
-            return count > 0 && focus_item (
+            return count > 0 && collection_view.focus_item (
                 count - 1, GameFocusLane.SELECTION
             );
         }
 
         bool focus_first_visible_game () {
-            return games.visible_count () > 0 && focus_item (
+            return games.visible_count () > 0 && collection_view.focus_item (
                 0, GameFocusLane.SELECTION
             );
         }
 
         bool focus_first_visible_game_title () {
-            return games.visible_count () > 0 && focus_item (
+            return games.visible_count () > 0 && collection_view.focus_item (
                 0, GameFocusLane.ROW
             );
         }
@@ -1441,18 +684,14 @@ namespace ProtonPlus.Widgets.Games {
             if (last_focused_item != null) {
                 var position = games.position_of ((!) last_focused_item);
                 if (position >= 0) {
-                    focus_item ((uint) position, GameFocusLane.SELECTION);
-                    if (narrow_view_active)
-                        return narrow_rows.get ((!) last_focused_item);
-                    return wide_selection_cells.get ((!) last_focused_item);
+                    collection_view.focus_item ((uint) position, GameFocusLane.SELECTION);
+                    return collection_view.get_selection_target ((!) last_focused_item);
                 }
             }
             var first = games.item_at (0);
             if (first == null)
                 return empty_action_button.visible ? empty_action_button : null;
-            if (narrow_view_active)
-                return narrow_rows.get ((!) first);
-            return wide_selection_cells.get ((!) first);
+            return collection_view.get_selection_target ((!) first);
         }
 
         public bool controller_navigate_back () {
@@ -1508,7 +747,7 @@ namespace ProtonPlus.Widgets.Games {
                 Source.remove (search_timeout_id);
                 search_timeout_id = 0;
             }
-            cancel_focus_idle ();
+            collection_view.detach ();
             base.dispose ();
         }
     }

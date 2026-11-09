@@ -209,6 +209,29 @@ namespace ProtonPlus.Models.Providers {
         }
     }
 
+    // Named input for a definition. ProviderDefinition takes a defensive
+    // snapshot, so later edits to this configuration cannot change live tools.
+    public class ProviderConfig : Object {
+        public Category category = Category.DXVK;
+        public SourceType source_type = SourceType.GITHUB;
+        public string provider_id = "";
+        public string title = "";
+        public string description = "";
+        public string endpoint = "";
+        public string repository_url = "";
+        public int sort_priority = 0;
+        public VariantDefinition[] variants = {};
+        public InstallLayout[] install_layouts = {};
+        public string[] asset_filters = {};
+        public string[] asset_exclusions = {};
+        public string tag = "";
+        public bool legacy = false;
+        public string url_template = "";
+        public ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD;
+        public bool single_archive_releases = false;
+        public string[] legacy_endpoints = {};
+    }
+
     // A definition deliberately contains no request or JSON behavior.  It is
     // safe to share as immutable configuration between catalog tool instances.
     public class ProviderDefinition : Object {
@@ -251,44 +274,25 @@ namespace ProtonPlus.Models.Providers {
             owned get { return source_id_for (source_type); }
         }
 
-        public ProviderDefinition (
-            Category category,
-            SourceType source_type,
-            string provider_id,
-            string title,
-            string description,
-            string endpoint,
-            string repository_url,
-            int sort_priority,
-            VariantDefinition[] variants,
-            InstallLayout[] install_layouts,
-            string[]? asset_filters = null,
-            string[]? asset_exclusions = null,
-            string tag = "",
-            bool legacy = false,
-            string url_template = "",
-            ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD,
-            bool single_archive_releases = false,
-            string[]? legacy_endpoints = null
-        ) {
-            this.category = category;
-            this.source_type = source_type;
-            this.provider_id = provider_id;
-            this.title = title;
-            this.description = description;
-            this.endpoint = endpoint;
-            this.repository_url = repository_url;
-            this.sort_priority = sort_priority;
-            this.variants = copy_variants (variants);
-            this.install_layouts = copy_install_layouts (install_layouts);
-            this.asset_filter_values = copy_strings (asset_filters);
-            this.asset_exclusion_values = copy_strings (asset_exclusions);
-            this.legacy_endpoint_values = copy_strings (legacy_endpoints);
-            this.tag = tag;
-            this.legacy = legacy;
-            this.url_template = url_template;
-            this.archive_install_requirement = archive_install_requirement;
-            this.single_archive_releases = single_archive_releases;
+        public ProviderDefinition (ProviderConfig config) {
+            this.category = config.category;
+            this.source_type = config.source_type;
+            this.provider_id = config.provider_id;
+            this.title = config.title;
+            this.description = config.description;
+            this.endpoint = config.endpoint;
+            this.repository_url = config.repository_url;
+            this.sort_priority = config.sort_priority;
+            this.variants = copy_variants (config.variants);
+            this.install_layouts = copy_install_layouts (config.install_layouts);
+            this.asset_filter_values = copy_strings (config.asset_filters);
+            this.asset_exclusion_values = copy_strings (config.asset_exclusions);
+            this.tag = config.tag;
+            this.legacy = config.legacy;
+            this.url_template = config.url_template;
+            this.archive_install_requirement = config.archive_install_requirement;
+            this.single_archive_releases = config.single_archive_releases;
+            this.legacy_endpoint_values = copy_strings (config.legacy_endpoints);
         }
 
         private static VariantDefinition[] copy_variants (VariantDefinition[] values) {

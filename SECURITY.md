@@ -64,7 +64,7 @@ Users should keep ProtonPlus, their operating system, Flatpak runtimes, and dist
 
 ## Dependencies and Third-Party Software
 
-ProtonPlus is built with GTK4, libadwaita, GLib, json-glib, libsoup, libgee, libarchive, libnotify, Cairo, AppStream, SDL, Vala, and other system or Flatpak SDK/runtime components. The versions and security support of those components are provided by the operating system, Flatpak runtime, or package maintainer.
+ProtonPlus is built with GTK4, libadwaita, GLib, json-glib, libsoup, libgee, libarchive, Cairo, SDL, Vala, and other system or Flatpak SDK/runtime components. The versions and security support of those components are provided by the operating system, Flatpak runtime, or package maintainer.
 
 The application retrieves release metadata from upstream GitHub, GitLab, Forgejo, and GitHub Actions sources and installs selected archives into launcher-specific directories. Reports about upstream services, provider releases, or compatibility-tool contents should be sent to those upstream projects as well as to ProtonPlus when ProtonPlus's handling contributes to the risk.
 

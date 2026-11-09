@@ -7,3 +7,4 @@ Terminal=false
 Type=Application
 Categories=Game;
 StartupNotify=true
+X-GNOME-UsesNotifications=true

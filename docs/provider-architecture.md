@@ -57,6 +57,29 @@ Use this path when the upstream uses an existing source type and its release can
 
 No provider subclass, new release model, widget branch, installation-service branch, or workflow is needed. `ProviderCatalog` combines the definition with the existing source and `StandardArchiveWorkflow` handles the resulting archive job. The `definition-only-provider-creates-standard-tool` test demonstrates this seam with a test-only definition.
 
+Definitions use named configuration fields; optional settings can be omitted:
+
+```vala
+new ProviderDefinition (new ProviderConfig () {
+    provider_id = "example-proton",
+    category = Category.PROTON,
+    source_type = SourceType.GITHUB,
+    title = "Example Proton",
+    description = N_ ("An example compatibility tool."),
+    endpoint = "https://api.github.com/repos/example/proton/releases",
+    repository_url = "https://github.com/example/proton",
+    sort_priority = 20,
+    variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+    install_layouts = { InstallLayout.template ("default", "$release_name") },
+    single_archive_releases = true
+})
+```
+
+`ProviderConfig` is editable construction input. `ProviderDefinition` copies it,
+including collections, before sharing it with tools. Registry validation still
+checks required fields and compatibility rules. Existing persisted IDs and
+legacy aliases must survive configuration edits.
+
 ## Adding a release-hosting API
 
 Add a source only when the host has different transport, pagination, failure, response, or asset-selection semantics that an existing source cannot faithfully represent.
@@ -90,3 +113,18 @@ The focused test suite protects the extension points rather than implementation 
 - Installation, inventory, CLI, and SteamTinkerLaunch tests preserve the remaining boundaries: installation transactions, installed-state refresh, command behaviour, and the specialized lifecycle.
 
 These are behavioural checks. Do not replace them with source-text searches or tests that depend on code formatting.
+
+## TinkerGame successor integration
+
+`TinkerGameContext` selects `TinkerGameWorkflow`. It specializes the archive
+workflow's staged preparation and metadata hooks because directory staging,
+promotion and backup restoration have identical requirements. It stages the
+complete modular runtime and Steam manifests together; it does not reuse
+SteamTinkerLaunch's external command or global executable-link lifecycle.
+See [TinkerGame](tinkergame.md) for automatic release discovery (including prereleases), ownership,
+dependency policy, unsupported targets and explicit configuration migration.
+
+`TinkerGameReleaseSource` is stateless and uses GitHub source archives, including
+prereleases. Its `ReleaseCatalog` owns caching; update checks bypass the browse
+cache. Ordinary GitHub providers retain their uploaded-asset and stable-release
+policies.

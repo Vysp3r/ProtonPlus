@@ -50,14 +50,6 @@ using Gtk;
             });
         }
 
-        public void set_current_value (string current_env_string) {
-            if (current_env_string.has_prefix (environment_variable_prefix)) {
-                this.value = current_env_string.substring (environment_variable_prefix.length);
-            } else {
-                this.value = "";
-            }
-        }
-
         public void parse_tokens (string[] tokens, bool[] consumed) {
             if (tokens.length != consumed.length) {
                 return;

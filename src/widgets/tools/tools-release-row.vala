@@ -17,7 +17,6 @@ namespace ProtonPlus.Widgets.Tools {
 
         Gtk.Box input_box;
         Gtk.Button primary_button;
-        Adw.ButtonContent primary_content;
         Gtk.Button cancel_button;
         Gtk.Button progress_button;
         Widgets.CircularProgressBar progress_bar;
@@ -35,6 +34,7 @@ namespace ProtonPlus.Widgets.Tools {
         SimpleAction open_release_page_action;
         SimpleAction open_folder_action;
         SimpleAction delete_action;
+        SimpleAction migrate_action;
         weak Gtk.Widget? controller_up_target;
         weak Gtk.Widget? controller_row_up_target;
         weak Gtk.Widget? controller_action_up_target;
@@ -67,7 +67,7 @@ namespace ProtonPlus.Widgets.Tools {
             create_cancel_button ();
             create_actions_menu ();
 
-            action_button_size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.BOTH);
+            action_button_size_group = new Gtk.SizeGroup (Gtk.SizeGroupMode.VERTICAL);
             action_button_size_group.add_widget (primary_button);
             action_button_size_group.add_widget (actions_button);
 
@@ -90,11 +90,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void create_primary_button () {
-            primary_content = new Adw.ButtonContent () {
-                can_shrink = true
-            };
             primary_button = new Gtk.Button () {
-                child = primary_content,
                 valign = Gtk.Align.CENTER
             };
             primary_button.add_css_class ("flat");
@@ -172,30 +168,30 @@ namespace ProtonPlus.Widgets.Tools {
             cancel_button.clicked.connect (cancel_button_clicked);
         }
 
+        static SimpleAction register_action (SimpleActionGroup group, string name) {
+            var action = new SimpleAction (name, null);
+            group.add_action (action);
+            return action;
+        }
+
         void create_actions_menu () {
             var action_group = new SimpleActionGroup ();
-            changelog_action = new SimpleAction ("changelog", null);
+            migrate_action = register_action (action_group, "migrate");
+            migrate_action.activate.connect (request_migration);
+            changelog_action = register_action (action_group, "changelog");
             changelog_action.activate.connect (changelog_action_activated);
-            action_group.add_action (changelog_action);
-            games_action = new SimpleAction ("games", null);
+            games_action = register_action (action_group, "games");
             games_action.activate.connect (games_action_activated);
-            action_group.add_action (games_action);
-            open_release_page_action = new SimpleAction (
-                "open-release-page", null
-            );
+            open_release_page_action = register_action (action_group, "open-release-page");
             open_release_page_action.activate.connect (
                 open_release_page_action_activated
             );
-            action_group.add_action (open_release_page_action);
-            update_action = new SimpleAction ("update", null);
+            update_action = register_action (action_group, "update");
             update_action.activate.connect (update_action_activated);
-            action_group.add_action (update_action);
-            open_folder_action = new SimpleAction ("open-folder", null);
+            open_folder_action = register_action (action_group, "open-folder");
             open_folder_action.activate.connect (open_folder_action_activated);
-            action_group.add_action (open_folder_action);
-            delete_action = new SimpleAction ("delete", null);
+            delete_action = register_action (action_group, "delete");
             delete_action.activate.connect (delete_action_activated);
-            action_group.add_action (delete_action);
             actions_button = new Gtk.MenuButton () {
                 icon_name = "view-more-symbolic",
                 valign = Gtk.Align.CENTER
@@ -219,6 +215,58 @@ namespace ProtonPlus.Widgets.Tools {
 
         void changelog_action_activated (Variant? parameter) {
             request_release_details ();
+        }
+
+        bool has_legacy_installation () {
+            if (job.tinker_game_context == null)
+                return false;
+            foreach (var tool in job.tool.group.tools)
+                if (tool is Models.Tools.SteamTinkerLaunch && tool.is_installed ())
+                    return true;
+            return false;
+        }
+
+        void request_migration (Variant? parameter) {
+            if (row_disposed || action_request_in_progress || !has_legacy_installation ())
+                return;
+            job.refresh_state ();
+            if (job.state != Services.InstallJob.State.UP_TO_DATE) {
+                var warning = new Main.WarningDialog (_("Install TinkerGame First"),
+                    _("Install or update TinkerGame before copying SteamTinkerLaunch settings."));
+                ProtonPlus.Widgets.Window.present_dialog_for_controller (warning, (Gtk.Window) get_root ());
+                return;
+            }
+            var dialog = new Adw.AlertDialog (_("Copy SteamTinkerLaunch Settings?"),
+                _("The original settings and installation will be kept. Existing TinkerGame settings will never be overwritten. Review custom commands, scripts, symbolic links and absolute paths before playing. Steam assignments and launch options will stay unchanged. After testing your games, you can remove SteamTinkerLaunch separately."));
+            dialog.add_response ("cancel", _("Cancel"));
+            dialog.add_response ("copy", _("Copy Settings"));
+            dialog.set_default_response ("cancel");
+            dialog.set_close_response ("cancel");
+            var owner_ref = WeakRef (this);
+            dialog.response.connect ((response) => {
+                var row = owner_ref.get () as ReleaseRow;
+                if (response != "copy" || row == null || row.row_disposed || row.action_request_in_progress)
+                    return;
+                row.update_action_request_state (true);
+                migrate_settings.begin (row, row.job);
+            });
+            ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) get_root ());
+        }
+
+        static async void migrate_settings (ReleaseRow owner, Services.InstallJob job) {
+            var owner_ref = WeakRef (owner);
+            var result = yield Services.TinkerGameMigration.copy_configuration (job, Environment.get_user_config_dir ());
+            var row = owner_ref.get () as ReleaseRow;
+            if (row == null || row.row_disposed)
+                return;
+            row.update_action_request_state (false);
+            var message = result == ReturnCode.RUNNER_INSTALLED
+                ? _("Settings copied. Review custom commands and paths before playing. Select TinkerGame for individual games in Games when ready; SteamTinkerLaunch remains installed.")
+                : result == ReturnCode.RUNNER_ALREADY_INSTALLED
+                ? _("TinkerGame settings already exist. Nothing was overwritten. Review and merge your settings manually.")
+                : _("Settings could not be copied. The original settings were preserved. You can retry after resolving the problem.");
+            var dialog = new Main.WarningDialog (_("TinkerGame Migration"), message);
+            ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) row.get_root ());
         }
 
         void request_release_details () {
@@ -524,6 +572,11 @@ namespace ProtonPlus.Widgets.Tools {
             speed_label.set_visible (downloading);
             time_label.set_visible (downloading);
 
+            update_operation_labels ();
+            refresh_presentation ();
+        }
+
+        void update_operation_labels () {
             var operation_text = operation_step_text ();
             progress_status_label.set_label (operation_text);
             step_label.set_label (_("Step: %s").printf (operation_text));
@@ -539,8 +592,6 @@ namespace ProtonPlus.Widgets.Tools {
                 operation_text,
                 -1
             );
-
-            refresh_presentation ();
         }
 
         public void release_row_job_canceled_changed () {
@@ -615,7 +666,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         bool supports_update_check () {
             return job.mode == Services.InstallJob.Mode.LATEST ||
-                job.steam_tinker_launch_context != null;
+                job.steam_tinker_launch_context != null || job.tinker_game_context != null;
         }
 
         int usage_count () {
@@ -654,8 +705,7 @@ namespace ProtonPlus.Widgets.Tools {
         void configure_primary_action (ReleaseRowPrimaryAction action) {
             switch (action) {
             case ReleaseRowPrimaryAction.INSTALL:
-                primary_content.set_icon_name ("folder-download-symbolic");
-                primary_content.set_label ("");
+                primary_button.set_label (_("Install"));
                 primary_button.set_tooltip_text (_("Install %s").printf (job.title));
                 primary_button.update_property (
                     Gtk.AccessibleProperty.LABEL,
@@ -664,8 +714,7 @@ namespace ProtonPlus.Widgets.Tools {
                 );
                 break;
             case ReleaseRowPrimaryAction.RETRY:
-                primary_content.set_icon_name ("view-refresh-symbolic");
-                primary_content.set_label (_("Retry"));
+                primary_button.set_label (_("Retry"));
                 primary_button.set_tooltip_text (_("Retry %s").printf (get_title ()));
                 primary_button.update_property (
                     Gtk.AccessibleProperty.LABEL,
@@ -714,12 +763,16 @@ namespace ProtonPlus.Widgets.Tools {
             }
             if (job.tool.group.launcher is Models.Launchers.Steam) {
                 details_section.append (
-                    _("_Games Using This Tool"), "release.games"
+                    _("_Games with this tool selected"), "release.games"
                 );
             }
             menu.append_section (null, details_section);
 
             var management_section = new Menu ();
+            if (has_legacy_installation ()) {
+                management_section.append (_("Copy SteamTinkerLaunch Settings…"), "release.migrate");
+            }
+            migrate_action.set_enabled (!action_request_in_progress && !is_busy_state (job.state));
             if (presentation.show_update_action) {
                 var label = retry_action == ReleaseRowRetryAction.UPDATE
                     ? _("Retry")
@@ -766,8 +819,6 @@ namespace ProtonPlus.Widgets.Tools {
         void refresh_status_text () {
             var details = new Gee.ArrayList<string> ();
             var presentation = current_presentation ();
-            if (presentation.recommended)
-                details.add (_("Recommended"));
             if (retry_action != ReleaseRowRetryAction.NONE)
                 details.add (_("Failed"));
             if (operation_error_message != null)
@@ -801,17 +852,18 @@ namespace ProtonPlus.Widgets.Tools {
             var current_usage_count = usage_count ();
             if (presentation.in_use) {
                 details.add (ngettext (
-                    "In use by %i game", "In use by %i games", current_usage_count
+                    "Selected by %i game", "Selected by %i games", current_usage_count
                 ).printf (current_usage_count));
             }
 
             var status = string.joinv (" · ", details.to_array ());
             var date = release_display_timestamp (job);
-            set_subtitle (
+            set_subtitle (Markup.escape_text (
                 date != "" && status != ""
                     ? "%s · %s".printf (date, status)
                     : date != "" ? date : status
-            );
+            ));
+            set_tooltip_text (operation_error_message);
             update_property (
                 Gtk.AccessibleProperty.DESCRIPTION,
                 status != ""
@@ -826,7 +878,7 @@ namespace ProtonPlus.Widgets.Tools {
                 return _("Cancelling");
             switch (job.step) {
             case Services.InstallJob.Step.DOWNLOADING:
-                return _("Downloading");
+                return job.download_status;
             case Services.InstallJob.Step.EXTRACTING:
                 return _("Extracting");
             case Services.InstallJob.Step.MOVING:
@@ -874,6 +926,8 @@ namespace ProtonPlus.Widgets.Tools {
         public void release_row_job_progress_changed () {
             if (row_disposed)
                 return;
+            if (job.step == Services.InstallJob.Step.DOWNLOADING)
+                update_operation_labels ();
 
             if (job.is_percent && job.progress != null) {
                 var percentage = double.parse (job.progress.replace ("%", ""));
@@ -892,7 +946,7 @@ namespace ProtonPlus.Widgets.Tools {
                 );
             }
 
-            speed_label.set_label (_("Speed: %s/s").printf (
+            speed_label.set_label (job.download_phase != Utils.Web.DownloadPhase.DOWNLOADING ? job.download_status : _("Speed: %s/s").printf (
                 Utils.Filesystem.convert_bytes_to_string (
                     (int64) (job.speed_kbps * 1024)
                 )
@@ -975,7 +1029,7 @@ namespace ProtonPlus.Widgets.Tools {
                     ? ReleaseRowRetryAction.UPDATE
                     : ReleaseRowRetryAction.NONE;
                 ((!) row).operation_error_message = ((!) row).retry_action != ReleaseRowRetryAction.NONE
-                    ? get_return_code_message (code)
+                    ? ReleaseRowPresentation.failure_message (code, operation_job.error_message)
                     : null;
                 ((!) row).update_action_request_state (false);
                 if (code != ReturnCode.RUNNER_UPDATED &&
@@ -1022,11 +1076,16 @@ namespace ProtonPlus.Widgets.Tools {
                     ? ReleaseRowRetryAction.INSTALL
                     : ReleaseRowRetryAction.NONE;
                 ((!) row).operation_error_message = ((!) row).retry_action != ReleaseRowRetryAction.NONE
-                    ? get_return_code_message (code)
+                    ? ReleaseRowPresentation.failure_message (code, operation_job.error_message)
                     : null;
                 ((!) row).update_action_request_state (false);
                 if (code != ReturnCode.RUNNER_INSTALLED &&
                     !operation_job.canceled) {
+                    var window = ((!) row).get_root () as ProtonPlus.Widgets.Window;
+                    if (window != null)
+                        window.main_box.send_toast ("%s: %s".printf (
+                            _("Download failed"), Markup.escape_text (operation_job.displayed_title)
+                        ));
                     warning (
                         "Failed to install %s: %s",
                         operation_job.title,

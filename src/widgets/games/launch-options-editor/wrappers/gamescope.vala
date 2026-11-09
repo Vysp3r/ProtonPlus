@@ -33,11 +33,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
             var group = new Adw.PreferencesGroup ();
 
-            fullscreen_tile = create_tile (_("Fullscreen"), _("Runs the game in a fullscreen session."), { "-f" }, true, LaunchLineType.WRAPPER_ARGUMENT, "gamescope-fullscreen");
+            fullscreen_tile = create_tile ("gamescope-fullscreen", true);
 
-            hdr_tile = create_tile (_("HDR"), _("Outputs HDR colors if your display supports it."), { "--hdr-enabled" }, true, LaunchLineType.WRAPPER_ARGUMENT, "gamescope-hdr");
+            hdr_tile = create_tile ("gamescope-hdr", true);
 
-            vrr_tile = create_tile (_("Variable refresh rate"), _("Matches your display's refresh rate to the game's FPS."), { "--adaptive-sync" }, true, LaunchLineType.WRAPPER_ARGUMENT, "gamescope-vrr");
+            vrr_tile = create_tile ("gamescope-vrr", true);
 
             framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Caps the frame rate inside Gamescope."), _("FPS"), 30, 360, 60, "-r ");
             register_option ("gamescope-frame-limit", framerate_tile, framerate_tile);

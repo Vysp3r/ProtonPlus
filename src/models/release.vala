@@ -7,6 +7,7 @@ namespace ProtonPlus.Models {
             GENERIC,
             GITHUB_ACTION,
             STEAM_TINKER_LAUNCH,
+            TINKER_GAME,
         }
 
         public string title { get; private set; }
@@ -160,6 +161,8 @@ namespace ProtonPlus.Models {
 
         public static string kind_to_string (Kind kind) {
             switch (kind) {
+            case Kind.TINKER_GAME:
+                return "tinkergame";
             case Kind.GITHUB_ACTION:
                 return "github-action";
             case Kind.STEAM_TINKER_LAUNCH:
@@ -171,6 +174,8 @@ namespace ProtonPlus.Models {
 
         public static Kind kind_from_string (string kind) {
             switch (kind) {
+            case "tinkergame":
+                return Kind.TINKER_GAME;
             case "github-action":
                 return Kind.GITHUB_ACTION;
             case "steam-tinker-launch":

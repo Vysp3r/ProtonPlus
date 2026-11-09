@@ -111,7 +111,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
         internal void normalize_dependencies () {
             amd_group.normalize_amd_fsr_upgrade_dependencies ();
-            nvidia_group.normalize_nvidia_vendor_dependencies ();
         }
 
     }

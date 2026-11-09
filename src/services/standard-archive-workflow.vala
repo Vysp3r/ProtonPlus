@@ -44,8 +44,6 @@ namespace ProtonPlus.Services {
                     );
                 }
             }
-            if (!yield archive_support.publish_archive (archive))
-                return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
 
             job.step = InstallJob.Step.MOVING;
             var install_parent = Path.get_dirname (job.install_location);
@@ -59,6 +57,13 @@ namespace ProtonPlus.Services {
                 job.error_message = _ ("Moving failed");
                 return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
             }
+            var preparation = yield prepare_staged_installation (job, staged_install_path);
+            if (preparation != ReturnCode.RUNNER_INSTALLED)
+                return yield archive_support.complete_attempt (preparation, archive, true);
+            if (!yield archive_support.publish_archive (archive))
+                return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
+            if (job.canceled)
+                return yield archive_support.complete_attempt (ReturnCode.EXTRACTION_FAILED, archive);
             if (job.mode == InstallJob.Mode.LATEST) {
                 var manifest_code = rewrite_compatibility_tool_vdf (job, staged_install_path);
                 if (manifest_code != ReturnCode.RUNNER_INSTALLED)
@@ -82,6 +87,13 @@ namespace ProtonPlus.Services {
                     return yield archive_support.complete_attempt (guard_code, archive);
             }
 
+            if (job.canceled)
+                return yield archive_support.complete_attempt (ReturnCode.EXTRACTION_FAILED, archive);
+            // The destination may have changed during download, preparation,
+            // or the asynchronous process check. Revalidate before mutation.
+            var final_validation = validate_install (job, replace_existing);
+            if (final_validation != ReturnCode.RUNNER_INSTALLED)
+                return yield archive_support.complete_attempt (final_validation, archive);
             if (FileUtils.test (job.install_location, FileTest.EXISTS)) {
                 if (!replace_existing)
                     return yield archive_support.complete_attempt (ReturnCode.RUNNER_ALREADY_INSTALLED, archive);
@@ -113,6 +125,8 @@ namespace ProtonPlus.Services {
                 return lookup.code;
             if (!lookup.has_release)
                 return ReturnCode.NOTHING_TO_UPDATE;
+            if (job.canceled)
+                return ReturnCode.EXTRACTION_FAILED;
             job.set_release_for_update (lookup.require_release ());
             bool missing_explicit_selection;
             var compatibility = InstallationService.instance.resolve_provider_install_variant (
@@ -164,7 +178,8 @@ namespace ProtonPlus.Services {
         public async ReturnCode update_specific_runner (
             Models.Tools.ProviderTool runner,
             InstallationOperationCoordinator coordinator,
-            string? installation_location = null
+            string? installation_location = null,
+            InstallJob? reserved_job = null
         ) {
             var directory = installation_location ?? Path.build_filename (
                 runner.group.launcher.get_primary_managed_tool_directory (runner.group),
@@ -180,9 +195,13 @@ namespace ProtonPlus.Services {
                 return lookup.code;
             if (!lookup.has_release)
                 return ReturnCode.NOTHING_TO_UPDATE;
-            var job = new InstallJob (
+            var job = reserved_job ?? new InstallJob (
                 lookup.require_release (), runner, InstallJob.Mode.LATEST, directory
             );
+            if (job.canceled)
+                return ReturnCode.EXTRACTION_FAILED;
+            if (reserved_job != null)
+                job.set_release_for_update (lookup.require_release ());
             var restored_variant = restore_installed_variant (job, metadata.variant_id);
             if (restored_variant != ReturnCode.RUNNER_INSTALLED)
                 return restored_variant;
@@ -214,11 +233,12 @@ namespace ProtonPlus.Services {
 
         public async ReturnCode finalize_replaced_runner (string directory, string backup, bool migrate_prefix) {
             var backup_settings = "%s/user_settings.py".printf (backup);
-            if (FileUtils.test (backup_settings, FileTest.IS_REGULAR)) {
+            if (FileUtils.test (backup_settings, FileTest.IS_SYMLINK) ||
+                FileUtils.test (backup_settings, FileTest.IS_REGULAR)) {
                 var settings = "%s/user_settings.py".printf (directory);
                 var copied = true;
                 if (FileUtils.test (backup_settings, FileTest.IS_SYMLINK))
-                    copied = Utils.Filesystem.copy_symlink (backup_settings, settings);
+                    copied = Utils.Filesystem.copy_symlink (backup_settings, settings, true);
                 else
                     copied = yield Utils.Filesystem.copy_file_verified (backup_settings, settings);
                 if (!copied) {
@@ -227,13 +247,20 @@ namespace ProtonPlus.Services {
                 }
             }
             var backup_prefix = "%s/files/share/default_pfx".printf (backup);
-            if (migrate_prefix && FileUtils.test (backup_prefix, FileTest.IS_DIR)) {
+            if (migrate_prefix && (FileUtils.test (backup_prefix, FileTest.IS_SYMLINK) ||
+                FileUtils.test (backup_prefix, FileTest.IS_DIR))) {
                 var prefix = "%s/files/share/default_pfx".printf (directory);
-                if (FileUtils.test (prefix, FileTest.IS_DIR) && !yield Utils.Filesystem.delete_directory (prefix)) {
+                if ((FileUtils.test (prefix, FileTest.IS_SYMLINK) || FileUtils.test (prefix, FileTest.IS_DIR)) &&
+                    !yield Utils.Filesystem.delete_directory (prefix)) {
                     yield rollback_replaced_runner (directory, backup);
                     return ReturnCode.FILESYSTEM_ERROR;
                 }
-                if (!yield Utils.Filesystem.copy_directory (backup_prefix, prefix)) {
+                // Directory enumeration follows its root even with NOFOLLOW_SYMLINKS.
+                // Preserve the link itself, including relative or missing targets.
+                var copied = FileUtils.test (backup_prefix, FileTest.IS_SYMLINK)
+                    ? Utils.Filesystem.copy_symlink (backup_prefix, prefix)
+                    : yield Utils.Filesystem.copy_directory (backup_prefix, prefix);
+                if (!copied) {
                     yield rollback_replaced_runner (directory, backup);
                     return ReturnCode.FILESYSTEM_ERROR;
                 }
@@ -376,7 +403,11 @@ namespace ProtonPlus.Services {
             return ReturnCode.INVALID_DATA;
         }
 
-        private bool persist_runner_install_metadata (InstallJob job, string path) {
+        protected virtual async ReturnCode prepare_staged_installation (InstallJob job, string path) {
+            return ReturnCode.RUNNER_INSTALLED;
+        }
+
+        protected virtual bool persist_runner_install_metadata (InstallJob job, string path) {
             var runner = job.tool as Models.Tools.ProviderTool;
             if (runner == null)
                 return false;

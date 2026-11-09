@@ -6,10 +6,8 @@ namespace ProtonPlus.Widgets {
         Preferences.PreferencesDialog? active_preferences_dialog = null;
         bool reopen_preferences_after_close = false;
         ProtonPlus.Services.Migrations.Manager? migration_manager = null;
-        ProtonPlus.Services.SteamSessionService? steam_session_service = null;
-        ProtonPlus.Services.SteamRestartManager? steam_restart_manager = null;
+        ProtonPlus.Services.SteamLifecycle? steam_lifecycle = null;
         ProtonPlus.Services.SteamRestartOrchestrator? steam_restart_orchestrator = null;
-        ProtonPlus.Services.SteamConfigurationService? steam_configuration_service = null;
         bool show_introduction = false;
 
         construct {
@@ -47,7 +45,20 @@ namespace ProtonPlus.Widgets {
                 return;
             }
 
-            window = new Window ((!) steam_restart_manager, (!) steam_restart_orchestrator);
+            window = new Window (((!) steam_lifecycle).restarts, (!) steam_restart_orchestrator);
+            var preferences_action = (SimpleAction) lookup_action ("preferences");
+            preferences_action.set_enabled (!window.launchers_loading);
+            weak Window observed_window = window;
+            window.notify["launchers-loading"].connect (() => {
+                if (observed_window == null)
+                    return;
+                preferences_action.set_enabled (!observed_window.launchers_loading);
+                if (!observed_window.launchers_loading && reopen_preferences_after_close &&
+                    active_preferences_dialog == null) {
+                    reopen_preferences_after_close = false;
+                    on_preferences_action ();
+                }
+            });
 
             Globals.SETTINGS.bind ("width",
                                    window,
@@ -70,7 +81,7 @@ namespace ProtonPlus.Widgets {
 
             if (show_introduction) {
                 show_introduction = false;
-                present_introduction (window);
+                present_introduction (window, true);
             }
 
             if (migration_manager != null) {
@@ -92,21 +103,18 @@ namespace ProtonPlus.Widgets {
 
             Globals.load ();
             Globals.setupLanguage ();
-            Notify.init (Config.APP_NAME);
+            Environment.set_application_name (Config.APP_NAME);
             ProtonPlus.Services.InstallationService.instance.configure_compatibility_process_guard (
                 new ProtonPlus.Services.CompatibilityProcessGuard.for_package (Globals.IS_FLATPAK)
             );
 
             /* This graph belongs to the GUI process, not individual rebuilt
              * windows.  CLI execution never instantiates Application. */
-            steam_session_service = new ProtonPlus.Services.SteamSessionService ();
-            steam_restart_manager = new ProtonPlus.Services.SteamRestartManager ((!) steam_session_service, new ProtonPlus.Services.SteamRestartStateStore ());
-            steam_configuration_service = new ProtonPlus.Services.SteamConfigurationService ((!) steam_session_service, (!) steam_restart_manager);
-            ((!) steam_restart_manager).configure_configuration_reconciler ((!) steam_configuration_service);
-            ProtonPlus.Services.SteamConfigurationService.configure ((!) steam_configuration_service);
-            steam_restart_orchestrator = new ProtonPlus.Services.SteamRestartOrchestrator ((!) steam_session_service, (!) steam_restart_manager, null, 500, 40, 60, (!) steam_configuration_service);
-            ProtonPlus.Services.InstallationService.instance.configure_steam_change_recorder ((!) steam_restart_manager);
-            steam_restart_manager.start_observation ();
+            var lifecycle = new ProtonPlus.Services.SteamLifecycle ();
+            steam_lifecycle = lifecycle;
+            steam_restart_orchestrator = new ProtonPlus.Services.SteamRestartOrchestrator (
+                lifecycle.sessions, lifecycle.restarts, null, 500, 40, 60, lifecycle.configuration
+            );
 
             if (Globals.SETTINGS != null) {
                 migration_manager = new ProtonPlus.Services.Migrations.Manager ();
@@ -134,11 +142,8 @@ namespace ProtonPlus.Widgets {
             var window = this.active_window as Window;
             if (window != null)
                 window.main_box.cancel_steam_restart ();
-            if (steam_restart_manager != null)
-                steam_restart_manager.stop_observation ();
-            ProtonPlus.Services.InstallationService.instance.reset_lifecycle_configuration ();
-            ProtonPlus.Services.SteamConfigurationService.reset_configuration ();
-            Notify.uninit ();
+            if (steam_lifecycle != null)
+                steam_lifecycle.stop ();
             base.shutdown ();
         }
 
@@ -154,8 +159,20 @@ namespace ProtonPlus.Widgets {
             on_introduction_action ();
         }
 
-        void present_introduction (Window window) {
-            var dialog = new Introduction.Introduction ();
+        void present_introduction (Window window, bool welcome_only = false) {
+            if (welcome_only) {
+                var welcome = new Introduction.Introduction ();
+                welcome.help_requested.connect (on_help_action);
+                window.present_controller_dialog (welcome);
+                return;
+            }
+
+            var dialog = new Introduction.HelpDialog ();
+            dialog.preferences_requested.connect ((page_name) => {
+                on_preferences_action ();
+                if (active_preferences_dialog != null)
+                    active_preferences_dialog.visible_page_name = page_name;
+            });
             window.present_controller_dialog (dialog);
         }
 
@@ -165,7 +182,7 @@ namespace ProtonPlus.Widgets {
 
         void on_preferences_action () {
             var window = this.active_window as Window;
-            if (window == null || active_preferences_dialog != null)
+            if (window == null || window.launchers_loading || active_preferences_dialog != null)
                 return;
 
             var preferences_dialog = new Preferences.PreferencesDialog (window.launchers);
@@ -177,7 +194,8 @@ namespace ProtonPlus.Widgets {
         void on_preferences_dialog_closed () {
             active_preferences_dialog = null;
 
-            if (reopen_preferences_after_close) {
+            var window = this.active_window as Window;
+            if (reopen_preferences_after_close && window != null && !window.launchers_loading) {
                 reopen_preferences_after_close = false;
                 on_preferences_action ();
             }
@@ -214,6 +232,11 @@ namespace ProtonPlus.Widgets {
         }
 
         void on_about_action () {
+            var about_dialog = create_about_dialog ();
+            Window.present_dialog_for_controller (about_dialog, this.active_window);
+        }
+
+        public static Adw.AboutDialog create_about_dialog () {
             const string[] devs = {
                 "Vysp3r https://github.com/Vysp3r",
                 "nick.exe https://github.com/nickexe",
@@ -230,17 +253,15 @@ namespace ProtonPlus.Widgets {
                 null
             };
 
-            var meta = new Utils.Internal.MetaInfoLoader ();
-            var model = meta.load ();
-
-
-            var about_dialog = new Adw.AboutDialog ();
+            var about_dialog = new Adw.AboutDialog.from_appdata (
+                "/com/vysp3r/ProtonPlus/metainfo.xml", Config.APP_VERSION
+            );
             about_dialog.set_application_name (Config.APP_NAME);
             about_dialog.set_application_icon (Config.APP_ID);
             about_dialog.set_version ("v" + Config.APP_VERSION);
             about_dialog.set_comments (_("A modern compatibility tools manager"));
             about_dialog.add_link ("GitHub", "https://github.com/Vysp3r/ProtonPlus");
-            about_dialog.add_link (_("Website"), "https://protonplus.vysp3r.com/");
+            about_dialog.add_link (_("Discord"), "https://discord.gg/qNRPQvC7m4");
             about_dialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
             about_dialog.set_copyright (get_copyright ());
             about_dialog.set_license_type (Gtk.License.GPL_3_0);
@@ -248,13 +269,7 @@ namespace ProtonPlus.Widgets {
             about_dialog.set_translator_credits (_("translator-credits"));
             about_dialog.add_credit_section (_("Special thanks to"), thanks);
 
-            if (model != null) {
-                var last_release = model.get_last_release ();
-
-                about_dialog.set_release_notes (last_release.description);
-                about_dialog.set_release_notes_version (last_release.version);
-            }
-            Window.present_dialog_for_controller (about_dialog, this.active_window);
+            return about_dialog;
         }
 
         private static string get_copyright () {

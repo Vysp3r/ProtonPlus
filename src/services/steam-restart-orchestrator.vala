@@ -22,7 +22,7 @@ namespace ProtonPlus.Services {
         public SteamRestartOrchestrator (
             SteamSessionService session_service, SteamRestartManager restart_manager,
             SteamRestartBackend? backend = null, uint poll_interval_msec = 500,
-            uint exit_poll_limit = 40, uint start_poll_limit = 60,
+            uint exit_poll_limit = 40, uint start_poll_limit = 240,
             SteamConfigurationReconciler? configuration_reconciler = null
         ) {
             this.session_service = session_service;
@@ -30,6 +30,8 @@ namespace ProtonPlus.Services {
             this.backend = backend ?? new HostSteamRestartBackend ();
             this.poll_interval_msec = poll_interval_msec;
             this.exit_poll_limit = exit_poll_limit;
+            // Check startup every half second for up to two minutes,
+            // including an observation at the final deadline.
             this.start_poll_limit = start_poll_limit;
             this.configuration_reconciler = configuration_reconciler;
         }
@@ -235,7 +237,7 @@ namespace ProtonPlus.Services {
             var update_observed = false;
             var update_relaunch_sent = false;
             uint poll = 0;
-            while (poll < start_poll_limit) {
+            while (poll <= start_poll_limit) {
                 if (cancelled (cancellable))
                     return cancelled_result (target, shutdown_sent, stopped, launch_sent, started, "Launch was dispatched; no additional control action follows cancellation.");
                 var observed = observe (target);
@@ -282,9 +284,10 @@ namespace ProtonPlus.Services {
                     if (retry_result.status != SteamRestartCommandStatus.ACCEPTED)
                         return fail (target, SteamRestartFailureReason.RELAUNCH_FAILED, shutdown_sent, stopped, launch_sent, started, retry_result.diagnostic);
                     transition (SteamRestartOperationState.WAITING_FOR_START);
-                    poll = 0;
                     continue;
                 }
+                if (poll == start_poll_limit)
+                    break;
                 if (!yield backend.delay (poll_interval_msec, cancellable))
                     return cancelled_result (target, shutdown_sent, stopped, launch_sent, started, "Launch was dispatched; startup polling was cancelled.");
                 poll++;

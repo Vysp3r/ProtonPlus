@@ -28,6 +28,7 @@ int main (string[] args) {
     AppTests.WebTest.register_tests ();
     AppTests.SystemPathTest.register_tests ();
     AppTests.SystemdTimerTest.register_tests ();
+    AppTests.MigrationV0_6_6Test.register_tests ();
     AppTests.FaugusLauncherTest.register_tests ();
     AppTests.MetadataTest.register_tests ();
     AppTests.CompatibilityToolTest.register_tests ();
@@ -47,17 +48,20 @@ int main (string[] args) {
     AppTests.CliTest.register_tests ();
     AppTests.ReleaseIdentityTest.register_tests ();
     AppTests.ReleasePageTest.register_tests ();
+    AppTests.ReleaseCatalogTest.register_tests ();
     AppTests.VariantSettingsTest.register_tests ();
     AppTests.InstallLayoutTest.register_tests ();
     AppTests.CompatibilityProcessGuardTest.register_tests ();
     AppTests.InstallerTransactionTest.register_tests ();
     AppTests.SteamTest.register_tests ();
     AppTests.SteamSessionTest.register_tests ();
+    AppTests.SteamGameLaunchTest.register_tests ();
     AppTests.SteamConfigurationServiceTest.register_tests ();
     AppTests.SteamRestartManagerTest.register_tests ();
     AppTests.SteamRestartOrchestratorTest.register_tests ();
     AppTests.SteamRestartPresentationTest.register_tests ();
     AppTests.SteamTinkerLaunchTest.register_tests ();
+    AppTests.TinkerGameTest.register_tests ();
     AppTests.UpdateTransactionTest.register_tests ();
     AppTests.VdfBinaryTest.register_tests ();
 

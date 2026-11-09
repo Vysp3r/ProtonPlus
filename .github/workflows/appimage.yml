@@ -33,6 +33,12 @@ jobs:
       - name: Install Dependencies
         run: /bin/sh ./scripts/get-dependencies.sh
 
+      - name: Check release metadata
+        if: github.event_name == 'release'
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: ./scripts/set-version.sh "${RELEASE_TAG#v}" --check
+
       - name: Make AppImage
         run: /bin/sh ./scripts/make-appimage.sh
 

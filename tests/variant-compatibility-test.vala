@@ -26,12 +26,18 @@ namespace AppTests.VariantCompatibilityTest {
     }
 
     private ProviderDefinition definition (VariantCompatibility? compatibility = null) {
-        return new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "compatibility-fixture", "Fixture", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("default", "default", "$release_name", true, compatibility) },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+        return new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "compatibility-fixture",
+            title = "Fixture",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("default", "default", "$release_name", true, compatibility) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
     }
 
     private void test_unrestricted_and_independent () {
@@ -145,10 +151,16 @@ namespace AppTests.VariantCompatibilityTest {
     }
 
     private void test_definition_validation () {
-        var invalid = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB, "invalid-compatibility", "Fixture", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            {
+        var invalid = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "invalid-compatibility",
+            title = "Fixture",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = {
                 new VariantDefinition (
                     "default", "default", "$release_name", true,
                     new VariantCompatibility ({ CpuArchitecture.UNKNOWN, CpuArchitecture.X86_64, CpuArchitecture.X86_64 })
@@ -165,8 +177,8 @@ namespace AppTests.VariantCompatibilityTest {
                     )
                 )
             },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
         var registry = new ProviderRegistry ({ invalid });
         assert (!registry.is_valid);
         assert (has_message (registry, "variant compatibility contains unknown architecture: default"));

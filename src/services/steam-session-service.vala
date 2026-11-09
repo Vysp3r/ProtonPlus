@@ -125,7 +125,7 @@ namespace ProtonPlus.Services {
 
         public SteamProcessRecord (int pid, string executable_path, string command_line, int64 start_time_ticks) {
             this.pid = pid;
-            this.executable_path = executable_path;
+            this.executable_path = normalize_executable_path (executable_path);
             this.command_line = command_line;
             this.start_time_ticks = start_time_ticks;
         }
@@ -134,9 +134,17 @@ namespace ProtonPlus.Services {
             int pid, string executable_path, uint8[] command_line_bytes, int64 start_time_ticks
         ) {
             this.pid = pid;
-            this.executable_path = executable_path;
+            this.executable_path = normalize_executable_path (executable_path);
             this.command_line = decode_proc_command_line (command_line_bytes);
             this.start_time_ticks = start_time_ticks;
+        }
+
+        private static string normalize_executable_path (string path) {
+            /* Linux retains a running executable's path with this suffix when
+             * Steam's updater replaces it. It is still the same live session. */
+            const string DELETED_SUFFIX = " (deleted)";
+            return path.has_suffix (DELETED_SUFFIX)
+                ? path.substring (0, path.length - DELETED_SUFFIX.length) : path;
         }
 
         private static string decode_proc_command_line (uint8[] contents) {
@@ -331,7 +339,7 @@ namespace ProtonPlus.Services {
     }
 
     public class SteamSessionService : Object {
-        private const int64 STARTING_WINDOW_USEC = 30 * 1000 * 1000;
+        private const int64 STARTING_WINDOW_USEC = 5 * 1000 * 1000;
         private SteamSessionBackend backend;
         private Gee.ArrayList<SteamRestartTarget> monitored_targets = new Gee.ArrayList<SteamRestartTarget> ();
         private Gee.HashMap<string, SteamSessionSnapshot> previous_monitored_snapshots = new Gee.HashMap<string, SteamSessionSnapshot> ();
@@ -380,13 +388,6 @@ namespace ProtonPlus.Services {
                 blockers.add (new SteamSessionBlockerEvidence (SteamSessionBlocker.UNKNOWN_PROCESS_STATE, SteamEvidenceLevel.CONFIRMED, diagnostics[0]));
                 return snapshot (target, SteamSessionState.UNKNOWN, false, 0, null, null, null, relaunch, blockers, SteamEvidenceLevel.NONE, session_mode, diagnostics);
             }
-        }
-
-        public Gee.List<SteamSessionSnapshot> inspect_all (Gee.List<SteamRestartTarget> targets) {
-            var snapshots = new Gee.ArrayList<SteamSessionSnapshot> ();
-            foreach (var target in targets)
-                snapshots.add (inspect (target));
-            return snapshots;
         }
 
         public void start_monitoring () {

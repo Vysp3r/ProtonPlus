@@ -11,6 +11,7 @@ namespace ProtonPlus.Widgets.Header {
         bool controller_mode_active = false;
         Adw.ViewSwitcher? global_view_switcher;
         Presentation? current_presentation;
+        bool launchers_available = false;
 
         private bool _narrow_navigation = false;
         public bool narrow_navigation {
@@ -27,6 +28,7 @@ namespace ProtonPlus.Widgets.Header {
 
         public Box () {
             launchers_button = new LaunchersButton ();
+            launchers_button.set_visible (false);
             launchers_button.launcher_selected.connect ((launcher) => launcher_selected (launcher));
 
             downloads_indicator = new DownloadsIndicator ();
@@ -97,8 +99,14 @@ namespace ProtonPlus.Widgets.Header {
         public void initialize (Gee.LinkedList<Models.Launcher> launchers,
             Adw.ViewSwitcher view_switcher) {
             launchers_button.initialize (launchers);
+            set_launchers_available (launchers.size > 0);
             global_view_switcher = view_switcher;
             update_title_widget ();
+        }
+
+        public void set_launchers_available (bool available) {
+            launchers_available = available;
+            launchers_button.set_visible (available && current_presentation == null);
         }
 
         public void set_presentation (Presentation? presentation) {
@@ -118,7 +126,7 @@ namespace ProtonPlus.Widgets.Header {
             back_button.set_visible (
                 presentation != null && ((!) presentation).can_navigate_back
             );
-            launchers_button.set_visible (presentation == null);
+            launchers_button.set_visible (presentation == null && launchers_available);
             downloads_indicator.set_global_header_visible (presentation == null);
             menu_button.set_visible (presentation == null);
 
@@ -150,7 +158,8 @@ namespace ProtonPlus.Widgets.Header {
         }
 
         public void open_launchers () {
-            launchers_button.button_clicked ();
+            if (launchers_button.get_visible ())
+                launchers_button.button_clicked ();
         }
 
         public bool focus_launchers () {

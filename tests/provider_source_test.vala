@@ -35,43 +35,38 @@ namespace AppTests.ProviderSourceTest {
     private ProviderDefinition definition (SourceType source_type) {
         var template = source_type == SourceType.GITHUB_ACTIONS ?
             "https://example.test/artifacts/{id}/fixture-action.zip?signature=example" : "";
-        return new ProviderDefinition (
-            Category.PROTON,
-            source_type,
-            "fixture-%s".printf (ProviderDefinition.source_id_for (source_type)),
-            "Fixture provider",
-            "",
-            "https://example.test/releases",
-            "https://example.test/source",
-            1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") },
-            null,
-            null,
-            "",
-            false,
-            template,
-            ArchiveInstallRequirement.STANDARD,
-            true
-        );
+        return new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = source_type,
+            provider_id = "fixture-%s".printf (ProviderDefinition.source_id_for (source_type)),
+            title = "Fixture provider",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") },
+            url_template = template,
+            single_archive_releases = true
+        });
     }
 
     private ProviderDefinition policy_definition (SourceType source_type) {
-        return new ProviderDefinition (
-            Category.PROTON,
-            source_type,
-            "fixture-%s-policy".printf (ProviderDefinition.source_id_for (source_type)),
-            "Fixture provider",
-            "",
-            "https://example.test/releases",
-            "https://example.test/source",
-            1,
-            {
+        return new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = source_type,
+            provider_id = "fixture-%s-policy".printf (ProviderDefinition.source_id_for (source_type)),
+            title = "Fixture provider",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = {
                 new VariantDefinition ("default", "default", "$release_name-default", true),
                 new VariantDefinition ("first", "first", "$release_name-first", false)
             },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
     }
 
     private void test_github_release_page () {
@@ -156,29 +151,41 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_github_actions_definition_filters () {
-        var filtered = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB_ACTIONS, "filtered-actions", "Fixture provider", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") },
-            { "73" }, null, "", false,
-            "https://example.test/artifacts/{id}/fixture-action.zip?signature=example",
-            ArchiveInstallRequirement.STANDARD, true
-        );
+        var filtered = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB_ACTIONS,
+            provider_id = "filtered-actions",
+            title = "Fixture provider",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") },
+            asset_filters = { "73" },
+            url_template = "https://example.test/artifacts/{id}/fixture-action.zip?signature=example",
+            single_archive_releases = true
+        });
         var filtered_result = new GitHubActionsReleaseSource ().parse_response (
             filtered, fixture ("github-actions", "run.json"), 1, 25
         );
         assert (filtered_result.succeeded && filtered_result.require_page ().releases.size == 1);
 
-        var excluded = new ProviderDefinition (
-            Category.PROTON, SourceType.GITHUB_ACTIONS, "excluded-actions", "Fixture provider", "",
-            "https://example.test/releases", "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") },
-            null, { "73" }, "", false,
-            "https://example.test/artifacts/{id}/fixture-action.zip?signature=example",
-            ArchiveInstallRequirement.STANDARD, true
-        );
+        var excluded = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB_ACTIONS,
+            provider_id = "excluded-actions",
+            title = "Fixture provider",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") },
+            asset_exclusions = { "73" },
+            url_template = "https://example.test/artifacts/{id}/fixture-action.zip?signature=example",
+            single_archive_releases = true
+        });
         var excluded_result = new GitHubActionsReleaseSource ().parse_response (
             excluded, fixture ("github-actions", "run.json"), 1, 25
         );
@@ -186,23 +193,35 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_github_definition_filters () {
-        var filtered = new ProviderDefinition (
-            Category.WINE, SourceType.GITHUB, "filtered", "Filtered", "", "https://example.test/releases",
-            "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") },
-            { "proton" }
-        );
+        var filtered = new ProviderDefinition (new ProviderConfig () {
+            category = Category.WINE,
+            source_type = SourceType.GITHUB,
+            provider_id = "filtered",
+            title = "Filtered",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") },
+            asset_filters = { "proton" }
+        });
         var filtered_result = new GitHubReleaseSource ().parse_response (filtered, fixture ("github", "release.json"), 1, 25);
         assert (filtered_result.succeeded && filtered_result.require_page ().releases.size == 0);
 
-        var excluded = new ProviderDefinition (
-            Category.WINE, SourceType.GITHUB, "excluded", "Excluded", "", "https://example.test/releases",
-            "https://example.test/source", 1,
-            { new VariantDefinition ("standard", "default", "$release_name", true) },
-            { InstallLayout.template ("default", "$release_name") },
-            null, { "GE-Proton" }
-        );
+        var excluded = new ProviderDefinition (new ProviderConfig () {
+            category = Category.WINE,
+            source_type = SourceType.GITHUB,
+            provider_id = "excluded",
+            title = "Excluded",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = { new VariantDefinition ("standard", "default", "$release_name", true) },
+            install_layouts = { InstallLayout.template ("default", "$release_name") },
+            asset_exclusions = { "GE-Proton" }
+        });
         var excluded_result = new GitHubReleaseSource ().parse_response (excluded, fixture ("github", "release.json"), 1, 25);
         assert (excluded_result.succeeded && excluded_result.require_page ().releases.size == 0);
     }
@@ -328,23 +347,23 @@ namespace AppTests.ProviderSourceTest {
     }
 
     private void test_github_alternate_variant_format () {
-        var alternate_definition = new ProviderDefinition (
-            Category.PROTON,
-            SourceType.GITHUB,
-            "alternate-format",
-            "Alternate format",
-            "",
-            "https://example.test/releases",
-            "https://example.test/source",
-            1,
-            {
+        var alternate_definition = new ProviderDefinition (new ProviderConfig () {
+            category = Category.PROTON,
+            source_type = SourceType.GITHUB,
+            provider_id = "alternate-format",
+            title = "Alternate format",
+            description = "",
+            endpoint = "https://example.test/releases",
+            repository_url = "https://example.test/source",
+            sort_priority = 1,
+            variants = {
                 new VariantDefinition (
                     "x86", "x86", "$release_name-x86_64", true,
                     null, { "$release_name" }
                 )
             },
-            { InstallLayout.template ("default", "$release_name") }
-        );
+            install_layouts = { InstallLayout.template ("default", "$release_name") }
+        });
 
         var base_response = "[{\"id\":42,\"tag_name\":\"v1\",\"assets\":[{\"name\":\"v1.tar.gz\",\"browser_download_url\":\"https://example.test/v1.tar.gz\"}]}]";
         var base_result = new GitHubReleaseSource ().parse_response (
