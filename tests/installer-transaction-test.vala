@@ -275,6 +275,7 @@ namespace AppTests.InstallerTransactionTest {
         assert (ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (location, "marker.txt")) == "new runner\n");
         var metadata = ProtonPlus.Utils.Metadata.load (location);
         assert (metadata.tool_id == target.id); assert (metadata.release_id == "fixture-release-id"); assert (metadata.tag == "fixture-tag");
+        assert (metadata.install_mode == "versioned");
         assert (job.is_finished && job.install_success);
         assert (ProtonPlus.Utils.DownloadManager.instance.active_downloads.size == 0);
         no_entries (cache, ".protonplus-install-"); no_entries (tools, ".protonplus-stage-"); assert (delete_directory (root));

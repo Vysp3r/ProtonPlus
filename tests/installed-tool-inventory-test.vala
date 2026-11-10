@@ -31,6 +31,9 @@ namespace AppTests.InstalledToolInventoryTest {
         Test.add_func ("/installed-tool-inventory/legacy-tag-and-directory-fallbacks", test_legacy_tag_and_directory_fallbacks);
         Test.add_func ("/installed-tool-inventory/vdf-internal-and-display-title-fallbacks", test_vdf_fallbacks);
         Test.add_func ("/installed-tool-inventory/latest-and-variant-directories", test_latest_and_variant_directories);
+        Test.add_func ("/installed-tool-inventory/renamed-latest-jobs-use-installed-path", test_renamed_latest_jobs);
+        Test.add_func ("/installed-tool-inventory/latest-slots-respect-mode-identity-and-variant", test_latest_slot_constraints);
+        Test.add_func ("/installed-tool-inventory/ambiguous-legacy-title-is-not-migrated", test_ambiguous_legacy_title);
         Test.add_func ("/installed-tool-inventory/job-directory-names-round-trip", test_job_directory_names_round_trip);
         Test.add_func ("/installed-tool-inventory/usage-spans-installed-releases", test_usage_spans_installed_releases);
         Test.add_func ("/installed-tool-inventory/job-usage-identity-follows-installed-entry", test_job_usage_identity);
@@ -295,6 +298,120 @@ namespace AppTests.InstalledToolInventoryTest {
         value.refresh_installed_state ();
         assert (tool.is_installed ());
 
+        assert (delete_directory (root));
+    }
+
+    private void test_renamed_latest_jobs () {
+        foreach (var legacy in new bool[] { false, true }) {
+            var root = temporary_directory ();
+            var launcher = new InventoryLauncher (root);
+            var value = group (launcher);
+            var configured = new ProviderRegistry ().get_by_id ("proton-cachyos-wineland");
+            assert (configured != null);
+            var tool = add_tool (value, (!) configured);
+            var remote = release ("v2");
+            foreach (var variant in tool.variants) {
+                remote.variants.add (new ProtonPlus.Models.Variant (
+                    variant.id, variant.name, "", variant.is_default,
+                    "https://example.test/runner.tar.gz"
+                ));
+                var name = tool.get_directory_name ("Proton-CachyOS Wineland Latest", variant);
+                var path = Path.build_filename (root, name);
+                assert (ProtonPlus.Utils.Filesystem.create_directory (path));
+                write_vdf (path, "Proton-CachyOS Wineland Latest", "Proton-CachyOS Wineland Latest");
+                var metadata = new ProtonPlus.Utils.Metadata ();
+                metadata.runner_endpoint = tool.endpoint;
+                metadata.runner_title = "Proton-CachyOS Wineland";
+                metadata.tag = "v1";
+                if (!legacy) {
+                    metadata.provider_id = tool.provider_id;
+                    metadata.tool_id = tool.id;
+                    metadata.launcher_id = launcher.tool_target_id;
+                    metadata.variant_id = variant.id;
+                }
+                assert (metadata.save (path));
+            }
+
+            value.refresh_installed_state ();
+            assert (tool.is_installed ());
+            var job = new ProtonPlus.Services.InstallJob (
+                remote, tool, ProtonPlus.Services.InstallJob.Mode.LATEST
+            );
+            foreach (var variant in tool.variants) {
+                job.set_selected_variant (variant.name, null, variant.id);
+                var expected = Path.build_filename (root,
+                    tool.get_directory_name ("Proton-CachyOS Wineland Latest", variant));
+                assert (job.install_location == expected);
+                assert (job.state == ProtonPlus.Services.InstallJob.State.UP_TO_DATE);
+                assert (job.get_usage_identifier () == "Proton-CachyOS Wineland Latest");
+                var presentation = ProtonPlus.Widgets.Tools.ReleaseRowPresentation.evaluate (
+                    job.state, job.step, true, true
+                );
+                assert (presentation.show_delete && presentation.show_update_action);
+            }
+            assert (ProtonPlus.Services.InstallationService.instance.get_update_candidates (value).contains (tool));
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_latest_slot_constraints () {
+        var root = temporary_directory ();
+        var launcher = new InventoryLauncher (root);
+        var value = group (launcher);
+        var tool = add_tool (value, definition ("runner", "Runner"));
+        var path = Path.build_filename (root, "Previous Runner Latest-Arm_64");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (path));
+        var metadata = new ProtonPlus.Utils.Metadata ();
+        metadata.provider_id = tool.provider_id;
+        metadata.tool_id = tool.id;
+        metadata.launcher_id = launcher.tool_target_id;
+        metadata.runner_title = "Previous Runner";
+        metadata.variant_id = "arm";
+        assert (metadata.save (path));
+        value.refresh_installed_state ();
+        var inventory = value.installed_tool_inventory;
+        assert (inventory.get_latest_installation (tool) == null);
+        assert (inventory.get_latest_installation (tool, tool.variants[1]).path == path);
+
+        // New receipts continue to resolve after their recorded title is
+        // updated, without treating versioned or unknown modes as Latest.
+        metadata.runner_title = tool.title;
+        foreach (var mode in new string[] { "versioned", "unknown", "latest" }) {
+            metadata.install_mode = mode;
+            assert (metadata.save (path));
+            value.refresh_installed_state ();
+            assert ((inventory.get_latest_installation (tool, tool.variants[1]) != null) == (mode == "latest"));
+        }
+        foreach (var mismatch in new string[] { "provider", "tool", "launcher", "variant" }) {
+            metadata.provider_id = mismatch == "provider" ? "other-provider" : tool.provider_id;
+            metadata.tool_id = mismatch == "tool" ? "other-tool" : tool.id;
+            metadata.launcher_id = mismatch == "launcher" ? "other-system" : launcher.tool_target_id;
+            metadata.variant_id = mismatch == "variant" ? "other-variant" : "arm";
+            assert (metadata.save (path));
+            value.refresh_installed_state ();
+            assert (inventory.get_latest_installation (tool, tool.variants[1]) == null);
+        }
+        assert (delete_directory (root));
+    }
+
+    private void test_ambiguous_legacy_title () {
+        var root = temporary_directory ();
+        var launcher = new InventoryLauncher (root);
+        var value = group (launcher);
+        var configured = new ProviderRegistry ().get_by_id ("proton-cachyos-wineland");
+        assert (configured != null);
+        var tool = add_tool (value, (!) configured);
+        add_tool (value, definition ("shared-endpoint", "Proton-CachyOS Wineland", tool.endpoint));
+        var path = Path.build_filename (root, "Proton-CachyOS Wineland Latest");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (path));
+        var metadata = new ProtonPlus.Utils.Metadata ();
+        metadata.runner_endpoint = tool.endpoint;
+        metadata.runner_title = "Proton-CachyOS Wineland";
+        assert (metadata.save (path));
+        value.refresh_installed_state ();
+        assert (ProtonPlus.Utils.Metadata.load (path).provider_id == "");
+        assert (value.installed_tool_inventory.get_latest_installation (tool) == null);
+        assert (!ProtonPlus.Services.InstallationService.instance.get_update_candidates (value).contains (tool));
         assert (delete_directory (root));
     }
 

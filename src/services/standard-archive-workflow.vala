@@ -158,10 +158,7 @@ namespace ProtonPlus.Services {
             var directory_valid = provider_tool != null && job.effective_directory_name_for_state () != "";
             var installed = job.install_location != "" && FileUtils.test (job.install_location, FileTest.IS_DIR);
             if (job.mode == InstallJob.Mode.LATEST && provider_tool != null) {
-                var backup = Path.build_filename (
-                    job.tool.group.launcher.get_primary_managed_tool_directory (job.tool.group),
-                    "%s Latest Backup".printf (job.tool.title)
-                );
+                var backup = "%s Backup".printf (job.install_location);
                 installed = installed || FileUtils.test (backup, FileTest.IS_DIR);
             }
             job.state = directory_valid && installed ? InstallJob.State.UP_TO_DATE : InstallJob.State.NOT_INSTALLED;
@@ -202,7 +199,9 @@ namespace ProtonPlus.Services {
                 return ReturnCode.EXTRACTION_FAILED;
             if (reserved_job != null)
                 job.set_release_for_update (lookup.require_release ());
-            var restored_variant = restore_installed_variant (job, metadata.variant_id);
+            var restored_variant = restore_installed_variant (
+                job, metadata.variant_id != "" ? metadata.variant_id : job.selected_variant_id ?? ""
+            );
             if (restored_variant != ReturnCode.RUNNER_INSTALLED)
                 return restored_variant;
             bool missing_explicit_selection;
@@ -217,8 +216,8 @@ namespace ProtonPlus.Services {
         // The older updater moved Latest to this visible backup name before
         // installing.  Restore it only when no primary exists; a coexisting
         // backup remains recovery state until another path proves it obsolete.
-        internal async ReturnCode restore_legacy_latest_backup (Models.Tools.ProviderTool runner) {
-            var directory = Path.build_filename (
+        internal async ReturnCode restore_legacy_latest_backup (Models.Tools.ProviderTool runner, string? installation_location = null) {
+            var directory = installation_location ?? Path.build_filename (
                 runner.group.launcher.get_primary_managed_tool_directory (runner.group),
                 "%s Latest".printf (runner.title)
             );
@@ -289,7 +288,7 @@ namespace ProtonPlus.Services {
                 if (!persist_runner_identity (
                     metadata, runner, job.install_location,
                     release.source_tag != "" ? release.source_tag : release.title,
-                    release.upstream_release_id
+                    release.upstream_release_id, job.selected_variant_identity ()
                 ))
                     return ReturnCode.FILESYSTEM_ERROR;
                 return ReturnCode.NOTHING_TO_UPDATE;
@@ -367,7 +366,13 @@ namespace ProtonPlus.Services {
             var tool = compat_tools.children.get (0);
             if (tool.key == "" || tool.key_start < 0 || tool.key_end < tool.key_start)
                 return manifest_failure (job, path, "compatibility tool name is missing or invalid");
-            content = document.replace_key (tool, job.title);
+            // Existing Steam assignments refer to this key. A provider rename
+            // changes presentation, not the identity of an installed slot.
+            var installed_tool = Utils.VDF.CompatibilityToolLoader.try_from_paths (
+                job.install_location, job.install_location
+            );
+            var internal_title = installed_tool != null ? installed_tool.internal_title : job.title;
+            content = document.replace_key (tool, internal_title);
             document = Utils.VDF.VdfParser.parse_document (content);
             if (document == null)
                 return manifest_failure (job, path, "renamed manifest is not valid text VDF");
@@ -420,6 +425,7 @@ namespace ProtonPlus.Services {
             metadata.launcher_id = runner.group.launcher.tool_target_id;
             metadata.variant_id = job.selected_variant_identity ();
             metadata.release_id = job.release.upstream_release_id;
+            metadata.install_mode = job.mode == InstallJob.Mode.LATEST ? "latest" : "versioned";
             return metadata.save (path);
         }
 
@@ -457,13 +463,17 @@ namespace ProtonPlus.Services {
             Models.Tools.ProviderTool runner,
             string directory,
             string tag,
-            string release_id
+            string release_id,
+            string variant_id
         ) {
             metadata.runner_endpoint = runner.endpoint;
             metadata.runner_title = runner.title;
             metadata.provider_id = runner.provider_id;
             metadata.tool_id = runner.id;
             metadata.launcher_id = runner.group.launcher.tool_target_id;
+            metadata.install_mode = "latest";
+            if (variant_id != "")
+                metadata.variant_id = variant_id;
             if (tag != "")
                 metadata.tag = tag;
             if (release_id != "")

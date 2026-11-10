@@ -145,6 +145,15 @@ namespace AppTests.ProviderDefinitionTest {
             for (var index = 0; index < legacy_endpoints.length; index++)
                 assert (legacy_endpoints[index] == expected_legacy_endpoints.get_string_element (index));
 
+            Json.Array? expected_legacy_titles = object.has_member ("legacy_titles")
+                ? object.get_array_member ("legacy_titles") : null;
+            var legacy_titles = definition.legacy_titles;
+            assert (legacy_titles.length == (expected_legacy_titles == null ? 0 : expected_legacy_titles.get_length ()));
+            for (var index = 0; index < legacy_titles.length; index++) {
+                assert (legacy_titles[index] == expected_legacy_titles.get_string_element (index));
+                assert (definition.matches_title (legacy_titles[index]));
+            }
+
             var expected_variants = object.get_array_member ("variants");
             var variants = definition.get_variants ();
             assert (variants.length == expected_variants.get_length ());
