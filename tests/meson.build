@@ -99,7 +99,7 @@ foreach gui_test : [
     {
         'target': 'tools-presentation-test',
         'name': 'Tools presentation',
-        'environment': [],
+        'environment': ['PROTONPLUS_TEST_FIXTURES=' + (meson.current_source_dir() / 'fixtures')],
     },
     {
         'target': 'games-presentation-test',

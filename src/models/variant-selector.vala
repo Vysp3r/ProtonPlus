@@ -22,6 +22,17 @@ namespace ProtonPlus.Models {
     /// Builds UI-safe variant projections from catalog data without changing
     /// either the provider definition or release metadata.
     public class VariantSelector : Object {
+        public static Gee.LinkedList<Variant> available_variants (
+            Release release,
+            CpuCapabilities capabilities
+        ) {
+            var available = new Gee.LinkedList<Variant> ();
+            foreach (var variant in compatible_variants (release.variants, capabilities))
+                if (has_download_url (variant))
+                    available.add (variant);
+            return available;
+        }
+
         public static Gee.LinkedList<Variant> compatible_variants (
             Gee.Iterable<Variant> variants,
             CpuCapabilities capabilities

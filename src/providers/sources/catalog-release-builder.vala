@@ -29,9 +29,26 @@ namespace ProtonPlus.Providers.Sources {
             string tag_name,
             LinkedList<Models.Assets.Asset> assets
         ) {
+            foreach (var set in definition.get_release_variant_sets ()) {
+                var configured = set.get_variants ();
+                foreach (var variant in configured) {
+                    if (find_variant_asset (variant, definition.title, release_name, tag_name, assets) != null)
+                        return build_variants (definition, configured, release_name, tag_name, assets);
+                }
+            }
+            return build_variants (definition, definition.get_fallback_variants (), release_name, tag_name, assets);
+        }
+
+        private static LinkedList<Models.Variant> build_variants (
+            Models.Providers.ProviderDefinition definition,
+            Models.Providers.VariantDefinition[] configured,
+            string release_name,
+            string tag_name,
+            LinkedList<Models.Assets.Asset> assets
+        ) {
             var variants = new LinkedList<Models.Variant> ();
 
-            foreach (var definition_variant in definition.get_variants ()) {
+            foreach (var definition_variant in configured) {
                 var selected_asset = find_variant_asset (
                     definition_variant, definition.title, release_name, tag_name, assets
                 );
@@ -60,7 +77,8 @@ namespace ProtonPlus.Providers.Sources {
 
         public static Models.Assets.Asset? select_default_asset (
             LinkedList<Models.Assets.Asset> assets,
-            LinkedList<Models.Variant> variants
+            LinkedList<Models.Variant> variants,
+            bool allow_available_variant = false
         ) {
             foreach (var variant in variants) {
                 if (!variant.is_default || variant.download_url == null || variant.download_url == "")
@@ -72,6 +90,13 @@ namespace ProtonPlus.Providers.Sources {
                 }
             }
 
+            // A packaging generation may temporarily publish only its
+            // non-default archive. Keep it browsable without changing its
+            // persisted installation slot or default flag.
+            if (allow_available_variant)
+                foreach (var variant in variants)
+                    if (variant.asset != null)
+                        return variant.asset;
             return null;
         }
 

@@ -121,6 +121,7 @@ namespace AppTests.UpdateTransactionTest {
         Test.add_func ("/update-transaction/latest-lookup-failures-are-propagated", test_latest_lookup_failures_are_propagated);
         Test.add_func ("/update-transaction/latest-identity-controls-update-detection", test_latest_identity_controls_update_detection);
         Test.add_func ("/update-transaction/latest-restores-installed-variant", test_latest_restores_installed_variant);
+        Test.add_func ("/update-transaction/sarek-packaging-transition", test_sarek_packaging_transition);
         Test.add_func ("/update-transaction/latest-incompatible-restored-variant-is-skipped", test_latest_incompatible_restored_variant_is_skipped);
         Test.add_func ("/update-transaction/latest-legacy-variant-falls-back-to-compatible-release", test_latest_legacy_variant_falls_back_to_compatible_release);
         Test.add_func ("/update-transaction/latest-legacy-variant-without-compatible-release-is-untouched", test_latest_legacy_variant_without_compatible_release_is_untouched);
@@ -718,6 +719,41 @@ namespace AppTests.UpdateTransactionTest {
 
         assert (delete_directory (current_root));
         assert (delete_directory (stale_root));
+    }
+
+    private void test_sarek_packaging_transition () {
+        var root = create_temp_directory ();
+        var definition = new ProviderRegistry ().get_by_id ("dxvk-sarek");
+        var releases = new GitHubReleaseSource ().parse_response (definition,
+            Utils.Filesystem.get_file_content ("fixtures/providers/github/sarek.json"), 1, 25).require_page ().releases;
+        var launcher = new Launcher ("Fixture", Launcher.InstallationTypes.SYSTEM, "", { root });
+        var group = new Group ("Fixture", "", "", launcher);
+        var runner = new ProviderTool.with_catalog (definition, new StaticReleaseSource (releases[0]),
+            group, definition.get_install_layout ("default"));
+        var directory = Path.build_filename (root, "DXVK (Sarek) Latest");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (directory));
+        var metadata = new ProtonPlus.Utils.Metadata ();
+        metadata.tag = "v1.11.0";
+        metadata.variant_id = "standard";
+        assert (metadata.save (directory));
+        create_file (Path.build_filename (directory, "sentinel"), "keep me");
+        var coordinator = new FixtureCoordinator ();
+        assert (update_specific_runner_with_coordinator (runner, coordinator, directory) == ReturnCode.FILESYSTEM_ERROR);
+        assert (coordinator.install_calls == 1 && coordinator.selected_variant_id == "standard");
+        assert (coordinator.selected_url == releases[0].asset.download_url);
+        assert (Utils.Filesystem.get_file_content (Path.build_filename (directory, "sentinel")) == "keep me");
+
+        // Standard is a separate legacy archive. A later unified release must
+        // not silently replace that explicit selection during automatic update.
+        metadata.variant_id = "non-async";
+        assert (metadata.save (directory));
+        coordinator = new FixtureCoordinator ();
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*does not contain installed variant non-async*");
+        assert (update_specific_runner_with_coordinator (runner, coordinator, directory) == ReturnCode.INVALID_DATA);
+        Test.assert_expected_messages ();
+        assert (coordinator.install_calls == 0);
+        assert (Utils.Filesystem.get_file_content (Path.build_filename (directory, "sentinel")) == "keep me");
+        assert (delete_directory (root));
     }
 
     private void test_latest_restores_installed_variant () {
