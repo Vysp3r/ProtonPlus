@@ -116,6 +116,7 @@ namespace ProtonPlus.Models.Providers {
                 validate_variants (definition, messages);
                 validate_install_layouts (definition, messages);
                 validate_legacy_endpoints (definition, messages);
+                validate_legacy_titles (definition, messages);
 
                 if (definition.source_type == SourceType.GITHUB_ACTIONS && definition.url_template == "")
                     messages.add ("GitHub Actions source requires a URL template");
@@ -214,6 +215,18 @@ namespace ProtonPlus.Models.Providers {
 
             if (!has_default_layout)
                 messages.add ("default install layout is missing");
+        }
+
+        private static void validate_legacy_titles (ProviderDefinition definition, ArrayList<string> messages) {
+            var seen_titles = new HashSet<string> ();
+            foreach (var legacy_title in definition.legacy_titles) {
+                if (legacy_title.strip () == "")
+                    messages.add ("legacy title is empty");
+                if (legacy_title == definition.title)
+                    messages.add ("legacy title duplicates the current title");
+                if (!seen_titles.add (legacy_title))
+                    messages.add ("legacy title is duplicated: %s".printf (legacy_title));
+            }
         }
 
         private static void validate_legacy_endpoints (ProviderDefinition definition, ArrayList<string> messages) {

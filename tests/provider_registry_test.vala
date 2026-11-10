@@ -13,6 +13,7 @@ namespace AppTests.ProviderRegistryTest {
         Test.add_func ("/provider-registry/validation/single-archive-variants", test_single_archive_variant_validation);
         Test.add_func ("/provider-registry/validation/invalid-layout", test_invalid_layout_validation);
         Test.add_func ("/provider-registry/validation/legacy-endpoints", test_legacy_endpoint_validation);
+        Test.add_func ("/provider-registry/validation/legacy-titles", test_legacy_title_validation);
         Test.add_func ("/provider-registry/validation/github-actions-template", test_github_actions_template_validation);
         Test.add_func ("/provider-registry/validation/required-fields-and-source", test_required_field_and_source_validation);
         Test.add_func ("/provider-registry/source-type-fitness", test_source_type_fitness);
@@ -106,17 +107,24 @@ namespace AppTests.ProviderRegistryTest {
             title = "Original",
             variants = { new VariantDefinition ("original", "default", "$release_name", true) },
             install_layouts = { InstallLayout.template ("default", "$release_name") },
-            asset_filters = { "original" }
+            asset_filters = { "original" },
+            legacy_titles = { "Historical" }
         };
         var snapshot = new ProviderDefinition (config);
         config.title = "Changed";
         config.variants[0] = new VariantDefinition ("changed", "changed", "changed", false);
         config.install_layouts[0] = InstallLayout.template ("default", "changed");
         config.asset_filters[0] = "changed";
+        config.legacy_titles[0] = "changed";
         assert (snapshot.title == "Original");
         assert (snapshot.get_variants ()[0].id == "original");
         assert (snapshot.get_install_layout ("default").render ("Tool", "1.0") == "1.0");
         assert (snapshot.asset_filters[0] == "original");
+        assert (snapshot.legacy_titles[0] == "Historical");
+        var legacy_titles = snapshot.legacy_titles;
+        legacy_titles[0] = "changed again";
+        assert (snapshot.matches_title ("Historical"));
+        assert (!snapshot.matches_title ("changed again"));
 
         var registry = new ProviderRegistry ();
         var by_category = registry.get (Category.DXVK);
@@ -238,6 +246,19 @@ namespace AppTests.ProviderRegistryTest {
         assert (has_message (registry, "install layout is duplicated for launcher family: steam"));
         assert (has_message (registry, "launcher family ID is empty"));
         assert (has_message (registry, "default install layout is missing"));
+    }
+
+    private void test_legacy_title_validation () {
+        var configured = new ProviderConfig () {
+            provider_id = "invalid-titles",
+            title = "Current",
+            legacy_titles = { "", "Current", "Historical", "Historical" }
+        };
+        var registry = new ProviderRegistry ({ new ProviderDefinition (configured) });
+        assert (!registry.is_valid);
+        assert (has_message (registry, "legacy title is empty"));
+        assert (has_message (registry, "legacy title duplicates the current title"));
+        assert (has_message (registry, "legacy title is duplicated: Historical"));
     }
 
     private void test_legacy_endpoint_validation () {

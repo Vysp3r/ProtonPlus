@@ -230,6 +230,7 @@ namespace ProtonPlus.Models.Providers {
         public ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD;
         public bool single_archive_releases = false;
         public string[] legacy_endpoints = {};
+        public string[] legacy_titles = {};
     }
 
     // A definition deliberately contains no request or JSON behavior.  It is
@@ -254,6 +255,7 @@ namespace ProtonPlus.Models.Providers {
         private string[] asset_filter_values;
         private string[] asset_exclusion_values;
         private string[] legacy_endpoint_values;
+        private string[] legacy_title_values;
         public string url_template { get; private set; }
         public ArchiveInstallRequirement archive_install_requirement { get; private set; }
         public bool single_archive_releases { get; private set; }
@@ -268,6 +270,10 @@ namespace ProtonPlus.Models.Providers {
 
         public string[] legacy_endpoints {
             owned get { return copy_strings (legacy_endpoint_values); }
+        }
+
+        public string[] legacy_titles {
+            owned get { return copy_strings (legacy_title_values); }
         }
 
         public string source_id {
@@ -293,6 +299,7 @@ namespace ProtonPlus.Models.Providers {
             this.archive_install_requirement = config.archive_install_requirement;
             this.single_archive_releases = config.single_archive_releases;
             this.legacy_endpoint_values = copy_strings (config.legacy_endpoints);
+            this.legacy_title_values = copy_strings (config.legacy_titles);
         }
 
         private static VariantDefinition[] copy_variants (VariantDefinition[] values) {
@@ -346,6 +353,18 @@ namespace ProtonPlus.Models.Providers {
             }
 
             return null;
+        }
+
+        public bool matches_title (string candidate) {
+            if (candidate == "")
+                return false;
+            if (candidate == title)
+                return true;
+            foreach (var legacy_title in legacy_title_values) {
+                if (candidate == legacy_title)
+                    return true;
+            }
+            return false;
         }
 
         public bool matches_endpoint (string candidate) {

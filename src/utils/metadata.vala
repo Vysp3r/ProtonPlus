@@ -10,6 +10,8 @@ namespace ProtonPlus.Utils {
         public string launcher_id { get; set; default = ""; }
         public string variant_id { get; set; default = ""; }
         public string release_id { get; set; default = ""; }
+        // Empty on older receipts; directory spelling is then legacy evidence.
+        public string install_mode { get; set; default = ""; }
 
         public static Metadata load (string directory_path) {
             var metadata = new Metadata ();
@@ -25,7 +27,7 @@ namespace ProtonPlus.Utils {
                     // accidentally falling back to legacy matching.
                     foreach (var name in new string[] {
                         "runner_endpoint", "runner_title", "tag", "provider_id",
-                        "tool_id", "launcher_id", "variant_id", "release_id"
+                        "tool_id", "launcher_id", "variant_id", "release_id", "install_mode"
                     }) {
                         var member = root_object.get_member (name);
                         if (member != null && member.get_value_type () != typeof (string))
@@ -39,6 +41,7 @@ namespace ProtonPlus.Utils {
                     metadata.launcher_id = root_object.get_string_member_with_default ("launcher_id", "");
                     metadata.variant_id = root_object.get_string_member_with_default ("variant_id", "");
                     metadata.release_id = root_object.get_string_member_with_default ("release_id", "");
+                    metadata.install_mode = root_object.get_string_member_with_default ("install_mode", "");
                     return metadata;
                 }
             }
@@ -56,6 +59,7 @@ namespace ProtonPlus.Utils {
             root_object.set_string_member ("launcher_id", launcher_id);
             root_object.set_string_member ("variant_id", variant_id);
             root_object.set_string_member ("release_id", release_id);
+            root_object.set_string_member ("install_mode", install_mode);
 
             var root_node = new Json.Node (Json.NodeType.OBJECT);
             root_node.set_object (root_object);

@@ -444,6 +444,7 @@ namespace ProtonPlus.CLI {
             }
 
             output.info (_ ("Installing %s Latest...\n"), provider_tool.title);
+            provider_tool.group.refresh_installed_state ();
             var job = create_install_job (
                 result.require_release (), provider_tool, Services.InstallJob.Mode.LATEST
             );

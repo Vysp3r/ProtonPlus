@@ -37,6 +37,13 @@ ProviderDefinition
 
 `Group` exposes the inventory refresh/invalidation boundary. After a service operation, the service invalidates the affected group's inventory; callers refresh it when they need a current installed-tool snapshot.
 
+Latest installation slots are resolved through `InstalledToolInventory` by
+persisted tool/target identity, installation mode, and variant. Jobs use the
+resolved physical path even after a provider title changes. Older receipts use
+their recorded title or the definition's explicit `legacy_titles`; aliases do
+not override conflicting stable IDs or ambiguous legacy metadata. Existing
+Steam manifest keys survive updates so game assignments retain their identity.
+
 GTK and Libadwaita widgets consume tool, catalog, job, and inventory state. They do not define provider configuration, select a remote source, parse a release response, or choose an installation workflow. Likewise, release sources do not depend on GTK or Libadwaita, catalog code does not perform installation transactions, and workflows do not parse ordinary release APIs.
 
 `CompatibilityTool` is discovery data for a launcher and is separate from provider-backed `Tool` instances. SteamTinkerLaunch is intentionally a dedicated tool because its lifecycle is not an ordinary archive installation.
@@ -56,6 +63,10 @@ Use this path when the upstream uses an existing source type and its release can
 3. Update the definition snapshot and focused tests in `tests/fixtures/definitions/runners.json`, `tests/provider_definition_test.vala`, `tests/provider_registry_test.vala`, and `tests/install_layout_test.vala` when the provider's observable definition or install naming needs coverage.
 
 No provider subclass, new release model, widget branch, installation-service branch, or workflow is needed. `ProviderCatalog` combines the definition with the existing source and `StandardArchiveWorkflow` handles the resulting archive job. The `definition-only-provider-creates-standard-tool` test demonstrates this seam with a test-only definition.
+
+When renaming a provider, retain its provider ID and add its previous title to
+`legacy_titles` so installations without stable metadata can migrate. Keep old
+aliases across subsequent renames.
 
 Definitions use named configuration fields; optional settings can be omitted:
 

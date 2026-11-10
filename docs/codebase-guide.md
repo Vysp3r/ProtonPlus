@@ -339,7 +339,7 @@ share the same collection so changing width preserves selection and sort order.
 | `Launcher.family_id`, `instance_id` | Stable UI and CLI launcher identity. |
 | `tool_target_family_id`, `tool_target_id` | Physical compatibility-tool storage identity; may intentionally be shared by launcher instances. |
 | Provider/tool/variant/release IDs | Stable catalog, selection, update, cache, and installed metadata identity. |
-| `.protonplus` file in an installed tool | Provider, tool, launcher target, variant, release, and legacy matching metadata. |
+| `.protonplus` file in an installed tool | Provider, tool, launcher target, variant, release, installation mode (`latest`/`versioned`), and legacy matching metadata. Older receipts omit installation mode. |
 | `data/com.vysp3r.ProtonPlus.gschema.xml` | User preferences and durable UI selections. |
 | `$XDG_CACHE_HOME/ProtonPlus/` | Recoverable release snapshots, downloaded archives, and private operation workspaces. |
 | `$XDG_STATE_HOME/ProtonPlus/steam-restart-state.json` | Private durable restart receipts and staged Steam configuration intents. Never treat as disposable cache. |

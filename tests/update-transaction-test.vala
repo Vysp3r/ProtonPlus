@@ -125,6 +125,9 @@ namespace AppTests.UpdateTransactionTest {
         Test.add_func ("/update-transaction/latest-legacy-variant-falls-back-to-compatible-release", test_latest_legacy_variant_falls_back_to_compatible_release);
         Test.add_func ("/update-transaction/latest-legacy-variant-without-compatible-release-is-untouched", test_latest_legacy_variant_without_compatible_release_is_untouched);
         Test.add_func ("/update-transaction/stable-variant-id-survives-release-display-name-change", test_stable_variant_id_survives_release_display_name_change);
+        Test.add_func ("/update-transaction/renamed-latest-updates-and-removes-original-slot", test_renamed_latest_update);
+        Test.add_func ("/update-transaction/renamed-latest-backup-restores-original-slot", test_renamed_latest_backup);
+        Test.add_func ("/update-transaction/renamed-current-latest-persists-slot-mode", test_renamed_current_latest);
         Test.add_func ("/update-transaction/bulk-updates-skip-incompatible-targets", test_bulk_updates_skip_incompatible_targets);
         Test.add_func ("/update-transaction/background-update-records-steam-receipt", test_background_update_records_steam_receipt);
         Test.add_func ("/update-transaction/bulk-update-uses-target-aware-process-policy", test_bulk_update_uses_target_aware_process_policy);
@@ -254,14 +257,14 @@ namespace AppTests.UpdateTransactionTest {
         assert (ProtonPlus.Utils.Filesystem.get_file_content (path) == content);
     }
 
-    private void cache_archive (string cache, string url) {
+    private void cache_archive (string cache, string url, string fixture_name = "runner.zip.base64") {
         var archive_dir = Path.build_filename (cache, "archives");
         assert (ProtonPlus.Utils.Filesystem.create_directory (archive_dir));
         var archive = Path.build_filename (archive_dir,
             "%s.zip".printf (Checksum.compute_for_string (ChecksumType.SHA256, url)));
         try {
             FileUtils.set_data (archive, Base64.decode (ProtonPlus.Utils.Filesystem.get_file_content (
-                Path.build_filename ("fixtures", "archives", "runner.zip.base64")
+                Path.build_filename ("fixtures", "archives", fixture_name)
             ).strip ()));
         } catch (FileError e) {
             critical ("Could not seed cached archive: %s", e.message);
@@ -537,6 +540,149 @@ namespace AppTests.UpdateTransactionTest {
             assert (update_specific_runner (runner) == failure);
             assert (delete_directory (root));
         }
+    }
+
+    private void test_renamed_latest_update () {
+        foreach (var legacy in new bool[] { false, true }) {
+            foreach (var alternate in new bool[] { false, true }) {
+                var root = create_temp_directory ();
+                var previous_cache = Globals.CACHE_PATH;
+                Globals.CACHE_PATH = Path.build_filename (root, "cache");
+                try {
+                    var launcher = new FixtureSteamLauncher (root);
+                    var group = new Group ("Proton", "", "/compatibilitytools.d", launcher, "proton");
+                    group.tools = new Gee.LinkedList<Tool> ();
+                    var definition = new ProviderRegistry ().get_by_id ("proton-cachyos-wineland");
+                    assert (definition != null);
+                    var default_url = "https://fixtures.invalid/renamed-default.zip";
+                    var alternate_url = "https://fixtures.invalid/renamed-wow64.zip";
+                    var release = new Release ("v2", "", "", new Models.Assets.Asset ("runner.zip", default_url),
+                        "", 0, "release-v2", "v2");
+                    release.variants.add (new Models.Variant ("x86-64", "x86_64", "", true, default_url));
+                    release.variants.add (new Models.Variant ("x86-64-wow64", "x86_64_wow64", "", false, alternate_url));
+                    var source = new StaticReleaseSource (release);
+                    var runner = new ProviderTool.with_catalog ((!) definition, source, group,
+                        InstallLayout.template ("default", "$release_name"));
+                    group.tools.add (runner);
+                    var variant = release.variants[alternate ? 1 : 0];
+                    var directory = Path.build_filename (root, "compatibilitytools.d",
+                        runner.get_directory_name ("Proton-CachyOS Wineland Latest", variant));
+                    assert (ProtonPlus.Utils.Filesystem.create_directory (directory));
+                    create_file (Path.build_filename (directory, "compatibilitytool.vdf"),
+                        "\"compat_tools\" { \"historical-steam-key\" { \"display_name\" \"Old display\" } }");
+                    create_file (Path.build_filename (directory, "user_settings.py"), "keep settings");
+                    var metadata = new ProtonPlus.Utils.Metadata ();
+                    metadata.runner_endpoint = runner.endpoint;
+                    metadata.runner_title = "Proton-CachyOS Wineland";
+                    metadata.tag = "v1";
+                    if (!legacy) {
+                        metadata.provider_id = runner.provider_id;
+                        metadata.tool_id = runner.id;
+                        metadata.launcher_id = launcher.tool_target_id;
+                        metadata.variant_id = variant.id;
+                    }
+                    assert (metadata.save (directory));
+                    cache_archive (Globals.CACHE_PATH, alternate ? alternate_url : default_url,
+                        "wrapped-manifest-runner.zip.base64");
+                    var recorder = new RecordingSteamChange ();
+                    InstallationService.instance.configure_steam_change_recorder (recorder);
+
+                    assert (service_update_specific_runner (runner) == ReturnCode.RUNNER_UPDATED);
+                    assert (recorder.receipts.size == 1);
+                    assert (recorder.receipts[0].resource_key == Filename.canonicalize (directory, null));
+                    var installed = ProtonPlus.Utils.VDF.CompatibilityToolLoader.from_path (directory);
+                    assert (installed.internal_title == "historical-steam-key");
+                    assert (installed.display_title == "Proton-Wineland Latest");
+                    assert (ProtonPlus.Utils.Filesystem.get_file_content (
+                        Path.build_filename (directory, "user_settings.py")) == "keep settings");
+                    metadata = ProtonPlus.Utils.Metadata.load (directory);
+                    assert (metadata.install_mode == "latest");
+                    assert (metadata.runner_title == runner.title);
+                    assert (metadata.variant_id == variant.id);
+                    assert (metadata.tag == "v2");
+                    assert (!FileUtils.test (Path.build_filename (root, "compatibilitytools.d",
+                        runner.get_directory_name ("Proton-Wineland Latest", variant)), FileTest.EXISTS));
+
+                    // After metadata uses the new title, persisted mode and
+                    // variant still bind both GUI and background operations.
+                    assert (service_update_specific_runner (runner) == ReturnCode.NOTHING_TO_UPDATE);
+                    var job = new InstallJob (release, runner, InstallJob.Mode.LATEST);
+                    job.set_selected_variant (variant.name, null, variant.id);
+                    assert (job.install_location == directory);
+                    assert (job.state == InstallJob.State.UP_TO_DATE);
+                    assert (job.get_usage_identifier () == "historical-steam-key");
+                    var loop = new MainLoop ();
+                    ReturnCode removed = ReturnCode.FILESYSTEM_ERROR;
+                    job.remove.begin (false, (obj, response) => {
+                        removed = job.remove.end (response);
+                        loop.quit ();
+                    });
+                    loop.run ();
+                    assert (removed == ReturnCode.RUNNER_REMOVED);
+                    assert (!FileUtils.test (directory, FileTest.EXISTS));
+                    assert_no_replacement_backup (directory);
+                } finally {
+                    InstallationService.instance.configure_steam_change_recorder (null);
+                    Globals.CACHE_PATH = previous_cache;
+                    assert (delete_directory (root));
+                }
+            }
+        }
+    }
+
+    private void test_renamed_latest_backup () {
+        var root = create_temp_directory ();
+        var release = new Release ("v2", "", "", new Models.Assets.Asset (
+            "runner.zip", "https://fixtures.invalid/backup.zip"), "", 0, "release-v2", "v2");
+        release.variants.add (new Models.Variant ("standard", "default", "", true, release.asset.download_url));
+        var runner = static_runner (root, release);
+        var directory = Path.build_filename (root, "Previous Runner Latest");
+        var backup = "%s Backup".printf (directory);
+        assert (ProtonPlus.Utils.Filesystem.create_directory (backup));
+        var metadata = new ProtonPlus.Utils.Metadata ();
+        metadata.provider_id = runner.provider_id;
+        metadata.tool_id = runner.id;
+        metadata.launcher_id = runner.group.launcher.tool_target_id;
+        metadata.runner_title = "Previous Runner";
+        metadata.tag = "v2";
+        assert (metadata.save (backup));
+        runner.group.refresh_installed_state ();
+        var job = new InstallJob (release, runner, InstallJob.Mode.LATEST);
+        assert (job.install_location == directory);
+        assert (job.state == InstallJob.State.UP_TO_DATE);
+        assert (service_update_specific_runner (runner) == ReturnCode.NOTHING_TO_UPDATE);
+        assert (FileUtils.test (directory, FileTest.IS_DIR));
+        assert (!FileUtils.test (backup, FileTest.EXISTS));
+        assert (!FileUtils.test (Path.build_filename (root, "Fixture Runner Latest"), FileTest.EXISTS));
+        assert (delete_directory (root));
+    }
+
+    private void test_renamed_current_latest () {
+        var root = create_temp_directory ();
+        var release = new Release ("v2", "", "", new Models.Assets.Asset (
+            "runner.zip", "https://fixtures.invalid/current.zip"), "", 0, "release-v2", "v2");
+        release.variants.add (new Models.Variant ("standard", "default", "", true, release.asset.download_url));
+        var runner = static_runner (root, release);
+        var directory = Path.build_filename (root, "Previous Runner Latest");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (directory));
+        var metadata = new ProtonPlus.Utils.Metadata ();
+        metadata.provider_id = runner.provider_id;
+        metadata.tool_id = runner.id;
+        metadata.launcher_id = runner.group.launcher.tool_target_id;
+        metadata.runner_title = "Previous Runner";
+        assert (metadata.save (directory));
+        create_file (Path.build_filename (directory, "version"), "123 v2\n");
+        create_file (Path.build_filename (directory, "proton"), "CURRENT_PREFIX_VERSION=\"v2\"\n");
+        assert (service_update_specific_runner (runner) == ReturnCode.NOTHING_TO_UPDATE);
+        metadata = ProtonPlus.Utils.Metadata.load (directory);
+        assert (metadata.install_mode == "latest");
+        assert (metadata.variant_id == "standard");
+        assert (metadata.runner_title == runner.title);
+        runner.group.refresh_installed_state ();
+        var job = new InstallJob (release, runner, InstallJob.Mode.LATEST);
+        assert (job.install_location == directory);
+        assert (job.state == InstallJob.State.UP_TO_DATE);
+        assert (delete_directory (root));
     }
 
     private void test_latest_identity_controls_update_detection () {
