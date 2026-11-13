@@ -132,7 +132,14 @@ namespace ProtonPlus.Models.Providers {
         }
 
         private static void validate_variants (ProviderDefinition definition, ArrayList<string> messages) {
-            var variants = definition.get_variants ();
+            validate_variant_collection (definition.get_fallback_variants (), messages);
+            foreach (var set in definition.get_release_variant_sets ())
+                validate_variant_collection (set.get_variants (), messages);
+            if (definition.single_archive_releases && definition.get_variants ().length != 1)
+                messages.add ("single-archive releases require exactly one variant");
+        }
+
+        private static void validate_variant_collection (VariantDefinition[] variants, ArrayList<string> messages) {
             if (variants.length == 0) {
                 messages.add ("variants are missing");
                 return;
@@ -190,9 +197,6 @@ namespace ProtonPlus.Models.Providers {
                 messages.add ("default variant is missing");
             else if (default_count > 1)
                 messages.add ("more than one default variant is configured");
-
-            if (definition.single_archive_releases && variants.length != 1)
-                messages.add ("single-archive releases require exactly one variant");
         }
 
         private static void validate_install_layouts (ProviderDefinition definition, ArrayList<string> messages) {

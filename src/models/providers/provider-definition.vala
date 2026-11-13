@@ -61,6 +61,10 @@ namespace ProtonPlus.Models.Providers {
             return formats;
         }
 
+        internal VariantDefinition copy () {
+            return new VariantDefinition (id, name, format, is_default, compatibility, alternate_formats);
+        }
+
         private static string[] copy_strings (string[]? values) {
             if (values == null)
                 return {};
@@ -68,6 +72,25 @@ namespace ProtonPlus.Models.Providers {
             var copied = new string[values.length];
             for (var index = 0; index < values.length; index++)
                 copied[index] = values[index];
+            return copied;
+        }
+    }
+
+    // Ordered packaging generations. The first set with a named asset match
+    // describes the release; unmatched entries remain complete catalog data.
+    public class ReleaseVariantSet : Object {
+        private VariantDefinition[] variants;
+
+        public ReleaseVariantSet (VariantDefinition[] variants) {
+            this.variants = new VariantDefinition[variants.length];
+            for (var index = 0; index < variants.length; index++)
+                this.variants[index] = variants[index].copy ();
+        }
+
+        public VariantDefinition[] get_variants () {
+            var copied = new VariantDefinition[variants.length];
+            for (var index = 0; index < variants.length; index++)
+                copied[index] = variants[index].copy ();
             return copied;
         }
     }
@@ -221,6 +244,7 @@ namespace ProtonPlus.Models.Providers {
         public string repository_url = "";
         public int sort_priority = 0;
         public VariantDefinition[] variants = {};
+        public ReleaseVariantSet[] release_variant_sets = {};
         public InstallLayout[] install_layouts = {};
         public string[] asset_filters = {};
         public string[] asset_exclusions = {};
@@ -249,6 +273,8 @@ namespace ProtonPlus.Models.Providers {
         public bool legacy { get; private set; }
         public string tag { get; private set; }
         private VariantDefinition[] variants;
+        private ReleaseVariantSet[] release_variant_sets;
+        public bool has_release_variant_sets { get { return release_variant_sets.length > 0; } }
         private InstallLayout[] install_layouts;
         // These historically filter release titles, despite their older asset
         // names.  Keep the configuration and matching semantics unchanged.
@@ -290,6 +316,7 @@ namespace ProtonPlus.Models.Providers {
             this.repository_url = config.repository_url;
             this.sort_priority = config.sort_priority;
             this.variants = copy_variants (config.variants);
+            this.release_variant_sets = copy_variant_sets (config.release_variant_sets);
             this.install_layouts = copy_install_layouts (config.install_layouts);
             this.asset_filter_values = copy_strings (config.asset_filters);
             this.asset_exclusion_values = copy_strings (config.asset_exclusions);
@@ -334,7 +361,34 @@ namespace ProtonPlus.Models.Providers {
         }
 
         public VariantDefinition[] get_variants () {
+            // Tools retain the entire identity/compatibility universe, while
+            // release composition selects one packaging generation below.
+            var all = new ArrayList<VariantDefinition> ();
+            var ids = new HashSet<string> ();
+            foreach (var variant in variants) {
+                all.add (variant.copy ());
+                ids.add (variant.id);
+            }
+            foreach (var set in release_variant_sets)
+                foreach (var variant in set.get_variants ())
+                    if (ids.add (variant.id))
+                        all.add (variant);
+            return all.to_array ();
+        }
+
+        public VariantDefinition[] get_fallback_variants () {
             return copy_variants (variants);
+        }
+
+        public ReleaseVariantSet[] get_release_variant_sets () {
+            return copy_variant_sets (release_variant_sets);
+        }
+
+        private static ReleaseVariantSet[] copy_variant_sets (ReleaseVariantSet[] sets) {
+            var copied = new ReleaseVariantSet[sets.length];
+            for (var index = 0; index < sets.length; index++)
+                copied[index] = new ReleaseVariantSet (sets[index].get_variants ());
+            return copied;
         }
 
         public InstallLayout[] get_install_layouts () {

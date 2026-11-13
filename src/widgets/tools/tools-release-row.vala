@@ -9,6 +9,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         public signal void changelog_requested (Services.InstallJob job);
         public signal void games_requested (Services.InstallJob job);
+        public signal void variant_selected ();
 
         protected Services.InstallJob job { get; set; }
         protected bool action_request_in_progress { get; private set; default = false; }
@@ -35,6 +36,7 @@ namespace ProtonPlus.Widgets.Tools {
         SimpleAction open_folder_action;
         SimpleAction delete_action;
         SimpleAction migrate_action;
+        SimpleAction variant_action;
         weak Gtk.Widget? controller_up_target;
         weak Gtk.Widget? controller_row_up_target;
         weak Gtk.Widget? controller_action_up_target;
@@ -176,6 +178,11 @@ namespace ProtonPlus.Widgets.Tools {
 
         void create_actions_menu () {
             var action_group = new SimpleActionGroup ();
+            variant_action = new SimpleAction.stateful (
+                "variant", VariantType.STRING, new Variant.string (job.selected_variant_id ?? "")
+            );
+            variant_action.activate.connect (variant_action_activated);
+            action_group.add_action (variant_action);
             migrate_action = register_action (action_group, "migrate");
             migrate_action.activate.connect (request_migration);
             changelog_action = register_action (action_group, "changelog");
@@ -211,6 +218,28 @@ namespace ProtonPlus.Widgets.Tools {
             actions_popover.map.connect (actions_popover_mapped);
             actions_button.set_popover (actions_popover);
             Window.register_popover_for_controller (actions_popover, actions_button);
+        }
+
+        Gee.LinkedList<Models.Variant> available_release_variants () {
+            var provider = job.tool as Models.Tools.ProviderTool;
+            if (provider == null || !provider.definition.has_release_variant_sets)
+                return new Gee.LinkedList<Models.Variant> ();
+            return Models.VariantSelector.available_variants (job.release, Globals.CPU_CAPABILITIES);
+        }
+
+        void variant_action_activated (Variant? parameter) {
+            if (row_disposed || action_request_in_progress || is_busy_state (job.state) || parameter == null)
+                return;
+            foreach (var variant in available_release_variants ()) {
+                if (variant.id != parameter.get_string ())
+                    continue;
+                job.set_selected_variant (variant.name, variant.resolved_asset (), variant.id);
+                new Models.ToolVariantPreferences (Globals.SETTINGS).save (job.tool, variant.name);
+                set_release_action_available (true);
+                actions_button.popdown ();
+                variant_selected ();
+                return;
+            }
         }
 
         void changelog_action_activated (Variant? parameter) {
@@ -738,6 +767,8 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void rebuild_actions_menu (ReleaseRowPresentation presentation) {
+            variant_action.set_enabled (!action_request_in_progress && !is_busy_state (job.state));
+            variant_action.set_state (new Variant.string (job.selected_variant_id ?? ""));
             changelog_action.set_enabled (!action_request_in_progress);
             games_action.set_enabled (!action_request_in_progress);
             open_release_page_action.set_enabled (
@@ -767,6 +798,17 @@ namespace ProtonPlus.Widgets.Tools {
                 );
             }
             menu.append_section (null, details_section);
+
+            var variants = available_release_variants ();
+            if (variants.size > 1) {
+                var builds = new Menu ();
+                foreach (var variant in variants) {
+                    var item = new MenuItem (Utils.safe_translate (variant.name), null);
+                    item.set_action_and_target_value ("release.variant", new Variant.string (variant.id));
+                    builds.append_item (item);
+                }
+                menu.append_submenu (_("Build"), builds);
+            }
 
             var management_section = new Menu ();
             if (has_legacy_installation ()) {
@@ -819,6 +861,9 @@ namespace ProtonPlus.Widgets.Tools {
         void refresh_status_text () {
             var details = new Gee.ArrayList<string> ();
             var presentation = current_presentation ();
+            var provider = job.tool as Models.Tools.ProviderTool;
+            if (provider != null && provider.definition.has_release_variant_sets && job.selected_variant_name != null)
+                details.add (Utils.safe_translate ((!) job.selected_variant_name));
             if (retry_action != ReleaseRowRetryAction.NONE)
                 details.add (_("Failed"));
             if (operation_error_message != null)

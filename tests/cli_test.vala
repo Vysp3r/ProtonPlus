@@ -116,12 +116,18 @@ namespace AppTests.CliTest {
     private class FixtureHandler : ProtonPlus.CLI.Handler {
         private FixtureJobBehavior behavior;
         public InstallJob? last_job { get; private set; default = null; }
+        public int[] selections = {};
+        private int selection_index = 0;
 
         public FixtureHandler (Gee.LinkedList<Launcher> launchers,
             FixtureJobBehavior behavior = FixtureJobBehavior.NORMAL,
             ProtonPlus.CLI.CliOutputSink? output_sink = null) {
             base (launchers, output_sink ?? new ProtonPlus.CLI.RecordingCliOutputSink ());
             this.behavior = behavior;
+        }
+
+        protected override int read_user_selection (string prompt, int max) {
+            return selection_index < selections.length ? selections[selection_index++] : -1;
         }
 
         protected override InstallJob create_install_job (
@@ -138,6 +144,7 @@ namespace AppTests.CliTest {
 
     public void register_tests () {
         Test.add_func ("/cli/exit-codes", test_exit_codes);
+        Test.add_func ("/cli/sarek-release-build-selection", test_sarek_release_build_selection);
         Test.add_func ("/cli/list-managed-releases", test_list_managed_releases);
         Test.add_func ("/cli/list-lutris-runners", test_list_lutris_runners);
         Test.add_func ("/cli/list-legacy-and-partial-identities", test_list_legacy_and_partial_identities);
@@ -335,6 +342,39 @@ namespace AppTests.CliTest {
         assert (target != null);
         assert (receipt.target.id == ((!) target).id);
         assert (receipt.resource_key == Filename.canonicalize (install_location, null));
+    }
+
+    private void test_sarek_release_build_selection () {
+        var root = temporary_directory ();
+        var previous_cache = Globals.CACHE_PATH;
+        Globals.CACHE_PATH = Path.build_filename (root, "cache");
+        try {
+            assert (Utils.Filesystem.create_directory (Globals.CACHE_PATH));
+            var definition = new ProviderRegistry ().get_by_id ("dxvk-sarek");
+            var releases = new GitHubReleaseSource ().parse_response (definition,
+                Utils.Filesystem.get_file_content ("fixtures/providers/github/sarek.json"), 1, 25).require_page ().releases;
+            var launcher = new Launcher ("Fixture", Launcher.InstallationTypes.SYSTEM, "", { root }, "fixture");
+            var group = new Group ("DXVK", "", "/dxvk", launcher, "dxvk");
+            var runner = new ProviderTool.with_catalog (definition, new StaticReleaseSource (releases[4]),
+                group, definition.get_install_layout ("default"));
+            group.tools = new Gee.LinkedList<Tool> ();
+            group.tools.add (runner);
+            launcher.groups = { group };
+            assert (Utils.Filesystem.create_directory (Path.build_filename (root, "dxvk")));
+            InstallationService.instance.configure_compatibility_process_guard (
+                new CompatibilityProcessGuard (new EmptyCompatibilityProcessQuery ()));
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.CANCEL_DOWNLOAD, output);
+            handler.selections = { 0, 1 };
+            assert (run_cli ({ "protonplus", "install", launcher.instance_id, runner.provider_id }, handler) == 1);
+            assert (handler.last_job.selected_variant_id == "non-async");
+            assert (handler.last_job.selected_asset.download_url == releases[4].variants[1].download_url);
+            assert (output.stdout_text.contains ("Standard") && output.stdout_text.contains ("Async"));
+            assert (!FileUtils.test (handler.last_job.install_location, FileTest.EXISTS));
+        } finally {
+            Globals.CACHE_PATH = previous_cache;
+            assert (delete_directory (root));
+        }
     }
 
     private void test_exit_codes () {

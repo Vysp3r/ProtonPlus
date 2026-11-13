@@ -64,6 +64,30 @@ Use this path when the upstream uses an existing source type and its release can
 
 No provider subclass, new release model, widget branch, installation-service branch, or workflow is needed. `ProviderCatalog` combines the definition with the existing source and `StandardArchiveWorkflow` handles the resulting archive job. The `definition-only-provider-creates-standard-tool` test demonstrates this seam with a test-only definition.
 
+Providers whose packaging changes between releases can declare ordered
+`release_variant_sets`, each containing a complete `VariantDefinition` array
+with one default. The first set with an exact named asset match describes the
+release; otherwise the ordinary `variants` definitions and their alternate
+formats remain the fallback. Missing archives retain entries without download
+URLs. UI projections expose only available, CPU-compatible entries, and a
+release with only a non-default archive remains browsable. Other providers
+retain their required-default policy.
+
+`ProviderTool.variants` retains the union of configured stable IDs. For these
+providers, the GUI shows the selected build in each release row and offers a
+Build submenu when that release has multiple usable archives. The interactive
+CLI also asks for the build after selecting such a release. Cached releases
+replay variant composition from their retained assets; former collapsed caches
+refresh rather than inventing omitted assets.
+
+DXVK-Sarek uses sets for unified, dyasync, and separate Async/Standard archives.
+Its historical `standard` ID and default directory slot intentionally continue
+to identify the previously selected Async archive on older releases. The newly
+exposed non-async archive has ID `non-async` and a separate `-Standard` slot.
+Labels vary with packaging while these identities remain stable. Automatic
+updates preserve the stored variant ID and leave an installation intact if the
+new release no longer provides that variant.
+
 When renaming a provider, retain its provider ID and add its previous title to
 `legacy_titles` so installations without stable metadata can migrate. Keep old
 aliases across subsequent renames.

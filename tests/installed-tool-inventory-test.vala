@@ -31,6 +31,7 @@ namespace AppTests.InstalledToolInventoryTest {
         Test.add_func ("/installed-tool-inventory/legacy-tag-and-directory-fallbacks", test_legacy_tag_and_directory_fallbacks);
         Test.add_func ("/installed-tool-inventory/vdf-internal-and-display-title-fallbacks", test_vdf_fallbacks);
         Test.add_func ("/installed-tool-inventory/latest-and-variant-directories", test_latest_and_variant_directories);
+        Test.add_func ("/installed-tool-inventory/sarek-variant-slots", test_sarek_variant_slots);
         Test.add_func ("/installed-tool-inventory/renamed-latest-jobs-use-installed-path", test_renamed_latest_jobs);
         Test.add_func ("/installed-tool-inventory/latest-slots-respect-mode-identity-and-variant", test_latest_slot_constraints);
         Test.add_func ("/installed-tool-inventory/ambiguous-legacy-title-is-not-migrated", test_ambiguous_legacy_title);
@@ -276,6 +277,39 @@ namespace AppTests.InstalledToolInventoryTest {
         assert (((!) display_entry).internal_title == "Internal Usage Name");
         assert (((!) display_entry).display_title == "Display Match");
 
+        assert (delete_directory (root));
+    }
+
+    private void test_sarek_variant_slots () {
+        var root = temporary_directory ();
+        var launcher = new InventoryLauncher (root);
+        var value = group (launcher);
+        var definition = new ProviderRegistry ().get_by_id ("dxvk-sarek");
+        var tool = add_tool (value, definition);
+        var legacy = new ProtonPlus.Providers.Sources.GitHubReleaseSource ().parse_response (definition,
+            ProtonPlus.Utils.Filesystem.get_file_content ("fixtures/providers/github/sarek.json"), 1, 25).require_page ().releases[4];
+        tool.release_catalog.releases.add (legacy);
+        foreach (var variant in legacy.variants) {
+            var job = new ProtonPlus.Services.InstallJob (legacy, tool);
+            job.set_selected_variant (variant.name, variant.resolved_asset (), variant.id);
+            assert (ProtonPlus.Utils.Filesystem.create_directory (job.install_location));
+            save_metadata (job.install_location, tool.provider_id, tool.id,
+                launcher.tool_target_id, legacy.source_tag, variant.id, legacy.upstream_release_id);
+            job.refresh_state ();
+            assert (job.state == ProtonPlus.Services.InstallJob.State.UP_TO_DATE);
+        }
+        value.refresh_installed_state ();
+        var entries = value.get_installed_tool_snapshot ();
+        assert (tool.is_installed ());
+        var matched = 0;
+        foreach (var entry in entries) {
+            if (value.installed_tool_inventory.get_provider_tool_for_entry (entry) != tool)
+                continue;
+            matched++;
+            assert (entry.directory_name == (entry.variant_id == "standard"
+                ? "sarek-v1.11.0" : "sarek-v1.11.0-Standard"));
+        }
+        assert (matched == 2);
         assert (delete_directory (root));
     }
 

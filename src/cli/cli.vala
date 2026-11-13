@@ -482,8 +482,22 @@ namespace ProtonPlus.CLI {
             }
 
             var selected = catalog.releases[index] as Models.Release;
-            output.info (_ ("Installing %s...\n"), selected.title);
             var job = create_install_job (selected, provider_tool);
+            if (provider_tool.definition.has_release_variant_sets) {
+                var variants = Models.VariantSelector.available_variants (selected, Globals.CPU_CAPABILITIES);
+                if (variants.size > 1) {
+                    var builds = new Table ({ _ ("Number"), _ ("Build") });
+                    for (var variant_index = 0; variant_index < variants.size; variant_index++)
+                        builds.add ({ (variant_index + 1).to_string (), Utils.safe_translate (variants[variant_index].name) });
+                    builds.print (output);
+                    var variant_index = read_user_selection (_ ("Select build number"), variants.size);
+                    if (variant_index < 0)
+                        return 1;
+                    var variant = variants[variant_index];
+                    job.set_selected_variant (variant.name, variant.resolved_asset (), variant.id);
+                }
+            }
+            output.info (_ ("Installing %s...\n"), selected.title);
             code = yield job.install ();
             output.info ("\r\033[2K\r");
             var success = code == ReturnCode.RUNNER_INSTALLED;
@@ -771,7 +785,7 @@ namespace ProtonPlus.CLI {
             return true;
         }
 
-        private int read_user_selection (string prompt, int max) {
+        protected virtual int read_user_selection (string prompt, int max) {
             output.info ("\n%s: ", prompt);
             output.flush_stdout ();
             var input = stdin.read_line ();

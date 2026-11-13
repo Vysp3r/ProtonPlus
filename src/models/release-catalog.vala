@@ -224,6 +224,12 @@ namespace ProtonPlus.Models {
                 ))
                     return false;
 
+                if (definition.has_release_variant_sets) {
+                    if (!cached_release_matches_variant_set (cached_release))
+                        return false;
+                    continue;
+                }
+
                 if (cached_release.variants.size != configured_variants.length)
                     return false;
 
@@ -268,6 +274,38 @@ namespace ProtonPlus.Models {
                 }
             }
             return true;
+        }
+
+        private bool cached_release_matches_variant_set (Release release) {
+            // Matched immutable assets are sufficient to replay composition.
+            // Old collapsed caches lack the new names/formats/complete set and
+            // are refreshed instead of guessing archives they did not retain.
+            var assets = new Gee.LinkedList<Assets.Asset> ();
+            assets.add (release.asset);
+            var urls = new Gee.HashSet<string> ();
+            urls.add (release.asset.download_url);
+            foreach (var variant in release.variants) {
+                if (variant.asset != null && urls.add (variant.asset.download_url))
+                    assets.add (variant.asset);
+            }
+            var expected = ProtonPlus.Providers.Sources.CatalogReleaseBuilder.create_variants (
+                (!) definition, release.title,
+                release.source_tag != "" ? release.source_tag : release.title, assets
+            );
+            if (expected.size != release.variants.size)
+                return false;
+            for (var index = 0; index < expected.size; index++) {
+                var left = expected[index];
+                var right = release.variants[index];
+                if (left.id != right.id || left.name != right.name || left.format != right.format ||
+                    left.is_default != right.is_default || left.download_url != right.download_url ||
+                    !left.compatibility.equals (right.compatibility))
+                    return false;
+            }
+            var primary = ProtonPlus.Providers.Sources.CatalogReleaseBuilder.select_default_asset (
+                assets, expected, true
+            );
+            return primary != null && primary.download_url == release.asset.download_url;
         }
     }
 }
