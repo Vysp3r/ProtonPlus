@@ -191,6 +191,10 @@ row.controller-focus {
     font-weight: bold;
 }
 
+.downloads-popover-list {
+    box-shadow: none;
+}
+
 .downloads-popover-list > row:not(:last-child) {
     margin-bottom: 6px;
 }

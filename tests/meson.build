@@ -87,6 +87,12 @@ test('Check command tests', python, args: files('check_script_test.py'))
 xvfb_run = find_program('xvfb-run', required: false)
 foreach gui_test : [
     {
+        'target': 'downloads-presentation-test',
+        'name': 'Downloads presentation',
+        'environment': ['GSK_RENDERER=cairo', 'LC_ALL=C.UTF-8', 'LANGUAGE=de',
+            'PROTONPLUS_TEST_LOCALES=' + (meson.project_build_root() / 'po')],
+    },
+    {
         'target': 'steam-diagnostics-presentation-test',
         'name': 'Steam diagnostics presentation',
         'environment': ['GSK_RENDERER=cairo', 'LC_ALL=C'],
