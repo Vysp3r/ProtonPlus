@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-10 09:47-0500\n"
+"POT-Creation-Date: 2026-11-13 12:19-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -326,7 +326,7 @@ msgstr ""
 msgid "ETA: %s"
 msgstr ""
 
-#: src/cli/cli.vala:856 src/widgets/header/header-downloads-indicator.vala:321
+#: src/cli/cli.vala:856
 msgid "ETA: --"
 msgstr ""
 
@@ -334,22 +334,25 @@ msgstr ""
 msgid "Updating"
 msgstr ""
 
-#: src/cli/cli.vala:859 src/widgets/header/header-downloads-indicator.vala:311
+#: src/cli/cli.vala:859 src/widgets/header/header-downloads-indicator.vala:351
 #: src/widgets/tools/tools-release-row.vala:882
 msgid "Installing"
 msgstr ""
 
-#: src/cli/cli.vala:872 src/widgets/tools/tools-release-row.vala:1012
+#: src/cli/cli.vala:872 src/widgets/header/header-downloads-indicator.vala:369
+#: src/widgets/tools/tools-release-row.vala:1012
 #, c-format
 msgid "%dh %dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:874 src/widgets/tools/tools-release-row.vala:1016
+#: src/cli/cli.vala:874 src/widgets/header/header-downloads-indicator.vala:371
+#: src/widgets/tools/tools-release-row.vala:1016
 #, c-format
 msgid "%dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:876 src/widgets/tools/tools-release-row.vala:1017
+#: src/cli/cli.vala:876 src/widgets/header/header-downloads-indicator.vala:372
+#: src/widgets/tools/tools-release-row.vala:1017
 #, c-format
 msgid "%ds"
 msgstr ""
@@ -3235,25 +3238,25 @@ msgstr ""
 msgid "Active downloads"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:47
+#: src/widgets/header/header-downloads-indicator.vala:54
 msgid "Downloads"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:152
 #: src/widgets/header/header-downloads-indicator.vala:155
+#: src/widgets/header/header-downloads-indicator.vala:158
 #, c-format
 msgid "%u active download"
 msgid_plural "%u active downloads"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/header/header-downloads-indicator.vala:170
+#: src/widgets/header/header-downloads-indicator.vala:173
 #, c-format
 msgid "Limit: %s/s"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:227
-#: src/widgets/header/header-downloads-indicator.vala:229
+#: src/widgets/header/header-downloads-indicator.vala:249
+#: src/widgets/header/header-downloads-indicator.vala:251
 #: src/widgets/tools/tools-release-row.vala:166
 #: src/widgets/tools/tools-release-row.vala:270
 #: src/widgets/tools/tools-remove-dialog.vala:26
@@ -3262,43 +3265,40 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:279
-#: src/widgets/header/header-downloads-indicator.vala:281
-#: src/widgets/header/header-downloads-indicator.vala:283
+#: src/widgets/header/header-downloads-indicator.vala:312
+#: src/widgets/header/header-downloads-indicator.vala:314
+#: src/widgets/header/header-downloads-indicator.vala:316
 #: src/widgets/tools/tools-release-row.vala:630
 #: src/widgets/tools/tools-release-row.vala:923
 msgid "Cancelling"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:309
+#: src/widgets/header/header-downloads-indicator.vala:336
+#: src/widgets/tools/tools-release-row.vala:1000
+#, c-format
+msgid "Remaining time: %s"
+msgstr ""
+
+#: src/widgets/header/header-downloads-indicator.vala:336
+#: src/widgets/tools/tools-release-row.vala:143
+#: src/widgets/tools/tools-release-row.vala:1003
+msgid "Remaining time: --"
+msgstr ""
+
+#: src/widgets/header/header-downloads-indicator.vala:349
 #: src/widgets/tools/tools-release-row.vala:928
 msgid "Extracting"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:313
+#: src/widgets/header/header-downloads-indicator.vala:353
 #: src/widgets/tools/tools-release-row.vala:890
 #: src/widgets/tools/tools-release-row.vala:932
 #: src/widgets/tools/tools-release-row.vala:937
 msgid "Removing"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:315
+#: src/widgets/header/header-downloads-indicator.vala:355
 msgid "Preparing"
-msgstr ""
-
-#: src/widgets/header/header-downloads-indicator.vala:329
-#, c-format
-msgid "ETA: %dh %dm"
-msgstr ""
-
-#: src/widgets/header/header-downloads-indicator.vala:331
-#, c-format
-msgid "ETA: %dm %ds"
-msgstr ""
-
-#: src/widgets/header/header-downloads-indicator.vala:332
-#, c-format
-msgid "ETA: %ds"
 msgstr ""
 
 #: src/widgets/header/header-launchers-button.vala:42
@@ -4678,11 +4678,6 @@ msgstr ""
 msgid "Speed: 0 KB/s"
 msgstr ""
 
-#: src/widgets/tools/tools-release-row.vala:143
-#: src/widgets/tools/tools-release-row.vala:1003
-msgid "Remaining time: --"
-msgstr ""
-
 #: src/widgets/tools/tools-release-row.vala:209
 msgid "Release Actions"
 msgstr ""
@@ -4863,11 +4858,6 @@ msgstr ""
 #: src/widgets/tools/tools-release-row.vala:994
 #, c-format
 msgid "Speed: %s/s"
-msgstr ""
-
-#: src/widgets/tools/tools-release-row.vala:1000
-#, c-format
-msgid "Remaining time: %s"
 msgstr ""
 
 #: src/widgets/tools/tools-releases-box.vala:62

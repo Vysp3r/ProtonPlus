@@ -69,6 +69,9 @@ The Meson suite currently contains:
   fixture paths, and failure propagation without compiling or touching user data.
 - `Games presentation`: fixture-backed wide/narrow list bindings, selection
   presentation, activation forwarding, model replacement, and focus cleanup.
+- `Downloads presentation`: stacked long titles, full-width progress, localized
+  speed/time estimates and tooltips at narrow/wide widths,
+  plus multiple downloads, row activation, focus, and cancellation.
 - Host-tool validation added from `data/` when the matching validation tools
   are available, including desktop, AppStream, and GSettings checks.
 

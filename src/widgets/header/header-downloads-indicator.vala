@@ -43,6 +43,13 @@ namespace ProtonPlus.Widgets.Header {
             };
             downloads_list.add_css_class ("boxed-list");
             downloads_list.add_css_class ("downloads-popover-list");
+            downloads_list.row_activated.connect ((row) => {
+                var entry = row as DownloadEntry;
+                if (entry == null)
+                    return;
+                downloads_popover.popdown ();
+                download_selected (entry.job);
+            });
 
             var title = new Gtk.Label (_("Downloads")) {
                 halign = Gtk.Align.START,
@@ -125,10 +132,6 @@ namespace ProtonPlus.Widgets.Header {
                 return;
 
             var entry = new DownloadEntry (job);
-            entry.activated.connect (() => {
-                downloads_popover.popdown ();
-                download_selected (job);
-            });
             entries.set (job, entry);
             downloads_list.append (entry);
             update_badge ();
@@ -173,8 +176,8 @@ namespace ProtonPlus.Widgets.Header {
         }
     }
 
-    private class DownloadEntry : Adw.ActionRow {
-        private Services.InstallJob job;
+    private class DownloadEntry : Adw.PreferencesRow {
+        public Services.InstallJob job { get; private set; }
         private Gtk.ProgressBar progress_bar;
         private Gtk.Label status_label;
         private Gtk.Label metrics_label;
@@ -184,44 +187,63 @@ namespace ProtonPlus.Widgets.Header {
         private ulong canceled_handler = 0;
 
         public DownloadEntry (Services.InstallJob job) {
-            Object (title: job.tool.title, activatable: true);
+            Object (title: job.tool.title, use_markup: false, activatable: true, focusable: true);
 
             this.job = job;
-            set_subtitle (job.displayed_title);
+            update_property (
+                Gtk.AccessibleProperty.LABEL, job.tool.title,
+                Gtk.AccessibleProperty.DESCRIPTION, job.displayed_title, -1
+            );
+
+            var title_label = new Gtk.Label (job.tool.title) {
+                xalign = 0,
+                hexpand = true,
+                wrap = true,
+                wrap_mode = Pango.WrapMode.WORD_CHAR,
+                lines = 2,
+                ellipsize = Pango.EllipsizeMode.END,
+                css_classes = { "heading" },
+                tooltip_text = job.tool.title
+            };
+
+            var version_label = new Gtk.Label (job.displayed_title) {
+                xalign = 0,
+                ellipsize = Pango.EllipsizeMode.END,
+                css_classes = { "caption", "dim-label" },
+                tooltip_text = job.displayed_title
+            };
+
+            var labels_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 2) {
+                hexpand = true
+            };
+            labels_box.append (title_label);
+            labels_box.append (version_label);
 
             progress_bar = new Gtk.ProgressBar () {
-                show_text = false,
-                width_request = 132,
-                valign = Gtk.Align.CENTER
+                show_text = false
             };
 
             status_label = new Gtk.Label ("") {
-                halign = Gtk.Align.START,
                 xalign = 0,
                 css_classes = { "caption" },
-                ellipsize = Pango.EllipsizeMode.END,
-                max_width_chars = 24
+                wrap = true,
+                wrap_mode = Pango.WrapMode.WORD_CHAR
             };
 
             metrics_label = new Gtk.Label ("") {
-                halign = Gtk.Align.START,
                 xalign = 0,
                 css_classes = { "caption" },
-                ellipsize = Pango.EllipsizeMode.END,
-                max_width_chars = 24
+                wrap = true,
+                wrap_mode = Pango.WrapMode.WORD_CHAR
             };
 
-            var progress_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 4) {
-                valign = Gtk.Align.CENTER,
-                width_request = 150,
-                margin_top = 6
-            };
+            var progress_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 4);
             progress_box.append (progress_bar);
             progress_box.append (status_label);
             progress_box.append (metrics_label);
 
             cancel_button = new Gtk.Button.from_icon_name ("process-stop-symbolic") {
-                valign = Gtk.Align.CENTER
+                valign = Gtk.Align.START
             };
             cancel_button.add_css_class ("flat");
             cancel_button.set_tooltip_text (_("Cancel"));
@@ -233,8 +255,19 @@ namespace ProtonPlus.Widgets.Header {
                 update_display ();
             });
 
-            add_suffix (progress_box);
-            add_suffix (cancel_button);
+            var heading = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+            heading.append (labels_box);
+            heading.append (cancel_button);
+
+            var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 8) {
+                margin_top = 12,
+                margin_bottom = 12,
+                margin_start = 12,
+                margin_end = 12
+            };
+            content.append (heading);
+            content.append (progress_box);
+            set_child (content);
 
             progress_handler = job.progress_updated.connect (update_display);
             step_handler = job.notify["step"].connect (update_display);
@@ -297,8 +330,15 @@ namespace ProtonPlus.Widgets.Header {
 
             status_label.set_label (status);
             status_label.set_tooltip_text (status);
-            var eta = format_eta (job.step == Services.InstallJob.Step.DOWNLOADING ? job.seconds_remaining : -1);
+            var seconds = job.step == Services.InstallJob.Step.DOWNLOADING ? job.seconds_remaining : -1;
+            var eta = format_eta (seconds);
+            var eta_description = seconds >= 0
+                ? _("Remaining time: %s").printf (eta) : _("Remaining time: --");
             metrics_label.set_label ("%s · %s".printf (speed, eta));
+            metrics_label.set_tooltip_text (eta_description);
+            metrics_label.update_property (
+                Gtk.AccessibleProperty.LABEL, "%s · %s".printf (speed, eta_description), -1
+            );
         }
 
         private string get_step_text () {
@@ -318,7 +358,7 @@ namespace ProtonPlus.Widgets.Header {
 
         private string format_eta (double seconds) {
             if (seconds < 0)
-                return _("ETA: --");
+                return "--";
 
             var total_seconds = (int) seconds;
             var hours = total_seconds / 3600;
@@ -326,10 +366,10 @@ namespace ProtonPlus.Widgets.Header {
             var remaining_seconds = total_seconds % 60;
 
             if (hours > 0)
-                return _("ETA: %dh %dm").printf (hours, minutes);
+                return _("%dh %dm %ds").printf (hours, minutes, remaining_seconds);
             if (minutes > 0)
-                return _("ETA: %dm %ds").printf (minutes, remaining_seconds);
-            return _("ETA: %ds").printf (remaining_seconds);
+                return _("%dm %ds").printf (minutes, remaining_seconds);
+            return _("%ds").printf (remaining_seconds);
         }
     }
 }
