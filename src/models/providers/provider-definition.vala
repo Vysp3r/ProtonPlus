@@ -34,7 +34,7 @@ namespace ProtonPlus.Models.Providers {
         private string[] alternate_format_values;
 
         public string[] alternate_formats {
-            owned get { return copy_strings (alternate_format_values); }
+            owned get { return alternate_format_values; }
         }
 
         public VariantDefinition (
@@ -50,7 +50,7 @@ namespace ProtonPlus.Models.Providers {
             this.format = format;
             this.is_default = is_default;
             this.compatibility = compatibility != null ? compatibility.copy () : VariantCompatibility.unspecified ();
-            this.alternate_format_values = copy_strings (alternate_formats);
+            this.alternate_format_values = alternate_formats ?? new string[0];
         }
 
         public string[] get_asset_formats () {
@@ -59,16 +59,6 @@ namespace ProtonPlus.Models.Providers {
             for (var index = 0; index < alternate_format_values.length; index++)
                 formats[index + 1] = alternate_format_values[index];
             return formats;
-        }
-
-        private static string[] copy_strings (string[]? values) {
-            if (values == null)
-                return {};
-
-            var copied = new string[values.length];
-            for (var index = 0; index < values.length; index++)
-                copied[index] = values[index];
-            return copied;
         }
     }
 
@@ -259,15 +249,15 @@ namespace ProtonPlus.Models.Providers {
         public bool single_archive_releases { get; private set; }
 
         public string[] asset_filters {
-            owned get { return copy_strings (asset_filter_values); }
+            owned get { return asset_filter_values; }
         }
 
         public string[] asset_exclusions {
-            owned get { return copy_strings (asset_exclusion_values); }
+            owned get { return asset_exclusion_values; }
         }
 
         public string[] legacy_endpoints {
-            owned get { return copy_strings (legacy_endpoint_values); }
+            owned get { return legacy_endpoint_values; }
         }
 
         public string source_id {
@@ -285,14 +275,14 @@ namespace ProtonPlus.Models.Providers {
             this.sort_priority = config.sort_priority;
             this.variants = copy_variants (config.variants);
             this.install_layouts = copy_install_layouts (config.install_layouts);
-            this.asset_filter_values = copy_strings (config.asset_filters);
-            this.asset_exclusion_values = copy_strings (config.asset_exclusions);
+            this.asset_filter_values = config.asset_filters ?? new string[0];
+            this.asset_exclusion_values = config.asset_exclusions ?? new string[0];
             this.tag = config.tag;
             this.legacy = config.legacy;
             this.url_template = config.url_template;
             this.archive_install_requirement = config.archive_install_requirement;
             this.single_archive_releases = config.single_archive_releases;
-            this.legacy_endpoint_values = copy_strings (config.legacy_endpoints);
+            this.legacy_endpoint_values = config.legacy_endpoints ?? new string[0];
         }
 
         private static VariantDefinition[] copy_variants (VariantDefinition[] values) {
@@ -313,16 +303,6 @@ namespace ProtonPlus.Models.Providers {
                 var value = values[index];
                 copied[index] = value.copy ();
             }
-            return copied;
-        }
-
-        private static string[] copy_strings (string[]? values) {
-            if (values == null)
-                return {};
-
-            var copied = new string[values.length];
-            for (var index = 0; index < values.length; index++)
-                copied[index] = values[index];
             return copied;
         }
 

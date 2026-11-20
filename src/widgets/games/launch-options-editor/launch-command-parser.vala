@@ -361,7 +361,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     break;
                 }
                 if (entry.semantics.kind == LaunchOptionSemanticKind.WRAPPER_SELECTOR
-                    && contains (entry.semantics.selectable_wrapper_ids, invocation.wrapper_id))
+                    && invocation.wrapper_id in entry.semantics.selectable_wrapper_ids)
                     owner = entry;
             }
             if (owner == null)
@@ -482,7 +482,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     if (invocation.wrapper_id == semantics.wrapper_id && invocation.argument_indexes.size > 0)
                         has_owner_arguments = true;
                 }
-                if (!matched_arguments && !has_owner_arguments && contains (semantics.selectable_values, "auto")) {
+                if (!matched_arguments && !has_owner_arguments && "auto" in semantics.selectable_values) {
                     var automatic_indexes = new ArrayList<int> ();
                     automatic_indexes.add (environment_index);
                     result.occurrences.add (new LaunchCommandOptionOccurrence (
@@ -687,14 +687,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     values.add (result.tokens[indexes[position++]].value);
             }
             return string.joinv (",", values.to_array ());
-        }
-
-        bool contains (string[] values, string candidate) {
-            foreach (var value in values) {
-                if (value == candidate)
-                    return true;
-            }
-            return false;
         }
 
         void add_diagnostic (

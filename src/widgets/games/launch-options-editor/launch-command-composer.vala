@@ -467,7 +467,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var values = selection.get_values ();
             /* Composite metadata can declare an automatic form through its
              * selectable value.  That form emits only fixed outputs. */
-            if (values.length == 1 && values[0] == "auto" && contains (semantics.selectable_values, "auto")) {
+            if (values.length == 1 && values[0] == "auto" && "auto" in semantics.selectable_values) {
                 foreach (var output in automatic_outputs) {
                     foreach (var token in output.fixed_tokens) {
                         if (output.environment_key == "" || !safe (diagnostics, selection.option_id, token))
@@ -513,7 +513,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         void add_selected_wrapper (ArrayList<LaunchCommandCompositionDiagnostic> diagnostics, string option_id,
             string wrapper_id, string[] allowed, LaunchCommandCapabilityContext capabilities,
             HashMap<string, LaunchWrapperDefinition> selected) {
-            if (wrapper_id == "" || !contains (allowed, wrapper_id) || catalog.lookup_wrapper (wrapper_id) == null) {
+            if (wrapper_id == "" || !(wrapper_id in allowed) || catalog.lookup_wrapper (wrapper_id) == null) {
                 add (diagnostics, LaunchCommandCompositionDiagnosticCode.INVALID_WRAPPER_SELECTION, option_id,
                     "Launch option '%s' has an invalid wrapper selection.".printf (option_id)); return;
             }
@@ -579,7 +579,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         void append_fixed_tokens (ArrayList<LaunchCommandCompositionDiagnostic> diagnostics, string id,
             string[] tokens, ArrayList<string> output) { foreach (var token in tokens) if (safe (diagnostics, id, token)) output.add (token); }
         bool valid_selectable (ArrayList<LaunchCommandCompositionDiagnostic> diagnostics, string id, string value, string[] selectable) {
-            if (selectable.length == 0 || contains (selectable, value)) return true;
+            if (selectable.length == 0 || value in selectable) return true;
             add (diagnostics, LaunchCommandCompositionDiagnosticCode.UNSUPPORTED_SELECTABLE_VALUE, id,
                 "Value '%s' is not selectable for '%s'.".printf (value, id)); return false;
         }
@@ -609,7 +609,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             }
             output.add (raw);
         }
-        bool contains (string[] values, string value) { foreach (var candidate in values) if (candidate == value) return true; return false; }
         void add (ArrayList<LaunchCommandCompositionDiagnostic> diagnostics, LaunchCommandCompositionDiagnosticCode code, string id, string message) {
             diagnostics.add (new LaunchCommandCompositionDiagnostic (code, id, message));
         }
