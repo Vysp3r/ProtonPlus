@@ -2,7 +2,7 @@ namespace ProtonPlus.Services {
     /// Application-level coordinator for install, update, and removal jobs.
     /// Workflow selection and observable lifecycle ownership stay here; the
     /// detailed filesystem transactions live in dedicated workflows.
-    public class InstallationService : Object, InstallationOperationCoordinator, InstallationLifecycleRecorder {
+    public class InstallationService : Object, InstallationOperationCoordinator {
         private static InstallationService? _instance = null;
         public static InstallationService instance {
             get {
@@ -608,7 +608,7 @@ namespace ProtonPlus.Services {
         // This is the one workflow-selection point.  SteamTinkerLaunch is
         // identified by its composed context, never by provider or widget.
         private InstallationWorkflow select_workflow (InstallJob job) {
-            if (job.tinker_game_context != null)
+            if (job.tinker_game_install_location != null)
                 return tinker_game_workflow;
             if (job.steam_tinker_launch_context != null)
                 return steam_tinker_launch_workflow;

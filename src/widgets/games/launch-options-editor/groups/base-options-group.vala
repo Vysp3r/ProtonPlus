@@ -7,8 +7,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         protected bool presentation_movable;
         LaunchOptionCatalog catalog;
         public signal void changed ();
-        public signal void advanced_changed ();
-
         internal bool is_advanced_group { get; set; default = false; }
 
         public BaseOptionsGroup (

@@ -116,7 +116,7 @@ These are behavioural checks. Do not replace them with source-text searches or t
 
 ## TinkerGame successor integration
 
-`TinkerGameContext` selects `TinkerGameWorkflow`. It specializes the archive
+`InstallJob.tinker_game_install_location` selects `TinkerGameWorkflow`. It specializes the archive
 workflow's staged preparation and metadata hooks because directory staging,
 promotion and backup restoration have identical requirements. It stages the
 complete modular runtime and Steam manifests together; it does not reuse

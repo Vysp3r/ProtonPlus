@@ -53,12 +53,8 @@ namespace ProtonPlus.Models.Assets {
             );
         }
 
-        public static bool is_archive_name (string name) {
-            return Utils.ArchiveHelper.is_archive_name (name);
-        }
-
         public bool is_archive () {
-            return is_archive_name (this.name);
+            return Utils.ArchiveHelper.is_archive_name (this.name);
         }
     }
 }

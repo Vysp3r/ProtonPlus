@@ -9,7 +9,7 @@ namespace ProtonPlus.Services {
                 job.state == InstallJob.State.BUSY_REMOVING)
                 return ReturnCode.OPERATION_IN_PROGRESS;
             job.refresh_state ();
-            if (job.tinker_game_context == null || job.state != InstallJob.State.UP_TO_DATE)
+            if (job.tinker_game_install_location == null || job.state != InstallJob.State.UP_TO_DATE)
                 return ReturnCode.RUNNER_NOT_INSTALLED;
             if (!yield TinkerGameWorkflow.validate_runtime_async (job.install_location, true))
                 return ReturnCode.INVALID_DATA;

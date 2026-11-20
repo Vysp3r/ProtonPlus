@@ -41,7 +41,7 @@ namespace ProtonPlus.Services {
         internal string? replacement_backup_path { get; set; default = null; }
         public SteamTinkerLaunchContext? steam_tinker_launch_context { get; private set; default = null; }
 
-        public TinkerGameContext? tinker_game_context { get; private set; default = null; }
+        public string? tinker_game_install_location { get; private set; default = null; }
 
         private Cancellable operation_cancellable = new Cancellable ();
         private bool _canceled = false;
@@ -111,8 +111,9 @@ namespace ProtonPlus.Services {
 
             if (release.kind == Models.Release.Kind.TINKER_GAME || mode == Mode.TINKER_GAME) {
                 this.mode = Mode.TINKER_GAME;
-                tinker_game_context = new TinkerGameContext (tool, installation_location_override);
-                install_location = tinker_game_context.install_location;
+                tinker_game_install_location = installation_location_override ?? Path.build_filename (
+                    tool.group.launcher.get_primary_managed_tool_directory (tool.group), "TinkerGame");
+                install_location = tinker_game_install_location;
             } else if (is_steam_tinker_launch) {
                 steam_tinker_launch_context = new SteamTinkerLaunchContext (tool, steam_tinker_launch_home_override);
                 install_location = steam_tinker_launch_context.base_location;
@@ -145,7 +146,7 @@ namespace ProtonPlus.Services {
         }
 
         public string usage_name {
-            owned get { return tinker_game_context != null ? "Proton-tg" : steam_tinker_launch_context != null ? "Proton-stl" : title; }
+            owned get { return tinker_game_install_location != null ? "Proton-tg" : steam_tinker_launch_context != null ? "Proton-stl" : title; }
         }
 
         public string operation_id {
@@ -183,7 +184,7 @@ namespace ProtonPlus.Services {
         }
 
         public string get_usage_identifier () {
-            if (steam_tinker_launch_context != null || tinker_game_context != null)
+            if (steam_tinker_launch_context != null || tinker_game_install_location != null)
                 return usage_name;
 
             var installed_identifier = tool.group.installed_tool_inventory
@@ -318,7 +319,7 @@ namespace ProtonPlus.Services {
 
         internal void report_progress (bool is_percent, int64 progress, double speed_kbps, double? remaining_seconds) {
             this.is_percent = is_percent;
-            this.progress = is_percent ? "%s%%".printf (progress.to_string ()) : Utils.Filesystem.convert_bytes_to_string (progress);
+            this.progress = is_percent ? "%s%%".printf (progress.to_string ()) : format_size (progress);
             this.speed_kbps = speed_kbps;
             this.seconds_remaining = remaining_seconds ?? -1.0;
             progress_updated ();
@@ -382,7 +383,7 @@ namespace ProtonPlus.Services {
         }
 
         private void update_install_location (string? override_location) {
-            if (steam_tinker_launch_context != null || tinker_game_context != null)
+            if (steam_tinker_launch_context != null || tinker_game_install_location != null)
                 return;
             if (installation_location_override != null) {
                 install_location = (!) installation_location_override;

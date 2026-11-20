@@ -98,7 +98,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             this.add_child (auto_vrr_tile);
             this.add_child (framerate_tile);
             this.add_child (resolution_field);
-            // this.add_child (args_field);
 
             cached_page = group;
             return group;

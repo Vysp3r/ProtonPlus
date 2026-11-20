@@ -273,7 +273,7 @@ namespace ProtonPlus.Models.Providers {
             this.endpoint = config.endpoint;
             this.repository_url = config.repository_url;
             this.sort_priority = config.sort_priority;
-            this.variants = copy_variants (config.variants);
+            this.variants = config.variants;
             this.install_layouts = copy_install_layouts (config.install_layouts);
             this.asset_filter_values = config.asset_filters ?? new string[0];
             this.asset_exclusion_values = config.asset_exclusions ?? new string[0];
@@ -283,18 +283,6 @@ namespace ProtonPlus.Models.Providers {
             this.archive_install_requirement = config.archive_install_requirement;
             this.single_archive_releases = config.single_archive_releases;
             this.legacy_endpoint_values = config.legacy_endpoints ?? new string[0];
-        }
-
-        private static VariantDefinition[] copy_variants (VariantDefinition[] values) {
-            var copied = new VariantDefinition[values.length];
-            for (var index = 0; index < values.length; index++) {
-                var value = values[index];
-                copied[index] = new VariantDefinition (
-                    value.id, value.name, value.format, value.is_default,
-                    value.compatibility, value.alternate_formats
-                );
-            }
-            return copied;
         }
 
         private static InstallLayout[] copy_install_layouts (InstallLayout[] values) {
@@ -307,7 +295,7 @@ namespace ProtonPlus.Models.Providers {
         }
 
         public VariantDefinition[] get_variants () {
-            return copy_variants (variants);
+            return variants;
         }
 
         public InstallLayout[] get_install_layouts () {

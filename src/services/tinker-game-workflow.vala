@@ -3,7 +3,7 @@ namespace ProtonPlus.Services {
     // registration rollback are therefore the same atomic directory transaction.
     public class TinkerGameWorkflow : StandardArchiveWorkflow {
         public override ReturnCode validate_install (InstallJob job, bool replace_existing) {
-            if (job.tinker_game_context == null)
+            if (job.tinker_game_install_location == null)
                 return ReturnCode.INVALID_CONFIGURATION;
             if (Globals.IS_STEAM_OS || Globals.IS_FLATPAK ||
                 job.tool.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
@@ -218,9 +218,7 @@ namespace ProtonPlus.Services {
             job.finish_operation ();
             if (result != ReturnCode.RUNNER_INSTALLED)
                 return result;
-            var recorder = coordinator as InstallationLifecycleRecorder;
-            if (recorder != null)
-                recorder.record_completed_update (job);
+            coordinator.record_completed_update (job);
             return ReturnCode.RUNNER_UPDATED;
         }
 

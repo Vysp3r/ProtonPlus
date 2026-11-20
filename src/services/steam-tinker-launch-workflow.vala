@@ -203,9 +203,7 @@ namespace ProtonPlus.Services {
             job.finish_operation ();
             if (code != ReturnCode.RUNNER_INSTALLED)
                 return code;
-            var lifecycle = coordinator as InstallationLifecycleRecorder;
-            if (lifecycle != null)
-                lifecycle.record_completed_update (job);
+            coordinator.record_completed_update (job);
             return ReturnCode.RUNNER_UPDATED;
         }
 
