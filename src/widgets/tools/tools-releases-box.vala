@@ -909,6 +909,8 @@ namespace ProtonPlus.Widgets.Tools {
             provider_has_compatible_variants = displayed_variants.size > 0;
             if (!provider_has_compatible_variants)
                 return;
+            if (provider_tool.definition.has_release_variant_sets)
+                return;
             selected_variant = Models.VariantSelector.select_variant (
                 displayed_variants, Globals.CPU_CAPABILITIES, variant_preferences.load (tool)
             );
@@ -979,6 +981,25 @@ namespace ProtonPlus.Widgets.Tools {
         private bool apply_selected_variant_to_job (Services.InstallJob job) {
             if (!(job.tool is Models.Tools.ProviderTool))
                 return true;
+
+            var provider = (Models.Tools.ProviderTool) job.tool;
+            if (provider.definition.has_release_variant_sets) {
+                // Each row owns its choice. Refresh/filter passes must not
+                // replace it, especially while an operation is in progress.
+                if (job.selected_variant_id != null)
+                    return Models.VariantSelector.resolve_installation_variant (
+                        job.release, job.selected_variant_id, job.selected_variant_name,
+                        Globals.CPU_CAPABILITIES
+                    ).variant != null;
+                var available = Models.VariantSelector.available_variants (job.release, Globals.CPU_CAPABILITIES);
+                var chosen = Models.VariantSelector.select_variant (
+                    available, Globals.CPU_CAPABILITIES, variant_preferences.load (job.tool)
+                );
+                if (chosen == null)
+                    return false;
+                job.set_selected_variant (chosen.name, chosen.resolved_asset (), chosen.id);
+                return true;
+            }
 
             var variant = resolve_release_variant (job.release, job.mode);
             if (variant == null || variant.download_url == null || variant.download_url == "") {
@@ -1133,6 +1154,10 @@ namespace ProtonPlus.Widgets.Tools {
             configure_release_row_up_targets (row);
             row.set_controller_down_target (controller_down_target);
             row.set_data ("job", job);
+            row.variant_selected.connect (() => {
+                list_box.invalidate_filter ();
+                update_visibility ();
+            });
             row.changelog_requested.connect ((selected_job) => {
                 changelog_requested (selected_job);
             });

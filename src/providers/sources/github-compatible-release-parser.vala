@@ -33,7 +33,9 @@ namespace ProtonPlus.Providers.Sources {
                 var variants = CatalogReleaseBuilder.create_variants (
                     definition, tag_name, tag_name, assets
                 );
-                var primary_asset = CatalogReleaseBuilder.select_default_asset (assets, variants);
+                var primary_asset = CatalogReleaseBuilder.select_default_asset (
+                    assets, variants, definition.has_release_variant_sets
+                );
                 if (primary_asset == null)
                     continue;
 

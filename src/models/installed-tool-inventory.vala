@@ -14,6 +14,7 @@ namespace ProtonPlus.Models {
         public string launcher_id { get; construct set; }
         public string variant_id { get; construct set; }
         public string release_id { get; construct set; }
+        public string install_mode { get; construct set; }
         public bool has_compatibilitytool_vdf { get; construct set; }
 
         public InstalledToolEntry (
@@ -29,7 +30,8 @@ namespace ProtonPlus.Models {
             string launcher_id,
             string variant_id,
             string release_id,
-            bool has_compatibilitytool_vdf
+            bool has_compatibilitytool_vdf,
+            string install_mode = ""
         ) {
             Object (
                 path: path,
@@ -44,6 +46,7 @@ namespace ProtonPlus.Models {
                 launcher_id: launcher_id,
                 variant_id: variant_id,
                 release_id: release_id,
+                install_mode: install_mode,
                 has_compatibilitytool_vdf: has_compatibilitytool_vdf
             );
         }
@@ -58,7 +61,7 @@ namespace ProtonPlus.Models {
                 path, directory_name, internal_title, display_title,
                 runner_endpoint, runner_title, tag,
                 provider_id, tool_id, launcher_id, variant_id, release_id,
-                has_compatibilitytool_vdf
+                has_compatibilitytool_vdf, install_mode
             );
         }
     }
@@ -120,6 +123,93 @@ namespace ProtonPlus.Models {
                     return usage_identifier_for (entry);
             }
             return null;
+        }
+
+        // Latest is an installation slot, independent of the current display
+        // title. All consumers share this cached ownership/mode decision.
+        public bool is_latest_installation (InstalledToolEntry entry, Tools.ProviderTool tool, bool backup = false) {
+            if (entry.has_persisted_identity ()) {
+                if (!persisted_identity_matches_tool (entry, tool))
+                    return false;
+            } else if (entry.runner_endpoint != "" || entry.runner_title != "") {
+                if (!legacy_metadata_matches_tool (entry, tool) || !legacy_metadata_match_is_unambiguous (entry))
+                    return false;
+            }
+
+            if (entry.install_mode != "" && entry.install_mode != "latest")
+                return false;
+            if (backup != entry.directory_name.has_suffix (" Backup"))
+                return false;
+            if (!backup && entry.install_mode == "latest" && entry.has_persisted_identity ())
+                return true;
+
+            var name = backup
+                ? entry.directory_name.substring (0, entry.directory_name.length - " Backup".length)
+                : entry.directory_name;
+            foreach (var title in latest_titles (entry, tool)) {
+                var latest = "%s Latest".printf (title);
+                if (name == latest || name.has_prefix ("%s-".printf (latest)))
+                    return true;
+            }
+            return false;
+        }
+
+        public Variant? get_latest_variant (InstalledToolEntry entry, Tools.ProviderTool tool) {
+            foreach (var variant in tool.variants) {
+                if (entry.variant_id != "") {
+                    if (entry.variant_id == variant.id)
+                        return variant;
+                    continue;
+                }
+                foreach (var title in latest_titles (entry, tool)) {
+                    var name = tool.get_directory_name ("%s Latest".printf (title), variant);
+                    if (entry.directory_name == name || entry.directory_name == "%s Backup".printf (name))
+                        return variant;
+                }
+            }
+            return null;
+        }
+
+        public InstalledToolEntry? get_latest_installation (
+            Tools.ProviderTool tool, Variant? variant = null, bool backup = false
+        ) {
+            if (variant == null) {
+                foreach (var candidate in tool.variants) {
+                    if (candidate.is_default) {
+                        variant = candidate;
+                        break;
+                    }
+                }
+            }
+            if (variant == null)
+                return null;
+
+            InstalledToolEntry? found = null;
+            var matches = 0;
+            var canonical = Path.build_filename (group.launcher.get_primary_managed_tool_directory (group),
+                tool.get_directory_name ("%s Latest".printf (tool.title), variant) + (backup ? " Backup" : ""));
+            foreach (var entry in entries) {
+                if (!is_latest_installation (entry, tool, backup))
+                    continue;
+                var installed_variant = get_latest_variant (entry, tool);
+                if (installed_variant == null || installed_variant.id != variant.id)
+                    continue;
+                if (entry.path == canonical)
+                    return entry;
+                found = entry;
+                matches++;
+            }
+            // Multiple old slots must not select an arbitrary removal target.
+            return matches == 1 ? found : null;
+        }
+
+        private string[] latest_titles (InstalledToolEntry entry, Tools.ProviderTool tool) {
+            var titles = new Gee.ArrayList<string> ();
+            titles.add (tool.title);
+            titles.add_all_array (tool.definition.legacy_titles);
+            if (entry.runner_title != "" && entry.has_persisted_identity () && persisted_identity_matches_tool (entry, tool))
+                titles.add (entry.runner_title);
+            return titles.to_array ();
         }
 
         public void invalidate () {
@@ -188,7 +278,7 @@ namespace ProtonPlus.Models {
                 path, directory_name, internal_title, display_title,
                 metadata.runner_endpoint, metadata.runner_title, metadata.tag,
                 metadata.provider_id, metadata.tool_id, metadata.launcher_id,
-                metadata.variant_id, metadata.release_id, has_compatibilitytool_vdf
+                metadata.variant_id, metadata.release_id, has_compatibilitytool_vdf, metadata.install_mode
             ));
         }
 
@@ -293,7 +383,7 @@ namespace ProtonPlus.Models {
 
         private bool legacy_metadata_matches_tool (InstalledToolEntry entry, Tools.ProviderTool tool) {
             var endpoint_matches = tool.definition.matches_endpoint (entry.runner_endpoint);
-            var title_matches = entry.runner_title != "" && entry.runner_title == tool.title;
+            var title_matches = tool.definition.matches_title (entry.runner_title);
 
             if (entry.runner_endpoint != "" && entry.runner_title != "")
                 return endpoint_matches && title_matches;
@@ -314,6 +404,8 @@ namespace ProtonPlus.Models {
         }
 
         private bool legacy_metadata_match_is_unambiguous (InstalledToolEntry entry) {
+            if (group.tools == null)
+                return false;
             var matches = 0;
             foreach (var candidate in group.tools) {
                 var provider_candidate = candidate as Tools.ProviderTool;
@@ -342,8 +434,17 @@ namespace ProtonPlus.Models {
         private bool identifier_matches_tool (string identifier, Tools.ProviderTool tool) {
             if (identifier == "")
                 return false;
-            if (identifier == tool.title || identifier == "%s Latest".printf (tool.title))
+            if (tool.definition.matches_title (identifier))
                 return true;
+            var titles = new Gee.ArrayList<string> ();
+            titles.add (tool.title);
+            titles.add_all_array (tool.definition.legacy_titles);
+            foreach (var title in titles) {
+                foreach (var variant in tool.variants) {
+                    if (identifier == tool.get_directory_name ("%s Latest".printf (title), variant))
+                        return true;
+                }
+            }
             var catalog = tool.release_catalog;
             if (catalog == null || catalog.releases.size == 0)
                 return false;

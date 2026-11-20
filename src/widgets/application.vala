@@ -261,7 +261,6 @@ namespace ProtonPlus.Widgets {
             about_dialog.set_version ("v" + Config.APP_VERSION);
             about_dialog.set_comments (_("A modern compatibility tools manager"));
             about_dialog.add_link ("GitHub", "https://github.com/Vysp3r/ProtonPlus");
-            about_dialog.add_link (_("Discord"), "https://discord.gg/qNRPQvC7m4");
             about_dialog.set_issue_url ("https://github.com/Vysp3r/ProtonPlus/issues/new/choose");
             about_dialog.set_copyright (get_copyright ());
             about_dialog.set_license_type (Gtk.License.GPL_3_0);

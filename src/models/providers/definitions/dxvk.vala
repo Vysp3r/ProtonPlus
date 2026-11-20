@@ -45,8 +45,21 @@ namespace ProtonPlus.Models.Providers {
                             }
                         )
                     },
-                    install_layouts = { InstallLayout.template ("default", "sarek-$release_name") },
-                    single_archive_releases = true
+                    release_variant_sets = {
+                        new ReleaseVariantSet ({
+                            new VariantDefinition ("standard", N_ ("Default"), "dxvk-sarek-$release_version", true)
+                        }),
+                        new ReleaseVariantSet ({
+                            new VariantDefinition ("standard", "dyasync", "dxvk-sarek-dyasync-$release_name", true)
+                        }),
+                        new ReleaseVariantSet ({
+                            // The historical default slot contains Async.
+                            // Preserve its ID and unsuffixed directory name.
+                            new VariantDefinition ("standard", N_ ("Async"), "dxvk-sarek-async-$release_name", true),
+                            new VariantDefinition ("non-async", N_ ("Standard"), "dxvk-sarek-$release_name", false)
+                        })
+                    },
+                    install_layouts = { InstallLayout.template ("default", "sarek-$release_name") }
                 })
             };
         }

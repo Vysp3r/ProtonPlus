@@ -6,6 +6,7 @@ namespace AppTests.ProviderSourceTest {
 
     public void register_tests () {
         Test.add_func ("/providers/github/canonical-release-page", test_github_release_page);
+        Test.add_func ("/providers/github-compatible/sarek-release-variants", test_sarek_release_variants);
         Test.add_func ("/providers/gitlab/canonical-release-page", test_gitlab_release_page);
         Test.add_func ("/providers/forgejo/canonical-release-page", test_forgejo_release_page);
         Test.add_func ("/providers/github-actions/canonical-release-page", test_github_actions_release_page);
@@ -89,6 +90,53 @@ namespace AppTests.ProviderSourceTest {
         assert (release.variants[0].resolved_asset ().digest == "sha256:github");
         assert (page.next_page == 2);
         assert (!page.has_more);
+    }
+
+    private void test_sarek_release_variants () {
+        var definition = new ProviderRegistry ().get_by_id ("dxvk-sarek");
+        var content = fixture ("github", "sarek.json");
+        var results = new Models.Tools.ReleasePageResult[] {
+            new GitHubReleaseSource ().parse_response (definition, content, 1, 25),
+            new ForgejoReleaseSource ().parse_response (definition, content, 1, 25)
+        };
+        foreach (var result in results) {
+            var releases = result.require_page ().releases;
+            assert (releases.size == 5);
+            for (var index = 0; index < 3; index++) {
+                var release = releases[index];
+                assert (release.variants.size == 1);
+                assert (release.variants[0].name == "Default");
+                assert (release.variants[0].id == "standard");
+                assert (release.variants[0].asset.digest == "sha256:fixture-%i-0".printf (index));
+                assert (release.asset.download_url == release.variants[0].download_url);
+            }
+            assert (releases[3].variants.size == 1 && releases[3].variants[0].name == "dyasync");
+            var legacy = releases[4];
+            assert (legacy.variants.size == 2);
+            assert (legacy.asset.name == "dxvk-sarek-async-v1.11.0.tar.gz");
+            assert (legacy.variants[0].name == "Async" && legacy.variants[1].name == "Standard");
+            assert (legacy.variants[1].asset.download_size == 42);
+            assert (legacy.variants[1].asset.digest == "sha256:fixture-4-0");
+            var roundtrip = Models.Release.from_json (legacy.to_json ());
+            assert (roundtrip != null && roundtrip.variants.size == 2);
+            assert (roundtrip.variants[1].id == "non-async");
+        }
+
+        // A partially published generation remains usable without inventing
+        // the absent Async archive or changing Standard's installation slot.
+        try {
+            var root = Json.from_string (content);
+            root.get_array ().get_object_element (4).get_array_member ("assets").remove_element (1);
+            var partial = new GitHubReleaseSource ().parse_response (
+                definition, Json.to_string (root, false), 1, 25
+            ).require_page ().releases[4];
+            assert (partial.variants.size == 2 && partial.variants[0].download_url == null);
+            assert (partial.asset.name == "dxvk-sarek-v1.11.0.tar.gz");
+            var available = Models.VariantSelector.available_variants (partial, new Models.CpuCapabilities (Models.CpuArchitecture.X86_64));
+            assert (available.size == 1 && available[0].id == "non-async");
+        } catch (Error e) {
+            assert_not_reached ();
+        }
     }
 
     private void test_gitlab_release_page () {

@@ -60,6 +60,39 @@ namespace ProtonPlus.Models.Providers {
                 formats[index + 1] = alternate_format_values[index];
             return formats;
         }
+
+        internal VariantDefinition copy () {
+            return new VariantDefinition (id, name, format, is_default, compatibility, alternate_formats);
+        }
+
+        private static string[] copy_strings (string[]? values) {
+            if (values == null)
+                return {};
+
+            var copied = new string[values.length];
+            for (var index = 0; index < values.length; index++)
+                copied[index] = values[index];
+            return copied;
+        }
+    }
+
+    // Ordered packaging generations. The first set with a named asset match
+    // describes the release; unmatched entries remain complete catalog data.
+    public class ReleaseVariantSet : Object {
+        private VariantDefinition[] variants;
+
+        public ReleaseVariantSet (VariantDefinition[] variants) {
+            this.variants = new VariantDefinition[variants.length];
+            for (var index = 0; index < variants.length; index++)
+                this.variants[index] = variants[index].copy ();
+        }
+
+        public VariantDefinition[] get_variants () {
+            var copied = new VariantDefinition[variants.length];
+            for (var index = 0; index < variants.length; index++)
+                copied[index] = variants[index].copy ();
+            return copied;
+        }
     }
 
     private enum InstallLayoutKind {
@@ -211,6 +244,7 @@ namespace ProtonPlus.Models.Providers {
         public string repository_url = "";
         public int sort_priority = 0;
         public VariantDefinition[] variants = {};
+        public ReleaseVariantSet[] release_variant_sets = {};
         public InstallLayout[] install_layouts = {};
         public string[] asset_filters = {};
         public string[] asset_exclusions = {};
@@ -220,6 +254,7 @@ namespace ProtonPlus.Models.Providers {
         public ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD;
         public bool single_archive_releases = false;
         public string[] legacy_endpoints = {};
+        public string[] legacy_titles = {};
     }
 
     // A definition deliberately contains no request or JSON behavior.  It is
@@ -238,12 +273,15 @@ namespace ProtonPlus.Models.Providers {
         public bool legacy { get; private set; }
         public string tag { get; private set; }
         private VariantDefinition[] variants;
+        private ReleaseVariantSet[] release_variant_sets;
+        public bool has_release_variant_sets { get { return release_variant_sets.length > 0; } }
         private InstallLayout[] install_layouts;
         // These historically filter release titles, despite their older asset
         // names.  Keep the configuration and matching semantics unchanged.
         private string[] asset_filter_values;
         private string[] asset_exclusion_values;
         private string[] legacy_endpoint_values;
+        private string[] legacy_title_values;
         public string url_template { get; private set; }
         public ArchiveInstallRequirement archive_install_requirement { get; private set; }
         public bool single_archive_releases { get; private set; }
@@ -260,6 +298,10 @@ namespace ProtonPlus.Models.Providers {
             owned get { return legacy_endpoint_values; }
         }
 
+        public string[] legacy_titles {
+            owned get { return copy_strings (legacy_title_values); }
+        }
+
         public string source_id {
             owned get { return source_id_for (source_type); }
         }
@@ -273,7 +315,8 @@ namespace ProtonPlus.Models.Providers {
             this.endpoint = config.endpoint;
             this.repository_url = config.repository_url;
             this.sort_priority = config.sort_priority;
-            this.variants = config.variants;
+            this.variants = copy_variants (config.variants);
+            this.release_variant_sets = copy_variant_sets (config.release_variant_sets);
             this.install_layouts = copy_install_layouts (config.install_layouts);
             this.asset_filter_values = config.asset_filters ?? new string[0];
             this.asset_exclusion_values = config.asset_exclusions ?? new string[0];
@@ -282,7 +325,20 @@ namespace ProtonPlus.Models.Providers {
             this.url_template = config.url_template;
             this.archive_install_requirement = config.archive_install_requirement;
             this.single_archive_releases = config.single_archive_releases;
-            this.legacy_endpoint_values = config.legacy_endpoints ?? new string[0];
+            this.legacy_endpoint_values = copy_strings (config.legacy_endpoints);
+            this.legacy_title_values = copy_strings (config.legacy_titles);
+        }
+
+        private static VariantDefinition[] copy_variants (VariantDefinition[] values) {
+            var copied = new VariantDefinition[values.length];
+            for (var index = 0; index < values.length; index++) {
+                var value = values[index];
+                copied[index] = new VariantDefinition (
+                    value.id, value.name, value.format, value.is_default,
+                    value.compatibility, value.alternate_formats
+                );
+            }
+            return copied;
         }
 
         private static InstallLayout[] copy_install_layouts (InstallLayout[] values) {
@@ -295,7 +351,34 @@ namespace ProtonPlus.Models.Providers {
         }
 
         public VariantDefinition[] get_variants () {
-            return variants;
+            // Tools retain the entire identity/compatibility universe, while
+            // release composition selects one packaging generation below.
+            var all = new ArrayList<VariantDefinition> ();
+            var ids = new HashSet<string> ();
+            foreach (var variant in variants) {
+                all.add (variant.copy ());
+                ids.add (variant.id);
+            }
+            foreach (var set in release_variant_sets)
+                foreach (var variant in set.get_variants ())
+                    if (ids.add (variant.id))
+                        all.add (variant);
+            return all.to_array ();
+        }
+
+        public VariantDefinition[] get_fallback_variants () {
+            return copy_variants (variants);
+        }
+
+        public ReleaseVariantSet[] get_release_variant_sets () {
+            return copy_variant_sets (release_variant_sets);
+        }
+
+        private static ReleaseVariantSet[] copy_variant_sets (ReleaseVariantSet[] sets) {
+            var copied = new ReleaseVariantSet[sets.length];
+            for (var index = 0; index < sets.length; index++)
+                copied[index] = new ReleaseVariantSet (sets[index].get_variants ());
+            return copied;
         }
 
         public InstallLayout[] get_install_layouts () {
@@ -314,6 +397,18 @@ namespace ProtonPlus.Models.Providers {
             }
 
             return null;
+        }
+
+        public bool matches_title (string candidate) {
+            if (candidate == "")
+                return false;
+            if (candidate == title)
+                return true;
+            foreach (var legacy_title in legacy_title_values) {
+                if (candidate == legacy_title)
+                    return true;
+            }
+            return false;
         }
 
         public bool matches_endpoint (string candidate) {

@@ -162,32 +162,39 @@ namespace ProtonPlus.Services {
             runner.group.refresh_installed_state ();
             var found = false;
             var updated = false;
-            var has_legacy_backup = false;
+            Models.InstalledToolEntry? legacy_backup = null;
+            var inventory = runner.group.installed_tool_inventory;
             foreach (var entry in runner.group.get_installed_tool_snapshot ()) {
                 if (is_legacy_latest_backup (entry, runner))
-                    has_legacy_backup = true;
+                    legacy_backup = entry;
                 if (!is_latest_installation (entry, runner))
                     continue;
                 found = true;
-                var code = yield update_provider_at (runner, entry.path);
+                var code = yield update_provider_at (runner, entry.path, false, inventory.get_latest_variant (entry, runner));
                 if (code == ReturnCode.RUNNER_UPDATED)
                     updated = true;
                 else if (code != ReturnCode.NOTHING_TO_UPDATE && code != ReturnCode.INCOMPATIBLE_VARIANT)
                     return code;
             }
-            if (!found && has_legacy_backup) {
-                var directory = Path.build_filename (runner.group.launcher.get_primary_managed_tool_directory (runner.group),
-                    "%s Latest".printf (runner.title));
-                return yield update_provider_at (runner, directory, true);
+            if (!found && legacy_backup != null) {
+                var directory = legacy_backup.path.substring (0, legacy_backup.path.length - " Backup".length);
+                return yield update_provider_at (runner, directory, true, inventory.get_latest_variant (legacy_backup, runner));
             }
             if (!found)
                 return ReturnCode.RUNNER_NOT_INSTALLED;
             return updated ? ReturnCode.RUNNER_UPDATED : ReturnCode.NOTHING_TO_UPDATE;
         }
 
-        private async ReturnCode update_provider_at (Models.Tools.ProviderTool runner, string directory, bool restore_backup = false) {
+        private async ReturnCode update_provider_at (
+            Models.Tools.ProviderTool runner, string directory, bool restore_backup = false,
+            Models.Variant? installed_variant = null
+        ) {
             var release = new Models.Release (runner.title, "", "", new Models.Assets.Asset ("", ""), "");
             var job = new InstallJob (release, runner, InstallJob.Mode.LATEST, directory);
+            // Legacy default slots keep compatible-release fallback. Only a
+            // named nondefault slot adds a selection absent from old receipts.
+            if (installed_variant != null && !installed_variant.is_default)
+                job.set_selected_variant (installed_variant.name, null, installed_variant.id);
             if (!reserve_operation (job))
                 return ReturnCode.OPERATION_IN_PROGRESS;
             var key = operation_target (job.install_location);
@@ -196,7 +203,7 @@ namespace ProtonPlus.Services {
             job.state = InstallJob.State.BUSY_UPDATING;
             try {
                 if (restore_backup) {
-                    var code = yield standard_archive_workflow.restore_legacy_latest_backup (runner);
+                    var code = yield standard_archive_workflow.restore_legacy_latest_backup (runner, directory);
                     if (code != ReturnCode.RUNNER_INSTALLED)
                         return code;
                     runner.group.invalidate_installed_state ();
@@ -333,30 +340,14 @@ namespace ProtonPlus.Services {
             Models.InstalledToolEntry entry,
             Models.Tools.ProviderTool runner
         ) {
-            var latest = "%s Latest".printf (runner.title);
-            if (entry.directory_name != latest && !entry.directory_name.has_prefix ("%s-".printf (latest)))
-                return false;
-            return installation_identity_matches_runner (entry, runner);
+            return runner.group.installed_tool_inventory.is_latest_installation (entry, runner);
         }
 
         private bool is_legacy_latest_backup (
             Models.InstalledToolEntry entry,
             Models.Tools.ProviderTool runner
         ) {
-            if (entry.directory_name != "%s Latest Backup".printf (runner.title))
-                return false;
-            return installation_identity_matches_runner (entry, runner);
-        }
-
-        private bool installation_identity_matches_runner (
-            Models.InstalledToolEntry entry,
-            Models.Tools.ProviderTool runner
-        ) {
-            if (entry.tool_id != "" && entry.tool_id != runner.id)
-                return false;
-            if (entry.provider_id != "" && entry.provider_id != runner.provider_id)
-                return false;
-            return entry.launcher_id == "" || entry.launcher_id == runner.group.launcher.tool_target_id;
+            return runner.group.installed_tool_inventory.is_latest_installation (entry, runner, true);
         }
 
         private async ReturnCode start_install (InstallJob job, bool replace_existing, bool record_change) {

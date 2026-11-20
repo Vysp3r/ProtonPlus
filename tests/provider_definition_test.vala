@@ -145,6 +145,15 @@ namespace AppTests.ProviderDefinitionTest {
             for (var index = 0; index < legacy_endpoints.length; index++)
                 assert (legacy_endpoints[index] == expected_legacy_endpoints.get_string_element (index));
 
+            Json.Array? expected_legacy_titles = object.has_member ("legacy_titles")
+                ? object.get_array_member ("legacy_titles") : null;
+            var legacy_titles = definition.legacy_titles;
+            assert (legacy_titles.length == (expected_legacy_titles == null ? 0 : expected_legacy_titles.get_length ()));
+            for (var index = 0; index < legacy_titles.length; index++) {
+                assert (legacy_titles[index] == expected_legacy_titles.get_string_element (index));
+                assert (definition.matches_title (legacy_titles[index]));
+            }
+
             var expected_variants = object.get_array_member ("variants");
             var variants = definition.get_variants ();
             assert (variants.length == expected_variants.get_length ());
@@ -244,6 +253,7 @@ namespace AppTests.ProviderDefinitionTest {
             definition, "v1.13.0", "v1.13.0", current_assets
         );
         assert (current_variants.size == 1);
+        assert (current_variants[0].name == "Default" && current_variants[0].id == "standard");
         assert (current_variants[0].download_url == "https://example.invalid/sarek-1.13.0.tar.gz");
 
         var dyasync_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
@@ -254,6 +264,7 @@ namespace AppTests.ProviderDefinitionTest {
             definition, "v1.12.0", "v1.12.0", dyasync_assets
         );
         assert (dyasync_variants.size == 1);
+        assert (dyasync_variants[0].name == "dyasync" && dyasync_variants[0].id == "standard");
         assert (dyasync_variants[0].download_url == "https://example.invalid/sarek-1.12.0.tar.gz");
 
         var legacy_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
@@ -266,8 +277,16 @@ namespace AppTests.ProviderDefinitionTest {
         var legacy_variants = CatalogReleaseBuilder.create_variants (
             definition, "v1.11.0", "v1.11.0", legacy_assets
         );
-        assert (legacy_variants.size == 1);
+        assert (legacy_variants.size == 2);
+        assert (legacy_variants[0].name == "Async" && legacy_variants[0].id == "standard");
         assert (legacy_variants[0].download_url == "https://example.invalid/sarek-async-1.11.0.tar.gz");
+        assert (legacy_variants[1].name == "Standard" && legacy_variants[1].id == "non-async");
+        assert (legacy_variants[1].download_url == "https://example.invalid/sarek-1.11.0.tar.gz");
+        var tool = create_tool (definition);
+        assert (tool.variants.size == 2);
+        assert (tool.get_directory_name ("v1.11.0", legacy_variants[0]) == "sarek-v1.11.0");
+        assert (tool.get_directory_name ("v1.11.0", legacy_variants[1]) == "sarek-v1.11.0-Standard");
+        assert (tool.get_directory_name ("DXVK (Sarek) Latest", legacy_variants[0]) == "DXVK (Sarek) Latest");
 
         var lone_legacy_assets = new Gee.LinkedList<ProtonPlus.Models.Assets.Asset> ();
         lone_legacy_assets.add (new ProtonPlus.Models.Assets.Asset (
@@ -276,8 +295,9 @@ namespace AppTests.ProviderDefinitionTest {
         var lone_legacy_variants = CatalogReleaseBuilder.create_variants (
             definition, "v1.10.0", "v1.10.0", lone_legacy_assets
         );
-        assert (lone_legacy_variants.size == 1);
-        assert (lone_legacy_variants[0].download_url == "https://example.invalid/sarek-1.10.0.tar.gz");
+        assert (lone_legacy_variants.size == 2);
+        assert (lone_legacy_variants[0].download_url == null);
+        assert (lone_legacy_variants[1].download_url == "https://example.invalid/sarek-1.10.0.tar.gz");
     }
 
     private void test_multi_archive_asset_selection () {

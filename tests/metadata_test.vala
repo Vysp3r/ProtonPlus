@@ -31,6 +31,7 @@ namespace AppTests.MetadataTest {
         metadata.launcher_id = "example-system";
         metadata.variant_id = "x86-64";
         metadata.release_id = "1001";
+        metadata.install_mode = "latest";
 
         assert (metadata.save (directory));
         assert (FileUtils.test (Path.build_filename (directory, ".protonplus"), FileTest.IS_REGULAR));
@@ -44,6 +45,7 @@ namespace AppTests.MetadataTest {
         assert (loaded_metadata.launcher_id == "example-system");
         assert (loaded_metadata.variant_id == "x86-64");
         assert (loaded_metadata.release_id == "1001");
+        assert (loaded_metadata.install_mode == "latest");
 
         ProtonPlus.Utils.Filesystem.delete_file (Path.build_filename (directory, ".protonplus"));
         try {
@@ -71,6 +73,7 @@ namespace AppTests.MetadataTest {
         assert (metadata.launcher_id == "");
         assert (metadata.variant_id == "");
         assert (metadata.release_id == "");
+        assert (metadata.install_mode == "");
         assert (ProtonPlus.Utils.Filesystem.get_file_content (metadata_path) ==
                 "{\"runner_endpoint\":\"https://example.test/releases\",\"runner_title\":\"Example Runner\",\"tag\":\"v1.2.3\"}");
 
@@ -83,12 +86,14 @@ namespace AppTests.MetadataTest {
         var path = Path.build_filename (directory, ".protonplus");
         foreach (var value in new string[] { "42", "null", "{}", "[]", "true" }) {
             // A malformed identity must not leave usable legacy fields behind.
-            ProtonPlus.Utils.Filesystem.create_file (path,
-                "{\"runner_title\":\"Example Runner\",\"provider_id\":%s}".printf (value));
-            var metadata = ProtonPlus.Utils.Metadata.load (directory);
-            assert (metadata.runner_title == "");
-            assert (metadata.provider_id == "");
-            assert (FileUtils.remove (path) == 0);
+            foreach (var field in new string[] { "provider_id", "install_mode" }) {
+                ProtonPlus.Utils.Filesystem.create_file (path,
+                    "{\"runner_title\":\"Example Runner\",\"%s\":%s}".printf (field, value));
+                var metadata = ProtonPlus.Utils.Metadata.load (directory);
+                assert (metadata.runner_title == "");
+                assert (metadata.provider_id == "");
+                assert (FileUtils.remove (path) == 0);
+            }
         }
         assert (DirUtils.remove (directory) == 0);
     }

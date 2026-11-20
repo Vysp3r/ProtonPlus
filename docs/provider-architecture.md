@@ -37,6 +37,13 @@ ProviderDefinition
 
 `Group` exposes the inventory refresh/invalidation boundary. After a service operation, the service invalidates the affected group's inventory; callers refresh it when they need a current installed-tool snapshot.
 
+Latest installation slots are resolved through `InstalledToolInventory` by
+persisted tool/target identity, installation mode, and variant. Jobs use the
+resolved physical path even after a provider title changes. Older receipts use
+their recorded title or the definition's explicit `legacy_titles`; aliases do
+not override conflicting stable IDs or ambiguous legacy metadata. Existing
+Steam manifest keys survive updates so game assignments retain their identity.
+
 GTK and Libadwaita widgets consume tool, catalog, job, and inventory state. They do not define provider configuration, select a remote source, parse a release response, or choose an installation workflow. Likewise, release sources do not depend on GTK or Libadwaita, catalog code does not perform installation transactions, and workflows do not parse ordinary release APIs.
 
 `CompatibilityTool` is discovery data for a launcher and is separate from provider-backed `Tool` instances. SteamTinkerLaunch is intentionally a dedicated tool because its lifecycle is not an ordinary archive installation.
@@ -56,6 +63,34 @@ Use this path when the upstream uses an existing source type and its release can
 3. Update the definition snapshot and focused tests in `tests/fixtures/definitions/runners.json`, `tests/provider_definition_test.vala`, `tests/provider_registry_test.vala`, and `tests/install_layout_test.vala` when the provider's observable definition or install naming needs coverage.
 
 No provider subclass, new release model, widget branch, installation-service branch, or workflow is needed. `ProviderCatalog` combines the definition with the existing source and `StandardArchiveWorkflow` handles the resulting archive job. The `definition-only-provider-creates-standard-tool` test demonstrates this seam with a test-only definition.
+
+Providers whose packaging changes between releases can declare ordered
+`release_variant_sets`, each containing a complete `VariantDefinition` array
+with one default. The first set with an exact named asset match describes the
+release; otherwise the ordinary `variants` definitions and their alternate
+formats remain the fallback. Missing archives retain entries without download
+URLs. UI projections expose only available, CPU-compatible entries, and a
+release with only a non-default archive remains browsable. Other providers
+retain their required-default policy.
+
+`ProviderTool.variants` retains the union of configured stable IDs. For these
+providers, the GUI shows the selected build in each release row and offers a
+Build submenu when that release has multiple usable archives. The interactive
+CLI also asks for the build after selecting such a release. Cached releases
+replay variant composition from their retained assets; former collapsed caches
+refresh rather than inventing omitted assets.
+
+DXVK-Sarek uses sets for unified, dyasync, and separate Async/Standard archives.
+Its historical `standard` ID and default directory slot intentionally continue
+to identify the previously selected Async archive on older releases. The newly
+exposed non-async archive has ID `non-async` and a separate `-Standard` slot.
+Labels vary with packaging while these identities remain stable. Automatic
+updates preserve the stored variant ID and leave an installation intact if the
+new release no longer provides that variant.
+
+When renaming a provider, retain its provider ID and add its previous title to
+`legacy_titles` so installations without stable metadata can migrate. Keep old
+aliases across subsequent renames.
 
 Definitions use named configuration fields; optional settings can be omitted:
 

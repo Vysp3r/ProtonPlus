@@ -41,6 +41,96 @@ class PresentationProviderTool : Models.Tools.ProviderTool {
     }
 }
 
+class PresentationSarekTool : Models.Tools.ProviderTool {
+    public PresentationSarekTool (Models.Group group) {
+        var definition = new Models.Providers.ProviderRegistry ().get_by_id ("dxvk-sarek");
+        base.with_catalog (definition, new Providers.Sources.GitHubReleaseSource (),
+            group, definition.get_install_layout ("default"));
+        var releases = new Providers.Sources.GitHubReleaseSource ().parse_response (definition,
+            Utils.Filesystem.get_file_content (Path.build_filename (
+                Environment.get_variable ("PROTONPLUS_TEST_FIXTURES") ?? "fixtures",
+                "providers", "github", "sarek.json")), 1, 25).require_page ().releases;
+        var catalog = new Models.ReleaseCatalog.with_static_release (releases[0]);
+        catalog.releases.add_all (releases);
+        initialize_release_catalog (catalog);
+    }
+}
+
+Gtk.MenuButton? find_release_actions (Gtk.Widget widget) {
+    if (widget is Gtk.MenuButton && ((Gtk.MenuButton) widget).icon_name == "view-more-symbolic")
+        return (Gtk.MenuButton) widget;
+    for (var child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
+        var found = find_release_actions (child);
+        if (found != null)
+            return found;
+    }
+    return null;
+}
+
+MenuModel? find_build_menu (Gtk.MenuButton button) {
+    var menu = ((Gtk.PopoverMenu) button.popover).menu_model;
+    for (var index = 0; index < menu.get_n_items (); index++) {
+        var submenu = menu.get_item_link (index, Menu.LINK_SUBMENU);
+        if (submenu != null)
+            return submenu;
+    }
+    return null;
+}
+
+void check_sarek_build_choices (Models.Group group) {
+    var tool = new PresentationSarekTool (group);
+    group.tools = new Gee.LinkedList<Models.Tool> ();
+    group.tools.add (tool);
+    var box = new Widgets.Tools.ReleasesBox ();
+    var group_box = new Widgets.Tools.GroupBox (group);
+    group_box.expand_tool (tool);
+    group_box.attach_release_section (tool, box);
+    var window = fixture_window (group_box, 400, 500);
+    window.present ();
+    bool loaded = false;
+    box.set_selected_tool.begin (tool, (obj, res) => { loaded = box.set_selected_tool.end (res); });
+    settle ();
+    var rows = new Gee.ArrayList<Widgets.Tools.ReleaseRow> ();
+    collect_rows (box, rows);
+    assert (loaded && rows.size == 6);
+    assert (!find_build_selector (box).visible);
+    assert (rows[1].subtitle.contains ("Default"));
+    assert (rows[4].subtitle.contains ("dyasync"));
+    assert (rows[5].subtitle.contains ("Async"));
+    assert (find_build_menu (find_release_actions (rows[1])) == null);
+    assert (find_build_menu (find_release_actions (rows[4])) == null);
+    var actions = find_release_actions (rows[5]);
+    var builds = find_build_menu (actions);
+    assert (builds != null && builds.get_n_items () == 2);
+    assert (builds.get_item_attribute_value (0, Menu.ATTRIBUTE_TARGET, VariantType.STRING).get_string () == "standard");
+    assert (builds.get_item_attribute_value (1, Menu.ATTRIBUTE_TARGET, VariantType.STRING).get_string () == "non-async");
+    var legacy = rows[5].get_data<Services.InstallJob> ("job");
+    var original_path = legacy.install_location;
+    actions.popup ();
+    settle ();
+    assert (actions.popover.get_mapped ());
+    assert (actions.activate_action_variant ("release.variant", new Variant.string ("non-async")));
+    settle ();
+    assert (legacy.selected_variant_id == "non-async");
+    assert (legacy.install_location == original_path + "-Standard");
+    assert (rows[5].subtitle.contains ("Standard"));
+    assert (rows[4].get_data<Services.InstallJob> ("job").selected_variant_name == "dyasync");
+    assert (rows[0].get_data<Services.InstallJob> ("job").selected_variant_name == "Default");
+    actions.activate_action_variant ("release.variant", new Variant.string ("missing"));
+    assert (legacy.selected_variant_id == "non-async");
+    legacy.set ("state", Services.InstallJob.State.BUSY_INSTALLING);
+    actions.activate_action_variant ("release.variant", new Variant.string ("standard"));
+    assert (legacy.selected_variant_id == "non-async");
+    legacy.set ("state", Services.InstallJob.State.NOT_INSTALLED);
+    assert (tool.variants.size == 2 && tool.release_catalog.releases[4].variants.size == 2);
+    int minimum_width;
+    group_box.measure (Gtk.Orientation.HORIZONTAL, -1, out minimum_width, null, null, null);
+    assert (minimum_width <= 400);
+    settle ();
+    snapshot (window, "sarek-release-variants");
+    close_fixture_window (window);
+}
+
 Gtk.DropDown? find_build_selector (Gtk.Widget widget) {
     if (widget is Gtk.DropDown)
         return (Gtk.DropDown) widget;
@@ -343,6 +433,7 @@ int main (string[] args) {
     }
     close_fixture_window (window);
     check_build_choices (group);
+    check_sarek_build_choices (group);
     check_inline_transitions (launcher, group);
     remove_fixture_directory (root);
     return 0;

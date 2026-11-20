@@ -86,6 +86,7 @@ namespace AppTests.ReleasePageTest {
         Test.add_func ("/release-catalog/github-actions-proton-tkg-cache-reuse", test_github_actions_proton_tkg_cache_reuse);
         Test.add_func ("/release-catalog/in-memory-state-without-timestamp-refreshes-network", test_in_memory_state_without_timestamp_refreshes_network);
         Test.add_func ("/release-catalog/valid-cache-skips-network", test_valid_cache_skips_network);
+        Test.add_func ("/release-catalog/sarek-variant-sets-cache", test_sarek_variant_sets_cache);
         Test.add_func ("/release-catalog/missing-and-malformed-cache-fetches", test_missing_and_malformed_cache_fetches);
         Test.add_func ("/release-catalog/stale-filtered-release-refreshes", test_stale_filtered_release_refreshes);
         Test.add_func ("/release-catalog/stale-variants-refresh", test_stale_variants_refresh);
@@ -244,6 +245,37 @@ namespace AppTests.ReleasePageTest {
 
         var snapshot = load_snapshot (new ReleaseCatalogCache ("pagination-tool", "Fixture provider"));
         assert (snapshot != null && snapshot.releases.size == 2 && snapshot.page == 3 && !snapshot.has_more);
+    }
+
+    private void test_sarek_variant_sets_cache () {
+        var definition = new ProviderRegistry ().get_by_id ("dxvk-sarek");
+        var content = Utils.Filesystem.get_file_content ("fixtures/providers/github/sarek.json");
+        var source = new ParsedGitHubReleaseSource (content);
+        var first = catalog ("sarek-sets-cache", definition, source);
+        assert (load (first, true).succeeded);
+        assert (source.requested_pages.size == 1);
+        var second = catalog ("sarek-sets-cache", definition, source);
+        assert (load (second, false).succeeded);
+        assert (source.requested_pages.size == 1);
+        assert (second.releases.size == 5);
+        assert (second.releases[4].variants.size == 2);
+        assert (second.releases[4].variants[1].asset.digest == "sha256:fixture-4-0");
+
+        // Simulate the former collapsed catalog, including fresh timestamps.
+        // Refresh it instead of inferring a Standard asset it never stored.
+        var legacy = second.releases[4];
+        var old = new Release (legacy.title, "", "", legacy.asset, "", null,
+            legacy.upstream_release_id, legacy.source_tag);
+        old.variants.add (new ProtonPlus.Models.Variant ("standard", "default",
+            "dxvk-sarek-$release_version", true, legacy.asset.download_url, null, legacy.asset));
+        var old_releases = new LinkedList<Release> ();
+        old_releases.add (old);
+        save_snapshot (new ReleaseCatalogCache ("sarek-sets-cache", "Fixture provider"),
+            new ReleaseCatalogSnapshot (old_releases, 2, false, new DateTime.now_local ().format_iso8601 ()));
+        var restored = catalog ("sarek-sets-cache", definition, source);
+        assert (load (restored, false).succeeded);
+        assert (source.requested_pages.size == 2);
+        assert (restored.releases[4].variants.size == 2);
     }
 
     private void test_latest_discovery_is_stateless () {

@@ -104,6 +104,7 @@ namespace ProtonPlus.Models.Providers {
                     source_type = SourceType.GITHUB,
                     provider_id = "proton-cachyos-wineland",
                     title = "Proton-Wineland",
+                    legacy_titles = { "Proton-CachyOS Wineland" },
                     description = N_ ("Steam compatibility tool built with native Wayland support, smoother desktop integration, Steam overlay and other new features."),
                     endpoint = "https://api.github.com/repos/nanomatters/proton-cachyos/releases",
                     repository_url = "https://github.com/nanomatters/proton-cachyos",
