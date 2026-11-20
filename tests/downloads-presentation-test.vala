@@ -198,7 +198,7 @@ int main (string[] args) {
                 check_stacked_layout (content, job);
                 var status = check_complete_label (content, "63%");
                 var speed = "%s/s".printf (
-                    Utils.Filesystem.convert_bytes_to_string ((int64) (job.speed_kbps * 1024)));
+                    format_size ((int64) (job.speed_kbps * 1024)));
                 var metrics_text = "%s · %s".printf (speed, etas[i]);
                 var metrics = check_complete_label (content, metrics_text);
                 assert (metrics.label == metrics_text);
