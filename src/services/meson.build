@@ -11,6 +11,7 @@ sources += files(
     'steam-tinker-launch-yad-compatibility.vala',
     'install-job.vala',
     'standard-archive-workflow.vala',
+    'proton-autogen-archive.vala',
     'steam-tinker-launch-workflow.vala',
     'installation-service.vala',
     'steam-session-service.vala',
