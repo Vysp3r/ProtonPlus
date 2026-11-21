@@ -81,6 +81,7 @@ test(
 python = import('python').find_installation()
 test('Maintenance script tests', python, args: files('scripts_test.py'))
 test('Check command tests', python, args: files('check_script_test.py'))
+test('Proton-Autogen Steam launcher', python, args: files('proton_autogen_steam_test.py'))
 
 # Keep GUI harness settings together so every presentation test gets the same
 # display setup. Test-specific rendering or locale requirements stay explicit.
