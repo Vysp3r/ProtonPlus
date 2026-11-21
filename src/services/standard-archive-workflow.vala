@@ -120,6 +120,7 @@ namespace ProtonPlus.Services {
             var runner = job.tool as Models.Tools.ProviderTool;
             if (runner == null || runner.release_catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
+            job.step = InstallJob.Step.CHECKING_RELEASE;
             var lookup = yield runner.release_catalog.fetch_latest_eligible_release ();
             if (!lookup.succeeded)
                 return lookup.code;
@@ -187,6 +188,8 @@ namespace ProtonPlus.Services {
             var metadata = Utils.Metadata.load (directory);
             if (runner.release_catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
+            if (reserved_job != null)
+                reserved_job.step = InstallJob.Step.CHECKING_RELEASE;
             var lookup = yield runner.release_catalog.fetch_latest_eligible_release ();
             if (!lookup.succeeded)
                 return lookup.code;
@@ -302,6 +305,7 @@ namespace ProtonPlus.Services {
                 job.finish_operation ();
                 return install_code;
             }
+            job.step = InstallJob.Step.FINALIZING;
             var backup = job.replacement_backup_path;
             if (backup == null || !FileUtils.test (backup, FileTest.IS_DIR)) {
                 job.finish_operation ();

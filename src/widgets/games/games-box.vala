@@ -2,18 +2,27 @@ namespace ProtonPlus.Widgets.Games {
     public class Box : Gtk.Box, Utils.ControllerNavigationHost,
         Utils.ControllerPageShortcuts {
         const int NARROW_VIEW_WIDTH = 700;
+        const int COMPACT_SELECTION_WIDTH = 490;
 
-        bool error { get; set; }
-        bool invalid { get; set; }
         Models.Launcher launcher;
+        Models.Launchers.Steam? observed_steam;
+        ulong steam_loading_handler;
+        ulong steam_profile_handler;
 
         Gtk.Image image;
         Adw.StatusPage status_page;
+        Gtk.Box status_actions;
+        Gtk.Button retry_button;
+        Gtk.Button copy_diagnostics_button;
+        Adw.Spinner status_spinner;
         MassEditButton mass_edit_button;
+        Gtk.Box selection_footer;
+        Gtk.Label selection_summary;
+        Gtk.Button clear_selection_button;
         Gtk.SearchEntry search_entry;
         Gtk.CheckButton check_button;
         Gtk.Box toolbar;
-        Gtk.Box games_card;
+        Adw.BreakpointBin games_card;
         Adw.NavigationView navigation_view;
         Adw.NavigationPage list_page;
         Adw.NavigationPage mass_edit_page;
@@ -26,8 +35,6 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.CheckButton all_filter_check;
         Gtk.CheckButton non_steam_filter_check;
         Gtk.CheckButton native_filter_check;
-        Adw.Spinner spinner;
-        Gtk.Overlay overlay;
         MassEditView mass_edit_view;
         GameCollection games;
         ListStore compatibility_tool_model;
@@ -41,39 +48,24 @@ namespace ProtonPlus.Widgets.Games {
         uint search_timeout_id = 0;
         bool updating_selection_toggle = false;
         bool mass_edit_cleanup_pending = false;
+        bool narrow_collection_view = false;
 
         public signal void header_presentation_changed (Header.Presentation? presentation);
+        public signal void toast_sent (string title);
 
         construct {
             image = new Gtk.Image ();
             status_page = new Adw.StatusPage () {
-                visible = false
+                visible = false,
+                vexpand = true,
+                hexpand = true
             };
+            build_status_actions ();
 
             games = new GameCollection ();
             collection_view = new GameListView (
                 games, focus_relative, focus_wide_relative, activate_game_item
             );
-
-            var responsive_views = new Adw.BreakpointBin ();
-            responsive_views.set_size_request (360, 1);
-            responsive_views.set_child (collection_view);
-            var narrow_breakpoint = new Adw.Breakpoint (
-                new Adw.BreakpointCondition.length (
-                    Adw.BreakpointConditionLengthType.MAX_WIDTH,
-                    NARROW_VIEW_WIDTH,
-                    Adw.LengthUnit.SP
-                )
-            );
-            narrow_breakpoint.apply.connect (() => switch_collection_view (true));
-            narrow_breakpoint.unapply.connect (() => switch_collection_view (false));
-            responsive_views.add_breakpoint (narrow_breakpoint);
-
-            spinner = new Adw.Spinner () {
-                halign = Gtk.Align.CENTER,
-                valign = Gtk.Align.CENTER
-            };
-            spinner.set_size_request (32, 32);
 
             empty_status_page = new Adw.StatusPage () {
                 title = _("No games found"),
@@ -100,34 +92,18 @@ namespace ProtonPlus.Widgets.Games {
                 hexpand = true,
                 vexpand = true
             };
-            list_stack.add_named (responsive_views, "list");
+            list_stack.add_named (collection_view, "list");
             list_stack.add_named (empty_status_page, "empty");
 
-            overlay = new Gtk.Overlay () {
-                hexpand = true,
-                vexpand = true,
-                child = list_stack
-            };
-
-            mass_edit_button = new MassEditButton (focus_last_visible_game) {
-                visible = false
-            };
+            mass_edit_button = new MassEditButton (focus_before_selection_actions);
             mass_edit_button.mass_edit_requested.connect (() => {
                 var selected = games.selected_items ();
-                if (selected.length > 0) {
+                if (selected.length > 0)
                     open_mass_edit (selected);
-                    return;
-                }
-                var dialog = new Main.WarningDialog (
-                    _("Warning"),
-                    _("Please make sure to select at least one game before using the mass edit feature.")
-                );
-                Window.present_dialog_for_controller (
-                    dialog, (Gtk.Window) mass_edit_button.get_root ()
-                );
             });
 
             build_selection_popover ();
+            var selection_content = build_selection_footer ();
             build_filter_popover ();
             build_search_toolbar ();
             games.state_changed.connect (() => {
@@ -135,15 +111,20 @@ namespace ProtonPlus.Widgets.Games {
                 update_selection_controls ();
             });
 
-            games_card = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) {
+            games_card = new Adw.BreakpointBin () {
                 hexpand = true,
                 vexpand = true,
                 overflow = Gtk.Overflow.HIDDEN
             };
+            games_card.set_size_request (360, 144);
             games_card.add_css_class ("card");
             toolbar = build_toolbar ();
-            games_card.append (toolbar);
-            games_card.append (overlay);
+            var games_content = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            games_content.append (toolbar);
+            games_content.append (list_stack);
+            games_content.append (selection_footer);
+            games_card.set_child (games_content);
+            add_games_breakpoints (selection_content);
 
             set_orientation (Gtk.Orientation.VERTICAL);
             set_spacing (0);
@@ -157,7 +138,6 @@ namespace ProtonPlus.Widgets.Games {
                 vexpand = true
             };
             games_controller_box.append (games_card);
-            games_controller_box.append (mass_edit_button);
             games_controller_box.append (status_page);
 
             var games_page_clamp = new Adw.Clamp () {
@@ -197,6 +177,93 @@ namespace ProtonPlus.Widgets.Games {
                 typeof (Models.CompatibilityTool), null, "display_title"
             );
             append (navigation_view);
+        }
+
+        void build_status_actions () {
+            retry_button = new Gtk.Button.with_label (_("Retry")) {
+                halign = Gtk.Align.CENTER,
+                css_classes = { "pill", "suggested-action" }
+            };
+            retry_button.clicked.connect (() => {
+                var steam = observed_steam;
+                if (steam != null && !steam.game_library_available && !steam.game_library_loading)
+                    steam.load_profile_library.begin ();
+            });
+            copy_diagnostics_button = new Gtk.Button.with_label (_("Copy Diagnostics")) {
+                halign = Gtk.Align.CENTER
+            };
+            copy_diagnostics_button.clicked.connect (() => {
+                var steam = observed_steam;
+                if (steam == null || steam.game_library_issue == null)
+                    return;
+                get_clipboard ().set_text (steam.get_game_library_diagnostics ());
+                toast_sent (_("Diagnostics copied"));
+            });
+            status_spinner = new Adw.Spinner () {
+                halign = Gtk.Align.CENTER
+            };
+            status_spinner.set_size_request (32, 32);
+            status_actions = new Gtk.Box (Gtk.Orientation.VERTICAL, 8);
+            status_actions.append (retry_button);
+            status_actions.append (copy_diagnostics_button);
+            status_actions.append (status_spinner);
+            status_page.set_child (status_actions);
+        }
+
+        Gtk.Box build_selection_footer () {
+            selection_summary = new Gtk.Label (null) {
+                hexpand = true,
+                xalign = 0,
+                wrap = true,
+                wrap_mode = Pango.WrapMode.WORD_CHAR,
+                css_classes = { "heading" }
+            };
+            clear_selection_button = new Gtk.Button.with_label (_("Clear Selection")) {
+                valign = Gtk.Align.CENTER
+            };
+            clear_selection_button.clicked.connect (() => {
+                var had_focus = clear_selection_button.has_focus;
+                games.clear_selection ();
+                if (had_focus)
+                    search_entry.grab_focus ();
+            });
+            var actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6) {
+                halign = Gtk.Align.END,
+                valign = Gtk.Align.CENTER
+            };
+            actions.append (clear_selection_button);
+            actions.append (mass_edit_button);
+
+            var content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8) {
+                margin_top = 8,
+                margin_bottom = 8,
+                margin_start = 12,
+                margin_end = 12
+            };
+            content.append (selection_summary);
+            content.append (actions);
+
+            selection_footer = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) { visible = false };
+            selection_footer.append (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
+            selection_footer.append (content);
+            return content;
+        }
+
+        void add_games_breakpoints (Gtk.Box selection_content) {
+            var narrow = new Adw.Breakpoint (new Adw.BreakpointCondition.length (
+                Adw.BreakpointConditionLengthType.MAX_WIDTH, NARROW_VIEW_WIDTH, Adw.LengthUnit.SP
+            ));
+            var compact = new Adw.Breakpoint (new Adw.BreakpointCondition.length (
+                Adw.BreakpointConditionLengthType.MAX_WIDTH, COMPACT_SELECTION_WIDTH, Adw.LengthUnit.SP
+            ));
+            var vertical = Value (typeof (Gtk.Orientation));
+            vertical.set_enum (Gtk.Orientation.VERTICAL);
+            compact.add_setter (selection_content, "orientation", vertical);
+            games_card.add_breakpoint ((owned) narrow);
+            games_card.add_breakpoint ((owned) compact);
+            games_card.notify["current-breakpoint"].connect (() => {
+                switch_collection_view (games_card.get_current_breakpoint () != null);
+            });
         }
 
         void build_selection_popover () {
@@ -331,30 +398,48 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {
+            if (launcher == this.launcher)
+                return;
+            disconnect_steam_library ();
+            show_games_list_page ();
             this.launcher = launcher;
             filter_button.set_visible (launcher.has_library_support);
             non_steam_filter_check.set_visible (launcher is Models.Launchers.Steam);
+            last_focused_item = null;
 
-            if (launcher.has_library_support) {
-                if (invalid || error) {
-                    show_normal ();
-                    invalid = false;
-                }
-                if (launcher is Models.Launchers.Steam) {
-                    var steam = (Models.Launchers.Steam) launcher;
-                    if (!launcher.game_library_available || steam.profiles.length () == 0) {
-                        error = true;
-                        show_status_box (
-                            "dialog-error-symbolic",
-                            _("Steam games couldn’t be loaded"),
-                            _("Steam’s library or profile data is missing or invalid. Finish setting up Steam, then restart ProtonPlus. Tools and other launchers remain available.") // vala-lint=line-length
-                        );
-                    } else {
-                        load_games ();
+            observed_steam = launcher as Models.Launchers.Steam;
+            if (observed_steam != null) {
+                steam_loading_handler = observed_steam.notify["game-library-loading"].connect (refresh_launcher_page);
+                steam_profile_handler = observed_steam.notify["profile"].connect (() => {
+                    if (!((!) observed_steam).game_library_loading) {
+                        show_games_list_page ();
+                        refresh_launcher_page ();
                     }
+                });
+            }
+            refresh_launcher_page ();
+        }
+
+        void disconnect_steam_library () {
+            if (observed_steam == null)
+                return;
+            observed_steam.disconnect (steam_loading_handler);
+            observed_steam.disconnect (steam_profile_handler);
+            observed_steam = null;
+        }
+
+        void refresh_launcher_page () {
+            if (launcher.has_library_support) {
+                var steam = observed_steam;
+                if (steam != null && (steam.game_library_loading || !steam.game_library_available)) {
+                    show_steam_status (steam);
+                } else {
+                    status_page.set_visible (false);
+                    games_card.set_visible (true);
+                    load_games ();
                 }
             } else {
-                invalid = true;
+                status_actions.set_visible (false);
                 show_status_box (
                     launcher.icon_path,
                     _("Unsupported launcher"),
@@ -365,40 +450,46 @@ namespace ProtonPlus.Widgets.Games {
                     true
                 );
             }
+            header_presentation_changed (get_header_presentation ());
         }
 
-        void show_normal () {
-            error = false;
-            games_card.set_visible (true);
-            update_selection_controls ();
-            status_page.set_visible (false);
+        void show_steam_status (Models.Launchers.Steam steam) {
+            bool loading = steam.game_library_loading;
+            var installation = _("Steam (%s)").printf (steam.get_installation_type_title ());
+            var issue = steam.game_library_issue;
+            status_actions.set_visible (true);
+            status_spinner.set_visible (loading);
+            retry_button.set_visible (!loading);
+            copy_diagnostics_button.set_visible (!loading && issue != null);
+            show_status_box (
+                loading ? "input-gaming-symbolic" : "dialog-error-symbolic",
+                loading ? _("Loading Steam games") : _("Steam games couldn’t be loaded"),
+                issue != null ? "%s\n%s".printf (installation, issue.describe ()) : installation
+            );
         }
 
         void show_status_box (string icon, string title, string description,
             bool is_image = false) {
             games_card.set_visible (false);
-            mass_edit_button.set_visible (false);
-            if (is_image)
+            selection_footer.set_visible (false);
+            if (is_image) {
                 image.set_from_resource (icon);
-            else
-                image.set_from_icon_name (icon);
-            status_page.set_vexpand (true);
-            status_page.set_hexpand (true);
+                status_page.set_paintable (image.get_paintable ());
+            } else {
+                status_page.set_icon_name (icon);
+            }
             status_page.set_title (title);
-            status_page.set_description (description);
-            status_page.set_paintable (image.get_paintable ());
+            status_page.set_description (Markup.escape_text (description));
             status_page.set_visible (true);
         }
 
-        public void load_games () {
-            spinner.set_visible (true);
+        void load_games () {
             if (search_timeout_id != 0) {
                 Source.remove (search_timeout_id);
                 search_timeout_id = 0;
             }
             collection_view.cancel_focus ();
             search_query = search_entry.get_text ().down ();
-            overlay.add_overlay (spinner);
 
             compatibility_tool_model = new ListStore (
                 typeof (Models.CompatibilityTool)
@@ -417,8 +508,6 @@ namespace ProtonPlus.Widgets.Games {
 
             games.replace (launcher.games);
             refilter_games ();
-            overlay.remove_overlay (spinner);
-            spinner.set_visible (false);
         }
 
         void schedule_search_filter () {
@@ -490,6 +579,7 @@ namespace ProtonPlus.Widgets.Games {
             var visible_count = games.visible_count ();
             var selected_visible_count = games.selected_visible_count ();
             var selected_count = games.selected_count ();
+            var hidden_count = selected_count - selected_visible_count;
             collection_view.set_selection_mode (selected_count > 0);
             updating_selection_toggle = true;
             check_button.set_inconsistent (
@@ -500,9 +590,21 @@ namespace ProtonPlus.Widgets.Games {
                 visible_count > 0 &&
                     selected_visible_count == visible_count
             );
+            check_button.set_sensitive (visible_count > 0);
             updating_selection_toggle = false;
-            mass_edit_button.set_selected_count ((int) selected_count);
-            mass_edit_button.set_visible (selected_count >= 2);
+            var count_text = ngettext ("%u game selected", "%u games selected", selected_count)
+                .printf (selected_count);
+            selection_summary.set_label (hidden_count > 0
+                ? _("%s · %u hidden by search or filters").printf (count_text, hidden_count)
+                : count_text);
+            bool show_actions = selected_count > 0 && games_card.get_visible ();
+            selection_footer.set_visible (show_actions);
+            if (show_actions) {
+                mass_edit_button.set_selected_count ((int) selected_count);
+                empty_action_button.remove_css_class ("suggested-action");
+            } else {
+                empty_action_button.add_css_class ("suggested-action");
+            }
         }
 
         void activate_game_item (GameListItem item) {
@@ -549,6 +651,9 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void switch_collection_view (bool narrow) {
+            if (narrow_collection_view == narrow)
+                return;
+            narrow_collection_view = narrow;
             var focused_item = collection_view.show_narrow (narrow);
             if (focused_item != null)
                 last_focused_item = focused_item;
@@ -579,7 +684,7 @@ namespace ProtonPlus.Widgets.Games {
             if (target >= games.visible_count ()) {
                 if (delta <= 0)
                     return false;
-                if (mass_edit_button.get_visible () && mass_edit_button.grab_focus ())
+                if (selection_footer.get_visible () && clear_selection_button.grab_focus ())
                     return true;
                 return focus_launcher_selector ();
             }
@@ -592,11 +697,13 @@ namespace ProtonPlus.Widgets.Games {
             return window != null && ((!) window).focus_launcher_selector ();
         }
 
-        bool focus_last_visible_game () {
-            var count = games.visible_count ();
-            return count > 0 && collection_view.focus_item (
-                count - 1, GameFocusLane.SELECTION
-            );
+        bool focus_before_selection_actions () {
+            var visible_count = games.visible_count ();
+            if (visible_count > 0)
+                return collection_view.focus_item (visible_count - 1, GameFocusLane.SELECTION);
+            if (empty_action_button.visible && empty_action_button.grab_focus ())
+                return true;
+            return search_entry.grab_focus ();
         }
 
         bool focus_first_visible_game () {
@@ -681,6 +788,8 @@ namespace ProtonPlus.Widgets.Games {
         public Object? get_controller_initial_focus () {
             if (navigation_view.get_visible_page () == mass_edit_page)
                 return mass_edit_view.get_controller_initial_focus ();
+            if (status_page.get_visible ())
+                return status_actions.visible && retry_button.visible ? retry_button : null;
             if (last_focused_item != null) {
                 var position = games.position_of ((!) last_focused_item);
                 if (position >= 0) {
@@ -689,8 +798,11 @@ namespace ProtonPlus.Widgets.Games {
                 }
             }
             var first = games.item_at (0);
-            if (first == null)
+            if (first == null) {
+                if (selection_footer.visible)
+                    return mass_edit_button;
                 return empty_action_button.visible ? empty_action_button : null;
+            }
             return collection_view.get_selection_target ((!) first);
         }
 
@@ -743,6 +855,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         public override void dispose () {
+            disconnect_steam_library ();
             if (search_timeout_id != 0) {
                 Source.remove (search_timeout_id);
                 search_timeout_id = 0;

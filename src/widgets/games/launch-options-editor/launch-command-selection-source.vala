@@ -7,6 +7,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public abstract string option_id { get; set; }
         public abstract LaunchCommandSelection? get_selection ();
         public virtual string? get_diagnostic () { return null; }
+        public virtual string get_invalid_value () { return ""; }
     }
 
     public class LaunchCommandStaticSelectionSource : Object, ILaunchCommandSelectionSource {
@@ -54,9 +55,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         public LaunchCommandSelection? get_selection () {
-            if (!option.is_active ()) return null;
-            return new LaunchCommandSelection (option_id, { option.get_value_as_int ().to_string () });
+            int value = 0;
+            return option.is_active () && option.try_get_value (out value)
+                ? new LaunchCommandSelection (option_id, { value.to_string () }) : null;
         }
+
+        public string? get_diagnostic () { return option.get_validation_diagnostic (); }
+        public string get_invalid_value () { return option.value_entry.text; }
     }
 
     class LaunchCommandResolutionSelectionSource : Object, ILaunchCommandSelectionSource {
@@ -72,11 +77,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public LaunchCommandSelection? get_selection () {
             if (!option.is_active ()) return null;
             if (option.is_auto ()) return new LaunchCommandSelection (option_id, { "auto" });
-            if (!option.has_resolution ()) return null;
-            int width;
-            int height;
-            option.get_resolution (out width, out height);
-            return new LaunchCommandSelection (option_id, { width.to_string (), height.to_string () });
+            int width, height;
+            return option.try_get_resolution (out width, out height)
+                ? new LaunchCommandSelection (option_id, { width.to_string (), height.to_string () }) : null;
+        }
+
+        public string? get_diagnostic () { return option.get_validation_diagnostic (); }
+        public string get_invalid_value () {
+            return option.width_entry.text + "\x1f" + option.height_entry.text;
         }
     }
 
@@ -98,10 +106,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             if (!option.is_active ()) return null;
             if (combo != null) return new LaunchCommandSelection (option_id, { combo.value });
             if (pairs != null) {
+                if (pairs.get_validation_diagnostic () != null)
+                    return null;
                 var value = pairs.value;
                 return value == "" ? null : new LaunchCommandSelection (option_id, { value });
             }
             return null;
+        }
+        public string? get_diagnostic () {
+            return pairs != null ? pairs.get_validation_diagnostic () : null;
         }
     }
 
@@ -117,21 +130,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         public LaunchCommandSelection? get_selection () {
-            diagnostic = null;
-            var text = field.get_text ();
-            if (text.strip () == "") return null;
-            var tokens = new ArrayList<string> ();
-            foreach (var token in new LaunchOptionShellTokenizer ().tokenize (text)) {
-                if (token.is_opaque) {
-                    diagnostic = "Wrapper arguments for '%s' contain opaque shell syntax.".printf (option_id);
-                    return null;
-                }
-                tokens.add (token.value);
-            }
-            return new LaunchCommandSelection (option_id, tokens.to_array ());
+            string[] arguments;
+            diagnostic = field.read_arguments (out arguments);
+            return diagnostic == null && arguments.length > 0
+                ? new LaunchCommandSelection (option_id, arguments) : null;
         }
 
         public string? get_diagnostic () { return diagnostic; }
+        public string get_invalid_value () { return field.text; }
     }
 
     class LaunchCommandArgumentListSource : Object, ILaunchCommandSelectionSource {
@@ -145,6 +151,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         public LaunchCommandSelection? get_selection () {
+            if (arguments.get_validation_diagnostic () != null)
+                return null;
             var values = arguments.get_raw_arguments ();
             return values.length > 0
                 ? new LaunchCommandSelection (option_id, values, "", {}, true,
@@ -153,6 +161,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         public string? get_diagnostic () {
             return arguments.get_validation_diagnostic ();
+        }
+
+        public string get_invalid_value () {
+            return string.joinv ("\x1f", arguments.get_raw_arguments ());
         }
     }
 

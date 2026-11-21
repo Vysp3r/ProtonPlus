@@ -20,6 +20,7 @@ namespace ProtonPlus.Widgets.Tools {
         Gtk.Box? releases_host;
         bool changing_expansion = false;
         uint visibility_change_generation = 0;
+        Gee.HashSet<Models.Tool> tools_with_installations = new Gee.HashSet<Models.Tool> ();
 
         private Filter _filter = Filter.ALL;
         public Filter filter {
@@ -27,6 +28,8 @@ namespace ProtonPlus.Widgets.Tools {
             set {
                 visibility_change_generation++;
                 _filter = value;
+                if (value == Filter.INSTALLED)
+                    update_installed_tools ();
                 list_box.invalidate_filter ();
                 update_status_page ();
                 update_visibility ();
@@ -364,6 +367,8 @@ namespace ProtonPlus.Widgets.Tools {
 
         public void refresh () {
             visibility_change_generation++;
+            if (filter == Filter.INSTALLED)
+                update_installed_tools ();
             refresh_tool_state_metadata ();
             list_box.invalidate_filter ();
             list_box.invalidate_sort ();
@@ -371,6 +376,14 @@ namespace ProtonPlus.Widgets.Tools {
             update_visibility ();
             collapse_if_hidden ();
             update_release_section_boundary ();
+            releases_section?.refresh_installed_rows ();
+        }
+
+        void update_installed_tools () {
+            tools_with_installations.clear ();
+            foreach (var tool in group.tools)
+                if (group.installed_tool_inventory.get_installations_for_tool (tool).size > 0)
+                    tools_with_installations.add (tool);
         }
 
         void refresh_tool_state_metadata () {
@@ -679,6 +692,9 @@ namespace ProtonPlus.Widgets.Tools {
             if (tool == null)
             return true;
 
+            if (filter == Filter.INSTALLED)
+                return tools_with_installations.contains (tool);
+
             if (tool is Models.Tools.SteamTinkerLaunch && !tool.is_installed ())
                 return false;
             if (Globals.SETTINGS != null && !Globals.SETTINGS.get_boolean ("show-legacy-tools") && tool.legacy &&
@@ -687,9 +703,6 @@ namespace ProtonPlus.Widgets.Tools {
 
             if (filter == Filter.ALL)
             return true;
-
-            if (filter == Filter.INSTALLED)
-            return tool.is_installed ();
 
             if (filter == Filter.USED)
             return tool.is_used ();

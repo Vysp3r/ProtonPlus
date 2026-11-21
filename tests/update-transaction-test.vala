@@ -10,12 +10,18 @@ namespace AppTests.UpdateTransactionTest {
 
     private class FailingReleaseSource : Object, ReleaseSource {
         private ReturnCode code;
+        public Release? recovered_release;
 
         public FailingReleaseSource (ReturnCode code) {
             this.code = code;
         }
 
         public async ReleasePageResult fetch_page (ProviderDefinition definition, int requested_page, int limit) {
+            if (recovered_release != null) {
+                var releases = new Gee.LinkedList<Release> ();
+                releases.add ((!) recovered_release);
+                return ReleasePageResult.success (new ReleasePage (releases, requested_page + 1, false));
+            }
             return ReleasePageResult.failure (code);
         }
     }
@@ -119,6 +125,7 @@ namespace AppTests.UpdateTransactionTest {
         Test.add_func ("/update-transaction/migrates-prefix-symlinks", test_migrates_prefix_symlinks);
         Test.add_func ("/update-transaction/settings-symlink-replaces-archive-copy", test_settings_symlink_replaces_archive_copy);
         Test.add_func ("/update-transaction/latest-lookup-failures-are-propagated", test_latest_lookup_failures_are_propagated);
+        Test.add_func ("/update-transaction/failed-lookup-can-retry-exact-update", test_failed_lookup_can_retry_exact_update);
         Test.add_func ("/update-transaction/latest-identity-controls-update-detection", test_latest_identity_controls_update_detection);
         Test.add_func ("/update-transaction/latest-restores-installed-variant", test_latest_restores_installed_variant);
         Test.add_func ("/update-transaction/sarek-packaging-transition", test_sarek_packaging_transition);
@@ -346,6 +353,11 @@ namespace AppTests.UpdateTransactionTest {
                 Test.assert_expected_messages ();
             assert (result == (fail_migration ? ReturnCode.FILESYSTEM_ERROR : ReturnCode.RUNNER_UPDATED));
             assert (completions == 1);
+            if (fail_migration) {
+                var failure = manager.recent_failures.first ();
+                assert (failure.is_update && failure.step == InstallJob.Step.FINALIZING);
+                assert (!failure.retry_supported);
+            }
         } finally {
             if (handler != 0)
                 manager.disconnect (handler);
@@ -539,6 +551,59 @@ namespace AppTests.UpdateTransactionTest {
             assert (metadata.save (directory));
 
             assert (update_specific_runner (runner) == failure);
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_failed_lookup_can_retry_exact_update () {
+        var root = create_temp_directory ();
+        var previous_cache = Globals.CACHE_PATH;
+        Globals.CACHE_PATH = Path.build_filename (root, "cache");
+        try {
+            var launcher = new FixtureSteamLauncher (root);
+            var group = new Group ("Proton", "", "/compatibilitytools.d", launcher, "proton");
+            group.tools = new Gee.LinkedList<Tool> ();
+            var definition = new ProviderRegistry ().get_by_id ("proton-ge");
+            assert (definition != null);
+            var source = new FailingReleaseSource (ReturnCode.CONNECTION_ISSUE);
+            var runner = new ProviderTool.with_catalog ((!) definition, source, group,
+                InstallLayout.template ("default", "$release_name"));
+            group.tools.add (runner);
+            var directory = Path.build_filename (root, "compatibilitytools.d", "Proton-GE Latest");
+            assert (ProtonPlus.Utils.Filesystem.create_directory (directory));
+            var metadata = new ProtonPlus.Utils.Metadata ();
+            metadata.tag = "v1";
+            assert (metadata.save (directory));
+            var job = new InstallJob (new Release ("v1", "", "", new Models.Assets.Asset ("", ""), ""),
+                runner, InstallJob.Mode.LATEST, directory);
+            var service = InstallationService.instance;
+            var manager = ProtonPlus.Utils.DownloadManager.instance;
+            var loop = new MainLoop ();
+            var code = ReturnCode.INVALID_DATA;
+            job.update.begin ((obj, result) => {
+                code = job.update.end (result);
+                loop.quit ();
+            });
+            loop.run ();
+            assert (code == ReturnCode.CONNECTION_ISSUE && manager.active_downloads.is_empty);
+            var failure = manager.recent_failures.first ();
+            assert (failure.is_update && failure.step == InstallJob.Step.CHECKING_RELEASE && failure.retry_supported);
+
+            var url = "https://fixtures.invalid/download-retry-update.zip";
+            cache_archive (Globals.CACHE_PATH, url);
+            var release = new Release ("v2", "", "", new Models.Assets.Asset ("runner.zip", url), "", 0, "v2", "v2");
+            release.variants.add (new Models.Variant ("standard", "default", "", true, url, null, release.asset));
+            source.recovered_release = release;
+            service.retry_download.begin (failure, (obj, result) => {
+                assert (service.retry_download.end (result));
+                loop.quit ();
+            });
+            loop.run ();
+            assert (!manager.recent_failures.contains (failure));
+            assert (ProtonPlus.Utils.Metadata.load (directory).tag == "v2");
+        } finally {
+            InstallationService.reset_lifecycle_configuration_for_tests ();
+            Globals.CACHE_PATH = previous_cache;
             assert (delete_directory (root));
         }
     }

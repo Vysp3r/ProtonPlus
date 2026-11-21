@@ -52,26 +52,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
             framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Caps the frame rate inside ScopeBuddy."), _("FPS"), 30, 360, 60, "-r ");
             register_option ("scopebuddy-frame-limit", framerate_tile, framerate_tile);
-            framerate_tile.toggle.notify["active"].connect (() => {
-                this.changed ();
-            });
-            framerate_tile.value_applied.connect (() => {
-                this.changed ();
-            });
+            framerate_tile.draft_changed.connect (() => this.changed ());
 
             bindings.append (new LaunchOptionBinding ({ "SCB_AUTO_HDR=1" }, auto_hdr_tile.toggle));
             bindings.append (new LaunchOptionBinding ({ "SCB_AUTO_VRR=1" }, auto_vrr_tile.toggle));
 
             resolution_field = new LaunchOptionResolutionField (_("Resolution"), _("Sets the ScopeBuddy output resolution."), true, true);
-            resolution_field.toggle.notify["active"].connect (() => {
-                this.changed ();
-            });
-            resolution_field.dropdown.notify["selected"].connect (() => {
-                this.changed ();
-            });
-            resolution_field.value_applied.connect (() => {
-                this.changed ();
-            });
+            resolution_field.draft_changed.connect (() => this.changed ());
             launch_option_handlers.add (resolution_field);
             register_option ("scopebuddy-resolution", resolution_field, resolution_field);
 
@@ -81,7 +68,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                 _("Add ScopeBuddy arguments")
             );
             register_option ("scopebuddy-arguments", args_field);
-            args_field.value_applied.connect (() => {
+            args_field.changed.connect (() => {
                 this.changed ();
             });
 
@@ -91,6 +78,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             group.add (framerate_tile);
             group.add (resolution_field);
             group.add (args_field);
+            group.add (args_field.validation_label);
 
 
             this.add_child (fullscreen_tile);
@@ -101,6 +89,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
             cached_page = group;
             return group;
+        }
+
+        internal void set_raw_arguments (string arguments) {
+            args_field.text = arguments;
         }
 
         public override void clear () {
@@ -122,7 +114,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             consumed[wrapper_index] = true;
 
             var end_index = get_wrapper_end_index (tokens, wrapper_index, consumed);
-            var extra_args = new StringBuilder ();
+            resolution_field.parse_tokens (tokens, consumed);
 
             for (var index = wrapper_index + 1; index < end_index; index++) {
                 if (consumed[index])
@@ -146,11 +138,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                     }
                 }
 
-                append_token (extra_args, tokens[index]);
                 consumed[index] = true;
             }
 
-            args_field.set_text (extra_args.str);
         }
 
         public override void append_command_segments (Gee.LinkedList<string> segments) {

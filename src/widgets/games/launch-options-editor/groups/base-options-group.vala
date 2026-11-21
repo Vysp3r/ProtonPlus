@@ -57,13 +57,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         ) {
             var tile = new LaunchOptionSpinTile (title, subtitle, value_label, lower, upper, default_value, env_prefix);
             tile.line_type = type;
-            tile.toggle.notify["active"].connect (() => {
-                this.changed ();
-            });
-
-            tile.value_applied.connect (() => {
-                this.changed ();
-            });
+            tile.draft_changed.connect (() => this.changed ());
 
             this.launch_option_handlers.add (tile);
             if (id != "" && presentation_registry != null)

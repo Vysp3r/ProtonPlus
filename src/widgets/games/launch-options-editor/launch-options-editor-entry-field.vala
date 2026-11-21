@@ -1,76 +1,59 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
-    using Adw;
+    class LaunchOptionInputFeedback {
+        public static Gtk.Label create_label () {
+            return new Gtk.Label ("") {
+                xalign = 0,
+                wrap = true,
+                margin_start = 12,
+                margin_end = 12,
+                margin_top = 6,
+                margin_bottom = 6,
+                css_classes = { "error" },
+                visible = false
+            };
+        }
 
-    class LaunchOptionEntryField : EntryRow {
-        public Gtk.Button apply_button { get; private set; }
-        public signal void value_applied ();
+        public static void update (Gtk.Widget field, Gtk.Label label, string? diagnostic) {
+            label.label = diagnostic ?? "";
+            label.visible = field.visible && diagnostic != null;
+            if (diagnostic == null)
+                field.remove_css_class ("error");
+            else
+                field.add_css_class ("error");
+            field.update_property (Gtk.AccessibleProperty.DESCRIPTION, diagnostic ?? "", -1);
+        }
+    }
 
-        string committed_text;
-        Gtk.EventControllerKey key_controller;
+    class LaunchOptionEntryField : Adw.EntryRow {
+        public Gtk.Label validation_label { get; private set; }
 
         public LaunchOptionEntryField (string title, string subtitle, string placeholder) {
-            Object ();
-            this.title = title;
-            this.tooltip_text = subtitle != "" ? subtitle : placeholder;
+            Object (title: title);
+            tooltip_text = subtitle != "" ? subtitle : placeholder;
             Utils.TextInputMetadataPolicy.apply (this, Utils.TextInputFieldKind.COMMAND);
-
-            committed_text = "";
-
-            apply_button = new Gtk.Button.from_icon_name ("object-select-symbolic");
-            apply_button.set_valign (Gtk.Align.CENTER);
-            apply_button.add_css_class ("flat");
-            apply_button.set_tooltip_text (_("Apply Edit"));
-            apply_button.update_property (
-                Gtk.AccessibleProperty.LABEL, _("Apply Edit"), -1
-            );
-            apply_button.clicked.connect (apply_pending_text);
-            add_suffix (apply_button);
-
-            this.activates_default = false;
-
-            key_controller = new Gtk.EventControllerKey ();
-            key_controller.set_propagation_phase (Gtk.PropagationPhase.CAPTURE);
-            key_controller.key_pressed.connect ((keyval, keycode, state) => {
-                if (keyval == Gdk.Key.Return || keyval == Gdk.Key.KP_Enter) {
-                    apply_pending_text ();
-                    return true;
-                }
-                return false;
-            });
-
-            this.add_controller (key_controller);
-
-
-            this.activate.connect (() => {
-                apply_pending_text ();
-            });
-            this.changed.connect (refresh_apply_state);
-            refresh_apply_state ();
+            validation_label = LaunchOptionInputFeedback.create_label ();
+            changed.connect (refresh_validation);
+            notify["visible"].connect (refresh_validation);
         }
 
-        public string get_text () {
-            return committed_text;
+        public string? read_arguments (out string[] arguments) {
+            arguments = {};
+            var values = new Gee.ArrayList<string> ();
+            var words = new LaunchOptionShellTokenizer ().tokenize (text.strip ());
+            foreach (var word in words) {
+                if (word.raw.contains ("%command%"))
+                    return _("Remove %command% from the additional arguments.");
+                if (word.is_opaque)
+                    return _("Use complete arguments with matching quotes and no shell operators or expansions.");
+                values.add (word.raw);
+            }
+            arguments = values.to_array ();
+            return null;
         }
 
-        public void set_text (string text) {
-            committed_text = text.strip ();
-            this.text = committed_text;
-            refresh_apply_state ();
-        }
-
-        void apply_pending_text () {
-            var pending_text = text.strip ();
-            if (pending_text == committed_text)
-                return;
-
-            committed_text = pending_text;
-            this.text = committed_text;
-            refresh_apply_state ();
-            value_applied ();
-        }
-
-        void refresh_apply_state () {
-            apply_button.set_sensitive (text.strip () != committed_text);
+        void refresh_validation () {
+            string[] arguments;
+            LaunchOptionInputFeedback.update (this, validation_label, read_arguments (out arguments));
         }
     }
 }

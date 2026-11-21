@@ -10,6 +10,7 @@ sources += files(
     'tinker-game-migration.vala',
     'steam-tinker-launch-yad-compatibility.vala',
     'install-job.vala',
+    'download-failure.vala',
     'standard-archive-workflow.vala',
     'steam-tinker-launch-workflow.vala',
     'installation-service.vala',

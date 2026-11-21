@@ -9,6 +9,7 @@ namespace AppTests.InstallerTransactionTest {
         private string fixture_path;
         private bool cancel_download;
         private bool fail_promotion;
+        public bool fail_download = false;
         public int download_calls { get; private set; default = 0; }
 
         public FixtureJob (
@@ -41,6 +42,10 @@ namespace AppTests.InstallerTransactionTest {
 
         public override async bool download_archive (string url, string path, out string? error_message) {
             download_calls++;
+            if (fail_download) {
+                error_message = "Fixture connection interrupted";
+                return false;
+            }
             if (cancel_download) {
                 ProtonPlus.Utils.Filesystem.create_file (path, "partial download");
                 canceled = true;
@@ -127,6 +132,7 @@ namespace AppTests.InstallerTransactionTest {
     public void register_tests () {
         Test.add_func ("/installer-transaction/stages-promotes-cleans-and-writes-metadata", test_stages_promotes_and_writes_metadata);
         Test.add_func ("/installer-transaction/canceled-download-cleans-private-workspace", test_canceled_download_cleans_workspace);
+        Test.add_func ("/installer-transaction/download-failure-retained-and-retried", test_download_failure_retained_and_retried);
         Test.add_func ("/installer-transaction/failed-promotion-restores-previous-installation", test_failed_promotion_restores_previous_installation);
         Test.add_func ("/installer-transaction/duplicate-is-rejected-before-workflow", test_duplicate_is_rejected_before_workflow);
         Test.add_func ("/installer-transaction/standard-removal-finalizes-common-lifecycle", test_standard_removal_finalizes_common_lifecycle);
@@ -284,6 +290,46 @@ namespace AppTests.InstallerTransactionTest {
         string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
         var job = new FixtureJob (runner (tools), location, fixture_archive (root), true);
         assert (install (job) == ReturnCode.DOWNLOAD_FAILED); assert (job.canceled); assert (job.is_finished && !job.install_success); assert (job.state == ProtonPlus.Services.InstallJob.State.NOT_INSTALLED); assert (ProtonPlus.Utils.DownloadManager.instance.active_downloads.size == 0); assert (!FileUtils.test (location, FileTest.EXISTS)); no_entries (cache, ".protonplus-install-"); assert (delete_directory (root));
+        foreach (var failure in ProtonPlus.Utils.DownloadManager.instance.recent_failures)
+            assert (failure.release_title != job.displayed_title || failure.message != "Download canceled");
+    }
+
+    private bool retry_download (DownloadFailure failure) {
+        var loop = new MainLoop ();
+        var accepted = false;
+        var service = InstallationService.instance;
+        service.retry_download.begin (failure, (obj, result) => {
+            accepted = service.retry_download.end (result);
+            loop.quit ();
+        });
+        loop.run ();
+        return accepted;
+    }
+
+    private void test_download_failure_retained_and_retried () {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        var manager = ProtonPlus.Utils.DownloadManager.instance;
+        var job = new FixtureJob (runner (tools), location, fixture_archive (root));
+        job.fail_download = true;
+        assert (install (job) == ReturnCode.DOWNLOAD_FAILED);
+        assert (manager.active_downloads.is_empty);
+        var failure = manager.recent_failures.first ();
+        assert (failure.step == InstallJob.Step.DOWNLOADING);
+        assert (failure.code == ReturnCode.DOWNLOAD_FAILED && !failure.is_update && failure.retry_supported);
+        assert (failure.copy_details ().contains ("Fixture connection interrupted"));
+
+        job.fail_download = false;
+        assert (ProtonPlus.Utils.Filesystem.create_directory (location));
+        assert (!retry_download (failure));
+        assert (job.download_calls == 1);
+        assert (delete_directory (location));
+        assert (retry_download (failure));
+        assert (job.download_calls == 2 && job.is_finished && job.install_success);
+        assert (!manager.recent_failures.contains (failure));
+        assert (failure.message == "Fixture connection interrupted");
+        assert (FileUtils.test (Path.build_filename (location, "marker.txt"), FileTest.IS_REGULAR));
+        assert (delete_directory (root));
     }
     private void test_failed_promotion_restores_previous_installation () {
         string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
@@ -684,6 +730,13 @@ namespace AppTests.InstallerTransactionTest {
         assert (manager.active_downloads.size == 1);
         assert (manager.is_downloading (same_target));
         assert (manager.get_active_download (same_target) == first);
+        var other_directory = new InstallJob (first.release, first.tool, first.mode,
+            Path.build_filename (root, "other-directory"));
+        assert (other_directory.operation_id == first.operation_id);
+        assert (!manager.is_downloading (other_directory));
+        manager.add_download (other_directory);
+        assert (manager.active_downloads.size == 2);
+        manager.remove_download (other_directory);
         manager.remove_download (first);
         assert (manager.active_downloads.size == 0);
 

@@ -1,7 +1,8 @@
 namespace ProtonPlus.Utils {
-    /// Manages active downloads and download history persistence.
+    /// Manages active downloads and recent failures for this session.
     public class DownloadManager : GLib.Object {
         private const string SPEED_LIMIT_SETTINGS_KEY = "download-speed-limit-bps";
+        private const int MAX_RECENT_FAILURES = 8;
         private static DownloadManager? _instance = null;
         private ulong speed_limit_settings_changed_handler = 0;
         private int64 global_throttle_next_allowed_time_us = 0;
@@ -17,6 +18,10 @@ namespace ProtonPlus.Utils {
         }
 
         public Gee.LinkedList<Services.InstallJob> active_downloads { get; private set; }
+        private Gee.ArrayList<Services.DownloadFailure> failures = new Gee.ArrayList<Services.DownloadFailure> ();
+        public Gee.List<Services.DownloadFailure> recent_failures {
+            owned get { return failures.read_only_view; }
+        }
 
         public int64 speed_limit_bps {
             get {
@@ -51,10 +56,14 @@ namespace ProtonPlus.Utils {
             return get_active_download (job) != null;
         }
 
-        /// Stable target identity prevents collisions between equal titles.
+        /// Keep variants and distinct directories separate, including when a
+        /// release is installed under multiple names in the same launcher.
         public Services.InstallJob? get_active_download (Services.InstallJob job) {
             foreach (var active_download in active_downloads) {
-                if (active_download.operation_id == job.operation_id) {
+                if (active_download.operation_id == job.operation_id &&
+                    (active_download.install_location == job.install_location ||
+                     Services.InstallationService.operation_target (active_download.install_location) ==
+                     Services.InstallationService.operation_target (job.install_location))) {
                     return active_download;
                 }
             }
@@ -73,6 +82,8 @@ namespace ProtonPlus.Utils {
         public signal void download_added (Services.InstallJob job);
         public signal void download_removed (Services.InstallJob job);
         public signal void download_finished (Services.InstallJob job, bool success);
+        public signal void download_failed (Services.DownloadFailure failure);
+        public signal void download_failure_removed (Services.DownloadFailure failure);
         public signal void progress_updated (Services.InstallJob job);
         public signal void tool_updated (Services.InstallJob job, bool updated);
         public signal void tool_removed (Services.InstallJob job);
@@ -115,6 +126,7 @@ namespace ProtonPlus.Utils {
             if (!is_downloading (job)) {
                 active_downloads.add (job);
                 download_added (job);
+                clear_failure (Services.InstallationService.operation_target (job.install_location));
             }
         }
 
@@ -127,6 +139,38 @@ namespace ProtonPlus.Utils {
 
         public void add_to_history (Services.InstallJob job, bool success) {
             download_finished (job, success);
+        }
+
+        internal void retain_failure (Services.DownloadFailure failure) {
+            var previous = find_failure (failure.target_key);
+            failures.insert (0, failure);
+            download_failed (failure);
+            if (previous != null)
+                remove_failure (previous);
+            if (failures.size > MAX_RECENT_FAILURES)
+                remove_failure (failures.last ());
+        }
+
+        internal bool has_failure (Services.DownloadFailure failure) {
+            return failures.contains (failure);
+        }
+
+        internal void clear_failure (string target_key) {
+            var failure = find_failure (target_key);
+            if (failure != null)
+                remove_failure (failure);
+        }
+
+        private Services.DownloadFailure? find_failure (string target_key) {
+            foreach (var failure in failures)
+                if (failure.target_key == target_key)
+                    return failure;
+            return null;
+        }
+
+        private void remove_failure (Services.DownloadFailure failure) {
+            failures.remove (failure);
+            download_failure_removed (failure);
         }
 
         private async void wait_for_throttle_deadline (

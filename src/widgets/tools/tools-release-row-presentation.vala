@@ -151,7 +151,8 @@ namespace ProtonPlus.Widgets.Tools {
             bool recommended = false,
             bool in_use = false,
             bool action_available = true,
-            ReleaseRowRetryAction retry_action = ReleaseRowRetryAction.NONE
+            ReleaseRowRetryAction retry_action = ReleaseRowRetryAction.NONE,
+            bool installed_only = false
         ) {
             var result = new ReleaseRowPresentation ();
             result.installed = state == Services.InstallJob.State.UP_TO_DATE ||
@@ -160,14 +161,14 @@ namespace ProtonPlus.Widgets.Tools {
             result.in_use = in_use;
             result.update_available =
                 state == Services.InstallJob.State.UPDATE_AVAILABLE;
-            result.unavailable = !action_available;
+            result.unavailable = !installed_only && !action_available;
             result.busy = state == Services.InstallJob.State.BUSY_INSTALLING ||
                 state == Services.InstallJob.State.BUSY_UPDATING ||
                 state == Services.InstallJob.State.BUSY_REMOVING;
 
             if (result.busy) {
                 result.primary_action = ReleaseRowPrimaryAction.PROGRESS;
-            } else if (!action_available) {
+            } else if (installed_only || !action_available) {
                 result.primary_action = ReleaseRowPrimaryAction.NONE;
             } else if (retry_action == ReleaseRowRetryAction.INSTALL) {
                 result.primary_action = ReleaseRowPrimaryAction.RETRY;

@@ -5,9 +5,12 @@ namespace ProtonPlus.Services {
     public class InstallJob : Object {
         public enum Step {
             NOTHING,
+            CHECKING_RELEASE,
+            PREPARING,
             DOWNLOADING,
             EXTRACTING,
             MOVING,
+            FINALIZING,
             REMOVING,
         }
 
@@ -36,6 +39,7 @@ namespace ProtonPlus.Services {
         public string? selected_variant_id { get; private set; default = null; }
         public string install_location { get; private set; default = ""; }
         private string? installation_location_override = null;
+        internal string? retry_target { get; set; default = null; }
         // A replacement backup is a short-lived handoff from the archive
         // transaction to its update finalization, never persisted job state.
         internal string? replacement_backup_path { get; set; default = null; }
@@ -86,7 +90,16 @@ namespace ProtonPlus.Services {
         public string? steam_restart_warning { get; internal set; default = null; }
         private Models.SteamChangeKind? recorded_steam_change_kind = null;
         public State state { get; internal set; default = State.NOT_INSTALLED; }
-        public Step step { get; internal set; default = Step.NOTHING; }
+        private Step _step = Step.NOTHING;
+        internal Step last_step { get; private set; default = Step.NOTHING; }
+        public Step step {
+            get { return _step; }
+            internal set {
+                _step = value;
+                if (value != Step.NOTHING)
+                    last_step = value;
+            }
+        }
         public signal void progress_updated ();
 
         public InstallJob (
@@ -275,6 +288,8 @@ namespace ProtonPlus.Services {
             is_finished = false;
             install_success = false;
             error_message = null;
+            step = Step.NOTHING;
+            last_step = Step.NOTHING;
             progress = null;
             download_phase = Utils.Web.DownloadPhase.DOWNLOADING;
             download_attempt = 1;
@@ -382,6 +397,10 @@ namespace ProtonPlus.Services {
         private void update_install_location (string? override_location) {
             if (steam_tinker_launch_context != null || mode == Mode.TINKER_GAME)
                 return;
+            if (retry_target != null) {
+                install_location = (!) retry_target;
+                return;
+            }
             if (installation_location_override != null) {
                 install_location = (!) installation_location_override;
                 return;

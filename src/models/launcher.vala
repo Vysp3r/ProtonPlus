@@ -12,7 +12,7 @@ namespace ProtonPlus.Models {
         public string directory;
         public bool installed;
         public bool has_library_support;
-        public bool game_library_available { get; private set; default = false; }
+        public bool game_library_available { get; protected set; default = false; }
         public List<Game> games;
         public Gee.LinkedList<CompatibilityTool> compatibility_tools;
 
@@ -216,7 +216,7 @@ namespace ProtonPlus.Models {
                     /* Game/profile data is optional launcher state.  A broken
                      * library must not discard otherwise usable tool groups or
                      * prevent later launchers from being initialized. */
-                    yield launcher.setup_profile_library_for_test ();
+                    yield launcher.load_profile_library ();
                 }
             }
 
@@ -332,39 +332,9 @@ namespace ProtonPlus.Models {
             return null;
         }
 
-        public virtual async bool setup_profile_library_for_test () {
-            game_library_available = false;
-
-            var games_loaded = yield this.load_game_library ();
-
-            if (!games_loaded)
-                return false;
-
-            if (this is Launchers.Steam) {
-                var steam_launcher = this as Launchers.Steam;
-                var discovered_profiles = SteamProfile.get_profiles (steam_launcher);
-                steam_launcher.profiles = new List<SteamProfile> ();
-
-                foreach (var profile in discovered_profiles) {
-                    if (yield profile.load_extra_data ())
-                        steam_launcher.profiles.append (profile);
-                }
-
-                if (steam_launcher.profiles.length () == 0)
-                    return false;
-
-                var selected_profile_id = Globals.SETTINGS != null
-                    ? Globals.SETTINGS.get_string ("steam-selected-profile-id")
-                    : "";
-                var selected_profile = steam_launcher.get_steam_profile_by_id (selected_profile_id);
-
-                yield steam_launcher.switch_profile (
-                    selected_profile != null ? selected_profile : steam_launcher.profiles.nth_data (0)
-                );
-            }
-
-            game_library_available = true;
-            return true;
+        public virtual async bool load_profile_library () {
+            game_library_available = yield load_game_library ();
+            return game_library_available;
         }
 
         public virtual List<string> get_managed_tool_directories (Group group) {

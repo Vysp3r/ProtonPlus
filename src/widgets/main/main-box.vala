@@ -60,6 +60,7 @@ namespace ProtonPlus.Widgets.Main {
             });
 
             games_box = new Games.Box ();
+            games_box.toast_sent.connect (send_toast);
             games_header_handler_id = games_box.header_presentation_changed.connect (() => {
                 update_header_presentation ();
                 search_availability_changed (search_available ());
@@ -125,16 +126,6 @@ namespace ProtonPlus.Widgets.Main {
                 });
             });
             switcher.add_controller (reset_controller);
-        }
-
-        public void initialize (Gee.LinkedList<Models.Launcher> launchers) {
-            foreach (var launcher in launchers) {
-                if (launcher is Models.Launchers.Steam) {
-                    var steam_launcher = launcher as Models.Launchers.Steam;
-                    steam_launcher.notify["profile"].connect (games_box.load_games);
-                    break;
-                }
-            }
         }
 
         public void set_selected_launcher (Models.Launcher launcher) {

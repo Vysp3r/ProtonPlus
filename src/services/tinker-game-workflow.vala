@@ -194,6 +194,7 @@ namespace ProtonPlus.Services {
         }
 
         public override async ReturnCode update (InstallJob job, InstallationOperationCoordinator coordinator) {
+            job.step = InstallJob.Step.CHECKING_RELEASE;
             var lookup = yield lookup_latest (job);
             if (!lookup.succeeded)
                 return lookup.code;
