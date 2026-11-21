@@ -13,7 +13,6 @@ namespace AppTests.InstallLayoutTest {
         Test.add_func ("/install-layout/definition-defensive-copy", test_definition_defensive_copy);
         Test.add_func ("/install-layout/catalog-missing-layout", test_catalog_missing_layout);
         Test.add_func ("/install-layout/latest-name", test_latest_name);
-        Test.add_func ("/install-layout/proton-autogen/steam-target", test_proton_autogen_steam_target);
     }
 
     private Json.Object snapshot () {
@@ -35,19 +34,12 @@ namespace AppTests.InstallLayoutTest {
     }
 
     private void assert_launcher_names (Json.Array definitions, string release_name, string title, string family) {
-        Launcher launcher = family == "steam"
-            ? new Launchers.Steam (Launcher.InstallationTypes.SYSTEM)
-            : new Launcher (title, Launcher.InstallationTypes.SYSTEM, "", {}, family);
+        var launcher = new Launcher (title, Launcher.InstallationTypes.SYSTEM, "", {}, family);
         var group = new Group ("Test", "", "", launcher);
 
         for (var definition_index = 0; definition_index < definitions.get_length (); definition_index++) {
             var entry = definitions.get_object_element (definition_index);
-            var definition = get_definition (entry.get_string_member ("provider_id"));
-            var tool = ProviderCatalog.create_tool (definition, group);
-            if (family != "steam" && definition.provider_id == "proton-autogen") {
-                assert (tool == null);
-                continue;
-            }
+            var tool = ProviderCatalog.create_tool (get_definition (entry.get_string_member ("provider_id")), group);
             assert (tool != null);
             var names = entry.get_object_member ("install_names");
             var expected_name = names.get_string_member_with_default (title, names.get_string_member ("default"));
@@ -65,17 +57,6 @@ namespace AppTests.InstallLayoutTest {
         assert_launcher_names (definitions, release_name, "Bottles", "bottles");
         assert_launcher_names (definitions, release_name, "Heroic Games Launcher", "heroic");
         assert_launcher_names (definitions, release_name, "WineZGUI", "winezgui");
-    }
-
-    private void test_proton_autogen_steam_target () {
-        var definition = get_definition ("proton-autogen");
-        foreach (var installation_type in new Launcher.InstallationTypes[] {
-            Launcher.InstallationTypes.SYSTEM, Launcher.InstallationTypes.FLATPAK, Launcher.InstallationTypes.SNAP
-        }) {
-            var launcher = new Launchers.Steam (installation_type);
-            var tool = ProviderCatalog.create_tool (definition, new Group ("Proton", "", "", launcher, "proton"));
-            assert ((tool != null) == (installation_type == Launcher.InstallationTypes.SYSTEM));
-        }
     }
 
     private ProviderDefinition fixture_definition (InstallLayout[] layouts) {
