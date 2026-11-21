@@ -16,6 +16,10 @@ jobs:
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-51
       options: --privileged
+      # Docker seeds this volume with the preinstalled SDK. Flatpak can then
+      # rename SDK directories during updates without hitting overlayfs EXDEV.
+      volumes:
+        - /var/lib/flatpak
     strategy:
       fail-fast: false
       matrix:
