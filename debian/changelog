@@ -1,0 +1,7 @@
+protonplus (0.6.9-1) unstable; urgency=medium
+
+  * Initial Debian package.
+  * Build ProtonPlus using Meson.
+  * Add native Debian packaging.
+
+ -- N3oray <n3oray77@gmail.com>  Sat, 21 Nov 2026 19:20:00 +0100

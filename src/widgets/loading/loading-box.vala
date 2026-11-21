@@ -5,7 +5,7 @@ namespace ProtonPlus.Widgets.Loading {
         public bool loading { get; set; }
 
         Adw.StatusPage status_page { get; set; }
-        Adw.Spinner spinner { get; set; }
+        Gtk.Spinner spinner { get; set; }
         Gtk.FlowBox bug_box { get; set; }
         Gtk.Box welcome_box { get; set; }
         Gtk.Button retry_button { get; set; }
@@ -15,15 +15,20 @@ namespace ProtonPlus.Widgets.Loading {
         public Box () {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
 
-            spinner = new Adw.Spinner ();
+            spinner = new Gtk.Spinner ();
             spinner.set_size_request (32, 32);
             spinner.set_halign (Gtk.Align.CENTER);
             spinner.set_valign (Gtk.Align.CENTER);
+            spinner.set_spinning (false);
 
-            bind_property ("loading", spinner, "visible", GLib.BindingFlags.DEFAULT);
+            bind_property (
+                "loading",
+                spinner,
+                "visible",
+                GLib.BindingFlags.DEFAULT
+            );
 
             bug_box = create_bug_box ();
-
             welcome_box = create_welcome_box ();
 
             var content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 30);
@@ -45,7 +50,7 @@ namespace ProtonPlus.Widgets.Loading {
                 return;
 
             loading = true;
-
+            spinner.set_spinning (true);
             bug_box.visible = false;
             welcome_box.visible = false;
 
@@ -77,6 +82,7 @@ namespace ProtonPlus.Widgets.Loading {
             }
 
             if (!success) {
+                spinner.set_spinning (false);
                 status_page.set_icon_name ("dialog-error-symbolic");
                 status_page.set_title (_ ("An unexpected error occurred"));
                 status_page.set_description (_ ("We encountered a problem while loading your application.\nPlease try again or report the problem."));
@@ -97,6 +103,7 @@ namespace ProtonPlus.Widgets.Loading {
                 status_page.set_description (null);
                 welcome_box.visible = true;
             }
+            spinner.set_spinning (false);
             loading = false;
         }
 
