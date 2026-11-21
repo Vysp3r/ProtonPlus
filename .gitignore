@@ -17,6 +17,9 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 
+# deb build.
+debian/.debhelper/
+
 # Miscellaneous.
 /.idea/
 /.vscode/
