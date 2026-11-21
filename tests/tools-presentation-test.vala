@@ -443,7 +443,9 @@ void check_offline_installed_rows (string root) {
     settle ();
     rows.clear ();
     collect_rows (page, rows);
-    assert (rows.size == 1 && rows[0].has_focus);
+    assert (rows.size == 1);
+    // Another GUI fixture may own global focus on a shared display.
+    assert (rows[0].is_focus ());
     assert (rows[0].get_data<Services.InstallJob> ("job").install_location == second_path);
     remove_fixture_directory (second_path);
     rows[0].get_data<Services.InstallJob> ("job").set ("state", Services.InstallJob.State.NOT_INSTALLED);
