@@ -15,12 +15,11 @@ namespace ProtonPlus.Models.Providers {
         FORGEJO,
     }
 
-    // A small, closed archive-shape capability. It belongs in provider
-    // configuration because it describes the artifact a standard job will
-    // receive, rather than the remote host that supplied it.
+    // A closed capability describing the artifact and its staging needs.
     public enum ArchiveInstallRequirement {
         STANDARD,
         NESTED_ARCHIVE,
+        STEAM_PROTON_AUTOGEN,
     }
 
     // These values are configuration, not per-release state.  A tool creates

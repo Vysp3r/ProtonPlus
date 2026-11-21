@@ -106,6 +106,8 @@ namespace AppTests.ProviderDefinitionTest {
             return "https://github.com/dreamer/boxtron";
         case "roberta":
             return "https://github.com/dreamer/roberta";
+        case "proton-autogen":
+            return "https://github.com/N3oRay/proton-autogen";
         case "wine-proton":
         case "wine-staging":
         case "wine-staging-tkg":
@@ -119,7 +121,7 @@ namespace AppTests.ProviderDefinitionTest {
     private void test_definition_snapshot () {
         var expected = get_snapshot ().get_array_member ("definitions");
         var definitions = new ProviderRegistry ().get_all ();
-        assert (definitions.length == 19);
+        assert (definitions.length == 20);
         assert (expected.get_length () == definitions.length);
 
         foreach (var expected_definition in expected.get_elements ()) {
