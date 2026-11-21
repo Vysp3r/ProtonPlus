@@ -37,8 +37,6 @@ src/models/steam-profile.vala
 src/models/steam-restart-operation.vala
 src/models/steam-restart-target.vala
 src/models/steam-runtime-repair-candidate.vala
-src/models/steam/library-folder.vala
-src/models/steam/steam-library-config.vala
 src/models/tool-variant-preferences.vala
 src/models/tool.vala
 src/models/tools/provider-tool.vala
@@ -82,7 +80,6 @@ src/services/steam-session-service.vala
 src/services/steam-tinker-launch-context.vala
 src/services/steam-tinker-launch-workflow.vala
 src/services/steam-tinker-launch-yad-compatibility.vala
-src/services/tinker-game-context.vala
 src/services/tinker-game-migration.vala
 src/services/tinker-game-workflow.vala
 src/utils/archive-helper.vala

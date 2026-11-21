@@ -564,15 +564,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 if (semantics.wrapper_id == wrapper_id)
                     return true;
                 if (semantics.kind == LaunchOptionSemanticKind.WRAPPER_SELECTOR
-                    && contains (semantics.selectable_wrapper_ids, wrapper_id))
+                    && wrapper_id in semantics.selectable_wrapper_ids)
                     return true;
             }
-            return false;
-        }
-
-        bool contains (string[] values, string candidate) {
-            foreach (var value in values)
-                if (value == candidate) return true;
             return false;
         }
 

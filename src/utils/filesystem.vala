@@ -190,10 +190,6 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        public static string convert_bytes_to_string (int64 size) {
-            return format_size (size);
-        }
-
         public async static bool make_symlink (string link_location, string target_path) {
             var link_file = File.new_for_path (link_location);
             if (link_file.query_exists (null)) {

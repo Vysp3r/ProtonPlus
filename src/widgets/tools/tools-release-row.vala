@@ -247,7 +247,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         bool has_legacy_installation () {
-            if (job.tinker_game_context == null)
+            if (job.mode != Services.InstallJob.Mode.TINKER_GAME)
                 return false;
             foreach (var tool in job.tool.group.tools)
                 if (tool is Models.Tools.SteamTinkerLaunch && tool.is_installed ())
@@ -695,7 +695,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         bool supports_update_check () {
             return job.mode == Services.InstallJob.Mode.LATEST ||
-                job.steam_tinker_launch_context != null || job.tinker_game_context != null;
+                job.mode == Services.InstallJob.Mode.TINKER_GAME || job.steam_tinker_launch_context != null;
         }
 
         int usage_count () {
@@ -992,7 +992,7 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             speed_label.set_label (job.download_phase != Utils.Web.DownloadPhase.DOWNLOADING ? job.download_status : _("Speed: %s/s").printf (
-                Utils.Filesystem.convert_bytes_to_string (
+                format_size (
                     (int64) (job.speed_kbps * 1024)
                 )
             ));

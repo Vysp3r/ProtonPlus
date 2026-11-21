@@ -151,11 +151,12 @@ These are behavioural checks. Do not replace them with source-text searches or t
 
 ## TinkerGame successor integration
 
-`TinkerGameContext` selects `TinkerGameWorkflow`. It specializes the archive
-workflow's staged preparation and metadata hooks because directory staging,
-promotion and backup restoration have identical requirements. It stages the
-complete modular runtime and Steam manifests together; it does not reuse
-SteamTinkerLaunch's external command or global executable-link lifecycle.
+`InstallationService` selects `TinkerGameWorkflow` for jobs in `TINKER_GAME`
+mode. The workflow specializes the archive workflow's staged preparation and
+metadata hooks while sharing directory staging, promotion and backup
+restoration. It stages the complete modular runtime and Steam manifests
+together. SteamTinkerLaunch uses a separate external command and global
+executable-link lifecycle.
 See [TinkerGame](tinkergame.md) for automatic release discovery (including prereleases), ownership,
 dependency policy, unsupported targets and explicit configuration migration.
 

@@ -34,7 +34,7 @@ namespace ProtonPlus.Models.Providers {
         private string[] alternate_format_values;
 
         public string[] alternate_formats {
-            owned get { return copy_strings (alternate_format_values); }
+            owned get { return alternate_format_values; }
         }
 
         public VariantDefinition (
@@ -50,7 +50,7 @@ namespace ProtonPlus.Models.Providers {
             this.format = format;
             this.is_default = is_default;
             this.compatibility = compatibility != null ? compatibility.copy () : VariantCompatibility.unspecified ();
-            this.alternate_format_values = copy_strings (alternate_formats);
+            this.alternate_format_values = alternate_formats ?? new string[0];
         }
 
         public string[] get_asset_formats () {
@@ -60,20 +60,6 @@ namespace ProtonPlus.Models.Providers {
                 formats[index + 1] = alternate_format_values[index];
             return formats;
         }
-
-        internal VariantDefinition copy () {
-            return new VariantDefinition (id, name, format, is_default, compatibility, alternate_formats);
-        }
-
-        private static string[] copy_strings (string[]? values) {
-            if (values == null)
-                return {};
-
-            var copied = new string[values.length];
-            for (var index = 0; index < values.length; index++)
-                copied[index] = values[index];
-            return copied;
-        }
     }
 
     // Ordered packaging generations. The first set with a named asset match
@@ -82,16 +68,11 @@ namespace ProtonPlus.Models.Providers {
         private VariantDefinition[] variants;
 
         public ReleaseVariantSet (VariantDefinition[] variants) {
-            this.variants = new VariantDefinition[variants.length];
-            for (var index = 0; index < variants.length; index++)
-                this.variants[index] = variants[index].copy ();
+            this.variants = variants;
         }
 
         public VariantDefinition[] get_variants () {
-            var copied = new VariantDefinition[variants.length];
-            for (var index = 0; index < variants.length; index++)
-                copied[index] = variants[index].copy ();
-            return copied;
+            return variants;
         }
     }
 
@@ -287,19 +268,19 @@ namespace ProtonPlus.Models.Providers {
         public bool single_archive_releases { get; private set; }
 
         public string[] asset_filters {
-            owned get { return copy_strings (asset_filter_values); }
+            owned get { return asset_filter_values; }
         }
 
         public string[] asset_exclusions {
-            owned get { return copy_strings (asset_exclusion_values); }
+            owned get { return asset_exclusion_values; }
         }
 
         public string[] legacy_endpoints {
-            owned get { return copy_strings (legacy_endpoint_values); }
+            owned get { return legacy_endpoint_values; }
         }
 
         public string[] legacy_titles {
-            owned get { return copy_strings (legacy_title_values); }
+            owned get { return legacy_title_values; }
         }
 
         public string source_id {
@@ -315,30 +296,18 @@ namespace ProtonPlus.Models.Providers {
             this.endpoint = config.endpoint;
             this.repository_url = config.repository_url;
             this.sort_priority = config.sort_priority;
-            this.variants = copy_variants (config.variants);
+            this.variants = config.variants;
             this.release_variant_sets = copy_variant_sets (config.release_variant_sets);
             this.install_layouts = copy_install_layouts (config.install_layouts);
-            this.asset_filter_values = copy_strings (config.asset_filters);
-            this.asset_exclusion_values = copy_strings (config.asset_exclusions);
+            this.asset_filter_values = config.asset_filters ?? new string[0];
+            this.asset_exclusion_values = config.asset_exclusions ?? new string[0];
             this.tag = config.tag;
             this.legacy = config.legacy;
             this.url_template = config.url_template;
             this.archive_install_requirement = config.archive_install_requirement;
             this.single_archive_releases = config.single_archive_releases;
-            this.legacy_endpoint_values = copy_strings (config.legacy_endpoints);
-            this.legacy_title_values = copy_strings (config.legacy_titles);
-        }
-
-        private static VariantDefinition[] copy_variants (VariantDefinition[] values) {
-            var copied = new VariantDefinition[values.length];
-            for (var index = 0; index < values.length; index++) {
-                var value = values[index];
-                copied[index] = new VariantDefinition (
-                    value.id, value.name, value.format, value.is_default,
-                    value.compatibility, value.alternate_formats
-                );
-            }
-            return copied;
+            this.legacy_endpoint_values = config.legacy_endpoints ?? new string[0];
+            this.legacy_title_values = config.legacy_titles ?? new string[0];
         }
 
         private static InstallLayout[] copy_install_layouts (InstallLayout[] values) {
@@ -350,23 +319,13 @@ namespace ProtonPlus.Models.Providers {
             return copied;
         }
 
-        private static string[] copy_strings (string[]? values) {
-            if (values == null)
-                return {};
-
-            var copied = new string[values.length];
-            for (var index = 0; index < values.length; index++)
-                copied[index] = values[index];
-            return copied;
-        }
-
         public VariantDefinition[] get_variants () {
             // Tools retain the entire identity/compatibility universe, while
             // release composition selects one packaging generation below.
             var all = new ArrayList<VariantDefinition> ();
             var ids = new HashSet<string> ();
             foreach (var variant in variants) {
-                all.add (variant.copy ());
+                all.add (variant);
                 ids.add (variant.id);
             }
             foreach (var set in release_variant_sets)
@@ -377,7 +336,7 @@ namespace ProtonPlus.Models.Providers {
         }
 
         public VariantDefinition[] get_fallback_variants () {
-            return copy_variants (variants);
+            return variants;
         }
 
         public ReleaseVariantSet[] get_release_variant_sets () {

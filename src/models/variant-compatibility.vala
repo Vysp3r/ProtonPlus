@@ -15,7 +15,7 @@ namespace ProtonPlus.Models {
             bool architecture_independent = false,
             Aarch64Level minimum_aarch64_level = Aarch64Level.UNKNOWN
         ) {
-            this.supported_architectures = copy_architectures (supported_architectures);
+            this.supported_architectures = supported_architectures ?? new CpuArchitecture[0];
             this.minimum_x86_64_level = minimum_x86_64_level;
             this.minimum_aarch64_level = minimum_aarch64_level == Aarch64Level.UNKNOWN &&
                 supports_architecture (CpuArchitecture.AARCH64)
@@ -59,7 +59,7 @@ namespace ProtonPlus.Models {
         }
 
         public CpuArchitecture[] get_supported_architectures () {
-            return copy_architectures (supported_architectures);
+            return supported_architectures;
         }
 
         public bool explicitly_supports_architecture (CpuArchitecture architecture) {
@@ -227,15 +227,6 @@ namespace ProtonPlus.Models {
                     return true;
             }
             return false;
-        }
-
-        private static CpuArchitecture[] copy_architectures (CpuArchitecture[]? values) {
-            if (values == null)
-                return {};
-            var copied = new CpuArchitecture[values.length];
-            for (var index = 0; index < values.length; index++)
-                copied[index] = values[index];
-            return copied;
         }
 
         private static string architecture_to_string (CpuArchitecture architecture) {

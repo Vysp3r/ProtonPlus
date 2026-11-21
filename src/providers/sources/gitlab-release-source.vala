@@ -85,7 +85,7 @@ namespace ProtonPlus.Providers.Sources {
                 var download_url = object.get_string_member_with_default (
                     "direct_asset_url", ""
                 ).replace ("?ref_type=heads", "");
-                if (name == "" || download_url == "" || !Models.Assets.Asset.is_archive_name (name))
+                if (name == "" || download_url == "" || !Utils.ArchiveHelper.is_archive_name (name))
                     continue;
 
                 assets.add (new Models.Assets.Asset (

@@ -29,6 +29,7 @@ namespace AppTests.SystemPathTest {
         Test.add_func ("/system/flatpak-dependency/exact-id", test_flatpak_exact_id);
         Test.add_func ("/system/flatpak-dependency/command-status", test_flatpak_command_status);
         Test.add_func ("/system/components/native-command-detection", test_native_command_detection);
+        Test.add_func ("/system/components/flatpak-host-command-detection", test_flatpak_host_command_detection);
         Test.add_func ("/system/components/flatpak-snapshot", test_flatpak_snapshot);
         Test.add_func ("/system/components/scopebuddy-alias", test_scopebuddy_alias);
     }
@@ -80,6 +81,42 @@ namespace AppTests.SystemPathTest {
         assert (backend.flatpak_calls == 0);
         foreach (var calls in backend.command_calls.values)
             assert (calls == 1);
+    }
+
+    private void test_flatpak_host_command_detection () {
+        if (!Test.subprocess ()) {
+            Test.trap_subprocess (null, 5000000, TestSubprocessFlags.DEFAULT);
+            Test.trap_assert_passed ();
+            return;
+        }
+
+        // Exercise the real host probe with a fixture on the child's PATH.
+        try {
+            var root = DirUtils.make_tmp ("protonplus-host-command-test-XXXXXX");
+            var spawn = Path.build_filename (root, "flatpak-spawn");
+            FileUtils.set_contents (spawn, """#!/bin/sh
+[ "$1" = --host ] && [ "$2" = which ] || exit 2
+case "$3" in
+    present) printf '/usr/bin/present\n'; printf 'host warning\n' >&2 ;;
+    spawn-error) printf 'host command could not start\n' >&2; exit 1 ;;
+    command-error) printf 'host command failed\n'; exit 1 ;;
+esac
+""");
+            assert (Posix.chmod (spawn, 0700) == 0);
+            Environment.set_variable ("PATH", root, true);
+            ProtonPlus.Globals.IS_FLATPAK = true;
+            var present = ProtonPlus.Utils.System.check_dependency_sync ("present");
+            var found_after_spawn_error = ProtonPlus.Utils.System.check_dependency_sync ("spawn-error");
+            var found_after_command_error = ProtonPlus.Utils.System.check_dependency_sync ("command-error");
+
+            FileUtils.unlink (spawn);
+            DirUtils.remove (root);
+            assert (present);
+            assert (!found_after_spawn_error);
+            assert (!found_after_command_error);
+        } catch (Error e) {
+            error ("%s", e.message);
+        }
     }
 
     private void test_flatpak_snapshot () {

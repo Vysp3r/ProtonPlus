@@ -170,7 +170,7 @@ namespace ProtonPlus.Widgets.Header {
 
         private void update_limit_label (int64 speed_limit_bps) {
             if (speed_limit_bps > 0)
-                limit_label.set_label (_("Limit: %s/s").printf (Utils.Filesystem.convert_bytes_to_string (speed_limit_bps)));
+                limit_label.set_label (_("Limit: %s/s").printf (format_size (speed_limit_bps)));
             else
                 limit_label.set_label ("");
         }
@@ -323,7 +323,7 @@ namespace ProtonPlus.Widgets.Header {
 
             var speed = "--";
             if (job.step == Services.InstallJob.Step.DOWNLOADING) {
-                speed = "%s/s".printf (Utils.Filesystem.convert_bytes_to_string (
+                speed = "%s/s".printf (format_size (
                     (int64) (job.speed_kbps * 1024)
                 ));
             }

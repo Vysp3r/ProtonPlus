@@ -6,7 +6,6 @@ sources += files(
     'compatibility-process-guard.vala',
     'archive-workflow-support.vala',
     'steam-tinker-launch-context.vala',
-    'tinker-game-context.vala',
     'tinker-game-workflow.vala',
     'tinker-game-migration.vala',
     'steam-tinker-launch-yad-compatibility.vala',

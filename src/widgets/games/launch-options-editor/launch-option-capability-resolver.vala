@@ -281,11 +281,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             if (semantics == null)
                 return values;
             foreach (var capability in semantics.get_required_capabilities ())
-                if (!contains_capability (values, capability))
+                if (!(capability in values))
                     values = append_capability (values, capability);
             if (semantics.wrapper_id != "") {
                 var wrapper = catalog.lookup_wrapper (semantics.wrapper_id);
-                if (wrapper != null && !contains_capability (values, wrapper.required_capability))
+                if (wrapper != null && !(wrapper.required_capability in values))
                     values = append_capability (values, wrapper.required_capability);
             }
             return values;
@@ -299,12 +299,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 expanded[index] = values[index];
             expanded[values.length] = capability;
             return expanded;
-        }
-
-        bool contains_capability (LaunchOptionCapability[] values, LaunchOptionCapability capability) {
-            foreach (var value in values)
-                if (value == capability) return true;
-            return false;
         }
 
         LaunchOptionEligibilityKind kind_for (LaunchOptionCapability capability) {

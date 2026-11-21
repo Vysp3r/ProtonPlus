@@ -9,18 +9,11 @@ namespace ProtonPlus.Models.Providers {
 
         public ProviderDefinitionValidationResult (string provider_id, string[] messages) {
             this.provider_id = provider_id;
-            this.messages = copy_messages (messages);
+            this.messages = messages;
         }
 
         public string[] get_messages () {
-            return copy_messages (messages);
-        }
-
-        private static string[] copy_messages (string[] values) {
-            var copied = new string[values.length];
-            for (var index = 0; index < values.length; index++)
-                copied[index] = values[index];
-            return copied;
+            return messages;
         }
     }
 
@@ -55,7 +48,7 @@ namespace ProtonPlus.Models.Providers {
             var definitions = definitions_by_category.get (category);
             if (definitions == null)
                 return {};
-            return copy_definitions (definitions);
+            return definitions.to_array ();
         }
 
         public ProviderDefinition[] get_all () {
@@ -66,11 +59,11 @@ namespace ProtonPlus.Models.Providers {
                 foreach (var definition in get (category))
                     copied.add (definition);
             }
-            return copy_definitions (copied);
+            return copied.to_array ();
         }
 
         public ProviderDefinitionValidationResult[] get_validation_results () {
-            return copy_validation_results (validation_results);
+            return validation_results.to_array ();
         }
 
         private void initialize_categories () {
@@ -125,7 +118,7 @@ namespace ProtonPlus.Models.Providers {
 
                 if (messages.size > 0) {
                     validation_results.add (new ProviderDefinitionValidationResult (
-                        definition.provider_id, copy_messages (messages)
+                        definition.provider_id, messages.to_array ()
                     ));
                 }
             }
@@ -243,32 +236,6 @@ namespace ProtonPlus.Models.Providers {
                 if (!seen_endpoints.add (legacy_endpoint))
                     messages.add ("legacy endpoint is duplicated: %s".printf (legacy_endpoint));
             }
-        }
-
-        private static ProviderDefinition[] copy_definitions (Collection<ProviderDefinition> values) {
-            var copied = new ProviderDefinition[values.size];
-            var index = 0;
-            foreach (var value in values)
-                copied[index++] = value;
-            return copied;
-        }
-
-        private static ProviderDefinitionValidationResult[] copy_validation_results (
-            Collection<ProviderDefinitionValidationResult> values
-        ) {
-            var copied = new ProviderDefinitionValidationResult[values.size];
-            var index = 0;
-            foreach (var value in values)
-                copied[index++] = value;
-            return copied;
-        }
-
-        private static string[] copy_messages (Collection<string> values) {
-            var copied = new string[values.size];
-            var index = 0;
-            foreach (var value in values)
-                copied[index++] = value;
-            return copied;
         }
     }
 }

@@ -265,24 +265,6 @@ namespace ProtonPlus.Utils {
             }
         }
 
-        public static string run_command_sync (string command) {
-            string output = "";
-            try {
-                var argv = get_command_argv (command);
-
-                var subprocess = new Subprocess.newv (argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_MERGE);
-                Bytes stdout_bytes;
-                subprocess.communicate (null, null, out stdout_bytes, null);
-
-                if (stdout_bytes != null)
-                    output = Parser.data_to_string (stdout_bytes.get_data ());
-            } catch (Error e) {
-                warning (e.message);
-            }
-
-            return output;
-        }
-
         /* This remains a command-execution seam, but callers can distinguish
          * an unavailable read-only host query from a successful empty result. */
         public static CommandResult run_command_sync_result (string command) {
@@ -463,8 +445,8 @@ namespace ProtonPlus.Utils {
             if (!Globals.IS_FLATPAK)
                 return Environment.find_program_in_path (name) != null;
 
-            var output = run_command_sync ("which %s".printf (Shell.quote (name)));
-            return output != "" && !output.contains ("which: no");
+            var result = run_command_sync_result ("which %s".printf (Shell.quote (name)));
+            return result.exit_status == 0 && result.stdout != "" && !result.stdout.contains ("which: no");
         }
 
         public static GpuVendor get_gpu_vendor_from_pci_devices (string pci_devices) {

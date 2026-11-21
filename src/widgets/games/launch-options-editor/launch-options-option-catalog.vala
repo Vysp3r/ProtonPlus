@@ -554,7 +554,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     var other = lookup (conflict_id);
                     if (other == null || other.semantics == null)
                         continue;
-                    if (!contains_id (other.semantics.conflicts, entry.id)
+                    if (!(entry.id in other.semantics.conflicts)
                         && (semantics.conflict_group == "" || semantics.conflict_group != other.semantics.conflict_group))
                         diagnostics.add ("Conflict '%s' declared by '%s' is not reciprocal.".printf (conflict_id, entry.id));
                 }
@@ -563,14 +563,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 if (groups.get (group) < 2)
                     diagnostics.add ("Conflict group '%s' must contain at least two options.".printf (group));
             }
-        }
-
-        bool contains_id (string[] values, string id) {
-            foreach (var value in values) {
-                if (value == id)
-                    return true;
-            }
-            return false;
         }
 
         void add_option (
@@ -1179,7 +1171,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 diagnostics.add ("Game argument '%s' has an incompatible emission mode.".printf (entry.id));
             if (semantics.kind == LaunchOptionSemanticKind.WRAPPER_ARGUMENT) {
                 var wrapper = lookup_wrapper (semantics.wrapper_id);
-                if (wrapper != null && !has_capability (semantics.get_required_capabilities (), wrapper.required_capability))
+                if (wrapper != null && !(wrapper.required_capability in semantics.get_required_capabilities ()))
                     diagnostics.add ("Wrapper argument '%s' does not require wrapper capability '%s'.".printf (entry.id, semantics.wrapper_id));
             }
             validate_parse_shape (entry.id, semantics.parse_shape, diagnostics);
@@ -1202,14 +1194,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 if (token.contains ("%command%"))
                     diagnostics.add ("Parse shape '%s' must not contain %%command%%.".printf (owner));
             }
-        }
-
-        bool has_capability (LaunchOptionCapability[] capabilities, LaunchOptionCapability capability) {
-            foreach (var candidate in capabilities) {
-                if (candidate == capability)
-                    return true;
-            }
-            return false;
         }
 
         void validate_composite_outputs (
