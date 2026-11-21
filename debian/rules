@@ -1,5 +1,9 @@
-
 #!/usr/bin/make -f
 
 %:
 	dh $@ --buildsystem=meson
+
+# Les tests dependent du temps reel (reseau local, timeouts, backoff) et de
+# Xvfb : on les execute en developpement, pas pendant la construction du .deb.
+override_dh_auto_test:
+	:

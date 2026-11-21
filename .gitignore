@@ -17,8 +17,15 @@ __pycache__/
 .pytest_cache/
 .ruff_cache/
 
-# deb build.
+# deb build (a ajouter a .gitignore).
+/obj-*/
 debian/.debhelper/
+debian/protonplus/
+debian/files
+debian/*.substvars
+debian/*.debhelper.log
+debian/debhelper-build-stamp
+
 
 # Miscellaneous.
 /.idea/
