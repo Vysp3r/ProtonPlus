@@ -25,15 +25,19 @@ def runner_score(path, preferred):
     else:
         family = 0
     version_name = path.name
-    version_file = path / "version"
-    if name.endswith("latest") and version_file.is_file():
-        try:
-            with version_file.open(encoding="utf-8") as stream:
-                fields = stream.readline().split()
-            if len(fields) > 1:
-                version_name = fields[1]
-        except (OSError, UnicodeError):
-            pass
+    latest_slot = re.search(r"\blatest\b", path.name, re.IGNORECASE)
+    if latest_slot:
+        # A Latest directory can end in a build variant such as -x86_64_v3.
+        version_name = path.name[:latest_slot.start()]
+        version_file = path / "version"
+        if version_file.is_file():
+            try:
+                with version_file.open(encoding="utf-8") as stream:
+                    fields = stream.readline(256).split()
+                if len(fields) > 1:
+                    version_name = fields[1]
+            except (OSError, UnicodeError):
+                pass
     version = tuple(int(number) for number in re.findall(r"\d+", version_name))
     return (name == preferred, family, version)
 

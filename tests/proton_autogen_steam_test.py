@@ -131,6 +131,16 @@ class SteamLauncherTest(unittest.TestCase):
         argv, _, _ = json.loads(result.stdout)
         self.assertEqual(argv[0], str(chosen))
 
+    def test_latest_variant_is_ranked_by_release_instead_of_architecture(self):
+        self.write_profile("")
+        latest = self.make_runner(self.entry.parent.parent, "Proton-CachyOS Latest-x86_64_v3", "4183110")
+        (latest.parent / "version").write_text("1792531047 cachyos-11.0-20261015-slr\n")
+        chosen = self.make_runner(self.configured_root, "cachyos-11.0-20261029-slr", "4183110")
+        result = self.launch("run", "Test Game.exe")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        argv, _, _ = json.loads(result.stdout)
+        self.assertEqual(argv[0], str(chosen))
+
     def test_unreadable_profile_can_still_launch(self):
         self.loader.write_text("raise PermissionError('fixture profile directory')\n")
         chosen = self.make_runner(self.entry.parent.parent, "GE-Proton11-13", "4183110")
