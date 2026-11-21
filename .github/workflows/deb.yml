@@ -1,0 +1,96 @@
+name: Debian package
+
+concurrency:
+  group: deb-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "debian/**"
+      - "src/**"
+      - "data/**"
+      - "po/**"
+      - "meson.build"
+      - ".github/workflows/deb.yml"
+  pull_request:
+    paths:
+      - "debian/**"
+      - "meson.build"
+      - ".github/workflows/deb.yml"
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: "Build .deb (${{ matrix.arch }})"
+    runs-on: ${{ matrix.runs-on }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runs-on: ubuntu-latest
+            arch: amd64
+          - runs-on: ubuntu-24.04-arm
+            arch: arm64
+    # Debian 13 fournit libsdl3-dev (>= 3.2), absent d'Ubuntu 24.04.
+    container: debian:trixie
+    steps:
+      - name: Install packaging tools
+        run: |
+          apt-get update
+          apt-get install -y --no-install-recommends \
+            build-essential devscripts equivs git ca-certificates lintian
+
+      - uses: actions/checkout@v6
+
+      - name: Install build dependencies
+        run: |
+          mk-build-deps --install --remove \
+            --tool "apt-get -y --no-install-recommends" debian/control
+
+      - name: Build package
+        run: dpkg-buildpackage -us -uc -b
+
+      - name: Lint package
+        # Informatif : ne bloque pas le build.
+        run: lintian --no-tag-display-limit ../protonplus_*.deb || true
+
+      - name: Collect artifacts
+        run: |
+          mkdir -p dist
+          cp ../protonplus_*.deb ../protonplus_*.buildinfo ../protonplus_*.changes dist/
+
+      - name: Smoke test installation
+        run: |
+          apt-get install -y --no-install-recommends ./dist/protonplus_*.deb
+          dpkg -L protonplus
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: protonplus-deb-${{ matrix.arch }}
+          path: dist/*.deb
+          if-no-files-found: error
+
+  release:
+    name: Attach to release
+    if: github.event_name == 'release'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: protonplus-deb-*
+          merge-multiple: true
+          path: dist
+      - name: Upload to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" dist/*.deb --repo "${{ github.repository }}" --clobber
