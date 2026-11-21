@@ -67,7 +67,6 @@ src/services/migrations/imigration.vala
 src/services/migrations/manager.vala
 src/services/migrations/versions/v0.6.0.vala
 src/services/migrations/versions/v0.6.6.vala
-src/services/proton-autogen-archive.vala
 src/services/standard-archive-workflow.vala
 src/services/steam-change-recorder.vala
 src/services/steam-configuration-service.vala

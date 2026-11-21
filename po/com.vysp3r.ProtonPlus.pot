@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-21 13:40-0500\n"
+"POT-Creation-Date: 2026-11-21 12:10-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -583,12 +583,6 @@ msgid ""
 "Steam compatibility tool for running adventure games using ScummVM for Linux."
 msgstr ""
 
-#: src/models/providers/definitions/proton.vala:168
-msgid ""
-"Uses Proton-Autogen profiles to select a Proton build for native Steam. "
-"Requires a build for Steam Linux Runtime 4.0."
-msgstr ""
-
 #: src/models/providers/definitions/wine.vala:10
 msgid "Wine build modified by Valve and other contributors."
 msgstr ""
@@ -724,37 +718,28 @@ msgid ""
 "saved."
 msgstr ""
 
-#: src/services/proton-autogen-archive.vala:57
-#: src/services/standard-archive-workflow.vala:52
-msgid "The Proton-Autogen package is invalid or incomplete."
-msgstr ""
-
-#: src/services/proton-autogen-archive.vala:60
-msgid "Failed to prepare Proton-Autogen for Steam."
-msgstr ""
-
 #: src/services/standard-archive-workflow.vala:32
 #: src/services/standard-archive-workflow.vala:41
 #: src/services/steam-tinker-launch-workflow.vala:47
 msgid "Extraction failed"
 msgstr ""
 
-#: src/services/standard-archive-workflow.vala:66
-#: src/services/standard-archive-workflow.vala:122
+#: src/services/standard-archive-workflow.vala:57
+#: src/services/standard-archive-workflow.vala:111
 #: src/services/steam-tinker-launch-workflow.vala:61
 #: src/services/steam-tinker-launch-workflow.vala:108
 msgid "Moving failed"
 msgstr ""
 
-#: src/services/standard-archive-workflow.vala:84
+#: src/services/standard-archive-workflow.vala:73
 msgid "Failed to save compatibility tool metadata"
 msgstr ""
 
-#: src/services/standard-archive-workflow.vala:395
+#: src/services/standard-archive-workflow.vala:388
 msgid "Failed to update compatibilitytool.vdf"
 msgstr ""
 
-#: src/services/standard-archive-workflow.vala:412
+#: src/services/standard-archive-workflow.vala:405
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr ""
 
