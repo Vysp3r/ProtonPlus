@@ -445,8 +445,8 @@ namespace ProtonPlus.Utils {
             if (!Globals.IS_FLATPAK)
                 return Environment.find_program_in_path (name) != null;
 
-            var output = run_command_sync_result ("which %s".printf (Shell.quote (name))).stdout;
-            return output != "" && !output.contains ("which: no");
+            var result = run_command_sync_result ("which %s".printf (Shell.quote (name)));
+            return result.exit_status == 0 && result.stdout != "" && !result.stdout.contains ("which: no");
         }
 
         public static GpuVendor get_gpu_vendor_from_pci_devices (string pci_devices) {

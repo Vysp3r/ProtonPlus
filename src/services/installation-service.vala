@@ -599,7 +599,7 @@ namespace ProtonPlus.Services {
         // This is the one workflow-selection point.  SteamTinkerLaunch is
         // identified by its composed context, never by provider or widget.
         private InstallationWorkflow select_workflow (InstallJob job) {
-            if (job.tinker_game_install_location != null)
+            if (job.mode == InstallJob.Mode.TINKER_GAME)
                 return tinker_game_workflow;
             if (job.steam_tinker_launch_context != null)
                 return steam_tinker_launch_workflow;

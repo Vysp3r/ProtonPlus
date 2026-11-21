@@ -41,8 +41,6 @@ namespace ProtonPlus.Services {
         internal string? replacement_backup_path { get; set; default = null; }
         public SteamTinkerLaunchContext? steam_tinker_launch_context { get; private set; default = null; }
 
-        public string? tinker_game_install_location { get; private set; default = null; }
-
         private Cancellable operation_cancellable = new Cancellable ();
         private bool _canceled = false;
         public bool canceled {
@@ -111,9 +109,8 @@ namespace ProtonPlus.Services {
 
             if (release.kind == Models.Release.Kind.TINKER_GAME || mode == Mode.TINKER_GAME) {
                 this.mode = Mode.TINKER_GAME;
-                tinker_game_install_location = installation_location_override ?? Path.build_filename (
+                install_location = installation_location_override ?? Path.build_filename (
                     tool.group.launcher.get_primary_managed_tool_directory (tool.group), "TinkerGame");
-                install_location = tinker_game_install_location;
             } else if (is_steam_tinker_launch) {
                 steam_tinker_launch_context = new SteamTinkerLaunchContext (tool, steam_tinker_launch_home_override);
                 install_location = steam_tinker_launch_context.base_location;
@@ -146,7 +143,7 @@ namespace ProtonPlus.Services {
         }
 
         public string usage_name {
-            owned get { return tinker_game_install_location != null ? "Proton-tg" : steam_tinker_launch_context != null ? "Proton-stl" : title; }
+            owned get { return mode == Mode.TINKER_GAME ? "Proton-tg" : steam_tinker_launch_context != null ? "Proton-stl" : title; }
         }
 
         public string operation_id {
@@ -184,7 +181,7 @@ namespace ProtonPlus.Services {
         }
 
         public string get_usage_identifier () {
-            if (steam_tinker_launch_context != null || tinker_game_install_location != null)
+            if (steam_tinker_launch_context != null || mode == Mode.TINKER_GAME)
                 return usage_name;
 
             var installed_identifier = tool.group.installed_tool_inventory
@@ -383,7 +380,7 @@ namespace ProtonPlus.Services {
         }
 
         private void update_install_location (string? override_location) {
-            if (steam_tinker_launch_context != null || tinker_game_install_location != null)
+            if (steam_tinker_launch_context != null || mode == Mode.TINKER_GAME)
                 return;
             if (installation_location_override != null) {
                 install_location = (!) installation_location_override;

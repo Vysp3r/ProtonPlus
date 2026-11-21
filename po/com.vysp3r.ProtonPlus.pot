@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-20 16:40+0100\n"
+"POT-Creation-Date: 2026-11-21 12:10-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -696,19 +696,19 @@ msgstr ""
 msgid "The operation could not be completed."
 msgstr ""
 
-#: src/services/install-job.vala:68
+#: src/services/install-job.vala:66
 #, c-format
 msgid "Waiting to retry in %d second (attempt %d)"
 msgid_plural "Waiting to retry in %d seconds (attempt %d)"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/services/install-job.vala:72
+#: src/services/install-job.vala:70
 #, c-format
 msgid "Reconnecting (attempt %d)"
 msgstr ""
 
-#: src/services/install-job.vala:74
+#: src/services/install-job.vala:72
 msgid "Downloading"
 msgstr ""
 
