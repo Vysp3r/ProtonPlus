@@ -1,7 +1,7 @@
 namespace ProtonPlus.Widgets.Preferences {
     public class RefreshApplicationDataRow : Adw.ActionRow {
         Gtk.Button refresh_button;
-        Adw.Spinner spinner;
+        Gtk.Spinner spinner;
 
         construct {
             refresh_button = new Gtk.Button.from_icon_name ("view-refresh-symbolic");
@@ -13,7 +13,7 @@ namespace ProtonPlus.Widgets.Preferences {
             );
             refresh_button.clicked.connect (refresh);
 
-            spinner = new Adw.Spinner ();
+            spinner = new Gtk.Spinner ();
 
             set_title (_ ("Refresh application data"));
             set_subtitle (_ ("Refreshes the launchers, tools and games"));

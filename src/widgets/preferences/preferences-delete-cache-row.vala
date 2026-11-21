@@ -2,7 +2,7 @@ namespace ProtonPlus.Widgets.Preferences {
     using ProtonPlus.Utils;
     public class DeleteCacheRow : Adw.ActionRow {
         Gtk.Button delete_button;
-        Adw.Spinner spinner;
+        Gtk.Spinner spinner;
 
         construct {
             delete_button = new Gtk.Button.from_icon_name ("user-trash-symbolic");
@@ -15,7 +15,7 @@ namespace ProtonPlus.Widgets.Preferences {
             );
             delete_button.clicked.connect (() => delete_cache.begin ());
 
-            spinner = new Adw.Spinner ();
+            spinner = new Gtk.Spinner ();
 
             set_title (_ ("Delete cache"));
             set_subtitle (_ ("Removes all cached information and temporary downloads"));

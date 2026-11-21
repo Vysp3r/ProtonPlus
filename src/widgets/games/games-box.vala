@@ -26,7 +26,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.CheckButton all_filter_check;
         Gtk.CheckButton non_steam_filter_check;
         Gtk.CheckButton native_filter_check;
-        Adw.Spinner spinner;
+        Gtk.Spinner spinner;
         Gtk.Overlay overlay;
         MassEditView mass_edit_view;
         GameCollection games;
@@ -69,7 +69,7 @@ namespace ProtonPlus.Widgets.Games {
             narrow_breakpoint.unapply.connect (() => switch_collection_view (false));
             responsive_views.add_breakpoint (narrow_breakpoint);
 
-            spinner = new Adw.Spinner () {
+            spinner = new Gtk.Spinner () {
                 halign = Gtk.Align.CENTER,
                 valign = Gtk.Align.CENTER
             };

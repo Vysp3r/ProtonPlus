@@ -1,0 +1,33 @@
+
+Source: protonplus
+Section: games
+Priority: optional
+Maintainer: Your Name <your@email.com>
+Build-Depends:
+ debhelper-compat (= 13),
+ meson,
+ ninja-build,
+ valac,
+ pkg-config,
+ gettext,
+ desktop-file-utils,
+ libglib2.0-dev,
+ libgtk-4-dev,
+ libadwaita-1-dev,
+ libjson-glib-dev,
+ libsoup-3.0-dev,
+ libgee-0.8-dev,
+ libarchive-dev,
+ libcairo2-dev,
+Standards-Version: 4.7.0
+Rules-Requires-Root: no
+
+Package: protonplus
+Architecture: any
+Depends:
+ ${shlibs:Depends},
+ ${misc:Depends}
+Description: Compatibility tools manager for Linux
+ ProtonPlus is a GTK4 application to manage compatibility
+ tools such as Proton, Wine, DXVK and VKD3D.
+ It supports Steam, Lutris, Heroic, Bottles and other launchers.
