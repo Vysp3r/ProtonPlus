@@ -1,4 +1,4 @@
-protonplus (0.6.9) unstable; urgency=medium
+protonplus (0.6.9-1) unstable; urgency=medium
 
   * Initial Debian package.
   * Build ProtonPlus using Meson.
