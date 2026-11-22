@@ -32,6 +32,7 @@ src/models/release-catalog.vala
 src/models/release.vala
 src/models/steam-change-receipt.vala
 src/models/steam-compatibility-tool-discovery.vala
+src/models/steam-game-library-issue.vala
 src/models/steam-library-diagnostics.vala
 src/models/steam-profile.vala
 src/models/steam-restart-operation.vala
@@ -60,6 +61,7 @@ src/providers/sources/tinkergame-release-source.vala
 src/return_codes.vala
 src/services/archive-workflow-support.vala
 src/services/compatibility-process-guard.vala
+src/services/download-failure.vala
 src/services/install-job.vala
 src/services/installation-service.vala
 src/services/installation-workflow.vala
@@ -67,7 +69,6 @@ src/services/migrations/imigration.vala
 src/services/migrations/manager.vala
 src/services/migrations/versions/v0.6.0.vala
 src/services/migrations/versions/v0.6.6.vala
-src/services/proton-autogen-archive.vala
 src/services/standard-archive-workflow.vala
 src/services/steam-change-recorder.vala
 src/services/steam-configuration-service.vala

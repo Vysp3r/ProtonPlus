@@ -25,7 +25,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 widgets.add (widget);
         }
 
-        public void apply_metadata (bool searching) {
+        public void apply_metadata (bool searching, string? diagnostic = null) {
             foreach (var widget in widgets) {
                 var row = widget as Adw.PreferencesRow;
                 if (row == null)
@@ -46,6 +46,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     detail = "%s • %s".printf (detail, _("Requires related option"));
                 if (eligibility != null && eligibility.reason != "")
                     detail = "%s • %s".printf (detail, eligibility.reason);
+                if (diagnostic != null)
+                    detail = diagnostic;
                 var action_row = widget as Adw.ActionRow;
                 if (action_row != null)
                     action_row.subtitle = detail;
@@ -188,7 +190,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         public void apply_filter (LaunchOptionView view, string query,
                                   LaunchOptionCapabilityResolver? resolver = null,
-                                  LaunchCommandCapabilityContext? context = null) {
+                                  LaunchCommandCapabilityContext? context = null,
+                                  Gee.Map<string, string>? diagnostics = null) {
             var searching = query.strip () != "";
             foreach (var presentation in get_ordered ()) {
                 var active = presentation.is_active ();
@@ -210,7 +213,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     widget.sensitive = presentation.eligibility == null
                         || presentation.eligibility.may_modify
                         || (active && presentation.eligibility.keep_visible_when_active);
-                presentation.apply_metadata (searching);
+                var diagnostic = diagnostics != null ? diagnostics.get (presentation.metadata.id) : null;
+                presentation.apply_metadata (searching, diagnostic);
             }
         }
 

@@ -89,6 +89,8 @@ namespace AppTests.SteamTest {
         Test.add_func ("/steam/profile-load-failures-are-filtered", test_profile_load_failures_are_filtered);
         Test.add_func ("/steam/library-failure-is-launcher-scoped", test_library_failure_is_launcher_scoped);
         Test.add_func ("/steam/profile-failure-is-launcher-scoped", test_profile_failure_is_launcher_scoped);
+        Test.add_func ("/steam/library-retry-diagnostics", test_library_retry_diagnostics);
+        Test.add_func ("/steam/usage-retains-profile-shortcuts", test_usage_retains_profile_shortcuts);
         Test.add_func ("/steam/awacy-catalog-deduplicates-and-caches", test_awacy_catalog_deduplicates_and_caches);
         Test.add_func ("/steam/awacy-catalog-bounds-optional-request", test_awacy_catalog_bounds_optional_request);
         Test.add_func ("/steam/local-library-does-not-wait-for-awacy", test_local_library_does_not_wait_for_awacy);
@@ -337,8 +339,8 @@ namespace AppTests.SteamTest {
     private bool setup_game_library (Launcher launcher) {
         var loop = new MainLoop ();
         var loaded = false;
-        launcher.setup_profile_library_for_test.begin ((obj, result) => {
-            loaded = launcher.setup_profile_library_for_test.end (result);
+        launcher.load_profile_library.begin ((obj, result) => {
+            loaded = launcher.load_profile_library.end (result);
             loop.quit ();
         });
         loop.run ();
@@ -911,6 +913,84 @@ namespace AppTests.SteamTest {
         assert (!steam.game_library_available);
         assert (steam.profiles.length () == 0);
         assert (lutris.groups.length == 4);
+        assert (delete_directory (root));
+    }
+
+    private void assert_library_issue (ProtonPlus.Models.Launchers.Steam steam,
+        SteamGameLibraryProblem problem, string file_name) {
+        assert (!setup_game_library (steam));
+        assert (!steam.game_library_available && !steam.game_library_loading);
+        var issue = steam.game_library_issue;
+        assert (issue != null && issue.problem == problem && issue.file_name == file_name);
+    }
+
+    private void test_library_retry_diagnostics () {
+        var root = temporary_directory ();
+        var source = new ManualAwacyGameSource ();
+        var steam = new ProtonPlus.Models.Launchers.Steam (Launcher.InstallationTypes.SNAP,
+            new ProtonPlus.Models.Games.AwacyGameCatalog (source, 1));
+        steam.directory = root;
+        var config_dir = Path.build_filename (root, "config");
+        var config = Path.build_filename (config_dir, "config.vdf");
+        var profile_config = Path.build_filename (root, "userdata", "1", "config");
+        var backups = Path.build_filename (root, "steamapps");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (config_dir));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (profile_config));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (backups));
+
+        assert_library_issue (steam, SteamGameLibraryProblem.MISSING, "config.vdf");
+        assert (DirUtils.create (config, 0700) == 0);
+        assert_library_issue (steam, SteamGameLibraryProblem.UNREADABLE, "config.vdf");
+        assert (DirUtils.remove (config) == 0);
+        assert (ProtonPlus.Utils.Filesystem.modify_file (config, "\"InstallConfigStore\" { }"));
+
+        var library_folders = Path.build_filename (config_dir, "libraryfolders.vdf");
+        assert (ProtonPlus.Utils.Filesystem.modify_file (library_folders, "\"unexpected\" { }"));
+        assert_library_issue (steam, SteamGameLibraryProblem.INVALID, "libraryfolders.vdf");
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (backups, "libraryfolders.vdf"), "\"libraryfolders\" { }"
+        ));
+        assert_library_issue (steam, SteamGameLibraryProblem.MISSING, "loginusers.vdf");
+
+        assert (ProtonPlus.Utils.Filesystem.modify_file (
+            Path.build_filename (config_dir, "loginusers.vdf"),
+            "\"users\" { \"76561197960265729\" { \"PersonaName\" \"Private Persona\" } }"
+        ));
+        var localconfig = Path.build_filename (profile_config, "localconfig.vdf");
+        assert (ProtonPlus.Utils.Filesystem.modify_file (localconfig, "Private profile content"));
+        assert_library_issue (steam, SteamGameLibraryProblem.INVALID, "localconfig.vdf");
+
+        var diagnostics = steam.get_game_library_diagnostics ();
+        assert (diagnostics.contains ("steam-snap") && diagnostics.contains ("localconfig.vdf"));
+        assert (!diagnostics.contains (root) && !diagnostics.contains ("76561197960265729"));
+        assert (!diagnostics.contains ("Private Persona") && !diagnostics.contains ("Private profile content"));
+
+        assert (ProtonPlus.Utils.Filesystem.modify_file (localconfig,
+            "\"UserLocalConfigStore\" { \"Software\" { \"Valve\" { \"Steam\" { \"apps\" { } } } } }"));
+        var shortcuts = Path.build_filename (profile_config, "shortcuts.vdf");
+        assert (ProtonPlus.Utils.Filesystem.modify_file (shortcuts, "not a shortcut document"));
+        assert_library_issue (steam, SteamGameLibraryProblem.INVALID, "shortcuts.vdf");
+        assert (FileUtils.remove (shortcuts) == 0);
+        assert (setup_game_library (steam));
+        assert (steam.game_library_available && steam.game_library_issue == null);
+        assert (steam.profile.username == "Private Persona");
+        assert (!FileUtils.test (shortcuts, FileTest.EXISTS));
+        assert (delete_directory (root));
+    }
+
+    private void test_usage_retains_profile_shortcuts () {
+        var root = temporary_directory ();
+        var steam = fixture_steam (root);
+        var profile = new SteamProfile (steam, "Fixture", "76561197960265729", root);
+        steam.profiles.append (profile);
+        steam.profile = profile;
+        var shortcut = new ProtonPlus.Models.Games.Steam.non_steam (42, "Fixture", "", "fixture-tool", steam);
+        shortcut.is_native = false;
+        profile.non_steam_games.append (shortcut);
+
+        assert (steam.get_compatibility_tool_usage_count ("fixture-tool") == 1);
+        steam.games.append (shortcut);
+        assert (steam.get_compatibility_tool_usage_count ("fixture-tool") == 1);
         assert (delete_directory (root));
     }
 }

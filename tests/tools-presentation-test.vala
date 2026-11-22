@@ -56,6 +56,42 @@ class PresentationSarekTool : Models.Tools.ProviderTool {
     }
 }
 
+class OfflineReleaseSource : Object, Providers.Sources.ReleaseSource {
+    public uint requests { get; private set; }
+
+    public async Models.Tools.ReleasePageResult fetch_page (
+        Models.Providers.ProviderDefinition definition, int requested_page, int limit
+    ) {
+        requests++;
+        return Models.Tools.ReleasePageResult.failure (ReturnCode.INVALID_DATA);
+    }
+}
+
+class OfflineToolsLauncher : Models.Launcher {
+    public OfflineToolsLauncher (string root) {
+        base ("Offline fixture", InstallationTypes.SYSTEM, "", { root }, "offline-fixture");
+    }
+
+    public override Models.SteamRestartTarget? get_steam_restart_target () {
+        return Models.SteamRestartTarget.for_native (directory);
+    }
+}
+
+class OfflineToolsProcessQuery : Object, Services.CompatibilityProcessQueryBackend {
+    public async Services.CompatibilityProcessInspectionResult inspect_processes () {
+        return Services.CompatibilityProcessInspectionResult.clear ();
+    }
+}
+
+class OfflineToolsReceiptRecorder : Object, Services.SteamChangeRecorder {
+    public Models.SteamChangeReceipt? receipt { get; private set; }
+
+    public Services.SteamRestartRecordResult record (Models.SteamChangeReceipt receipt) {
+        this.receipt = receipt;
+        return Services.SteamRestartRecordResult.ADDED;
+    }
+}
+
 Gtk.MenuButton? find_release_actions (Gtk.Widget widget) {
     if (widget is Gtk.MenuButton && ((Gtk.MenuButton) widget).icon_name == "view-more-symbolic")
         return (Gtk.MenuButton) widget;
@@ -313,6 +349,111 @@ void check_inline_transitions (Models.Launcher launcher, Models.Group group) {
     close_fixture_window (window);
 }
 
+bool has_release_action (MenuModel menu, string action) {
+    for (var index = 0; index < menu.get_n_items (); index++) {
+        var item_action = menu.get_item_attribute_value (index, Menu.ATTRIBUTE_ACTION, VariantType.STRING);
+        if (item_action != null && item_action.get_string () == action)
+            return true;
+        var section = menu.get_item_link (index, Menu.LINK_SECTION);
+        if (section != null && has_release_action (section, action))
+            return true;
+    }
+    return false;
+}
+
+void check_offline_installed_rows (string root) {
+    var launcher = new OfflineToolsLauncher (root);
+    var group = new Models.Group ("Proton", "", "", launcher, "proton");
+    var definition = new Models.Providers.ProviderRegistry ().get_by_id ("proton-ge");
+    var source = new OfflineReleaseSource ();
+    var tool = new Models.Tools.ProviderTool.with_catalog (definition, source, group,
+        definition.get_install_layout (launcher.tool_target_family_id));
+    group.tools = new Gee.LinkedList<Models.Tool> ();
+    group.tools.add (tool);
+    launcher.groups = { group };
+
+    var first_path = Path.build_filename (launcher.directory, "A legacy installation path");
+    var second_path = Path.build_filename (launcher.directory, "Another installed build");
+    foreach (var path in new string[] { first_path, second_path }) {
+        assert (DirUtils.create (path, 0700) == 0);
+        var metadata = new Utils.Metadata ();
+        metadata.provider_id = tool.provider_id;
+        metadata.tool_id = tool.id;
+        metadata.launcher_id = launcher.tool_target_id;
+        metadata.variant_id = path == first_path ? "x86" : "retired-build";
+        metadata.release_id = "deleted-upstream-release";
+        metadata.tag = "v1";
+        metadata.install_mode = "versioned";
+        assert (metadata.save (path));
+    }
+
+    var page = new Widgets.Tools.Box ();
+    page.set_selected_launcher (launcher);
+    page.current_filter = Widgets.Tools.Filter.INSTALLED;
+    var window = fixture_window (page, 400, 500);
+    window.present ();
+    var group_box = find_group_box (page, tool);
+    assert (group_box != null && group_box.expand_tool (tool));
+    settle ();
+
+    var rows = new Gee.ArrayList<Widgets.Tools.ReleaseRow> ();
+    collect_rows (page, rows);
+    assert (source.requests == 0);
+    assert (rows.size == 2 && rows[0].get_mapped () && rows[1].get_mapped ());
+    var first_job = rows[0].get_data<Services.InstallJob> ("job");
+    var second_job = rows[1].get_data<Services.InstallJob> ("job");
+    assert (first_job.install_location == first_path && second_job.install_location == second_path);
+    assert (first_job.selected_variant_id == "x86" && first_job.selected_variant_name == "x86_64");
+    assert (second_job.selected_variant_id == "retired-build");
+    assert (first_job.release.upstream_release_id == "deleted-upstream-release");
+    assert (first_job.operation_id != second_job.operation_id);
+    // The installed directory remains actionable even if the browse job
+    // cannot describe it with today's release layout.
+    second_job.set ("state", Services.InstallJob.State.NOT_INSTALLED);
+    foreach (var row in rows) {
+        var actions = find_release_actions (row);
+        var menu = ((Gtk.PopoverMenu) actions.popover).menu_model;
+        assert (has_release_action (menu, "release.open-folder"));
+        assert (has_release_action (menu, "release.delete"));
+        assert (!has_release_action (menu, "release.update"));
+        assert (!has_release_action (menu, "release.changelog"));
+        assert (find_build_menu (actions) == null);
+        assert (row.grab_focus () && row.controller_activate (row));
+        settle ();
+        assert (actions.popover.get_mapped ());
+        actions.popdown ();
+    }
+
+    assert (rows[1].grab_focus ());
+    var recorder = new OfflineToolsReceiptRecorder ();
+    Services.InstallationService.instance.configure_steam_change_recorder (recorder);
+    Services.InstallationService.instance.configure_compatibility_process_guard (
+        new Services.CompatibilityProcessGuard (new OfflineToolsProcessQuery ())
+    );
+    var loop = new MainLoop ();
+    first_job.remove.begin (true, (object, result) => {
+        assert (first_job.remove.end (result) == ReturnCode.RUNNER_REMOVED);
+        loop.quit ();
+    });
+    loop.run ();
+    Services.InstallationService.reset_lifecycle_configuration_for_tests ();
+    assert (!FileUtils.test (first_path, FileTest.EXISTS) && FileUtils.test (second_path, FileTest.IS_DIR));
+    assert (recorder.receipt != null && recorder.receipt.kind == Models.SteamChangeKind.COMPATIBILITY_TOOL_REMOVED);
+    assert (recorder.receipt.resource_key == first_path);
+    settle ();
+    rows.clear ();
+    collect_rows (page, rows);
+    assert (rows.size == 1);
+    // Another GUI fixture may own global focus on a shared display.
+    assert (rows[0].is_focus ());
+    assert (rows[0].get_data<Services.InstallJob> ("job").install_location == second_path);
+    remove_fixture_directory (second_path);
+    rows[0].get_data<Services.InstallJob> ("job").set ("state", Services.InstallJob.State.NOT_INSTALLED);
+    var stale_actions = find_release_actions (rows[0]);
+    assert (!stale_actions.visible);
+    close_fixture_window (window);
+}
+
 void settle () {
     var loop = new MainLoop ();
     Timeout.add (350, () => { loop.quit (); return Source.REMOVE; });
@@ -396,9 +537,9 @@ int main (string[] args) {
     assert (tool.release_catalog.releases.size == 3);
     box.filter = Widgets.Tools.Filter.INSTALLED;
     settle ();
-    assert (!rows[0].get_child_visible ());
-    assert (rows[1].get_child_visible ());
-    assert (!rows[2].get_child_visible ());
+    rows.clear ();
+    collect_rows (box, rows);
+    assert (rows.size == 0);
     box.clear_selected_tool ();
     group_box.attach_release_section (tool, box);
     loaded = false;
@@ -435,6 +576,7 @@ int main (string[] args) {
     check_build_choices (group);
     check_sarek_build_choices (group);
     check_inline_transitions (launcher, group);
+    check_offline_installed_rows (root);
     remove_fixture_directory (root);
     return 0;
 }

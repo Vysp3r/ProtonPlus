@@ -3,6 +3,8 @@ namespace ProtonPlus.Models.Launchers {
         public const string FAMILY_ID = "steam";
         public List<SteamProfile> profiles;
         public SteamProfile profile { get; set; }
+        public bool game_library_loading { get; private set; }
+        public SteamGameLibraryIssue? game_library_issue { get; private set; }
         public string default_compatibility_tool { get; set; }
         public HashTable<uint, string> compatibility_tool_hashtable;
         public Gee.List<SteamRuntimeRepairCandidate> broken_compatibility_tools {
@@ -11,6 +13,7 @@ namespace ProtonPlus.Models.Launchers {
         private Games.AwacyGameCatalog awacy_game_catalog;
         private SteamCompatibilityToolDiscovery compatibility_tool_discovery;
         private uint game_library_generation;
+        private uint library_state_revision;
 
         public Steam (
             Launcher.InstallationTypes installation_type,
@@ -96,6 +99,7 @@ namespace ProtonPlus.Models.Launchers {
                 compatibility_tool_hashtable.remove (appid);
             else
                 compatibility_tool_hashtable.set (appid, compatibility_tool);
+            library_state_revision++;
         }
 
         public override List<string> get_managed_tool_directories (Group group) {
@@ -150,6 +154,62 @@ namespace ProtonPlus.Models.Launchers {
             this.profile = profile;
         }
 
+        public override async bool load_profile_library () {
+            if (game_library_loading)
+                return false;
+
+            game_library_available = false;
+            game_library_issue = null;
+            game_library_loading = true;
+            try {
+                if (!(yield load_game_library ())) {
+                    if (game_library_issue == null)
+                        game_library_issue = new SteamGameLibraryIssue (SteamGameLibraryProblem.UNKNOWN);
+                    return false;
+                }
+                game_library_available = yield load_steam_profiles ();
+                return game_library_available;
+            } finally {
+                game_library_loading = false;
+            }
+        }
+
+        private async bool load_steam_profiles () {
+            var selected_profile_id = Globals.SETTINGS != null
+                ? Globals.SETTINGS.get_string ("steam-selected-profile-id") : "";
+            SteamGameLibraryIssue? issue;
+            var discovered_profiles = yield SteamProfile.get_profiles (this, out issue);
+            var loaded_profiles = new List<SteamProfile> ();
+
+            foreach (var candidate in discovered_profiles) {
+                if (yield candidate.load_extra_data ())
+                    loaded_profiles.append (candidate);
+                else if (issue == null || candidate.steam_id == selected_profile_id)
+                    issue = candidate.load_issue;
+            }
+
+            if (loaded_profiles.length () == 0) {
+                game_library_issue = issue ?? new SteamGameLibraryIssue (SteamGameLibraryProblem.NO_LOCAL_PROFILES);
+                return false;
+            }
+
+            profiles = (owned) loaded_profiles;
+            var selected_profile = get_steam_profile_by_id (selected_profile_id);
+            yield switch_profile (selected_profile ?? profiles.nth_data (0));
+            return true;
+        }
+
+        public string get_game_library_diagnostics () {
+            var issue = game_library_issue ?? new SteamGameLibraryIssue (SteamGameLibraryProblem.UNKNOWN);
+            // Allowlist environment flags and the loader's fixed file names and reason strings.
+            return "ProtonPlus %s\nSteam: %s\n%s: %s\n%s: %s\n%s\n".printf (
+                Config.APP_VERSION, instance_id,
+                _("Flatpak"), Globals.IS_FLATPAK ? _("Yes") : _("No"),
+                _("SteamOS"), Globals.IS_STEAM_OS ? _("Yes") : _("No"),
+                issue.describe ()
+            );
+        }
+
         public override int get_compatibility_tool_usage_count (string compatibility_tool_name) {
             return get_compatibility_tool_usage_games (compatibility_tool_name).size;
         }
@@ -164,11 +224,9 @@ namespace ProtonPlus.Models.Launchers {
             }
 
             foreach (var profile in profiles) {
-                if (profile == this.profile)
-                    continue;
-
                 foreach (var game in profile.non_steam_games) {
-                    if (uses_compatibility_tool (game, compatibility_tool_name, is_default_tool))
+                    if (!usage_games.contains (game)
+                        && uses_compatibility_tool (game, compatibility_tool_name, is_default_tool))
                         usage_games.add (game);
                 }
             }
@@ -189,67 +247,105 @@ namespace ProtonPlus.Models.Launchers {
 
         public override async bool load_game_library () {
             var current_generation = ++game_library_generation;
-            games = new List<Game> ();
+            var steam_root = directory;
+            bool retry = false;
+            bool loaded = false;
+            do {
+                var revision = library_state_revision;
+                loaded = yield load_game_library_snapshot (current_generation, steam_root, revision, out retry);
+            } while (retry);
+            return loaded;
+        }
 
-            compatibility_tools.clear ();
-            compatibility_tool_discovery.clear ();
+        private bool can_publish_game_library (uint generation, string steam_root, uint revision, out bool retry) {
+            var current_target = generation == game_library_generation && directory == steam_root;
+            retry = current_target && revision != library_state_revision;
+            return current_target && !retry;
+        }
 
-            var name_regex = /\"name\"\s+\"([^\"]+)\"/;
-            var dir_regex = /\"installdir\"\s+\"([^\"]+)\"/;
-
-            var excluded_appids = new Gee.HashSet<string> ();
-            excluded_appids.add_all_array (new string[] {
-                "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110", "3086180", "250820"
-            });
-
-            var compatibility_tool_hashtable_loaded = yield load_compatibility_tool_hashtable ();
-            if (!compatibility_tool_hashtable_loaded)
+        private async bool load_game_library_snapshot (uint generation, string steam_root,
+            uint revision, out bool retry) {
+            SteamGameLibraryIssue? config_issue;
+            var mappings = yield read_compatibility_tool_mappings (steam_root, out config_issue);
+            if (!can_publish_game_library (generation, steam_root, revision, out retry))
             return false;
+            if (mappings == null) {
+                game_library_issue = config_issue;
+                return false;
+            }
 
-            var default_compatibility_tool = compatibility_tool_hashtable.get (0);
-            if (default_compatibility_tool != null)
-            this.default_compatibility_tool = default_compatibility_tool;
-
-            Utils.VDF.VdfDocument? libraryfolder_document = null;
-            var libraryfolder_path = "";
+            Utils.VDF.VdfEntry? libraryfolders = null;
+            SteamGameLibraryIssue? folders_issue = null;
             var libraryfolder_candidates = new string[] {
-                Path.build_filename (directory, "config", "libraryfolders.vdf"),
-                Path.build_filename (directory, "steamapps", "libraryfolders.vdf"),
+                Path.build_filename (steam_root, "config", "libraryfolders.vdf"),
+                Path.build_filename (steam_root, "steamapps", "libraryfolders.vdf"),
             };
 
             foreach (var candidate in libraryfolder_candidates) {
-                if (!FileUtils.test (candidate, FileTest.IS_REGULAR))
-                    continue;
-
-                var libraryfolder_content = yield Utils.Filesystem.get_file_content_async (candidate);
-                var candidate_document = Utils.VDF.VdfParser.parse_document (libraryfolder_content);
-                if (candidate_document == null) {
-                    debug ("Could not parse Steam library folders candidate: %s", candidate);
-                    continue;
-                }
-
-                if (((!) candidate_document).root.get_child ("libraryfolders") == null) {
-                    debug ("Steam library folders candidate has no libraryfolders root: %s", candidate);
-                    continue;
-                }
-
-                libraryfolder_document = (!) candidate_document;
-                libraryfolder_path = candidate;
-                break;
+                SteamGameLibraryIssue? candidate_issue;
+                libraryfolders = yield SteamGameLibraryIssue.read_section (
+                    candidate, "libraryfolders.vdf", "libraryfolders", out candidate_issue
+                );
+                if (!can_publish_game_library (generation, steam_root, revision, out retry))
+                    return false;
+                if (libraryfolders != null)
+                    break;
+                if (folders_issue == null || folders_issue.problem == SteamGameLibraryProblem.MISSING)
+                    folders_issue = candidate_issue;
             }
 
-            if (libraryfolder_document == null) {
-                warning ("Could not find a valid Steam library folders file below: %s", directory);
+            if (libraryfolders == null) {
+                game_library_issue = folders_issue;
+                publish_game_mappings ((!) mappings);
                 return false;
             }
 
-            debug ("Loading Steam library folders from: %s", libraryfolder_path);
-            var libraryfolders = ((!) libraryfolder_document).root.get_child ("libraryfolders");
-            if (libraryfolders == null)
+            var discovery = compatibility_tool_discovery.new_scan ();
+            List<Game> scanned_games;
+            string[] library_roots;
+            yield scan_game_library (libraryfolders, discovery, out scanned_games, out library_roots);
+            if (!can_publish_game_library (generation, steam_root, revision, out retry))
                 return false;
 
-            var diagnostic_root = directory;
-            var diagnostic_libraries = new Gee.ArrayList<string> ();
+            var diagnostics = yield new SteamLibraryDiagnostics ().inspect (steam_root, library_roots);
+            if (!can_publish_game_library (generation, steam_root, revision, out retry))
+                return false;
+
+            games = (owned) scanned_games;
+            publish_game_mappings ((!) mappings);
+            compatibility_tool_discovery = discovery;
+            publish_discovered_compatibility_tools ();
+            broken_compatibility_tools = diagnostics;
+            schedule_awacy_enrichment (generation);
+            return true;
+        }
+
+        private async void scan_game_library (Utils.VDF.VdfEntry libraryfolders,
+            SteamCompatibilityToolDiscovery discovery, out List<Game> scanned_games, out string[] library_roots) {
+            var games = new List<Game> ();
+            var roots = new Gee.ArrayList<string> ();
+            var managed_tools_root = get_managed_compatibility_tools_root ();
+            SourceFunc callback = scan_game_library.callback;
+            new Thread<void> ("steam-game-library", () => {
+                games = scan_library_entries (libraryfolders, discovery, roots);
+                discovery.discover_launcher_roots (managed_tools_root);
+                Idle.add ((owned) callback, Priority.DEFAULT);
+            });
+            yield;
+            scanned_games = (owned) games;
+            library_roots = roots.to_array ();
+        }
+
+        private List<Game> scan_library_entries (Utils.VDF.VdfEntry libraryfolders,
+            SteamCompatibilityToolDiscovery discovery, Gee.ArrayList<string> library_roots) {
+            var games = new List<Game> ();
+            var name_regex = /\"name\"\s+\"([^\"]+)\"/;
+            var dir_regex = /\"installdir\"\s+\"([^\"]+)\"/;
+            var excluded_appids = new Gee.HashSet<string> ();
+            excluded_appids.add_all_array ({
+                "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110", "3086180", "250820"
+            });
+
             foreach (var libraryfolder in libraryfolders.children) {
                 int libraryfolder_id;
                 if (!int.try_parse (libraryfolder.key, out libraryfolder_id))
@@ -259,7 +355,7 @@ namespace ProtonPlus.Models.Launchers {
                 var apps = libraryfolder.get_child ("apps");
                 if (path == null || path.value == null)
                     continue;
-                diagnostic_libraries.add (path.value);
+                library_roots.add (path.value);
                 if (apps == null)
                     continue;
 
@@ -269,84 +365,54 @@ namespace ProtonPlus.Models.Launchers {
                     if (!id_valid)
                     continue;
 
-                    var current_libraryfolder_id = libraryfolder_id;
-                    var current_libraryfolder_path = path.value;
-                    var current_appid = app.key;
-                    var current_steamapps_path = "%s/steamapps".printf (path.value);
-                    var current_manifest_path = "";
-                    var current_manifest_content = "";
-                    var current_name = "";
-                    var current_installdir = "";
-
-                    current_manifest_path = "%s/appmanifest_%s.acf".printf (current_steamapps_path, current_appid);
-                    if (!FileUtils.test (current_manifest_path, FileTest.IS_REGULAR))
-                    continue;
-                    current_manifest_content = Utils.Filesystem.get_file_content (current_manifest_path);
+                    var steamapps_path = Path.build_filename (path.value, "steamapps");
+                    var manifest_path = Path.build_filename (steamapps_path, "appmanifest_%s.acf".printf (app.key));
+                    if (!FileUtils.test (manifest_path, FileTest.IS_REGULAR))
+                        continue;
+                    var manifest_content = Utils.Filesystem.get_file_content (manifest_path);
 
                     MatchInfo name_match;
-                    if (!name_regex.match (current_manifest_content, 0, out name_match))
+                    if (!name_regex.match (manifest_content, 0, out name_match))
                     continue;
-                    current_name = name_match.fetch (1);
+                    var name = name_match.fetch (1);
 
                     MatchInfo dir_match;
-                    if (!dir_regex.match (current_manifest_content, 0, out dir_match))
+                    if (!dir_regex.match (manifest_content, 0, out dir_match))
                     continue;
-                    current_installdir = dir_match.fetch (1);
+                    var install_name = dir_match.fetch (1);
+                    var install_path = Path.build_filename (steamapps_path, "common", install_name);
 
                     string steam_tool_internal_title;
                     CompatibilityToolRuntimeKind steam_tool_runtime_kind;
                     if (SteamCompatibilityToolDiscovery.try_get_steam_library_tool_identity (
                             id, out steam_tool_internal_title, out steam_tool_runtime_kind
                         )) {
-                        compatibility_tool_discovery.add_steam_library_app (
-                            "%s/common/%s".printf (current_steamapps_path, current_installdir),
-                            id, steam_tool_internal_title, current_name, steam_tool_runtime_kind
+                        discovery.add_steam_library_app (
+                            install_path, id, steam_tool_internal_title, name, steam_tool_runtime_kind
                         );
                         continue;
                     }
 
-                    if (excluded_appids.contains (current_appid)) {
+                    if (excluded_appids.contains (app.key))
                         continue;
-                    }
 
-                    var compatibility_tool_path = "%s/common/%s".printf (current_steamapps_path, current_installdir);
                     var has_proton_launcher = FileUtils.test (
-                        Path.build_filename (compatibility_tool_path, "proton"),
+                        Path.build_filename (install_path, "proton"),
                         FileTest.IS_REGULAR
                     );
 
-                    if (has_proton_launcher || is_steam_linux_runtime (current_name)) {
-                        debug ("Ignoring unrecognized Steam compatibility-tool app %s (%s)",
-                            current_appid, current_name);
+                    if (has_proton_launcher || is_steam_linux_runtime (name)) {
+                        debug ("Ignoring unrecognized Steam compatibility-tool app %u (%s)", id, name);
                         continue;
                     }
 
-                    if (!FileUtils.test ("%s/common/%s".printf (current_steamapps_path, current_installdir), FileTest.IS_DIR))
+                    if (!FileUtils.test (install_path, FileTest.IS_DIR))
                     continue;
 
-                    var game = new Games.Steam (id, current_name, current_installdir, current_libraryfolder_id, current_libraryfolder_path, this);
-
-                    var compatibility_tool = compatibility_tool_hashtable.get (game.appid);
-                    if (compatibility_tool == null)
-                    compatibility_tool = "Default";
-                    game.compatibility_tool = compatibility_tool;
-
-                    games.append (game);
+                    games.append (new Games.Steam (id, name, install_name, libraryfolder_id, path.value, this));
                 }
             }
-
-            load_discovered_compatibility_tools ();
-
-            var diagnostics = yield new SteamLibraryDiagnostics ().inspect (
-                diagnostic_root, diagnostic_libraries.to_array ()
-            );
-            if (current_generation != game_library_generation || directory != diagnostic_root)
-                return false;
-            broken_compatibility_tools = diagnostics;
-
-            schedule_awacy_enrichment (current_generation);
-
-            return true;
+            return games;
         }
 
         private void schedule_awacy_enrichment (uint generation) {
@@ -378,6 +444,7 @@ namespace ProtonPlus.Models.Launchers {
         }
 
         public void refresh_compatibility_tools () {
+            library_state_revision++;
             compatibility_tool_discovery.clear ();
             load_discovered_compatibility_tools ();
         }
@@ -386,6 +453,10 @@ namespace ProtonPlus.Models.Launchers {
             compatibility_tool_discovery.discover_launcher_roots (
                 get_managed_compatibility_tools_root ()
             );
+            publish_discovered_compatibility_tools ();
+        }
+
+        private void publish_discovered_compatibility_tools () {
             compatibility_tools.clear ();
             foreach (var compatibility_tool in compatibility_tool_discovery.get_snapshot ()) {
                 compatibility_tool.sort_priority = get_compatibility_tool_sort_priority (compatibility_tool);
@@ -424,6 +495,7 @@ namespace ProtonPlus.Models.Launchers {
         }
 
         public void register_compatibility_tool (CompatibilityTool compatibility_tool) {
+            library_state_revision++;
             add_compatibility_tool_if_missing (compatibility_tool);
             sort_compatibility_tools ();
         }
@@ -498,6 +570,7 @@ namespace ProtonPlus.Models.Launchers {
         }
 
         public override void unregister_compatibility_tool_by_path (string tool_path) {
+            library_state_revision++;
             var tool = compatibility_tools.first_match ((tool) => {
                 return tool.path == tool_path;
             });
@@ -613,25 +686,23 @@ namespace ProtonPlus.Models.Launchers {
             }
         }
 
-        async bool load_compatibility_tool_hashtable () {
-            compatibility_tool_hashtable = new HashTable<uint, string> (null, null);
+        private async HashTable<uint, string>? read_compatibility_tool_mappings (string steam_root,
+            out SteamGameLibraryIssue? issue) {
+            var install_config_store = yield SteamGameLibraryIssue.read_section (
+                Path.build_filename (steam_root, "config", "config.vdf"),
+                "config.vdf", "InstallConfigStore", out issue
+            );
+            if (install_config_store == null)
+                return null;
 
-            var config_content = yield Utils.Filesystem.get_file_content_async ("%s/config/config.vdf".printf (directory));
-            var document = Utils.VDF.VdfParser.parse_document (config_content);
-            if (document == null)
-                return false;
-
-            var install_config_store = document.root.get_child ("InstallConfigStore");
-            var software = install_config_store != null ? install_config_store.get_child ("Software") : null;
+            var mappings = new HashTable<uint, string> (null, null);
+            var software = install_config_store.get_child ("Software");
             var valve = software != null ? software.get_child ("Valve") : null;
             var steam = valve != null ? valve.get_child ("Steam") : null;
             var mapping = steam != null ? steam.get_child ("CompatToolMapping") : null;
             if (mapping == null) {
-                compatibility_tool_hashtable.set (0, "proton_experimental");
-                var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
-                if (configuration != null)
-                    configuration.overlay_launcher_effective_state (this);
-                return true;
+                mappings.set (0, "proton_experimental");
+                return mappings;
             }
 
             foreach (var mapping_entry in mapping.children) {
@@ -643,14 +714,20 @@ namespace ProtonPlus.Models.Launchers {
                 if (name == null || name.value == null)
                     continue;
 
-                compatibility_tool_hashtable.set (appid, name.value);
+                mappings.set (appid, name.value);
             }
 
+            return mappings;
+        }
+
+        private void publish_game_mappings (HashTable<uint, string> mappings) {
+            compatibility_tool_hashtable = mappings;
             var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
             if (configuration != null)
                 configuration.overlay_launcher_effective_state (this);
-
-            return true;
+            default_compatibility_tool = compatibility_tool_hashtable.get (0) ?? "";
+            foreach (var game in (List<Games.Steam>) games)
+                game.apply_effective_compatibility_tool (compatibility_tool_hashtable.get (game.appid) ?? "Default");
         }
 
         public bool change_default_compatibility_tool (string compatibility_tool) {
@@ -664,6 +741,7 @@ namespace ProtonPlus.Models.Launchers {
             if (!outcome.accepted)
                 return false;
             this.default_compatibility_tool = compatibility_tool;
+            library_state_revision++;
             return true;
         }
     }

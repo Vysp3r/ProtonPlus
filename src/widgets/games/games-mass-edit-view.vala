@@ -10,14 +10,14 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.ScrolledWindow scrolled_window { get; set; }
         CompatibilityToolRow compatibility_tool_row { get; set; }
         Adw.PreferencesGroup compatibility_tool_group { get; set; }
-        Adw.PreferencesGroup launch_options_group { get; set; }
+        Adw.PreferencesGroup affected_games_group;
+        Adw.ExpanderRow? affected_games_row;
         Adw.SwitchRow compatibility_tool_apply_row { get; set; }
-        Adw.SwitchRow launch_options_apply_row { get; set; }
         LaunchOptionsEditor.Box launch_options_editor { get; set; }
-        Gtk.Revealer launch_options_revealer { get; set; }
         Gtk.Box content_box { get; set; }
-        Gtk.Label batch_hint { get; set; }
-        public GameListItem[] items;
+        GameListItem[] items;
+        string? compatibility_tool_diagnostic;
+        uint load_generation;
         LaunchOptionsEditor.LaunchOptionCapabilityResolver capability_resolver;
         Gee.HashMap<string, Models.CompatibilityTool> compatibility_tools_by_id;
         Utils.GpuVendor gpu_vendor = Utils.GpuVendor.UNKNOWN;
@@ -42,21 +42,15 @@ namespace ProtonPlus.Widgets.Games {
             );
             clear_button.clicked.connect (clear_button_clicked);
 
-            apply_button = new Gtk.Button.from_icon_name ("document-save-symbolic");
+            apply_button = new Gtk.Button.with_label (_("Apply Changes"));
             apply_button.add_css_class ("suggested-action");
-            apply_button.set_tooltip_text (_("Apply Changes"));
-            apply_button.update_property (
-                Gtk.AccessibleProperty.LABEL,
-                _("Apply Changes"),
-                -1
-            );
             apply_button.clicked.connect (apply_button_clicked);
 
+            affected_games_group = new Adw.PreferencesGroup ();
             compatibility_tool_group = new Adw.PreferencesGroup ();
 
             compatibility_tool_apply_row = new Adw.SwitchRow () {
-                title = _("Apply compatibility tool"),
-                subtitle = _("Use the same compatibility tool for all selected games")
+                title = _("Change compatibility tool")
             };
             compatibility_tool_group.add (compatibility_tool_apply_row);
 
@@ -64,7 +58,6 @@ namespace ProtonPlus.Widgets.Games {
                 if (compatibility_tool_row != null)
                     compatibility_tool_row.set_visible (compatibility_tool_apply_row.active);
                 refresh_capability_context ();
-                refresh ();
             });
 
             launch_options_editor = new LaunchOptionsEditor.Box ();
@@ -72,39 +65,10 @@ namespace ProtonPlus.Widgets.Games {
             compatibility_tools_by_id = new Gee.HashMap<string, Models.CompatibilityTool> ();
             launch_options_editor.content_changed.connect (refresh);
 
-            launch_options_group = new Adw.PreferencesGroup ();
-
-            launch_options_apply_row = new Adw.SwitchRow () {
-                title = _("Apply launch options"),
-                subtitle = _("Use the same launch options for all selected Steam games")
-            };
-            launch_options_group.add (launch_options_apply_row);
-
-            launch_options_revealer = new Gtk.Revealer () {
-                transition_type = Gtk.RevealerTransitionType.SLIDE_DOWN,
-                transition_duration = 200,
-                child = launch_options_editor
-            };
-            launch_options_apply_row.notify["active"].connect (() => {
-                launch_options_revealer.set_reveal_child (launch_options_apply_row.active);
-                refresh ();
-            });
-
-            batch_hint = new Gtk.Label (_("Choose what to change. Settings that are turned off will remain unchanged.")) {
-                halign = Gtk.Align.START,
-                wrap = true,
-                xalign = 0,
-                css_classes = { "dim-label" },
-                margin_start = 12,
-                margin_end = 12,
-                margin_bottom = 6
-            };
-
             content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
-            content_box.append (batch_hint);
+            content_box.append (affected_games_group);
             content_box.append (compatibility_tool_group);
-            content_box.append (launch_options_group);
-            content_box.append (launch_options_revealer);
+            content_box.append (launch_options_editor);
 
             content_clamp = new Adw.Clamp ();
             content_clamp.set_maximum_size (975);
@@ -146,6 +110,9 @@ namespace ProtonPlus.Widgets.Games {
 
         public void load (GameListItem[] items, ListStore model, Gtk.PropertyExpression expression) {
             this.items = items;
+            var generation = ++load_generation;
+            compatibility_tool_diagnostic = null;
+            load_affected_games ();
 
             var has_steam_launch_options = false;
             var all_native = items.length > 0;
@@ -234,65 +201,84 @@ namespace ProtonPlus.Widgets.Games {
             launch_options_editor.set_text (sources_match ? common_source : "");
             launch_options_editor.set_preview_sources (preview_labels, preview_sources);
 
-            launch_options_group.set_visible (has_steam_launch_options);
-            launch_options_revealer.set_visible (has_steam_launch_options);
+            launch_options_editor.visible = has_steam_launch_options;
+            clear_button.visible = has_steam_launch_options;
 
-            compatibility_tool_apply_row.set_active (false);
-            launch_options_apply_row.set_active (false);
-
-            compatibility_tool_row.set_visible (compatibility_tool_apply_row.active);
-            launch_options_revealer.set_reveal_child (launch_options_apply_row.active);
+            compatibility_tool_apply_row.active = false;
+            compatibility_tool_row.visible = false;
 
             compatibility_tool_row.notify["selected-item"].connect (() => {
+                compatibility_tool_diagnostic = null;
                 refresh_capability_context ();
-                refresh ();
             });
             Utils.System.detect_gpu_vendor.begin ((obj, result) => {
-                gpu_vendor = Utils.System.detect_gpu_vendor.end (result);
+                var detected_vendor = Utils.System.detect_gpu_vendor.end (result);
+                if (generation != load_generation)
+                    return;
+                gpu_vendor = detected_vendor;
                 refresh_capability_context ();
             });
             refresh_capability_context ();
+        }
 
-            refresh ();
+        void load_affected_games () {
+            if (affected_games_row != null)
+                affected_games_group.remove ((!) affected_games_row);
+            affected_games_row = null;
+            affected_games_group.visible = items.length > 1;
+            if (!affected_games_group.visible)
+                return;
+
+            var row = new Adw.ExpanderRow () {
+                title = _("Affected games"),
+                subtitle = get_selection_text ()
+            };
+            foreach (var item in items) {
+                row.add_row (new Adw.ActionRow () {
+                    title = item.game.name,
+                    use_markup = false,
+                    selectable = false,
+                    focusable = false
+                });
+            }
+            affected_games_group.add (row);
+            affected_games_row = row;
         }
 
         void refresh () {
-            var tool_changed = compatibility_tool_apply_row.active
-                               && compatibility_tool_row != null
-                               && compatibility_tool_row.get_selected_item () != null;
-            var launch_options_changed = launch_options_apply_row.active && launch_options_editor.is_dirty;
+            var tool_enabled = compatibility_tool_apply_row.active;
+            var selected_tool = compatibility_tool_row?.get_selected_item () as Models.CompatibilityTool;
+            string? tool_error = null;
+            if (tool_enabled) {
+                if (selected_tool == null)
+                    tool_error = _("Choose a compatibility tool.");
+                else if (!selected_tool.is_assignable || !selected_tool.is_available)
+                    tool_error = _("Choose an available compatibility tool.");
+                else
+                    tool_error = compatibility_tool_diagnostic;
+            }
+            if (compatibility_tool_row != null)
+                compatibility_tool_row.subtitle = tool_error ?? "";
 
-            clear_button.set_sensitive (launch_options_editor.is_dirty);
-            apply_button.set_sensitive (launch_options_changed || tool_changed);
+            clear_button.sensitive = launch_options_editor.can_clear;
+            apply_button.sensitive = tool_error == null && launch_options_editor.writing_allowed
+                && (tool_enabled || launch_options_editor.has_changes_to_write);
         }
 
         void clear_button_clicked () {
             launch_options_editor.clear ();
-            launch_options_apply_row.set_active (true);
-            refresh ();
         }
 
         void apply_button_clicked () {
             var selected_tool = compatibility_tool_row.get_selected_item () as Models.CompatibilityTool;
-            if (compatibility_tool_apply_row.active && selected_tool == null) {
-                var dialog = new Main.ErrorDialog (
-                    _("Compatibility tool cannot be applied"),
-                    _("No games were changed because no compatibility tool is selected."), ""
-                );
-                ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
+            if (!apply_button.sensitive)
                 return;
-            }
             if (compatibility_tool_apply_row.active) {
                 foreach (var item in items) {
                     var steam = item.game.launcher as Models.Launchers.Steam;
-                    if (steam != null && !((!) steam).can_assign_compatibility_tool (((!) selected_tool).internal_title)) {
-                        var dialog = new Main.ErrorDialog (
-                            _("Compatibility tool cannot be applied"),
-                            _("No games were changed because the selected compatibility tool is no longer available."), ""
-                        );
-                        ProtonPlus.Widgets.Window.present_dialog_for_controller (
-                            dialog, (Gtk.Window) this.get_root ()
-                        );
+                    if (steam != null && !steam.can_assign_compatibility_tool (((!) selected_tool).internal_title)) {
+                        compatibility_tool_diagnostic = _("This tool is no longer available. Choose a different tool.");
+                        refresh ();
                         return;
                     }
                 }
@@ -300,7 +286,7 @@ namespace ProtonPlus.Widgets.Games {
             var invalids = new List<string> ();
             var launch_writes = new Gee.HashMap<Models.Games.Steam, LaunchOptionsEditor.LaunchCommandWriteResult> ();
 
-            if (launch_options_apply_row.active && launch_options_editor.is_dirty) {
+            if (launch_options_editor.is_dirty && launch_options_editor.visible) {
                 refresh_capability_context ();
                 /* A batch selection is an intent.  Each Steam game keeps its
                  * own source command and is prepared before any persistent
@@ -384,6 +370,7 @@ namespace ProtonPlus.Widgets.Games {
         void refresh_capability_context () {
             if (items != null)
                 launch_options_editor.set_capability_context (resolve_launch_option_capabilities ());
+            refresh ();
         }
 
         LaunchOptionsEditor.LaunchCommandCapabilityContext resolve_launch_option_capabilities () {

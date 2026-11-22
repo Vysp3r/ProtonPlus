@@ -21,7 +21,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             modified_option_ids.clear ();
             explicit_clear = false;
             foreach (var source in sources)
-                baseline_selections.set (source.option_id, selection_fingerprint (source.get_selection ()));
+                baseline_selections.set (source.option_id, source_fingerprint (source));
         }
 
         public void update (Collection<ILaunchCommandSelectionSource> sources) {
@@ -29,7 +29,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             foreach (var source in sources) {
                 var original = baseline_selections.has_key (source.option_id)
                     ? baseline_selections.get (source.option_id) : "";
-                if (selection_fingerprint (source.get_selection ()) != original
+                if (source_fingerprint (source) != original
                     && !modified_option_ids.contains (source.option_id))
                     modified_option_ids.add (source.option_id);
             }
@@ -51,15 +51,19 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return modified_option_ids.contains (option_id);
         }
 
-        static string selection_fingerprint (LaunchCommandSelection? selection) {
+        static string source_fingerprint (ILaunchCommandSelectionSource source) {
+            var selection = source.get_selection ();
             if (selection == null)
-                return "";
-            return "%s\x1f%s\x1f%s\x1f%s".printf (
-                selection.option_id,
-                selection.wrapper_id,
-                string.joinv ("\x1f", selection.get_values ()),
-                string.joinv ("\x1f", selection.get_additional_wrapper_arguments ())
-            );
+                return source.get_diagnostic () != null ? "invalid:" + source.get_invalid_value () : "";
+            var values = selection.get_values ();
+            var fingerprint = new StringBuilder ();
+            fingerprint.append_printf ("%s\x1f%s\x1f", selection.option_id, selection.wrapper_id);
+            for (var index = 0; index < values.length; index++)
+                fingerprint.append_printf ("%d:%d:%s", selection.get_value_source_index (index),
+                    values[index].length, values[index]);
+            foreach (var argument in selection.get_additional_wrapper_arguments ())
+                fingerprint.append_printf ("%d:%s", argument.length, argument);
+            return fingerprint.str;
         }
     }
 }

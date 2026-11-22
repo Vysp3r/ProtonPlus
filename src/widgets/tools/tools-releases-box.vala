@@ -50,7 +50,12 @@ namespace ProtonPlus.Widgets.Tools {
         public Filter filter {
             get { return _filter; }
             set {
+                var changed_source = (_filter == Filter.INSTALLED) != (value == Filter.INSTALLED);
                 _filter = value;
+                if (changed_source && current_tool != null) {
+                    set_selected_tool.begin ((!) current_tool);
+                    return;
+                }
                 list_box.invalidate_filter ();
                 update_visibility ();
             }
@@ -288,8 +293,9 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void update_toolbar () {
-            variant_box.set_visible (current_tool != null);
-            actions_button.set_visible (current_tool != null);
+            var show_browser_actions = current_tool != null && filter != Filter.INSTALLED;
+            variant_box.set_visible (show_browser_actions);
+            actions_button.set_visible (show_browser_actions);
             if (current_tool != null)
                 actions_button.update_property (
                     Gtk.AccessibleProperty.LABEL,
@@ -338,15 +344,10 @@ namespace ProtonPlus.Widgets.Tools {
             uint request_generation = request_guard.select (tool);
             current_tool = tool;
             last_request_kind = InlineReleaseRequestKind.INITIAL;
-            refresh_button.sensitive = false;
-            set_request_in_progress (true);
             error_active = false;
             background_request_started_empty = false;
             error_banner.set_revealed (false);
-            apply_presentation (InlineReleasePresentation.evaluate (
-                last_request_kind, true, false, false
-            ));
-            announce_state (_("Loading releases"));
+            actions_popover.popdown ();
             reset_load_more_button ();
 
             disconnect_job_state_handlers ();
@@ -355,6 +356,20 @@ namespace ProtonPlus.Widgets.Tools {
             update_repository_button (tool);
             update_refresh_tooltip ();
             update_variant_row (tool);
+
+            if (filter == Filter.INSTALLED) {
+                load_more_row.visible = false;
+                set_request_in_progress (false);
+                refresh_installed_rows ();
+                return true;
+            }
+
+            refresh_button.sensitive = false;
+            set_request_in_progress (true);
+            apply_presentation (InlineReleasePresentation.evaluate (
+                last_request_kind, true, false, false
+            ));
+            announce_state (_("Loading releases"));
 
             var catalog = tool.release_catalog;
             if (catalog == null) {
@@ -491,6 +506,15 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void update_empty_status () {
+            if (filter == Filter.INSTALLED) {
+                status_page.set_title (_("No installed builds"));
+                status_page.set_description (_("Install a compatibility tool to see it here."));
+                status_page.set_icon_name ("package-x-generic-symbolic");
+                empty_action_button.set_label (_("Reset Filters"));
+                empty_action_button.set_visible (true);
+                return;
+            }
+
             var reason = InlineReleasePresentation.empty_reason (
                 filter, provider_has_compatible_variants
             );
@@ -817,7 +841,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         private async void set_selected_tool_forced (Models.Tool tool) {
-            if (request_in_progress)
+            if (request_in_progress || filter == Filter.INSTALLED)
                 return;
             uint request_generation = request_guard.select (tool);
             current_tool = tool;
@@ -898,6 +922,9 @@ namespace ProtonPlus.Widgets.Tools {
             variant_label.set_visible (false);
             variant_dropdown.set_visible (false);
             update_toolbar ();
+
+            if (filter == Filter.INSTALLED)
+                return;
 
             var provider_tool = tool as Models.Tools.ProviderTool;
             if (provider_tool == null)
@@ -1105,6 +1132,15 @@ namespace ProtonPlus.Widgets.Tools {
             if (left.tool.id != right.tool.id || left.mode != right.mode)
                 return false;
 
+            if (left.install_location != right.install_location &&
+                Services.InstallationService.operation_target (left.install_location) !=
+                Services.InstallationService.operation_target (right.install_location))
+                return false;
+            if (left.operation_id == right.operation_id)
+                return true;
+            if (left.selected_variant_id != right.selected_variant_id)
+                return false;
+
             if (left.release.upstream_release_id != "" && right.release.upstream_release_id != "")
                 return left.release.upstream_release_id == right.release.upstream_release_id;
 
@@ -1127,7 +1163,15 @@ namespace ProtonPlus.Widgets.Tools {
                 return;
             var job = new Services.InstallJob (release, current_tool, mode);
             var release_action_available = apply_selected_variant_to_job (job);
+            append_job_row (job, release_action_available);
+        }
 
+        private void append_job_row (
+            Services.InstallJob job,
+            bool release_action_available,
+            Models.InstalledToolEntry? installed_entry = null,
+            bool release_details_available = true
+        ) {
             var active_job = Utils.DownloadManager.instance.get_active_download (job);
             if (active_job != null)
                 job = active_job;
@@ -1145,11 +1189,11 @@ namespace ProtonPlus.Widgets.Tools {
 
             ReleaseRow row;
             if (job.steam_tinker_launch_context != null) {
-                row = new STLReleaseRow (job);
-                if (active_job == null)
+                row = new STLReleaseRow (job, release_action_available, installed_entry, release_details_available);
+                if (active_job == null && installed_entry == null)
                     Services.InstallationService.instance.refresh_steam_tinker_launch_release.begin (job);
             } else {
-                row = new ReleaseRow (job, release_action_available);
+                row = new ReleaseRow (job, release_action_available, installed_entry, release_details_available);
             }
             configure_release_row_up_targets (row);
             row.set_controller_down_target (controller_down_target);
@@ -1165,6 +1209,72 @@ namespace ProtonPlus.Widgets.Tools {
                 games_requested (selected_job);
             });
             list_box.append (row);
+        }
+
+        public void refresh_installed_rows () {
+            if (filter != Filter.INSTALLED || current_tool == null)
+                return;
+
+            var tool = (!) current_tool;
+            var root = get_root ();
+            var focused = root?.get_focus ();
+            var focused_path = "";
+            if (focused != null && focused.is_ancestor (list_box)) {
+                var row = focused as ReleaseRow ?? focused.get_ancestor (typeof (ReleaseRow)) as ReleaseRow;
+                var focused_job = row != null ? row.get_data<Services.InstallJob> ("job") : null;
+                focused_path = focused_job?.install_location ?? "";
+            }
+
+            disconnect_job_state_handlers ();
+            list_box.remove_all ();
+            var inventory = tool.group.installed_tool_inventory;
+            Gtk.Widget? replacement_focus = null;
+            foreach (var entry in inventory.get_installations_for_tool (tool)) {
+                add_installed_row (tool, entry, inventory);
+                var row = list_box.get_last_child ();
+                var job = row != null ? row.get_data<Services.InstallJob> ("job") : null;
+                if (job != null && job.install_location == focused_path)
+                    replacement_focus = row;
+            }
+            update_visibility ();
+            if (focused_path != "" && (replacement_focus == null || !replacement_focus.grab_focus ()))
+                focus_first_release_target ();
+        }
+
+        void add_installed_row (
+            Models.Tool tool, Models.InstalledToolEntry entry, Models.InstalledToolInventory inventory
+        ) {
+            var release = inventory.find_installed_release (tool, entry);
+            var provider = tool as Models.Tools.ProviderTool;
+            var mode = Services.InstallJob.Mode.VERSIONED;
+            if (tool is Models.Tools.SteamTinkerLaunch)
+                mode = Services.InstallJob.Mode.STEAM_TINKER_LAUNCH;
+            else if (tool is Models.Tools.TinkerGame)
+                mode = Services.InstallJob.Mode.TINKER_GAME;
+            else if (provider != null && inventory.is_latest_installation (entry, provider))
+                mode = Services.InstallJob.Mode.LATEST;
+
+            // A local release stand-in carries identity only. The workflow
+            // still resolves any real update data through the tool's catalog.
+            var job = new Services.InstallJob (release ?? new Models.Release (
+                entry.display_title, "", "", new Models.Assets.Asset ("", ""), "",
+                null, entry.release_id, entry.tag
+            ), tool, mode, entry.path);
+            var variant = provider != null ? inventory.find_installed_variant (provider, entry, release) : null;
+            if (variant != null)
+                job.set_selected_variant (variant.name, variant.resolved_asset (), variant.id);
+            else if (entry.variant_id != "")
+                job.set_selected_variant (entry.variant_id, null, entry.variant_id);
+
+            var can_check_for_update = false;
+            if (mode == Services.InstallJob.Mode.STEAM_TINKER_LAUNCH)
+                can_check_for_update = job.selected_asset.is_archive ();
+            else if (mode == Services.InstallJob.Mode.TINKER_GAME)
+                can_check_for_update = !Globals.IS_FLATPAK && !Globals.IS_STEAM_OS &&
+                    tool.group.launcher.installation_type == Models.Launcher.InstallationTypes.SYSTEM;
+            else if (mode == Services.InstallJob.Mode.LATEST && variant != null)
+                can_check_for_update = variant.is_compatible_with (Globals.CPU_CAPABILITIES);
+            append_job_row (job, can_check_for_update, entry, release != null);
         }
 
         private void disconnect_job_state_handlers () {
@@ -1286,15 +1396,15 @@ namespace ProtonPlus.Widgets.Tools {
             if (job == null)
                 return true;
 
+            if (filter == Filter.INSTALLED)
+                return true;
+
             var provider_tool = current_tool as Models.Tools.ProviderTool;
             if (provider_tool != null && !provider_has_compatible_variants)
                 return false;
 
             if (filter == Filter.ALL)
                 return true;
-
-            if (filter == Filter.INSTALLED)
-                return job.state == Services.InstallJob.State.UP_TO_DATE || job.state == Services.InstallJob.State.UPDATE_AVAILABLE;
 
             var usage_count = job.tool.group.launcher.get_compatibility_tool_usage_count (job.get_usage_identifier ());
 

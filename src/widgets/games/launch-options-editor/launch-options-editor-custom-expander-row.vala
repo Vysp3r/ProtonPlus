@@ -13,6 +13,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         Gee.HashSet<string> predefined_keys;
 
         private Adw.EntryRow add_custom_row;
+        private Gtk.Label custom_feedback_label;
+        private Gtk.ListBoxRow custom_feedback_row;
         private bool allow_custom;
 
         public bool is_advanced { get; set; default = false; }
@@ -39,19 +41,27 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             this.set_tooltip_text (switch_subtitle);
 
             add_custom_row = new Adw.EntryRow ();
-            add_custom_row.title = _("Add custom item (Type name and press Enter)...");
+            add_custom_row.title = _("Custom DLL name");
             Utils.TextInputMetadataPolicy.apply (
                 add_custom_row, Utils.TextInputFieldKind.PATH_OR_IDENTIFIER
             );
-            add_custom_row.set_tooltip_text (add_custom_row.title);
-            add_custom_row.activates_default = true;
+            add_custom_row.set_tooltip_text (_("Add the DLL to choose a different override mode."));
+            custom_feedback_label = LaunchOptionInputFeedback.create_label ();
+            custom_feedback_row = new Gtk.ListBoxRow () {
+                child = custom_feedback_label,
+                activatable = false,
+                selectable = false,
+                focusable = false,
+                visible = false
+            };
+            add_custom_row.changed.connect (refresh_custom_input);
 
             var add_button = new Gtk.Button.from_icon_name ("list-add-symbolic");
             add_button.add_css_class ("flat");
             add_button.valign = Gtk.Align.CENTER;
-            add_button.set_tooltip_text (add_custom_row.title);
+            add_button.set_tooltip_text (_("Add DLL"));
             add_button.update_property (
-                Gtk.AccessibleProperty.LABEL, _("Add custom item"), -1
+                Gtk.AccessibleProperty.LABEL, _("Add DLL"), -1
             );
             add_button.clicked.connect (on_custom_item_added);
             add_custom_row.add_suffix (add_button);
@@ -68,7 +78,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             add_custom_row.add_controller (key_controller);
 
             this.notify["enable-expansion"].connect (() => {
-                this.trigger_changed_if_ready ();
+                refresh_custom_input ();
             });
         }
 
@@ -81,7 +91,17 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             }
 
             if (allow_custom)
-                this.add_row (add_custom_row);
+                add_custom_row_to_end ();
+        }
+
+        void add_custom_row_to_end () {
+            add_row (add_custom_row);
+            add_row (custom_feedback_row);
+        }
+
+        void remove_custom_row () {
+            remove (custom_feedback_row);
+            remove (add_custom_row);
         }
 
         protected void create_item_row (string key_name, string initial_value) {
@@ -116,34 +136,53 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             row.visible = true;
         }
 
+        protected string get_pending_custom_key () {
+            return allow_custom && enable_expansion ? add_custom_row.text.strip ().down () : "";
+        }
+
+        protected string get_default_custom_value () {
+            return options_values.length > 1 ? options_values[1] : "";
+        }
+
+        public string? get_validation_diagnostic () {
+            var key = get_pending_custom_key ();
+            if (key == "")
+                return null;
+            if (rows_map.contains (key))
+                return _("This DLL is already listed. Change its override mode above.");
+            if (key.contains (";") || key.contains ("=") || key.contains ("%command%"))
+                return _("Enter a DLL name without a separator or %command%.");
+            return null;
+        }
+
+        void refresh_custom_input () {
+            var diagnostic = get_validation_diagnostic ();
+            LaunchOptionInputFeedback.update (add_custom_row, custom_feedback_label, diagnostic);
+            custom_feedback_row.visible = diagnostic != null;
+            trigger_changed_if_ready ();
+        }
+
         private void on_custom_item_added () {
-            if (!allow_custom)
+            var key = get_pending_custom_key ();
+            if (key == "" || get_validation_diagnostic () != null)
                 return;
-            string custom_key = add_custom_row.text.strip ().down ();
 
-            if (custom_key != "" && !rows_map.contains (custom_key)) {
-                string default_val = options_values.length > 1 ? options_values[1] : "";
-
-                this.remove (add_custom_row);
-                create_item_row (custom_key, default_val);
-                this.add_row (add_custom_row);
-
-                add_custom_row.text = "";
-                this.trigger_changed_if_ready ();
-            } else {
-                add_custom_row.text = "";
-            }
+            remove_custom_row ();
+            create_item_row (key, get_default_custom_value ());
+            add_custom_row_to_end ();
+            add_custom_row.set_text ("");
         }
 
         protected void force_add_custom_row (string key, string val) {
             if (allow_custom)
-                this.remove (add_custom_row);
+                remove_custom_row ();
             create_item_row (key, val);
             if (allow_custom)
-                this.add_row (add_custom_row);
+                add_custom_row_to_end ();
         }
 
         protected void clear_custom_items () {
+            add_custom_row.set_text ("");
             var custom_keys = new Gee.ArrayList<string> ();
             foreach (var key in row_order) {
                 if (!predefined_keys.contains (key))

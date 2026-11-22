@@ -6,6 +6,23 @@ class DownloadFixtureTool : Models.Tool {
     }
 }
 
+class FailedDownloadFixtureJob : Services.InstallJob {
+    public FailedDownloadFixtureJob (Models.Release release, Models.Tool tool, string location) {
+        base (release, tool, Services.InstallJob.Mode.VERSIONED, location);
+    }
+
+    public override async bool download_archive (string url, string path, out string? error_message) {
+        error_message = "Fixture transfer interrupted <details>";
+        return false;
+    }
+}
+
+class DownloadFixtureProcessQuery : Object, Services.CompatibilityProcessQueryBackend {
+    public async Services.CompatibilityProcessInspectionResult inspect_processes () {
+        return Services.CompatibilityProcessInspectionResult.clear ();
+    }
+}
+
 void settle () {
     var loop = new MainLoop ();
     Timeout.add (200, () => { loop.quit (); return Source.REMOVE; });
@@ -37,6 +54,17 @@ Gtk.Button? find_cancel (Gtk.Widget widget) {
         return (Gtk.Button) widget;
     for (var child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
         var found = find_cancel (child);
+        if (found != null)
+            return found;
+    }
+    return null;
+}
+
+Gtk.Button? find_button (Gtk.Widget widget, string label) {
+    if (widget is Gtk.Button && ((Gtk.Button) widget).label == label)
+        return (Gtk.Button) widget;
+    for (var child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
+        var found = find_button (child, label);
         if (found != null)
             return found;
     }
@@ -279,6 +307,59 @@ int main (string[] args) {
     settle ();
     assert (!indicator.visible && !button.popover.visible);
     job.progress_updated ();
+
+    Globals.CACHE_PATH = Path.build_filename (root, "cache");
+    Services.InstallationService.instance.configure_compatibility_process_guard (
+        new Services.CompatibilityProcessGuard (new DownloadFixtureProcessQuery ()));
+    var failed_job = new FailedDownloadFixtureJob (second_release, second_tool,
+        Path.build_filename (root, "failed-tool"));
+    var loop = new MainLoop ();
+    failed_job.install.begin ((obj, result) => {
+        assert (failed_job.install.end (result) == ReturnCode.DOWNLOAD_FAILED);
+        loop.quit ();
+    });
+    loop.run ();
+    assert (manager.active_downloads.is_empty && indicator.visible);
+    assert (button.tooltip_text == ngettext ("%u failed operation", "%u failed operations", 1).printf (1));
+    content.width_request = 300;
+    settle ();
+    button.popup ();
+    settle ();
+    assert (button.popover.visible);
+    if (content.get_width () > 300)
+        printerr ("Failed download popover allocated %dpx at the 300px test width\n", content.get_width ());
+    assert (content.get_width () <= 300);
+    check_complete_label (content, _("Recent Failures"));
+    var failure = manager.recent_failures.first ();
+    assert (find_label (content, failure.stage_label ()) != null);
+    var details_label = find_label (content, "Fixture transfer interrupted <details>");
+    assert (details_label != null && !details_label.use_markup);
+    var copy = find_button (content, _("Copy Details"));
+    var retry = find_button (content, _("Retry"));
+    assert (copy != null && retry != null);
+    assert (copy.grab_focus () && copy.is_focus ());
+    copy.clicked ();
+    copy.get_clipboard ().read_text_async.begin (null, (obj, result) => {
+        try {
+            assert (copy.get_clipboard ().read_text_async.end (result) == failure.copy_details ());
+        } catch (Error e) {
+            error ("%s", e.message);
+        }
+        loop.quit ();
+    });
+    loop.run ();
+    assert (retry.grab_focus () && retry.is_focus ());
+    var failure_handler = manager.download_failed.connect ((next) => {
+        assert (next != failure && next.message == failure.message);
+        Idle.add (() => { loop.quit (); return Source.REMOVE; });
+    });
+    retry.clicked ();
+    loop.run ();
+    manager.disconnect (failure_handler);
+    settle ();
+    assert (manager.active_downloads.is_empty && manager.recent_failures.size == 1);
+    assert (button.popover.visible && indicator.visible);
+
     window.destroy ();
     remove_fixture (root);
     print ("Stacked download titles, full-width progress, localized estimates, and row actions passed\n");
