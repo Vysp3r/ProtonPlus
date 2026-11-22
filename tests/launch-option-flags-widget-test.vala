@@ -219,6 +219,143 @@ void check_catalog_driven_controls () {
     assert (common != null && amd != null && wrapper_page != null);
 }
 
+delegate bool WidgetMatch (Gtk.Widget widget);
+
+Gtk.Widget? find_widget (Gtk.Widget widget, WidgetMatch match) {
+    if (match (widget))
+        return widget;
+    for (var child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
+        var found = find_widget (child, match);
+        if (found != null)
+            return found;
+    }
+    return null;
+}
+
+void check_launch_options_draft () {
+    var steam = new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM);
+    var first = new ProtonPlus.Models.Games.Steam.non_steam (100, "First <fixture>",
+        "FIRST='quoted one' %command% --first --first", "Default", steam);
+    var second = new ProtonPlus.Models.Games.Steam.non_steam (200, "Second fixture",
+        "SECOND=\"quoted two\" %command% --second", "Default", steam);
+    var model = new ListStore (typeof (ProtonPlus.Models.CompatibilityTool));
+    model.append (new ProtonPlus.Models.CompatibilityTool ("Default", "Default", "",
+        ProtonPlus.Models.CompatibilityToolRuntimeKind.PROTON));
+    var expression = new Gtk.PropertyExpression (typeof (ProtonPlus.Models.CompatibilityTool), null, "display-title");
+    var view = new ProtonPlus.Widgets.Games.MassEditView (new Gtk.MenuButton ());
+    view.load ({
+        new ProtonPlus.Widgets.Games.GameListItem (first),
+        new ProtonPlus.Widgets.Games.GameListItem (second)
+    }, model, expression);
+
+    var actions = view.header_presentation.end_actions[0];
+    var apply = (Gtk.Button) find_widget (actions, (widget) => widget is Gtk.Button
+        && ((Gtk.Button) widget).label == "Apply Changes");
+    var clear = (Gtk.Button) find_widget (actions, (widget) => widget is Gtk.Button
+        && widget.tooltip_text == "Clear Launch Options");
+    assert (apply != null && clear != null);
+    assert (!apply.sensitive && clear.sensitive);
+    var affected = (Adw.ExpanderRow) find_widget (view, (widget) => widget is Adw.ExpanderRow
+        && ((Adw.ExpanderRow) widget).title == "Affected games");
+    assert (affected != null);
+    assert (find_widget (affected, (widget) => widget is Adw.ActionRow
+        && ((Adw.ActionRow) widget).title == first.name) != null);
+    assert (find_widget (affected, (widget) => widget is Adw.ActionRow
+        && ((Adw.ActionRow) widget).title == second.name) != null);
+
+    var editor = (ProtonPlus.Widgets.Games.LaunchOptionsEditor.Box)
+        find_widget (view, (widget) => widget is ProtonPlus.Widgets.Games.LaunchOptionsEditor.Box);
+    assert (editor != null);
+    var latency = (Adw.ActionRow) find_widget (editor, (widget) => widget is Adw.ActionRow
+        && ((Adw.ActionRow) widget).title == "PulseAudio latency");
+    assert (latency != null);
+    var latency_switch = (Gtk.Switch) find_widget (latency, (widget) => widget is Gtk.Switch);
+    var latency_entry = (Gtk.Entry) find_widget (latency, (widget) => widget is Gtk.Entry);
+    assert (latency_entry != null && latency_switch != null);
+
+    latency_switch.active = true;
+    latency_entry.text = "123";
+    assert (apply.sensitive);
+    var first_write = editor.prepare_write_for_source (first.launch_options);
+    var second_write = editor.prepare_write_for_source (second.launch_options);
+    assert (first_write.launch_line == "FIRST='quoted one' PULSE_LATENCY_MSEC=123 %command% --first --first");
+    assert (second_write.launch_line == "SECOND=\"quoted two\" PULSE_LATENCY_MSEC=123 %command% --second");
+    assert (find_widget (editor, (widget) => widget is Gtk.Label
+        && ((Gtk.Label) widget).get_text ().contains (first_write.launch_line)
+        && ((Gtk.Label) widget).get_text ().contains (second_write.launch_line)) != null);
+
+    latency_entry.text = "invalid";
+    assert (latency_entry.has_css_class ("error"));
+    assert (latency.subtitle.contains ("30") && latency.subtitle.contains ("360"));
+    assert (!apply.sensitive && !editor.writing_allowed);
+    var tool_switch = (Adw.SwitchRow) find_widget (view, (widget) => widget is Adw.SwitchRow
+        && ((Adw.SwitchRow) widget).title == "Change compatibility tool");
+    var tool_row = (ProtonPlus.Widgets.Games.CompatibilityToolRow) find_widget (view,
+        (widget) => widget is ProtonPlus.Widgets.Games.CompatibilityToolRow);
+    assert (tool_switch != null && tool_row != null);
+    tool_switch.active = true;
+    tool_row.selected = 0;
+    assert (!apply.sensitive);
+    latency_switch.active = false;
+    assert (apply.sensitive);
+    tool_switch.active = false;
+    assert (!apply.sensitive);
+
+    clear.clicked ();
+    assert (apply.sensitive && editor.writing_allowed);
+    var cleared = editor.prepare_write_for_source (first.launch_options);
+    assert (cleared.requires_persistence && cleared.launch_line == "");
+    assert (first.launch_options == "FIRST='quoted one' %command% --first --first");
+    assert (second.launch_options == "SECOND=\"quoted two\" %command% --second");
+    latency_switch.active = true;
+    latency_entry.text = "101";
+    assert (editor.prepare_write_for_source (first.launch_options).launch_line == "PULSE_LATENCY_MSEC=101 %command%");
+}
+
+void check_typed_arguments_and_resolution () {
+    ProtonPlus.Globals.GAMESCOPE_INSTALLED = true;
+    var editor = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.Box ();
+    editor.set_capability_context (new LaunchCommandCapabilityContext ({ LaunchOptionCapability.GAMESCOPE }));
+    editor.set_text ("gamescope -W 1700 -H 1000 -- %command% --game");
+    var additional = (Adw.EntryRow) find_widget (editor, (widget) => widget is Adw.EntryRow
+        && ((Adw.EntryRow) widget).title == "Additional Gamescope arguments");
+    var width = (Gtk.Entry) find_widget (editor, (widget) => widget is Gtk.Entry && widget.tooltip_text == "Width");
+    assert (additional != null && width != null);
+
+    width.text = "1800";
+    additional.text = "--output 'space name'";
+    var write = editor.prepare_write ();
+    assert (editor.writing_allowed && write.requires_persistence);
+    assert (write.launch_line == "gamescope -W 1800 -H 1000 --output 'space name' -- %command% --game");
+    width.text = "3";
+    assert (width.has_css_class ("error") && !editor.writing_allowed);
+    width.text = "1800";
+    additional.text = "--output 'unclosed";
+    assert (additional.has_css_class ("error") && !editor.writing_allowed);
+    additional.text = "--output 'space name'";
+    assert (editor.writing_allowed);
+
+    editor.set_text ("");
+    assert (!editor.can_clear);
+    editor.set_preview_sources ({ "First", "Second" }, { "--first --first", "%command% '--second value'" });
+    assert (editor.can_clear);
+    var add_argument = (Gtk.Button) find_widget (editor, (widget) => widget is Gtk.Button
+        && widget.tooltip_text == "Add custom argument");
+    assert (add_argument != null);
+    add_argument.clicked ();
+    var argument = (Adw.EntryRow) find_widget (editor, (widget) => widget is Adw.EntryRow
+        && ((Adw.EntryRow) widget).title == "Argument");
+    assert (argument != null);
+    argument.text = "--new 'two words'";
+    assert (argument.has_css_class ("error") && !editor.writing_allowed);
+    argument.text = "--new='two words'";
+    assert (editor.writing_allowed && editor.has_changes_to_write);
+    assert (editor.prepare_write_for_source ("--first --first").launch_line == "--first --first --new='two words'");
+    assert (editor.prepare_write_for_source ("%command% '--second value'").launch_line
+        == "%command% '--second value' --new='two words'");
+    ProtonPlus.Globals.GAMESCOPE_INSTALLED = false;
+}
+
 int main (string[] args) {
     Environment.set_variable ("GSETTINGS_BACKEND", "memory", true);
     if (!Gtk.init_check ())
@@ -228,6 +365,8 @@ int main (string[] args) {
     check_game_column_alignment ();
     check_release_install_button ();
     check_catalog_driven_controls ();
+    check_launch_options_draft ();
+    check_typed_arguments_and_resolution ();
     string[] ids = { "vkd3d-config", "amd-radv-perftest", "amd-radv-debug", "amd-aco-debug" };
     LaunchOptionCustomPairs[] editors = {
         new LaunchOptionVKD3DConfig (), new LaunchOptionRadvPerftest (),
@@ -273,5 +412,14 @@ int main (string[] args) {
     assert (dlls.value.contains ("custom_mod=n"));
     dlls.value = "d3d11=b";
     assert (dlls.value == "d3d11=b");
+    var dll_name = (Adw.EntryRow) find_widget (dlls, (widget) => widget is Adw.EntryRow
+        && ((Adw.EntryRow) widget).title == "Custom DLL name");
+    assert (dll_name != null);
+    dll_name.text = "fixture_dll";
+    assert (dlls.value.contains ("fixture_dll="));
+    dll_name.text = "fixture;dll";
+    assert (dll_name.has_css_class ("error") && dlls.get_validation_diagnostic () != null);
+    dlls.clear ();
+    assert (dll_name.text == "" && dlls.get_validation_diagnostic () == null);
     return 0;
 }

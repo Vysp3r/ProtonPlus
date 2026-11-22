@@ -159,19 +159,6 @@ namespace ProtonPlus.Models.Providers {
                     variants = { new VariantDefinition ("standard", "default", "roberta.tar.xz", true) },
                     install_layouts = { InstallLayout.template ("default", "$title $release_name") },
                     legacy = true
-                }),
-                new ProviderDefinition (new ProviderConfig () {
-                    category = Category.PROTON,
-                    source_type = SourceType.GITHUB,
-                    provider_id = "proton-autogen",
-                    title = "Proton-Autogen",
-                    description = N_ ("Uses Proton-Autogen profiles to select a Proton build for native Steam. Requires a build for Steam Linux Runtime 4.0."),
-                    endpoint = "https://api.github.com/repos/N3oRay/proton-autogen/releases",
-                    repository_url = "https://github.com/N3oRay/proton-autogen",
-                    sort_priority = 11,
-                    variants = { new VariantDefinition ("standard", "default", "proton-autogen-$release_version-1-any.pkg.tar.zst", true) },
-                    install_layouts = { InstallLayout.template ("default", "$title $release_name") },
-                    archive_install_requirement = ArchiveInstallRequirement.STEAM_PROTON_AUTOGEN
                 })
             };
         }

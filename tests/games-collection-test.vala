@@ -116,6 +116,15 @@ namespace AppTests.GameCollectionTest {
         assert (collection.selected_count () == 1);
         collection.set_filter ("", GameFilterMode.ALL);
         assert (collection.selected_visible_count () == 1);
+
+        collection.set_filter ("no games match", GameFilterMode.ALL);
+        assert (collection.visible_count () == 0);
+        assert (collection.selected_visible_count () == 0);
+        assert (collection.selected_items ().length == 1);
+        collection.clear_selection ();
+        collection.set_filter ("", GameFilterMode.ALL);
+        assert (collection.selected_items ().length == 0);
+        assert (!alpha.selected && !bravo.selected);
     }
 
     private void test_model_replacement_drops_stale_selection () {

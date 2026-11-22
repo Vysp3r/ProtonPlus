@@ -27,9 +27,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             gamescope = new Wrappers.Gamescope (launch_option_handlers, presentation_registry);
             scopebuddy = new Wrappers.Scopebuddy (launch_option_handlers, presentation_registry);
 
-            none.changed.connect (() => { this.changed (); });
-            gamescope.changed.connect (() => { this.changed (); });
-            scopebuddy.changed.connect (() => { this.changed (); });
+            none.changed.connect (wrapper_control_changed);
+            gamescope.changed.connect (wrapper_control_changed);
+            scopebuddy.changed.connect (wrapper_control_changed);
 
             var gamescope_page = gamescope.create_page ();
             var scopebuddy_page = scopebuddy.create_page ();
@@ -86,6 +86,28 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             stack.set_visible_child_name ("none");
             refreshing_controls = false;
             selection_changed ();
+        }
+
+        void wrapper_control_changed () {
+            if (!refreshing_controls)
+                changed ();
+        }
+
+        public void load_raw_arguments (LaunchCommandParseResult parsed) {
+            foreach (var wrapper in parsed.wrappers) {
+                if (wrapper.wrapper_id != "gamescope" && wrapper.wrapper_id != "scopebuddy")
+                    continue;
+                var arguments = new StringBuilder ();
+                foreach (var index in wrapper.unknown_argument_indexes) {
+                    if (arguments.len > 0)
+                        arguments.append_c (' ');
+                    arguments.append (parsed.tokens[index].raw);
+                }
+                if (wrapper.wrapper_id == "gamescope")
+                    gamescope.set_raw_arguments (arguments.str);
+                else
+                    scopebuddy.set_raw_arguments (arguments.str);
+            }
         }
 
         void selection_changed () {

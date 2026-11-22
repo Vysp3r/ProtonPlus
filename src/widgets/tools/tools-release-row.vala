@@ -45,14 +45,18 @@ namespace ProtonPlus.Widgets.Tools {
         ReleaseRowJobSignalBinding job_signal_binding;
         uint progress_pulse_timeout_id = 0;
         bool release_action_available;
+        Models.InstalledToolEntry? installed_entry;
+        bool release_details_available;
         string? operation_error_message = null;
 
         public ReleaseRow (
             Services.InstallJob job,
-            bool release_action_available = true
+            bool release_action_available = true,
+            Models.InstalledToolEntry? installed_entry = null,
+            bool release_details_available = true
         ) {
             Object (
-                title: release_display_title (job),
+                title: Markup.escape_text (installed_entry?.display_title ?? release_display_title (job)),
                 subtitle: release_display_timestamp (job),
                 subtitle_lines: 1,
                 title_lines: 1,
@@ -60,9 +64,11 @@ namespace ProtonPlus.Widgets.Tools {
             );
             this.job = job;
             this.release_action_available = release_action_available;
+            this.installed_entry = installed_entry;
+            this.release_details_available = release_details_available;
             add_css_class ("tools-release-row");
 
-            activated.connect (request_release_details);
+            activated.connect (activate_row);
 
             create_primary_button ();
             create_progress_button ();
@@ -222,7 +228,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         Gee.LinkedList<Models.Variant> available_release_variants () {
             var provider = job.tool as Models.Tools.ProviderTool;
-            if (provider == null || !provider.definition.has_release_variant_sets)
+            if (installed_entry != null || provider == null || !provider.definition.has_release_variant_sets)
                 return new Gee.LinkedList<Models.Variant> ();
             return Models.VariantSelector.available_variants (job.release, Globals.CPU_CAPABILITIES);
         }
@@ -299,8 +305,15 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void request_release_details () {
-            if (!row_disposed)
+            if (!row_disposed && release_details_available)
                 changelog_requested (job);
+        }
+
+        void activate_row () {
+            if (release_details_available)
+                request_release_details ();
+            else if (actions_button.is_visible () && actions_button.is_sensitive ())
+                actions_button.popup ();
         }
 
         void games_action_activated (Variant? parameter) {
@@ -309,7 +322,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         void open_release_page_action_activated (Variant? parameter) {
             if (action_request_in_progress || row_disposed ||
-                job.release.page_url == null)
+                job.release.page_url == "")
                 return;
             Utils.System.open_uri (job.release.page_url);
         }
@@ -409,7 +422,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (action != null)
                 return ((!) action).activate ();
 
-            request_release_details ();
+            activate_row ();
             return true;
         }
 
@@ -642,7 +655,7 @@ namespace ProtonPlus.Widgets.Tools {
         public void release_row_job_release_changed () {
             if (row_disposed)
                 return;
-            set_title (release_display_title (job));
+            set_title (Markup.escape_text (installed_entry?.display_title ?? release_display_title (job)));
             retry_action = ReleaseRowRetryAction.NONE;
             operation_error_message = null;
             actions_button.update_property (
@@ -656,8 +669,22 @@ namespace ProtonPlus.Widgets.Tools {
         ReleaseRowPresentation current_presentation () {
             var has_directory = job.install_location != "" &&
                 FileUtils.test (job.install_location, FileTest.IS_DIR);
+            var state = job.state;
+            if (installed_entry != null && job.tool is Models.Tools.ProviderTool) {
+                // A provider's current layout is unnecessary for operations on
+                // the precise directory already resolved from local inventory.
+                Posix.Stat status;
+                has_directory = Posix.lstat (job.install_location, out status) == 0 &&
+                    Posix.S_ISDIR (status.st_mode);
+                if (!is_busy_state (state)) {
+                    if (!has_directory)
+                        state = Services.InstallJob.State.NOT_INSTALLED;
+                    else if (state == Services.InstallJob.State.NOT_INSTALLED)
+                        state = Services.InstallJob.State.UP_TO_DATE;
+                }
+            }
             return ReleaseRowPresentation.evaluate (
-                job.state,
+                state,
                 job.step,
                 supports_update_check (),
                 has_directory,
@@ -665,7 +692,8 @@ namespace ProtonPlus.Widgets.Tools {
                 job.mode != Services.InstallJob.Mode.VERSIONED,
                 usage_count () > 0,
                 release_action_available,
-                retry_action
+                retry_action,
+                installed_entry != null
             );
         }
 
@@ -772,7 +800,7 @@ namespace ProtonPlus.Widgets.Tools {
             changelog_action.set_enabled (!action_request_in_progress);
             games_action.set_enabled (!action_request_in_progress);
             open_release_page_action.set_enabled (
-                job.release.page_url != null && !action_request_in_progress
+                release_details_available && job.release.page_url != "" && !action_request_in_progress
             );
             update_action.set_enabled (
                 presentation.show_update_action && !action_request_in_progress
@@ -786,8 +814,9 @@ namespace ProtonPlus.Widgets.Tools {
 
             var menu = new Menu ();
             var details_section = new Menu ();
-            details_section.append (_("_Changelog"), "release.changelog");
-            if (job.release.page_url != null) {
+            if (release_details_available)
+                details_section.append (_("_Changelog"), "release.changelog");
+            if (release_details_available && job.release.page_url != "") {
                 details_section.append (
                     _("Open Release Page"), "release.open-release-page"
                 );
@@ -797,7 +826,8 @@ namespace ProtonPlus.Widgets.Tools {
                     _("_Games with this tool selected"), "release.games"
                 );
             }
-            menu.append_section (null, details_section);
+            if (details_section.get_n_items () > 0)
+                menu.append_section (null, details_section);
 
             var variants = available_release_variants ();
             if (variants.size > 1) {
@@ -818,7 +848,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (presentation.show_update_action) {
                 var label = retry_action == ReleaseRowRetryAction.UPDATE
                     ? _("Retry")
-                    : presentation.update_available
+                    : presentation.update_available && installed_entry == null
                         ? _("Update")
                         : _("_Check for Updates");
                 management_section.append (label, "release.update");
@@ -831,11 +861,10 @@ namespace ProtonPlus.Widgets.Tools {
                 menu.append_section (null, management_section);
             actions_popover.set_menu_model (menu);
 
-            actions_button.set_visible (presentation.show_menu);
-            actions_button.set_sensitive (
-                presentation.show_menu && !action_request_in_progress
-            );
-            if (!presentation.show_menu)
+            var show_menu = presentation.show_menu && (installed_entry == null || menu.get_n_items () > 0);
+            actions_button.set_visible (show_menu);
+            actions_button.set_sensitive (show_menu && !action_request_in_progress);
+            if (!show_menu)
                 actions_button.popdown ();
         }
 
@@ -862,21 +891,32 @@ namespace ProtonPlus.Widgets.Tools {
             var details = new Gee.ArrayList<string> ();
             var presentation = current_presentation ();
             var provider = job.tool as Models.Tools.ProviderTool;
-            if (provider != null && provider.definition.has_release_variant_sets && job.selected_variant_name != null)
+            if (job.selected_variant_name != null &&
+                (installed_entry != null || (provider != null && provider.definition.has_release_variant_sets)))
                 details.add (Utils.safe_translate ((!) job.selected_variant_name));
+            if (installed_entry != null && installed_entry.tag != "" && installed_entry.tag != installed_entry.display_title)
+                details.add (installed_entry.tag);
+            if (installed_entry != null && installed_entry.directory_name != installed_entry.display_title &&
+                installed_entry.directory_name != installed_entry.tag)
+                details.add (installed_entry.directory_name);
             if (retry_action != ReleaseRowRetryAction.NONE)
                 details.add (_("Failed"));
             if (operation_error_message != null)
                 details.add ((!) operation_error_message);
             switch (job.state) {
             case Services.InstallJob.State.NOT_INSTALLED:
+                if (presentation.installed)
+                    details.add (_("Installed"));
                 break;
             case Services.InstallJob.State.UPDATE_AVAILABLE:
-                details.add (_("Installed"));
-                details.add (_("Update available"));
+                if (presentation.installed)
+                    details.add (_("Installed"));
+                if (installed_entry == null)
+                    details.add (_("Update available"));
                 break;
             case Services.InstallJob.State.UP_TO_DATE:
-                details.add (_("Installed"));
+                if (presentation.installed)
+                    details.add (_("Installed"));
                 break;
             case Services.InstallJob.State.BUSY_INSTALLING:
                 details.add (_("Installing"));
@@ -912,8 +952,8 @@ namespace ProtonPlus.Widgets.Tools {
             update_property (
                 Gtk.AccessibleProperty.DESCRIPTION,
                 status != ""
-                    ? _("%s. Open Release Details").printf (status)
-                    : _("Open Release Details"),
+                    ? (release_details_available ? _("%s. Open Release Details") : _("%s. Open Tool Actions")).printf (status)
+                    : (release_details_available ? _("Open Release Details") : _("Tool Actions")),
                 -1
             );
         }
@@ -922,6 +962,8 @@ namespace ProtonPlus.Widgets.Tools {
             if (job.canceled)
                 return _("Cancelling");
             switch (job.step) {
+            case Services.InstallJob.Step.CHECKING_RELEASE:
+                return _("Checking for a release");
             case Services.InstallJob.Step.DOWNLOADING:
                 return job.download_status;
             case Services.InstallJob.Step.EXTRACTING:
@@ -930,6 +972,8 @@ namespace ProtonPlus.Widgets.Tools {
                 return _("Moving");
             case Services.InstallJob.Step.REMOVING:
                 return _("Removing");
+            case Services.InstallJob.Step.FINALIZING:
+                return _("Finalizing the update");
             default:
                 if (job.state == Services.InstallJob.State.BUSY_UPDATING)
                     return _("Preparing update");

@@ -6,26 +6,25 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public Gtk.DropDown dropdown { get; private set; }
         public Gtk.Entry width_entry { get; private set; }
         public Gtk.Entry height_entry { get; private set; }
-        public Gtk.Button apply_button { get; private set; }
         Gtk.Box custom_box;
-        public signal void value_applied ();
 
         Gee.LinkedList<LaunchOptionResolutionChoice> choices;
-        int committed_width;
-        int committed_height;
+        const int MIN_WIDTH = 320;
+        const int MAX_WIDTH = 7680;
+        const int MIN_HEIGHT = 240;
+        const int MAX_HEIGHT = 4320;
+        const int DEFAULT_WIDTH = 3840;
+        const int DEFAULT_HEIGHT = 2160;
 
         public bool is_advanced { get; set; default = false; }
         public LaunchLineType line_type { get; set; }
         private Gee.List<ILaunchOption> _children;
         private bool is_scopebuddy;
-        public new signal void changed ();
+        public signal void draft_changed ();
 
         public LaunchOptionResolutionField (string title, string subtitle, bool include_auto = false, bool is_scopebuddy = false) {
             this.is_scopebuddy = is_scopebuddy;
             this._children = new Gee.ArrayList<ILaunchOption> ();
-
-            committed_width = 3840;
-            committed_height = 2160;
 
             choices = new Gee.LinkedList<LaunchOptionResolutionChoice> ();
             choices.add (new LaunchOptionResolutionChoice ("3840 x 2160", 3840, 2160));
@@ -55,9 +54,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             Utils.TextInputMetadataPolicy.apply (width_entry, Utils.TextInputFieldKind.DIGITS);
             width_entry.set_width_chars (5);
             width_entry.set_max_width_chars (5);
-            width_entry.set_text (committed_width.to_string ());
-            width_entry.set_tooltip_text (subtitle);
-            width_entry.activate.connect (apply_pending_resolution);
+            width_entry.set_text (DEFAULT_WIDTH.to_string ());
+            width_entry.set_tooltip_text (_("Width"));
+            width_entry.update_property (Gtk.AccessibleProperty.LABEL, _("Width"), -1);
 
             var separator_label = new Gtk.Label ("x");
             separator_label.add_css_class ("dim-label");
@@ -66,20 +65,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             Utils.TextInputMetadataPolicy.apply (height_entry, Utils.TextInputFieldKind.DIGITS);
             height_entry.set_width_chars (5);
             height_entry.set_max_width_chars (5);
-            height_entry.set_text (committed_height.to_string ());
-            height_entry.set_tooltip_text (subtitle);
-            height_entry.activate.connect (apply_pending_resolution);
-
-            apply_button = new Gtk.Button.with_label (_("Set"));
-            apply_button.set_tooltip_text (subtitle);
-            apply_button.clicked.connect (apply_pending_resolution);
+            height_entry.set_text (DEFAULT_HEIGHT.to_string ());
+            height_entry.set_tooltip_text (_("Height"));
+            height_entry.update_property (Gtk.AccessibleProperty.LABEL, _("Height"), -1);
 
             custom_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
             custom_box.set_valign (Gtk.Align.CENTER);
             custom_box.append (width_entry);
             custom_box.append (separator_label);
             custom_box.append (height_entry);
-            custom_box.append (apply_button);
 
             this.title = title;
             this.subtitle = subtitle;
@@ -89,14 +83,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             add_suffix (toggle);
             activatable_widget = toggle;
 
-            toggle.notify["active"].connect (refresh_options_visibility);
-            dropdown.notify["selected"].connect (refresh_custom_visibility);
-            width_entry.changed.connect (refresh_custom_state);
-            height_entry.changed.connect (refresh_custom_state);
-
-            toggle.notify["active"].connect (() => { this.changed (); });
-            this.value_applied.connect (() => { this.changed (); });
-            dropdown.notify["selected"].connect (() => { this.changed (); });
+            toggle.notify["active"].connect (value_changed);
+            dropdown.notify["selected"].connect (value_changed);
+            width_entry.changed.connect (value_changed);
+            height_entry.changed.connect (value_changed);
 
             refresh_options_visibility ();
         }
@@ -163,10 +153,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 return;
             }
 
-            if (this.has_resolution ()) {
-                int width;
-                int height;
-                this.get_resolution (out width, out height);
+            int width, height;
+            if (try_get_resolution (out width, out height)) {
                 segments.add ("-W %d".printf (width));
                 segments.add ("-H %d".printf (height));
             }
@@ -181,10 +169,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public void reset () {
             toggle.set_active (false);
             dropdown.set_selected (0);
-            committed_width = 3840;
-            committed_height = 2160;
-            width_entry.set_text (committed_width.to_string ());
-            height_entry.set_text (committed_height.to_string ());
+            width_entry.set_text (DEFAULT_WIDTH.to_string ());
+            height_entry.set_text (DEFAULT_HEIGHT.to_string ());
             refresh_options_visibility ();
         }
 
@@ -213,10 +199,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 if (!choices[index].is_custom)
                     continue;
 
-                committed_width = width;
-                committed_height = height;
-                width_entry.set_text (committed_width.to_string ());
-                height_entry.set_text (committed_height.to_string ());
+                width_entry.set_text (width.to_string ());
+                height_entry.set_text (height.to_string ());
                 toggle.set_active (true);
                 dropdown.set_selected ((uint) index);
                 refresh_options_visibility ();
@@ -228,78 +212,64 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return toggle.get_active () && get_selected_choice ().is_auto;
         }
 
-        public bool has_resolution () {
-            if (!toggle.get_active ())
-                return false;
+        public bool try_get_resolution (out int width, out int height) {
+            var choice = get_selected_choice ();
+            if (!choice.is_custom) {
+                width = choice.width;
+                height = choice.height;
+                return is_active () && !choice.is_auto;
+            }
 
-            return get_selected_choice ().is_custom || get_selected_choice ().width > 0 || get_selected_choice ().height > 0;
+            var valid_width = try_get_dimension (width_entry, MIN_WIDTH, MAX_WIDTH, out width);
+            var valid_height = try_get_dimension (height_entry, MIN_HEIGHT, MAX_HEIGHT, out height);
+            return is_active () && valid_width && valid_height;
         }
 
-        public void get_resolution (out int width, out int height) {
-            var selected_choice = get_selected_choice ();
-            if (selected_choice.is_custom) {
-                width = committed_width;
-                height = committed_height;
-            } else {
-                width = selected_choice.width;
-                height = selected_choice.height;
-            }
+        public string? get_validation_diagnostic () {
+            if (!is_active () || !get_selected_choice ().is_custom)
+                return null;
+
+            int width, height;
+            var valid_width = try_get_dimension (width_entry, MIN_WIDTH, MAX_WIDTH, out width);
+            var valid_height = try_get_dimension (height_entry, MIN_HEIGHT, MAX_HEIGHT, out height);
+            if (!valid_width && !valid_height)
+                return _("Enter a width from %d to %d and a height from %d to %d.").printf (
+                    MIN_WIDTH, MAX_WIDTH, MIN_HEIGHT, MAX_HEIGHT);
+            if (!valid_width)
+                return _("Enter a whole number from %d to %d for width.").printf (MIN_WIDTH, MAX_WIDTH);
+            if (!valid_height)
+                return _("Enter a whole number from %d to %d for height.").printf (MIN_HEIGHT, MAX_HEIGHT);
+            return null;
         }
 
         LaunchOptionResolutionChoice get_selected_choice () {
             return choices[(int) dropdown.get_selected ()];
         }
 
+        static bool try_get_dimension (Gtk.Entry entry, int lower, int upper, out int dimension) {
+            return int.try_parse (entry.text.strip (), out dimension) && dimension >= lower && dimension <= upper;
+        }
+
+        void value_changed () {
+            refresh_options_visibility ();
+            draft_changed ();
+        }
+
         void refresh_options_visibility () {
-            var is_active = toggle.get_active ();
-            dropdown.set_visible (is_active);
-            dropdown.set_sensitive (is_active);
-            refresh_custom_visibility ();
+            var active = is_active ();
+            dropdown.visible = active;
+            var custom = active && get_selected_choice ().is_custom;
+            custom_box.visible = custom;
+            int width, height;
+            update_dimension_style (width_entry, custom && !try_get_dimension (width_entry, MIN_WIDTH, MAX_WIDTH, out width));
+            update_dimension_style (height_entry, custom && !try_get_dimension (height_entry, MIN_HEIGHT, MAX_HEIGHT, out height));
         }
 
-        void refresh_custom_visibility () {
-            custom_box.set_visible (toggle.get_active () && get_selected_choice ().is_custom);
-            refresh_custom_state ();
-        }
-
-        void apply_pending_resolution () {
-            int pending_width;
-            int pending_height;
-            if (!get_pending_resolution (out pending_width, out pending_height))
-                return;
-
-            committed_width = pending_width;
-            committed_height = pending_height;
-            width_entry.set_text (committed_width.to_string ());
-            height_entry.set_text (committed_height.to_string ());
-            refresh_custom_state ();
-            value_applied ();
-        }
-
-        bool get_pending_resolution (out int width, out int height) {
-            width = committed_width;
-            height = committed_height;
-
-            var width_text = width_entry.get_text ().strip ();
-            var height_text = height_entry.get_text ().strip ();
-            if (width_text == "" || height_text == "")
-                return false;
-
-            if (!int.try_parse (width_text, out width) || !int.try_parse (height_text, out height))
-                return false;
-
-            return width >= 320 && width <= 7680 && height >= 240 && height <= 4320;
-        }
-
-        void refresh_custom_state () {
-            var is_custom = toggle.get_active () && get_selected_choice ().is_custom;
-            width_entry.set_sensitive (is_custom);
-            height_entry.set_sensitive (is_custom);
-
-            int pending_width;
-            int pending_height;
-            var has_pending_resolution = get_pending_resolution (out pending_width, out pending_height);
-            apply_button.set_sensitive (is_custom && has_pending_resolution && (pending_width != committed_width || pending_height != committed_height));
+        static void update_dimension_style (Gtk.Entry entry, bool invalid) {
+            if (invalid)
+                entry.add_css_class ("error");
+            else
+                entry.remove_css_class ("error");
         }
 
         public bool is_active () {

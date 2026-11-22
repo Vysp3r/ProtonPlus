@@ -50,6 +50,7 @@ namespace ProtonPlus.Services {
                 );
             }
 
+            job.step = InstallJob.Step.MOVING;
             var parent = Path.get_dirname (context.base_location);
             if (!yield Utils.Filesystem.create_directory_async (parent))
                 return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
@@ -124,7 +125,6 @@ namespace ProtonPlus.Services {
                     return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
                 }
             }
-            job.step = InstallJob.Step.MOVING;
             if (!yield Utils.Filesystem.move_directory_atomic (staged, context.base_location)) {
                 yield rollback_transaction (
                     context, previous, external_backups, false, false, previous_registration_removed

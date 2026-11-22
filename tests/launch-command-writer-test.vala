@@ -15,6 +15,8 @@ namespace AppTests.LaunchCommandWriterTest {
         Test.add_func ("/launch-command-writer/composite-output-has-one-owner", test_composite_output_has_one_owner);
         Test.add_func ("/launch-command-writer/post-boundary-assignment-is-custom-argument", test_post_boundary_assignment_is_custom_argument);
         Test.add_func ("/launch-command-writer/prepare-source-is-per-game", test_prepare_source_is_per_game);
+        Test.add_func ("/launch-command-writer/bulk-additions-preserve-custom-source", test_bulk_additions_preserve_custom_source);
+        Test.add_func ("/launch-command-writer/wrapper-edit-retains-untouched-arguments", test_wrapper_edit_retains_untouched_arguments);
         Test.add_func ("/launch-command-writer/clear-remains-a-replacement-session", test_clear_remains_a_replacement_session);
         Test.add_func ("/launch-command-writer/edit-state-preserves-clear-intent", test_edit_state_preserves_clear_intent);
         Test.add_func ("/launch-command-writer/custom-arguments-replace-unrecognized-arguments", test_custom_arguments_replace_unrecognized_arguments);
@@ -283,6 +285,43 @@ namespace AppTests.LaunchCommandWriterTest {
         );
         assert (cleared_with_argument.writing_allowed);
         assert (cleared_with_argument.launch_line == "-console");
+    }
+
+    private void test_bulk_additions_preserve_custom_source () {
+        var writer = new LaunchCommandWriter ();
+        var capabilities = new LaunchCommandCapabilityContext ();
+        var new_argument = new LaunchCommandSelection ("custom-game-arguments", { "--new='verbatim value'" },
+            "", {}, true);
+        var source = "UNKNOWN='local value' custom-wrapper %command% --local --local";
+        var added = writer.prepare_source (source, { new_argument }, { "custom-game-arguments" }, {},
+            capabilities, false, false, true);
+        assert (added.writing_allowed);
+        assert (added.launch_line == source + " --new='verbatim value'");
+
+        var combined = writer.prepare_source (source,
+            { new_argument, new LaunchCommandSelection ("developer-console") },
+            { "custom-game-arguments", "developer-console" }, {}, capabilities, false, false, true);
+        assert (combined.writing_allowed);
+        assert (combined.launch_line == source + " -console --new='verbatim value'");
+    }
+
+    private void test_wrapper_edit_retains_untouched_arguments () {
+        var capabilities = new LaunchCommandCapabilityContext ({ LaunchOptionCapability.GAMESCOPE });
+        var writer = new LaunchCommandWriter ();
+        var source = "gamescope --label='custom & safe' -r 60 -f -- %command% --game";
+        var frame_limit = writer.prepare_source (source, {
+            new LaunchCommandSelection ("launch-backend", {}, "gamescope"),
+            new LaunchCommandSelection ("gamescope-frame-limit", { "90" })
+        }, { "launch-backend", "gamescope-frame-limit" }, {}, capabilities, false, false, true);
+        assert (frame_limit.writing_allowed);
+        assert (frame_limit.launch_line == "gamescope --label='custom & safe' -r 90 -f -- %command% --game");
+
+        var extra = writer.prepare_source (source, {
+            new LaunchCommandSelection ("launch-backend", {}, "gamescope"),
+            new LaunchCommandSelection ("gamescope-arguments", { "--label='new & safe'" })
+        }, { "gamescope-arguments" }, {}, capabilities);
+        assert (extra.writing_allowed);
+        assert (extra.launch_line == "gamescope --label='new & safe' -r 60 -f -- %command% --game");
     }
 
     private class MutableSelectionSource : Object, ILaunchCommandSelectionSource {

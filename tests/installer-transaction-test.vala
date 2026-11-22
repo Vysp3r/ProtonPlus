@@ -9,6 +9,7 @@ namespace AppTests.InstallerTransactionTest {
         private string fixture_path;
         private bool cancel_download;
         private bool fail_promotion;
+        public bool fail_download = false;
         public int download_calls { get; private set; default = 0; }
 
         public FixtureJob (
@@ -23,7 +24,7 @@ namespace AppTests.InstallerTransactionTest {
         ) {
             base (new Release (
                 "Fixture Runner", "", "", new Models.Assets.Asset (
-                    Path.get_basename (fixture_path), "https://fixtures.invalid/%s".printf (Path.get_basename (fixture_path)),
+                    "runner.zip", "https://fixtures.invalid/%s".printf (Path.get_basename (fixture_path)),
                     download_size, digest
                 ),
                 "", null, "fixture-release-id", "fixture-tag"
@@ -41,6 +42,10 @@ namespace AppTests.InstallerTransactionTest {
 
         public override async bool download_archive (string url, string path, out string? error_message) {
             download_calls++;
+            if (fail_download) {
+                error_message = "Fixture connection interrupted";
+                return false;
+            }
             if (cancel_download) {
                 ProtonPlus.Utils.Filesystem.create_file (path, "partial download");
                 canceled = true;
@@ -127,13 +132,13 @@ namespace AppTests.InstallerTransactionTest {
     public void register_tests () {
         Test.add_func ("/installer-transaction/stages-promotes-cleans-and-writes-metadata", test_stages_promotes_and_writes_metadata);
         Test.add_func ("/installer-transaction/canceled-download-cleans-private-workspace", test_canceled_download_cleans_workspace);
+        Test.add_func ("/installer-transaction/download-failure-retained-and-retried", test_download_failure_retained_and_retried);
         Test.add_func ("/installer-transaction/failed-promotion-restores-previous-installation", test_failed_promotion_restores_previous_installation);
         Test.add_func ("/installer-transaction/duplicate-is-rejected-before-workflow", test_duplicate_is_rejected_before_workflow);
         Test.add_func ("/installer-transaction/standard-removal-finalizes-common-lifecycle", test_standard_removal_finalizes_common_lifecycle);
         Test.add_func ("/installer-transaction/standard-finalization-uses-launcher-capabilities", test_standard_finalization_uses_launcher_capabilities);
         Test.add_func ("/installer-transaction/operation-identity-prevents-duplicates", test_operation_identity_prevents_duplicates);
         Test.add_func ("/installer-transaction/nested-archive-requirement-extracts-nested-archive", test_nested_archive_requirement_extracts_nested_archive);
-        Test.add_func ("/installer-transaction/proton-autogen/steam-registration", test_proton_autogen_steam_registration);
         Test.add_func ("/installer-transaction/invalid-download-is-not-cached", test_invalid_download_is_not_cached);
         Test.add_func ("/installer-transaction/extraction-failure-evicts-cached-archive", test_extraction_failure_evicts_cached_archive);
         Test.add_func ("/installer-transaction/integrity-metadata-rejects-corrupt-cache", test_integrity_metadata_rejects_corrupt_cache);
@@ -213,13 +218,7 @@ namespace AppTests.InstallerTransactionTest {
     }
     private Models.Tools.ProviderTool runner_for_definition (string root, ProviderDefinition definition) {
         assert (ProtonPlus.Utils.Filesystem.create_directory (root));
-        Launcher launcher;
-        if (definition.archive_install_requirement == ArchiveInstallRequirement.STEAM_PROTON_AUTOGEN) {
-            launcher = new Launchers.Steam (Launcher.InstallationTypes.SYSTEM);
-            launcher.directory = root;
-        } else {
-            launcher = new Launcher ("Test", Launcher.InstallationTypes.SYSTEM, "", { root });
-        }
+        var launcher = new Launcher ("Test", Launcher.InstallationTypes.SYSTEM, "", { root });
         var group = new Group ("Test", "", "", launcher);
         var value = ProviderCatalog.create_tool (definition, group);
         assert (value != null);
@@ -291,6 +290,46 @@ namespace AppTests.InstallerTransactionTest {
         string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
         var job = new FixtureJob (runner (tools), location, fixture_archive (root), true);
         assert (install (job) == ReturnCode.DOWNLOAD_FAILED); assert (job.canceled); assert (job.is_finished && !job.install_success); assert (job.state == ProtonPlus.Services.InstallJob.State.NOT_INSTALLED); assert (ProtonPlus.Utils.DownloadManager.instance.active_downloads.size == 0); assert (!FileUtils.test (location, FileTest.EXISTS)); no_entries (cache, ".protonplus-install-"); assert (delete_directory (root));
+        foreach (var failure in ProtonPlus.Utils.DownloadManager.instance.recent_failures)
+            assert (failure.release_title != job.displayed_title || failure.message != "Download canceled");
+    }
+
+    private bool retry_download (DownloadFailure failure) {
+        var loop = new MainLoop ();
+        var accepted = false;
+        var service = InstallationService.instance;
+        service.retry_download.begin (failure, (obj, result) => {
+            accepted = service.retry_download.end (result);
+            loop.quit ();
+        });
+        loop.run ();
+        return accepted;
+    }
+
+    private void test_download_failure_retained_and_retried () {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        var manager = ProtonPlus.Utils.DownloadManager.instance;
+        var job = new FixtureJob (runner (tools), location, fixture_archive (root));
+        job.fail_download = true;
+        assert (install (job) == ReturnCode.DOWNLOAD_FAILED);
+        assert (manager.active_downloads.is_empty);
+        var failure = manager.recent_failures.first ();
+        assert (failure.step == InstallJob.Step.DOWNLOADING);
+        assert (failure.code == ReturnCode.DOWNLOAD_FAILED && !failure.is_update && failure.retry_supported);
+        assert (failure.copy_details ().contains ("Fixture connection interrupted"));
+
+        job.fail_download = false;
+        assert (ProtonPlus.Utils.Filesystem.create_directory (location));
+        assert (!retry_download (failure));
+        assert (job.download_calls == 1);
+        assert (delete_directory (location));
+        assert (retry_download (failure));
+        assert (job.download_calls == 2 && job.is_finished && job.install_success);
+        assert (!manager.recent_failures.contains (failure));
+        assert (failure.message == "Fixture connection interrupted");
+        assert (FileUtils.test (Path.build_filename (location, "marker.txt"), FileTest.IS_REGULAR));
+        assert (delete_directory (root));
     }
     private void test_failed_promotion_restores_previous_installation () {
         string root, cache, tools, location; prepare (out root, out cache, out tools, out location);
@@ -691,6 +730,13 @@ namespace AppTests.InstallerTransactionTest {
         assert (manager.active_downloads.size == 1);
         assert (manager.is_downloading (same_target));
         assert (manager.get_active_download (same_target) == first);
+        var other_directory = new InstallJob (first.release, first.tool, first.mode,
+            Path.build_filename (root, "other-directory"));
+        assert (other_directory.operation_id == first.operation_id);
+        assert (!manager.is_downloading (other_directory));
+        manager.add_download (other_directory);
+        assert (manager.active_downloads.size == 2);
+        manager.remove_download (other_directory);
         manager.remove_download (first);
         assert (manager.active_downloads.size == 0);
 
@@ -842,39 +888,6 @@ namespace AppTests.InstallerTransactionTest {
         assert (delete_directory (root));
     }
 
-    private void test_proton_autogen_steam_registration () {
-        string root, cache, tools, ignored_location;
-        prepare (out root, out cache, out tools, out ignored_location);
-        var definition = new ProviderRegistry ().get_by_id ("proton-autogen");
-        var target = runner_for_definition (tools, definition);
-        var steam = (Launchers.Steam) target.group.launcher;
-        var location = Path.build_filename (steam.get_primary_managed_tool_directory (target.group), "Proton-Autogen Latest");
-        var good_archive = fixture_archive_named (root, "autogen.pkg.tar.zst.base64");
-        var job = new FixtureJob (target, location, good_archive, false, false, InstallJob.Mode.LATEST);
-
-        assert (install (job) == ReturnCode.RUNNER_INSTALLED);
-        assert (steam.can_assign_compatibility_tool ("Proton-Autogen Latest"));
-        assert (steam.find_compatibility_tool ("Proton-Autogen Latest").runtime_kind == CompatibilityToolRuntimeKind.PROTON);
-        assert (steam.resolve_effective_proton_executable ("Proton-Autogen Latest") == null);
-        assert (FileUtils.test (Path.build_filename (location, "proton-autogen-steam.py"), FileTest.IS_EXECUTABLE));
-        assert (FileUtils.test (Path.build_filename (location, "proton_autogen", "config.py"), FileTest.IS_REGULAR));
-        assert (ProtonPlus.Utils.Metadata.load (location).tag == "fixture-tag");
-        var tool_manifest = ProtonPlus.Utils.VDF.VdfParser.parse_document (
-            ProtonPlus.Utils.Filesystem.get_file_content (Path.build_filename (location, "toolmanifest.vdf"))
-        );
-        assert (tool_manifest != null);
-        assert (tool_manifest.root.get_child ("manifest").get_child ("require_tool_appid").value == "4183110");
-
-        var bad_job = new FixtureJob (target, location, fixture_archive (root), false, false, InstallJob.Mode.LATEST);
-        assert (install (bad_job, true) == ReturnCode.INVALID_DATA);
-        assert (steam.can_assign_compatibility_tool ("Proton-Autogen Latest"));
-        assert (remove (job) == ReturnCode.RUNNER_REMOVED);
-        assert (!steam.can_assign_compatibility_tool ("Proton-Autogen Latest"));
-        assert (!FileUtils.test (location, FileTest.EXISTS));
-        InstallationService.reset_lifecycle_configuration_for_tests ();
-        assert (delete_directory (root));
-    }
-
     private void test_all_built_in_providers_use_latest_workflow () {
         var root = temporary_directory ();
         var cache = Path.build_filename (root, "cache");
@@ -884,7 +897,6 @@ namespace AppTests.InstallerTransactionTest {
         assert (ProtonPlus.Utils.Filesystem.create_directory (tools));
         var wrapped_archive = fixture_archive_named (root, "wrapped-manifest-runner.zip.base64");
         var nested_archive = fixture_archive_named (root, "nested-wrapped-manifest-runner.zip.base64");
-        var autogen_archive = fixture_archive_named (root, "autogen.pkg.tar.zst.base64");
 
         foreach (var definition in new ProviderRegistry ().get_all ()) {
             var target_root = Path.build_filename (tools, definition.provider_id);
@@ -892,8 +904,6 @@ namespace AppTests.InstallerTransactionTest {
             var location = Path.build_filename (target_root, "Latest installation");
             var archive = definition.archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE
                 ? nested_archive : wrapped_archive;
-            if (definition.archive_install_requirement == ArchiveInstallRequirement.STEAM_PROTON_AUTOGEN)
-                archive = autogen_archive;
             var job = new FixtureJob (
                 target, location, archive, false, false,
                 ProtonPlus.Services.InstallJob.Mode.LATEST

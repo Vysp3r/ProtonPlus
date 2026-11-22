@@ -42,6 +42,7 @@ namespace AppTests.InstalledToolInventoryTest {
         Test.add_func ("/installed-tool-inventory/queries-are-cached-and-invalidation-refreshes", test_cached_queries_and_refresh);
         Test.add_func ("/installed-tool-inventory/groups-are-isolated", test_group_isolation);
         Test.add_func ("/installed-tool-inventory/ignores-symlinked-directories", test_ignores_symlinked_directories);
+        Test.add_func ("/installed-tool-inventory/offline-installations-preserve-identity", test_offline_installations);
     }
 
     private string temporary_directory () {
@@ -149,6 +150,46 @@ namespace AppTests.InstalledToolInventoryTest {
         assert (!alpha.is_installed ());
         assert (!beta.is_installed ());
 
+        assert (delete_directory (root));
+    }
+
+    private void test_offline_installations () {
+        var root = temporary_directory ();
+        var launcher = new InventoryLauncher (root);
+        var value = group (launcher);
+        var tool = add_tool (value, definition ("offline", "Offline Runner"));
+        var versioned_path = Path.build_filename (root, "Retired release");
+        var latest_path = Path.build_filename (root, "Old Provider Title Latest-Arm_64");
+        var other_target_path = Path.build_filename (root, "Offline Runner");
+        foreach (var path in new string[] { versioned_path, latest_path, other_target_path })
+            assert (ProtonPlus.Utils.Filesystem.create_directory (path));
+        save_metadata (versioned_path, tool.provider_id, tool.id, launcher.tool_target_id,
+            "v1", "retired-variant", "old-upstream-release");
+        save_metadata (latest_path, tool.provider_id, tool.id, launcher.tool_target_id,
+            "v1", "arm", "old-upstream-release");
+        var latest_metadata = ProtonPlus.Utils.Metadata.load (latest_path);
+        latest_metadata.install_mode = "latest";
+        assert (latest_metadata.save (latest_path));
+        save_metadata (other_target_path, tool.provider_id, tool.id, "other-target");
+        value.refresh_installed_state ();
+
+        var inventory = value.installed_tool_inventory;
+        var installations = inventory.get_installations_for_tool (tool);
+        assert (installations.size == 2);
+        var latest = installations[0];
+        var versioned = installations[1];
+        assert (latest.path == latest_path && versioned.path == versioned_path);
+        assert (inventory.is_latest_installation (latest, tool));
+        assert (inventory.find_installed_variant (tool, latest, null).id == "arm");
+        assert (versioned.variant_id == "retired-variant");
+        assert (inventory.find_installed_variant (tool, versioned, null) == null);
+        assert (inventory.find_installed_release (tool, versioned) == null);
+        tool.release_catalog.releases.add (release ("v1", "v1"));
+        assert (inventory.find_installed_release (tool, versioned) == null);
+        var matching = new Release ("v1", "", "", new Assets.Asset ("", ""), "",
+            null, "old-upstream-release", "v1");
+        tool.release_catalog.releases.add (matching);
+        assert (inventory.find_installed_release (tool, versioned) == matching);
         assert (delete_directory (root));
     }
 

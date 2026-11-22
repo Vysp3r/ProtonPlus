@@ -12,8 +12,15 @@ namespace ProtonPlus.Models {
         public string default_compatibility_tool { get; set; }
         public HashTable<uint, string> launch_options_hashtable;
         public List<Games.Steam> non_steam_games;
+        internal SteamGameLibraryIssue? load_issue { get; private set; }
 
         public SteamProfile (Launchers.Steam launcher, string username, string steam_id, string userdata_path) {
+            this.for_discovery (launcher, username, steam_id, userdata_path);
+            read_shortcuts (true);
+        }
+
+        private SteamProfile.for_discovery (Launchers.Steam launcher, string username,
+            string steam_id, string userdata_path) {
             this.launcher = launcher;
             this.steam_id = steam_id;
             this.username = username;
@@ -26,23 +33,47 @@ namespace ProtonPlus.Models {
             this.localconfig_path = "%s/config/localconfig.vdf".printf (userdata_path);
 
             this.image_path = "%s/config/avatarcache/%s.png".printf (launcher.directory, steam_id);
+        }
 
+        private void read_shortcuts (bool report_error = false) {
+            var path = Path.build_filename (userdata_path, "config", "shortcuts.vdf");
             try {
-                var shortcuts_file_path = "%s/config/shortcuts.vdf".printf (userdata_path);
-
-                shortcuts = FileUtils.test (shortcuts_file_path, FileTest.IS_REGULAR)
-                    ? Utils.VDF.Shortcuts.load (shortcuts_file_path)
-                    : Utils.VDF.Shortcuts.empty (shortcuts_file_path);
-            } catch (Error e) {
-                warning (e.message);
+                var file_type = File.new_for_path (path).query_info (
+                    FileAttribute.STANDARD_TYPE, FileQueryInfoFlags.NONE
+                ).get_file_type ();
+                if (file_type != FileType.REGULAR)
+                    throw new IOError.NOT_REGULAR_FILE ("Expected a regular file");
+                shortcuts = Utils.VDF.Shortcuts.load (path);
+            } catch (Error error) {
+                if (error is IOError.NOT_FOUND) {
+                    shortcuts = Utils.VDF.Shortcuts.empty (path);
+                } else {
+                    if (report_error)
+                        warning (error.message);
+                    var problem = error.domain == GLib.Quark.from_string ("vala-vdf")
+                        ? SteamGameLibraryProblem.INVALID : SteamGameLibraryProblem.UNREADABLE;
+                    load_issue = new SteamGameLibraryIssue (problem, "shortcuts.vdf");
+                }
             }
         }
 
+        private async void load_shortcuts () {
+            SourceFunc callback = load_shortcuts.callback;
+            new Thread<void> ("steam-shortcuts", () => {
+                read_shortcuts ();
+                Idle.add ((owned) callback, Priority.DEFAULT);
+            });
+            yield;
+        }
+
         public async bool load_extra_data () {
+            load_issue = null;
             var launch_options_loaded = yield load_launch_options ();
             if (!launch_options_loaded)
             return false;
 
+            if (shortcuts == null)
+                yield load_shortcuts ();
             var non_steam_games_loaded = yield load_non_steam_games ();
             if (!non_steam_games_loaded)
             return false;
@@ -60,18 +91,23 @@ namespace ProtonPlus.Models {
         async bool load_launch_options () {
             this.launch_options_hashtable = new HashTable<uint, string> (null, null);
 
-            var content = Utils.Filesystem.get_file_content (localconfig_path);
-            var document = Utils.VDF.VdfParser.parse_document (content);
-            if (document == null)
+            SteamGameLibraryIssue? issue;
+            var config_store = yield SteamGameLibraryIssue.read_section (
+                localconfig_path, "localconfig.vdf", "UserLocalConfigStore", out issue
+            );
+            if (config_store == null) {
+                load_issue = issue;
                 return false;
+            }
 
-            var config_store = document.root.get_child ("UserLocalConfigStore");
-            var software = config_store != null ? config_store.get_child ("Software") : null;
+            var software = config_store.get_child ("Software");
             var valve = software != null ? software.get_child ("Valve") : null;
             var steam = valve != null ? valve.get_child ("Steam") : null;
             var apps = steam != null ? steam.get_child ("apps") : null;
-            if (apps == null)
+            if (apps == null || apps.value != null) {
+                load_issue = new SteamGameLibraryIssue (SteamGameLibraryProblem.INVALID, "localconfig.vdf");
                 return false;
+            }
 
             foreach (var app in apps.children) {
                 uint appid;
@@ -175,23 +211,18 @@ namespace ProtonPlus.Models {
             return account_id.to_string ();
         }
 
-        public static List<SteamProfile> get_profiles (Launchers.Steam launcher) {
+        internal static async List<SteamProfile> get_profiles (Launchers.Steam launcher,
+            out SteamGameLibraryIssue? issue) {
             var profiles = new List<SteamProfile> ();
 
-            var path = "%s/config/loginusers.vdf".printf (launcher.directory);
-            var content = Utils.Filesystem.get_file_content (path);
-            if (content.length == 0)
-                return profiles;
-
-            var document = Utils.VDF.VdfParser.parse_document (content);
-            if (document == null)
-                return profiles;
-
-            var users = document.root.get_child ("users");
+            var users = yield SteamGameLibraryIssue.read_section (
+                Path.build_filename (launcher.directory, "config", "loginusers.vdf"),
+                "loginusers.vdf", "users", out issue
+            );
             if (users == null)
                 return profiles;
 
-            var userdata_hashtable = get_userdata_hashtable (launcher);
+            var userdata_hashtable = yield get_userdata_hashtable (launcher, out issue);
 
             foreach (var user in users.children) {
                 var persona_name = user.get_child ("PersonaName");
@@ -202,7 +233,7 @@ namespace ProtonPlus.Models {
                 if (userdata_path == null)
                     continue;
 
-                var profile = new SteamProfile (launcher, persona_name.value, user.key, userdata_path);
+                var profile = new SteamProfile.for_discovery (launcher, persona_name.value, user.key, userdata_path);
 
                 profiles.append (profile);
             }
@@ -210,31 +241,37 @@ namespace ProtonPlus.Models {
             return profiles;
         }
 
-        static HashTable<string, string> get_userdata_hashtable (Launchers.Steam launcher) {
+        static async HashTable<string, string> get_userdata_hashtable (Launchers.Steam launcher,
+            out SteamGameLibraryIssue? issue) {
             var userdata_hashtable = new HashTable<string, string> (str_hash, str_equal);
+            var userdata_path = Path.build_filename (launcher.directory, "userdata");
+            FileEnumerator? directory = null;
+            issue = null;
 
             try {
-                var userdata_path = "%s/userdata".printf (launcher.directory);
-                if (FileUtils.test (userdata_path, FileTest.IS_DIR)) {
-                    Dir directory = Dir.open (userdata_path);
-                    string? dir;
-                    while ((dir = directory.read_name ()) != null) {
-                        if (dir != "." && dir != "..") {
-                            int64 account_id;
-                            if (!int64.try_parse (dir, out account_id)
-                                || account_id < 0
-                                || account_id > int64.MAX - steamid64ident)
-                                continue;
+                directory = yield File.new_for_path (userdata_path).enumerate_children_async (
+                    "standard::name,standard::type", FileQueryInfoFlags.NONE
+                );
+                List<FileInfo> entries;
+                while ((entries = yield directory.next_files_async (32)) != null) {
+                    foreach (var entry in entries) {
+                        int64 account_id = 0;
+                        var name = entry.get_name ();
+                        if (entry.get_file_type () != FileType.DIRECTORY
+                            || !int64.try_parse (name, out account_id)
+                            || account_id < 0 || account_id > int64.MAX - steamid64ident)
+                            continue;
 
-                            File file = File.new_for_path (userdata_path + "/" + dir);
-                            if (file.query_file_type (FileQueryInfoFlags.NONE) == FileType.DIRECTORY) {
-                                userdata_hashtable.set ((account_id + steamid64ident).to_string (), file.get_path ());
-                            }
-                        }
+                        userdata_hashtable.set ((account_id + steamid64ident).to_string (),
+                            Path.build_filename (userdata_path, name));
                     }
                 }
-            } catch (Error e) {
-                warning (e.message);
+            } catch (Error error) {
+                issue = new SteamGameLibraryIssue (SteamGameLibraryIssue.read_problem (error), "userdata");
+            } finally {
+                if (directory != null) {
+                    try { yield directory.close_async (); } catch (Error error) {}
+                }
             }
 
             return userdata_hashtable;

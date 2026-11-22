@@ -215,18 +215,6 @@ The local command installs the GNOME 51 SDK and runtime, the Vala SDK extension,
 
 Downloads and updates appear in the header indicator. ProtonPlus also sends desktop notifications when an operation finishes while the application is not active.
 
-### Proton-Autogen
-
-For native Steam, install **Proton-Autogen** from **Tools > Proton** and choose
-it for a game in **Games** or in Steam after restarting Steam. Use the **Latest**
-installation to receive updates. Install a Proton build that uses Steam Linux
-Runtime 4.0, such as Proton 11 or GE-Proton 11.
-The adapter uses any custom Proton search paths and saved per-game Proton
-choice from `~/.config/proton-autogen`. Configuration is optional. If the
-preferred build is unavailable, the adapter picks a compatible build and
-reports its choice in the launch output. Steam supplies the game's prefix,
-app ID, working directory, and launch arguments.
-
 ### Controller input
 
 ProtonPlus supports gamepad navigation through SDL 3. Use the D-pad or left
