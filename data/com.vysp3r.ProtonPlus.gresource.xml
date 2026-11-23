@@ -7,6 +7,7 @@
         <file alias="fork.svg">images/fork.svg</file>
         <file alias="hgl.svg">images/hgl.svg</file>
         <file alias="lutris.svg">images/lutris.svg</file>
+        <file alias="proton-autogen.svg">images/proton-autogen.svg</file>
         <file alias="rocket.svg">images/rocket.svg</file>
         <file alias="steam.svg">images/steam.svg</file>
         <file alias="winezgui.svg">images/winezgui.svg</file>

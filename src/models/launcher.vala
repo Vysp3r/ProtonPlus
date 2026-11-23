@@ -121,14 +121,14 @@ namespace ProtonPlus.Models {
             return null;
         }
 
-        public static async bool get_all (out Gee.LinkedList<Launcher> launchers) {
-            var _launchers = new Gee.LinkedList<Launcher> ();
-            var definitions = new ProviderRegistry ();
+        internal static Launcher[] detect_candidates () {
+            var native_steam = new Launchers.Steam (InstallationTypes.SYSTEM);
 
-            Launcher[] candidates = {
-                new Launchers.Steam (InstallationTypes.SYSTEM),
+            return {
+                native_steam,
                 new Launchers.Steam (InstallationTypes.FLATPAK),
                 new Launchers.Steam (InstallationTypes.SNAP),
+                new Launchers.ProtonAutogen (native_steam),
                 new Launchers.FaugusLauncher (InstallationTypes.SYSTEM),
                 new Launchers.FaugusLauncher (InstallationTypes.FLATPAK),
                 new Launchers.Lutris (InstallationTypes.SYSTEM),
@@ -140,8 +140,13 @@ namespace ProtonPlus.Models {
                 new Launchers.WineZGUI (InstallationTypes.SYSTEM),
                 new Launchers.WineZGUI (InstallationTypes.FLATPAK)
             };
+        }
 
-            foreach (var launcher in candidates) {
+        public static async bool get_all (out Gee.LinkedList<Launcher> launchers) {
+            var _launchers = new Gee.LinkedList<Launcher> ();
+            var definitions = new ProviderRegistry ();
+
+            foreach (var launcher in detect_candidates ()) {
                 if (launcher.installed) {
                     _launchers.add (launcher);
                 }
@@ -224,7 +229,7 @@ namespace ProtonPlus.Models {
         }
 
         private static Category[]? get_categories_for_launcher (Launcher launcher) {
-            if (launcher is Launchers.Steam || launcher is Launchers.FaugusLauncher)
+            if (launcher is Launchers.Steam || launcher is Launchers.FaugusLauncher || launcher is Launchers.ProtonAutogen)
                 return { Category.PROTON };
 
             if (launcher is Launchers.Lutris)
@@ -288,7 +293,8 @@ namespace ProtonPlus.Models {
         }
 
         private static string? get_group_directory (Launcher launcher, Category category) {
-            if ((launcher is Launchers.Steam || launcher is Launchers.FaugusLauncher) && category == Category.PROTON)
+            if ((launcher is Launchers.Steam || launcher is Launchers.FaugusLauncher || launcher is Launchers.ProtonAutogen)
+                && category == Category.PROTON)
                 return "/compatibilitytools.d";
 
             if (launcher is Launchers.Lutris) {
@@ -362,6 +368,14 @@ namespace ProtonPlus.Models {
 
         public virtual bool supports_provider_definition (ProviderDefinition definition) {
             return true;
+        }
+
+        public virtual string get_default_game_tool_title () {
+            return _ ("Default");
+        }
+
+        public virtual async bool refresh_game_compatibility_tools () {
+            return false;
         }
 
         public virtual int get_compatibility_tool_usage_count (string compatibility_tool_name) {

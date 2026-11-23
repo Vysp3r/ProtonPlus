@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-21 18:29-0500\n"
+"POT-Creation-Date: 2026-11-23 17:38-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -358,130 +358,135 @@ msgstr ""
 msgid "%ds"
 msgstr ""
 
-#: src/globals.vala:31 src/widgets/preferences/preferences-theme-row.vala:15
+#: src/globals.vala:32 src/widgets/preferences/preferences-theme-row.vala:15
 msgid "System"
 msgstr ""
 
-#: src/globals.vala:32
+#: src/globals.vala:33
 msgid "Arabic"
 msgstr ""
 
-#: src/globals.vala:33
+#: src/globals.vala:34
 msgid "Belarusian"
 msgstr ""
 
-#: src/globals.vala:34
+#: src/globals.vala:35
 msgid "Bosnian"
 msgstr ""
 
-#: src/globals.vala:35
+#: src/globals.vala:36
 msgid "Czech"
 msgstr ""
 
-#: src/globals.vala:36
+#: src/globals.vala:37
 msgid "German"
 msgstr ""
 
-#: src/globals.vala:37
+#: src/globals.vala:38
 msgid "English"
 msgstr ""
 
-#: src/globals.vala:38
+#: src/globals.vala:39
 msgid "Greek"
 msgstr ""
 
-#: src/globals.vala:39
+#: src/globals.vala:40
 msgid "Spanish"
 msgstr ""
 
-#: src/globals.vala:40
+#: src/globals.vala:41
 msgid "Finnish"
 msgstr ""
 
-#: src/globals.vala:41
+#: src/globals.vala:42
 msgid "French"
 msgstr ""
 
-#: src/globals.vala:42
+#: src/globals.vala:43
 msgid "Croatian"
 msgstr ""
 
-#: src/globals.vala:43
+#: src/globals.vala:44
 msgid "Indonesian"
 msgstr ""
 
-#: src/globals.vala:44
+#: src/globals.vala:45
 msgid "Italian"
 msgstr ""
 
-#: src/globals.vala:45
+#: src/globals.vala:46
 msgid "Japanese"
 msgstr ""
 
-#: src/globals.vala:46
+#: src/globals.vala:47
 msgid "Georgian"
 msgstr ""
 
-#: src/globals.vala:47
+#: src/globals.vala:48
 msgid "Dutch"
 msgstr ""
 
-#: src/globals.vala:48
+#: src/globals.vala:49
 msgid "Polish"
 msgstr ""
 
-#: src/globals.vala:49
+#: src/globals.vala:50
 msgid "Portuguese (Portugal)"
 msgstr ""
 
-#: src/globals.vala:50
+#: src/globals.vala:51
 msgid "Russian"
 msgstr ""
 
-#: src/globals.vala:51
+#: src/globals.vala:52
 msgid "Serbian (Latin)"
 msgstr ""
 
-#: src/globals.vala:52
+#: src/globals.vala:53
 msgid "Slovak"
 msgstr ""
 
-#: src/globals.vala:53
+#: src/globals.vala:54
 msgid "Swedish"
 msgstr ""
 
-#: src/globals.vala:54
+#: src/globals.vala:55
 msgid "Ukrainian"
 msgstr ""
 
-#: src/globals.vala:55
+#: src/globals.vala:56
 msgid "Vietnamese"
 msgstr ""
 
-#: src/globals.vala:56
+#: src/globals.vala:57
 msgid "Chinese"
 msgstr ""
 
-#: src/globals.vala:57
+#: src/globals.vala:58
 msgid "Chinese (Traditional)"
 msgstr ""
 
-#: src/models/launcher.vala:278
+#: src/models/launcher.vala:283
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr ""
 
-#: src/models/launcher.vala:280
+#: src/models/launcher.vala:285
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
 
-#: src/models/launcher.vala:282
+#: src/models/launcher.vala:287
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
 
-#: src/models/launcher.vala:284
+#: src/models/launcher.vala:289
 msgid "Compatibility tools for running Windows software on Linux."
+msgstr ""
+
+#: src/models/launcher.vala:374 src/models/providers/definitions/dxvk.vala:50
+#: src/widgets/tools/tools-migrate-box.vala:98
+msgid "Default"
 msgstr ""
 
 #: src/models/launchers/faugus-launcher.vala:83
@@ -492,6 +497,16 @@ msgstr ""
 
 #: src/models/launchers/faugus-launcher.vala:85
 msgid "Grant ProtonPlus access, restart it, and try the installation again:"
+msgstr ""
+
+#: src/models/launchers/proton-autogen.vala:68
+msgid "Automatic"
+msgstr ""
+
+#: src/models/launchers/proton-autogen.vala:115
+#: src/models/launchers/steam.vala:477
+#, c-format
+msgid "%s (Unavailable)"
 msgstr ""
 
 #: src/models/launchers/steam.vala:207
@@ -519,11 +534,6 @@ msgstr ""
 msgid "SteamOS"
 msgstr ""
 
-#: src/models/launchers/steam.vala:477
-#, c-format
-msgid "%s (Unavailable)"
-msgstr ""
-
 #: src/models/providers/definitions/dxvk.vala:22
 msgid "DXVK builds with gplasync patch by Ph42oN."
 msgstr ""
@@ -532,13 +542,6 @@ msgstr ""
 msgid ""
 "DXVK build targeting Vulkan 1.1/1.2 hardware, with backported fixes and "
 "support for older GPUs."
-msgstr ""
-
-#: src/models/providers/definitions/dxvk.vala:50
-#: src/widgets/games/games-box.vala:498
-#: src/widgets/games/games-collection.vala:78
-#: src/widgets/tools/tools-migrate-box.vala:98
-msgid "Default"
 msgstr ""
 
 #. The historical default slot contains Async.
@@ -1033,7 +1036,7 @@ msgid "Search"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-box.vala:338 src/widgets/tools/tools-box.vala:125
+#: src/widgets/games/games-box.vala:336 src/widgets/tools/tools-box.vala:125
 #: src/widgets/tools/tools-box.vala:127 src/widgets/tools/tools-box.vala:270
 msgid "Filter"
 msgstr ""
@@ -1104,7 +1107,7 @@ msgstr ""
 msgid "Top face button"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:71 src/widgets/games/games-box.vala:568
+#: src/widgets/games/games-box.vala:71 src/widgets/games/games-box.vala:589
 msgid "No games found"
 msgstr ""
 
@@ -1112,12 +1115,12 @@ msgstr ""
 msgid "Try a different search term or filter."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:156 src/widgets/games/games-box.vala:159
+#: src/widgets/games/games-box.vala:152 src/widgets/games/games-box.vala:155
 #: src/widgets/main/main-box.vala:72
 msgid "Games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:183
+#: src/widgets/games/games-box.vala:179
 #: src/widgets/header/header-downloads-indicator.vala:283
 #: src/widgets/header/header-downloads-indicator.vala:328
 #: src/widgets/tools/tools-release-row.vala:774
@@ -1127,124 +1130,128 @@ msgstr ""
 msgid "Retry"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:192
+#: src/widgets/games/games-box.vala:190
 msgid "Copy Diagnostics"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:200
+#: src/widgets/games/games-box.vala:198
 msgid "Diagnostics copied"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:221
+#: src/widgets/games/games-box.vala:219
 msgid "Clear Selection"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:305 src/widgets/tools/tools-box.vala:130
+#: src/widgets/games/games-box.vala:303 src/widgets/tools/tools-box.vala:130
 msgid "All"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:308
+#: src/widgets/games/games-box.vala:306
 #: src/widgets/games/games-collection.vala:72
-#: src/widgets/games/games-mass-edit-view.vala:145
+#: src/widgets/games/games-mass-edit-view.vala:149
 msgid "Native"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:310
+#: src/widgets/games/games-box.vala:308
 msgid "Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:343
+#: src/widgets/games/games-box.vala:341
 msgid "Filter Games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:353
+#: src/widgets/games/games-box.vala:351
 msgid "Search games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:367 src/widgets/games/games-box.vala:371
+#: src/widgets/games/games-box.vala:365 src/widgets/games/games-box.vala:369
 msgid "Select all visible games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:445
+#: src/widgets/games/games-box.vala:443
+msgid "Games couldn’t be loaded"
+msgstr ""
+
+#: src/widgets/games/games-box.vala:453
 msgid "Unsupported launcher"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:447
+#: src/widgets/games/games-box.vala:455
 #, c-format
 msgid "%s is currently not supported."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:448
+#: src/widgets/games/games-box.vala:456
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:458
+#: src/widgets/games/games-box.vala:475
 #: src/widgets/preferences/preferences-dialog.vala:136
 #, c-format
 msgid "Steam (%s)"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:466
+#: src/widgets/games/games-box.vala:483
 msgid "Loading Steam games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:466
+#: src/widgets/games/games-box.vala:483
 msgid "Steam games couldn’t be loaded"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:539
+#: src/widgets/games/games-box.vala:559
 msgid "Filter: Native"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:541
+#: src/widgets/games/games-box.vala:561
 msgid "Filter: Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:543
+#: src/widgets/games/games-box.vala:563
 msgid "Filter: All games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:552
+#: src/widgets/games/games-box.vala:573
 msgid "No matching games"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:554
+#: src/widgets/games/games-box.vala:575
 msgid "Try a different search term or clear the search."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:557
+#: src/widgets/games/games-box.vala:578
 msgid "Clear Search"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:560
+#: src/widgets/games/games-box.vala:581
 msgid "No games match this filter"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:562
+#: src/widgets/games/games-box.vala:583
 msgid "Choose All games to see your complete library."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:565
+#: src/widgets/games/games-box.vala:586
 #: src/widgets/tools/tools-group-box.vala:328
 #: src/widgets/tools/tools-releases-box.vala:513
 #: src/widgets/tools/tools-releases-box.vala:527
 msgid "Reset Filters"
 msgstr ""
 
-#: src/widgets/games/games-box.vala:570
+#: src/widgets/games/games-box.vala:591
 msgid "No games are available for this launcher."
 msgstr ""
 
-#: src/widgets/games/games-box.vala:595
-#: src/widgets/games/games-mass-edit-view.vala:27
+#: src/widgets/games/games-box.vala:615
+#: src/widgets/games/games-mass-edit-view.vala:28
 #, c-format
 msgid "%u game selected"
 msgid_plural "%u games selected"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/games/games-box.vala:598
+#: src/widgets/games/games-box.vala:618
 #, c-format
 msgid "%s · %u hidden by search or filters"
 msgstr ""
@@ -1347,19 +1354,19 @@ msgstr ""
 msgid "The custom executable for %s could not be launched."
 msgstr ""
 
-#: src/widgets/games/games-list-view.vala:90
+#: src/widgets/games/games-list-view.vala:120
 msgid "Game"
 msgstr ""
 
-#: src/widgets/games/games-list-view.vala:97
+#: src/widgets/games/games-list-view.vala:127
 msgid "Prefix"
 msgstr ""
 
-#: src/widgets/games/games-list-view.vala:104
+#: src/widgets/games/games-list-view.vala:134
 msgid "Tool"
 msgstr ""
 
-#: src/widgets/games/games-list-view.vala:111
+#: src/widgets/games/games-list-view.vala:141
 #: src/widgets/introduction/controller.vala:49
 msgid "Actions"
 msgstr ""
@@ -1382,63 +1389,63 @@ msgid_plural "Modify %d selected games all at once"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/games/games-mass-edit-view.vala:37
-#: src/widgets/games/games-mass-edit-view.vala:40
+#: src/widgets/games/games-mass-edit-view.vala:38
+#: src/widgets/games/games-mass-edit-view.vala:41
 msgid "Clear Launch Options"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:45
+#: src/widgets/games/games-mass-edit-view.vala:46
 msgid "Apply Changes"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:53
+#: src/widgets/games/games-mass-edit-view.vala:55
 msgid "Change compatibility tool"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:233
+#: src/widgets/games/games-mass-edit-view.vala:239
 msgid "Affected games"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:254
+#: src/widgets/games/games-mass-edit-view.vala:260
 msgid "Choose a compatibility tool."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:256
+#: src/widgets/games/games-mass-edit-view.vala:262
 msgid "Choose an available compatibility tool."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:280
+#: src/widgets/games/games-mass-edit-view.vala:303
 msgid "This tool is no longer available. Choose a different tool."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:307
+#: src/widgets/games/games-mass-edit-view.vala:330
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:308
+#: src/widgets/games/games-mass-edit-view.vala:331
 msgid "Launch options cannot be applied"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:309
+#: src/widgets/games/games-mass-edit-view.vala:332
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:360
+#: src/widgets/games/games-mass-edit-view.vala:385
 msgid "Batch Update Failed"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:361
+#: src/widgets/games/games-mass-edit-view.vala:386
 msgid ""
-"Some games could not be updated with the new compatibility tool or launch "
-"options. This may be due to missing permissions or file access issues."
+"Some games could not be updated. Their tool or configuration may have "
+"changed or become unavailable."
 msgstr ""
 
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
 #: src/widgets/games/games-row.vala:70 src/widgets/games/games-row.vala:482
-#: src/widgets/games/games-row.vala:486 src/widgets/games/games-row.vala:560
+#: src/widgets/games/games-row.vala:486 src/widgets/games/games-row.vala:561
 msgid "Select game"
 msgstr ""
 
@@ -1453,12 +1460,12 @@ msgstr ""
 msgid "Select %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:114 src/widgets/games/games-row.vala:599
+#: src/widgets/games/games-row.vala:114 src/widgets/games/games-row.vala:600
 #, c-format
 msgid "Toggle selection for %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:159 src/widgets/games/games-row.vala:600
+#: src/widgets/games/games-row.vala:159 src/widgets/games/games-row.vala:601
 #, c-format
 msgid "Modify %s"
 msgstr ""
@@ -1707,7 +1714,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1250
-#: src/widgets/preferences/preferences-dialog.vala:444
+#: src/widgets/preferences/preferences-dialog.vala:447
 msgid "Gamescope"
 msgstr ""
 
@@ -1718,7 +1725,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1254
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
-#: src/widgets/preferences/preferences-dialog.vala:447
+#: src/widgets/preferences/preferences-dialog.vala:450
 msgid "ScopeBuddy"
 msgstr ""
 
@@ -4541,31 +4548,35 @@ msgid "Dependencies"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:432
-msgid "Protontricks"
+msgid "Proton-Autogen command"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:435
-msgid "Protontricks (Flatpak)"
+msgid "Protontricks"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:438
-msgid "MangoHud"
+msgid "Protontricks (Flatpak)"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:441
+msgid "MangoHud"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:444
 msgid "MangoHud (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:450
+#: src/widgets/preferences/preferences-dialog.vala:453
 msgid "Feral Gamemode"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:454
+#: src/widgets/preferences/preferences-dialog.vala:457
 msgid "Detected Launchers"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:485
-#: src/widgets/preferences/preferences-dialog.vala:488
+#: src/widgets/preferences/preferences-dialog.vala:472
+#: src/widgets/preferences/preferences-dialog.vala:475
 #: src/widgets/tools/tools-box.vala:133
 #: src/widgets/tools/tools-group-box.vala:668
 #: src/widgets/tools/tools-release-row.vala:909
@@ -4574,8 +4585,8 @@ msgstr ""
 msgid "Installed"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:485
-#: src/widgets/preferences/preferences-dialog.vala:489
+#: src/widgets/preferences/preferences-dialog.vala:472
+#: src/widgets/preferences/preferences-dialog.vala:476
 msgid "Not installed"
 msgstr ""
 

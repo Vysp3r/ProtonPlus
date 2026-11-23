@@ -8,6 +8,7 @@ src/models/assets/asset.vala
 src/models/compatibility-tool.vala
 src/models/cpu-capabilities.vala
 src/models/game.vala
+src/models/games/proton-autogen.vala
 src/models/games/steam.vala
 src/models/group.vala
 src/models/installed-tool-inventory.vala
@@ -16,6 +17,7 @@ src/models/launchers/bottles.vala
 src/models/launchers/faugus-launcher.vala
 src/models/launchers/heroic-games-launcher.vala
 src/models/launchers/lutris.vala
+src/models/launchers/proton-autogen.vala
 src/models/launchers/steam.vala
 src/models/launchers/winezgui.vala
 src/models/providers/built-in-provider-definitions.vala
@@ -103,6 +105,7 @@ src/utils/installed-components.vala
 src/utils/metadata.vala
 src/utils/parser.vala
 src/utils/partial-download-cache.vala
+src/utils/proton-autogen-config.vala
 src/utils/system.vala
 src/utils/theme-manager.vala
 src/utils/vdf/binary.vala

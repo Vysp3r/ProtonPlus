@@ -537,6 +537,7 @@ namespace ProtonPlus.Widgets.Games {
             title_label.set_label (item.game.name);
             title_label.set_tooltip_text (item.game.name);
             prefix_label.set_label (item.game.prefix.to_string ());
+            prefix_label.set_visible (item.game is Models.Games.Steam);
             prefix_label.set_tooltip_text (null);
             refresh_tool_title ();
             actions.bind (item);

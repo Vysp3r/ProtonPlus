@@ -73,6 +73,7 @@ ProtonPlus runs on Linux. It is distributed as a Flatpak and can also be built a
 | Launcher | Supported installation types | Tool categories |
 | --- | --- | --- |
 | Steam | System, Flatpak, Snap | Proton, including Steam Tinker Launch |
+| Proton-Autogen | System profiles | Proton in the native Steam compatibility-tool directory |
 | Faugus Launcher | System, Flatpak | Selected Proton tools |
 | Lutris | System, Flatpak | Proton, Wine, DXVK, VKD3D |
 | Heroic Games Launcher | System, Flatpak | Proton, Wine |
@@ -214,6 +215,15 @@ The local command installs the GNOME 51 SDK and runtime, the Vala SDK extension,
 6. For Steam, use **Games** to select a profile, change compatibility tools, edit launch options, or perform a mass edit.
 
 Downloads and updates appear in the header indicator. ProtonPlus also sends desktop notifications when an operation finishes while the application is not active.
+
+### Proton-Autogen
+
+Select **Proton-Autogen** in the launcher menu. **Tools** manages supported
+Proton builds in the native Steam compatibility-tool directory. **Games** shows
+the executables registered in Proton-Autogen. Choose **Automatic** to let
+Proton-Autogen pick a build, or select an installed build for one or more games.
+Launch the games from Proton-Autogen. See the [profile format and supported
+locations](docs/integrations/proton-autogen.md).
 
 ### Controller input
 

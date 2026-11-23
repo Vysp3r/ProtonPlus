@@ -17,5 +17,9 @@ namespace ProtonPlus.Models {
         }
 
         public abstract bool change_compatibility_tool (string compat_tool);
+
+        public virtual async bool change_compatibility_tool_async (string compat_tool, Cancellable? cancellable = null) {
+            return change_compatibility_tool (compat_tool);
+        }
     }
 }

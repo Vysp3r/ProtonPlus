@@ -9,6 +9,7 @@ sources += files(
     'metadata.vala',
     'system.vala',
     'installed-components.vala',
+    'proton-autogen-config.vala',
     'i18n.vala',
     'controller-control-policy.vala',
     'controller-hint-policy.vala',

@@ -215,6 +215,23 @@ void check_selection_footer_layout (Gtk.Widget page, Gtk.Widget summary,
         assert (summary_bounds.origin.y + summary_bounds.size.height > clear_bounds.origin.y);
 }
 
+void check_empty_wide_list (Gtk.Widget page, string status_title, string[] headings) {
+    var table = find_widget (page, (widget) => widget is Gtk.ColumnView && widget.get_mapped ()) as Gtk.ColumnView;
+    assert (table != null && table.get_model ().get_n_items () == 0);
+    var status = find_widget (page, (widget) => widget is Adw.StatusPage && widget.get_mapped () &&
+        ((Adw.StatusPage) widget).title == status_title);
+    assert (status != null);
+    foreach (var heading in headings) {
+        var label = find_widget (table, (widget) => widget is Gtk.Label && widget.get_mapped () &&
+            ((Gtk.Label) widget).label == heading);
+        assert (label != null && label.get_width () > 0 && label.get_height () > 0);
+    }
+    Graphene.Rect table_bounds, status_bounds;
+    assert (table.compute_bounds (page, out table_bounds));
+    assert (status.compute_bounds (page, out status_bounds));
+    assert (table_bounds.origin.y + table_bounds.size.height <= status_bounds.origin.y);
+}
+
 void check_selection_scope_and_scoped_retry (string root) {
     var config = Path.build_filename (root, "config");
     var profile = Path.build_filename (root, "userdata", "1", "config");
@@ -299,6 +316,7 @@ void check_selection_scope_and_scoped_retry (string root) {
         ((Gtk.Label) widget).label == "2 games selected · 2 hidden by search or filters");
     assert (summary != null && page.get_controller_initial_focus () == modify);
     check_selection_footer_layout (page, summary, clear, modify, true);
+    assert (find_widget (page, (widget) => widget is Gtk.ColumnView && widget.get_mapped ()) == null);
 
     assert (modify.grab_focus ());
     var clear_search = find_widget (page, (widget) => widget is Gtk.Button && widget.get_mapped () &&
@@ -313,9 +331,20 @@ void check_selection_scope_and_scoped_retry (string root) {
     settle ();
     assert (page.get_width () >= 600);
     check_selection_footer_layout (page, summary, clear, modify, false);
+    check_empty_wide_list (page, "No matching games", { "Game", "Prefix", "Tool" });
+
+    var controller = find_widget (page, (widget) => widget.has_css_class ("games-sort-header-focus-proxy"));
+    assert (controller is Utils.ControllerDirectionalFocus);
+    var directional = (Utils.ControllerDirectionalFocus) controller;
+    assert (directional.controller_focus_direction (search, Utils.ControllerNavigationDirection.DOWN));
+    assert (window.get_focus () == controller);
+    assert (directional.controller_focus_direction (controller, Utils.ControllerNavigationDirection.DOWN));
+    assert (window.get_focus () == clear_search);
 
     clear.clicked ();
     assert (!clear.get_mapped () && !modify.get_mapped ());
+    settle ();
+    check_empty_wide_list (page, "No matching games", { "Game", "Prefix", "Tool", "Actions" });
     search.set_text ("");
     settle ();
     assert (!select_all.active && !modify.get_mapped ());
@@ -340,6 +369,99 @@ void check_selection_scope_and_scoped_retry (string root) {
     assert (DirUtils.remove (config) == 0);
 }
 
+void load_autogen_library (Models.Launchers.ProtonAutogen launcher) {
+    var loaded = new MainLoop ();
+    launcher.load_profile_library.begin ((source, result) => {
+        assert (launcher.load_profile_library.end (result));
+        loaded.quit ();
+    });
+    loaded.run ();
+}
+
+void check_proton_autogen_game_edit (string root) throws Error {
+    var profiles = Path.build_filename (root, ".config", "proton-autogen", "games");
+    var proton = Path.build_filename (root, "compatibilitytools.d", "GE-Proton Latest", "proton");
+    assert (DirUtils.create_with_parents (profiles, 0700) == 0);
+    assert (DirUtils.create_with_parents (Path.get_dirname (proton), 0700) == 0);
+    FileUtils.set_contents (proton, "fixture");
+    assert (Posix.chmod (proton, 0700) == 0);
+    string[] paths = {};
+    foreach (var name in new string[] { "Alpha", "Bravo" }) {
+        var path = Path.build_filename (profiles, name + ".json");
+        paths += path;
+        FileUtils.set_contents (path, "{\"name\":\"%s\",\"path\":\"%s/%s.exe\",\"proton\":\"\",\"future\":[1,2]}"
+            .printf (name, root, name));
+    }
+
+    var steam = new Models.Launchers.Steam (Models.Launcher.InstallationTypes.SYSTEM);
+    steam.directory = root;
+    var launcher = new Models.Launchers.ProtonAutogen (steam, root, false);
+    load_autogen_library (launcher);
+
+    var page = new ProtonPlus.Widgets.Games.Box ();
+    var viewport = new Adw.Clamp () {
+        maximum_size = 850, tightening_threshold = 850, width_request = 850, child = page
+    };
+    var scrolled = new Gtk.ScrolledWindow () {
+        hscrollbar_policy = Gtk.PolicyType.EXTERNAL, vscrollbar_policy = Gtk.PolicyType.NEVER, child = viewport
+    };
+    var window = new Adw.Window () { default_width = 850, default_height = 650, content = scrolled };
+    page.set_selected_launcher (launcher);
+    window.present ();
+    settle ();
+    var wide = find_widget (page, (widget) => widget is Gtk.ColumnView) as Gtk.ColumnView;
+    assert (wide != null);
+    assert (!((Gtk.ColumnViewColumn) wide.get_columns ().get_item (2)).visible);
+
+    var select_all = find_widget (page, (widget) => widget is Gtk.CheckButton &&
+        widget.get_tooltip_text () == "Select all visible games") as Gtk.CheckButton;
+    assert (select_all != null);
+    select_all.active = true;
+    var modify = find_widget (page, (widget) => widget is MassEditButton) as MassEditButton;
+    assert (modify != null && modify.get_mapped ());
+    modify.clicked ();
+    settle ();
+
+    var change_tool = find_widget (page, (widget) => widget is Adw.SwitchRow &&
+        ((Adw.SwitchRow) widget).title == "Change compatibility tool") as Adw.SwitchRow;
+    assert (change_tool != null && change_tool.get_mapped ());
+    change_tool.active = true;
+    var choice = find_widget (page, (widget) => widget is CompatibilityToolRow) as CompatibilityToolRow;
+    assert (choice != null && choice.get_mapped ());
+    assert (choice.model.get_n_items () == 2);
+    assert (((Models.CompatibilityTool) choice.model.get_item (0)).display_title == "Automatic");
+    choice.selected = 1;
+    var presentation = page.get_header_presentation ();
+    assert (presentation != null);
+    var apply = find_widget (presentation.end_actions[0], (widget) => widget is Gtk.Button &&
+        ((Gtk.Button) widget).label == "Apply Changes") as Gtk.Button;
+    assert (apply != null && apply.sensitive);
+    apply.clicked ();
+    settle ();
+    assert (page.get_header_presentation () == null);
+    foreach (var path in paths) {
+        string updated;
+        FileUtils.get_contents (path, out updated);
+        assert (updated.contains ("\"proton\":\"GE-Proton Latest\",\"future\":[1,2]"));
+        assert (FileUtils.remove (path) == 0);
+    }
+
+    var empty_launcher = new Models.Launchers.ProtonAutogen (steam, root, false);
+    load_autogen_library (empty_launcher);
+    page.set_selected_launcher (empty_launcher);
+    settle ();
+    check_empty_wide_list (page, "No games found", { "Game", "Tool", "Actions" });
+    assert (find_widget (wide, (widget) => widget is Gtk.Label && widget.get_mapped () &&
+        ((Gtk.Label) widget).label == "Prefix") == null);
+    window.destroy ();
+    assert (FileUtils.remove (proton) == 0);
+    assert (DirUtils.remove (Path.get_dirname (proton)) == 0);
+    assert (DirUtils.remove (Path.build_filename (root, "compatibilitytools.d")) == 0);
+    assert (DirUtils.remove (profiles) == 0);
+    assert (DirUtils.remove (Path.get_dirname (profiles)) == 0);
+    assert (DirUtils.remove (Path.build_filename (root, ".config")) == 0);
+}
+
 int main (string[] args) {
     Environment.set_variable ("GSETTINGS_BACKEND", "memory", true);
     if (!Gtk.init_check ())
@@ -355,6 +477,11 @@ int main (string[] args) {
     check_binding_selection_and_activation (root);
     check_pending_focus_cleanup (root);
     check_selection_scope_and_scoped_retry (root);
+    try {
+        check_proton_autogen_game_edit (root);
+    } catch (Error error) {
+        GLib.error ("%s", error.message);
+    }
     assert (DirUtils.remove (root) == 0);
     return 0;
 }
