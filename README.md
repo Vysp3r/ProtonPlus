@@ -159,10 +159,10 @@ The following packages are maintained by distribution packagers or community mai
 
 A native build requires a Linux development environment with:
 
-- Git, a C compiler, pkg-config, Meson 1.0 or newer, Ninja, and Vala
+- Git, a C compiler, pkg-config, Meson 1.0 or newer, Ninja, Vala, and Python 3
 - GLib and glib-compile-schemas
-- GTK4
-- libadwaita 1.6 or newer
+- GTK 4.14 or newer
+- libadwaita 1.5 or newer
 - json-glib
 - libsoup 3
 - libgee

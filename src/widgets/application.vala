@@ -97,8 +97,7 @@ namespace ProtonPlus.Widgets {
 
             Gtk.IconTheme.get_for_display (display).add_resource_path ("/com/vysp3r/ProtonPlus/icons");
 
-            var provider = new Gtk.CssProvider ();
-            provider.load_from_resource ("/com/vysp3r/ProtonPlus/style.css");
+            var provider = Utils.ThemeManager.load_stylesheet ("style");
             add_provider_for_display (display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
 
             Globals.load ();

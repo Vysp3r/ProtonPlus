@@ -5,7 +5,7 @@ namespace ProtonPlus.Widgets.Loading {
         public bool loading { get; set; }
 
         Adw.StatusPage status_page { get; set; }
-        Adw.Spinner spinner { get; set; }
+        Gtk.Spinner spinner { get; set; }
         Gtk.FlowBox bug_box { get; set; }
         Gtk.Box welcome_box { get; set; }
         Gtk.Button retry_button { get; set; }
@@ -15,12 +15,13 @@ namespace ProtonPlus.Widgets.Loading {
         public Box () {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
 
-            spinner = new Adw.Spinner ();
+            spinner = new Gtk.Spinner ();
             spinner.set_size_request (32, 32);
             spinner.set_halign (Gtk.Align.CENTER);
             spinner.set_valign (Gtk.Align.CENTER);
 
-            bind_property ("loading", spinner, "visible", GLib.BindingFlags.DEFAULT);
+            bind_property ("loading", spinner, "visible", BindingFlags.SYNC_CREATE);
+            bind_property ("loading", spinner, "spinning", BindingFlags.SYNC_CREATE);
 
             bug_box = create_bug_box ();
 

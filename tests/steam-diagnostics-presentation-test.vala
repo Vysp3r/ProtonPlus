@@ -96,8 +96,7 @@ int main (string[] args) {
         return 77;
     Adw.init ();
     Gtk.Settings.get_default ().gtk_enable_animations = false;
-    var css = new Gtk.CssProvider ();
-    css.load_from_resource ("/com/vysp3r/ProtonPlus/style.css");
+    var css = ProtonPlus.Utils.ThemeManager.load_stylesheet ("style");
     Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), css,
         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
     var native = new SteamFixture (Models.Launcher.InstallationTypes.SYSTEM, false);

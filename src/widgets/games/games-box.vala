@@ -14,7 +14,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Box status_actions;
         Gtk.Button retry_button;
         Gtk.Button copy_diagnostics_button;
-        Adw.Spinner status_spinner;
+        Gtk.Spinner status_spinner;
         MassEditButton mass_edit_button;
         Gtk.Box selection_footer;
         Gtk.Label selection_summary;
@@ -197,10 +197,11 @@ namespace ProtonPlus.Widgets.Games {
                 get_clipboard ().set_text (steam.get_game_library_diagnostics ());
                 toast_sent (_("Diagnostics copied"));
             });
-            status_spinner = new Adw.Spinner () {
+            status_spinner = new Gtk.Spinner () {
                 halign = Gtk.Align.CENTER
             };
             status_spinner.set_size_request (32, 32);
+            status_spinner.bind_property ("visible", status_spinner, "spinning", BindingFlags.SYNC_CREATE);
             status_actions = new Gtk.Box (Gtk.Orientation.VERTICAL, 8);
             status_actions.append (retry_button);
             status_actions.append (copy_diagnostics_button);
