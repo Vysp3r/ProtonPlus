@@ -6,6 +6,8 @@ namespace AppTests.ProviderSourceTest {
 
     public void register_tests () {
         Test.add_func ("/providers/github/canonical-release-page", test_github_release_page);
+        Test.add_func ("/providers/github/proton-anime-variants", test_proton_anime_variants);
+        Test.add_func ("/providers/github/proton-hevc-binary-asset", test_proton_hevc_binary_asset);
         Test.add_func ("/providers/github-compatible/sarek-release-variants", test_sarek_release_variants);
         Test.add_func ("/providers/gitlab/canonical-release-page", test_gitlab_release_page);
         Test.add_func ("/providers/forgejo/canonical-release-page", test_forgejo_release_page);
@@ -90,6 +92,58 @@ namespace AppTests.ProviderSourceTest {
         assert (release.variants[0].resolved_asset ().digest == "sha256:github");
         assert (page.next_page == 2);
         assert (!page.has_more);
+    }
+
+    private void test_proton_anime_variants () {
+        var definition = new ProviderRegistry ().get_by_id ("proton-anime");
+        var releases = new GitHubReleaseSource ().parse_response (
+            definition, fixture ("github", "proton-anime.json"), 1, 25
+        ).require_page ().releases;
+        assert (releases.size == 2);
+
+        var x86 = new Models.CpuCapabilities (Models.CpuArchitecture.X86_64, Models.X86_64Level.BASELINE);
+        var arm = new Models.CpuCapabilities (
+            Models.CpuArchitecture.AARCH64, Models.X86_64Level.UNKNOWN, Models.Aarch64Level.V8_1
+        );
+        var latest = releases[0];
+        assert (latest.title == "Anime-Proton11-7" && latest.variants.size == 2);
+        var x86_variants = Models.VariantSelector.available_variants (latest, x86);
+        assert (x86_variants.size == 1 && x86_variants[0].id == "x86-64");
+        assert (latest.asset.name == "Anime-Proton11-7.tar.gz");
+        assert (x86_variants[0].download_url == latest.asset.download_url);
+        var arm_variant = Models.VariantSelector.resolve_installation_variant (latest, null, null, arm).variant;
+        assert (arm_variant != null && arm_variant.id == "arm64");
+        assert (arm_variant.asset.name == "Anime-Proton11-7-arm64.tar.gz");
+        assert (arm_variant.asset.download_size == 650734891);
+
+        var previous = releases[1];
+        assert (previous.asset.name == "Anime-Proton11-6.tar.gz" && previous.variants.size == 2);
+        assert (Models.VariantSelector.available_variants (previous, x86).size == 1);
+        assert (previous.variants[1].id == "arm64" && previous.variants[1].asset == null);
+        var previous_arm = Models.VariantSelector.resolve_installation_variant (previous, "arm64", null, arm);
+        assert (previous_arm.variant == null);
+    }
+
+    private void test_proton_hevc_binary_asset () {
+        var definition = new ProviderRegistry ().get_by_id ("proton-hevc");
+        var source = new GitHubReleaseSource ();
+        var content = fixture ("github", "proton-hevc.json");
+        var releases = source.parse_response (definition, content, 1, 25).require_page ().releases;
+        assert (releases.size == 1);
+        var release = releases[0];
+        assert (release.title == "Proton-HEVC-11.0-2-r1");
+        assert (release.asset.name == "Proton-HEVC-11.0-2-r1.tar.gz");
+        assert (release.asset.download_size == 491029209);
+        assert (release.variants.size == 1 && release.variants[0].download_url == release.asset.download_url);
+
+        try {
+            var root = Json.from_string (content);
+            root.get_array ().get_object_element (0).get_array_member ("assets").remove_element (1);
+            var source_only = source.parse_response (definition, Json.to_string (root, false), 1, 25);
+            assert (source_only.require_page ().releases.is_empty);
+        } catch (Error e) {
+            assert_not_reached ();
+        }
     }
 
     private void test_sarek_release_variants () {

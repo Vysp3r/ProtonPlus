@@ -108,6 +108,9 @@
         <key name="show-legacy-tools" type="b">
             <default>false</default>
         </key>
+        <key name="show-niche-tools" type="b">
+            <default>false</default>
+        </key>
         <key name="migrate-default-prefix" type="b">
             <default>false</default>
         </key>

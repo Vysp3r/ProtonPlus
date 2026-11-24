@@ -5,9 +5,10 @@ namespace ProtonPlus.Models.Tools {
                     title: "Steam Tinker Launch",
                     repository_url: "https://github.com/sonic2kk/steamtinkerlaunch",
                     description: _ (
-                        "Steam tool for easy, graphical configuration of your other compatibility tools for both Windows games and native Linux games."
+                        "Steam wrapper for configuring launch options, modding tools, and overlays for Proton and native Linux games."
             ));
             legacy = true;
+            sort_priority = 12;
             set_identity ("steam-tinker-launch", "github");
 
             // Remote commit lookup is performed explicitly by the installation

@@ -313,6 +313,11 @@ namespace ProtonPlus.CLI {
                 return 1;
             }
 
+            if (!runner.is_visible_in_catalog (Globals.SETTINGS)) {
+                output.error (_ ("Enable niche tools in Preferences to install %s.\n"), runner.title);
+                return 1;
+            }
+
             if (runner is Models.Tools.TinkerGame || runner is Models.Tools.SteamTinkerLaunch)
                 return yield handle_specialized_tool (runner, CMD_INSTALL);
 
@@ -839,6 +844,8 @@ namespace ProtonPlus.CLI {
             var table = new Table ({ _ ("Runner ID"), _ ("Name") });
             foreach (var group in launcher.groups) {
                 foreach (var runner in group.tools) {
+                    if (!runner.is_visible_in_catalog (Globals.SETTINGS))
+                        continue;
                     table.add ({ get_runner_id (runner), runner.title });
                 }
             }

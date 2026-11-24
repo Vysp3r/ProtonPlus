@@ -7,7 +7,7 @@ namespace ProtonPlus.Models.Providers {
                     source_type = SourceType.GITHUB,
                     provider_id = "dxvk-doitsujin",
                     title = "DXVK (doitsujin)",
-                    description = "",
+                    description = N_ ("Translates Direct3D 8, 9, 10, and 11 to Vulkan for Windows applications running through Wine."),
                     endpoint = "https://api.github.com/repos/doitsujin/dxvk/releases",
                     repository_url = "https://github.com/doitsujin/dxvk",
                     sort_priority = 1,
@@ -19,10 +19,10 @@ namespace ProtonPlus.Models.Providers {
                     source_type = SourceType.GITLAB,
                     provider_id = "dxvk-gplasync-ph42on",
                     title = "DXVK GPL+Async (Ph42oN)",
-                    description = N_ ("DXVK builds with gplasync patch by Ph42oN."),
+                    description = N_ ("DXVK build with a patch that combines asynchronous shader compilation with Vulkan graphics pipeline libraries."),
                     endpoint = "https://gitlab.com/api/v4/projects/Ph42oN%2Fdxvk-gplasync/releases",
                     repository_url = "https://gitlab.com/Ph42oN/dxvk-gplasync",
-                    sort_priority = 2,
+                    sort_priority = 3,
                     variants = { new VariantDefinition ("standard", "default", "dxvk-gplasync-$release_name.tar.gz", true) },
                     install_layouts = { InstallLayout.template ("default", "dxvk-gplasync-$release_name") }
                 }),
@@ -34,7 +34,7 @@ namespace ProtonPlus.Models.Providers {
                     description = N_ ("DXVK build targeting Vulkan 1.1/1.2 hardware, with backported fixes and support for older GPUs."),
                     endpoint = "https://api.github.com/repos/pythonlover02/DXVK-Sarek/releases",
                     repository_url = "https://github.com/pythonlover02/DXVK-Sarek",
-                    sort_priority = 3,
+                    sort_priority = 2,
                     variants = {
                         new VariantDefinition (
                             "standard", "default", "dxvk-sarek-$release_version", true, null,

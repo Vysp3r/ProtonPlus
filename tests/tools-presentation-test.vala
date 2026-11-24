@@ -68,12 +68,18 @@ class OfflineReleaseSource : Object, Providers.Sources.ReleaseSource {
 }
 
 class OfflineToolsLauncher : Models.Launcher {
+    public string? used_tool_name { get; set; }
+
     public OfflineToolsLauncher (string root) {
         base ("Offline fixture", InstallationTypes.SYSTEM, "", { root }, "offline-fixture");
     }
 
     public override Models.SteamRestartTarget? get_steam_restart_target () {
         return Models.SteamRestartTarget.for_native (directory);
+    }
+
+    public override int get_compatibility_tool_usage_count (string compatibility_tool_name) {
+        return used_tool_name == compatibility_tool_name ? 1 : 0;
     }
 }
 
@@ -280,6 +286,7 @@ void check_tool_heading (Widgets.Tools.GroupBox group_box, Widgets.Tools.Release
     state.visible = true;
     state.get_parent ().visible = true;
     settle ();
+    assert (state.has_css_class ("tool-metadata-pill"));
     var description = find_label (row, "Run Windows games on Linux");
     Graphene.Rect description_bounds, state_bounds;
     assert (description.compute_bounds (row, out description_bounds));
@@ -349,6 +356,88 @@ void check_inline_transitions (Models.Launcher launcher, Models.Group group) {
     close_fixture_window (window);
 }
 
+void check_niche_tool_visibility (string root, Models.Launcher launcher, Models.Group group) {
+    try {
+        var fixtures = Environment.get_variable ("PROTONPLUS_TEST_FIXTURES") ?? "fixtures";
+        var data = Path.build_filename (fixtures, "..", "..", "data");
+        var command = new Subprocess (SubprocessFlags.NONE, "glib-compile-schemas", "--targetdir", root, data);
+        assert (command.wait_check ());
+        var source = new SettingsSchemaSource.from_directory (root, null, false);
+        Globals.SETTINGS = new Settings.full (source.lookup ("com.vysp3r.ProtonPlus.State", false), null, null);
+    } catch (Error e) {
+        error ("Could not load the preferences schema: %s", e.message);
+    }
+
+    var registry = new Models.Providers.ProviderRegistry ();
+    var anime = Models.Providers.ProviderCatalog.create_tool (registry.get_by_id ("proton-anime"), group);
+    var hevc = Models.Providers.ProviderCatalog.create_tool (registry.get_by_id ("proton-hevc"), group);
+    var boxtron = Models.Providers.ProviderCatalog.create_tool (registry.get_by_id ("boxtron"), group);
+    var tinkergame = new Models.Tools.TinkerGame (group, new OfflineReleaseSource ());
+    group.tools = new Gee.LinkedList<Models.Tool> ();
+    group.tools.add (new PresentationFixtureTool (group));
+    group.tools.add (anime);
+    group.tools.add (hevc);
+    group.tools.add (boxtron);
+    group.tools.add (tinkergame);
+    launcher.groups = { group };
+
+    var boxtron_path = Path.build_filename (launcher.get_primary_managed_tool_directory (group), "fixture-boxtron");
+    assert (DirUtils.create (boxtron_path, 0700) == 0);
+    var metadata = new Utils.Metadata ();
+    metadata.provider_id = boxtron.provider_id;
+    metadata.tool_id = boxtron.id;
+    metadata.launcher_id = launcher.tool_target_id;
+    assert (metadata.save (boxtron_path));
+
+    var style_manager = Adw.StyleManager.get_default ();
+    var color_scheme = style_manager.color_scheme;
+    style_manager.color_scheme = Adw.ColorScheme.FORCE_LIGHT;
+    var page = new Widgets.Tools.Box ();
+    page.set_selected_launcher (launcher);
+    var window = fixture_window (page, 600, 620);
+    window.content.add_css_class ("background");
+    window.present ();
+    settle ();
+    var anime_title = find_label (page, anime.title);
+    var hevc_title = find_label (page, hevc.title);
+    assert (anime_title != null && !anime_title.get_mapped ());
+    assert (hevc_title != null && !hevc_title.get_mapped ());
+    assert (find_label (page, "Fixture Tool").get_mapped ());
+    assert (!find_group_box (page, anime).expand_tool (anime));
+    var obsolete_pill = find_label (page, "Obsolete");
+    assert (obsolete_pill != null && !obsolete_pill.get_mapped ());
+    assert (boxtron.is_installed () && !tinkergame.is_installed ());
+
+    assert (Globals.SETTINGS.set_boolean ("show-legacy-tools", true));
+    assert (!anime_title.get_mapped () && !hevc_title.get_mapped ());
+    assert (obsolete_pill.get_mapped () && obsolete_pill.has_css_class ("tool-metadata-obsolete"));
+    assert (obsolete_pill.get_has_tooltip ());
+    assert (Globals.SETTINGS.set_boolean ("show-niche-tools", true));
+    settle ();
+    assert (anime_title.get_mapped () && hevc_title.get_mapped ());
+    var tinker_title = find_label (page, tinkergame.title);
+    var tinker_row = (Adw.ExpanderRow) tinker_title.get_ancestor (typeof (Adw.ExpanderRow));
+    var obsolete_row = (Adw.ExpanderRow) obsolete_pill.get_ancestor (typeof (Adw.ExpanderRow));
+    foreach (var title in new Gtk.Label[] { anime_title, hevc_title }) {
+        var tool_row = (Adw.ExpanderRow) title.get_ancestor (typeof (Adw.ExpanderRow));
+        var niche_pill = find_label (tool_row, "Niche");
+        assert (niche_pill != null && niche_pill.get_mapped () && niche_pill.has_css_class ("tool-metadata-pill"));
+        assert (niche_pill.get_has_tooltip ());
+        assert (tinker_row.get_index () < tool_row.get_index ());
+        assert (tool_row.get_index () < obsolete_row.get_index ());
+    }
+    snapshot (window, "niche-and-obsolete-pills");
+    assert (Globals.SETTINGS.set_boolean ("show-niche-tools", false));
+    settle ();
+    assert (!anime_title.get_mapped () && !hevc_title.get_mapped ());
+    assert (obsolete_pill.get_mapped ());
+
+    close_fixture_window (window);
+    page.dispose ();
+    style_manager.color_scheme = color_scheme;
+    Globals.SETTINGS = null;
+}
+
 bool has_release_action (MenuModel menu, string action) {
     for (var index = 0; index < menu.get_n_items (); index++) {
         var item_action = menu.get_item_attribute_value (index, Menu.ATTRIBUTE_ACTION, VariantType.STRING);
@@ -395,6 +484,20 @@ void check_offline_installed_rows (string root) {
     var group_box = find_group_box (page, tool);
     assert (group_box != null && group_box.expand_tool (tool));
     settle ();
+
+    var state_pill = group_box.get_expanded_row ().get_data<Gtk.Label> ("state-label");
+    assert (state_pill.get_mapped () && state_pill.label == "Installed");
+    assert (!state_pill.has_css_class ("tool-metadata-used"));
+    var installed_tooltip = state_pill.tooltip_text;
+    assert (state_pill.get_has_tooltip ());
+    launcher.used_tool_name = Path.get_basename (second_path);
+    group.refresh_installed_state ();
+    assert (state_pill.label == "Used by games" && state_pill.has_css_class ("tool-metadata-used"));
+    assert (state_pill.get_has_tooltip () && state_pill.tooltip_text != installed_tooltip);
+    launcher.used_tool_name = null;
+    group.refresh_installed_state ();
+    assert (state_pill.label == "Installed" && !state_pill.has_css_class ("tool-metadata-used"));
+    assert (state_pill.tooltip_text == installed_tooltip);
 
     var rows = new Gee.ArrayList<Widgets.Tools.ReleaseRow> ();
     collect_rows (page, rows);
@@ -575,6 +678,7 @@ int main (string[] args) {
     check_sarek_build_choices (group);
     check_inline_transitions (launcher, group);
     check_offline_installed_rows (root);
+    check_niche_tool_visibility (root, launcher, group);
     remove_fixture_directory (root);
     return 0;
 }

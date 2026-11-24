@@ -27,6 +27,7 @@ namespace ProtonPlus.Models.Tools {
             this.description = Utils.safe_translate (definition.description);
             this.repository_url = definition.repository_url;
             this.legacy = definition.legacy;
+            this.niche = definition.niche;
             this.sort_priority = definition.sort_priority;
             this.archive_install_requirement = definition.archive_install_requirement;
             this.set_identity (definition.provider_id, definition.source_id);
