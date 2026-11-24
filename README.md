@@ -84,39 +84,40 @@ Only installed and detectable launchers are shown. Tool availability also depend
 
 ## Supported compatibility tools
 
-The built-in provider catalog currently contains:
+The Tools view uses estimated popularity to order the built-in tools within each category. Installed tools appear first among tools of the same kind. Niche and legacy tools have separate visibility settings.
 
 ### Proton and Steam tools
 
 - Proton-GE
 - Proton-CachyOS
 - DW-Proton
-- Proton-RTSP
-- Proton-Tkg
-- Proton-EM
 - Proton-Wineland
+- Proton-EM
 - Luxtorpeda
-- Boxtron
-- Roberta
-- Steam Tinker Launch, for Steam
+- Proton-Tkg
+- Proton-RTSP
+- TinkerGame, for Steam
+- Proton-Anime and Proton-HEVC, with **Preferences → Tools → Show Niche Tools** enabled
+- Steam Tinker Launch, for existing installations
+- Boxtron and Roberta, with **Preferences → Tools → Show Legacy Tools** enabled
 
 ### Wine
 
-- Wine-Proton (Kron4ek)
-- Wine-Staging (Kron4ek)
-- Wine-Staging-Tkg (Kron4ek)
 - Wine-Vanilla (Kron4ek)
+- Wine-Staging (Kron4ek)
+- Wine-Proton (Kron4ek)
+- Wine-Staging-Tkg (Kron4ek)
 
 ### DXVK
 
 - DXVK (doitsujin)
-- DXVK GPL+Async (Ph42oN)
 - DXVK (Sarek)
+- DXVK GPL+Async (Ph42oN)
 
 ### VKD3D
 
 - VKD3D-Proton
-- VKD3D-Lutris
+- VKD3D-Lutris, with **Preferences → Tools → Show Legacy Tools** enabled
 
 Release data is obtained from upstream GitHub, GitLab, Forgejo, and GitHub Actions sources. Available versions and architecture variants are determined by each provider's upstream releases.
 

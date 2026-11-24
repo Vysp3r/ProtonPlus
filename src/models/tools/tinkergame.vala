@@ -3,7 +3,8 @@ namespace ProtonPlus.Models.Tools {
         public TinkerGame (Models.Group group, ProtonPlus.Providers.Sources.ReleaseSource? source = null) {
             Object (group: group, title: "TinkerGame",
                 repository_url: "https://github.com/360900/tinkergame",
-                description: _("Configure game tools and custom commands. Alpha software; review migrated settings before playing."));
+                description: _ ("Steam toolkit for configuring launch commands, mods, and third-party tools. Beta software. Review migrated settings before playing."));
+            sort_priority = 9;
             set_identity ("tinkergame", "github");
             var definition = new Providers.ProviderDefinition (new Providers.ProviderConfig () {
                 category = Providers.Category.PROTON,
@@ -13,7 +14,7 @@ namespace ProtonPlus.Models.Tools {
                 description = description,
                 endpoint = "https://api.github.com/repos/360900/tinkergame/releases",
                 repository_url = repository_url,
-                sort_priority = 1000,
+                sort_priority = this.sort_priority,
                 variants = {},
                 install_layouts = {}
             });

@@ -1,0 +1,20 @@
+[
+  {
+    "id": 384138189,
+    "tag_name": "Proton-HEVC-11.0-2-r1",
+    "name": "Proton-HEVC 11.0-2-r1 — Experimental",
+    "created_at": "2026-09-07T14:05:19Z",
+    "assets": [
+      {
+        "name": "packaging-source.tar.gz",
+        "browser_download_url": "https://github.com/changeforan/zzz-cloud-hevc/releases/download/Proton-HEVC-11.0-2-r1/packaging-source.tar.gz",
+        "size": 80529
+      },
+      {
+        "name": "Proton-HEVC-11.0-2-r1.tar.gz",
+        "browser_download_url": "https://github.com/changeforan/zzz-cloud-hevc/releases/download/Proton-HEVC-11.0-2-r1/Proton-HEVC-11.0-2-r1.tar.gz",
+        "size": 491029209
+      }
+    ]
+  }
+]

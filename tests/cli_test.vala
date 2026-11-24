@@ -144,6 +144,7 @@ namespace AppTests.CliTest {
 
     public void register_tests () {
         Test.add_func ("/cli/exit-codes", test_exit_codes);
+        Test.add_func ("/cli/niche-provider-requires-opt-in", test_niche_provider_requires_opt_in);
         Test.add_func ("/cli/sarek-release-build-selection", test_sarek_release_build_selection);
         Test.add_func ("/cli/list-managed-releases", test_list_managed_releases);
         Test.add_func ("/cli/list-lutris-runners", test_list_lutris_runners);
@@ -342,6 +343,31 @@ namespace AppTests.CliTest {
         assert (target != null);
         assert (receipt.target.id == ((!) target).id);
         assert (receipt.resource_key == Filename.canonicalize (install_location, null));
+    }
+
+    private void test_niche_provider_requires_opt_in () {
+        var root = temporary_directory ();
+        try {
+            var launcher = new Launcher ("Fixture", Launcher.InstallationTypes.SYSTEM, "", { root }, "fixture");
+            var group = new Group ("Proton", "", "/proton", launcher, "proton");
+            var registry = new ProviderRegistry ();
+            var runner = ProviderCatalog.create_tool (registry.get_by_id ("proton-anime"), group);
+            group.tools = new Gee.LinkedList<Tool> ();
+            group.tools.add (runner);
+            group.tools.add (ProviderCatalog.create_tool (registry.get_by_id ("proton-ge"), group));
+            launcher.groups = { group };
+
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, output);
+            assert (run_cli ({ "protonplus", "install", launcher.instance_id, runner.provider_id, "latest" }, handler) == 1);
+            assert (output.stderr_text.contains ("Enable niche tools in Preferences"));
+            assert (handler.last_job == null);
+            assert (run_cli ({ "protonplus", "install", launcher.instance_id, "missing" }, handler) == 1);
+            assert (output.stdout_text.contains ("Proton-GE"));
+            assert (!output.stdout_text.contains ("Proton-Anime"));
+        } finally {
+            assert (delete_directory (root));
+        }
     }
 
     private void test_sarek_release_build_selection () {

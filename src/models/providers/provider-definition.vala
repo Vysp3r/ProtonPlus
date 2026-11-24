@@ -231,6 +231,7 @@ namespace ProtonPlus.Models.Providers {
         public string[] asset_exclusions = {};
         public string tag = "";
         public bool legacy = false;
+        public bool niche = false;
         public string url_template = "";
         public ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD;
         public bool single_archive_releases = false;
@@ -252,6 +253,7 @@ namespace ProtonPlus.Models.Providers {
         public string repository_url { get; private set; }
         public int sort_priority { get; private set; }
         public bool legacy { get; private set; }
+        public bool niche { get; private set; }
         public string tag { get; private set; }
         private VariantDefinition[] variants;
         private ReleaseVariantSet[] release_variant_sets;
@@ -303,6 +305,7 @@ namespace ProtonPlus.Models.Providers {
             this.asset_exclusion_values = config.asset_exclusions ?? new string[0];
             this.tag = config.tag;
             this.legacy = config.legacy;
+            this.niche = config.niche;
             this.url_template = config.url_template;
             this.archive_install_requirement = config.archive_install_requirement;
             this.single_archive_releases = config.single_archive_releases;

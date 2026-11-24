@@ -7,7 +7,7 @@ namespace ProtonPlus.Utils {
             "width", "height", "is-maximized", "is-fullscreen",
             "check-updates-on-launch", "background-updates", "background-updates-frequency", "check-updates-on-boot",
             "github-api-key", "gitlab-api-key", "selected-tool-variants", "steam-selected-profile-id",
-            "first-run", "theme", "language", "experimental-features", "show-legacy-tools",
+            "first-run", "theme", "language", "experimental-features", "show-legacy-tools", "show-niche-tools",
             "migrate-default-prefix", "proxy-mode", "proxy-url", "github-download-mirror", "download-speed-limit-bps", "controller-confirm-button",
             "controller-haptics-enabled", "last-version"
         };
