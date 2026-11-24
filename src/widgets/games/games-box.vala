@@ -385,6 +385,11 @@ namespace ProtonPlus.Widgets.Games {
             toolbar.append (check_button);
             toolbar.append (search_entry);
             toolbar.append (filter_button);
+
+            // Match the filter button's height even when the launcher hides it.
+            var search_height = new Gtk.SizeGroup (Gtk.SizeGroupMode.VERTICAL);
+            search_height.add_widget (search_entry);
+            search_height.add_widget (filter_button);
             return toolbar;
         }
 

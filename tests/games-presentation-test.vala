@@ -332,6 +332,9 @@ void check_selection_scope_and_scoped_retry (string root) {
     assert (page.get_width () >= 600);
     check_selection_footer_layout (page, summary, clear, modify, false);
     check_empty_wide_list (page, "No matching games", { "Game", "Prefix", "Tool" });
+    var toolbar = search.get_parent ();
+    int steam_toolbar_height = toolbar.get_height ();
+    assert (steam_toolbar_height > 0 && page.controller_can_open_filter ());
 
     var controller = find_widget (page, (widget) => widget.has_css_class ("games-sort-header-focus-proxy"));
     assert (controller is Utils.ControllerDirectionalFocus);
@@ -359,6 +362,13 @@ void check_selection_scope_and_scoped_retry (string root) {
     assert (affected != null);
     assert (find_widget (affected, (widget) => widget is Adw.ActionRow && ((Adw.ActionRow) widget).title == "Alpha") != null);
     assert (find_widget (affected, (widget) => widget is Adw.ActionRow && ((Adw.ActionRow) widget).title == "Bravo") != null);
+
+    var autogen = new Models.Launchers.ProtonAutogen (first, root, false);
+    load_autogen_library (autogen);
+    page.set_selected_launcher (autogen);
+    settle ();
+    assert (search.get_mapped () && !page.controller_can_open_filter ());
+    assert (toolbar.get_height () == steam_toolbar_height);
     window.destroy ();
 
     assert (FileUtils.remove (localconfig) == 0);
