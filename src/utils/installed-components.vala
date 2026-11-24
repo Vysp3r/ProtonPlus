@@ -17,6 +17,7 @@ namespace ProtonPlus.Utils {
     /// One startup snapshot; detection never runs from a component lookup.
     public class InstalledComponents : Object {
         public bool protontricks { get; private set; }
+        public bool proton_autogen { get; private set; }
         public bool mangohud { get; private set; }
         public bool gamescope { get; private set; }
         public bool gamemode { get; private set; }
@@ -30,6 +31,7 @@ namespace ProtonPlus.Utils {
         public InstalledComponents (bool is_flatpak, ComponentDetectionBackend? backend = null) {
             var detector = backend ?? new HostComponentDetectionBackend ();
             protontricks = detector.has_command ("protontricks");
+            proton_autogen = detector.has_command ("proton-autogen");
             mangohud = detector.has_command ("mangohud");
             gamescope = detector.has_command ("gamescope");
             gamemode = detector.has_command ("gamemoderun");

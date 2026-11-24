@@ -75,7 +75,7 @@ namespace ProtonPlus.Widgets.Games {
                 if (tool.internal_title == game.compatibility_tool)
                     return tool.display_title;
             }
-            return _("Default");
+            return game.launcher.get_default_game_tool_title ();
         }
 
         public override void dispose () {

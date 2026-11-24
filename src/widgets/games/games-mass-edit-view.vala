@@ -18,6 +18,7 @@ namespace ProtonPlus.Widgets.Games {
         GameListItem[] items;
         string? compatibility_tool_diagnostic;
         uint load_generation;
+        Cancellable? apply_request;
         LaunchOptionsEditor.LaunchOptionCapabilityResolver capability_resolver;
         Gee.HashMap<string, Models.CompatibilityTool> compatibility_tools_by_id;
         Utils.GpuVendor gpu_vendor = Utils.GpuVendor.UNKNOWN;
@@ -44,7 +45,8 @@ namespace ProtonPlus.Widgets.Games {
 
             apply_button = new Gtk.Button.with_label (_("Apply Changes"));
             apply_button.add_css_class ("suggested-action");
-            apply_button.clicked.connect (apply_button_clicked);
+            apply_button.clicked.connect (() => apply_button_clicked.begin ());
+            unmap.connect (() => apply_request?.cancel ());
 
             affected_games_group = new Adw.PreferencesGroup ();
             compatibility_tool_group = new Adw.PreferencesGroup ();
@@ -138,6 +140,8 @@ namespace ProtonPlus.Widgets.Games {
                 var runner = model.get_item (i) as Models.CompatibilityTool;
                 if (runner == null)
                     continue;
+                if (!runner.is_available && (items.length != 1 || runner.internal_title != items[0].game.compatibility_tool))
+                    continue;
                 if (Models.Launchers.Steam.is_steam_linux_runtime (runner.display_title, runner.internal_title)
                     && !all_steam_linux_runtime_compatible)
                     continue;
@@ -211,13 +215,15 @@ namespace ProtonPlus.Widgets.Games {
                 compatibility_tool_diagnostic = null;
                 refresh_capability_context ();
             });
-            Utils.System.detect_gpu_vendor.begin ((obj, result) => {
-                var detected_vendor = Utils.System.detect_gpu_vendor.end (result);
-                if (generation != load_generation)
-                    return;
-                gpu_vendor = detected_vendor;
-                refresh_capability_context ();
-            });
+            if (has_steam_launch_options) {
+                Utils.System.detect_gpu_vendor.begin ((obj, result) => {
+                    var detected_vendor = Utils.System.detect_gpu_vendor.end (result);
+                    if (generation != load_generation)
+                        return;
+                    gpu_vendor = detected_vendor;
+                    refresh_capability_context ();
+                });
+            }
             refresh_capability_context ();
         }
 
@@ -260,8 +266,8 @@ namespace ProtonPlus.Widgets.Games {
             if (compatibility_tool_row != null)
                 compatibility_tool_row.subtitle = tool_error ?? "";
 
-            clear_button.sensitive = launch_options_editor.can_clear;
-            apply_button.sensitive = tool_error == null && launch_options_editor.writing_allowed
+            clear_button.sensitive = apply_request == null && launch_options_editor.can_clear;
+            apply_button.sensitive = apply_request == null && tool_error == null && launch_options_editor.writing_allowed
                 && (tool_enabled || launch_options_editor.has_changes_to_write);
         }
 
@@ -269,12 +275,29 @@ namespace ProtonPlus.Widgets.Games {
             launch_options_editor.clear ();
         }
 
-        void apply_button_clicked () {
-            var selected_tool = compatibility_tool_row.get_selected_item () as Models.CompatibilityTool;
+        async void apply_button_clicked () {
             if (!apply_button.sensitive)
                 return;
-            if (compatibility_tool_apply_row.active) {
-                foreach (var item in items) {
+            var request = new Cancellable ();
+            apply_request = request;
+            content_box.sensitive = false;
+            refresh ();
+            try {
+                yield apply_changes (request);
+            } finally {
+                apply_request = null;
+                content_box.sensitive = true;
+                refresh ();
+            }
+        }
+
+        async void apply_changes (Cancellable request) {
+            var generation = load_generation;
+            var selected_items = items;
+            var change_tool = compatibility_tool_apply_row.active;
+            var selected_tool = compatibility_tool_row.get_selected_item () as Models.CompatibilityTool;
+            if (change_tool) {
+                foreach (var item in selected_items) {
                     var steam = item.game.launcher as Models.Launchers.Steam;
                     if (steam != null && !steam.can_assign_compatibility_tool (((!) selected_tool).internal_title)) {
                         compatibility_tool_diagnostic = _("This tool is no longer available. Choose a different tool.");
@@ -291,7 +314,7 @@ namespace ProtonPlus.Widgets.Games {
                 /* A batch selection is an intent.  Each Steam game keeps its
                  * own source command and is prepared before any persistent
                  * compatibility-tool or VDF write can occur. */
-                foreach (var item in items) {
+                foreach (var item in selected_items) {
                     var steam_game = item.game as Models.Games.Steam;
                     if (steam_game == null)
                         continue;
@@ -314,10 +337,12 @@ namespace ProtonPlus.Widgets.Games {
                 }
             }
 
-            foreach (var item in items) {
+            foreach (var item in selected_items) {
                 var compatibility_applied = true;
-                if (compatibility_tool_apply_row.active) {
-                    var success = item.game.change_compatibility_tool (((!) selected_tool).internal_title);
+                if (change_tool) {
+                    var success = yield item.game.change_compatibility_tool_async (((!) selected_tool).internal_title, request);
+                    if (request.is_cancelled () || generation != load_generation || get_root () == null)
+                        return;
                     if (!success) {
                         compatibility_applied = false;
                         if (invalids.find (item.game.name) == null)
@@ -358,7 +383,7 @@ namespace ProtonPlus.Widgets.Games {
 
                 var dialog = new Main.ErrorDialog (
                     _("Batch Update Failed"),
-                    _("Some games could not be updated with the new compatibility tool or launch options. This may be due to missing permissions or file access issues."), // vala-lint=line-length
+                    _("Some games could not be updated. Their tool or configuration may have changed or become unavailable."),
                     names
                 );
                 ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());
@@ -368,7 +393,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void refresh_capability_context () {
-            if (items != null)
+            if (items != null && launch_options_editor.visible)
                 launch_options_editor.set_capability_context (resolve_launch_option_capabilities ());
             refresh ();
         }

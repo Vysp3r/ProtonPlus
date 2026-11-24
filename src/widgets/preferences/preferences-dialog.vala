@@ -429,6 +429,9 @@ namespace ProtonPlus.Widgets.Preferences {
             system_page.add (dependencies_group);
 
             dependencies_group.add (create_status_row (
+                _("Proton-Autogen command"), Globals.PROTON_AUTOGEN_INSTALLED
+            ));
+            dependencies_group.add (create_status_row (
                 _("Protontricks"), Globals.PROTONTRICKS_INSTALLED
             ));
             dependencies_group.add (create_status_row (
@@ -455,23 +458,7 @@ namespace ProtonPlus.Widgets.Preferences {
             };
             system_page.add (detected_launchers_group);
 
-            ProtonPlus.Models.Launcher[] all_launchers = {
-                new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
-                new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
-                new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.SNAP),
-                new ProtonPlus.Models.Launchers.FaugusLauncher (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
-                new ProtonPlus.Models.Launchers.FaugusLauncher (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
-                new ProtonPlus.Models.Launchers.Lutris (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
-                new ProtonPlus.Models.Launchers.Lutris (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
-                new ProtonPlus.Models.Launchers.Bottles (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
-                new ProtonPlus.Models.Launchers.Bottles (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
-                new ProtonPlus.Models.Launchers.HeroicGamesLauncher (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
-                new ProtonPlus.Models.Launchers.HeroicGamesLauncher (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK),
-                new ProtonPlus.Models.Launchers.WineZGUI (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM),
-                new ProtonPlus.Models.Launchers.WineZGUI (ProtonPlus.Models.Launcher.InstallationTypes.FLATPAK)
-            };
-
-            foreach (var launcher in all_launchers) {
+            foreach (var launcher in Models.Launcher.detect_candidates ()) {
                 detected_launchers_group.add (create_status_row (
                     "%s (%s)".printf (launcher.title, launcher.get_installation_type_title ()),
                     launcher.installed

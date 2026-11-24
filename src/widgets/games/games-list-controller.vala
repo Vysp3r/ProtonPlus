@@ -182,6 +182,14 @@ namespace ProtonPlus.Widgets.Games {
             configure_sort_headers ();
         }
 
+        public void reset_sort_header_configuration () {
+            clear_sort_header_focus ();
+            foreach (var target in sort_headers)
+                target.detach ();
+            sort_headers.clear ();
+            begin_sort_header_configuration ();
+        }
+
         void configure_sort_headers () {
             if (!wide_view.get_mapped () || sort_headers.size > 0)
                 return;
@@ -189,7 +197,13 @@ namespace ProtonPlus.Widgets.Games {
             var headers = new Gee.ArrayList<Gtk.Widget> ();
             collect_column_headers (wide_view, headers);
             var columns = wide_view.get_columns ();
-            if (headers.size < columns.get_n_items ()) {
+            var visible_columns = new Gee.ArrayList<Gtk.ColumnViewColumn> ();
+            for (uint i = 0; i < columns.get_n_items (); i++) {
+                var column = (Gtk.ColumnViewColumn) columns.get_item (i);
+                if (column.visible)
+                    visible_columns.add (column);
+            }
+            if (headers.size < visible_columns.size) {
                 if (sort_header_attempt < SORT_HEADER_BIND_MAX_ATTEMPTS) {
                     sort_header_attempt++;
                     schedule_sort_header_configuration ();
@@ -197,13 +211,13 @@ namespace ProtonPlus.Widgets.Games {
                 return;
             }
 
-            for (uint i = 0; i < columns.get_n_items (); i++) {
-                var column = columns.get_item (i) as Gtk.ColumnViewColumn;
-                if (column == null || ((!) column).get_sorter () == null)
+            for (int i = 0; i < visible_columns.size; i++) {
+                var column = visible_columns[i];
+                if (column.get_sorter () == null)
                     continue;
-                var header = headers[(int) i];
+                var header = headers[i];
                 sort_headers.add (new GameSortHeaderTarget (
-                    wide_view, (!) column, header
+                    wide_view, column, header
                 ));
             }
         }
@@ -225,6 +239,10 @@ namespace ProtonPlus.Widgets.Games {
             Gee.ArrayList<Gtk.Widget> headers) {
             var child = parent.get_first_child ();
             while (child != null) {
+                if (!child.get_visible ()) {
+                    child = child.get_next_sibling ();
+                    continue;
+                }
                 if (((Gtk.Accessible) child).get_accessible_role () ==
                     Gtk.AccessibleRole.COLUMN_HEADER) {
                     headers.add (child);

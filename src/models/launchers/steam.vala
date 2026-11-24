@@ -112,7 +112,7 @@ namespace ProtonPlus.Models.Launchers {
             return get_managed_compatibility_tools_root ();
         }
 
-        private string get_managed_compatibility_tools_root () {
+        internal string get_managed_compatibility_tools_root () {
             if (installation_type == Launcher.InstallationTypes.SYSTEM
                 && Filename.canonicalize (directory, null) == "/usr/share/steam") {
                 var host_data_home = Environment.get_variable ("HOST_XDG_DATA_HOME");

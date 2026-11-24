@@ -199,7 +199,8 @@ namespace ProtonPlus.Widgets.Tools {
             };
             list_box.append (load_more_row);
 
-            var spinner = new Adw.Spinner () {
+            var spinner = new Gtk.Spinner () {
+                spinning = true,
                 halign = Gtk.Align.CENTER,
                 valign = Gtk.Align.CENTER,
                 hexpand = true,

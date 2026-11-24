@@ -22,6 +22,7 @@ test_sources = files(
     'systemd-timer-test.vala',
     'migration-v0.6.6-test.vala',
     'faugus-launcher-test.vala',
+    'proton-autogen-test.vala',
     'metadata_test.vala',
     'compatibility-tool-test.vala',
     'steam-compatibility-tool-discovery-test.vala',

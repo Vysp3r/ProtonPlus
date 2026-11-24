@@ -16,6 +16,7 @@ sources += files(
     'installation-service.vala',
     'steam-session-service.vala',
     'steam-game-launch-service.vala',
+    'proton-autogen-game-launch-service.vala',
     'steam-restart-state-store.vala',
     'steam-restart-manager.vala',
     'steam-restart-backend.vala',

@@ -496,8 +496,7 @@ int main (string[] args) {
     var tool = new PresentationFixtureTool (group);
     group.tools = new Gee.LinkedList<Models.Tool> ();
     group.tools.add (tool);
-    var css = new Gtk.CssProvider ();
-    css.load_from_resource ("/com/vysp3r/ProtonPlus/style.css");
+    var css = Utils.ThemeManager.load_stylesheet ("style");
     Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), css,
         Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
     var box = new Widgets.Tools.ReleasesBox ();
@@ -549,7 +548,6 @@ int main (string[] args) {
     rows.clear ();
     collect_rows (box, rows);
     assert (loaded && rows.size == 3 && rows[2].get_child_visible ());
-    var breeze = new Gtk.CssProvider ();
     foreach (var theme in new string[] { "light", "dark" }) {
         Adw.StyleManager.get_default ().color_scheme = theme == "dark"
             ? Adw.ColorScheme.FORCE_DARK : Adw.ColorScheme.FORCE_LIGHT;
@@ -558,7 +556,7 @@ int main (string[] args) {
         window.present ();
         settle ();
         snapshot (window, "adwaita-" + theme);
-        breeze.load_from_resource ("/com/vysp3r/ProtonPlus/breeze-" + theme + ".css");
+        var breeze = Utils.ThemeManager.load_stylesheet ("breeze-" + theme);
         Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), breeze,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1);
         close_fixture_window (window);
