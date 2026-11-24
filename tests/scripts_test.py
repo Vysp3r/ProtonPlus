@@ -337,6 +337,36 @@ class TranslationBuildTest(unittest.TestCase):
 
 
 class AppImagePackagingTest(unittest.TestCase):
+    def test_stock_dependencies_are_kept_when_optional_packages_are_unavailable(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            root = Path(temporary_directory)
+            installed = root / "debloat-called"
+            self._write_executable(root / "pacman", "#!/bin/sh\nexit 0\n")
+            self._write_executable(
+                root / "get-debloated-pkgs", '#!/bin/sh\ntouch "$DEBLOAT_CALLED"\n'
+            )
+            environment = os.environ | {
+                "PATH": f"{root}{os.pathsep}{os.environ['PATH']}",
+                "DEBLOAT_CALLED": str(installed),
+                "SOURCE": "",
+            }
+            for headers, uses_debloated in (
+                ("exit 22", False),
+                ("printf 'x-ratelimit-remaining: 0\\r\\n'", False),
+                ("printf 'x-ratelimit-remaining: 20\\r\\n'", True),
+            ):
+                with self.subTest(headers=headers):
+                    installed.unlink(missing_ok=True)
+                    self._write_executable(root / "curl", f"#!/bin/sh\n{headers}\n")
+                    subprocess.run(
+                        ["sh", str(PROJECT_ROOT / "packaging" / "appimage" / "get-dependencies.sh")],
+                        env=environment,
+                        check=True,
+                        capture_output=True,
+                        text=True,
+                    )
+                    self.assertEqual(installed.exists(), uses_debloated)
+
     def test_restores_all_protonplus_catalogs_without_host_locale_tree(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             test_root = Path(temporary_directory)
