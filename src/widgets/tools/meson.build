@@ -1,5 +1,5 @@
 sources += files(
-    'tools-box.vala',
+    'tools-page.vala',
     'tools-group-box.vala',
     'tools-releases-box.vala',
     'tools-release-state.vala',
@@ -8,7 +8,7 @@ sources += files(
     'tools-release-games-dialog.vala',
     'tools-release-row-presentation.vala',
     'tools-release-row.vala',
-    'tools-stl-release-row.vala',
+    'steam-tinker-launch-release-row.vala',
     'tools-remove-dialog.vala',
     'tools-game-row.vala',
     'tools-migrate-box.vala',

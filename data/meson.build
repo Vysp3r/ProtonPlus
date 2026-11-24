@@ -1,33 +1,16 @@
-legacy_css = custom_target(
-    'legacy-css',
-    input: files(
-        'css/style.css',
-        'css/steamos.css',
-        'css/oled.css',
-        'css/breeze-dark.css',
-        'css/breeze-light.css',
-    ),
-    output: [
-        'style-legacy.css',
-        'steamos-legacy.css',
-        'oled-legacy.css',
-        'breeze-dark-legacy.css',
-        'breeze-light-legacy.css',
-    ],
-    command: [
-        find_program('python3'),
-        files('css/legacy-colors.py'),
-        '@OUTDIR@',
-        '@INPUT@',
-    ],
-)
-
 resources = gnome.compile_resources(
     'resources',
     'com.vysp3r.ProtonPlus.gresource.xml',
-    source_dir: [meson.current_build_dir(), meson.current_source_dir()],
-    dependencies: legacy_css,
 )
+
+resources_lib = static_library(
+    'protonplus_resources',
+    resources,
+    dependencies: dependency('gio-2.0'),
+)
+
+# Include the resource constructor in each executable that uses these assets.
+resources_dep = declare_dependency(link_whole: resources_lib)
 
 install_subdir(
     'icons/hicolor',

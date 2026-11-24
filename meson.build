@@ -2,6 +2,7 @@ project(
     'com.vysp3r.ProtonPlus',
     ['c', 'vala'],
     version: '0.6.9',
+    license: 'GPL-3.0-or-later',
     meson_version: '>= 1.0.0',
     default_options: [
         'warning_level=2',
@@ -32,7 +33,6 @@ config_inc = include_directories('.')
 vapi_dir = meson.project_source_root() / 'vapi'
 add_project_arguments(['--vapidir', vapi_dir], language: 'vala')
 
-add_project_arguments(['--pkg', 'sdl3'], language: 'vala')
 sdl3_dep = dependency('sdl3', version: '>= 3.2.0')
 
 add_global_arguments(

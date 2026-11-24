@@ -19,7 +19,7 @@ namespace ProtonPlus.Widgets.Games {
         string? compatibility_tool_diagnostic;
         uint load_generation;
         Cancellable? apply_request;
-        LaunchOptionsEditor.LaunchOptionCapabilityResolver capability_resolver;
+        LaunchOptions.LaunchOptionCapabilityResolver capability_resolver;
         Gee.HashMap<string, Models.CompatibilityTool> compatibility_tools_by_id;
         Utils.GpuVendor gpu_vendor = Utils.GpuVendor.UNKNOWN;
         ulong header_back_handler = 0;
@@ -63,7 +63,7 @@ namespace ProtonPlus.Widgets.Games {
             });
 
             launch_options_editor = new LaunchOptionsEditor.Box ();
-            capability_resolver = new LaunchOptionsEditor.LaunchOptionCapabilityResolver ();
+            capability_resolver = new LaunchOptions.LaunchOptionCapabilityResolver ();
             compatibility_tools_by_id = new Gee.HashMap<string, Models.CompatibilityTool> ();
             launch_options_editor.content_changed.connect (refresh);
 
@@ -307,7 +307,7 @@ namespace ProtonPlus.Widgets.Games {
                 }
             }
             var invalids = new List<string> ();
-            var launch_writes = new Gee.HashMap<Models.Games.Steam, LaunchOptionsEditor.LaunchCommandWriteResult> ();
+            var launch_writes = new Gee.HashMap<Models.Games.Steam, LaunchOptions.LaunchCommandWriteResult> ();
 
             if (launch_options_editor.is_dirty && launch_options_editor.visible) {
                 refresh_capability_context ();
@@ -398,7 +398,7 @@ namespace ProtonPlus.Widgets.Games {
             refresh ();
         }
 
-        LaunchOptionsEditor.LaunchCommandCapabilityContext resolve_launch_option_capabilities () {
+        LaunchOptions.LaunchCommandCapabilityContext resolve_launch_option_capabilities () {
             var runtimes = new Models.CompatibilityToolRuntimeKind[items.length];
             var selected_tools = new Gee.ArrayList<Models.CompatibilityTool> ();
             var all_tools_known = true;
@@ -439,7 +439,7 @@ namespace ProtonPlus.Widgets.Games {
                 }
             }
 
-            var components = new LaunchOptionsEditor.LaunchOptionInstalledComponents (
+            var components = new LaunchOptions.LaunchOptionInstalledComponents (
                 Globals.MANGOHUD_INSTALLED || Globals.MANGOHUD_FLATPAK_INSTALLED,
                 Globals.GAMEMODE_INSTALLED, Globals.GAMESCOPE_INSTALLED,
                 Globals.SCOPEBUDDY_INSTALLED, Globals.VKBASALT_INSTALLED,

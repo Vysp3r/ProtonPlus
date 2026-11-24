@@ -1,42 +1,37 @@
 # Testing and validation
 
-ProtonPlus combines pure model tests, fixture-backed filesystem and network
-parsers, asynchronous service tests, GTK-adjacent presentation tests, and
-manual integration behavior. Use the smallest relevant checks while iterating,
-then broaden validation in proportion to the change.
+Run focused fixtures while iterating, then run the full suite and the manual
+checks relevant to the change.
 
 ## Everyday checks
 
 From the repository root, run:
 
 ```bash
-./scripts/check.sh
-./scripts/check.sh launch-options
-./scripts/check.sh /launch-command-writer
+./tests/check.sh
+./tests/check.sh launch-options
+./tests/check.sh /launch-command-writer
 ```
 
-`./scripts/check.sh` configures `build/` only when needed, compiles it, runs the
-full Meson suite, and checks diff whitespace. Named areas include all nested
-tests; a GLib path argument runs just that path from `tests/`, where fixtures
-resolve correctly. Run the full command
-before releasing or handing off a change. Use
-`BUILD_DIR=build-tests ./scripts/check.sh` to reuse an older test build.
+The helper configures `build/` when needed and compiles before running tests.
+It checks diff whitespace after the tests pass. Use
+`BUILD_DIR=build-tests ./tests/check.sh` to select another build directory.
 
-Available areas are `downloads`, `providers`, `installation`, `steam`,
-`launch-options`, `controller`, and `cli`. They run GLib tests; use the full
-command for the separate GUI and maintenance-script tests.
+- **Full suite.** Run with no arguments to include the standalone GTK and
+  maintenance-script tests.
+- **Named areas.** Use `downloads`, `providers`, `installation`, `steam`,
+  `launch-options`, `controller`, or `cli` for a recursive group of GLib tests.
+- **GLib paths.** Use an explicit path such as `/launch-command-writer` for
+  GLib's `-p` selection. Paths that match no tests fail.
 
 For download recovery, including nested fixture groups:
 
 ```bash
-./scripts/check.sh downloads
+./tests/check.sh downloads
 ```
 
-The helper also works when invoked from another directory. Relative
-`BUILD_DIR` values always resolve against the repository root. It stops at the
-first failed build, test, or whitespace check and preserves that exit status.
-Focused checks also fail when the requested path selects no tests, so a typo
-cannot produce a successful check without exercising anything.
+Relative `BUILD_DIR` values resolve against the repository root, even if you
+invoke the helper from another directory. It returns the first failing status.
 
 ## Configure a test build manually
 
@@ -56,32 +51,28 @@ and an explicit reconfigure is needed:
 meson setup build --reconfigure
 ```
 
-`build-tests/` also works if you already use it. Meson automatically regenerates
-an existing build during compilation when its inputs change; everyday checks
-do not need an explicit reconfigure.
+`build-tests/` also works if you already use it. Meson normally regenerates
+an existing build during compilation when its inputs change.
 
-The Meson suite currently contains:
+### Tests registered with Meson
 
-- `ProtonPlus unit tests`: the Vala/GLib test binary using TAP.
-- `Maintenance script tests`: Python tests for repository scripts, including
-  native package commands and AppImage bundling fixtures. Release metadata
+- **ProtonPlus unit tests** runs the fixture-backed Vala suite using TAP.
+- **Maintenance script tests** covers native package commands, AppImage
+  bundling, and release metadata. Release metadata
   checks use `xmllint` and skip when it is unavailable.
-- `Check command tests`: isolated command stubs covering build setup, focused
-  fixture paths, and failure propagation without compiling or touching user data.
-- `Games presentation`: fixture-backed wide/narrow list bindings, selection
-  presentation, activation forwarding, model replacement, and focus cleanup.
-- `Downloads presentation`: stacked long titles, full-width progress, localized
-  speed/time estimates and tooltips at narrow/wide widths,
-  plus multiple downloads, row activation, focus, and cancellation.
-- Host-tool validation added from `data/` when the matching validation tools
-  are available, including desktop, AppStream, and GSettings checks.
+- **Check command tests** covers build setup, fixture paths, and failure
+  propagation using isolated command stubs.
+- **GTK suites** cover Tools, Games, Downloads, Help, Steam diagnostics, and
+  launch-option flag widgets.
+- **Metadata validation** checks desktop, AppStream, and GSettings files when
+  the matching host tools are available.
 
-GUI tests use Xvfb when available, otherwise the current display, and skip if
-neither can be opened. The Tools layout fixture constrains its content viewport
-to the requested logical width: a tiling compositor can enlarge the toplevel
-without changing the width under test. Narrow-layout checks assert both the
-content's minimum width and its allocation. Optional snapshots capture that
-viewport, rather than the compositor-sized window.
+The standalone suites in `tests/gui/` use Xvfb when available or default to the
+current display. They skip if neither can be opened. The Tools layout fixture
+constrains its content viewport to the requested logical width. A tiling
+compositor can enlarge the toplevel without changing the width under test.
+Narrow-layout checks assert both the content's minimum width and its allocation.
+Optional snapshots capture the constrained viewport.
 
 ## Focused GLib test paths
 
@@ -117,23 +108,23 @@ meson test -C build --print-errorlogs "ProtonPlus unit tests"
 
 | Area | Focused paths/files |
 | --- | --- |
-| Provider definitions and sources | `/provider-definitions`, `/provider-registry`, `/providers`, `provider_*_test.vala`, provider JSON fixtures. |
+| Provider definitions and sources | `/provider-definitions`, `/provider-registry`, `/providers`, `provider-*-test.vala`, provider JSON fixtures. |
 | Releases, cache, and identity | `/release-catalog`, `/release-identity`, `/assets`, release page and identity tests. |
-| Launcher/tool identity and layout | `/identity`, `/install-layout`, launcher-specific tests, `variant_settings_test.vala`. |
+| Launcher/tool identity and layout | `/identity`, `/install-layout`, launcher-specific tests, `variant-settings-test.vala`. |
 | CPU/variant selection | `/cpu-capabilities`, `/variant-compatibility`, `/variant-selector`. |
-| Installed state and metadata | `/installed-tool-inventory`, `/metadata`, `/compatibility-tool`. |
-| Steam selectable-tool discovery | `/steam-compatibility-tool-discovery`; injected Steam-library, native-system, and Flatpak extension roots only. `/steam/library-compatibility-tools-use-stable-identities` covers the library-loading projection. |
-| Proton-Autogen | `/proton-autogen` and `Games presentation`. Temporary profiles and tool directories cover shared storage, legacy selections, byte-preserving edits, conflict handling, and the Games batch editor. |
-| Steam tool diagnostics | `/steam-library-diagnostics`, `/steam/broken-steam-library-tool-is-detected`, and `Steam diagnostics presentation`: missing manifests/registration, real file checks, updating/recovered tools, stale logs, bounded reads, symlinks, and selection across native/Flatpak/Snap fixtures. |
-| Download recovery | `/web`, `/web/persistent`, `/web/partial-cache`, `web_test.vala`: loopback HTTP fixtures for retry deadlines, both Retry-After formats, resume/restart rates, validator/range safety, cancellation, persistent metadata, locks, expiry/storage limits, cache clearing, and API session/proxy isolation. |
+| Installed state and metadata | `/installed-tool-inventory`, `/protonplus-metadata`, `/protonplus-installed-discovery`, `/compatibility-tool` |
+| Steam-selectable tools | `/steam-compatibility-tool-discovery`, `/steam/library-compatibility-tools-use-stable-identities` |
+| Proton-Autogen | `/proton-autogen`, **Games presentation** |
+| Steam tool diagnostics | `/steam-library-diagnostics`, `/steam/broken-steam-library-tool-is-detected`, **Steam diagnostics presentation** |
+| Download recovery | `./tests/check.sh downloads` or the three `/web` paths above |
 | Installation and updates | `/compatibility-process-guard`, `/installer-transaction`, `/update-transaction`, `/steamtinkerlaunch`. |
 | VDF and Steam library parsing | `/vdf`, `/vdf-binary`, `/vdf-shortcuts`, `/steam`. |
 | Steam lifecycle | `/steam-session`, `/steam-configuration`, `/steam-restart-manager`, `/steam-restart-orchestrator`, `/steam-restart-presentation`. |
 | Launch options | `/launch-options`, `/launch-command`, `/launch-command-parser`, `/launch-command-composer`, `/launch-command-writer`, `/launch-command-editor-projection`, `/launch-option-capabilities`; see [`launch-options.md`](launch-options.md) for feature-probe fixtures and compatibility contracts. |
 | CLI | `/cli`, using `RecordingCliOutputSink` for output assertions. |
-| Saved variant preferences | `/variant-settings`: canonical/legacy keys, damaged JSON, unknown-entry preservation, and memory-backed GSettings persistence. |
-| Optional component detection | `/system/components`, `/system/flatpak-dependency`: injected command availability, a single Flatpak query, exact IDs, aliases, failures, and immutable lookup state. |
-| Repository scripts | `tests/scripts_test.py`, `tests/check_script_test.py`, normally run by Meson. |
+| Saved variant preferences | `/variant-settings` |
+| Optional component detection | `/system/components`, `/system/flatpak-dependency` |
+| Repository scripts | `tests/scripts-test.vala`, `tests/check-script-test.vala`, normally run by Meson. |
 
 Prefer behavior assertions over source-text or formatting assertions. For a
 bug fix, add the smallest regression that fails for the observed behavior and
@@ -156,9 +147,9 @@ passes through the real owner of that behavior.
 
 ## Manual validation
 
-Automated checks establish model and service behavior, but they do not render
-the application or exercise a real desktop/session. For GTK changes, manually
-check the exact requested path and report what was actually exercised.
+Automated GTK suites exercise presentation in controlled fixtures. Use manual
+checks for the exact interaction in a real desktop, controller, or launcher
+environment.
 
 At minimum, consider:
 
@@ -183,21 +174,21 @@ available, say so. Compilation is not a substitute for that evidence.
 Run these only when the change requires them:
 
 ```bash
-./scripts/build.sh translations # translatable strings or Vala source list
-pre-commit run --all-files       # Vala lint
-./scripts/build.sh local         # local Flatpak packaging/integration
-./scripts/build.sh linter        # advisory Flathub lint suite
-./scripts/build.sh icons         # source application icon changed
+make translations  # translatable strings or Vala source list
+make lint          # Vala source and tests
+make local         # local Flatpak packaging/integration
+make linter        # advisory Flathub lint suite
+make icons         # source application icon changed
 ```
 
-`./scripts/build.sh translations` updates only `po/POTFILES` and the POT
-template. `./scripts/build.sh translations update` also merges language catalogs;
+`make translations` updates only `po/POTFILES` and the POT
+template. `make translations-update` also merges language catalogs;
 keep that larger generated diff separate from code changes where practical.
 Neither command builds the application. Icon generation updates tracked PNG
 assets. Flatpak commands require installed runtimes, network access, and
 substantially more time than native unit tests.
 
-`./scripts/build.sh package debian13` builds a native package and runs the
+`make package TARGET=debian13` builds a native package and runs the
 Meson suite in Docker or Podman. The **CI** and **Release** workflows also
 install each distro package in a fresh container. AppImage jobs verify update
 metadata and run the bundled `protonplus version` command in a clean container.

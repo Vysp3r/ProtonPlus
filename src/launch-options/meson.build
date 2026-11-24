@@ -1,0 +1,15 @@
+sources += files(
+    'launch-command-builder.vala',
+    'launch-command-composer.vala',
+    'launch-command-edit-state.vala',
+    'launch-command-editor-projection.vala',
+    'launch-command-parser.vala',
+    'launch-command-plan.vala',
+    'launch-command-selection-source.vala',
+    'launch-command-writer.vala',
+    'launch-line-type.vala',
+    'launch-option-capability-resolver.vala',
+    'launch-option-catalog.vala',
+    'launch-option-flags.vala',
+    'launch-option-shell-tokenizer.vala',
+)

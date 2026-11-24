@@ -1,3 +1,5 @@
+using ProtonPlus.LaunchOptions;
+
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
     class LaunchOptionArgumentRow : Adw.EntryRow {
         public signal void remove_requested ();

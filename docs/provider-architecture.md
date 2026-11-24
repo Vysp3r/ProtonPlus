@@ -1,6 +1,7 @@
 # Provider architecture
 
-This document describes the extension seams for ordinary compatibility-tool providers. It is intentionally narrow: a provider is configuration plus a release source, while installation behaviour is selected from the job's requirements. It is not a framework for provider subclasses.
+An ordinary provider combines a definition with a release source.
+`InstallationService` selects the workflow from the job's requirements.
 
 ## Responsibilities and data flow
 
@@ -17,23 +18,39 @@ ProviderDefinition
     -> InstalledToolInventory refresh
 ```
 
-| Component | Responsibility |
-| --- | --- |
-| `ProviderDefinition` | Immutable-style configuration for one ordinary provider: stable ID, category, source type, endpoint, legacy endpoint aliases used only to migrate old installed metadata, canonical repository URL, sort metadata, title filtering, variants, installation-layout rules, an explicit single-archive release declaration where applicable, and a closed archive-install requirement where needed. It has no request, JSON, filesystem, or widget behaviour. Its collection accessors return copies. |
-| Built-in definition files | `src/models/providers/definitions/{dxvk,vkd3d,proton,wine}.vala` declare the supported providers by category. `BuiltInProviderDefinitions` combines them. |
-| `ProviderRegistry` | Indexes the built-in definitions by ID and category and validates static configuration. Validation includes unique provider IDs, valid variants with one default, non-empty unique layout families with a default layout, valid legacy endpoint aliases, and source-specific URL-template requirements. It does not construct sources or choose installation behaviour. |
-| `ProviderCatalog` | The composition boundary for an ordinary provider. It resolves the group's `InstallLayout`, obtains a source from `ReleaseSourceRegistry`, and creates a `ProviderTool` only when both exist. Unsupported source types therefore cannot create a partially usable tool. |
-| `ProviderTool` | A normal `Tool` assembled from a definition, group layout, and source. It owns the provider identity, per-tool variant instances, and directory naming; its `ReleaseCatalog` owns remote browsing state. |
-| `ReleaseSource` | Stateless host adapter contract. An adapter fetches one requested page and normalizes it into a `ReleasePageResult`; it does not cache releases or know about a launcher installation. |
-| `ReleaseSourceRegistry` | The closed construction point from `SourceType` to the corresponding stateless source. A missing mapping returns `null`; registry validation catches that as invalid provider configuration. |
-| Shared parsing helpers | `ReleaseSourceSupport` contains only common response support. `GitHubCompatibleReleaseParser` is shared by GitHub and Forgejo because their release and asset semantics match; `CatalogReleaseBuilder` applies definition filtering, variant selection, and asset matching. Helpers must not be extracted for JSON syntax alone. |
-| `ReleaseCatalog` | Owns one tool's remote page state, pagination, cache snapshot, refresh, and latest-release lookup. It asks its injected `ReleaseSource` for pages; it never installs a release. |
-| `Release` and `Asset` | Canonical provider-neutral remote metadata. `Asset` is the authoritative immutable value for archive name, URL, size, and upstream digest. Release variants retain their matched asset metadata. `Release` carries upstream identity, source tag, variants, and source-specific metadata, but no installation target or progress state. |
-| `InstallJob` | A target-bound installation lifecycle: selected release asset or variant, destination, progress, cancellation, operation state, and the composed archive-install requirement. It turns reusable catalog data into one requested operation. |
-| `InstallationService` | Application-level coordinator for install, update, removal, download registration, cache-operation lifetime, and finalization. It has the one workflow-selection point. |
-| `InstallationWorkflow` | A filesystem and lifecycle transaction implementation selected for a job. It does not browse or parse a remote release API. `StandardArchiveWorkflow` serves all ordinary provider tools; `SteamTinkerLaunchWorkflow` owns SteamTinkerLaunch's materially different transaction. |
-| `InstallLayout` | A small closed value object that renders a directory name for a launcher family. Definitions provide an exact layout where needed and a required `default` fallback; layouts are not encoded strings to be parsed later. |
-| `InstalledToolInventory` | Per-group snapshot of installed directories, metadata, compatibility-tool VDF identity, and usage. It resolves installed state for tools after invalidation or refresh rather than making individual tools repeatedly scan the filesystem. |
+### Definitions and source selection
+
+- `ProviderDefinition` snapshots the provider's identity, source, filters,
+  variants, layouts, and install requirements. Its collection accessors return
+  copies. The files in `src/models/providers/definitions/` are combined by
+  `BuiltInProviderDefinitions`.
+- `ProviderRegistry` validates unique IDs, legacy aliases, source URL
+  templates, one default variant, and a `default` layout. It indexes definitions
+  by ID and category.
+- `ProviderCatalog` resolves the `InstallLayout` and asks
+  `ReleaseSourceRegistry` to construct a source for the `SourceType`. Both
+  must exist before it creates a `ProviderTool`, which owns tool identity,
+  variants, and directory naming.
+
+### Release browsing
+
+- Each stateless `ReleaseSource` fetches one page into a `ReleasePageResult`.
+  `ReleaseCatalog` owns pagination, cached snapshots, refresh, and latest lookup.
+- `GitHubCompatibleReleaseParser` serves GitHub and Forgejo.
+  `CatalogReleaseBuilder` applies provider filters, variant selection, and
+  asset matching. Share helpers when source semantics match.
+- `Release` carries upstream identity, tag, and variants. Each matched
+  `Asset` supplies the canonical archive name, URL, size, and upstream digest.
+
+### Installation and inventory
+
+- `InstallJob` binds the asset or variant to a destination and carries
+  progress, cancellation, and the archive-install requirement.
+- `InstallationService` owns workflow selection and the operation lifecycle.
+  `StandardArchiveWorkflow` handles ordinary archives.
+  `SteamTinkerLaunchWorkflow` handles the specialized legacy transaction.
+- `InstalledToolInventory` owns the group's snapshot of installed directory,
+  metadata, VDF identity, and usage. `Group` exposes invalidation and refresh.
 
 `Group` exposes the inventory refresh/invalidation boundary. After a service operation, the service invalidates the affected group's inventory; callers refresh it when they need a current installed-tool snapshot.
 
@@ -61,13 +78,32 @@ integration](integrations/proton-autogen.md) for its profile and storage rules.
 
 ## Adding an ordinary provider
 
-Use this path when the upstream uses an existing source type and its release can be installed with the standard archive transaction.
+Reuse an existing source type and the standard archive transaction.
 
-1. Add one `ProviderDefinition` to the matching file in `src/models/providers/definitions/`: `dxvk.vala`, `vkd3d.vala`, `proton.vala`, or `wine.vala`.
-2. Give it a stable provider ID, normal metadata, an existing `SourceType`, endpoint, canonical repository URL, filtering rules if required, valid variant definitions, and layouts for the launcher families whose naming differs. Mark user-visible description and tag literals with `N_()`; they are translated after model composition. When replacing an endpoint, retain the old value as a legacy endpoint alias so inventory discovery can upgrade old `.protonplus` metadata to stable IDs. Asset templates should name the intended archive exactly; `$release_version` is the release name without one leading `v` when an upstream archive omits that prefix. When an upstream archive naming transition must remain backward-compatible, keep the current name as the variant's canonical format and list only the older exact templates in `alternate_formats`; canonical matches take priority. Declare `single_archive_releases` only when every release is expected to expose exactly one usable archive; this is the sole case where a missing expected asset name may fall back to that archive. Set the closed archive-install requirement only when the downloaded archive has a non-standard shape such as a nested archive. Always include a `default` layout.
-3. Update the definition snapshot and focused tests in `tests/fixtures/definitions/runners.json`, `tests/provider_definition_test.vala`, `tests/provider_registry_test.vala`, and `tests/install_layout_test.vala` when the provider's observable definition or install naming needs coverage.
+1. Add a definition in `src/models/providers/definitions/` under the relevant
+   category (`dxvk.vala`, `vkd3d.vala`, `proton.vala`, or `wine.vala`).
+2. Set a stable ID, source type, endpoint, canonical repository URL, variants,
+   and any filters. Supply a `default` layout and explicit layouts for launcher
+   families that use different directory names. Mark translated literals with
+   `N_()`.
+3. Update `tests/fixtures/definitions/runners.json` and the definition,
+   registry, or layout tests when the provider changes their fixtures.
 
-No provider subclass, new release model, widget branch, installation-service branch, or workflow is needed. `ProviderCatalog` combines the definition with the existing source and `StandardArchiveWorkflow` handles the resulting archive job. The `definition-only-provider-creates-standard-tool` test demonstrates this seam with a test-only definition.
+The `definition-only-provider-creates-standard-tool` test shows how the catalog
+assembles a tool from a definition alone.
+
+### Asset names and legacy metadata
+
+- Keep the old endpoint as a legacy alias when changing it. Keep the old title
+  in `legacy_titles` when renaming a provider. Preserve the provider ID.
+- Match the intended archive by exact name. Use `$release_version` when the
+  archive omits one leading `v` from the release name. Canonical formats take
+  priority over older exact templates in `alternate_formats`.
+- Use `single_archive_releases` only when each release exposes one usable
+  archive. This allows a fallback when the exact name is missing. Use a closed
+  archive-install requirement for layouts such as a nested archive.
+
+### Release variant sets
 
 Providers whose packaging changes between releases can declare ordered
 `release_variant_sets`, each containing a complete `VariantDefinition` array
@@ -93,9 +129,7 @@ Labels vary with packaging while these identities remain stable. Automatic
 updates preserve the stored variant ID and leave an installation intact if the
 new release no longer provides that variant.
 
-When renaming a provider, retain its provider ID and add its previous title to
-`legacy_titles` so installations without stable metadata can migrate. Keep old
-aliases across subsequent renames.
+### Launcher and manifest constraints
 
 Use `supported_launcher_ids` to restrict a provider to particular launcher
 instances. Rosemary uses `managed_steam_manifest` because each upstream
@@ -135,7 +169,7 @@ Add a source only when the host has different transport, pagination, failure, re
 2. Add one stateless `ReleaseSource` implementation under `src/providers/sources/` and list it in `src/providers/sources/meson.build`.
 3. Register its construction in `src/providers/sources/release-source-registry.vala`.
 4. Normalize every usable response into canonical `Release` and `Asset` values. A canonical asset must have both its name and download URL, and releases must retain upstream identity where the API supplies it.
-5. Add the new source's parser, pagination, malformed-response, transport-failure, filtering, identity, and asset-selection coverage to `tests/provider_source_test.vala`, `tests/release_identity_test.vala`, and fixture files below `tests/fixtures/providers/`. Add registry coverage if the new type changes the source matrix.
+5. Add the new source's parser, pagination, malformed-response, transport-failure, filtering, identity, and asset-selection coverage to `tests/provider-source-test.vala`, `tests/release-identity-test.vala`, and fixture files below `tests/fixtures/providers/`. Add registry coverage if the new type changes the source matrix.
 
 Extract shared parsing only after two sources have the same semantics. GitHub and Forgejo share their compatible release parser but retain distinct primary-asset policies; GitLab and GitHub Actions remain separate because their response and selection behaviour differs.
 
@@ -143,7 +177,7 @@ Extract shared parsing only after two sources have the same semantics. GitHub an
 
 Create a workflow only when the installation transaction or lifecycle differs materially from extracting an archive into the normal target directory. Provider identity is not a workflow-selection mechanism.
 
-1. Add the workflow and any focused composed context under `src/services/`, and list new source files in `src/services/meson.build`.
+1. Add the workflow and any focused composed context under `src/services/installation/`, and list new source files in its `meson.build`.
 2. Make the context or another explicit job capability available from `InstallJob`; do not add nullable provider-specific fields to generic jobs.
 3. Add the explicit selection rule in `InstallationService`, which remains the sole coordinator for operation registration and completion.
 4. Add transaction, state, update, and removal coverage in the relevant `tests/installer-transaction-test.vala`, `tests/update-transaction-test.vala`, and specialized workflow test file. Add a dedicated fixture where it makes a transaction observable.
@@ -154,9 +188,9 @@ SteamTinkerLaunch is the current example: `SteamTinkerLaunchContext` selects its
 
 The focused test suite protects the extension points rather than implementation formatting:
 
-- `tests/provider_registry_test.vala` verifies all built-ins validate, IDs and variants remain valid, layouts are structurally valid, all configured sources are constructible, a definition-only provider instantiates normally, and unsupported source types produce no tool.
-- `tests/provider_definition_test.vala` and `tests/install_layout_test.vala` preserve built-in definition metadata, filtering, launcher-specific naming, and layout fallback behaviour.
-- `tests/provider_source_test.vala` and `tests/release_identity_test.vala` verify canonical assets, source identities, pagination, malformed data, filtering, and the intentionally distinct GitHub/Forgejo primary-asset policies.
+- `tests/provider-registry-test.vala` verifies all built-ins validate, IDs and variants remain valid, layouts are structurally valid, all configured sources are constructible, a definition-only provider instantiates normally, and unsupported source types produce no tool.
+- `tests/provider-definition-test.vala` and `tests/install-layout-test.vala` preserve built-in definition metadata, filtering, launcher-specific naming, and layout fallback behaviour.
+- `tests/provider-source-test.vala` and `tests/release-identity-test.vala` verify canonical assets, source identities, pagination, malformed data, filtering, and the intentionally distinct GitHub/Forgejo primary-asset policies.
 - Installation, inventory, CLI, and SteamTinkerLaunch tests preserve the remaining boundaries: installation transactions, installed-state refresh, command behaviour, and the specialized lifecycle.
 
 These are behavioural checks. Do not replace them with source-text searches or tests that depend on code formatting.
@@ -169,7 +203,7 @@ metadata hooks while sharing directory staging, promotion and backup
 restoration. It stages the complete modular runtime and Steam manifests
 together. SteamTinkerLaunch uses a separate external command and global
 executable-link lifecycle.
-See [TinkerGame](tinkergame.md) for automatic release discovery (including prereleases), ownership,
+See [TinkerGame](integrations/tinkergame.md) for automatic release discovery (including prereleases), ownership,
 dependency policy, unsupported targets and explicit configuration migration.
 
 `TinkerGameReleaseSource` is stateless and uses GitHub source archives, including

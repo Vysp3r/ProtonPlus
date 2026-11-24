@@ -268,8 +268,8 @@ namespace ProtonPlus.Utils {
                 Bytes stderr_bytes;
                 yield subprocess.communicate_async (null, null, out stdout_bytes, out stderr_bytes);
 
-                var stdout = stdout_bytes != null ? Parser.data_to_string (stdout_bytes.get_data ()) : "";
-                var stderr = stderr_bytes != null ? Parser.data_to_string (stderr_bytes.get_data ()) : "";
+                var stdout = stdout_bytes != null ? bytes_to_string (stdout_bytes.get_data ()) : "";
+                var stderr = stderr_bytes != null ? bytes_to_string (stderr_bytes.get_data ()) : "";
                 var exit_status = subprocess.get_if_exited () ? subprocess.get_exit_status () : -1;
 
                 return new CommandResult (stdout, stderr, exit_status);
@@ -294,9 +294,9 @@ namespace ProtonPlus.Utils {
                 subprocess.communicate (null, null, out stdout_bytes, out stderr_bytes);
 
                 if (stdout_bytes != null)
-                    output = Parser.data_to_string (stdout_bytes.get_data ());
+                    output = bytes_to_string (stdout_bytes.get_data ());
                 if (stderr_bytes != null)
-                    error_output = Parser.data_to_string (stderr_bytes.get_data ());
+                    error_output = bytes_to_string (stderr_bytes.get_data ());
                 exit_status = subprocess.get_if_exited () ? subprocess.get_exit_status () : -1;
             } catch (Error e) {
                 warning (e.message);
@@ -611,8 +611,8 @@ namespace ProtonPlus.Utils {
                 systemd_timer_manager = new SystemdTimerManager (
                     new HostSystemctlBackend (),
                     systemd_dir,
-                    Parser.data_to_string (service_resource.get_data ()),
-                    Parser.data_to_string (timer_resource.get_data ()),
+                    bytes_to_string (service_resource.get_data ()),
+                    bytes_to_string (timer_resource.get_data ()),
                     exec_start
                 );
             } catch (Error e) {

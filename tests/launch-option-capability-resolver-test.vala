@@ -3,6 +3,7 @@ namespace AppTests.LaunchOptionCapabilityResolverTest {
     using Gee;
     using ProtonPlus.Models;
     using ProtonPlus.Utils;
+    using ProtonPlus.LaunchOptions;
     using ProtonPlus.Widgets.Games.LaunchOptionsEditor;
 
     private class ActiveOption : Object, ILaunchOption {

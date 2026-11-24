@@ -1,6 +1,5 @@
 name: Bug report
 description: Create a report to help us improve
-title: "[BUG] "
 labels: ["bug"]
 assignees: []
 body:
@@ -23,7 +22,7 @@ body:
     attributes:
       label: To Reproduce
       description: Steps to reproduce the behavior.
-      value: |
+      placeholder: |
         1. Go to '...'
         2. Click on '....'
         3. Scroll down to '....'

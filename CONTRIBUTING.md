@@ -1,381 +1,155 @@
 # Contributing to ProtonPlus
 
-Thank you for contributing to ProtonPlus. The project is a Linux GTK4 and
-libadwaita application written primarily in Vala, built with Meson, and
-distributed as a Flatpak and native Linux packages.
-
-Please read this guide, the [README](README.md), and the [Code of
-Conduct](CODE_OF_CONDUCT.md) before starting. For security issues, follow
-[SECURITY.md](SECURITY.md) instead of opening a public issue.
+ProtonPlus is a Linux GTK4 and libadwaita app written in Vala and built with
+Meson. Read the [Code of Conduct](CODE_OF_CONDUCT.md) before contributing. Use
+the [security policy](SECURITY.md) to report a vulnerability privately.
 
 ## Before you start
 
-Search existing issues and pull requests before opening a new one. For a
-substantial feature or architectural change, open or comment on an issue
-first so the scope can be agreed before implementation. Small fixes,
-documentation improvements, tests, and translations are welcome without prior
-approval.
-
-The default integration branch is `main`. The **CI** workflow runs for pull
-requests targeting `main`. There is no enforced branch-name or commit-message
-convention, but short-lived branches such as fix/... or feat/... and concise
-imperative commit subjects make reviews easier.
+- Search existing issues and pull requests.
+- Discuss substantial features or architecture changes in an issue first.
+  Small fixes, documentation, tests, and translations can go directly into a
+  pull request.
+- Open pull requests against `main`. Short-lived branches and concise commit
+  subjects make reviews easier.
 
 ## Set up a checkout
 
-Fork the repository, then clone your fork and create a topic branch:
+Fork the project, then clone your fork and create a branch.
 
-~~~bash
+```bash
 git clone https://github.com/YOUR_USERNAME/ProtonPlus.git
 cd ProtonPlus
 git switch -c fix/short-description
-~~~
+```
 
 ### Native build dependencies
 
-For a native build, install the development packages provided by your
-distribution for:
+Install your distribution's development packages for these tools and libraries.
 
-- Git, a C compiler, pkg-config, Meson 1.0 or newer, Ninja, and Vala
-- GLib, including glib-compile-schemas
-- GTK 4.14 or newer and libadwaita 1.5 or newer
-- json-glib, libsoup 3, libgee, libarchive, Cairo, and
-  SDL 3.2 or newer
-- gettext and desktop-file-utils
-- Python 3 for the compatibility stylesheets and maintenance-script tests
+- **Build tools** include Git, GNU Make, a C compiler, pkg-config, Meson 1.0 or
+  newer, Ninja, Vala, and gettext.
+- **Libraries** include GLib, GTK 4.14 or newer, libadwaita 1.5 or newer,
+  SDL 3.2 or newer, json-glib, libsoup 3, libgee, libarchive, and Cairo.
+- **Desktop tools** include `glib-compile-schemas` and desktop-file-utils.
 
-The distro recipes in `packaging/` list the corresponding native package
-names. `packaging/appimage/get-dependencies.sh` prepares the Arch-based
-AppImage build environment.
+The [packaging recipes](packaging/) list distro-specific dependency names.
+Use `make native-deps` to check your setup with a temporary Meson configuration
+and dependency downloads disabled.
 
 ### Flatpak build dependencies
 
-For the sandboxed build, install Flatpak, configure a Flathub remote, and have
-network access. The build helper installs the GNOME 51 SDK and runtime, the
-Vala SDK extension, and Flatpak Builder when needed.
+Install Flatpak, configure the Flathub remote, and have network access. The
+Makefile installs the GNOME 51 SDK and runtime, the Vala SDK extension, and
+Flatpak Builder when needed.
 
-Use com.vysp3r.ProtonPlus.local.yml for development. It builds the current
-checkout. The other manifest, com.vysp3r.ProtonPlus.yml, builds a tagged Git
-source and is primarily used for release packaging.
+The [local manifest](com.vysp3r.ProtonPlus.local.yml) builds your checkout. The
+[release manifest](com.vysp3r.ProtonPlus.yml) builds a tagged source.
 
 ## Build and run
 
-The project helper is the easiest way to build a development checkout:
+| Command | Result |
+| --- | --- |
+| `make native` | Build into `build/` with `/usr` as the default install prefix. |
+| `make run` | Build and launch the checkout with its local data and translations. |
+| `make debug` | Build and run under GDB. Requires GDB. |
+| `make native-debug` | Build into `/tmp/protonplus-build-debug` for an external debugger. |
+| `sudo meson install -C build` | Install an existing native build system-wide. |
+| `make local` | Build and install the checkout as a Flatpak for the current user. |
+| `make run-local` | Build, install, and launch the local Flatpak. |
 
-~~~bash
-# Build natively into build/
-./scripts/build.sh native
-
-# Build and run the native application
-./scripts/build.sh native run
-~~~
-
-The native helper configures Meson with /usr as the install prefix and sets the
-data and locale paths needed when running from the checkout. To install a
-native build system-wide, use the normal privilege boundary explicitly:
-
-~~~bash
-sudo meson install -C build
-~~~
-
-For a native debug build, use either of these commands:
-
-~~~bash
-./scripts/build.sh native debug       # build and run under GDB
-./scripts/build.sh native-debug       # build /tmp/protonplus-build-debug
-~~~
-
-The debug modes require GDB.
-
-To check native build tools and development libraries without creating a
-project build directory:
-
-~~~bash
-./scripts/build.sh native-deps
-~~~
-
-This performs a temporary Meson configuration with dependency downloads
-disabled. It reports the exact missing tool or library while leaving the
-working tree unchanged.
-
-To build and install the local Flatpak for the current user:
-
-~~~bash
-./scripts/build.sh local
-./scripts/build.sh local run
-~~~
-
-The Flatpak build runs in a sandbox and uses the permissions declared in the
-local manifest. It is useful for checking packaging, runtime integration, and
-launcher detection in the same general environment as the distributed app.
-
-Run `./scripts/build.sh help` to see all build and maintenance commands.
+Use `BUILD_DIR` to override the native build directory. Run `make help` for
+all commands, including packaging, icon generation, and build cleanup.
 
 ## Test changes
 
-Build and run the complete suite with:
+```bash
+./tests/check.sh
+./tests/check.sh launch-options
+```
 
-~~~bash
-./scripts/check.sh
-~~~
+The first command builds and runs the full Meson suite and checks the diff.
+The second runs the focused launch-options groups. For test paths, GUI checks,
+and fixture rules, see [Testing and validation](docs/testing.md).
 
-Native builds and checks share `build/` by default. The check command configures
-it if needed, compiles, runs the tests, and checks the diff for whitespace
-errors. For another build directory, use
-`BUILD_DIR=build-tests ./scripts/check.sh`.
+Use disposable profiles or injected backends for installation, launcher, and
+Steam tests. Add a focused regression when the behavior could regress.
 
-To work on one GLib test group:
+## Lint
 
-~~~bash
-./scripts/check.sh launch-options
-./scripts/check.sh /launch-command-writer
-~~~
+Install Vala-Lint so `io.elementary.vala-lint` is on your `PATH`. Then run
+`make lint` to check Vala files under `src/` and `tests/`.
+[Vala-Lint installation instructions](https://github.com/vala-lang/vala-lint#building-testing-and-installation)
 
-Focused runs use the fixture directory automatically. See
-[docs/testing.md](docs/testing.md) for the test map and direct Meson commands.
+For automatic checks, install pre-commit and run `pre-commit install` in your
+checkout. The hook checks staged Vala files using `.vala-lint.conf`. Both
+the hook and `make lint` report issues without editing files.
 
-The test suite includes Vala unit tests, maintenance-script tests, and—when
-the corresponding host tools are available—desktop-file, AppStream, and
-GSettings schema validation. Add a focused regression test for behavior that
-could otherwise regress, especially for provider parsing, release identity,
-cache state, filesystem transactions, launcher layouts, VDF parsing, and
-asynchronous UI state.
+## Find the right code
 
-Useful commands for a targeted run are:
+- [Codebase guide](docs/codebase-guide.md) for source locations, service
+  boundaries, and persisted data.
+- [Provider architecture](docs/provider-architecture.md) for adding providers,
+  release sources, or installation workflows.
+- [Launch-option catalog](docs/launch-options.md) for editor controls and
+  capability checks.
+- [Maintenance and releases](docs/maintenance.md) for debugging, CI behavior,
+  and packaging.
 
-~~~bash
-meson test -C build --list
-meson test -C build --print-errorlogs "ProtonPlus unit tests"
-~~~
+### Coding and UI guidelines
 
-When testing installation or launcher behavior manually, use a disposable
-profile or test fixture. Do not point a development build at data you cannot
-restore, and close games before testing compatibility-tool updates or removal.
-
-## Code quality and maintenance commands
-
-Run these checks before opening a pull request:
-
-~~~bash
-./scripts/check.sh
-pre-commit run --all-files
-~~~
-
-Install the pre-commit package with your distribution or Python tooling, then
-install the hook locally if desired:
-
-~~~bash
-pre-commit install
-~~~
-
-The repository configures vala-lint through .pre-commit-config.yaml and
-.vala-lint.conf. There is no separate formatter or static-analysis workflow;
-the compiler, Meson validation tests, Vala lint, and Flatpak linters are the
-authoritative checks currently configured in the repository. CI runs the local
-Flatpak build and its tests on x86_64 and aarch64. Its Flatpak lint step is
-advisory. Native package jobs run the same Meson test suite during the build and
-verify the result in a fresh container. For pull requests, **CI** checks the
-AppImage and all four distro packages on `x86_64`. Pushes to `main` check the
-distro packages on both architectures. Manual **CI** runs check both Flatpaks.
-
-The **Release** workflow checks native packages on both architectures when a
-version tag is pushed. Manual **Release** runs and published releases also
-build and check both AppImages.
-
-Additional helper commands:
-
-~~~bash
-./scripts/build.sh translations
-./scripts/build.sh linter
-./scripts/build.sh icons
-./scripts/build.sh package appimage
-./scripts/build.sh clean
-~~~
-
-`./scripts/build.sh translations` regenerates `po/POTFILES` and the gettext
-template without rewriting `.po` catalogs or compiling the application. Use
-`./scripts/build.sh translations update` when synchronizing language catalogs,
-usually during translation or release work. Both use the same `BUILD_DIR` as
-native builds and checks.
-./scripts/build.sh linter runs flatpak-builder-lint on the local manifest.
-./scripts/build.sh icons regenerates tracked PNG icons from the SVG source.
-./scripts/build.sh clean removes ignored build and distribution directories.
-
-The `package` targets are `appimage`, `debian13`, `ubuntu26.04`, `fedora45`,
-and `archlinux`. The native targets build the current Git checkout in the same
-distribution containers used by CI and write to `dist/`. They use Docker if
-available, then Podman. Set `PROTONPLUS_CONTAINER_ENGINE=podman` to select
-Podman explicitly. Run `package appimage` in a prepared AppImage build
-environment with the tools from `packaging/appimage/`.
-
-The linter and icon commands require Flatpak tooling and rsvg-convert,
-respectively. Do not commit generated build directories. Generated icon PNGs
-are tracked and should only be regenerated when the source icon changes.
-
-## Project layout and architecture
-
-- src/cli/ — command-line handling and output.
-- src/models/ — launcher, game, tool, release, asset, and provider models.
-- src/models/launchers/ — supported launcher integrations and their
-  installation capabilities.
-- src/models/providers/ — provider definitions, validation, and catalog
-  composition.
-- src/providers/sources/ — GitHub, GitHub Actions, GitLab, and Forgejo
-  release-source adapters and parsers.
-- src/services/ — installation jobs, transactional workflows, and migrations.
-- src/utils/ — filesystem, archive, network, cache, system, translation, and
-  VDF helpers.
-- src/widgets/ — GTK4/libadwaita application, window, preferences, tools,
-  and games.
-- data/ — resources, icons, CSS, desktop metadata, AppStream metadata,
-  GSettings schema, and systemd units.
-- po/ — gettext catalogs and the generated source-file list.
-- tests/ — Vala regression tests, fixtures, and maintenance-script tests.
-- scripts/ — build, translation, icon, and version maintenance helpers.
-- packaging/ — native package definitions, release installation checks, and
-  AppImage build scripts.
-- docs/codebase-guide.md — the whole-system runtime map, ownership boundaries,
-  persistence contracts, and change-location guide.
-- docs/provider-architecture.md — the provider and release-source extension
-  model.
-- docs/testing.md — focused test paths, fixture rules, safety constraints, and
-  manual-validation expectations.
-- docs/maintenance.md — everyday maintenance, debugging paths, release steps,
-  and a ranked assessment of recurring work.
-
-### Adding a provider
-
-Read [docs/provider-architecture.md](docs/provider-architecture.md) first.
-Ordinary providers are definition-driven; they do not require a provider
-subclass, widget branch, or installation-service branch.
-
-1. Add or update the relevant definition in
-   src/models/providers/definitions/ and include it through the existing
-   built-in definition collection.
-2. Reuse an existing release source and installation layout whenever their
-   semantics match. Keep provider identity, variants, asset selection, and
-   launcher-specific layouts explicit.
-3. Add or update focused tests and fixtures under tests/, especially for
-   filtering, canonical asset URLs, variants, identity, and cache behavior.
-4. Add a new source adapter only when the upstream API semantics require one;
-   register it in src/providers/sources/release-source-registry.vala and test
-   malformed responses, pagination, failures, identity, and asset selection.
-
-### Adding launcher or installation behavior
-
-Launcher integrations belong under src/models/launchers/. Installation
-transactions belong under src/services/. The installation service selects a
-workflow from the job's capabilities: ordinary archive providers use the
-standard workflow, while materially different behavior such as Steam Tinker
-Launch has a dedicated workflow. Do not add branches keyed only to a provider
-ID when a capability or launcher context expresses the requirement more
-accurately.
-
-Any new .vala file must be added to the appropriate meson.build file. Update
-tests, documentation, and translations when the change affects them.
-
-## Coding and UI guidelines
-
-- Use four spaces for Vala and Python. Follow .editorconfig for Meson, YAML,
-  JSON, and other files.
-- Follow the existing Vala and GLib conventions. Keep changes focused and avoid
-  unrelated formatting or architectural rewrites.
-- Keep network, filesystem, archive, and other blocking work out of GTK filter,
-  sort, and rendering callbacks. Use the existing asynchronous services and
-  pass cancellation through the whole operation.
-- After an asynchronous yield, verify that the requested object and current
-  operation still match before updating UI or cache state.
-- Preserve transactional installation and update behavior: stage privately,
-  promote atomically, roll back on failure, and clean up only paths owned by
-  the current operation.
-- Wrap user-visible strings with gettext helpers (_() or ngettext()), use clear
-  accessible labels and tooltips, and keep controls keyboard reachable. Check
-  UI changes in both light and dark themes and at narrow window sizes.
-- Avoid duplicating information in compact GTK controls and preserve layout
-  allocation when a conditional control is temporarily unavailable.
+- Follow `.editorconfig`, including four spaces for Vala and tabs for Makefile
+  recipes. Add each new `.vala` file to the nearest `meson.build`.
+- Keep network, archive, and filesystem work off GTK callbacks. Propagate
+  cancellation and verify the selected object and operation after async yields.
+- Stage and promote installs transactionally, roll back on failure, and clean
+  up paths owned by the operation.
+- Use `_(...)` or `ngettext(...)` for user-visible strings and escape dynamic
+  markup. Keep labels concise and allow keyboard access to controls.
+- Check UI changes in light and dark themes and at narrow widths. Keep layout
+  allocation stable when conditional controls become unavailable.
 
 ## Translations and metadata
 
-User-facing text is translated with gettext and coordinated through
-[Weblate](https://hosted.weblate.org/projects/protonplus/protonplus/). When
-adding or removing translatable source files, regenerate the source list and
-the gettext template:
+Use [Weblate](https://hosted.weblate.org/projects/protonplus/protonplus/) for
+translation contributions. Run `make translations` after changing translatable
+strings or adding or removing Vala sources. It regenerates `po/POTFILES` and
+`po/com.vysp3r.ProtonPlus.pot`. Use `make translations-update` to merge language
+catalogs intentionally.
 
-~~~bash
-./scripts/build.sh translations
-~~~
-
-Do not hand-edit generated translation output unless you are intentionally
-updating a catalog. Changes to icons, desktop metadata, AppStream metadata,
-GSettings, or resources should be tested through the Meson build and relevant
-validation tests.
+Check changes to desktop files, AppStream metadata, GSettings, icons, and
+resources with the relevant Meson validation. Regenerate tracked PNG icons
+with `make icons` when the source icon changes.
 
 ## Issues and pull requests
 
 ### Bug reports
 
-Use the [bug report form](https://github.com/Vysp3r/ProtonPlus/issues/new/choose)
-after checking existing issues and the latest release. Include:
-
-- a clear description of the actual and expected behavior;
-- reproducible steps, input, and relevant upstream provider or release;
-- distribution, desktop environment, ProtonPlus version, installation type, and
-  launcher setup;
-- logs, screenshots, or a stack trace when useful; and
-- whether the issue occurs in both native and Flatpak builds, if relevant.
-
-Never include secrets such as API tokens or private paths containing sensitive
-information. Report vulnerabilities privately using [SECURITY.md](SECURITY.md).
+Include the expected and actual behavior, steps to reproduce, and the ProtonPlus
+version, distribution, desktop environment, installation type, and launcher.
+Add the affected provider or release and useful logs or screenshots. Remove
+any tokens and private data. [Bug report form](https://github.com/Vysp3r/ProtonPlus/issues/new/choose)
 
 ### Feature requests
 
-Use the [feature request form](https://github.com/Vysp3r/ProtonPlus/issues/new/choose).
-Explain the user problem, the proposed behavior, alternatives considered, and
-why the change benefits ProtonPlus users generally.
+Describe the user problem, the proposed behavior, and alternatives you
+considered. [Feature request form](https://github.com/Vysp3r/ProtonPlus/issues/new/choose)
 
 ### Pull requests
 
-Open pull requests against main and complete
-[.github/pull_request_template.md](.github/pull_request_template.md). A good
-pull request:
+- Explain one coherent change and link its issue when available.
+- Describe new dependencies, settings, and migration behavior.
+- Include tests and update relevant documentation, metadata, or translations.
+- Report the checks you ran and what you verified manually. Attach screenshots
+  or a recording for meaningful UI changes.
 
-- contains one coherent change and links the relevant issue when one exists;
-- explains motivation, design decisions, new dependencies, and configuration
-  changes;
-- includes focused tests or explains why tests are not practical;
-- updates documentation, metadata, and translations when applicable;
-- includes screenshots or a recording for meaningful UI changes; and
-- reports the exact build, test, lint, or manual verification performed.
+Use the [pull request template](.github/pull_request_template.md). Keep version
+bumps and release metadata with release work. [Release checklist](docs/maintenance.md#prepare-a-release)
 
-Reviewers prioritize correctness, data safety, regressions, accessibility,
-performance, maintainability, and consistency with the existing architecture.
-Passing CI is necessary but does not replace manual review of behavior and UI.
+## AI-assisted development
 
-## Release and versioning notes
-
-Release work is maintainer-led. Follow the preparation and verification steps
-in [docs/maintenance.md](docs/maintenance.md#prepare-a-release). The project
-version is declared in meson.build; ./scripts/set-version.sh VERSION updates it
-and the tagged source reference in the Flathub manifest. AppStream release
-notes and the Git tag are updated separately. `./scripts/set-version.sh --check`
-checks the release fields without modifying them and requires `xmllint` from
-the libxml2 tools package. Pushing the version tag runs the native packaging
-checks. Publishing a GitHub release builds and attaches the native packages,
-AppImages, source archive, and checksums.
-
-Contributors should not change the project version or release metadata unless
-the pull request is specifically part of a release. If a version-related
-change is requested, use --dry-run first and verify every generated and manual
-update before committing.
-
-## Final checklist
-
-Before requesting review:
-
-~~~bash
-./scripts/check.sh
-pre-commit run --all-files
-~~~
-
-Then run the application or the relevant Flatpak build, inspect the diff for
-unrelated changes, and describe the verification in the pull request.
+AI tools, including OpenAI Codex, have been used to help advance ProtonPlus
+further. AI was used as a supporting engineering tool within a structured
+development process, under human direction and subject to code review, testing,
+and validation. Project decisions and final responsibility remain with the
+maintainers.

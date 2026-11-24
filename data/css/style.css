@@ -7,35 +7,35 @@
 }
 
 .green {
-    color: var(--accent-green);
+    color: #3a944a;
 }
 
 .blue {
-    color: var(--accent-blue);
+    color: #3584e4;
 }
 
 .circular-progress-bar {
-    color: var(--accent-color);
+    color: @accent_color;
 }
 
 .purple {
-    color: var(--accent-purple);
+    color: #9141ac;
 }
 
 .orange {
-    color: var(--accent-orange);
+    color: #ed5b00;
 }
 
 .red {
-    color: var(--accent-red);
+    color: #e62d42;
 }
 
 .list-header {
     padding: 6px 12px;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
-    border-bottom: 1px solid var(--card-shade-color);
-    background-color: var(--card-bg-color);
+    border-bottom: 1px solid @card_shade_color;
+    background-color: @card_bg_color;
     box-shadow: none;
 }
 
@@ -46,7 +46,7 @@
 }
 
 .games-filter-active {
-    color: var(--accent-color);
+    color: @accent_color;
 }
 
 .list-content {
@@ -70,7 +70,7 @@
 }
 
 .launch-options-preview-surface {
-    background-color: alpha(var(--window-fg-color), 0.04);
+    background-color: alpha(@window_fg_color, 0.04);
     border-radius: 8px;
 }
 
@@ -91,7 +91,7 @@ flowboxchild {
 }
 
 .controller-focus {
-    box-shadow: inset 0 0 0 2px var(--accent-bg-color);
+    box-shadow: inset 0 0 0 2px @accent_bg_color;
 }
 
 .games-sort-header-focus-proxy.controller-focus {
@@ -99,26 +99,26 @@ flowboxchild {
 }
 
 .games-sort-header-controller-focus {
-    outline: 2px solid var(--accent-color);
+    outline: 2px solid @accent_color;
     outline-offset: -2px;
-    box-shadow: inset 0 0 0 2px alpha(var(--accent-bg-color), 0.3);
+    box-shadow: inset 0 0 0 2px alpha(@accent_bg_color, 0.3);
 }
 
 button.controller-focus,
 menubutton.controller-focus > button {
-    color: var(--accent-fg-color);
-    background-color: var(--accent-bg-color);
-    outline: 2px solid var(--accent-color);
+    color: @accent_fg_color;
+    background-color: @accent_bg_color;
+    outline: 2px solid @accent_color;
     outline-offset: 1px;
-    box-shadow: 0 0 0 2px alpha(var(--accent-bg-color), 0.3);
+    box-shadow: 0 0 0 2px alpha(@accent_bg_color, 0.3);
 }
 
 .controller-hint-bar {
     min-height: 42px;
     padding: 8px 12px;
-    color: var(--window-fg-color);
-    background-color: var(--headerbar-bg-color);
-    border-top: 1px solid var(--headerbar-shade-color);
+    color: @window_fg_color;
+    background-color: @headerbar_bg_color;
+    border-top: 1px solid @headerbar_shade_color;
 }
 
 .controller-hint-button {
@@ -126,13 +126,13 @@ menubutton.controller-focus > button {
     min-height: 20px;
     padding: 1px 6px;
     border-radius: 9999px;
-    color: var(--accent-fg-color);
-    background-color: var(--accent-bg-color);
+    color: @accent_fg_color;
+    background-color: @accent_bg_color;
     font-weight: bold;
 }
 
 .controller-hint-action {
-    color: var(--window-fg-color);
+    color: @window_fg_color;
 }
 
 .controller-hint-secondary {
@@ -140,13 +140,13 @@ menubutton.controller-focus > button {
 }
 
 button.tools-filter-active {
-    background-color: alpha(var(--accent-bg-color), 0.14);
-    color: var(--accent-color);
+    background-color: alpha(@accent_bg_color, 0.14);
+    color: @accent_color;
 }
 
 row.controller-focus {
-    background-color: alpha(var(--accent-bg-color), 0.12);
-    box-shadow: inset 0 0 0 2px var(--accent-bg-color);
+    background-color: alpha(@accent_bg_color, 0.12);
+    box-shadow: inset 0 0 0 2px @accent_bg_color;
 }
 
 .tools-group-card {
@@ -164,18 +164,18 @@ row.controller-focus {
 .tool-metadata-pill {
     border-radius: 9999px;
     padding: 2px 8px;
-    color: var(--window-fg-color);
-    background-color: alpha(var(--window-fg-color), 0.10);
+    color: @window_fg_color;
+    background-color: alpha(@window_fg_color, 0.10);
     font-size: 0.85em;
     font-weight: 600;
 }
 
 .tool-metadata-pill.tool-metadata-used {
-    background-color: alpha(var(--accent-bg-color), 0.16);
+    background-color: alpha(@accent_bg_color, 0.16);
 }
 
 .tool-metadata-pill.tool-metadata-obsolete {
-    background-color: alpha(var(--warning-bg-color), 0.18);
+    background-color: alpha(@warning_bg_color, 0.18);
 }
 
 .tools-releases-card {
@@ -202,8 +202,8 @@ row.controller-focus {
     min-width: 1.4em;
     border-radius: 9999px;
     padding: 1px 4px;
-    background-color: var(--accent-bg-color);
-    color: var(--accent-fg-color);
+    background-color: @accent_bg_color;
+    color: @accent_fg_color;
     font-size: 0.8em;
     font-weight: bold;
 }
@@ -217,8 +217,8 @@ row.controller-focus {
 }
 
 row.download-highlight {
-    background-color: alpha(var(--accent-bg-color), 0.16);
-    box-shadow: inset 0 0 0 2px alpha(var(--accent-bg-color), 0.7);
+    background-color: alpha(@accent_bg_color, 0.16);
+    box-shadow: inset 0 0 0 2px alpha(@accent_bg_color, 0.7);
 }
 
 /* Keep column-header focus inside the cell; only its color should animate. */
@@ -231,7 +231,7 @@ columnview.list-content > header > button {
 
 columnview.list-content > header > button:focus-visible,
 columnview.list-content > header > button.games-sort-header-controller-focus {
-    outline-color: var(--accent-color);
+    outline-color: @accent_color;
 }
 
 /* Inline releases share the parent boxed list surface. */

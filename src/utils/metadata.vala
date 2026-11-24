@@ -19,7 +19,7 @@ namespace ProtonPlus.Utils {
 
             Posix.Stat metadata_stat;
             if (Posix.lstat (metadata_path, out metadata_stat) == 0 && Posix.S_ISREG (metadata_stat.st_mode)) {
-                var root_node = Parser.get_node_from_json (Filesystem.get_file_content (metadata_path));
+                var root_node = parse_json (Filesystem.get_file_content (metadata_path));
                 if (root_node != null && root_node.get_node_type () == Json.NodeType.OBJECT) {
                     var root_object = root_node.get_object ();
                     // Receipts are external data. Reject invalid field types as

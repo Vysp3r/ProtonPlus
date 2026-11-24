@@ -60,24 +60,31 @@ continues to expose the resulting flags to existing consumers.
 | Path | Responsibility |
 | --- | --- |
 | `src/main.vala`, `src/globals.vala` | Process selection, global settings, host capability detection, cache root, and localization setup. |
+| `src/controller/` | SDL/GTK gamepad integration and policies for input, focus, navigation, hints, and haptics. |
+| `src/launch-options/` | Launch-command parsing, composition, serialization, option metadata, and edit state. |
 | `src/models/` | Launchers, games, providers, releases, assets, variants, installed inventory, and Steam lifecycle value objects. |
 | `src/models/launchers/` | System/Flatpak/Snap detection, launcher-specific directories, libraries, profiles, and capabilities. |
 | `src/models/providers/` | Built-in provider definitions, validation, stable IDs, variants, filtering, and install layouts. |
+| `src/models/releases/` | Releases, assets, pagination, and catalog state. |
+| `src/models/steam/` | Steam discovery, diagnostics, profiles, and restart records. |
 | `src/providers/sources/` | Stateless GitHub, GitHub Actions, GitLab, and Forgejo fetch/normalization adapters. |
-| `src/services/` | Install/update/remove coordination, archive transactions, Steam configuration and restart lifecycle, process guards, and migrations. |
+| `src/services/installation/` | Install/update/remove coordination, archive and specialized workflows, and process guards. |
+| `src/services/steam/` | Steam configuration, game launch, session detection, and restart coordination. |
+| `src/services/migrations/` | Application data migrations. |
 | `src/utils/` | Filesystem, archive, network, cache, process, metadata, translation, VDF, and platform helpers. |
 | `src/widgets/` | GTK4/libadwaita application, loading flow, main navigation, Tools, Games, preferences, downloads, and introduction. |
 | `src/cli/` | Command parsing, stable/legacy identity matching, progress, return codes, and injectable terminal output. |
 | `data/` | GResources, CSS, icons, desktop/AppStream metadata, GSettings schema, and systemd user units. |
-| `tests/` | One TAP-producing Vala test executable, Python maintenance tests, and host-independent fixtures. |
+| `tests/` | Test entry point, Vala unit and maintenance suites, standalone GTK tests, and host-independent fixtures. |
 | `po/` | Gettext POT source list, template, and translation catalogs. |
-| `scripts/` | Build entry points and maintenance commands. |
-| `packaging/` | Native distro recipes, clean-install checks, and AppImage build scripts. |
+| `Makefile` | Development builds and maintenance targets for translations, icons, and packages. |
+| `packaging/` | Version metadata, native distro recipes, clean-install checks, and AppImage build scripts. |
 | `.github/workflows/`, `.github/actions/` | CI and release jobs and their shared packaging steps. |
 
 Each source subtree contributes files to the shared `sources` collection in
 its local `meson.build`; `src/meson.build` builds a static core library used by
-both the application and tests.
+both the application and tests. `data/meson.build` compiles the GResource
+library once for executables that use it.
 
 ## Core runtime flows
 
@@ -131,22 +138,19 @@ provider, source, and specialized-workflow extension rules.
 
 ### Installed-state discovery
 
-Every `Group` owns one `InstalledToolInventory`. It scans the launcher's
-ProtonPlus-managed tool directories, reads `.protonplus` metadata and compatibility-tool
-manifests, and resolves installed entries back to tools. Stable persisted
-identity wins; carefully bounded legacy fallbacks may migrate metadata when a
-match is unambiguous.
+Every `Group` owns one `InstalledToolInventory`.
 
-Services invalidate this inventory after installation or removal. Consumers
-refresh it at an explicit boundary and read a snapshot. Do not let a widget or
-each tool independently rescan the same directory; that creates stale and
-cross-launcher state.
+- Inventory reads managed directories, `.protonplus` metadata, and tool
+  manifests. Stable IDs take priority. Legacy metadata can migrate when the
+  match is unambiguous.
+- Services invalidate inventory after a mutation. Consumers refresh at an
+  explicit read boundary and use the resulting snapshot.
+- A symlinked collection root can relocate the managed collection. An
+  individual tool symlink stays outside inventory ownership. Bulk updates
+  report linked Latest slots and continue with eligible directories.
+  Archive operations preserve links and their targets.
 
-A launcher can relocate its managed collection with a directory symlink.
-Inventory scans the collection's real child directories through that path.
-An individual tool directory symlink stays outside inventory ownership.
-Bulk updates report linked Latest slots and continue with eligible directories.
-Archive installation and replacement preserve individual links and their targets.
+#### Steam-selectable tools
 
 Steam-selectable tools have a separate boundary:
 `SteamCompatibilityToolDiscovery` reads Steam library apps, the active Steam
@@ -160,6 +164,11 @@ feature probes. Package/custom roots obtain their exact identity from
 Valve app ID mapping and require a regular `toolmanifest.vdf`; Proton entries
 also require a regular `proton` launcher. Display names never supply persisted
 Steam compatibility-tool IDs.
+
+Flatpak ProtonPlus can inspect the Steam libraries and managed tool directory
+exposed by the manifest. Flatpak Steam extensions live in Flatpak runtime
+directories, which the `host` filesystem grant excludes. Native ProtonPlus can
+inspect those extension directories when they are readable.
 
 `SteamLibraryDiagnostics` reads known Steam appmanifests and a bounded tail of
 that instance's compatibility log on a worker thread. It reports completed
@@ -197,7 +206,8 @@ metadata, and cleans owned temporary paths. `SteamTinkerLaunchWorkflow` is a
 separate transaction because its layout and lifecycle materially differ.
 `TinkerGameWorkflow` specializes archive preparation to validate the required
 runtime and stage its Steam registration with the installation; see
-[`tinkergame.md`](tinkergame.md) for supported targets and migration policy.
+[the TinkerGame integration guide](integrations/tinkergame.md) for supported targets
+and migration policy.
 
 Operations that can change an existing compatibility tool perform a second
 asynchronous, target-aware process check at the workflow's final mutation
@@ -208,20 +218,25 @@ instructions between the snapshot and the filesystem mutation.
 
 ### Download recovery
 
+#### Retries
+
 `Utils.Web` owns HTTP recovery. Downloads use a separate Soup session with a
 30-second socket inactivity timeout; API sessions retain libsoup's original
 timeout policy. Both use the same configured proxy resolver and user agent.
 Every attempt starts from the catalog URL and follows redirects anew, so an
 expired redirected URL is never persisted as an asset identity.
 
-The recovery window is **10 minutes from the first interruption**, including
-subsequent transfers and waits, with **32 total attempts** as a second bound.
-It does not reset when some bytes arrive. Backoff grows 1/2/4/8/16/30 seconds,
-then stays at 30. Numeric and HTTP-date `Retry-After` can extend that wait; if
-it exceeds the remaining recovery window, the operation fails without retrying
-early. A timer cancels an in-flight request when the recovery window expires.
-Transient socket/DNS errors and HTTP 408/429/500/502/503/504 are recoverable.
-Other HTTP statuses, TLS, local filesystem, and validation failures are terminal.
+- The recovery window starts on the first interruption. It includes subsequent
+  transfers and waits and ends after **10 minutes** or **32 total attempts**.
+  A timer cancels an in-flight request when the window expires.
+- Backoff grows over delays of 1, 2, 4, 8, 16, and 30 seconds. Numeric or
+  HTTP-date `Retry-After` can extend the wait. A wait beyond the deadline ends
+  the operation.
+- Transient socket or DNS errors and HTTP 408, 429, 500, 502, 503, and 504
+  are recoverable. Other HTTP statuses, TLS, filesystem, and validation
+  failures are terminal.
+
+#### Progress
 
 `InstallJob` exposes downloading, waiting to retry (countdown and next attempt),
 and reconnecting states to the existing GUI and CLI progress paths. Waiting
@@ -231,39 +246,44 @@ accepted response, so waits, saved bytes, and discarded transfers cannot inflate
 speed or ETA. Unknown totals report bytes with no ETA; all attempts retain the
 shared global speed limiter.
 
+#### Partial downloads
+
 `PartialDownloadCache` owns unvalidated bytes under `partials/`, separate from
 validated `archives/`. Version-1 metadata records catalog asset identity (URL,
-name, size, digest), strong ETag, byte count, total representation length, identity
-encoding, and update time. Mirrored downloads use version 2 with the effective
-endpoint so older builds reject their partial bytes. Changing the endpoint
-invalidates the partial while retaining the per-asset lock. The optional
-`github-download-mirror` setting is resolved once at the `InstallJob` download
-boundary; catalog URLs and completed archive identities remain canonical.
-A new operation checks metadata types/version, expiry,
-regular files without following symlinks, and exact byte count before sending
-`Range`/`If-Range`. Missing or weak validators cannot resume. A `206` must match
-the validator, offset, total, and complete remaining range. A `200` replaces the
-partial; a `416` abandons the validator and retries a full download. Malformed
-responses are discarded, never appended. Completed downloads still undergo the
-workflow's size/digest and extraction validation before archive publication.
+name, size, digest), strong ETag, byte count, total representation length,
+identity encoding, and update time. Mirrored downloads use version 2 with the
+effective endpoint so older builds reject their partial bytes.
 
-Recoverable terminal failures retain eligible partials for manual Retry and a
-later application launch. Explicit Cancel, permanent failure, invalid metadata,
-and validation failure discard partials. Only interrupted transfers with a
-strong validator are retained; metadata is checkpointed after terminal recovery,
-so a process crash during transfer may safely fall back to a fresh download.
+Changing the endpoint invalidates the partial while retaining the lock. The
+`github-download-mirror` setting is resolved once at the `InstallJob` download
+boundary. Catalog URLs and completed archive identities remain canonical.
+
+- Resume requires valid metadata, an unexpired regular file without following
+  symlinks, an exact byte count, and a strong validator before sending
+  `Range` and `If-Range`.
+- A `206` must match the validator, offset, total, and entire remaining range.
+  A `200` replaces the partial. A `416` discards the validator and starts a
+  full download. The workflow discards malformed responses and validates
+  completed archives before publication.
+- Recoverable terminal failures retain eligible partials for Retry or a later
+  launch. Cancel, permanent failure, invalid metadata, and failed validation
+  discard them. Metadata is checkpointed after terminal recovery, so a crash
+  during transfer can require a fresh download.
+
+#### Locks and cleanup
+
 Per-asset OS locks reject concurrent writers, including other processes. A shared
 cache lock covers each complete installation transaction, including cache hits,
 verification, extraction and staging, so another GUI or CLI process cannot clear
 its working files. Its small lock file lives beside
 the disposable cache tree so clearing cannot replace a locked inode.
 
-Cleanup runs off the UI thread under an exclusive cache lock, after installation
-transactions and around standalone downloads. It never prunes active transfers. Retained partials expire after **7 days**;
-cleanup keeps at most **32 entries / 2 GiB total**, preferring recent entries.
-Active transfers are exempt from these retention limits; when all leases finish,
-cleanup applies them. Clear Cache waits for active operations and removes both
-partial and completed archives, while Steam restart state remains outside cache.
+Cleanup takes an exclusive cache lock off the GTK thread after installs and
+around standalone downloads. It preserves active transfers, expires partials
+after **7 days**, and keeps at most **32 entries and 2 GiB** of recent partials.
+
+Clear Cache waits for active operations and removes partials and completed
+archives. Steam restart state lives outside the cache.
 
 ### Steam configuration and restart lifecycle
 
@@ -306,8 +326,9 @@ remove a pending restart requirement.
 
 ### Launch-option editing
 
-The Steam launch-options editor is split into UI-free semantic services and
-GTK adapters:
+The Steam launch-options editor delegates command processing to
+`src/launch-options/`. GTK controls, groups, and selection adapters live in
+`src/widgets/games/launch-options-editor/`.
 
 ```text
 raw source -> shell tokenizer -> LaunchCommandParser -> editor projection
@@ -337,8 +358,17 @@ boundary focus to controller navigation.
 
 `Games.Box` coordinates search/filter controls, launcher changes, boundary
 decisions, and single-game/mass-edit navigation. List factories belong in
-`games-list-view.vala`; page navigation belongs in `games-box.vala`. Both views
-share the same collection so changing width preserves selection and sort order.
+`games-list-view.vala`. Page navigation belongs in `games-page.vala`. Wide and
+narrow views share the same collection, preserving selection and sort order
+when the width changes.
+
+### Tools presentation
+
+`tools-page.vala` coordinates the Tools view. Releases expand inline in
+`tools-releases-box.vala`, where the actions menu stays with the release toolbar.
+Expansion and request generations each have one owner. Successful loads and
+refreshes share completion logic for inventory refresh and row cleanup.
+`ToolVariantPreferences` owns saved variants and legacy-key fallback.
 
 ## Identity and persistence contracts
 
@@ -364,9 +394,9 @@ old data.
 | Add an ordinary provider | `src/models/providers/definitions/` | Provider fixtures, registry/source/layout tests, translations if visible text changes. |
 | Add a hosting API | `src/providers/sources/` and source registry | `SourceType`, parser fixtures, pagination/failure/identity tests. |
 | Change launcher detection/layout | `src/models/launchers/` | Launcher initialization, target identity, CLI IDs, install layouts, Flatpak manifest. |
-| Change archive installation | `src/services/standard-archive-workflow.vala` | `InstallationService`, process guard, metadata, inventory, installer/update transaction tests. |
-| Change Steam configuration | `steam-configuration-service.vala` | VDF helpers, manager/store, session evidence, orchestrator, effective-state overlays. |
-| Change launch options | `src/widgets/games/launch-options-editor/` | Read [`launch-options.md`](launch-options.md), then check parser/composer/writer/projection tests and both single-game and mass-edit Apply paths. |
+| Change archive installation | `src/services/installation/standard-archive-workflow.vala` | `InstallationService`, process guard, metadata, inventory, installer/update transaction tests. |
+| Change Steam configuration | `src/services/steam/steam-configuration-service.vala` | VDF helpers, manager/store, session evidence, orchestrator, effective-state overlays. |
+| Change launch options | `src/launch-options/` for command behavior, `src/widgets/games/launch-options-editor/` for GTK controls | Read [`launch-options.md`](launch-options.md), then check parser/composer/writer/projection tests and both single-game and mass-edit Apply paths. |
 | Change tool variants | Variant models and provider definitions | Catalog asset selection, saved selection, Tools UI projection, install/update guard. |
 | Change GTK behavior | Relevant `src/widgets/` subtree | Model/service boundary, async lifetime, controller access, translations, manual checks. |
 | Add a setting | GSettings schema and preferences widgets | Defaults, bindings, migrations when semantics change, schema validation. |

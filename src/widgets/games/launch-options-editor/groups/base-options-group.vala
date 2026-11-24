@@ -1,3 +1,5 @@
+using ProtonPlus.LaunchOptions;
+
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
     using Adw;
 

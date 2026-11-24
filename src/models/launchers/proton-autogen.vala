@@ -14,7 +14,7 @@ namespace ProtonPlus.Models.Launchers {
             var steam_root = native_steam.directory != ""
                 ? native_steam.directory : Path.build_filename (home, ".local", "share", "Steam");
             var profiles = Path.build_filename (home, ".config", "proton-autogen", "games");
-            base ("Proton-Autogen", InstallationTypes.SYSTEM, Config.RESOURCE_BASE + "/proton-autogen.svg", {},
+            base ("Proton-Autogen", InstallationTypes.SYSTEM, Config.RESOURCE_BASE + "/proton-autogen.png", {},
                 FAMILY_ID, {}, steam_root, Steam.FAMILY_ID, "steam-system");
             this.native_steam = native_steam;
             profiles_directory = profiles;

@@ -1,0 +1,29 @@
+name: Release tag validation
+
+on:
+  push:
+    tags: ['v[0-9]*']
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate release metadata
+    if: github.event.deleted != true
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Check tag against release metadata
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        shell: bash
+        run: |
+          if ! command -v xmllint >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends libxml2-utils
+          fi
+          ./packaging/set-version.sh "${RELEASE_TAG#v}" --check

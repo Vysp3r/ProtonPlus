@@ -1,26 +1,7 @@
 sources += files(
-    'installation-workflow.vala',
-    'steam-change-recorder.vala',
-    'steam-configuration-service.vala',
-    'steam-lifecycle.vala',
-    'compatibility-process-guard.vala',
-    'archive-workflow-support.vala',
-    'steam-tinker-launch-context.vala',
-    'tinker-game-workflow.vala',
-    'tinker-game-migration.vala',
-    'steam-tinker-launch-yad-compatibility.vala',
-    'install-job.vala',
-    'download-failure.vala',
-    'standard-archive-workflow.vala',
-    'steam-tinker-launch-workflow.vala',
-    'installation-service.vala',
-    'steam-session-service.vala',
-    'steam-game-launch-service.vala',
     'proton-autogen-game-launch-service.vala',
-    'steam-restart-state-store.vala',
-    'steam-restart-manager.vala',
-    'steam-restart-backend.vala',
-    'steam-restart-orchestrator.vala',
 )
 
+subdir('installation')
 subdir('migrations')
+subdir('steam')

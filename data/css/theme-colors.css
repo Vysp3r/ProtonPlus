@@ -1,0 +1,38 @@
+/* Expose the theme palette as custom properties for libadwaita 1.6 and newer. */
+* {
+  --accent-bg-color: @accent_bg_color;
+  --accent-fg-color: @accent_fg_color;
+  --accent-color: @accent_color;
+  --window-bg-color: @window_bg_color;
+  --window-fg-color: @window_fg_color;
+  --view-bg-color: @view_bg_color;
+  --view-fg-color: @view_fg_color;
+  --headerbar-bg-color: @headerbar_bg_color;
+  --headerbar-fg-color: @headerbar_fg_color;
+  --headerbar-border-color: @headerbar_border_color;
+  --headerbar-backdrop-color: @headerbar_backdrop_color;
+  --headerbar-shade-color: @headerbar_shade_color;
+  --headerbar-darker-shade-color: @headerbar_darker_shade_color;
+  --sidebar-bg-color: @sidebar_bg_color;
+  --sidebar-fg-color: @sidebar_fg_color;
+  --sidebar-backdrop-color: @sidebar_backdrop_color;
+  --sidebar-border-color: @sidebar_border_color;
+  --sidebar-shade-color: @sidebar_shade_color;
+  --secondary-sidebar-bg-color: @secondary_sidebar_bg_color;
+  --secondary-sidebar-fg-color: @secondary_sidebar_fg_color;
+  --secondary-sidebar-backdrop-color: @secondary_sidebar_backdrop_color;
+  --secondary-sidebar-border-color: @secondary_sidebar_border_color;
+  --secondary-sidebar-shade-color: @secondary_sidebar_shade_color;
+  --card-bg-color: @card_bg_color;
+  --card-fg-color: @card_fg_color;
+  --card-shade-color: @card_shade_color;
+  --dialog-bg-color: @dialog_bg_color;
+  --dialog-fg-color: @dialog_fg_color;
+  --popover-bg-color: @popover_bg_color;
+  --popover-fg-color: @popover_fg_color;
+  --popover-shade-color: @popover_shade_color;
+  --thumbnail-bg-color: @thumbnail_bg_color;
+  --thumbnail-fg-color: @thumbnail_fg_color;
+  --shade-color: @shade_color;
+  --scrollbar-outline-color: @scrollbar_outline_color;
+}

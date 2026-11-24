@@ -1,175 +1,153 @@
 # Maintaining ProtonPlus
 
-Start with [the codebase guide](codebase-guide.md) to locate behavior and
-[the test map](testing.md#test-map) to select checks. This guide covers the
-repeated work of maintaining the project and records the maintenance audit.
+Use the [codebase guide](codebase-guide.md) to find a change's owner and the
+[test map](testing.md#test-map) to select checks.
 
 ## Everyday workflow
 
-```bash
-./scripts/build.sh help
-./scripts/build.sh native run       # build and run the checkout
-./scripts/check.sh /release-catalog # check one area while editing
-./scripts/check.sh                  # full suite and whitespace checks
-```
+| Task | Command |
+| --- | --- |
+| See available commands | `make help` |
+| Build and run the checkout | `make run` |
+| Check one area | `./tests/check.sh /release-catalog` |
+| Run the full suite and check the diff | `./tests/check.sh` |
+| Lint Vala source and tests | `make lint` |
+| Check release metadata | `./packaging/set-version.sh --check` |
 
-`./scripts/build.sh native run` and checks share `build/` and its local resources;
-installation is a separate `sudo meson install -C build` action. Override it with
-`BUILD_DIR=build-tests ./scripts/check.sh` if you already have another test build.
-The native build and translation commands honor the same override.
-Meson regenerates changed build definitions during compilation.
+Native builds, tests, and translations use `build/` and honor `BUILD_DIR`.
+If you move a checkout and Meson still references the old path, use
+`meson setup build --wipe .` to regenerate that build directory. Meson normally
+regenerates changed build definitions during compilation.
 
-When a checkout has moved, an old Meson build can retain absolute paths to
-its original location. If reconfiguration still references the old directory,
-recreate that generated build configuration with
-`meson setup build --wipe .`. This discards compiled results and preserves
-source files. Do not use `./scripts/build.sh clean` just to fix one stale build.
-
-Keep one problem per change. Trace its read, state, write, and persistence
-owners, fix it there, and use an existing behavioral test where possible.
-Add a regression when the failure could otherwise return. Run
-`./scripts/build.sh translations` only when changing translatable strings or
-adding/removing Vala sources. It updates the source list and template only.
-Use `./scripts/build.sh translations update` to merge language catalogs explicitly;
-keep that generated diff separate when practical.
-
-The full suite can skip GUI tests when no display is available. Read its
-summary and record what still needs manual checking; passing headless checks
-does not establish controller, packaging, or live Steam behavior.
+Use `make translations` to refresh the source list and template after changing
+translatable strings or adding or removing Vala sources. Use
+`make translations-update` when you intend to merge the language catalogs.
 
 ## Debug a report
 
-Collect the ProtonPlus version and packaging, launcher installation type,
-affected provider/variant/release, exact action, and terminal error before
-trying to reproduce. Preferences > Advanced > System Information provides
-copyable environment and launcher information. For a crash before Preferences
-opens, use terminal output or `./scripts/build.sh native debug` for a native
-backtrace.
+Collect the version, package format, launcher type, provider, variant, exact
+action, and error. **Preferences → Advanced → System Information** provides
+copyable environment details. For a crash before Preferences opens, capture
+terminal output or use `make debug` for a native backtrace.
 
-| Symptom | Start here | Focused check |
+| Symptom | Start here | Focused test paths |
 | --- | --- | --- |
-| Launcher missing | `src/models/launchers/`, then `Launcher.get_all()` | Launcher-specific tests; test packaging visibility separately. |
-| Release missing or wrong asset | Provider definition, matching source, then `ReleaseCatalog` | `/providers`, `/provider-definitions`, `/release-catalog` |
-| Installed tool missing or wrong variant | `InstalledToolInventory`, metadata, then `ProviderTool.get_directory_name()` | `/installed-tool-inventory`, `/identity`, `/install-layout` |
-| Install/update fails | `InstallationService`, selected workflow, then archive/download helpers | `/installer-transaction`, `/update-transaction`; download paths below. |
-| Steam edit disappears or restart stays pending | Configuration service, restart manager/store, then session evidence | `/steam-configuration`, `/steam-restart-manager`, `/steam-session` |
-| Launch command changes unexpectedly | Parser, edit state, then writer; compare preview and Apply | `/launch-command-parser`, `/launch-command-writer` |
-| Controller focus or dialog problem | `ControllerManager`, relevant policy, widget registration/cleanup | Relevant `/controller-*` paths; repeat on hardware. |
+| Launcher missing | `Launcher.get_all()` and `src/models/launchers/` | Launcher-specific tests |
+| Release missing or wrong asset | Definition, release source, `ReleaseCatalog` | `/providers`, `/provider-definitions`, `/release-catalog` |
+| Installed tool missing or wrong variant | Inventory, metadata, `ProviderTool.get_directory_name()` | `/installed-tool-inventory`, `/identity`, `/install-layout` |
+| Install or update fails | `InstallationService` and selected workflow | `/installer-transaction`, `/update-transaction` |
+| Download keeps failing | `Utils.Web` and partial download cache | `./tests/check.sh downloads` |
+| Steam edit or restart stays pending | Configuration service, restart manager, session evidence | `/steam-configuration`, `/steam-restart-manager`, `/steam-session` |
+| Launch command changes unexpectedly | Parser, edit state, writer | `/launch-command-parser`, `/launch-command-writer` |
+| Controller focus or dialog problem | `ControllerManager`, policy, widget lifecycle | `./tests/check.sh controller` and hardware validation |
 
-For downloads, the named area includes all nested paths:
+See the [fixture rules](testing.md#safety-rules-for-tests) for launcher, Steam,
+and filesystem tests. Record any GUI or live behavior that needs separate
+validation. [Manual checks](testing.md#manual-validation)
 
-```bash
-./scripts/check.sh downloads
-```
+## CI and packaging
 
-Named areas use recursive GLib `-r` selection. Explicit `/paths` retain `-p`,
-which does not recursively select nested groups. Use `-l` on the test binary
-from `tests/` to find exact paths.
-Use fixtures for filesystem, launcher, and Steam mutations, as described in
-[testing.md](testing.md#safety-rules-for-tests).
+| CI trigger | Flatpak | Native packages and AppImage |
+| --- | --- | --- |
+| Pull request to `main` | x86_64 and aarch64 | x86_64 |
+| Push to `main` | x86_64 and aarch64 | x86_64 and aarch64 |
+| Manual CI with `flatpak` scope | x86_64 and aarch64 | — |
+| Manual CI with `full` scope | x86_64 and aarch64 | x86_64 and aarch64 |
+
+The [CI workflow](../.github/workflows/ci.yml) builds the local Flatpak, runs
+its tests, and reports advisory lint for both manifests and the exported repo.
+
+`make package TARGET=debian13` builds a native package into `dist/`. Other
+native targets are `ubuntu26.04`, `fedora45`, and `archlinux`. The package
+builder uses Docker or Podman. Set `PROTONPLUS_CONTAINER_ENGINE=podman` to
+select Podman explicitly.
+
+Build an AppImage with `make package TARGET=appimage` in the prepared
+Arch-based environment. The [dependency script](../packaging/appimage/get-dependencies.sh)
+prepares that environment. If optional smaller packages are unavailable, the
+build uses stock Arch packages and may produce a larger AppImage.
 
 ## Prepare a release
 
-1. Inspect the working tree and run `./scripts/check.sh`. Run the relevant GUI
-   checks from [testing.md](testing.md#manual-validation) and review both
-   architecture build results in CI. Check local Flatpak packaging when its
-   inputs changed.
-2. Preview the next version, then update it:
+1. Inspect the working tree. Run `./tests/check.sh`, exercise the relevant
+   [manual checks](testing.md#manual-validation), and review CI for both
+   architectures. Test the local Flatpak when packaging inputs changed.
+2. Preview and set the intended version in Meson and the release Flatpak
+   manifest. Replace the example version with the intended release.
 
    ```bash
-   ./scripts/set-version.sh 0.6.10 --dry-run
-   ./scripts/set-version.sh 0.6.10
+   version=0.6.10
+   ./packaging/set-version.sh "$version" --dry-run
+   ./packaging/set-version.sh "$version"
    ```
 
-   Substitute the intended version. This changes Meson and the tagged source
-   reference in `com.vysp3r.ProtonPlus.yml`; it does not create a release.
-3. Add the newest AppStream release entry with its version, ISO date, and notes
-   to `data/com.vysp3r.ProtonPlus.metainfo.xml.in`. Keep entries newest first.
-4. Run `./scripts/set-version.sh 0.6.10 --check` and `./scripts/check.sh`,
-   then inspect the exact release diff. `--check` is read-only; without an explicit
-   version it uses Meson's version. It checks local metadata, not whether a
-   remote Git tag exists or packaging succeeds.
-   The metadata check requires `xmllint` (the libxml2 tools package).
-5. Commit the reviewed release changes and push the matching `vVERSION` tag.
-   The **Release** workflow checks the tag against the release metadata,
-   creates a versioned source archive, and runs the native build and installation
-   tests. Review the results before publishing the GitHub release for that tag.
-6. Publish the GitHub release. The workflow rebuilds and tests the native
-   packages from the tag, checks both AppImages in clean containers, and
-   attaches all assets with `SHA256SUMS` after the jobs pass. Run **Release**
-   manually on a branch to build test artifacts for the selected commit.
+3. Add a version, ISO date, and notes to the top of the AppStream release
+   list. Keep the six newest entries there and move the oldest entry's
+   version, date, and notes to the top of the archive. [AppStream metadata](../data/com.vysp3r.ProtonPlus.metainfo.xml.in) · [Release archive](changelog.md)
+4. Run `./packaging/set-version.sh --check` and review the release diff. The
+   read-only check uses Meson's version by default and requires `xmllint` from
+   the libxml2 tools package.
+5. Commit the release changes and push the matching `vVERSION` tag. Review
+   [Release tag validation](../.github/workflows/release-tag.yml), which checks
+   the tag against Meson, AppStream, and the tagged Flatpak source.
+6. Publish the GitHub release for that tag. [Release](../.github/workflows/release.yml)
+   builds and verifies the source archive, native packages, and AppImages,
+   then attaches them with `SHA256SUMS`. A manual Release run builds artifacts
+   for the selected branch or tag.
 
-Native packages are built and tested for Debian 13, Ubuntu 26.04 LTS, Fedora 45,
-and Arch Linux or Arch Linux ARM on `x86_64` and `aarch64`. Each build runs the
-Meson suite with Xvfb and a D-Bus session. A second container installs the
-result through the distribution package manager. It checks runtime dependencies,
-the exact application version, desktop and AppStream metadata, icons, and
-GSettings schema discovery after the package-manager triggers run.
+The tagged Flatpak manifest needs the published source tag. Use the local
+manifest for a checkout before that tag is available.
 
-If the smaller optional Arch dependencies are unavailable, the AppImage build
-uses stock Arch dependencies. This can produce a larger AppImage.
+### Package verification
 
-Downstream recipes such as the AUR package can use the versioned release
-asset at `releases/download/vVERSION/ProtonPlus-VERSION-source.tar.gz` with its
-digest from `SHA256SUMS`. The archive extracts to `ProtonPlus-VERSION/` and
-contains the same source used for the official binary builds. The repository's
-Arch recipe takes `PROTONPLUS_VERSION` and `PROTONPLUS_SOURCE_SHA256` from the
-release when run with `makepkg`.
-
-Meson, the newest AppStream entry, and the tagged Flatpak manifest are aligned
-at **0.6.9**. The matching **v0.6.9** Git tag must be published through the
-release process before the tagged manifest can fetch its source. `--check`
-validates local metadata only; use the local manifest to build the checkout
-before publishing that tag.
+- The native packages cover Debian 13, Ubuntu 26.04 LTS, Fedora 45, and Arch
+  Linux on x86_64 and aarch64. Builds run the Meson suite with Xvfb and D-Bus.
+- A fresh container installs each package and checks runtime dependencies,
+  version, desktop metadata, icons, and GSettings schema discovery.
+- AppImage jobs check update metadata and run `protonplus version` in a clean
+  container.
+- Downstream recipes can use `ProtonPlus-VERSION-source.tar.gz` from the
+  release and its digest from `SHA256SUMS`. The archive extracts into
+  `ProtonPlus-VERSION/`. The Arch recipe accepts `PROTONPLUS_VERSION` and
+  `PROTONPLUS_SOURCE_SHA256` when run with `makepkg`.
 
 ## Maintenance audit and priorities
 
-The ordering below estimates recurring effort from local code and test
-coverage. It does not measure feature usage. Completed changes remove
-duplication without changing installed-tool identities or Steam data formats.
+### Build and validation
 
-| Priority | Finding and evidence | Action / status |
-| --- | --- | --- |
-| 1 | Build/run previously built twice and could implicitly install system-wide. Test instructions used multiple defaults. | Completed: build/run once from the checkout; `scripts/check.sh` uses `build/` for full and focused checks. Build and maintenance commands live in scripts; translation source-list generation moved there when the Makefile was removed. |
-| 2 | Version updates had no consistency check across Meson, tagged Flatpak source, and AppStream. | Completed. Read-only `--check` and fixture tests cover local metadata. The Release workflow validates it against the version tag before packaging. |
-| 3 | `InstallJob` and inventory separately spelled non-default variant directory suffixes. A change in one could make an installed tool disappear from discovery. | Completed: `ProviderTool.get_directory_name()` owns full spelling; job-to-inventory regression covers default and named variants. CLI batch updates also reuse single-update reporting. |
-| 4 | Three GUI executables repeated Meson display/environment registration. | Completed: one registration table preserves target names and per-test environment. New GUI tests add a table entry. |
-| 5 | Reports omitted the launcher packaging and exact tool/release; the PR template repeated generic checkboxes and linked to a missing heading. | Completed: targeted integration/log prompts and a shorter problem/validation/maintenance template. |
-| 6 | The built-in MangoHud editor maintained an independent config format and many settings pages. | Removed at the maintainer's request: editor, config writer, preview, and unused preference switch. External overlay launch options remain supported; existing MangoHud configuration files are untouched. |
-| 7 | `src/widgets/tools/tools-releases-box.vala` repeated successful load/refresh presentation work and owned saved-variant JSON. | Shared completion preserves request generations, refresh failure retention, inventory refresh, and row-handler cleanup. `ToolVariantPreferences` owns saved selection and legacy-key fallback. |
-| 8 | `src/widgets/games/games-box.vala` combined wide/narrow factories, sort-header controller focus, filtering, and mass-edit navigation. | List construction, bindings, and row focus belong to `GameListView`; the controller adapter is separate. `GameCollection` still owns state, and `Games.Box` coordinates filtering and page navigation. |
-| 9 | `src/utils/controller-manager.vala` has substantial surface, timer, and focus lifecycle work; policy decisions already have separate helpers. | Preserve that boundary. Prioritize cleanup regressions and hardware coverage over a new controller abstraction. |
-| 10 | Simple launch toggles repeated catalog text, recognition tokens, and serialization types in UI groups and wrappers. | Completed: 68 simple controls use their stable catalog ID; dynamic inputs remain explicit. Change shared metadata in the catalog. |
-| 11 | Startup repeatedly queried installed Flatpaks for individual optional components. | Completed: one injectable `InstalledComponents` snapshot queries and parses the list once, retaining native detection and exact-ID matching. |
-| 12 | The Tools GUI test assumed the compositor honored a 400-pixel toplevel width. | Completed: a controlled content viewport tests minimum width and allocated width independently of desktop window placement. |
-| 13 | `ReleaseRow` repeated creation and registration for seven actions. | Completed: a small registration helper retains explicit instance-method connections and action IDs. |
+- The Makefile and `tests/check.sh` share a build directory. `make run` uses
+  the checkout's local resources and catalog data.
+- `packaging/set-version.sh --check` validates release metadata with fixture
+  coverage. CI validates the version tag before release packaging.
+- `tests/gui/meson.build` owns the shared GTK test registration and per-test
+  environment. The Tools fixture checks content allocation with a controlled
+  viewport instead of relying on the compositor's window sizing.
+- Issue and pull request templates ask for the affected launcher, release,
+  and validation evidence.
 
-The shared Steam graph now lives in `SteamLifecycle`, used by GUI and CLI;
-GUI restart orchestration remains in `Application`. Provider entries use named
-`ProviderConfig` fields, which `ProviderDefinition` snapshots defensively.
-Inline Tools browsing remains in place. Its actions menu belongs permanently
-to the release toolbar, and expansion/request generations each have one owner.
+### Runtime ownership
+
+- `ProviderTool.get_directory_name()` owns variant naming for install jobs and
+  inventory. `ToolVariantPreferences` owns saved selections and legacy aliases.
+- `Games.Box` in `games-page.vala` owns navigation. `GameCollection` and
+  `GameListView` own list state and presentation. `ReleaseRow` uses one action
+  registration helper with stable action IDs.
+- Simple launch options share catalog metadata and stable IDs. The external
+  MangoHud wrapper and switches remain supported, with configuration managed
+  by MangoHud itself.
+- `InstalledComponents` queries the host's Flatpak IDs once per startup.
+  `SteamLifecycle` shares Steam service creation between the GUI and CLI.
 
 ## Feature costs and scope choices
 
-The MangoHud editor was removed at the maintainer's request. The remaining
-rows suggest maintenance boundaries, rather than a new support policy.
-Further feature removals should account for usage and compatibility.
-
-| Area | Recurring cost | Suggested maintenance boundary |
-| --- | --- | --- |
-| Ordinary providers | Low to moderate when a definition reuses an existing host adapter and archive workflow. Upstream names and variants still change. | Prefer exact definition/fixture edits. Avoid provider subclasses or provider-ID branches in widgets. |
-| New hosting APIs | Pagination, authentication, malformed data, asset rules, and failure fixtures. | Add an adapter only for semantics existing sources cannot represent. |
-| Steam configuration/restart | High: persisted intent, external writers, process evidence, platform-specific restarts. | Keep the separate owners and existing safety contracts. Maintain these even if feature growth pauses. |
-| Launch-option editing | High: raw shell spelling, wrappers, unknown content, mass-edit preservation, changing option support. | Prefer catalog updates; route all serialization through the writer. Limit new wrapper semantics until fixture coverage exists. |
-| Controller navigation | High manual cost across GTK controls, dialogs, input handoff, hardware, and Steam Deck. | Consider pausing new navigation features when hardware validation is unavailable. Keep input fixes and cleanup. |
-| External MangoHud overlay | Launch-option detection and serialization only; the config editor has been removed. | Preserve existing wrapper/environment commands. Users manage the overlay's configuration externally. |
-| SteamTinkerLaunch / TinkerGame | Specialized runtime, dependency checks, migration, registration, and installation transactions. | Keep their support limits explicit. Avoid further generalization or merging workflows merely because both target Steam. |
-| Launcher installation types | Directory/layout discovery plus native, Flatpak, Snap, and shared-target differences. | Fix supported cases; require a reproducible fixture and packaging check before expanding the matrix. |
-| CLI / background updates | Moderate, kept smaller by sharing install/update lifecycle with GUI. | Reuse services and result reporting; avoid a second implementation of tool mutations. |
-| Flatpak / native / AppImage | SDK/dependency changes, architectures, packaging resources, release artifacts. | Keep Flatpak CI as integration evidence. Consider reducing distribution scope only if packaging becomes a recurring blocker. |
-
-Avoid replacing the current service boundaries with one large manager or
-introducing a plugin framework for ordinary providers. Both increase the
-amount of context needed for routine fixes. Prefer small removals of repeated
-decisions, named owners for durable state, and fixtures at the risky boundaries.
+- Reuse definition, source, and standard archive workflows for ordinary
+  providers. Add hosting adapters for distinct API semantics.
+- Keep Steam configuration, restart evidence, and process lifecycles with
+  their existing owners. Preserve raw launch options through the writer,
+  including wrappers and unknown tokens.
+- Validate controller changes on representative hardware alongside GTK tests.
+  Prioritize focus, cleanup, and handoff regressions.
+- Keep SteamTinkerLaunch and TinkerGame support limits and migration rules
+  explicit. Add a fixture and packaging check when expanding launcher support.
+- Share CLI and GUI mutation services. Use the Flatpak and native CI jobs to
+  verify packaging changes across architectures.

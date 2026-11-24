@@ -8,8 +8,10 @@ whole source.
 
 ## Adding or changing a control
 
-`LaunchOptionCatalog` owns titles, descriptions, recognition tokens, and command
-semantics. Simple toggles in presentation groups and wrappers use
+`LaunchOptionCatalog` in [`src/launch-options/`](../src/launch-options/) owns
+titles, descriptions, recognition tokens, and command semantics. Simple
+toggles in presentation groups and wrappers under
+[`src/widgets/games/launch-options-editor/`](../src/widgets/games/launch-options-editor/) use
 `create_tile("stable-option-id")`; keep their order and legacy advanced flag in
 the group, without repeating catalog metadata. They use the editor's shared
 catalog, so changing a definition also updates the control and its tooltip.
@@ -24,7 +26,7 @@ off/on pairs; do not replace them with canonical emitted tokens.
 Generic runtime and component capabilities come from the selected compatibility
 tools, detected GPU vendor, and installed host/Flatpak components. Custom Proton
 features use `LaunchOptionToolFeatureRule` in
-`launch-option-capability-resolver.vala`.
+[`launch-option-capability-resolver.vala`](../src/launch-options/launch-option-capability-resolver.vala).
 
 Steam's `Default` selection is an alias, not an installed tool. Resolve it
 through the launcher's app-ID-0 `CompatToolMapping` entry before probing. The
@@ -62,23 +64,56 @@ do not recursively scan an installed Proton tree.
 
 ## Current source-backed options
 
-The following behavior was checked against upstream branch heads on 2026-08-04.
-Re-verify it before changing defaults because custom Proton behavior changes
-quickly.
+The catalog uses the switches below. Upstream behavior was reviewed on
+2026-08-04. Check upstream again before changing a default.
 
-| Area | Managed behavior |
-| --- | --- |
-| HDR | `DXVK_HDR=1` is the current explicit DXVK HDR switch. Current Proton-CachyOS auto-enables HDR and documents `DXVK_NO_HDR=1` as its feature-probed opt-out; the opt-out conflicts with both enable paths. `PROTON_ENABLE_HDR=1` is kept only for installed custom Proton builds that still advertise the legacy path. Proton-GE also warns that its HDR/Wayland path breaks Steam Overlay and can affect Steam Input. `ENABLE_HDR_WSI=1` is labeled for NVIDIA proprietary drivers older than 595 only. Gamescope HDR remains `--hdr-enabled`. |
-| FSR 4 | `PROTON_FSR4_UPGRADE=1` selects the installed build's default supported release. Do not hard-code a global FSR version because Proton-GE, Proton-CachyOS, and Proton-EM update on different schedules. `PROTON_FSR4_RDNA3_UPGRADE=1` is a legacy, feature-probed path: Proton-CachyOS removed it, while some Proton-GE builds retain it. |
-| ML frame generation | `PROTON_MLFG_UPGRADE=1` depends on the current FSR 4 option. Proton-CachyOS requires FSR 4.0.3 or newer. The optional RDNA3 workaround is `DXIL_SPIRV_CONFIG=wmma_rdna3_workaround`. Proton-EM enables MLFG by default with FSR 4 and documents value `0` as the opt-out. |
-| DX11 low latency | `PROTON_DXVK_LOWLATENCY=1` is exposed only when the selected custom Proton tool advertises it. |
-| DX12 low latency | `PROTON_VKD3D_LOWLATENCY=1` is exposed only when advertised. The upstream implementation needs Reflex markers or waitable swapchains and does not support Intel GPUs or frame generation. |
-| Vulkan low latency | `LOW_LATENCY_LAYER=1` exposes `VK_AMD_anti_lag`; `LOW_LATENCY_LAYER_REFLEX=1` switches to `VK_NV_low_latency2`. These help only games that already use the corresponding API. `DXVK_NVAPI_VKREFLEX=1` is the NVIDIA Vulkan-layer path advertised by Proton-CachyOS. |
-| AMD Reflex compatibility | Try `DXVK_NVAPI_ALLOW_OTHER_DRIVERS=1` first. The DXVK hide-AMD, forced-NVAPI, and low-latency-layer NVIDIA spoof presets are progressively more invasive and conflict with FSR 4/MLFG because upstream warns they can break those paths. |
-| Monitoring/capture | `MANGOHUD=1` is Vulkan-only; the `mangohud` wrapper remains the OpenGL-capable choice, while Gamescope users should use MangoApp. `OBS_VKCAPTURE=1` requires the native obs-vkcapture build, or both `com.obsproject.Studio.Plugin.OBSVkCapture` and `org.freedesktop.Platform.VulkanLayer.OBSVkCapture` for Flatpak OBS/Steam. NVIDIA needs modesetting and driver 515.43.04 or newer. |
-| CachyOS system profile | `game-performance %command%` requires the CachyOS helper and temporarily selects the performance power profile and gaming sched_ext profile. It conflicts with the separate GameMode wrapper. |
+### HDR
 
-Primary references:
+- `DXVK_HDR=1` explicitly enables DXVK HDR. Proton-CachyOS can enable HDR
+  automatically. On builds that advertise `DXVK_NO_HDR=1`, that switch
+  disables automatic HDR and conflicts with explicit enable options.
+- `PROTON_ENABLE_HDR=1` is available for builds that still advertise it.
+  Proton-GE's native Wayland path can break Steam Overlay and affect Steam Input.
+- `ENABLE_HDR_WSI=1` is for proprietary NVIDIA drivers older than 595.
+  Gamescope uses `--hdr-enabled`.
+
+### FSR 4 and frame generation
+
+- `PROTON_FSR4_UPGRADE=1` selects the installed build's supported default.
+  Proton-GE, Proton-CachyOS, and Proton-EM update on different schedules.
+- `PROTON_FSR4_RDNA3_UPGRADE=1` is feature-probed for older builds. Some
+  Proton-GE builds retain it after Proton-CachyOS removed it.
+- `PROTON_MLFG_UPGRADE=1` depends on FSR 4. Proton-CachyOS requires FSR
+  4.0.3 or newer. The optional RDNA3 workaround is
+  `DXIL_SPIRV_CONFIG=wmma_rdna3_workaround`. Proton-EM enables MLFG with
+  FSR 4 by default and documents value `0` as the opt-out.
+
+### Low latency
+
+- `PROTON_DXVK_LOWLATENCY=1` and `PROTON_VKD3D_LOWLATENCY=1` require
+  support from the installed build. The DX12 implementation requires Reflex
+  markers or waitable swapchains and excludes Intel GPUs and frame generation.
+- `LOW_LATENCY_LAYER=1` exposes `VK_AMD_anti_lag`. Set
+  `LOW_LATENCY_LAYER_REFLEX=1` to switch to `VK_NV_low_latency2`. The game
+  must use the corresponding API. Proton-CachyOS also advertises
+  `DXVK_NVAPI_VKREFLEX=1` for its NVIDIA Vulkan layer.
+- For AMD Reflex compatibility, try `DXVK_NVAPI_ALLOW_OTHER_DRIVERS=1`
+  first. The hide-AMD, forced-NVAPI, and NVIDIA spoof presets conflict with
+  FSR 4 and MLFG because they can break those paths.
+
+### Overlays, capture, and performance profiles
+
+- `MANGOHUD=1` works for Vulkan. Use the `mangohud` wrapper for OpenGL
+  or MangoApp with Gamescope.
+- `OBS_VKCAPTURE=1` requires native obs-vkcapture or both Flatpak
+  extensions, `com.obsproject.Studio.Plugin.OBSVkCapture` and
+  `org.freedesktop.Platform.VulkanLayer.OBSVkCapture`. For NVIDIA, enable
+  modesetting and use driver 515.43.04 or newer.
+- `game-performance %command%` uses the CachyOS helper to temporarily
+  select the performance power and gaming sched_ext profiles. It conflicts
+  with GameMode.
+
+### Upstream references
 
 - [Proton-GE README](https://github.com/GloriousEggroll/proton-ge-custom)
 - [Proton-CachyOS README](https://github.com/CachyOS/proton-cachyos)

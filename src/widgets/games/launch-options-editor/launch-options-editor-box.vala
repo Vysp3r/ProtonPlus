@@ -1,3 +1,5 @@
+using ProtonPlus.LaunchOptions;
+
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
     public class Box : Gtk.Box {
         public signal void content_changed ();

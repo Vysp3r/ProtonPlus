@@ -61,6 +61,9 @@
  * Author: Italo Felipe Capasso Ballesteros <italo@gp-mail.com>
  */
 
+// ProtonPlus vendors https://codeberg.org/italo-capasso/sdl3-vapi
+// at f5b697b77afdda79cd0ab3d4b1d01ec8970f4b0c, with a local SDL_GetGamepads ownership fix.
+
 // The API order goes by the category classification expressed in the docs
 // https://wiki.libsdl.org/SDL3/APIByCategory/
 
@@ -116,10 +119,10 @@ namespace SDL.Main {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_EnterAppMainCallbacks")]
     public static int enter_app_main_callbacks ([CCode (array_length_pos = 0.9)] string[] args,
-            [CCode (delegate_target = false)] Init.AppInitFuncGLib app_init,
-            [CCode (delegate_target = false)] Init.AppIterateFuncGLib app_iter,
-            [CCode (delegate_target = false)] Init.AppEventFuncGLib app_event,
-            [CCode (delegate_target = false)] Init.AppQuitFuncGLib app_quit);
+        [CCode (delegate_target = false)] Init.AppInitFuncGLib app_init,
+        [CCode (delegate_target = false)] Init.AppIterateFuncGLib app_iter,
+        [CCode (delegate_target = false)] Init.AppEventFuncGLib app_event,
+        [CCode (delegate_target = false)] Init.AppQuitFuncGLib app_quit);
 
 #else
     /**
@@ -144,10 +147,10 @@ namespace SDL.Main {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_EnterAppMainCallbacks")]
     public static int enter_app_main_callbacks ([CCode (array_length_pos = 0.9)] string[] args,
-            [CCode (delegate_target = false)] Init.AppInitFunc app_init,
-            [CCode (delegate_target = false)] Init.AppIterateFunc app_iter,
-            [CCode (delegate_target = false)] Init.AppEventFunc app_event,
-            [CCode (delegate_target = false)] Init.AppQuitFunc app_quit);
+        [CCode (delegate_target = false)] Init.AppInitFunc app_init,
+        [CCode (delegate_target = false)] Init.AppIterateFunc app_iter,
+        [CCode (delegate_target = false)] Init.AppEventFunc app_event,
+        [CCode (delegate_target = false)] Init.AppQuitFunc app_quit);
 
 #endif
 
@@ -209,8 +212,8 @@ namespace SDL.Main {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_RunApp")]
     public static int run_app ([CCode (array_length_pos = 0.9)] string[] args,
-            MainFunc main_function,
-            void* reserved);
+        MainFunc main_function,
+        void* reserved);
 
     /**
      * Circumvent failure of {@link SDL.Init.init} when not using
@@ -426,7 +429,7 @@ namespace SDL.Init {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_SetAppMetadata")]
     public static bool set_app_metadata (string? app_name, string? app_version,
-            string? app_identifier);
+        string? app_identifier);
 
     /**
      * Specify metadata about your app through a set of properties.
@@ -494,7 +497,7 @@ namespace SDL.Init {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_AppEvent_func", has_target = false, has_type_id = false)]
     public delegate AppResult AppEventFuncGLib (GLib.PtrArray app_state,
-            Events.Event current_event);
+        Events.Event current_event);
 
     /**
      * Function delegate for
@@ -523,7 +526,7 @@ namespace SDL.Init {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_AppInit_func", has_target = false, has_type_id = false)]
     public delegate AppResult AppInitFuncGLib (out GLib.PtrArray app_state,
-            [CCode (array_length_pos = 1.9)] string[] args);
+        [CCode (array_length_pos = 1.9)] string[] args);
 
     /**
      * Function delegate for
@@ -570,10 +573,10 @@ namespace SDL.Init {
      * @see AppInitFuncGLib
      */
     [Version (since = "3.2.0")]
-    [CCode (cname = "SDL_AppQuit_func", has_target = true, instance_pos = 0)]
+    [CCode (cname = "SDL_AppQuit_func", has_target = false, instance_pos = 0)]
     public delegate void AppQuitFuncGLib (GLib.PtrArray app_state, AppResult result);
 
-#else
+    #else
     /**
      * Function delegate for
      * [[https://wiki.libsdl.org/SDL3/SDL_AppEvent|SDL_AppEvent]]. Used in
@@ -628,7 +631,7 @@ namespace SDL.Init {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_AppInit_func", has_target = false, has_type_id = false)]
     public delegate AppResult AppInitFunc (out void* app_state,
-            [CCode (array_length_pos = 1.9)] string[] args);
+        [CCode (array_length_pos = 1.9)] string[] args);
 
     /**
      * Function delegate for
@@ -690,10 +693,10 @@ namespace SDL.Init {
     [Version (since = "3.2.0")]
     [Flags, CCode (cname = "int", cprefix = "SDL_INIT_")]
     public enum InitFlags {
-    /**
-     * Audio subsystem. {@link InitFlags.AUDIO} implies
-     * {@link InitFlags.EVENTS}.
-     */
+        /**
+         * Audio subsystem. {@link InitFlags.AUDIO} implies
+         * {@link InitFlags.EVENTS}.
+         */
         AUDIO,
 
         /**
@@ -760,9 +763,9 @@ namespace SDL.Init {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_AppResult", cprefix = "SDL_APP_", has_type_id = false)]
     public enum AppResult {
-    /**
-     * Value that requests that the app continue from the main callbacks.
-     */
+        /**
+         * Value that requests that the app continue from the main callbacks.
+         */
         CONTINUE,
 
         /**
@@ -1067,10 +1070,10 @@ namespace SDL.Hints {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_HintPriority", cprefix = "SDL_HINT_", has_type_id = false)]
     public enum HintPriority {
-    /**
-     * Default priority
-     *
-     */
+        /**
+         * Default priority
+         *
+         */
         DEFAULT,
 
         /**
@@ -1131,6 +1134,17 @@ namespace SDL.Hints {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_HINT_ANDROID_LOW_LATENCY_AUDIO")]
     public const string ANDROID_LOW_LATENCY_AUDIO;
+
+    /**
+     * A variable to control Android's AAudio input preset.
+     *
+     *  * [[https://wiki.libsdl.org/SDL3/SDL_HINT_ANDROID_AAUDIO_INPUT_PRESET]]
+     *
+     * @since 3.4.16
+     */
+    [Version (since = "3.4.16")]
+    [CCode (cname = "SDL_HINT_ANDROID_AAUDIO_INPUT_PRESET")]
+    public const string ANDROID_AAUDIO_INPUT_PRESET;
 
     /**
      * A variable to control whether we trap the Android back button to handle
@@ -1543,6 +1557,18 @@ namespace SDL.Hints {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_HINT_ENABLE_SCREEN_KEYBOARD")]
     public const string ENABLE_SCREEN_KEYBOARD;
+
+    /**
+     * A variable that controls whether the Steam on-screen keyboard should be
+     * shown when text input is active.
+     *
+     *  * [[https://wiki.libsdl.org/SDL3/SDL_HINT_ENABLE_STEAM_SCREEN_KEYBOARD]]
+     *
+     * @since 3.4.12
+     */
+    [Version (since = "3.4.12")]
+    [CCode (cname = "SDL_HINT_ENABLE_STEAM_SCREEN_KEYBOARD")]
+    public const string ENABLE_STEAM_SCREEN_KEYBOARD;
 
     /**
      * A variable containing a list of evdev devices to use if udev is not
@@ -2862,7 +2888,7 @@ namespace SDL.Hints {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_HINT_MAIN_CALLBACK_RATE")]
     public const string MAIN_CALLBACK_RATE;
-#endif
+ #endif
 
     /**
      * A variable controlling whether the mouse is captured while mouse buttons
@@ -3184,6 +3210,17 @@ namespace SDL.Hints {
     [Version (since = "3.4.0")]
     [CCode (cname = "SDL_HINT_PS2_GS_MODE")]
     public const string PS2_GS_MODE;
+
+    /**
+     * A variable controlling the pixel storage mode of the PS2's framebuffer.
+     *
+     *  * [[https://wiki.libsdl.org/SDL3/SDL_HINT_PS2_GS_COLOR_DEPTH]]
+     *
+     * @since 3.4.20
+     */
+    [Version (since = "3.4.20")]
+    [CCode (cname = "SDL_HINT_PS2_GS_COLOR_DEPTH")]
+    public const string PS2_GS_COLOR_DEPTH;
 
     /**
      * Variable controlling whether the signal is interlaced or progressive
@@ -3732,6 +3769,17 @@ namespace SDL.Hints {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_HINT_VIDEO_WIN_D3DCOMPILER")]
     public const string VIDEO_WIN_D3DCOMPILER;
+
+    /**
+     * A variable controlling whether the X Synchronization Extension is enabled.
+     *
+     *  * [[https://wiki.libsdl.org/SDL3/SDL_HINT_VIDEO_X11_ENABLE_XSYNC_EXT]]
+     *
+     * @since 3.4.10
+     */
+    [Version (since = "3.4.10")]
+    [CCode (cname = "SDL_HINT_VIDEO_X11_ENABLE_XSYNC_EXT")]
+    public const string VIDEO_X11_ENABLE_XSYNC_EXT;
 
     /**
      * A variable controlling whether SDL should call //XSelectInput ()// to
@@ -5265,10 +5313,10 @@ namespace SDL.Log {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_LogCategory", cprefix = "SDL_LOG_CATEGORY_", has_type_id = false)]
     public enum LogCategory {
-    /**
-     * Application category
-     *
-     */
+        /**
+         * Application category
+         *
+         */
         APPLICATION,
 
         /**
@@ -5405,10 +5453,10 @@ namespace SDL.Log {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_LogPriority", cprefix = "SDL_LOG_PRIORITY_", has_type_id = false)]
     public enum LogPriority {
-    /**
-     * Invalid Priority.
-     *
-     */
+        /**
+         * Invalid Priority.
+         *
+         */
         INVALID,
 
         /**
@@ -5575,47 +5623,47 @@ namespace SDL.Assert {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_AssertData", has_type_id = false)]
     public struct AssertData {
-    /**
-     * Set to true if app should always continue when assertion is
-     * triggered.
-     *
-     */
+       /**
+        * Set to true if app should always continue when assertion is
+        * triggered.
+        *
+        */
         public bool always_ignore;
 
-    /**
-     * Number of times this assertion has been triggered.
-     *
-     */
+        /**
+         * Number of times this assertion has been triggered.
+         *
+         */
         public uint trigger_count;
 
-    /**
-     * A string of this assert's test code.
-     *
-     */
+        /**
+         * A string of this assert's test code.
+         *
+         */
         public string condition;
 
-    /**
-     * The source file where this assert lives.
-     *
-     */
+        /**
+         * The source file where this assert lives.
+         *
+         */
         public string filename;
 
-    /**
-     * The line in `filename` where this assert lives.
-     *
-     */
+        /**
+         * The line in `filename` where this assert lives.
+         *
+         */
         public int linenum;
 
-    /**
-     * The name of the function where this assert lives.
-     *
-     */
+        /**
+         * The name of the function where this assert lives.
+         *
+         */
         public string function;
 
-    /**
-     * Next item in the linked list
-     *
-     */
+        /**
+         * Next item in the linked list
+         *
+         */
         public AssertData* next;
     } // AssertData
 
@@ -5629,9 +5677,9 @@ namespace SDL.Assert {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_AssertState", cprefix = "SDL_ASSERTION_", has_type_id = false)]
     public enum AssertState {
-    /**
-     * Retry the assert immediately.
-     */
+        /**
+         * Retry the assert immediately.
+         */
         RETRY,
 
         /**
@@ -8360,10 +8408,10 @@ namespace SDL.Video {
     [Version (since = "3.2.0")]
     [CCode (cname = "int", cprefix = "SDL_GL_CONTEXT_PROFILE_", has_type_id = false)]
     public enum GLProfile {
-    /**
-     * OpenGL Core Profile context
-     *
-     */
+        /**
+         * OpenGL Core Profile context
+         *
+         */
         CORE,
 
         /**
@@ -8418,10 +8466,10 @@ namespace SDL.Video {
      */
     [Flags, CCode (cname = "int", cprefix = "SDL_WINDOW_")]
     public enum WindowFlags {
-    /**
-     * Window is in fullscreen window at desktop resolution.
-     *
-     */
+        /**
+         * Window is in fullscreen window at desktop resolution.
+         *
+         */
         FULLSCREEN,
 
         /**
@@ -8677,10 +8725,10 @@ namespace SDL.Video {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_DisplayOrientation", cprefix = "SDL_ORIENTATION_", has_type_id = false)]
     public enum DisplayOrientation {
-    /**
-     * The display orientation can't be determined
-     *
-     */
+        /**
+         * The display orientation can't be determined
+         *
+         */
         UNKNOWN,
 
         /**
@@ -8720,10 +8768,10 @@ namespace SDL.Video {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_FlashOperation", cprefix = "SDL_FLASH_", has_type_id = false)]
     public enum FlashOperation {
-    /**
-     * Cancel any window flash state
-     *
-     */
+        /**
+         * Cancel any window flash state
+         *
+         */
         CANCEL,
 
         /**
@@ -8752,11 +8800,11 @@ namespace SDL.Video {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_GLAttr", cprefix = "SDL_GL_", has_type_id = false)]
     public enum GLAttr {
-    /**
-     * The minimum number of bits for the red channel of the color
-     * buffer; defaults to 8.
-     *
-     */
+        /**
+         * The minimum number of bits for the red channel of the color
+         * buffer; defaults to 8.
+         *
+         */
         RED_SIZE,
 
         /**
@@ -8956,10 +9004,10 @@ namespace SDL.Video {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_HitTestResult", cprefix = "SDL_HITTEST_", has_type_id = false)]
     public enum HitTestResult {
-    /**
-     * Region is normal. No special properties.
-     *
-     */
+        /**
+         * Region is normal. No special properties.
+         *
+         */
         NORMAL,
 
         /**
@@ -9032,11 +9080,11 @@ namespace SDL.Video {
     [Version (since = "3.4.0")]
     [CCode (cname = "SDL_ProgressState", cprefix = "SDL_PROGRESS_STATE_", has_type_id = false)]
     public enum ProgressState {
-    /**
-     * An invalid progress state indicating an error; check
-     * {@link SDL.Error.get_error} for more information.
-     *
-     */
+        /**
+         * An invalid progress state indicating an error; check
+         * {@link SDL.Error.get_error} for more information.
+         *
+         */
         INVALID,
 
         /**
@@ -9081,10 +9129,10 @@ namespace SDL.Video {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_SystemTheme", cprefix = "SDL_SYSTEM_THEME_", has_type_id = false)]
     public enum SystemTheme {
-    /**
-     * Unknown system theme
-     *
-     */
+        /**
+         * Unknown system theme
+         *
+         */
         UNKNOWN,
 
         /**
@@ -9250,7 +9298,7 @@ namespace SDL.Video {
      * Global Video Properties
      *
      */
-    namespace PropGlobalVideo {
+    namespace PropGlobalVideo  {
         /**
          * The pointer to the global wl_display object used by the Wayland
          * video backend.
@@ -10863,39 +10911,39 @@ namespace SDL.Render {
     [Version (since = "3.4.0")]
     [CCode (cname = "SDL_GPURenderStateCreateInfo", has_type_id = false)]
     public struct GPURenderStateCreateInfo {
-    /**
-     * The fragment shader to use when this render state is active.
-     *
-     */
+        /**
+         * The fragment shader to use when this render state is active.
+         *
+         */
         public GPU.GPUShader fragment_shader;
 
-    /**
-     * Additional fragment samplers to bind when this render state is
-     * active.
-     *
-     */
+        /**
+         * Additional fragment samplers to bind when this render state is
+         * active.
+         *
+         */
         [CCode (array_length_cname = "num_sampler_bindings", array_length_type = "Sint32")]
         public GPU.GPUTextureSamplerBinding[] sampler_bindings;
 
-    /**
-     * Storage textures to bind when this render state is active.
-     *
-     */
+        /**
+         * Storage textures to bind when this render state is active.
+         *
+         */
         [CCode (array_length_cname = "num_storage_textures", array_length_type = "Sint32")]
         public GPU.GPUTexture[] storage_textures;
 
-    /**
-     * Storage buffers to bind when this render state is active.
-     *
-     */
+        /**
+         * Storage buffers to bind when this render state is active.
+         *
+         */
         [CCode (array_length_cname = "num_storage_buffers", array_length_type = "Sint32")]
         public GPU.GPUBuffer[] storage_buffers;
 
-    /**
-     * A properties ID for extensions. Should be 0 if no extensions are
-     * needed.
-     *
-     */
+        /**
+         * A properties ID for extensions. Should be 0 if no extensions are
+         * needed.
+         *
+         */
         public SDL.Properties.PropertiesID props;
     } // GPURenderStateCreateInfo
 
@@ -10909,31 +10957,31 @@ namespace SDL.Render {
     [Version (since = "3.4.0")]
     [CCode (cname = "SDL_GPURenderStateDesc", has_type_id = false)]
     public struct GPURenderStateCreateDesc {
-    /**
-     * The fragment shader to use when this render state is active.
-     *
-     */
+        /**
+         * The fragment shader to use when this render state is active.
+         *
+         */
         public uint32 version;
 
-    /**
-     * Additional fragment samplers to bind when this render state is
-     * active.
-     *
-     */
+        /**
+         * Additional fragment samplers to bind when this render state is
+         * active.
+         *
+         */
         [CCode (array_length_cname = "num_sampler_bindings", array_length_type = "Sint32")]
         public GPU.GPUTextureSamplerBinding[] sampler_bindings;
 
-    /**
-     * Storage textures to bind when this render state is active.
-     *
-     */
+        /**
+         * Storage textures to bind when this render state is active.
+         *
+         */
         [CCode (array_length_cname = "num_storage_textures", array_length_type = "Sint32")]
         public GPU.GPUTexture[] storage_textures;
 
-    /**
-     * Storage buffers to bind when this render state is active.
-     *
-     */
+        /**
+         * Storage buffers to bind when this render state is active.
+         *
+         */
         [CCode (array_length_cname = "num_storage_buffers", array_length_type = "Sint32")]
         public GPU.GPUBuffer[] storage_buffers;
     } // GPURenderStateCreateDesc
@@ -10982,10 +11030,10 @@ namespace SDL.Render {
     [CCode (cname = "SDL_TextureAddressMode", cprefix = "SDL_TEXTURE_ADDRESS_",
     has_type_id = false)]
     public enum TextureAddressMode {
-    /**
-     * Invalid
-     *
-     */
+        /**
+         * Invalid
+         *
+         */
         INVALID,
 
         /**
@@ -11294,6 +11342,7 @@ namespace SDL.Render {
         [Version (since = "3.4.0")]
         [CCode (cname = "SDL_PROP_RENDERER_TEXTURE_WRAPPING_BOOLEAN")]
         public const string TEXTURE_WRAPPING_BOOLEAN;
+
 
         [CCode (cname = "SDL_PROP_RENDERER_OUTPUT_COLORSPACE_NUMBER")]
         public const string OUTPUT_COLORSPACE_NUMBER;
@@ -11703,10 +11752,10 @@ namespace SDL.Pixels {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_Colorspace", cprefix = "SDL_COLORSPACE_", has_type_id = false)]
     public enum ColorSpace {
-    /**
-     * Unknown color space
-     *
-     */
+        /**
+         * Unknown color space
+         *
+         */
         UNKNOWN,
 
         /**
@@ -11926,61 +11975,61 @@ namespace SDL.Pixels {
         [Version (since = "3.4.0")]
         MJPG;
 
-    /**
-     * Alias for {@link RGBA8888}
-     *
-     */
-    [CCode (cname = "SDL_PIXELFORMAT_RGBA32")]
-    public const PixelFormat RGBA32;
+        /**
+         * Alias for {@link RGBA8888}
+         *
+         */
+        [CCode (cname = "SDL_PIXELFORMAT_RGBA32")]
+        public const PixelFormat RGBA32;
 
-    /**
-     * Alias for {@link ARGB8888}
-     *
-     */
-    [CCode (cname = "SDL_PIXELFORMAT_ARGB32")]
-    public const PixelFormat ARGB32;
+        /**
+         * Alias for {@link ARGB8888}
+         *
+         */
+        [CCode (cname = "SDL_PIXELFORMAT_ARGB32")]
+        public const PixelFormat ARGB32;
 
-    /**
-     * Alias for {@link BGRA8888}
-     *
-     */
-    [CCode (cname = "SDL_PIXELFORMAT_BGRA32")]
-    public const PixelFormat BGRA32;
+        /**
+         * Alias for {@link BGRA8888}
+         *
+         */
+        [CCode (cname = "SDL_PIXELFORMAT_BGRA32")]
+        public const PixelFormat BGRA32;
 
-    /**
-     * Alias for {@link ABGR8888}
-     *
-     */
-    [CCode (cname = "SDL_PIXELFORMAT_ABGR32")]
-    public const PixelFormat ABGR32;
+        /**
+         * Alias for {@link ABGR8888}
+         *
+         */
+        [CCode (cname = "SDL_PIXELFORMAT_ABGR32")]
+        public const PixelFormat ABGR32;
 
-    /**
-     * Alias for {@link RGBX8888}
-     *
-     */
-    [CCode (cname = "SDL_PIXELFORMAT_RGBX32")]
-    public const PixelFormat RGBX32;
+        /**
+         * Alias for {@link RGBX8888}
+         *
+         */
+        [CCode (cname = "SDL_PIXELFORMAT_RGBX32")]
+        public const PixelFormat RGBX32;
 
-    /**
-     * Alias for {@link XRGB8888}
-     *
-     */
-    [CCode (cname = "SDL_PIXELFORMAT_XRGB32")]
-    public const PixelFormat XRGB32;
+        /**
+         * Alias for {@link XRGB8888}
+         *
+         */
+        [CCode (cname = "SDL_PIXELFORMAT_XRGB32")]
+        public const PixelFormat XRGB32;
 
-    /**
-     * Alias for {@link BGRX8888}
-     *
-     */
-    [CCode (cname = "SDL_PIXELFORMAT_BGRX32")]
-    public const PixelFormat BGRX32;
+        /**
+         * Alias for {@link BGRX8888}
+         *
+         */
+        [CCode (cname = "SDL_PIXELFORMAT_BGRX32")]
+        public const PixelFormat BGRX32;
 
-    /**
-     * Alias for {@link XBGR8888}
-     *
-     */
-    [CCode (cname = "SDL_PIXELFORMAT_XBGR32")]
-    public const PixelFormat XBGR32;
+        /**
+         * Alias for {@link XBGR8888}
+         *
+         */
+        [CCode (cname = "SDL_PIXELFORMAT_XBGR32")]
+        public const PixelFormat XBGR32;
     } // PixelFormat
 
     [CCode (cname = "SDL_PixelType", cprefix = "SDL_PIXELTYPE_", has_type_id = false)]
@@ -12062,32 +12111,32 @@ namespace SDL.Pixels {
 
     [CCode (cname = "SDL_DEFINE_COLORSPACE")]
     public static ColorSpace define_color_space (ColorType type,
-            ColorRange range,
-            ColorPrimaries primaries,
-            TransferCharacteristics transfer,
-            MatrixCoefficients matrix,
-            ChromaLocation chroma);
+        ColorRange range,
+        ColorPrimaries primaries,
+        TransferCharacteristics transfer,
+        MatrixCoefficients matrix,
+        ChromaLocation chroma);
 
     [CCode (cname = "SDL_DEFINE_PIXELFORMAT")]
     public static PixelFormat define_pixelformat_bitmap_order (ColorType type,
-            BitmapOrder order,
-            PackedLayout layout,
-            uint8 bits,
-            uint8 bytes);
+        BitmapOrder order,
+        PackedLayout layout,
+        uint8 bits,
+        uint8 bytes);
 
     [CCode (cname = "SDL_DEFINE_PIXELFORMAT")]
     public static PixelFormat define_pixelformat_packed_order (ColorType type,
-            PackedOrder order,
-            PackedLayout layout,
-            uint8 bits,
-            uint8 bytes);
+        PackedOrder order,
+        PackedLayout layout,
+        uint8 bits,
+        uint8 bytes);
 
     [CCode (cname = "SDL_DEFINE_PIXELFORMAT")]
     public static PixelFormat define_pixelformat_array_order (ColorType type,
-            ArrayOrder order,
-            PackedLayout layout,
-            uint8 bits,
-            uint8 bytes);
+        ArrayOrder order,
+        PackedLayout layout,
+        uint8 bits,
+        uint8 bytes);
 
     [CCode (cname = "SDL_DEFINE_PIXELFOURCC")]
     public static uint32 define_pixel_fourcc (char a, char b, char c, char d);
@@ -12148,11 +12197,11 @@ namespace SDL.Pixels {
 namespace SDL.BlendModes {
     [CCode (cname = "SDL_ComposeCustomBlendMode")]
     public static BlendMode compose_custom_blend_mode (BlendFactor src_color_factor,
-            BlendFactor dst_color_factor,
-            BlendOperation color_operation,
-            BlendFactor src_alpha_factor,
-            BlendFactor dst_alpha_factor,
-            BlendOperation alpha_operation);
+        BlendFactor dst_color_factor,
+        BlendOperation color_operation,
+        BlendFactor src_alpha_factor,
+        BlendFactor dst_alpha_factor,
+        BlendOperation alpha_operation);
 
     [CCode (cname = "Uint32", cprefix = "SDL_BLENDMODE_", has_type_id = false)]
     public enum BlendMode {
@@ -12538,35 +12587,35 @@ namespace SDL.Surface {
 
     [CCode (cname = "SDL_PremultiplyAlpha")]
     public static bool premultiply_alpha (int width,
-            int height,
-            Pixels.PixelFormat src_format,
-            void* src,
-            int src_pitch,
-            Pixels.PixelFormat dst_format,
-            void* dst,
-            int dst_pitch,
-            bool linear);
+        int height,
+        Pixels.PixelFormat src_format,
+        void* src,
+        int src_pitch,
+        Pixels.PixelFormat dst_format,
+        void* dst,
+        int dst_pitch,
+        bool linear);
 
     [CCode (cname = "SDL_PremultiplySurfaceAlpha")]
     public static bool premultiply_surface_alpha (Surface surface, bool linear);
 
     [CCode (cname = "SDL_ReadSurfacePixel")]
     public static bool read_surface_pixel (Surface surface,
-            int x,
-            int y,
-            out uint8 r,
-            out uint8 g,
-            out uint8 b,
-            out uint8 a);
+        int x,
+        int y,
+        out uint8 r,
+        out uint8 g,
+        out uint8 b,
+        out uint8 a);
 
     [CCode (cname = "SDL_ReadSurfacePixelFloat")]
     public static bool read_surface_pixel_float (Surface surface,
-            int x,
-            int y,
-            out float r,
-            out float g,
-            out float b,
-            out float a);
+        int x,
+        int y,
+        out float r,
+        out float g,
+        out float b,
+        out float a);
 
     [CCode (cname = "SDL_RemoveSurfaceAlternateImages")]
     public static void remove_surface_alternate_images (Surface surface);
@@ -12760,10 +12809,10 @@ namespace SDL.Surface {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_FlipMode", cprefix = "SDL_FLIP_", has_type_id = false)]
     public enum FlipMode {
-    /**
-     * Do not flip
-     *
-     */
+        /**
+         * Do not flip
+         *
+         */
         NONE,
 
         /**
@@ -12797,10 +12846,10 @@ namespace SDL.Surface {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_ScaleMode", cprefix = "SDL_SCALEMODE_", has_type_id = false)]
     public enum ScaleMode {
-    /**
-     * Invalid
-     *
-     */
+        /**
+         * Invalid
+         *
+         */
         INVALID,
 
         /**
@@ -12917,22 +12966,22 @@ namespace SDL.Clipboard {
 namespace SDL.Vulkan {
     [CCode (cname = "SDL_Vulkan_CreateSurface")]
     public static bool create_surface (Video.Window window,
-            VkInstance instance,
-            VkAllocationCallbacks? allocator,
-            out VkSurfaceKHR surface);
+        VkInstance instance,
+        VkAllocationCallbacks? allocator,
+        out VkSurfaceKHR surface);
 
     [CCode (cname = "SDL_Vulkan_CreateSurface")]
     public static void destroy_surface (VkInstance instance,
-            VkSurfaceKHR surface,
-            VkAllocationCallbacks? allocator);
+        VkSurfaceKHR surface,
+        VkAllocationCallbacks? allocator);
 
     [CCode (cname = "SDL_Vulkan_GetInstanceExtensions")]
     public static unowned string[] get_instance_extensions ();
 
     [CCode (cname = "SDL_Vulkan_GetPresentationSupport")]
     public static bool get_presentation_support (VkInstance instance,
-            VkPhysicalDevice physical_device,
-            uint32 queue_family_index);
+        VkPhysicalDevice physical_device,
+        uint32 queue_family_index);
 
     [CCode (cname = "SDL_Vulkan_GetVkGetInstanceProcAddr")]
     public static StdInc.FunctionPointer ? get_vk_get_instance_proc_addr ();
@@ -13072,12 +13121,12 @@ namespace SDL.Camera {
      * @see get_camera_permission_state
      */
     [Version (since = "3.4.0")]
-    [CCode (cname = "SDL_CameraPosition", cprefix = "SDL_CAMERA_POSITION_", has_type_id = false)]
+    [CCode (cname = "SDL_CameraPermissionState", cprefix = "SDL_CAMERA_PERMISSION_STATE_", has_type_id = false)]
     public enum CameraPermissionState {
-    /**
-     * The user denied access.
-     *
-     */
+        /**
+         * The user denied access.
+         *
+         */
         DENIED,
 
         /**
@@ -13405,6 +13454,7 @@ namespace SDL.Events {
         public float y;
         public Pen.PenAxis axis;
         public float value;
+        public Pen.PenDeviceType device_type;
     } // PenAxisEvent
 
     [CCode (cname = "SDL_PenButtonEvent", has_type_id = false)]
@@ -13417,6 +13467,7 @@ namespace SDL.Events {
         public float y;
         public uint8 button;
         public bool down;
+        public Pen.PenDeviceType device_type;
     } // PenButtonEvent
 
     [CCode (cname = "SDL_PenMotionEvent", has_type_id = false)]
@@ -13427,6 +13478,7 @@ namespace SDL.Events {
         public Pen.PenInputFlags pen_state;
         public float x;
         public float y;
+        public Pen.PenDeviceType device_type;
     } // PenMotionEvent
 
     [CCode (cname = "SDL_PenProximityEvent", has_type_id = false)]
@@ -13434,6 +13486,8 @@ namespace SDL.Events {
         [CCode (cname = "windowID")]
         public Video.WindowID window_id;
         public Pen.PenID which;
+        public Pen.PenInputFlags pen_state;
+        public Pen.PenDeviceType device_type;
     } // PenProximityEvent
 
     [CCode (cname = "SDL_PenTouchEvent", has_type_id = false)]
@@ -13446,6 +13500,7 @@ namespace SDL.Events {
         public float y;
         public bool eraser;
         public bool down;
+        public Pen.PenDeviceType device_type;
     } // PenTouchEvent
 
     /**
@@ -13458,17 +13513,17 @@ namespace SDL.Events {
     [Version (since = "3.4.0")]
     [CCode (cname = "SDL_PinchFingerEvent", has_type_id = false)]
     public struct PinchFingerEvent : CommonEvent {
-    /**
-     * The scale change since the last SDL_EVENT_PINCH_UPDATE. Scale < 1
-     * is "zoom out". Scale > 1 is "zoom in".
-     *
-     */
+        /**
+         * The scale change since the last SDL_EVENT_PINCH_UPDATE. Scale < 1
+         * is "zoom out". Scale > 1 is "zoom in".
+         *
+         */
         public float scale;
 
-    /**
-     * The window underneath the finger, if any
-     *
-     */
+        /**
+         * The window underneath the finger, if any
+         *
+         */
         [CCode (cname = "windowID")]
         public Video.WindowID window_id;
     } // PinchFingerEvent
@@ -13594,7 +13649,7 @@ namespace SDL.Events {
         public DropEvent drop;
         public RenderEvent event;
         public ClipboardEvent clipboard;
-    // Necesary for ABI compatibility
+        // Necesary for ABI compatibility
         public uint8 padding[128];
     } // Event
 
@@ -13607,7 +13662,7 @@ namespace SDL.Events {
 
     [CCode (cname = "SDL_EventType", cprefix = "SDL_EVENT_", has_type_id = false)]
     public enum EventType {
-    // Application events
+        // Application events
         FIRST,
         QUIT,
 
@@ -13809,18 +13864,18 @@ namespace SDL.Events {
         // This just makes sure the enum is the size of Uint32 on C
         ENUM_PADDING;
 
-    // This implementes aliases from the enum
-    [CCode (cname = "SDL_EVENT_WINDOW_FIRST")]
-    public const EventType WINDOW_FIRST;
+        // This implementes aliases from the enum
+        [CCode (cname = "SDL_EVENT_WINDOW_FIRST")]
+        public const EventType WINDOW_FIRST;
 
-    [CCode (cname = "SDL_EVENT_WINDOW_LAST")]
-    public const EventType WINDOW_LAST;
+        [CCode (cname = "SDL_EVENT_WINDOW_LAST")]
+        public const EventType WINDOW_LAST;
 
-    [CCode (cname = "SDL_EVENT_DISPLAY_FIRST")]
-    public const EventType DISPLAY_FIRST;
+        [CCode (cname = "SDL_EVENT_DISPLAY_FIRST")]
+        public const EventType DISPLAY_FIRST;
 
-    [CCode (cname = "SDL_EVENT_DISPLAY_LAST")]
-    public const EventType DISPLAY_LAST;
+        [CCode (cname = "SDL_EVENT_DISPLAY_LAST")]
+        public const EventType DISPLAY_LAST;
     } // EventType
 } // SDL.Events
 
@@ -14135,6 +14190,7 @@ namespace SDL.Keyboard {
         CLEARAGAIN,
         CRSEL,
         EXSEL,
+        FRONT,
         KP_00,
         KP_000,
         THOUSANDSSEPARATOR,
@@ -14430,6 +14486,7 @@ namespace SDL.Keyboard {
         CLEARAGAIN,
         CRSEL,
         EXSEL,
+        FRONT,
         KP_00,
         KP_000,
         THOUSANDSSEPARATOR,
@@ -14710,7 +14767,7 @@ namespace SDL.Mouse {
     [Version (since = "3.4.0")]
     [CCode (cname = "SDL_MouseMotionTransformCallback", has_target = true, instance_pos = 0)]
     public delegate void MouseMotionTransformCallback (uint64 timestamp, Video.Window window,
-            MouseID mouse_id, ref float x, ref float y);
+        MouseID mouse_id, ref float x, ref float y);
 
     /**
      * Animated cursor frame info.
@@ -14721,16 +14778,16 @@ namespace SDL.Mouse {
      */
     [CCode (cname = "SDL_CursorFrameInfo", has_type_id = false)]
     public struct CursorFrameInfo {
-    /**
-     * The surface data for this frame
-     *
-     */
+        /**
+         * The surface data for this frame
+         *
+         */
         public Surface.Surface surface;
 
-    /**
-     * The frame duration in milliseconds (a duration of 0 is infinite).
-     *
-     */
+        /**
+         * The frame duration in milliseconds (a duration of 0 is infinite).
+         *
+         */
         public uint32 duration;
     } // CursorFrameInfo
 
@@ -14966,12 +15023,12 @@ namespace SDL.Joystick {
 
     [CCode (cname = "SDL_SetJoystickVirtualTouchpad")]
     public static bool set_joystick_virtual_touchpad (Joystick joystick,
-            int touchpad,
-            int finger,
-            bool down,
-            float x,
-            float y,
-            float pressure);
+        int touchpad,
+        int finger,
+        bool down,
+        float x,
+        float y,
+        float pressure);
 
     [CCode (cname = "SDL_UnlockJoysticks")]
     public static void unlock_joystick ();
@@ -15227,6 +15284,7 @@ namespace SDL.Gamepad {
     [CCode (cname = "SDL_GetGamepadProperties")]
     public static SDL.Properties.PropertiesID get_gamepad_properties (Gamepad gamepad);
 
+    // ProtonPlus frees the returned array with SDL_free().
     [CCode (cname = "SDL_GetGamepads")]
     public static unowned Joystick.JoystickID[] ? get_gamepads ();
 
@@ -15449,6 +15507,7 @@ namespace SDL.Gamepad {
         NINTENDO_SWITCH_JOYCON_RIGHT,
         NINTENDO_SWITCH_JOYCON_PAIR,
         GAMECUBE,
+        STEAM,
         COUNT,
     } // GamepadType
 
@@ -15559,10 +15618,10 @@ namespace SDL.Pen {
     [Version (since = "3.2.0")]
     [Flags, CCode (cname = "SDL_PenInputFlags", cprefix = "SDL_PEN_INPUT_", has_type_id = false)]
     public enum PenInputFlags {
-    /**
-     * Pen is pressed down.
-     *
-     */
+        /**
+         * Pen is pressed down.
+         *
+         */
         DOWN,
 
         /**
@@ -15618,10 +15677,10 @@ namespace SDL.Pen {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_PenAxis", cprefix = "SDL_PEN_AXIS_", has_type_id = false)]
     public enum PenAxis {
-    /**
-     * Pen pressure.  Unidirectional: 0 to 1.0.
-     *
-     */
+        /**
+         * Pen pressure.  Unidirectional: 0 to 1.0.
+         *
+         */
         PRESSURE,
 
         /**
@@ -15682,10 +15741,10 @@ namespace SDL.Pen {
     [Version (since = "3.4.0")]
     [CCode (cname = "SDL_PenDeviceType", cprefix = "SDL_PEN_DEVICE_TYPE_", has_type_id = false)]
     public enum PenDeviceType {
-    /**
-     *  Not a valid pen device.
-     *
-     */
+        /**
+         *  Not a valid pen device.
+         *
+         */
         INVALID,
 
         /**
@@ -16487,8 +16546,8 @@ namespace SDL.Audio {
 
     [CCode (cname = "SDL_AudioPostmixCallback", has_target = true, instance_pos = 0)]
     public delegate void AudioPostmixCallback (AudioSpec spec,
-            [CCode (array_length = false)] ref float[] buffer,
-            int buffer_length);
+        [CCode (array_length = false)] ref float[] buffer,
+        int buffer_length);
 
     [Compact, CCode (cname = "SDL_AudioStream", free_function = "", ref_function = "",
     unref_function = "", has_type_id = false)]
@@ -17008,9 +17067,9 @@ namespace SDL.GPU {
 
     [CCode (cname = "SDL_SetGPUSwapchainParameters")]
     public static bool set_gpu_swapchain_parameters (GPUDevice device,
-            Video.Window window,
-            GPUSwapchainComposition swapchain_composition,
-            GPUPresentMode present_mode);
+        Video.Window window,
+        GPUSwapchainComposition swapchain_composition,
+        GPUPresentMode present_mode);
 
     [CCode (cname = "SDL_SetGPUTextureName")]
     public static void set_gpu_texture_name (GPUDevice device, GPUTexture texture, string text);
@@ -17031,22 +17090,22 @@ namespace SDL.GPU {
 
     [CCode (cname = "SDL_UploadToGPUBuffer")]
     public static void upload_to_gpu_buffer (GPUCopyPass copy_pass,
-            GPUTransferBufferLocation source,
-            GPUBufferRegion destination,
-            bool cycle);
+        GPUTransferBufferLocation source,
+        GPUBufferRegion destination,
+        bool cycle);
 
     [CCode (cname = "SDL_UploadToGPUTexture")]
     public static void upload_to_gpu_texture (GPUCopyPass copy_pass,
-            GPUTextureTransferInfo source,
-            GPUTextureRegion destination,
-            bool cycle);
+        GPUTextureTransferInfo source,
+        GPUTextureRegion destination,
+        bool cycle);
 
     [CCode (cname = "SDL_WaitAndAcquireGPUSwapchainTexture")]
     public static bool wait_and_acquire_gpu_swapchain_texture (GPUCommandBuffer command_buffer,
-            Video.Window window,
-            out GPUTexture swapchain_texture,
-            out uint32 swapchain_texture_width,
-            out uint32 swapchain_texture_height);
+        Video.Window window,
+        out GPUTexture swapchain_texture,
+        out uint32 swapchain_texture_width,
+        out uint32 swapchain_texture_height);
 
     [CCode (cname = "SDL_WaitForGPUFences")]
     public static bool wait_for_gpu_fences (GPUDevice device, bool wait_all, GPUFence[] fences);
@@ -17059,13 +17118,13 @@ namespace SDL.GPU {
 
     [CCode (cname = "SDL_WindowSupportsGPUPresentMode")]
     public static bool window_support_gpu_present_mode (GPUDevice device,
-            Video.Window window,
-            GPUPresentMode present_mode);
+        Video.Window window,
+        GPUPresentMode present_mode);
 
     [CCode (cname = "SDL_WindowSupportsGPUSwapchainComposition")]
     public static bool window_supports_gpu_swapchain_composition (GPUDevice device,
-            Video.Window window,
-            GPUSwapchainComposition swapchain_composition);
+        Video.Window window,
+        GPUSwapchainComposition swapchain_composition);
 
     [Compact, CCode (cname = "SDL_GPUBuffer", free_function = "", ref_function = "",
     unref_function = "", has_type_id = false)]
@@ -17205,7 +17264,7 @@ namespace SDL.GPU {
     } // GPUBufferLocation
 
     [CCode (cname = "SDL_GPUBufferRegion", has_destroy_function = false,
-    has_copy_function = false, has_type_id = false)]
+           has_copy_function = false, has_type_id = false)]
     public struct GPUBufferRegion {
         public GPUBuffer buffer;
         public uint32 offset;
@@ -17228,14 +17287,14 @@ namespace SDL.GPU {
     } // GPUColorTargetBlendState
 
     [CCode (cname = "SDL_GPUColorTargetDescription", has_destroy_function = false,
-    has_type_id = false)]
+           has_type_id = false)]
     public struct GPUColorTargetDescription {
         public GPUTextureFormat format;
         public GPUColorTargetBlendState blend_state;
     } // GPUColorTargetDescription
 
     [CCode (cname = "SDL_GPUColorTargetInfo", has_destroy_function = false,
-    has_copy_function = false, has_type_id = false)]
+           has_copy_function = false, has_type_id = false)]
     public struct GPUColorTargetInfo {
         public GPUTexture texture;
         public uint32 mip_level;
@@ -17295,77 +17354,77 @@ namespace SDL.GPU {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_GPUDepthStencilTargetInfo", has_type_id = false)]
     public struct GPUDepthStencilTargetInfo {
-    /**
-     * The texture that will be used as the depth stencil target by the
-     * render pass.
-     *
-     */
+        /**
+         * The texture that will be used as the depth stencil target by the
+         * render pass.
+         *
+         */
         public GPUTexture texture;
 
-    /**
-     * The value to clear the depth component to at the beginning of the
-     * render pass. Ignored if {@link GPULoadOp.CLEAR} is not used.
-     *
-     */
+        /**
+         * The value to clear the depth component to at the beginning of the
+         * render pass. Ignored if {@link GPULoadOp.CLEAR} is not used.
+         *
+         */
         public float clear_depth;
 
-    /**
-     * What is done with the depth contents at the beginning of the
-     * render pass.
-     *
-     */
+        /**
+         * What is done with the depth contents at the beginning of the
+         * render pass.
+         *
+         */
         public GPULoadOp load_op;
 
-    /**
-     * What is done with the depth results of the render pass.
-     *
-     */
+        /**
+         * What is done with the depth results of the render pass.
+         *
+         */
         public GPUStoreOp store_op;
 
-    /**
-     * What is done with the stencil contents at the beginning of the
-     * render pass.
-     *
-     */
+        /**
+         * What is done with the stencil contents at the beginning of the
+         * render pass.
+         *
+         */
         public GPULoadOp stencil_load_op;
 
-    /**
-     * What is done with the stencil results of the render pass.
-     *
-     */
+        /**
+         * What is done with the stencil results of the render pass.
+         *
+         */
         public GPUStoreOp stencil_store_op;
 
-    /**
-     * If true, cycles the texture if the texture is bound and any load
-     * ops are not LOAD
-     *
-     */
+        /**
+         * If true, cycles the texture if the texture is bound and any load
+         * ops are not LOAD
+         *
+         */
         public bool cycle;
 
-    /**
-     * The value to clear the stencil component to at the beginning of
-     * the render pass. Ignored if {@link GPULoadOp.CLEAR} is not used.
-     *
-     */
+        /**
+         * The value to clear the stencil component to at the beginning of
+         * the render pass. Ignored if {@link GPULoadOp.CLEAR} is not used.
+         *
+         */
         public uint8 clear_stencil;
 
-    /**
-     * The mip level to use as the depth stencil target.
-     *
-     */
+        /**
+         * The mip level to use as the depth stencil target.
+         *
+         */
         [Version (since = "3.4.0")]
         public uint8 mip_level;
 
-    /**
-     * The layer index to use as the depth stencil target.
-     *
-     */
+        /**
+         * The layer index to use as the depth stencil target.
+         *
+         */
         [Version (since = "3.4.0")]
         public uint8 layer;
     } // GPUDepthStencilTargetInfo;
 
     [CCode (cname = "SDL_GPUGraphicsPipelineCreateInfo", has_destroy_function = false,
-    has_copy_function = false, has_type_id = false)]
+           has_copy_function = false, has_type_id = false)]
     public struct GPUGraphicsPipelineCreateInfo {
         public GPUShader vertex_shader;
         public GPUShader fragment_shader;
@@ -17379,7 +17438,7 @@ namespace SDL.GPU {
     } // GPUGraphicsPipelineCreateInfo
 
     [CCode (cname = "SDL_GPUGraphicsPipelineTargetInfo", has_destroy_function = false,
-    has_copy_function = false, has_type_id = false)]
+           has_copy_function = false, has_type_id = false)]
     public struct GPUGraphicsPipelineTargetInfo {
         [CCode (array_length_cname = "num_color_targets", array_length_type = "Uint32")]
         public GPUColorTargetDescription[] color_target_descriptions;
@@ -17424,41 +17483,41 @@ namespace SDL.GPU {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_GPUMultisampleState", has_type_id = false)]
     public struct GPUMultisampleState {
-    /**
-     * The number of samples to be used in rasterization.
-     *
-     */
+        /**
+         * The number of samples to be used in rasterization.
+         *
+         */
         public GPUSampleCount sample_count;
 
-    /**
-     * Reserved for future use. Must be set to 0.
-     *
-     */
+        /**
+         * Reserved for future use. Must be set to 0.
+         *
+         */
         public uint32 sample_mask;
 
-    /**
-     * Reserved for future use. Must be set to false.
-     *
-     */
+        /**
+         * Reserved for future use. Must be set to false.
+         *
+         */
         public bool enable_mask;
 
-    /**
-     * True enables the alpha-to-coverage feature.
-     *
-     */
+        /**
+         * True enables the alpha-to-coverage feature.
+         *
+         */
         [Version (since = "3.4.0")]
         public bool enable_alpha_to_coverage;
 
-    /**
-     * Padding variable
-     *
-     */
+        /**
+         * Padding variable
+         *
+         */
         public uint8 padding2;
 
-    /**
-     * Padding variable
-     *
-     */
+        /**
+         * Padding variable
+         *
+         */
         public uint8 padding3;
     } // GPUMultisampleState
 
@@ -17497,7 +17556,7 @@ namespace SDL.GPU {
     } // GPUSamplerCreateInfo
 
     [CCode (cname = "SDL_GPUShaderCreateInfo", has_destroy_function = false,
-    has_copy_function = false, has_type_id = false)]
+           has_copy_function = false, has_type_id = false)]
     public struct GPUShaderCreateInfo {
         public uint8* code;
         public size_t code_size;
@@ -17577,7 +17636,7 @@ namespace SDL.GPU {
     } // GPUTextureRegion
 
     [CCode (cname = "SDL_GPUTextureSamplerBinding", destroy_function = "",
-    has_copy_function = false, has_type_id = false)]
+           has_copy_function = false, has_type_id = false)]
     public struct GPUTextureSamplerBinding {
         public GPUTexture texture;
         public GPUSampler sampler;
@@ -17599,14 +17658,14 @@ namespace SDL.GPU {
     } // GPUTransferBufferCreateInfo
 
     [CCode (cname = "SDL_GPUTransferBufferLocation", has_destroy_function = false,
-    has_copy_function = false, has_type_id = false)]
+           has_copy_function = false, has_type_id = false)]
     public struct GPUTransferBufferLocation {
         public GPUTransferBuffer transfer_buffer;
         public uint32 offset;
     } // GPUTransferBufferLocation
 
     [CCode (cname = "SDL_GPUVertexAttribute", has_destroy_function = false,
-    has_copy_function = false, has_type_id = false)]
+           has_copy_function = false, has_type_id = false)]
     public struct GPUVertexAttribute {
         public uint32 location;
         public uint32 buffer_slot;
@@ -17615,7 +17674,7 @@ namespace SDL.GPU {
     } // GPUVertexAttribute
 
     [CCode (cname = "SDL_GPUVertexBufferDescription", has_destroy_function = false,
-    has_copy_function = false, has_type_id = false)]
+           has_copy_function = false, has_type_id = false)]
     public struct GPUVertexBufferDescription {
         public uint32 slot;
         public uint32 pitch;
@@ -17624,7 +17683,7 @@ namespace SDL.GPU {
     } // GPUVertexBufferDescription
 
     [CCode (cname = "SDL_GPUVertexInputState", has_destroy_function = false,
-    has_copy_function = false, has_type_id = false)]
+           has_copy_function = false, has_type_id = false)]
     public struct GPUVertexInputState {
         [CCode (array_length_cname = "num_vertex_buffers", array_length_type = "Uint32")]
         public GPUVertexBufferDescription[] vertex_buffer_descriptions;
@@ -17653,38 +17712,38 @@ namespace SDL.GPU {
     [Version (since = "3.4.0")]
     [CCode (cname = "SDL_GPUVulkanOptions", has_type_id = false)]
     public struct GPUVulkanOptions {
-    /**
-     *The Vulkan API version to request for the instance. Use Vulkan's
-     * VK_MAKE_VERSION or VK_MAKE_API_VERSION.
-     *
-     */
+        /**
+         *The Vulkan API version to request for the instance. Use Vulkan's
+         * VK_MAKE_VERSION or VK_MAKE_API_VERSION.
+         *
+         */
         public uint32 vulkan_api_version;
 
-    /**
-     * Pointer to the first element of a chain of Vulkan feature structs.
-     * (Requires API version 1.1 or higher.)
-     *
-     */
+        /**
+         * Pointer to the first element of a chain of Vulkan feature structs.
+         * (Requires API version 1.1 or higher.)
+         *
+         */
         public void* feature_list;
 
-    /**
-     * Pointer to a VkPhysicalDeviceFeatures struct to enable additional
-     * Vulkan 1.0 features.
-     *
-     */
+        /**
+         * Pointer to a VkPhysicalDeviceFeatures struct to enable additional
+         * Vulkan 1.0 features.
+         *
+         */
         public void* vulkan_10_physical_device_features;
 
-    /**
-     * A list of additional device extensions to require.
-     *
-     */
+        /**
+         * A list of additional device extensions to require.
+         *
+         */
         [CCode (array_length_cname = "device_extension_count", array_length_type = "Uint32")]
         public string[] device_extension_names;
 
-    /**
-     * A list of additional instance extensions to require.
-     *
-     */
+        /**
+         * A list of additional instance extensions to require.
+         *
+         */
         [CCode (array_length_cname = "instance_extension_count", array_length_type = "Uint32")]
         public string[] instance_extension_names;
     } // GPUVulkanOptions
@@ -18413,7 +18472,7 @@ namespace SDL.Threads {
     public class Thread {}
 
     [CCode (cname = "SDL_ThreadFunction", has_target = true)]
-    public delegate int ThreadFunction ();
+    public delegate int ThreadFunction (void* data);
 
     [SimpleType, CCode (cname = "SDL_ThreadID", has_type_id = false)]
     public struct ThreadID : uint64 {}
@@ -19634,10 +19693,10 @@ namespace SDL.Power {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_PowerState", cprefix = "SDL_POWERSTATE_", has_type_id = false)]
     public enum PowerState {
-    /**
-     * Error determining power status
-     *
-     */
+        /**
+         * Error determining power status
+         *
+         */
         ERROR,
 
         /**
@@ -19993,10 +20052,10 @@ namespace SDL.Process {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_ProcessIO", cprefix = "SDL_PROCESS_", has_type_id = false)]
     public enum ProcessIO {
-    /**
-     * The I/O stream is inherited from the application.
-     *
-     */
+        /**
+         * The I/O stream is inherited from the application.
+         *
+         */
         STDIO_INHERITED,
 
         /**
@@ -20308,10 +20367,10 @@ namespace SDL.MessageBox {
     [Version (since = "3.2.0")]
     [Flags, CCode (cname = "Uint32", cprefix = "SDL_MESSAGEBOX_BUTTON_", has_type_id = false)]
     public enum MessageBoxButtonFlags {
-    /**
-     * Marks the default button when return is hit
-     *
-     */
+        /**
+         * Marks the default button when return is hit
+         *
+         */
         RETURNKEY_DEFAULT,
 
         /**
@@ -20331,10 +20390,10 @@ namespace SDL.MessageBox {
     [Version (since = "3.2.0")]
     [Flags, CCode (cname = "Uint32", cprefix = "SDL_MESSAGEBOX_", has_type_id = false)]
     public enum MessageBoxFlags {
-    /**
-     * Error dialog
-     *
-     */
+        /**
+         * Error dialog
+         *
+         */
         ERROR,
 
         /**
@@ -20372,24 +20431,24 @@ namespace SDL.MessageBox {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_MessageBoxButtonData", has_type_id = false)]
     public struct MessageBoxButtonData {
-    /**
-     * Flags of type {@link MessageBoxButtonFlags}
-     *
-     */
+        /**
+         * Flags of type {@link MessageBoxButtonFlags}
+         *
+         */
         public MessageBoxButtonFlags flags;
 
-    /**
-     * User defined button id (value returned via
-     * {@link show_message_box})
-     *
-     */
+        /**
+         * User defined button id (value returned via
+         * {@link show_message_box})
+         *
+         */
         [CCode (cname = "buttonID")]
         public int button_id;
 
-    /**
-     * The UTF-8 button text
-     *
-     */
+        /**
+         * The UTF-8 button text
+         *
+         */
         public string text;
     } // MessageBoxButtonData;
 
@@ -20403,22 +20462,22 @@ namespace SDL.MessageBox {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_MessageBoxColor", has_type_id = false)]
     public struct MessageBoxColor {
-    /**
-     * Red component
-     *
-     */
+        /**
+         * Red component
+         *
+         */
         public uint8 r;
 
-    /**
-     * Green component
-     *
-     */
+        /**
+         * Green component
+         *
+         */
         public uint8 g;
 
-    /**
-     * Blue component
-     *
-     */
+        /**
+         * Blue component
+         *
+         */
         public uint8 b;
     } // MessageBoxColor;
 
@@ -20432,11 +20491,11 @@ namespace SDL.MessageBox {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_MessageBoxColorScheme", has_type_id = false)]
     public struct MessageBoxColorScheme {
-    /**
-     * An array of Message Box colors.
-     * Limited in size by {@link MessageBoxColorType.COLOR_COUNT}
-     *
-     */
+        /**
+         * An array of Message Box colors.
+         * Limited in size by {@link MessageBoxColorType.COLOR_COUNT}
+         *
+         */
         public MessageBoxColor colors[MessageBoxColorType.COLOR_COUNT];
     } // MessageBoxColorScheme;
 
@@ -20450,41 +20509,41 @@ namespace SDL.MessageBox {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_MessageBoxData", has_type_id = false)]
     public struct MessageBoxData {
-    /**
-     * Flags of type {@link MessageBoxFlags}
-     *
-     */
+        /**
+         * Flags of type {@link MessageBoxFlags}
+         *
+         */
         public MessageBoxFlags flags;
 
-    /**
-     * Parent window, can be null
-     *
-     */
+        /**
+         * Parent window, can be null
+         *
+         */
         public Video.Window? window;
 
-    /**
-     * UTF-8 title
-     *
-     */
+        /**
+         * UTF-8 title
+         *
+         */
         public string title;
 
-    /**
-     * UTF-8 message text
-     *
-     */
+        /**
+         * UTF-8 message text
+         *
+         */
         public string message;
 
-    /**
-     * An array of avaliable buttons in the message box
-     *
-     */
+        /**
+         * An array of avaliable buttons in the message box
+         *
+         */
         [CCode (array_length_cname = "numbuttons", array_length_type = "int")]
         public MessageBoxButtonData buttons;
 
-    /**
-     * The message color scheme, can be null to use system settings
-     *
-     */
+        /**
+         * The message color scheme, can be null to use system settings
+         *
+         */
         [CCode (cname = "colorScheme")]
         public MessageBoxColorScheme? color_scheme;
     } // MessageBoxData
@@ -20501,10 +20560,10 @@ namespace SDL.MessageBox {
     [CCode (cname = "SDL_MessageBoxColorType", cprefix = "SDL_MESSAGEBOX_COLOR_",
     has_type_id = false)]
     public enum MessageBoxColorType {
-    /**
-     * Color of the message box button background
-     *
-     */
+        /**
+         * Color of the message box button background
+         *
+         */
         COLOR_BACKGROUND,
 
         /**
@@ -20719,10 +20778,10 @@ namespace SDL.Dialog {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_FileDialogType", cprefix = "SDL_FILEDIALOG_", has_type_id = false)]
     public enum FileDialogType {
-    /**
-     * Open file
-     *
-     */
+        /**
+         * Open file
+         *
+         */
         OPENFILE,
 
         /**
@@ -21576,10 +21635,10 @@ namespace SDL.System {
     [Version (since = "3.2.0")]
     [CCode (cname = "SDL_Sandbox", cprefix = "SDL_SANDBOX_", has_type_id = false)]
     public enum Sandbox {
-    /**
-     * No sandbox environment
-     *
-     */
+        /**
+         * No sandbox environment
+         *
+         */
         NONE,
 
         /**
@@ -21765,25 +21824,25 @@ namespace SDL.StdInc {
 
     [CCode (cname = "SDL_GetMemoryFunctions")]
     public static void get_memory_functions (MallocFunc malloc_func,
-            CallocFunc calloc_func,
-            ReallocFunc realloc_func,
-            FreeFunc free_func);
+        CallocFunc calloc_func,
+        ReallocFunc realloc_func,
+        FreeFunc free_func);
 
     [CCode (cname = "SDL_GetNumAllocations")]
     public static int get_num_allocations ();
 
     [CCode (cname = "SDL_GetOriginalMemoryFunctions")]
     public static void get_original_memory_functions (MallocFunc malloc_func,
-            CallocFunc calloc_func,
-            ReallocFunc realloc_func,
-            FreeFunc free_func);
+        CallocFunc calloc_func,
+        ReallocFunc realloc_func,
+        FreeFunc free_func);
 
     [CCode (cname = "SDL_iconv")]
     public static size_t iconv (Iconv cd,
-            string in_buffer,
-            size_t in_bytes_left,
-            out string out_buffer,
-            out size_t out_bytes_left);
+        string in_buffer,
+        size_t in_bytes_left,
+        out string out_buffer,
+        out size_t out_bytes_left);
 
     [CCode (cname = "int", cprefix = "SDL_ICONV_")]
     public enum IconvError {
@@ -21801,9 +21860,9 @@ namespace SDL.StdInc {
 
     [CCode (cname = "SDL_iconv_string")]
     public static unowned string iconv_string (string tocode,
-            string from_code,
-            string in_buffer,
-            size_t in_bytes_left);
+        string from_code,
+        string in_buffer,
+        size_t in_bytes_left);
 
     [CCode (cname = "SDL_isalnum")]
     public static int is_a_lnum (int x);
@@ -21962,9 +22021,9 @@ namespace SDL.StdInc {
 
     [CCode (cname = "SDL_SetMemoryFunctions")]
     public static bool det_memoery_functions (MallocFunc malloc_func,
-            CallocFunc calloc_func,
-            ReallocFunc realloc_func,
-            FreeFunc free_func);
+        CallocFunc calloc_func,
+        ReallocFunc realloc_func,
+        FreeFunc free_func);
 
     [CCode (cname = "SDL_sin")]
     public static double sin (double x);
@@ -22285,7 +22344,7 @@ namespace SDL.StdInc {
 
 #if GOBJECT
     [CCode (cname = "SDL_clamp")]
-public static unichar clamp_unichar (unichar x, unichar a, unichar b);
+    public static unichar clamp_unichar (unichar x, unichar a, unichar b);
 #endif
 
     [CCode (cname = "SDL_clamp")]
@@ -22368,7 +22427,7 @@ public static unichar clamp_unichar (unichar x, unichar a, unichar b);
 
 #if GOBJECT
     [CCode (cname = "SDL_max")]
-public static unichar max_unichar (unichar x, unichar y);
+    public static unichar max_unichar (unichar x, unichar y);
 #endif
 
     [CCode (cname = "SDL_max")]

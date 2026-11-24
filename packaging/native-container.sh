@@ -35,7 +35,7 @@ trap 'rm -rf -- "$work"' EXIT
 if [[ -z $archive ]]; then
   # Include current source edits and new files while excluding ignored output.
   cd "$project"
-  version=$(bash scripts/set-version.sh --print-version)
+  version=$(bash packaging/set-version.sh --print-version)
   archive="$work/ProtonPlus-$version-source.tar.gz"
   git ls-files --cached --others --exclude-standard -z > "$work/source-paths"
   while IFS= read -r -d '' path; do
@@ -60,10 +60,14 @@ tar -xf "$archive" -C "$work"
 source_dir="$work/ProtonPlus-$version"
 case $mode in
   build)
+    build_script=packaging/build-native-package.sh
+    if [[ ! -f $source_dir/$build_script && -f $source_dir/packaging/build.sh ]]; then
+      build_script=packaging/build.sh
+    fi
     mkdir -p "$output"
     "$engine" run --rm --volume "$source_dir:/source:ro" \
       --volume "$archive:/input/${archive##*/}:ro" --volume "$output:/output" \
-      "$image" bash /source/packaging/build.sh "$format" "$target" "$version" \
+      "$image" bash "/source/$build_script" "$format" "$target" "$version" \
       "/input/${archive##*/}" /output
     ;;
   test)
