@@ -20,7 +20,7 @@ jobs:
     uses: ./.github/workflows/linux-packages.yml
 
   flatpak:
-    name: "Flatpak Build (${{ matrix.variant.arch }})"
+    name: Flatpak (${{ matrix.variant.arch }})
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-51
       options: --privileged
