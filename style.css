@@ -8,7 +8,6 @@
     --text-secondary: #3d3846;
     --accent: #3584e4;
     --accent-strong: #1c71d8;
-    --accent-soft: #e7f0fc;
     --on-accent: #ffffff;
     --border: #dcdcdc;
     --divider: #eeeeee;
@@ -30,7 +29,6 @@
         --text-secondary: #deddda;
         --accent: #62a0ea;
         --accent-strong: #99c1f1;
-        --accent-soft: #1e3a5f;
         --border: #45414c;
         --divider: #45414c;
         --text-subtle: #9a9996;
@@ -291,16 +289,6 @@ h1 {
     margin-bottom: 10px;
 }
 
-.release-kicker {
-    margin-top: 8px;
-    padding: 5px 12px;
-    border-radius: 999px;
-    background-color: var(--accent-soft);
-    color: var(--accent-strong);
-    font-size: 0.85rem;
-    font-weight: 700;
-}
-
 @media (max-width: 480px) {
     .logo {
         width: 80px;
@@ -436,12 +424,12 @@ h2 {
 
 .screenshots-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 20px;
     margin-top: 20px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 700px) {
     .screenshots-grid {
         grid-template-columns: 1fr;
     }
@@ -597,6 +585,17 @@ h2 {
     height: auto;
 }
 
+.download > h3 {
+    margin-bottom: 12px;
+}
+
+.download-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
 .unofficial-downloads {
     margin-top: 40px;
     padding-top: 40px;
@@ -714,6 +713,16 @@ h2 {
 
 .tools-container h4:first-child {
     margin-top: 0;
+}
+
+.compatibility-note {
+    margin-top: 16px;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.compatibility-note a {
+    color: var(--accent-strong);
 }
 
 .contributors-container {
