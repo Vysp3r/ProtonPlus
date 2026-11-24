@@ -222,7 +222,8 @@ Select **Proton-Autogen** in the launcher menu. **Tools** manages supported
 Proton builds in the native Steam compatibility-tool directory. **Games** shows
 the executables registered in Proton-Autogen. Choose **Automatic** to let
 Proton-Autogen pick a build, or select an installed build for one or more games.
-Launch the games from Proton-Autogen. See the [profile format and supported
+Use the play button in **Games** to launch a registered executable through
+Proton-Autogen. See the [profile format and supported
 locations](docs/integrations/proton-autogen.md).
 
 ### Controller input

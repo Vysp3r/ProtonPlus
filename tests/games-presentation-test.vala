@@ -395,7 +395,7 @@ void check_proton_autogen_game_edit (string root) throws Error {
 
     var steam = new Models.Launchers.Steam (Models.Launcher.InstallationTypes.SYSTEM);
     steam.directory = root;
-    var launcher = new Models.Launchers.ProtonAutogen (steam, root, false);
+    var launcher = new Models.Launchers.ProtonAutogen (steam, root, true);
     load_autogen_library (launcher);
 
     var page = new ProtonPlus.Widgets.Games.Box ();
@@ -412,6 +412,22 @@ void check_proton_autogen_game_edit (string root) throws Error {
     var wide = find_widget (page, (widget) => widget is Gtk.ColumnView) as Gtk.ColumnView;
     assert (wide != null);
     assert (!((Gtk.ColumnViewColumn) wide.get_columns ().get_item (2)).visible);
+    WidgetMatches alpha_play_button = (widget) => widget is Gtk.Button && widget.get_mapped () &&
+        ((Gtk.Button) widget).icon_name == "media-playback-start-symbolic" &&
+        widget.get_tooltip_text () == "Launch Alpha";
+    assert (find_widget (wide, alpha_play_button) != null);
+
+    viewport.maximum_size = 430;
+    viewport.tightening_threshold = 430;
+    viewport.width_request = 430;
+    settle ();
+    var compact_row = find_widget (page, (widget) => widget is GameRow && widget.get_mapped ());
+    assert (compact_row != null && find_widget (compact_row, alpha_play_button) != null);
+
+    viewport.maximum_size = 850;
+    viewport.tightening_threshold = 850;
+    viewport.width_request = 850;
+    settle ();
 
     var select_all = find_widget (page, (widget) => widget is Gtk.CheckButton &&
         widget.get_tooltip_text () == "Select all visible games") as Gtk.CheckButton;
@@ -439,6 +455,13 @@ void check_proton_autogen_game_edit (string root) throws Error {
     apply.clicked ();
     settle ();
     assert (page.get_header_presentation () == null);
+
+    var profiles_only_launcher = new Models.Launchers.ProtonAutogen (steam, root, false);
+    load_autogen_library (profiles_only_launcher);
+    page.set_selected_launcher (profiles_only_launcher);
+    settle ();
+    assert (find_widget (page, alpha_play_button) == null);
+
     foreach (var path in paths) {
         string updated;
         FileUtils.get_contents (path, out updated);

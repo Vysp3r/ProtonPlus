@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-23 17:38-0500\n"
+"POT-Creation-Date: 2026-11-23 22:27-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -499,11 +499,11 @@ msgstr ""
 msgid "Grant ProtonPlus access, restart it, and try the installation again:"
 msgstr ""
 
-#: src/models/launchers/proton-autogen.vala:68
+#: src/models/launchers/proton-autogen.vala:71
 msgid "Automatic"
 msgstr ""
 
-#: src/models/launchers/proton-autogen.vala:115
+#: src/models/launchers/proton-autogen.vala:118
 #: src/models/launchers/steam.vala:477
 #, c-format
 msgid "%s (Unavailable)"
@@ -814,6 +814,10 @@ msgstr ""
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
+msgstr ""
+
+#: src/services/proton-autogen-game-launch-service.vala:5
+msgid "The Proton-Autogen profile requires an absolute executable path."
 msgstr ""
 
 #: src/services/standard-archive-workflow.vala:32
@@ -1444,44 +1448,49 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
-#: src/widgets/games/games-row.vala:70 src/widgets/games/games-row.vala:482
-#: src/widgets/games/games-row.vala:486 src/widgets/games/games-row.vala:561
+#: src/widgets/games/games-row.vala:70 src/widgets/games/games-row.vala:512
+#: src/widgets/games/games-row.vala:516 src/widgets/games/games-row.vala:591
 msgid "Select game"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:44 src/widgets/games/games-row.vala:498
+#: src/widgets/games/games-row.vala:44 src/widgets/games/games-row.vala:528
 msgid "Modify Game"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:58 src/widgets/games/games-row.vala:533
+#: src/widgets/games/games-row.vala:58 src/widgets/games/games-row.vala:563
 #: src/widgets/tools/tools-game-row.vala:15
 #: src/widgets/tools/tools-game-row.vala:19
 #, c-format
 msgid "Select %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:114 src/widgets/games/games-row.vala:600
+#: src/widgets/games/games-row.vala:114 src/widgets/games/games-row.vala:630
 #, c-format
 msgid "Toggle selection for %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:159 src/widgets/games/games-row.vala:601
+#: src/widgets/games/games-row.vala:159 src/widgets/games/games-row.vala:631
 #, c-format
 msgid "Modify %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:302
+#: src/widgets/games/games-row.vala:314 src/widgets/games/games-row.vala:317
+#, c-format
+msgid "Launch %s"
+msgstr ""
+
+#: src/widgets/games/games-row.vala:347
 msgid "Game Launch Failed"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:303
+#: src/widgets/games/games-row.vala:348
 #, c-format
 msgid "%s could not be launched."
 msgstr ""
 
-#: src/widgets/games/games-row.vala:329 src/widgets/games/games-row.vala:332
+#: src/widgets/games/games-row.vala:363
 #, c-format
-msgid "Launch %s"
+msgid "The Proton-Autogen command failed for %s."
 msgstr ""
 
 #: src/widgets/games/games-tool-row.vala:18

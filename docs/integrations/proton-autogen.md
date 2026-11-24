@@ -7,6 +7,10 @@ Use **Preferences → Refresh application data** to pick up profiles registered,
 removed, or edited externally. Proton-Autogen owns game execution, prefix and
 environment configuration, and runtime selection.
 
+When ProtonPlus detects the host command, each row in **Games** has a play
+button that runs `proton-autogen run` with the registered executable path.
+Flatpak ProtonPlus runs the command on the host.
+
 ## Proton installations
 
 The launcher ID is `proton-autogen-system`. It uses the same tool target and

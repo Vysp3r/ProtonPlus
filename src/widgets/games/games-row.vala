@@ -285,25 +285,7 @@ namespace ProtonPlus.Widgets.Games {
             ) {
                 css_classes = { "flat" }
             };
-            launch_button.clicked.connect (() => {
-                var steam_game = target.item?.game as Models.Games.Steam;
-                if (steam_game == null)
-                    return;
-                var steam_target = steam_game.launcher.get_steam_restart_target ();
-                try {
-                    if (steam_target == null)
-                        throw new IOError.NOT_FOUND ("No Steam installation was found for this game.");
-                    new Services.SteamGameLaunchService ().launch (
-                        steam_target, steam_game.appid, steam_game.is_non_steam, Globals.IS_FLATPAK);
-                } catch (Error error) {
-                    var root = get_root () as Gtk.Window;
-                    if (root != null)
-                        Window.present_dialog_for_controller (new Main.ErrorDialog (
-                            _("Game Launch Failed"),
-                            _("%s could not be launched.").printf (steam_game.name),
-                            error.message), root);
-                }
-            });
+            launch_button.clicked.connect (launch_game);
 
             extra_button = new ExtraButton (target);
             append (launch_button);
@@ -313,17 +295,20 @@ namespace ProtonPlus.Widgets.Games {
         public void bind (GameListItem item) {
             unbind ();
             target.bind (item);
+            var steam_game = item.game as Models.Games.Steam;
+            var autogen_game = item.game as Models.Games.ProtonAutogen;
             var availability = GameActionAvailability.evaluate (
-                item.game is Models.Games.Steam,
+                steam_game != null,
                 item.is_non_steam,
                 item.is_native,
                 item.has_install_directory,
                 item.has_prefix_directory,
                 Globals.PROTONTRICKS_INSTALLED ||
                     Globals.PROTONTRICKS_FLATPAK_INSTALLED,
-                (item.game as Models.Games.Steam)?.awacy_status,
-                (item.game as Models.Games.Steam)?.awacy_name != null,
-                (item.game as Models.Games.Steam)?.awacy_lookup_complete ?? false
+                steam_game?.awacy_status,
+                steam_game?.awacy_name != null,
+                steam_game?.awacy_lookup_complete ?? false,
+                autogen_game?.can_launch ?? false
             );
             launch_button.set_visible (availability.show_launch);
             launch_button.set_tooltip_text (_("Launch %s").printf (item.game.name));
@@ -334,6 +319,51 @@ namespace ProtonPlus.Widgets.Games {
             );
             extra_button.bind (item);
             refresh_visibility ();
+        }
+
+        void launch_game () {
+            var game = target.item?.game;
+            if (game == null)
+                return;
+            var root = get_root () as Gtk.Window;
+            var steam_game = game as Models.Games.Steam;
+            var autogen_game = game as Models.Games.ProtonAutogen;
+            try {
+                if (steam_game != null) {
+                    var steam_target = steam_game.launcher.get_steam_restart_target ();
+                    if (steam_target == null)
+                        throw new IOError.NOT_FOUND ("No Steam installation was found for this game.");
+                    new Services.SteamGameLaunchService ().launch (
+                        steam_target, steam_game.appid, steam_game.is_non_steam, Globals.IS_FLATPAK);
+                } else if (autogen_game != null && autogen_game.can_launch) {
+                    var process = Services.ProtonAutogenGameLaunchService.launch (
+                        autogen_game.executable_path, Globals.IS_FLATPAK);
+                    if (root != null)
+                        observe_autogen_exit (process, root, game.name);
+                }
+            } catch (Error error) {
+                if (root != null)
+                    Window.present_dialog_for_controller (new Main.ErrorDialog (
+                        _("Game Launch Failed"),
+                        _("%s could not be launched.").printf (game.name),
+                        error.message), root);
+            }
+        }
+
+        static void observe_autogen_exit (Subprocess process, Gtk.Window root, string game_name) {
+            var window_ref = WeakRef (root);
+            process.wait_check_async.begin (null, (source, result) => {
+                try {
+                    process.wait_check_async.end (result);
+                } catch (Error error) {
+                    var window = window_ref.get () as Gtk.Window;
+                    if (window != null && window.get_mapped ())
+                        Window.present_dialog_for_controller (new Main.ErrorDialog (
+                            "Proton-Autogen",
+                            _("The Proton-Autogen command failed for %s.").printf (game_name),
+                            error.message), window);
+                }
+            });
         }
 
         public void unbind () {

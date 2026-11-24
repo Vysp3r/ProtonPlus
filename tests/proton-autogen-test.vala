@@ -52,12 +52,53 @@ namespace AppTests.ProtonAutogenTest {
         Test.add_func ("/proton-autogen/profile-fallbacks-and-bad-files", test_profile_fallbacks);
         Test.add_func ("/proton-autogen/profile-rejects-conflicts", test_profile_conflicts);
         Test.add_func ("/proton-autogen/launcher-and-shared-tools", test_launcher);
+        Test.add_func ("/proton-autogen/launch-dispatch", test_launch_dispatch);
     }
 
     private string read (string path) throws Error {
         string contents;
         FileUtils.get_contents (path, out contents);
         return contents;
+    }
+
+    private void test_launch_dispatch () {
+        if (!Test.subprocess ()) {
+            Test.trap_subprocess (null, 5000000, TestSubprocessFlags.DEFAULT);
+            Test.trap_assert_passed ();
+            return;
+        }
+
+        try {
+            var fixture = new Fixture ();
+            var argv_path = Path.build_filename (fixture.root, "argv");
+            foreach (var name in new string[] { "proton-autogen", "flatpak-spawn" }) {
+                var command = Path.build_filename (fixture.root, name);
+                FileUtils.set_contents (command, """#!/bin/sh
+printf '%s\n' "${0##*/}" "$@" > "$PROTONPLUS_AUTOGEN_TEST_ARGV"
+""");
+                assert (Posix.chmod (command, 0700) == 0);
+            }
+            Environment.set_variable ("PROTONPLUS_AUTOGEN_TEST_ARGV", argv_path, true);
+            Environment.set_variable ("PATH", fixture.root, true);
+            var executable = Path.build_filename (fixture.root, "Game's \"test\" $(exit 9);.EXE");
+            var command = ProtonPlus.Services.ProtonAutogenGameLaunchService.launch (executable, false);
+            assert (command.wait_check ());
+            assert_cmpstr (read (argv_path), CompareOperator.EQ, "proton-autogen\nrun\n" + executable + "\n");
+            command = ProtonPlus.Services.ProtonAutogenGameLaunchService.launch (executable, true);
+            assert (command.wait_check ());
+            assert_cmpstr (read (argv_path), CompareOperator.EQ,
+                "flatpak-spawn\n--host\nproton-autogen\nrun\n" + executable + "\n");
+
+            try {
+                ProtonPlus.Services.ProtonAutogenGameLaunchService.launch ("relative.exe", false);
+                assert_not_reached ();
+            } catch (IOError.INVALID_ARGUMENT error) {
+                assert (error.message != "");
+            }
+            fixture.cleanup ();
+        } catch (Error error) {
+            GLib.error ("%s", error.message);
+        }
     }
 
     private void test_exact_profile_edit () {

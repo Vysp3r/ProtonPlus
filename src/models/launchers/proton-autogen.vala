@@ -7,6 +7,8 @@ namespace ProtonPlus.Models.Launchers {
         private uint scan_generation;
         private uint library_generation;
 
+        public bool command_installed { get; private set; }
+
         public ProtonAutogen (Steam native_steam, string? home_override = null, bool? command_installed = null) {
             var home = home_override ?? Environment.get_home_dir ();
             var steam_root = native_steam.directory != ""
@@ -18,7 +20,8 @@ namespace ProtonPlus.Models.Launchers {
             profiles_directory = profiles;
             proton_directory = native_steam.directory != "" ? native_steam.get_managed_compatibility_tools_root ()
                 : Path.build_filename (steam_root, "compatibilitytools.d");
-            installed = (command_installed ?? Globals.PROTON_AUTOGEN_INSTALLED) || FileUtils.test (profiles, FileTest.IS_DIR);
+            this.command_installed = command_installed ?? Globals.PROTON_AUTOGEN_INSTALLED;
+            installed = this.command_installed || FileUtils.test (profiles, FileTest.IS_DIR);
             has_library_support = true;
         }
 
