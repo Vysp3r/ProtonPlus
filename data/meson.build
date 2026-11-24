@@ -62,8 +62,8 @@ appstream_cli = find_program('appstreamcli', required: false)
 if appstream_cli.found()
     test(
         'Validate appstream file',
-        appstream_cli,
-        args: ['validate', '--no-net', appstream_file],
+        find_program('sh'),
+        args: [files('../packaging/validate-appstream.sh'), appstream_cli.full_path(), appstream_file],
     )
 else
     appstream_util = find_program('appstream-util', required: false)

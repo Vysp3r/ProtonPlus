@@ -344,7 +344,8 @@ Commands:
                      Extract POTFILES/template; optionally merge .po catalogs.
   icons              Regenerate application icons from the SVG source.
   linter             Run Flathub linters on the local source.
-  appimage           Build an AppImage with sharun.
+  package TARGET     Build a package. Targets are appimage, debian13,
+                     ubuntu26.04, fedora45, and archlinux.
   clean              Remove build-related directories.
   help               Show this help message.
 
@@ -388,9 +389,16 @@ main() {
       check_argument_count "linter" 0 "${@:2}"
       flathub_linter
       ;;
-    appimage)
-      check_argument_count "appimage" 0 "${@:2}"
-      "${SCRIPT_DIR}/make-appimage.sh"
+    package)
+      check_argument_count "package" 1 "${@:2}"
+      case "${2:-}" in
+        appimage) "${ROOT_DIR}/packaging/appimage/build.sh" ;;
+        '')
+          show_log "ERROR" "Specify a package target. See the help text for usage."
+          return 1
+          ;;
+        *) bash "${ROOT_DIR}/packaging/native-container.sh" build "${2}" ;;
+      esac
       ;;
     clean)
       check_argument_count "clean" 0 "${@:2}"

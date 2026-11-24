@@ -44,9 +44,9 @@ distribution for:
 - gettext and desktop-file-utils
 - Python 3 for the compatibility stylesheets and maintenance-script tests
 
-scripts/get-dependencies.sh installs the native packages used by the project
-on Arch-based systems. It is not a portable dependency installer and must not
-be run unchanged on other distributions.
+The distro recipes in `packaging/` list the corresponding native package
+names. `packaging/appimage/get-dependencies.sh` prepares the Arch-based
+AppImage build environment.
 
 ### Flatpak build dependencies
 
@@ -173,7 +173,11 @@ The repository configures vala-lint through .pre-commit-config.yaml and
 the compiler, Meson validation tests, Vala lint, and Flatpak linters are the
 authoritative checks currently configured in the repository. CI runs the local
 Flatpak build and its tests on x86_64 and aarch64. Its Flatpak lint step is
-advisory.
+advisory. The Release Packages workflow runs the same Meson test suite in the
+native package builds and verifies each binary package in a fresh container.
+Pull requests run native packaging checks on x86_64 for every distribution.
+Pushes to main, version tags, manual runs, and published releases also check
+aarch64.
 
 Additional helper commands:
 
@@ -181,6 +185,7 @@ Additional helper commands:
 ./scripts/build.sh translations
 ./scripts/build.sh linter
 ./scripts/build.sh icons
+./scripts/build.sh package appimage
 ./scripts/build.sh clean
 ~~~
 
@@ -192,6 +197,13 @@ native builds and checks.
 ./scripts/build.sh linter runs flatpak-builder-lint on the local manifest.
 ./scripts/build.sh icons regenerates tracked PNG icons from the SVG source.
 ./scripts/build.sh clean removes ignored build and distribution directories.
+
+The `package` targets are `appimage`, `debian13`, `ubuntu26.04`, `fedora45`,
+and `archlinux`. The native targets build the current Git checkout in the same
+distribution containers used by CI and write to `dist/`. They use Docker if
+available, then Podman. Set `PROTONPLUS_CONTAINER_ENGINE=podman` to select
+Podman explicitly. Run `package appimage` in a prepared AppImage build
+environment with the tools from `packaging/appimage/`.
 
 The linter and icon commands require Flatpak tooling and rsvg-convert,
 respectively. Do not commit generated build directories. Generated icon PNGs
@@ -216,8 +228,9 @@ are tracked and should only be regenerated when the source icon changes.
   GSettings schema, and systemd units.
 - po/ — gettext catalogs and the generated source-file list.
 - tests/ — Vala regression tests, fixtures, and maintenance-script tests.
-- scripts/ — build, dependency, translation, icon, AppImage, and version
-  maintenance helpers.
+- scripts/ — build, translation, icon, and version maintenance helpers.
+- packaging/ — native package definitions, release installation checks, and
+  AppImage build scripts.
 - docs/codebase-guide.md — the whole-system runtime map, ownership boundaries,
   persistence contracts, and change-location guide.
 - docs/provider-architecture.md — the provider and release-source extension
@@ -343,8 +356,9 @@ version is declared in meson.build; ./scripts/set-version.sh VERSION updates it
 and the tagged source reference in the Flathub manifest. AppStream release
 notes and the Git tag are updated separately. `./scripts/set-version.sh --check`
 checks the release fields without modifying them and requires `xmllint` from
-the libxml2 tools package. Publishing a GitHub release
-triggers the AppImage workflow.
+the libxml2 tools package. Pushing the version tag runs the native packaging
+checks. Publishing a GitHub release builds and attaches the native packages,
+AppImages, source archive, and checksums.
 
 Contributors should not change the project version or release metadata unless
 the pull request is specifically part of a release. If a version-related

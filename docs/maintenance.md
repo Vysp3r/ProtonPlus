@@ -90,11 +90,28 @@ Use fixtures for filesystem, launcher, and Steam mutations, as described in
    version it uses Meson's version. It checks local metadata, not whether a
    remote Git tag exists or packaging succeeds.
    The metadata check requires `xmllint` (the libxml2 tools package).
-5. Commit the reviewed release changes and create the matching `vVERSION` tag
-   through the normal release process. Publishing a GitHub release triggers
-   AppImage builds; they check metadata against the published tag before
-   compilation. Manual workflow dispatch does not impose release metadata
-   consistency on development snapshots.
+5. Commit the reviewed release changes and push the matching `vVERSION` tag.
+   The **Release Packages** workflow checks the tag against the release metadata,
+   creates a versioned source archive, and runs the native build and installation
+   tests. Review the results before publishing the GitHub release for that tag.
+6. Publish the GitHub release. The workflow rebuilds and tests the native
+   packages from the tag, checks both AppImages in clean containers, and
+   attaches all assets with `SHA256SUMS` after the jobs pass. Manual dispatch
+   on a branch builds test artifacts for the selected commit.
+
+Native packages are built and tested for Debian 13, Ubuntu 26.04 LTS, Fedora 45,
+and Arch Linux or Arch Linux ARM on `x86_64` and `aarch64`. Each build runs the
+Meson suite with Xvfb and a D-Bus session. A second container installs the
+result through the distribution package manager. It checks runtime dependencies,
+the exact application version, desktop and AppStream metadata, icons, and
+GSettings schema discovery after the package-manager triggers run.
+
+Downstream recipes such as the AUR package can use the versioned release
+asset at `releases/download/vVERSION/ProtonPlus-VERSION-source.tar.gz` with its
+digest from `SHA256SUMS`. The archive extracts to `ProtonPlus-VERSION/` and
+contains the same source used for the official binary builds. The repository's
+Arch recipe takes `PROTONPLUS_VERSION` and `PROTONPLUS_SOURCE_SHA256` from the
+release when run with `makepkg`.
 
 Meson, the newest AppStream entry, and the tagged Flatpak manifest are aligned
 at **0.6.9**. The matching **v0.6.9** Git tag must be published through the

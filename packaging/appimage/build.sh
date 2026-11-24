@@ -53,5 +53,9 @@ find "$APPIMAGE_LOCALE_SOURCE" -type f \
         done
     ' sh "$APPIMAGE_LOCALE_SOURCE" "$APPIMAGE_APPDIR" {} +
 
+# Desktop integration tools look for AppStream metainfo under usr/share.
+install -Dm644 data/com.vysp3r.ProtonPlus.metainfo.xml.in \
+    "$APPIMAGE_APPDIR/usr/share/metainfo/com.vysp3r.ProtonPlus.metainfo.xml"
+
 # Turn AppDir into AppImage
 quick-sharun --make-appimage

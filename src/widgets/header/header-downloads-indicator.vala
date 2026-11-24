@@ -225,7 +225,13 @@ namespace ProtonPlus.Widgets.Header {
             set_visible (global_header_visible && count > 0);
             var active = ngettext ("%u active download", "%u active downloads", active_count).printf (active_count);
             var failed = ngettext ("%u failed operation", "%u failed operations", failed_count).printf (failed_count);
-            var description = failed_count == 0 ? active : active_count == 0 ? failed : _("%s, %s").printf (active, failed);
+            string description;
+            if (failed_count == 0)
+                description = active;
+            else if (active_count == 0)
+                description = failed;
+            else
+                description = _("%s, %s").printf (active, failed);
             icon.set_from_icon_name (active_count == 0 && failed_count > 0
                 ? "dialog-warning-symbolic" : "folder-download-symbolic");
             button.set_tooltip_text (description);

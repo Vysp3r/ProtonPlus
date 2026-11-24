@@ -4,6 +4,7 @@ import os
 import re
 import shutil
 import subprocess
+import tarfile
 import tempfile
 import unittest
 import xml.etree.ElementTree as ET
@@ -329,6 +330,14 @@ class AppImagePackagingTest(unittest.TestCase):
     def test_restores_all_protonplus_catalogs_without_host_locale_tree(self) -> None:
         with tempfile.TemporaryDirectory() as temporary_directory:
             test_root = Path(temporary_directory)
+            checkout = test_root / "checkout with spaces"
+            (checkout / "scripts").mkdir(parents=True)
+            shutil.copy(PROJECT_ROOT / "scripts" / "build.sh", checkout / "scripts")
+            shutil.copytree(PROJECT_ROOT / "packaging" / "appimage", checkout / "packaging" / "appimage")
+            (checkout / "data").mkdir()
+            metainfo = "com.vysp3r.ProtonPlus.metainfo.xml"
+            metadata = checkout / "data" / (metainfo + ".in")
+            shutil.copy(PROJECT_ROOT / "data" / metadata.name, metadata)
             locale_source = test_root / "locale source"
             appdir = test_root / "Generated AppDir"
             expected_catalogs = {}
@@ -370,6 +379,7 @@ if [ "${1:-}" = --make-appimage ]; then
         -type f -name 'host-application.mo' | wc -l)
     [ "$catalog_count" -eq "$PROTONPLUS_EXPECTED_CATALOG_COUNT" ]
     [ "$unrelated_count" -eq 0 ]
+    test -s "$PROTONPLUS_APPIMAGE_APPDIR/usr/share/metainfo/com.vysp3r.ProtonPlus.metainfo.xml"
     touch "$PROTONPLUS_APPIMAGE_APPDIR/.made-appimage"
 else
     rm -rf "$PROTONPLUS_APPIMAGE_APPDIR/share/locale"
@@ -384,7 +394,7 @@ fi
             environment["PROTONPLUS_APPIMAGE_LOCALE_SOURCE"] = str(locale_source)
             environment["PROTONPLUS_EXPECTED_CATALOG_COUNT"] = str(len(locales))
             subprocess.run(
-                ["/bin/sh", str(PROJECT_ROOT / "scripts" / "make-appimage.sh")],
+                ["bash", str(checkout / "scripts" / "build.sh"), "package", "appimage"],
                 cwd=test_root,
                 env=environment,
                 check=True,
@@ -413,11 +423,96 @@ fi
                 )
                 self.assertEqual(packaged_catalog.read_bytes(), expected_content)
             self.assertTrue((appdir / ".made-appimage").is_file())
+            self.assertEqual(
+                (appdir / "usr" / "share" / "metainfo" / metainfo).read_bytes(),
+                metadata.read_bytes(),
+            )
 
     @staticmethod
     def _write_executable(path: Path, content: str) -> None:
         path.write_text(content, encoding="utf-8")
         path.chmod(0o755)
+
+
+class NativePackagingTest(unittest.TestCase):
+    @unittest.skipUnless(shutil.which("git"), "Git is required for the package source fixture")
+    def test_package_targets_build_the_current_checkout_in_a_container(self) -> None:
+        with tempfile.TemporaryDirectory() as temporary_directory:
+            test_root = Path(temporary_directory)
+            checkout = test_root / "checkout with spaces"
+            (checkout / "scripts").mkdir(parents=True)
+            shutil.copy(PROJECT_ROOT / "scripts" / "build.sh", checkout / "scripts")
+            shutil.copytree(PROJECT_ROOT / "packaging", checkout / "packaging")
+            (checkout / "meson.build").write_text("initial version\n")
+            (checkout / "removed").touch()
+            (checkout / "replaced").mkdir()
+            (checkout / "replaced" / "outside-file").touch()
+            (checkout / ".gitignore").write_text("/dist/\n/ignored\n")
+            subprocess.run(["git", "init", "-q", str(checkout)], check=True)
+            subprocess.run(["git", "-C", str(checkout), "add", "."], check=True)
+            (checkout / "meson.build").write_text("working tree version\n")
+            (checkout / "new-source").touch()
+            (checkout / "ignored").touch()
+            (checkout / "removed").unlink()
+            (checkout / "replaced" / "outside-file").unlink()
+            (checkout / "replaced").rmdir()
+            (test_root / "outside-file").touch()
+            (checkout / "replaced").symlink_to("..")
+
+            meson = test_root / "meson"
+            meson.write_text("#!/bin/sh\nprintf '%s\\n' '{\"version\":\"0.0.0\"}'\n")
+            meson.chmod(0o755)
+            engine = test_root / "container-engine"
+            engine.write_text(
+                "#!/bin/sh\nset -eu\n"
+                "for argument do\n"
+                "    case $argument in\n"
+                "        *:/input/*) cp \"${argument%%:/input/*}\" \"$PROTONPLUS_TEST_ARCHIVE\" ;;\n"
+                "    esac\n"
+                "done\n"
+                "printf '%s\\n' \"$@\" > \"$PROTONPLUS_TEST_CONTAINER_ARGS\"\n"
+            )
+            engine.chmod(0o755)
+            archive = test_root / "source.tar.gz"
+            container_args = test_root / "container-args"
+            environment = os.environ | {
+                "PATH": f"{test_root}{os.pathsep}{os.environ['PATH']}",
+                "PROTONPLUS_CONTAINER_ENGINE": str(engine),
+                "PROTONPLUS_TEST_ARCHIVE": str(archive),
+                "PROTONPLUS_TEST_CONTAINER_ARGS": str(container_args),
+            }
+            targets = {
+                "debian13": ("deb", "docker.io/library/debian:13"),
+                "ubuntu26.04": ("deb", "docker.io/library/ubuntu:26.04"),
+                "fedora45": ("rpm", "registry.fedoraproject.org/fedora:45"),
+                "archlinux": ("pkg.tar.zst", "ghcr.io/pkgforge-dev/archlinux:latest"),
+            }
+            for target, (extension, image) in targets.items():
+                with self.subTest(target=target):
+                    result = subprocess.run(
+                        ["bash", str(checkout / "scripts" / "build.sh"), "package", target],
+                        cwd=test_root,
+                        env=environment,
+                        capture_output=True,
+                        text=True,
+                    )
+                    self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                    arguments = container_args.read_text().splitlines()
+                    self.assertIn(f"{checkout / 'dist'}:/output", arguments)
+                    self.assertEqual(arguments[-8:], [
+                        image, "bash", "/source/packaging/build.sh", extension, target,
+                        "0.0.0", "/input/ProtonPlus-0.0.0-source.tar.gz", "/output",
+                    ])
+
+            with tarfile.open(archive) as source:
+                prefix = "ProtonPlus-0.0.0/"
+                names = source.getnames()
+                self.assertEqual(source.extractfile(prefix + "meson.build").read(), b"working tree version\n")
+                self.assertIn(prefix + "new-source", names)
+                self.assertNotIn(prefix + "removed", names)
+                self.assertNotIn(prefix + "ignored", names)
+                self.assertNotIn(prefix + "replaced/outside-file", names)
+                self.assertEqual(source.getmember(prefix + "replaced").linkname, "..")
 
 
 if __name__ == "__main__":

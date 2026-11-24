@@ -2,7 +2,7 @@
 
 set -eu
 
-echo "Installing package dependencies..."
+echo "Installing AppImage build dependencies..."
 echo "---------------------------------------------------------------"
 pacman -Syu --noconfirm \
     git \

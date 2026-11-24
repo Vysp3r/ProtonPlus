@@ -162,8 +162,12 @@ namespace AppTests.WebTest {
             var validator = message.get_request_headers ().get_one ("If-Range");
             string response;
             if ((scenario == "retry-after" || scenario == "retry-after-date" || scenario == "retry-after-long") && requests == 1) {
-                response = "HTTP/1.1 503 Service Unavailable\r\nContent-Length: 0\r\nRetry-After: %s\r\n\r\n".printf (
-                    scenario == "retry-after" ? "2" : scenario == "retry-after-date" ? new DateTime.now_utc ().add_seconds (3).format ("%a, %d %b %Y %H:%M:%S GMT") : "1200");
+                string retry_after = "1200";
+                if (scenario == "retry-after")
+                    retry_after = "2";
+                else if (scenario == "retry-after-date")
+                    retry_after = Soup.date_time_to_string (new DateTime.now_utc ().add_seconds (3), Soup.DateFormat.HTTP);
+                response = "HTTP/1.1 503 Service Unavailable\r\nContent-Length: 0\r\nRetry-After: %s\r\n\r\n".printf (retry_after);
             } else if (scenario == "http-permanent") {
                 response = "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n";
             } else if (scenario == "http-retry" && requests == 1) {
