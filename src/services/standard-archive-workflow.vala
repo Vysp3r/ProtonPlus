@@ -5,6 +5,8 @@ namespace ProtonPlus.Services {
         private ArchiveWorkflowSupport archive_support = new ArchiveWorkflowSupport ();
 
         public override ReturnCode validate_install (InstallJob job, bool replace_existing) {
+            if (FileUtils.test (job.install_location, FileTest.IS_SYMLINK))
+                return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             var install_parent = Path.get_dirname (job.install_location);
             var target_error = job.tool.group.launcher.get_install_target_error (install_parent);
             if (target_error != null) {
@@ -138,6 +140,8 @@ namespace ProtonPlus.Services {
         public override async ReturnCode update (InstallJob job, InstallationOperationCoordinator coordinator) {
             if (job.mode != InstallJob.Mode.LATEST)
                 return ReturnCode.UNSUPPORTED_OPERATION;
+            if (FileUtils.test (job.install_location, FileTest.IS_SYMLINK))
+                return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             var runner = job.tool as Models.Tools.ProviderTool;
             if (runner == null || runner.release_catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
@@ -212,6 +216,8 @@ namespace ProtonPlus.Services {
                 runner.group.launcher.get_primary_managed_tool_directory (runner.group),
                 "%s Latest".printf (runner.title)
             );
+            if (FileUtils.test (directory, FileTest.IS_SYMLINK))
+                return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             if (!FileUtils.test (directory, FileTest.IS_DIR))
                 return ReturnCode.RUNNER_NOT_INSTALLED;
             var metadata = Utils.Metadata.load (directory);
@@ -254,6 +260,8 @@ namespace ProtonPlus.Services {
                 "%s Latest".printf (runner.title)
             );
             var backup = "%s Backup".printf (directory);
+            if (FileUtils.test (directory, FileTest.IS_SYMLINK) || FileUtils.test (backup, FileTest.IS_SYMLINK))
+                return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             if (FileUtils.test (directory, FileTest.EXISTS))
                 return ReturnCode.RUNNER_ALREADY_INSTALLED;
             if (!FileUtils.test (backup, FileTest.IS_DIR))
@@ -301,6 +309,8 @@ namespace ProtonPlus.Services {
         }
 
         private async ReturnCode update_latest_job (InstallJob job, InstallationOperationCoordinator coordinator) {
+            if (FileUtils.test (job.install_location, FileTest.IS_SYMLINK))
+                return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             var runner = job.tool as Models.Tools.ProviderTool;
             if (runner == null || !FileUtils.test (job.install_location, FileTest.IS_DIR)) {
                 job.refresh_state ();

@@ -173,6 +173,7 @@ namespace ProtonPlus.Services {
             var updated = false;
             Models.InstalledToolEntry? legacy_backup = null;
             var inventory = runner.group.installed_tool_inventory;
+            var skipped_linked_tool = inventory.has_linked_latest_installation (runner);
             foreach (var entry in runner.group.get_installed_tool_snapshot ()) {
                 if (is_legacy_latest_backup (entry, runner))
                     legacy_backup = entry;
@@ -182,13 +183,21 @@ namespace ProtonPlus.Services {
                 var code = yield update_provider_at (runner, entry.path, false, inventory.get_latest_variant (entry, runner));
                 if (code == ReturnCode.RUNNER_UPDATED)
                     updated = true;
+                else if (code == ReturnCode.SYMLINKED_TOOL_DIRECTORY)
+                    skipped_linked_tool = true;
                 else if (code != ReturnCode.NOTHING_TO_UPDATE && code != ReturnCode.INCOMPATIBLE_VARIANT)
                     return code;
             }
             if (!found && legacy_backup != null) {
                 var directory = legacy_backup.path.substring (0, legacy_backup.path.length - " Backup".length);
-                return yield update_provider_at (runner, directory, true, inventory.get_latest_variant (legacy_backup, runner));
+                var code = yield update_provider_at (runner, directory, true, inventory.get_latest_variant (legacy_backup, runner));
+                if (code != ReturnCode.RUNNER_UPDATED && code != ReturnCode.NOTHING_TO_UPDATE)
+                    return code;
+                found = true;
+                updated = code == ReturnCode.RUNNER_UPDATED;
             }
+            if (skipped_linked_tool)
+                return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             if (!found)
                 return ReturnCode.RUNNER_NOT_INSTALLED;
             return updated ? ReturnCode.RUNNER_UPDATED : ReturnCode.NOTHING_TO_UPDATE;
@@ -339,6 +348,7 @@ namespace ProtonPlus.Services {
 
         public async ReturnCode check_for_updates (List<Models.Launcher> launchers) {
             var updated = 0;
+            var skipped_linked_tool = false;
             var processed_tool_targets = new Gee.HashSet<string> ();
             foreach (var launcher in launchers) {
                 foreach (var group in launcher.groups) {
@@ -349,11 +359,15 @@ namespace ProtonPlus.Services {
                         var code = yield update_installed_tool (tool);
                         if (code == ReturnCode.RUNNER_UPDATED)
                             updated++;
+                        else if (code == ReturnCode.SYMLINKED_TOOL_DIRECTORY)
+                            skipped_linked_tool = true;
                         else if (code != ReturnCode.NOTHING_TO_UPDATE && code != ReturnCode.INCOMPATIBLE_VARIANT)
                             return code;
                     }
                 }
             }
+            if (skipped_linked_tool)
+                return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             return updated > 0 ? ReturnCode.RUNNERS_UPDATED : ReturnCode.NOTHING_TO_UPDATE;
         }
 
@@ -369,6 +383,10 @@ namespace ProtonPlus.Services {
                 var runner = tool as Models.Tools.ProviderTool;
                 if (runner == null)
                     continue;
+                if (group.installed_tool_inventory.has_linked_latest_installation (runner)) {
+                    candidates.add (runner);
+                    continue;
+                }
                 foreach (var entry in entries) {
                     if (is_latest_installation (entry, runner) || is_legacy_latest_backup (entry, runner)) {
                         candidates.add (runner);

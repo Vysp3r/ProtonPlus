@@ -142,6 +142,12 @@ refresh it at an explicit boundary and read a snapshot. Do not let a widget or
 each tool independently rescan the same directory; that creates stale and
 cross-launcher state.
 
+A launcher can relocate its managed collection with a directory symlink.
+Inventory scans the collection's real child directories through that path.
+An individual tool directory symlink stays outside inventory ownership.
+Bulk updates report linked Latest slots and continue with eligible directories.
+Archive installation and replacement preserve individual links and their targets.
+
 Steam-selectable tools have a separate boundary:
 `SteamCompatibilityToolDiscovery` reads Steam library apps, the active Steam
 `compatibilitytools.d`, native distro roots, or Flatpak Steam extensions as

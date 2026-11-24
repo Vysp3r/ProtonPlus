@@ -137,6 +137,8 @@ namespace AppTests.UpdateTransactionTest {
         Test.add_func ("/update-transaction/renamed-latest-backup-restores-original-slot", test_renamed_latest_backup);
         Test.add_func ("/update-transaction/renamed-current-latest-persists-slot-mode", test_renamed_current_latest);
         Test.add_func ("/update-transaction/bulk-updates-skip-incompatible-targets", test_bulk_updates_skip_incompatible_targets);
+        Test.add_func ("/update-transaction/bulk-updates-relocated-collection", () => test_linked_tool_updates (false));
+        Test.add_func ("/update-transaction/linked-tool-is-reported-and-preserved", () => test_linked_tool_updates (true));
         Test.add_func ("/update-transaction/background-update-records-steam-receipt", test_background_update_records_steam_receipt);
         Test.add_func ("/update-transaction/bulk-update-uses-target-aware-process-policy", test_bulk_update_uses_target_aware_process_policy);
     }
@@ -300,6 +302,108 @@ namespace AppTests.UpdateTransactionTest {
                 assert (!name.has_prefix (".protonplus-previous-"));
         } catch (FileError e) {
             assert_not_reached ();
+        }
+    }
+
+    private void test_linked_tool_updates (bool link_individual_tool) {
+        var loop = new MainLoop ();
+        test_linked_tool_updates_async.begin (link_individual_tool, (obj, result) => {
+            test_linked_tool_updates_async.end (result);
+            loop.quit ();
+        });
+        loop.run ();
+    }
+
+    private async void test_linked_tool_updates_async (bool link_individual_tool) {
+        var root = create_temp_directory ();
+        var previous_cache = Globals.CACHE_PATH;
+        var previous_capabilities = Globals.CPU_CAPABILITIES;
+        Globals.CACHE_PATH = Path.build_filename (root, "cache");
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V3);
+
+        try {
+            var launcher = new FixtureSteamLauncher (root);
+            var group = new Group ("Proton", "", "/compatibilitytools.d", launcher, "proton");
+            group.tools = new Gee.LinkedList<Models.Tool> ();
+            launcher.groups = { group };
+            var managed_root = launcher.get_primary_managed_tool_directory (group);
+            var physical_root = Path.build_filename (root, "relocated");
+            assert (DirUtils.create (physical_root, 0700) == 0);
+            assert (Posix.symlink ("relocated", managed_root) == 0);
+
+            var service = InstallationService.instance;
+            var providers = new ProviderRegistry ();
+            var launchers = new List<Launcher> ();
+            launchers.append (launcher);
+            var jobs = new Gee.ArrayList<InstallJob> ();
+            var sources = new Gee.ArrayList<StaticReleaseSource> ();
+            var provider_ids = new string[] { "proton-cachyos", "proton-ge" };
+            var variant_ids = new string[] { "x86-64-v3", "x86" };
+            var variant_suffixes = new string[] { "-x86_64_v3", "" };
+            var external_tool = Path.build_filename (root, "external-installation");
+
+            for (var index = 0; index < provider_ids.length; index++) {
+                var definition = providers.get_by_id (provider_ids[index]);
+                var release_url = "https://fixtures.invalid/%s.zip".printf (provider_ids[index]);
+                var release = new Release ("v2", "", "", new Models.Assets.Asset ("runner.zip", release_url),
+                    "", 0, "release-v2", "v2");
+                foreach (var variant in definition.get_variants ())
+                    if (variant.id == variant_ids[index])
+                        release.variants.add (new Models.Variant (variant.id, variant.name, variant.format, variant.is_default,
+                            release_url, variant.compatibility));
+                assert (release.variants.size == 1);
+                var source = new StaticReleaseSource (release);
+                sources.add (source);
+                var runner = new ProviderTool.with_catalog (definition, source, group, definition.get_install_layout ("steam"));
+                group.tools.add (runner);
+                var name = "%s Latest%s".printf (runner.title, variant_suffixes[index]);
+                var location = Path.build_filename (managed_root, name);
+                var linked = link_individual_tool && index == 0;
+                var installation = linked ? external_tool : location;
+                assert (DirUtils.create (installation, 0700) == 0);
+                var metadata = new ProtonPlus.Utils.Metadata ();
+                metadata.provider_id = runner.provider_id;
+                metadata.tool_id = runner.id;
+                metadata.launcher_id = launcher.tool_target_id;
+                metadata.variant_id = variant_ids[index];
+                metadata.tag = "v1";
+                assert (metadata.save (installation));
+                if (linked)
+                    assert (Posix.symlink ("../external-installation", location) == 0);
+                cache_archive (Globals.CACHE_PATH, release_url);
+                var job = new InstallJob (release, runner, InstallJob.Mode.LATEST);
+                var variant = release.variants[0];
+                job.set_selected_variant (variant.name, variant.resolved_asset (), variant.id);
+                assert (job.install_location == location);
+                jobs.add (job);
+            }
+
+            var expected = link_individual_tool ? ReturnCode.SYMLINKED_TOOL_DIRECTORY : ReturnCode.RUNNERS_UPDATED;
+            assert ((yield service.check_for_updates (launchers)) == expected);
+            assert (sources[0].requests == (link_individual_tool ? 0 : 1));
+            assert (sources[1].requests == 1);
+            assert_symlink_target (managed_root, "relocated");
+            assert (ProtonPlus.Utils.Metadata.load (jobs[1].install_location).tag == "v2");
+            var cachyos = jobs[0];
+            var installed = ProtonPlus.Utils.Metadata.load (cachyos.install_location);
+            assert (installed.tag == (link_individual_tool ? "v1" : "v2") && installed.variant_id == "x86-64-v3");
+            if (link_individual_tool) {
+                assert ((yield cachyos.update ()) == ReturnCode.SYMLINKED_TOOL_DIRECTORY);
+                assert ((yield cachyos.install_replacement ()) == ReturnCode.SYMLINKED_TOOL_DIRECTORY);
+                assert (sources[0].requests == 0);
+                assert_symlink_target (cachyos.install_location, "../external-installation");
+                assert (ProtonPlus.Utils.Metadata.load (external_tool).tag == "v1");
+                assert (Posix.unlink (cachyos.install_location) == 0);
+                assert (Posix.symlink ("../missing", cachyos.install_location) == 0);
+                assert ((yield cachyos.install ()) == ReturnCode.SYMLINKED_TOOL_DIRECTORY);
+                assert_symlink_target (cachyos.install_location, "../missing");
+            }
+            assert_no_replacement_backup (cachyos.install_location);
+        } finally {
+            InstallationService.reset_lifecycle_configuration_for_tests ();
+            Globals.CACHE_PATH = previous_cache;
+            Globals.CPU_CAPABILITIES = previous_capabilities;
+            assert (yield ProtonPlus.Utils.Filesystem.delete_directory (root));
         }
     }
 

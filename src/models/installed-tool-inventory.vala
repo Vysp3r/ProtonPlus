@@ -71,6 +71,7 @@ namespace ProtonPlus.Models {
     public class InstalledToolInventory : Object {
         private Group group;
         private Gee.ArrayList<InstalledToolEntry> entries = new Gee.ArrayList<InstalledToolEntry> ();
+        private Gee.HashSet<string> linked_directory_names = new Gee.HashSet<string> ();
 
         public bool is_stale { get; private set; default = true; }
         public uint refresh_generation { get; private set; default = 0; }
@@ -272,6 +273,25 @@ namespace ProtonPlus.Models {
             return null;
         }
 
+        internal bool has_linked_latest_installation (Tools.ProviderTool tool) {
+            if (linked_directory_names.is_empty)
+                return false;
+            if (has_linked_latest_slot (tool, tool.title))
+                return true;
+            foreach (var title in tool.definition.legacy_titles)
+                if (has_linked_latest_slot (tool, title))
+                    return true;
+            return false;
+        }
+
+        private bool has_linked_latest_slot (Tools.ProviderTool tool, string title) {
+            var latest = "%s Latest".printf (title);
+            foreach (var variant in tool.variants)
+                if (linked_directory_names.contains (tool.get_directory_name (latest, variant)))
+                    return true;
+            return false;
+        }
+
         public InstalledToolEntry? get_latest_installation (
             Tools.ProviderTool tool, Variant? variant = null, bool backup = false
         ) {
@@ -316,6 +336,7 @@ namespace ProtonPlus.Models {
 
         public void invalidate () {
             entries.clear ();
+            linked_directory_names.clear ();
             is_stale = true;
             clear_tool_states ();
         }
@@ -324,6 +345,7 @@ namespace ProtonPlus.Models {
         // resolution, legacy migration, and compatibility-tool usage checks.
         public void refresh () {
             entries.clear ();
+            linked_directory_names.clear ();
             discover_entries ();
             resolve_entries ();
             is_stale = false;
@@ -334,12 +356,15 @@ namespace ProtonPlus.Models {
             foreach (var directory_root in group.launcher.get_managed_tool_directories (group)) {
                 Posix.Stat root_stat;
                 if (Posix.lstat (directory_root, out root_stat) != 0 ||
-                    !Posix.S_ISDIR (root_stat.st_mode))
+                    (!Posix.S_ISDIR (root_stat.st_mode) && !FileUtils.test (directory_root, FileTest.IS_DIR)))
                     continue;
 
                 try {
                     var directory = File.new_for_path (directory_root);
-                    add_entry (directory_root);
+                    // A launcher can relocate its collection with a symlink.
+                    // Only real child directories count as installations there.
+                    if (Posix.S_ISDIR (root_stat.st_mode))
+                        add_entry (directory_root);
 
                     FileEnumerator? enumerator = directory.enumerate_children (
                         "standard::*", FileQueryInfoFlags.NOFOLLOW_SYMLINKS, null
@@ -349,9 +374,10 @@ namespace ProtonPlus.Models {
 
                     FileInfo? file_info;
                     while ((file_info = enumerator.next_file ()) != null) {
-                        if (file_info.get_file_type () != FileType.DIRECTORY)
-                            continue;
-                        add_entry (Path.build_filename (directory_root, file_info.get_name ()));
+                        if (file_info.get_file_type () == FileType.DIRECTORY)
+                            add_entry (Path.build_filename (directory_root, file_info.get_name ()));
+                        else if (file_info.get_file_type () == FileType.SYMBOLIC_LINK)
+                            linked_directory_names.add (file_info.get_name ());
                     }
                 } catch (Error e) {
                     warning (e.message);

@@ -666,6 +666,9 @@ namespace ProtonPlus.Widgets.Tools {
                 case ReturnCode.NOTHING_TO_UPDATE:
                     toast_sent (_ ("Nothing to update"));
                     break;
+                case ReturnCode.SYMLINKED_TOOL_DIRECTORY:
+                    toast_sent (get_return_code_message (code));
+                    break;
                 case ReturnCode.RUNNERS_UPDATED:
                 case ReturnCode.RUNNER_UPDATED:
                     toast_sent (_ ("Eligible installed tools are up to date"));
