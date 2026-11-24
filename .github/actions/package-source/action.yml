@@ -31,7 +31,6 @@ runs:
           echo 'distros<<JSON'
           cat <<'JSON'
         [
-          {"target":"ubuntu26.04","name":"Ubuntu 26.04"},
           {"target":"fedora45","name":"Fedora 45"},
           {"target":"archlinux","name":"Arch Linux"}
         ]
