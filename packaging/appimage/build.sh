@@ -22,8 +22,7 @@ fi
 meson compile -C build-appimage
 meson install -C build-appimage
 
-VERSION=$(meson introspect --projectinfo build-appimage | python3 -c \
-    'import json, sys; print(json.load(sys.stdin)["version"])')
+VERSION=$(bash packaging/set-version.sh --print-version)
 export ARCH VERSION
 export OUTPATH=./dist
 export ADD_HOOKS="self-updater.bg.hook"

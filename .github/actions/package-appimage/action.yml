@@ -12,7 +12,7 @@ runs:
         tar -xf "ProtonPlus-$VERSION-source.tar.gz"
         cd "ProtonPlus-$VERSION"
         /bin/sh packaging/appimage/get-dependencies.sh
-        ./scripts/build.sh package appimage
+        ./packaging/appimage/build.sh
 
     - name: Check update metadata and launch in a clean container
       shell: bash

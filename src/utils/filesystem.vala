@@ -233,7 +233,7 @@ namespace ProtonPlus.Utils {
                 string etag_out;
                 file.load_contents (null, out contents, out etag_out);
 
-                output = Parser.data_to_string (contents);
+                output = bytes_to_string (contents);
             } catch (Error e) {
                 warning (e.message);
             }
@@ -257,7 +257,7 @@ namespace ProtonPlus.Utils {
                 string etag_out;
                 yield file.load_contents_async (null, out contents, out etag_out);
 
-                output = Parser.data_to_string (contents);
+                output = bytes_to_string (contents);
             } catch (Error e) {
                 warning (e.message);
             }

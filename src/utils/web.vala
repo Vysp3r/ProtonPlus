@@ -177,7 +177,7 @@ namespace ProtonPlus.Utils {
                 if (!response.is_successful)
                     return response;
 
-                response.body = Parser.data_to_string (bytes.get_data ());
+                response.body = bytes_to_string (bytes.get_data ());
                 response.code = ReturnCode.VALID_REQUEST;
                 return response;
             } catch (Error e) {

@@ -1,6 +1,6 @@
 namespace AppTests.LaunchCommandTest {
     using GLib;
-    using ProtonPlus.Widgets.Games.LaunchOptionsEditor;
+    using ProtonPlus.LaunchOptions;
 
     public void register_tests () {
         Test.add_func ("/launch-command/environment-only", test_environment_only);

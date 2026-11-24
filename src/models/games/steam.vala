@@ -17,7 +17,7 @@ namespace ProtonPlus.Models.Games {
             if (response == null || ((!) response).code != ReturnCode.VALID_REQUEST || ((!) response).body == null)
                 return games;
 
-            var root_node = Utils.Parser.get_node_from_json ((!) ((!) response).body);
+            var root_node = Utils.parse_json ((!) ((!) response).body);
             if (root_node == null || root_node.get_node_type () != Json.NodeType.ARRAY)
                 return games;
 

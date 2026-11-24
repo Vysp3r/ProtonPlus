@@ -1,6 +1,6 @@
 sources += files(
     'games-action-policy.vala',
-    'games-box.vala',
+    'games-page.vala',
     'games-collection.vala',
     'games-list-controller.vala',
     'games-list-view.vala',

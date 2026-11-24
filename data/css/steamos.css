@@ -37,44 +37,21 @@
 @define-color theme_selected_bg_color @steamos_accent;
 @define-color theme_selected_fg_color #ffffff;
 
-/* libadwaita reads its palette through CSS custom properties. */
-* {
-  --accent-bg-color: @steamos_accent;
-  --accent-fg-color: #ffffff;
-  --accent-color: @steamos_accent_light;
-  --window-bg-color: @steamos_window_bg;
-  --window-fg-color: @steamos_fg;
-  --view-bg-color: @steamos_view_bg;
-  --view-fg-color: @steamos_fg;
-  --headerbar-bg-color: @steamos_view_bg;
-  --headerbar-fg-color: #ffffff;
-  --headerbar-border-color: @steamos_border;
-  --headerbar-backdrop-color: @steamos_window_bg;
-  --headerbar-shade-color: rgba(0, 0, 0, 0.28);
-  --headerbar-darker-shade-color: rgba(0, 0, 0, 0.5);
-  --sidebar-bg-color: @steamos_window_bg;
-  --sidebar-fg-color: @steamos_sidebar_fg;
-  --sidebar-backdrop-color: @steamos_window_bg;
-  --sidebar-border-color: @steamos_border;
-  --sidebar-shade-color: rgba(0, 0, 0, 0.28);
-  --secondary-sidebar-bg-color: @steamos_view_bg;
-  --secondary-sidebar-fg-color: @steamos_sidebar_fg;
-  --secondary-sidebar-backdrop-color: @steamos_window_bg;
-  --secondary-sidebar-border-color: @steamos_border;
-  --secondary-sidebar-shade-color: rgba(0, 0, 0, 0.28);
-  --card-bg-color: @steamos_card_bg;
-  --card-fg-color: @steamos_fg;
-  --card-shade-color: rgba(0, 0, 0, 0.38);
-  --dialog-bg-color: @steamos_view_bg;
-  --dialog-fg-color: @steamos_fg;
-  --popover-bg-color: @steamos_card_bg;
-  --popover-fg-color: @steamos_fg;
-  --popover-shade-color: rgba(0, 0, 0, 0.38);
-  --thumbnail-bg-color: @steamos_card_bg;
-  --thumbnail-fg-color: @steamos_fg;
-  --shade-color: rgba(0, 0, 0, 0.38);
-  --scrollbar-outline-color: rgba(0, 0, 0, 0.5);
-}
+/* Additional libadwaita colors. */
+@define-color headerbar_shade_color rgba(0, 0, 0, 0.28);
+@define-color headerbar_darker_shade_color rgba(0, 0, 0, 0.5);
+@define-color sidebar_backdrop_color @steamos_window_bg;
+@define-color sidebar_border_color @steamos_border;
+@define-color sidebar_shade_color rgba(0, 0, 0, 0.28);
+@define-color secondary_sidebar_backdrop_color @steamos_window_bg;
+@define-color secondary_sidebar_border_color @steamos_border;
+@define-color secondary_sidebar_shade_color rgba(0, 0, 0, 0.28);
+@define-color card_shade_color rgba(0, 0, 0, 0.38);
+@define-color popover_shade_color rgba(0, 0, 0, 0.38);
+@define-color thumbnail_bg_color @steamos_card_bg;
+@define-color thumbnail_fg_color @steamos_fg;
+@define-color shade_color rgba(0, 0, 0, 0.38);
+@define-color scrollbar_outline_color rgba(0, 0, 0, 0.5);
 
 .card {
   border: 1px solid rgba(102, 192, 244, 0.14);

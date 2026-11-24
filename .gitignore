@@ -5,10 +5,11 @@
 /build/
 /build-*/
 /builddir/
+/AppDir/
 /dist/
 /src/translatables.vala
 /tmp/
-/po/POTFILES.tmp
+/po/.POTFILES.*
 /compile_commands.json
 
 # Python caches.
@@ -18,6 +19,9 @@ __pycache__/
 .ruff_cache/
 
 # Miscellaneous.
+/.agents/
+/.aws/
+/.codex/
 /.idea/
 /.vscode/
 *.swp

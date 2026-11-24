@@ -1,0 +1,718 @@
+using ProtonPlus;
+
+class PresentationFixtureTool : Models.Tool {
+    public PresentationFixtureTool (Models.Group group) {
+        Object (group: group, title: "Fixture Tool", description: "Run Windows games on Linux");
+        var newest = release ("3.0");
+        var catalog = new Models.ReleaseCatalog.with_static_release (newest);
+        catalog.releases.add (newest);
+        catalog.releases.add (release ("2.0"));
+        catalog.releases.add (release ("1.0"));
+        initialize_release_catalog (catalog);
+    }
+
+    Models.Release release (string version) {
+        return new Models.Release (version, "", "",
+            new Models.Assets.Asset ("fixture.tar.gz", "https://example.test/fixture.tar.gz"), "");
+    }
+}
+
+class PresentationProviderTool : Models.Tools.ProviderTool {
+    public PresentationProviderTool (Models.Group group, Models.Providers.ProviderDefinition definition) {
+        base.with_catalog (definition,
+            Providers.Sources.ReleaseSourceRegistry.create (definition.source_type),
+            group, definition.get_install_layout (group.launcher.tool_target_family_id));
+        // Two compatible choices; the newest release has no downloadable asset.
+        variants.clear ();
+        variants.add (new Models.Variant ("default", "Standard", "", true));
+        variants.add (new Models.Variant ("alternate", "Alternate", "", false));
+        var missing = new Models.Release ("3.0", "", "",
+            new Models.Assets.Asset ("missing.tar.gz", ""), "");
+        var available = new Models.Release ("2.0", "", "",
+            new Models.Assets.Asset ("fixture.tar.gz", "https://example.test/fixture.tar.gz"), "");
+        available.variants.add (new Models.Variant ("default", "Standard", "", true,
+            "https://example.test/fixture.tar.gz"));
+        available.variants.add (new Models.Variant ("alternate", "Alternate", "", false,
+            "https://example.test/alternate.tar.gz"));
+        var catalog = new Models.ReleaseCatalog.with_static_release (missing);
+        catalog.releases.add (missing);
+        catalog.releases.add (available);
+        initialize_release_catalog (catalog);
+    }
+}
+
+class PresentationSarekTool : Models.Tools.ProviderTool {
+    public PresentationSarekTool (Models.Group group) {
+        var definition = new Models.Providers.ProviderRegistry ().get_by_id ("dxvk-sarek");
+        base.with_catalog (definition, new Providers.Sources.GitHubReleaseSource (),
+            group, definition.get_install_layout ("default"));
+        var releases = new Providers.Sources.GitHubReleaseSource ().parse_response (definition,
+            Utils.Filesystem.get_file_content (Path.build_filename (
+                Environment.get_variable ("PROTONPLUS_TEST_FIXTURES") ?? "fixtures",
+                "providers", "github", "sarek.json")), 1, 25).require_page ().releases;
+        var catalog = new Models.ReleaseCatalog.with_static_release (releases[0]);
+        catalog.releases.add_all (releases);
+        initialize_release_catalog (catalog);
+    }
+}
+
+class OfflineReleaseSource : Object, Providers.Sources.ReleaseSource {
+    public uint requests { get; private set; }
+
+    public async Models.Tools.ReleasePageResult fetch_page (
+        Models.Providers.ProviderDefinition definition, int requested_page, int limit
+    ) {
+        requests++;
+        return Models.Tools.ReleasePageResult.failure (ReturnCode.INVALID_DATA);
+    }
+}
+
+class OfflineToolsLauncher : Models.Launcher {
+    public string? used_tool_name { get; set; }
+
+    public OfflineToolsLauncher (string root) {
+        base ("Offline fixture", InstallationTypes.SYSTEM, "", { root }, "offline-fixture");
+    }
+
+    public override Models.SteamRestartTarget? get_steam_restart_target () {
+        return Models.SteamRestartTarget.for_native (directory);
+    }
+
+    public override int get_compatibility_tool_usage_count (string compatibility_tool_name) {
+        return used_tool_name == compatibility_tool_name ? 1 : 0;
+    }
+}
+
+class OfflineToolsProcessQuery : Object, Services.CompatibilityProcessQueryBackend {
+    public async Services.CompatibilityProcessInspectionResult inspect_processes () {
+        return Services.CompatibilityProcessInspectionResult.clear ();
+    }
+}
+
+class OfflineToolsReceiptRecorder : Object, Services.SteamChangeRecorder {
+    public Models.SteamChangeReceipt? receipt { get; private set; }
+
+    public Services.SteamRestartRecordResult record (Models.SteamChangeReceipt receipt) {
+        this.receipt = receipt;
+        return Services.SteamRestartRecordResult.ADDED;
+    }
+}
+
+Gtk.MenuButton? find_release_actions (Gtk.Widget widget) {
+    if (widget is Gtk.MenuButton && ((Gtk.MenuButton) widget).icon_name == "view-more-symbolic")
+        return (Gtk.MenuButton) widget;
+    for (var child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
+        var found = find_release_actions (child);
+        if (found != null)
+            return found;
+    }
+    return null;
+}
+
+MenuModel? find_build_menu (Gtk.MenuButton button) {
+    var menu = ((Gtk.PopoverMenu) button.popover).menu_model;
+    for (var index = 0; index < menu.get_n_items (); index++) {
+        var submenu = menu.get_item_link (index, Menu.LINK_SUBMENU);
+        if (submenu != null)
+            return submenu;
+    }
+    return null;
+}
+
+void check_sarek_build_choices (Models.Group group) {
+    var tool = new PresentationSarekTool (group);
+    group.tools = new Gee.LinkedList<Models.Tool> ();
+    group.tools.add (tool);
+    var box = new Widgets.Tools.ReleasesBox ();
+    var group_box = new Widgets.Tools.GroupBox (group);
+    group_box.expand_tool (tool);
+    group_box.attach_release_section (tool, box);
+    var window = fixture_window (group_box, 400, 500);
+    window.present ();
+    bool loaded = false;
+    box.set_selected_tool.begin (tool, (obj, res) => { loaded = box.set_selected_tool.end (res); });
+    settle ();
+    var rows = new Gee.ArrayList<Widgets.Tools.ReleaseRow> ();
+    collect_rows (box, rows);
+    assert (loaded && rows.size == 6);
+    assert (!find_build_selector (box).visible);
+    assert (rows[1].subtitle.contains ("Default"));
+    assert (rows[4].subtitle.contains ("dyasync"));
+    assert (rows[5].subtitle.contains ("Async"));
+    assert (find_build_menu (find_release_actions (rows[1])) == null);
+    assert (find_build_menu (find_release_actions (rows[4])) == null);
+    var actions = find_release_actions (rows[5]);
+    var builds = find_build_menu (actions);
+    assert (builds != null && builds.get_n_items () == 2);
+    assert (builds.get_item_attribute_value (0, Menu.ATTRIBUTE_TARGET, VariantType.STRING).get_string () == "standard");
+    assert (builds.get_item_attribute_value (1, Menu.ATTRIBUTE_TARGET, VariantType.STRING).get_string () == "non-async");
+    var legacy = rows[5].get_data<Services.InstallJob> ("job");
+    var original_path = legacy.install_location;
+    actions.popup ();
+    settle ();
+    assert (actions.popover.get_mapped ());
+    assert (actions.activate_action_variant ("release.variant", new Variant.string ("non-async")));
+    settle ();
+    assert (legacy.selected_variant_id == "non-async");
+    assert (legacy.install_location == original_path + "-Standard");
+    assert (rows[5].subtitle.contains ("Standard"));
+    assert (rows[4].get_data<Services.InstallJob> ("job").selected_variant_name == "dyasync");
+    assert (rows[0].get_data<Services.InstallJob> ("job").selected_variant_name == "Default");
+    actions.activate_action_variant ("release.variant", new Variant.string ("missing"));
+    assert (legacy.selected_variant_id == "non-async");
+    legacy.set ("state", Services.InstallJob.State.BUSY_INSTALLING);
+    actions.activate_action_variant ("release.variant", new Variant.string ("standard"));
+    assert (legacy.selected_variant_id == "non-async");
+    legacy.set ("state", Services.InstallJob.State.NOT_INSTALLED);
+    assert (tool.variants.size == 2 && tool.release_catalog.releases[4].variants.size == 2);
+    int minimum_width;
+    group_box.measure (Gtk.Orientation.HORIZONTAL, -1, out minimum_width, null, null, null);
+    assert (minimum_width <= 400);
+    settle ();
+    snapshot (window, "sarek-release-variants");
+    close_fixture_window (window);
+}
+
+Gtk.DropDown? find_build_selector (Gtk.Widget widget) {
+    if (widget is Gtk.DropDown)
+        return (Gtk.DropDown) widget;
+    for (var child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
+        var found = find_build_selector (child);
+        if (found != null)
+            return found;
+    }
+    return null;
+}
+
+Adw.Window fixture_window (Gtk.Widget content, int width, int height) {
+    // A compositor may tile or maximize the toplevel. Constrain the content
+    // viewport so layout assertions still exercise the requested logical width.
+    var viewport = new Adw.Clamp () {
+        maximum_size = width,
+        tightening_threshold = width,
+        child = content
+    };
+    return new Adw.Window () {
+        content = viewport, default_width = width, default_height = height
+    };
+}
+
+void close_fixture_window (Adw.Window window) {
+    ((Adw.Clamp) window.content).child = null;
+    window.destroy ();
+}
+
+void remove_fixture_directory (string path) {
+    var loop = new MainLoop ();
+    bool removed = false;
+    Utils.Filesystem.delete_directory.begin (path, (obj, result) => {
+        removed = Utils.Filesystem.delete_directory.end (result);
+        loop.quit ();
+    });
+    loop.run ();
+    assert (removed);
+}
+
+void check_build_choices (Models.Group group) {
+    Globals.CPU_CAPABILITIES = new Models.CpuCapabilities (Models.CpuArchitecture.X86_64);
+    var definition = new Models.Providers.ProviderRegistry ().get_by_id ("proton-ge");
+    var tool = new PresentationProviderTool (group, definition);
+    group.tools = new Gee.LinkedList<Models.Tool> ();
+    group.tools.add (tool);
+    var box = new Widgets.Tools.ReleasesBox ();
+    var group_box = new Widgets.Tools.GroupBox (group);
+    group_box.expand_tool (tool);
+    group_box.attach_release_section (tool, box);
+    var window = fixture_window (group_box, 600, 400);
+    window.present ();
+    bool loaded = false;
+    box.set_selected_tool.begin (tool, (obj, res) => { loaded = box.set_selected_tool.end (res); });
+    settle ();
+    var rows = new Gee.ArrayList<Widgets.Tools.ReleaseRow> ();
+    collect_rows (box, rows);
+    assert (loaded && rows.size == 3);
+    assert (find_label (group_box, "Recommended") == null);
+    assert (rows[0].get_child_visible () && rows[1].get_child_visible ());
+    assert (rows[2].get_mapped ());
+    assert (!find_button (rows[2], "Install").has_css_class ("suggested-action"));
+    var build = find_build_selector (box);
+    assert (build != null && build.visible);
+    assert (build.get_mapped ());
+    build.selected = 1;
+    settle ();
+    var job = rows[2].get_data<Services.InstallJob> ("job");
+    assert (job.selected_variant_id == "alternate");
+    assert (tool.variants.size == 2 && tool.release_catalog.releases.size == 2);
+    assert (tool.release_catalog.releases[1].variants.size == 2);
+    close_fixture_window (window);
+}
+
+void collect_rows (Gtk.Widget widget, Gee.ArrayList<Widgets.Tools.ReleaseRow> rows) {
+    if (widget is Widgets.Tools.ReleaseRow)
+        rows.add ((Widgets.Tools.ReleaseRow) widget);
+    for (var child = widget.get_first_child (); child != null; child = child.get_next_sibling ())
+        collect_rows (child, rows);
+}
+
+Gtk.Button? find_button (Gtk.Widget widget, string label) {
+    if (widget is Gtk.Button && ((Gtk.Button) widget).label == label)
+        return (Gtk.Button) widget;
+    for (var child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
+        var found = find_button (child, label);
+        if (found != null)
+            return found;
+    }
+    return null;
+}
+
+Gtk.Label? find_label (Gtk.Widget widget, string text) {
+    if (widget is Gtk.Label && ((Gtk.Label) widget).label == text)
+        return (Gtk.Label) widget;
+    for (var child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
+        var found = find_label (child, text);
+        if (found != null)
+            return found;
+    }
+    return null;
+}
+
+void check_tool_heading (Widgets.Tools.GroupBox group_box, Widgets.Tools.ReleasesBox box) {
+    var row = group_box.get_expanded_row ();
+    var actions = box.actions_button;
+    assert (actions.get_parent () == box.variant_box);
+    var state = row.get_data<Gtk.Label> ("state-label");
+    // Exercise the layout of an installed status without touching tool storage.
+    state.label = "Installed";
+    state.visible = true;
+    state.get_parent ().visible = true;
+    settle ();
+    assert (state.has_css_class ("tool-metadata-pill"));
+    var description = find_label (row, "Run Windows games on Linux");
+    Graphene.Rect description_bounds, state_bounds;
+    assert (description.compute_bounds (row, out description_bounds));
+    assert (state.compute_bounds (row, out state_bounds));
+    assert (state_bounds.origin.y >= description_bounds.origin.y + description_bounds.size.height);
+    assert (Math.fabs (state_bounds.origin.x - description_bounds.origin.x) < 1.0);
+}
+
+Widgets.Tools.GroupBox? find_group_box (Gtk.Widget widget, Models.Tool tool) {
+    var group = widget as Widgets.Tools.GroupBox;
+    if (group != null && group.contains_tool (tool))
+        return group;
+    for (var child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
+        var found = find_group_box (child, tool);
+        if (found != null)
+            return found;
+    }
+    return null;
+}
+
+void check_inline_transitions (Models.Launcher launcher, Models.Group group) {
+    var first = new PresentationFixtureTool (group);
+    var second = new PresentationFixtureTool (group);
+    second.title = "Second Fixture";
+    group.tools = new Gee.LinkedList<Models.Tool> ();
+    group.tools.add (first);
+    group.tools.add (second);
+    launcher.groups = { group };
+    var page = new Widgets.Tools.Box ();
+    page.set_selected_launcher (launcher);
+    var window = fixture_window (page, 600, 500);
+    window.present ();
+    var group_box = find_group_box (page, first);
+    assert (group_box != null);
+    assert (group_box.expand_tool (first));
+    settle ();
+    var first_row = (Adw.ExpanderRow) group_box.get_expanded_row ();
+    var host = first_row.get_data<Gtk.Box> ("inline-release-host");
+    var releases = (Widgets.Tools.ReleasesBox) host.get_first_child ();
+    var menu = releases.actions_button;
+    var toolbar = menu.get_parent ();
+    assert (releases.is_showing_tool (first));
+    assert (page.get_controller_page_id () == "tools:groups");
+
+    assert (group_box.expand_tool (second));
+    settle ();
+    assert (!first_row.expanded);
+    assert (releases.is_showing_tool (second));
+    assert (menu.get_parent () == toolbar && menu.get_visible ());
+    assert (page.controller_navigate_back ());
+    settle ();
+    assert (group_box.get_expanded_row () == null);
+    assert (!menu.get_visible () && menu.get_parent () == toolbar);
+
+    assert (group_box.expand_tool (first));
+    settle ();
+    page.current_filter = Widgets.Tools.Filter.INSTALLED;
+    settle ();
+    assert (group_box.get_expanded_row () == null);
+    assert (!releases.is_showing_tool (first));
+    page.current_filter = Widgets.Tools.Filter.ALL;
+    assert (group_box.expand_tool (second));
+    settle ();
+    page.set_selected_launcher (launcher);
+    settle ();
+    assert (!releases.is_showing_tool (second));
+    close_fixture_window (window);
+}
+
+void check_niche_tool_visibility (string root, Models.Launcher launcher, Models.Group group) {
+    try {
+        var fixtures = Environment.get_variable ("PROTONPLUS_TEST_FIXTURES") ?? "fixtures";
+        var data = Path.build_filename (fixtures, "..", "..", "data");
+        var command = new Subprocess (SubprocessFlags.NONE, "glib-compile-schemas", "--targetdir", root, data);
+        assert (command.wait_check ());
+        var source = new SettingsSchemaSource.from_directory (root, null, false);
+        Globals.SETTINGS = new Settings.full (source.lookup ("com.vysp3r.ProtonPlus.State", false), null, null);
+    } catch (Error e) {
+        error ("Could not load the preferences schema: %s", e.message);
+    }
+
+    var registry = new Models.Providers.ProviderRegistry ();
+    var anime = Models.Providers.ProviderCatalog.create_tool (registry.get_by_id ("proton-anime"), group);
+    var hevc = Models.Providers.ProviderCatalog.create_tool (registry.get_by_id ("proton-hevc"), group);
+    var boxtron = Models.Providers.ProviderCatalog.create_tool (registry.get_by_id ("boxtron"), group);
+    var tinkergame = new Models.Tools.TinkerGame (group, new OfflineReleaseSource ());
+    group.tools = new Gee.LinkedList<Models.Tool> ();
+    group.tools.add (new PresentationFixtureTool (group));
+    group.tools.add (anime);
+    group.tools.add (hevc);
+    group.tools.add (boxtron);
+    group.tools.add (tinkergame);
+    launcher.groups = { group };
+
+    var boxtron_path = Path.build_filename (launcher.get_primary_managed_tool_directory (group), "fixture-boxtron");
+    assert (DirUtils.create (boxtron_path, 0700) == 0);
+    var metadata = new Utils.Metadata ();
+    metadata.provider_id = boxtron.provider_id;
+    metadata.tool_id = boxtron.id;
+    metadata.launcher_id = launcher.tool_target_id;
+    assert (metadata.save (boxtron_path));
+
+    var style_manager = Adw.StyleManager.get_default ();
+    var color_scheme = style_manager.color_scheme;
+    style_manager.color_scheme = Adw.ColorScheme.FORCE_LIGHT;
+    var page = new Widgets.Tools.Box ();
+    page.set_selected_launcher (launcher);
+    var window = fixture_window (page, 600, 620);
+    window.content.add_css_class ("background");
+    window.present ();
+    settle ();
+    var anime_title = find_label (page, anime.title);
+    var hevc_title = find_label (page, hevc.title);
+    assert (anime_title != null && !anime_title.get_mapped ());
+    assert (hevc_title != null && !hevc_title.get_mapped ());
+    assert (find_label (page, "Fixture Tool").get_mapped ());
+    assert (!find_group_box (page, anime).expand_tool (anime));
+    var obsolete_pill = find_label (page, "Obsolete");
+    assert (obsolete_pill != null && !obsolete_pill.get_mapped ());
+    assert (boxtron.is_installed () && !tinkergame.is_installed ());
+
+    assert (Globals.SETTINGS.set_boolean ("show-legacy-tools", true));
+    assert (!anime_title.get_mapped () && !hevc_title.get_mapped ());
+    assert (obsolete_pill.get_mapped () && obsolete_pill.has_css_class ("tool-metadata-obsolete"));
+    assert (obsolete_pill.get_has_tooltip ());
+    assert (Globals.SETTINGS.set_boolean ("show-niche-tools", true));
+    settle ();
+    assert (anime_title.get_mapped () && hevc_title.get_mapped ());
+    var tinker_title = find_label (page, tinkergame.title);
+    var tinker_row = (Adw.ExpanderRow) tinker_title.get_ancestor (typeof (Adw.ExpanderRow));
+    var obsolete_row = (Adw.ExpanderRow) obsolete_pill.get_ancestor (typeof (Adw.ExpanderRow));
+    foreach (var title in new Gtk.Label[] { anime_title, hevc_title }) {
+        var tool_row = (Adw.ExpanderRow) title.get_ancestor (typeof (Adw.ExpanderRow));
+        var niche_pill = find_label (tool_row, "Niche");
+        assert (niche_pill != null && niche_pill.get_mapped () && niche_pill.has_css_class ("tool-metadata-pill"));
+        assert (niche_pill.get_has_tooltip ());
+        assert (tinker_row.get_index () < tool_row.get_index ());
+        assert (tool_row.get_index () < obsolete_row.get_index ());
+    }
+    snapshot (window, "niche-and-obsolete-pills");
+    assert (Globals.SETTINGS.set_boolean ("show-niche-tools", false));
+    settle ();
+    assert (!anime_title.get_mapped () && !hevc_title.get_mapped ());
+    assert (obsolete_pill.get_mapped ());
+
+    close_fixture_window (window);
+    page.dispose ();
+    style_manager.color_scheme = color_scheme;
+    Globals.SETTINGS = null;
+}
+
+bool has_release_action (MenuModel menu, string action) {
+    for (var index = 0; index < menu.get_n_items (); index++) {
+        var item_action = menu.get_item_attribute_value (index, Menu.ATTRIBUTE_ACTION, VariantType.STRING);
+        if (item_action != null && item_action.get_string () == action)
+            return true;
+        var section = menu.get_item_link (index, Menu.LINK_SECTION);
+        if (section != null && has_release_action (section, action))
+            return true;
+    }
+    return false;
+}
+
+void check_offline_installed_rows (string root) {
+    var launcher = new OfflineToolsLauncher (root);
+    var group = new Models.Group ("Proton", "", "", launcher, "proton");
+    var definition = new Models.Providers.ProviderRegistry ().get_by_id ("proton-ge");
+    var source = new OfflineReleaseSource ();
+    var tool = new Models.Tools.ProviderTool.with_catalog (definition, source, group,
+        definition.get_install_layout (launcher.tool_target_family_id));
+    group.tools = new Gee.LinkedList<Models.Tool> ();
+    group.tools.add (tool);
+    launcher.groups = { group };
+
+    var first_path = Path.build_filename (launcher.directory, "A legacy installation path");
+    var second_path = Path.build_filename (launcher.directory, "Another installed build");
+    foreach (var path in new string[] { first_path, second_path }) {
+        assert (DirUtils.create (path, 0700) == 0);
+        var metadata = new Utils.Metadata ();
+        metadata.provider_id = tool.provider_id;
+        metadata.tool_id = tool.id;
+        metadata.launcher_id = launcher.tool_target_id;
+        metadata.variant_id = path == first_path ? "x86" : "retired-build";
+        metadata.release_id = "deleted-upstream-release";
+        metadata.tag = "v1";
+        metadata.install_mode = "versioned";
+        assert (metadata.save (path));
+    }
+
+    var page = new Widgets.Tools.Box ();
+    page.set_selected_launcher (launcher);
+    page.current_filter = Widgets.Tools.Filter.INSTALLED;
+    var window = fixture_window (page, 400, 500);
+    window.present ();
+    var group_box = find_group_box (page, tool);
+    assert (group_box != null && group_box.expand_tool (tool));
+    settle ();
+
+    var state_pill = group_box.get_expanded_row ().get_data<Gtk.Label> ("state-label");
+    assert (state_pill.get_mapped () && state_pill.label == "Installed");
+    assert (!state_pill.has_css_class ("tool-metadata-used"));
+    var installed_tooltip = state_pill.tooltip_text;
+    assert (state_pill.get_has_tooltip ());
+    launcher.used_tool_name = Path.get_basename (second_path);
+    group.refresh_installed_state ();
+    assert (state_pill.label == "Used by games" && state_pill.has_css_class ("tool-metadata-used"));
+    assert (state_pill.get_has_tooltip () && state_pill.tooltip_text != installed_tooltip);
+    launcher.used_tool_name = null;
+    group.refresh_installed_state ();
+    assert (state_pill.label == "Installed" && !state_pill.has_css_class ("tool-metadata-used"));
+    assert (state_pill.tooltip_text == installed_tooltip);
+
+    var rows = new Gee.ArrayList<Widgets.Tools.ReleaseRow> ();
+    collect_rows (page, rows);
+    assert (source.requests == 0);
+    assert (rows.size == 2 && rows[0].get_mapped () && rows[1].get_mapped ());
+    var first_job = rows[0].get_data<Services.InstallJob> ("job");
+    var second_job = rows[1].get_data<Services.InstallJob> ("job");
+    assert (first_job.install_location == first_path && second_job.install_location == second_path);
+    assert (first_job.selected_variant_id == "x86" && first_job.selected_variant_name == "x86_64");
+    assert (second_job.selected_variant_id == "retired-build");
+    assert (first_job.release.upstream_release_id == "deleted-upstream-release");
+    assert (first_job.operation_id != second_job.operation_id);
+    // The installed directory remains actionable even if the browse job
+    // cannot describe it with today's release layout.
+    second_job.set ("state", Services.InstallJob.State.NOT_INSTALLED);
+    foreach (var row in rows) {
+        var actions = find_release_actions (row);
+        var menu = ((Gtk.PopoverMenu) actions.popover).menu_model;
+        assert (has_release_action (menu, "release.open-folder"));
+        assert (has_release_action (menu, "release.delete"));
+        assert (!has_release_action (menu, "release.update"));
+        assert (!has_release_action (menu, "release.changelog"));
+        assert (find_build_menu (actions) == null);
+        assert (row.grab_focus () && row.controller_activate (row));
+        settle ();
+        assert (actions.popover.get_mapped ());
+        actions.popdown ();
+    }
+
+    assert (rows[1].grab_focus ());
+    var recorder = new OfflineToolsReceiptRecorder ();
+    Services.InstallationService.instance.configure_steam_change_recorder (recorder);
+    Services.InstallationService.instance.configure_compatibility_process_guard (
+        new Services.CompatibilityProcessGuard (new OfflineToolsProcessQuery ())
+    );
+    var loop = new MainLoop ();
+    first_job.remove.begin (true, (object, result) => {
+        assert (first_job.remove.end (result) == ReturnCode.RUNNER_REMOVED);
+        loop.quit ();
+    });
+    loop.run ();
+    Services.InstallationService.reset_lifecycle_configuration_for_tests ();
+    assert (!FileUtils.test (first_path, FileTest.EXISTS) && FileUtils.test (second_path, FileTest.IS_DIR));
+    assert (recorder.receipt != null && recorder.receipt.kind == Models.SteamChangeKind.COMPATIBILITY_TOOL_REMOVED);
+    assert (recorder.receipt.resource_key == first_path);
+    settle ();
+    rows.clear ();
+    collect_rows (page, rows);
+    assert (rows.size == 1);
+    // Another GUI fixture may own global focus on a shared display.
+    assert (rows[0].is_focus ());
+    assert (rows[0].get_data<Services.InstallJob> ("job").install_location == second_path);
+    remove_fixture_directory (second_path);
+    rows[0].get_data<Services.InstallJob> ("job").set ("state", Services.InstallJob.State.NOT_INSTALLED);
+    var stale_actions = find_release_actions (rows[0]);
+    assert (!stale_actions.visible);
+    close_fixture_window (window);
+}
+
+void settle () {
+    var loop = new MainLoop ();
+    Timeout.add (350, () => { loop.quit (); return Source.REMOVE; });
+    loop.run ();
+}
+
+void check_theme_palettes () {
+    var display = Gdk.Display.get_default ();
+    var label = new Gtk.Label ("Palette");
+    label.add_css_class ("palette-probe");
+    var window = fixture_window (label, 360, 200);
+    var color_probe = new Gtk.CssProvider ();
+    var custom_properties = Gtk.check_version (4, 16, 0) == null && Adw.get_minor_version () >= 6;
+    Gtk.StyleContext.add_provider_for_display (display, color_probe, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 2);
+    window.present ();
+
+    string[] themes = { "steamos", "oled", "breeze-dark", "breeze-light" };
+    string[] colors = { "#171a21", "#000000", "#202326", "#eff0f1" };
+    for (var index = 0; index < themes.length; index++) {
+        var provider = Utils.ThemeManager.load_stylesheet (themes[index]);
+        Gtk.StyleContext.add_provider_for_display (display, provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1);
+        color_probe.load_from_string (custom_properties
+            ? ".palette-probe { color: var(--window-bg-color); }"
+            : ".palette-probe { color: @window_bg_color; }");
+        settle ();
+        Gdk.RGBA expected = {};
+        assert (expected.parse (colors[index]) && label.get_color ().equal (expected));
+
+        if (custom_properties && themes[index].has_prefix ("breeze-")) {
+            color_probe.load_from_string (".palette-probe { color: var(--success-bg-color); }");
+            settle ();
+            assert (expected.parse ("#27ae60") && label.get_color ().equal (expected));
+        }
+        Gtk.StyleContext.remove_provider_for_display (display, provider);
+    }
+    Gtk.StyleContext.remove_provider_for_display (display, color_probe);
+    close_fixture_window (window);
+}
+
+void snapshot (Gtk.Window window, string name) {
+    var directory = Environment.get_variable ("PROTONPLUS_UI_SNAPSHOTS");
+    if (directory == null)
+        return;
+    var content = ((Adw.Clamp) ((Adw.Window) window).content).child;
+    var paintable = new Gtk.WidgetPaintable (content);
+    var capture = new Gtk.Snapshot ();
+    paintable.snapshot (capture, content.get_width (), content.get_height ());
+    var node = capture.free_to_node ();
+    assert (node != null);
+    var texture = window.get_renderer ().render_texture (node, null);
+    assert (texture.save_to_png (Path.build_filename (directory, name + ".png")));
+}
+
+int main (string[] args) {
+    string root;
+    try { root = DirUtils.make_tmp ("protonplus-presentation-XXXXXX"); }
+    catch (Error e) { error ("%s", e.message); }
+    // GTK input methods may create their own config files, especially on X11.
+    // Keep them inside the fixture and exercise cleanup with a nonempty root.
+    var config_root = Path.build_filename (root, "config");
+    assert (DirUtils.create_with_parents (config_root, 0700) == 0);
+    Environment.set_variable ("XDG_CONFIG_HOME", config_root, true);
+    Environment.set_variable ("GSETTINGS_BACKEND", "memory", true);
+    if (!Gtk.init_check ()) {
+        remove_fixture_directory (root);
+        return 77;
+    }
+    Adw.init ();
+    Gtk.Settings.get_default ().gtk_enable_animations = false;
+    check_theme_palettes ();
+    var launcher = new Models.Launcher ("Fixture", Models.Launcher.InstallationTypes.SYSTEM,
+        "", { root }, "fixture");
+    var group = new Models.Group ("Proton", "", "", launcher, "fixture");
+    var tool = new PresentationFixtureTool (group);
+    group.tools = new Gee.LinkedList<Models.Tool> ();
+    group.tools.add (tool);
+    var css = Utils.ThemeManager.load_stylesheet ("style");
+    Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), css,
+        Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+    var box = new Widgets.Tools.ReleasesBox ();
+    var group_box = new Widgets.Tools.GroupBox (group);
+    group_box.expand_tool (tool);
+    group_box.attach_release_section (tool, box);
+    var window = fixture_window (group_box, 600, 400);
+    window.present ();
+    bool loaded = false;
+    box.set_selected_tool.begin (tool, (obj, res) => { loaded = box.set_selected_tool.end (res); });
+    settle ();
+    assert (loaded);
+    assert (box.get_height () < 350);
+    check_tool_heading (group_box, box);
+    snapshot (window, "adwaita-releases");
+    var rows = new Gee.ArrayList<Widgets.Tools.ReleaseRow> ();
+    collect_rows (box, rows);
+    assert (rows.size == 3);
+    assert (rows[0].get_mapped ());
+    assert (rows[1].get_child_visible ());
+    assert (rows[2].get_child_visible ());
+    var install = find_button (rows[0], "Install");
+    assert (install != null && !install.has_css_class ("suggested-action"));
+    // Every version is visible immediately, including during operations.
+    var older_job = rows[1].get_data<Services.InstallJob> ("job");
+    older_job.set ("state", Services.InstallJob.State.BUSY_INSTALLING);
+    older_job.set ("state", Services.InstallJob.State.NOT_INSTALLED);
+    settle ();
+    // A failed or canceled operation must not disappear before Retry is usable.
+    assert (rows[1].get_child_visible ());
+    older_job.set ("state", Services.InstallJob.State.UP_TO_DATE);
+    settle ();
+    assert (rows[1].get_child_visible ());
+    assert (find_button (box, "Other Versions") == null);
+    assert (find_button (box, "Load More").get_mapped () == false);
+    snapshot (window, "adwaita-expanded");
+    assert (tool.release_catalog.releases.size == 3);
+    box.filter = Widgets.Tools.Filter.INSTALLED;
+    settle ();
+    rows.clear ();
+    collect_rows (box, rows);
+    assert (rows.size == 0);
+    box.clear_selected_tool ();
+    group_box.attach_release_section (tool, box);
+    loaded = false;
+    box.filter = Widgets.Tools.Filter.ALL;
+    box.set_selected_tool.begin (tool, (obj, res) => { loaded = box.set_selected_tool.end (res); });
+    settle ();
+    rows.clear ();
+    collect_rows (box, rows);
+    assert (loaded && rows.size == 3 && rows[2].get_child_visible ());
+    foreach (var theme in new string[] { "light", "dark" }) {
+        Adw.StyleManager.get_default ().color_scheme = theme == "dark"
+            ? Adw.ColorScheme.FORCE_DARK : Adw.ColorScheme.FORCE_LIGHT;
+        close_fixture_window (window);
+        window = fixture_window (group_box, 400, 500);
+        window.present ();
+        settle ();
+        snapshot (window, "adwaita-" + theme);
+        var breeze = Utils.ThemeManager.load_stylesheet ("breeze-" + theme);
+        Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), breeze,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1);
+        close_fixture_window (window);
+        window = fixture_window (group_box, 400, 500);
+        window.present ();
+        settle ();
+        snapshot (window, "breeze-" + theme);
+        int minimum_width;
+        group_box.measure (Gtk.Orientation.HORIZONTAL, -1, out minimum_width, null, null, null);
+        assert (minimum_width <= 400);
+        assert (group_box.get_width () <= 400 && group_box.get_width () >= 360);
+        Gtk.StyleContext.remove_provider_for_display (Gdk.Display.get_default (), breeze);
+    }
+    close_fixture_window (window);
+    check_build_choices (group);
+    check_sarek_build_choices (group);
+    check_inline_transitions (launcher, group);
+    check_offline_installed_rows (root);
+    check_niche_tool_visibility (root, launcher, group);
+    remove_fixture_directory (root);
+    return 0;
+}

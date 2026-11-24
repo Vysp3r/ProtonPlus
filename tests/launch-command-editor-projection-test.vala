@@ -1,6 +1,7 @@
 namespace AppTests.LaunchCommandEditorProjectionTest {
     using GLib;
     using Gee;
+    using ProtonPlus.LaunchOptions;
     using ProtonPlus.Widgets.Games.LaunchOptionsEditor;
 
     public void register_tests () {

@@ -140,57 +140,6 @@
 @define-color error_fg_color white;
 @define-color error_color @error_color_protonplus_breeze;
 
-/* Keep libadwaita's CSS custom properties in sync with the Breeze palette. */
-* {
-  --accent-bg-color: @theme_selected_bg_color_protonplus_breeze;
-  --accent-fg-color: @theme_selected_fg_color_protonplus_breeze;
-  --accent-color: @accent_color_protonplus_breeze;
-  --window-bg-color: @theme_bg_color_protonplus_breeze;
-  --window-fg-color: @theme_fg_color_protonplus_breeze;
-  --view-bg-color: @theme_base_color_protonplus_breeze;
-  --view-fg-color: @theme_text_color_protonplus_breeze;
-  --headerbar-bg-color: @theme_titlebar_background_protonplus_breeze;
-  --headerbar-fg-color: @theme_titlebar_foreground_protonplus_breeze;
-  --headerbar-border-color: @borders_protonplus_breeze;
-  --headerbar-backdrop-color: @theme_titlebar_background_backdrop_protonplus_breeze;
-  --headerbar-shade-color: rgba(0, 0, 0, 0.12);
-  --headerbar-darker-shade-color: rgba(0, 0, 0, 0.25);
-  --sidebar-bg-color: @theme_button_background_normal_protonplus_breeze;
-  --sidebar-fg-color: @theme_fg_color_protonplus_breeze;
-  --sidebar-backdrop-color: #e0e3e5;
-  --sidebar-border-color: rgba(0, 0, 0, 0.18);
-  --sidebar-shade-color: rgba(0, 0, 0, 0.12);
-  --secondary-sidebar-bg-color: #e0e3e5;
-  --secondary-sidebar-fg-color: @theme_fg_color_protonplus_breeze;
-  --secondary-sidebar-backdrop-color: @theme_bg_color_protonplus_breeze;
-  --secondary-sidebar-border-color: rgba(0, 0, 0, 0.18);
-  --secondary-sidebar-shade-color: rgba(0, 0, 0, 0.12);
-  --card-bg-color: rgba(255, 255, 255, 0.65);
-  --card-fg-color: @theme_fg_color_protonplus_breeze;
-  --card-shade-color: rgba(0, 0, 0, 0.12);
-  --dialog-bg-color: @theme_base_color_protonplus_breeze;
-  --dialog-fg-color: @theme_fg_color_protonplus_breeze;
-  --popover-bg-color: @theme_base_color_protonplus_breeze;
-  --popover-fg-color: @theme_fg_color_protonplus_breeze;
-  --popover-shade-color: rgba(0, 0, 0, 0.16);
-  --thumbnail-bg-color: #e0e3e5;
-  --thumbnail-fg-color: @theme_fg_color_protonplus_breeze;
-  --shade-color: rgba(0, 0, 0, 0.12);
-  --scrollbar-outline-color: rgba(0, 0, 0, 0.3);
-  --destructive-bg-color: @error_color_protonplus_breeze;
-  --destructive-fg-color: #ffffff;
-  --destructive-color: @error_color_protonplus_breeze;
-  --success-bg-color: @success_color_protonplus_breeze;
-  --success-fg-color: #000000;
-  --success-color: @success_color_protonplus_breeze;
-  --warning-bg-color: @warning_color_protonplus_breeze;
-  --warning-fg-color: #000000;
-  --warning-color: @warning_color_protonplus_breeze;
-  --error-bg-color: @error_color_protonplus_breeze;
-  --error-fg-color: #ffffff;
-  --error-color: @error_color_protonplus_breeze;
-}
-
 /* GTK standard color aliases */
 @define-color theme_fg_color @theme_fg_color_protonplus_breeze;
 @define-color theme_text_color @theme_text_color_protonplus_breeze;
@@ -374,7 +323,7 @@ columnview.list-content > header > button {
 
 columnview.list-content > header > button:focus-visible,
 columnview.list-content > header > button.games-sort-header-controller-focus {
-    outline-color: var(--accent-color);
+    outline-color: @accent_color;
 }
 
 /* Breeze-specific component styling. */
@@ -388,17 +337,17 @@ columnview.list-content > header > button.games-sort-header-controller-focus {
 }
 
 .selection-popover-list > row:hover {
-    background-color: alpha(var(--accent-bg-color), 0.08);
+    background-color: alpha(@accent_bg_color, 0.08);
 }
 
 .selection-popover-row image {
-    color: var(--accent-color);
+    color: @accent_color;
 }
 
 .launchers-popover-list > row.launcher-selected,
 .launchers-popover-list > row:selected {
-    background-color: alpha(var(--accent-bg-color), 0.14);
-    box-shadow: inset 0 0 0 2px alpha(var(--accent-bg-color), 0.6);
+    background-color: alpha(@accent_bg_color, 0.14);
+    box-shadow: inset 0 0 0 2px alpha(@accent_bg_color, 0.6);
 }
 
 .tools-release-row-input-box button {

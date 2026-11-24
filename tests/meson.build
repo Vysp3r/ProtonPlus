@@ -15,39 +15,39 @@ test_sources = files(
     'cpu-capabilities-test.vala',
     'variant-compatibility-test.vala',
     'variant-selector-test.vala',
-    'asset_test.vala',
-    'filesystem_test.vala',
-    'web_test.vala',
+    'asset-test.vala',
+    'filesystem-test.vala',
+    'web-test.vala',
     'system-path-test.vala',
     'systemd-timer-test.vala',
     'migration-v0.6.6-test.vala',
     'faugus-launcher-test.vala',
     'proton-autogen-test.vala',
-    'metadata_test.vala',
+    'metadata-test.vala',
     'compatibility-tool-test.vala',
     'steam-compatibility-tool-discovery-test.vala',
     'steam-library-diagnostics-test.vala',
     'installed-tool-inventory-test.vala',
-    'parser_test.vala',
+    'parser-test.vala',
     'launch-command-test.vala',
     'launch-command-parser-test.vala',
     'launch-command-composer-test.vala',
     'launch-command-editor-projection-test.vala',
     'launch-command-writer-test.vala',
     'launch-option-capability-resolver-test.vala',
-    'provider_definition_test.vala',
-    'provider_registry_test.vala',
-    'provider_source_test.vala',
-    'identity_test.vala',
-    'cli_test.vala',
-    'release_identity_test.vala',
-    'release_page_test.vala',
+    'provider-definition-test.vala',
+    'provider-registry-test.vala',
+    'provider-source-test.vala',
+    'identity-test.vala',
+    'cli-test.vala',
+    'release-identity-test.vala',
+    'release-page-test.vala',
     'release-catalog-test.vala',
-    'variant_settings_test.vala',
-    'install_layout_test.vala',
+    'variant-settings-test.vala',
+    'install-layout-test.vala',
     'compatibility-process-guard-test.vala',
     'installer-transaction-test.vala',
-    'steam_test.vala',
+    'steam-test.vala',
     'steam-session-test.vala',
     'steam-game-launch-test.vala',
     'steam-configuration-service-test.vala',
@@ -57,14 +57,13 @@ test_sources = files(
     'steamtinkerlaunch-test.vala',
     'tinkergame-test.vala',
     'update-transaction-test.vala',
-    'vdf_binary_test.vala',
+    'vdf-binary-test.vala',
 )
 
 test_exe = executable(
     'protonplus-tests',
     test_sources,
-    resources,
-    dependencies: deps,
+    dependencies: deps + [resources_dep],
     link_with: protonplus_lib,
     include_directories: [config_inc, include_directories('../src')],
     vala_args: ['--target-glib=2.58'],
@@ -79,61 +78,25 @@ test(
     workdir: meson.current_source_dir(),
 )
 
-python = import('python').find_installation()
-test('Maintenance script tests', python, args: files('scripts_test.py'))
-test('Check command tests', python, args: files('check_script_test.py'))
+script_test_fixture = files('script-test-fixture.vala')
+script_test_deps = [dependency('glib-2.0'), dependency('gio-2.0')]
 
-# Keep GUI harness settings together so every presentation test gets the same
-# display setup. Test-specific rendering or locale requirements stay explicit.
-xvfb_run = find_program('xvfb-run', required: false)
-foreach gui_test : [
-    {
-        'target': 'downloads-presentation-test',
-        'name': 'Downloads presentation',
-        'environment': ['GSK_RENDERER=cairo', 'LC_ALL=C.UTF-8', 'LANGUAGE=de',
-            'PROTONPLUS_TEST_LOCALES=' + (meson.project_build_root() / 'po')],
-    },
-    {
-        'target': 'steam-diagnostics-presentation-test',
-        'name': 'Steam diagnostics presentation',
-        'environment': ['GSK_RENDERER=cairo', 'LC_ALL=C'],
-    },
-    {
-        'target': 'launch-option-flags-widget-test',
-        'name': 'Launch option flag widgets',
-        'environment': [],
-    },
-    {
-        'target': 'tools-presentation-test',
-        'name': 'Tools presentation',
-        'environment': ['PROTONPLUS_TEST_FIXTURES=' + (meson.current_source_dir() / 'fixtures')],
-    },
-    {
-        'target': 'games-presentation-test',
-        'name': 'Games presentation',
-        'environment': ['GSK_RENDERER=cairo', 'LC_ALL=C'],
-    },
-    {
-        'target': 'help-presentation-test',
-        'name': 'Help presentation',
-        'environment': ['GSK_RENDERER=cairo', 'LC_ALL=C'],
-    },
-]
-    gui_test_exe = executable(
-        gui_test['target'],
-        gui_test['target'] + '.vala',
-        resources,
-        dependencies: deps,
-        link_with: protonplus_lib,
-        include_directories: [config_inc, include_directories('../src')],
-        vala_args: ['--target-glib=2.58'],
-    )
-    gui_test_env = ['GTK_A11Y=none'] + gui_test['environment']
-    if xvfb_run.found()
-        test(gui_test['name'], xvfb_run,
-            args: ['-a', gui_test_exe],
-            env: ['GDK_BACKEND=x11'] + gui_test_env)
-    else
-        test(gui_test['name'], gui_test_exe, env: gui_test_env)
-    endif
-endforeach
+maintenance_test = executable(
+    'maintenance-script-tests',
+    script_test_fixture,
+    'scripts-test.vala',
+    dependencies: script_test_deps,
+)
+test('Maintenance script tests', maintenance_test, protocol: 'tap',
+    workdir: meson.project_source_root())
+
+check_command_test = executable(
+    'check-command-tests',
+    script_test_fixture,
+    'check-script-test.vala',
+    dependencies: script_test_deps,
+)
+test('Check command tests', check_command_test, protocol: 'tap',
+    workdir: meson.project_source_root())
+
+subdir('gui')

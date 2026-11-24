@@ -3,9 +3,9 @@
 ProtonPlus shows Proton-Autogen in the launcher selector when it finds the
 `proton-autogen` host command or an existing `~/.config/proton-autogen/games`
 directory. Both native and Flatpak ProtonPlus use this host profile location.
-Use **Preferences → Refresh application data** to pick up profiles registered,
-removed, or edited externally. Proton-Autogen owns game execution, prefix and
-environment configuration, and runtime selection.
+Choose **Refresh application data** in **Preferences → Advanced → Maintenance**
+after changing profiles externally. Proton-Autogen owns game execution,
+prefix and environment configuration, and runtime selection.
 
 When ProtonPlus detects the host command, each row in **Games** has a play
 button that runs `proton-autogen run` with the registered executable path.
@@ -45,14 +45,14 @@ fields used by ProtonPlus are described below.
 | `proton` | Optional string or null. Empty, absent, and null values display as Automatic. An explicit choice writes a folder name. Clearing an explicit choice writes an empty string. |
 | `config_path` | Optional upstream metadata. The persisted value is preserved. |
 
-ProtonPlus skips malformed profiles and profiles with unsupported types for
-the fields it reads. Applying a choice rereads the original file and replaces
-only the top-level `proton` value, or adds that field when absent. Other JSON
-bytes are preserved, including unknown fields and nested values. Writes use
-atomic replacement with an ETag check. If the executable, ID, or saved Proton
-choice changed since loading, the write fails so a refreshed edit can use the
-new value. A multi-game edit reports failures by game and preserves successful
-edits. ProtonPlus treats this format as a compatibility assumption and keeps
-future fields opaque.
+### Saving a selection
+
+- Loading skips malformed profiles and unsupported types for fields ProtonPlus
+  reads.
+- Apply rereads the file and sets only the top-level `proton` value. It
+  preserves other bytes, including unknown fields and nested values.
+- Writes use atomic replacement with an ETag check. A changed executable, ID,
+  or Proton choice requires a refresh before editing.
+- A multi-game edit reports failures per game and keeps successful edits.
 
 The launcher icon comes from [Proton-Autogen](https://github.com/N3oRay/proton-autogen/blob/main/usr/share/icons/hicolor/scalable/apps/proton-autogen-hd.svg).

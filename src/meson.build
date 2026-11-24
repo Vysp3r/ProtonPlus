@@ -1,9 +1,11 @@
 sources = files(
-    'return_codes.vala',
+    'return-code.vala',
     'globals.vala',
 )
 
 subdir('cli')
+subdir('controller')
+subdir('launch-options')
 subdir('widgets')
 subdir('models')
 subdir('providers')
@@ -25,13 +27,12 @@ deps = [
     dependency('gee-0.8'),
     dependency('libarchive'),
     dependency('cairo'),
-    meson.get_compiler('c').find_library('m', required : false),
+    meson.get_compiler('c').find_library('m'),
     sdl3_dep,
 ]
 
 protonplus_lib = static_library(
     'protonplus_core',
-    resources,
     sources,
     dependencies : deps,
     include_directories : config_inc,
@@ -40,9 +41,8 @@ protonplus_lib = static_library(
 
 executable(
     meson.project_name().split('.')[2].to_lower(),
-    resources,
     sources_app,
-    dependencies : deps,
+    dependencies : deps + [resources_dep],
     link_with: protonplus_lib,
     include_directories : config_inc,
     install : true

@@ -17,13 +17,17 @@ namespace ProtonPlus.Utils {
         }
 
         public static Gtk.CssProvider load_stylesheet (string name) {
-            // GTK 4.14 cannot parse custom properties, and libadwaita 1.5
-            // does not supply its palette as custom properties.
-            var directory = Gtk.check_version (4, 16, 0) != null || Adw.get_minor_version () < 6
-                ? Config.RESOURCE_BASE + "/legacy"
-                : Config.RESOURCE_BASE;
             var provider = new Gtk.CssProvider ();
-            provider.load_from_resource ("%s/%s.css".printf (directory, name));
+            var stylesheet = "%s/%s.css".printf (Config.RESOURCE_BASE, name);
+            if (name == "style" || Gtk.check_version (4, 16, 0) != null || Adw.get_minor_version () < 6) {
+                provider.load_from_resource (stylesheet);
+            } else {
+                // Newer libadwaita widgets read palette overrides from custom properties.
+                var colors = name.has_prefix ("breeze-") ? "breeze-colors" : "theme-colors";
+                provider.load_from_string (("@import \"resource://%s\";\n"
+                    + "@import \"resource://%s/%s.css\";").printf (
+                    stylesheet, Config.RESOURCE_BASE, colors));
+            }
             return provider;
         }
 

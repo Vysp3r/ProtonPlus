@@ -1,14 +1,6 @@
+using ProtonPlus.LaunchOptions;
+
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
-
-    public enum LaunchLineType {
-        ENVIRONMENT,
-        WRAPPER,
-        WRAPPER_ARGUMENT,
-        COMMAND,
-        ARGUMENT,
-        ADDITIONAL,
-    }
-
     public interface ILaunchOption : Object {
         public abstract LaunchLineType line_type { get; set; }
         public abstract bool is_advanced { get; set; }

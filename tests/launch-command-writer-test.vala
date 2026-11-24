@@ -1,6 +1,6 @@
 namespace AppTests.LaunchCommandWriterTest {
     using GLib;
-    using ProtonPlus.Widgets.Games.LaunchOptionsEditor;
+    using ProtonPlus.LaunchOptions;
 
     public void register_tests () {
         Test.add_func ("/launch-command-writer/pristine-and-clear", test_pristine_and_clear);

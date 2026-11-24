@@ -16,8 +16,8 @@ BuildRequires:  gcc
 BuildRequires:  gettext
 BuildRequires:  git-core
 BuildRequires:  glibc-langpack-en
+BuildRequires:  make
 BuildRequires:  meson >= 1.0
-BuildRequires:  python3
 BuildRequires:  vala
 BuildRequires:  xorg-x11-server-Xvfb
 BuildRequires:  xorg-x11-xauth

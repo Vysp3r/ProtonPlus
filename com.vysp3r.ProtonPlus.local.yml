@@ -49,6 +49,8 @@ modules:
   - name: ProtonPlus
     builddir: true
     buildsystem: meson
+    license-files:
+      - LICENSE.md
     sources:
       - type: dir
         path: .

@@ -1,6 +1,6 @@
 namespace AppTests.LaunchCommandComposerTest {
     using GLib;
-    using ProtonPlus.Widgets.Games.LaunchOptionsEditor;
+    using ProtonPlus.LaunchOptions;
 
     public void register_tests () {
         Test.add_func ("/launch-command-composer/environment-and-shell-values", test_environment_and_shell_values);

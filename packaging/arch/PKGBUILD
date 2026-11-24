@@ -12,7 +12,7 @@ url='https://github.com/Vysp3r/ProtonPlus'
 license=(GPL-3.0-or-later)
 depends=(cairo ca-certificates dconf glib2 glibc glib-networking 'gtk4>=4.14'
   json-glib 'libadwaita>=1.5' libarchive libgee libsoup3 'sdl3>=3.2')
-makedepends=(gettext glib2-devel libxml2 meson ninja python vala)
+makedepends=(gettext glib2-devel libxml2 make meson ninja vala)
 checkdepends=(appstream dbus desktop-file-utils git ttf-dejavu xorg-server-xvfb xorg-xauth)
 options=(!debug)
 source=("$url/releases/download/v$_upstream_version/ProtonPlus-$_upstream_version-source.tar.gz")

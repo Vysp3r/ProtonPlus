@@ -50,7 +50,7 @@ namespace AppTests.ApplicationActionTest {
                 "/com/vysp3r/ProtonPlus/gtk/help-overlay.ui",
                 ResourceLookupFlags.NONE
             );
-            var contents = ProtonPlus.Utils.Parser.data_to_string (
+            var contents = ProtonPlus.Utils.bytes_to_string (
                 data.get_data ()
             );
             foreach (var action in new string[] {

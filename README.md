@@ -1,376 +1,45 @@
-# ProtonPlus
+<p align="center">
+  <img src="data/icons/com.vysp3r.ProtonPlus.svg" alt="" width="96" height="96">
+</p>
+
+<h1 align="center">ProtonPlus</h1>
 
 <p align="center">
-  <img src="data/icons/com.vysp3r.ProtonPlus.svg" alt="ProtonPlus icon" width="128">
+  Manage compatibility tools and fine-tune Steam games on Linux.
 </p>
 
 <p align="center">
-  A GTK4 and libadwaita application for managing Windows compatibility tools on Linux.
+  <strong><a href="#installation">Install</a></strong> ·
+  <a href="https://github.com/Vysp3r/ProtonPlus/releases">GitHub Releases</a> ·
+  <a href="docs/README.md">Documentation</a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/Vysp3r/ProtonPlus/stargazers">
-    <img alt="GitHub stars" title="GitHub stars" src="https://img.shields.io/github/stars/Vysp3r/ProtonPlus?style=flat-square&label=%E2%AD%90%20Stars&kill_cache=1">
-  </a>
-  <a href="https://github.com/Vysp3r/ProtonPlus/releases/latest">
-    <img alt="Latest release" title="Latest release" src="https://img.shields.io/github/v/release/Vysp3r/ProtonPlus?style=flat-square&label=%F0%9F%9A%80%20Release">
-  </a>
-  <a href="https://klausenbusk.github.io/flathub-stats/#ref=com.vysp3r.ProtonPlus&interval=infinity&downloadType=installs%2Bupdates">
-    <img alt="Flathub downloads" title="Flathub downloads" src="https://img.shields.io/badge/dynamic/json?color=informational&label=Downloads&logo=flathub&logoColor=white&query=%24.installs_total&url=https%3A%2F%2Fflathub.org%2Fapi%2Fv2%2Fstats%2Fcom.vysp3r.ProtonPlus&style=flat-square">
-  </a>
-  <a href="https://github.com/Vysp3r/ProtonPlus/blob/main/LICENSE.md">
-    <img alt="License" title="License" src="https://img.shields.io/github/license/Vysp3r/ProtonPlus?label=%F0%9F%93%9C%20License&style=flat-square">
-  </a>
-  <a href="https://hosted.weblate.org/engage/protonplus/">
-    <img alt="Translation status" title="Translation status" src="https://hosted.weblate.org/widget/protonplus/protonplus/svg-badge.svg" height="20">
-  </a>
-  <a href="https://protonplus.vysp3r.com/#donate">
-    <img alt="Donate" title="Donate" src="https://img.shields.io/badge/%E2%9D%A4%EF%B8%8F-Donate-red?style=flat-square">
-  </a>
+  <img src="data/previews/readme-preview.webp" alt="ProtonPlus Tools view above the Steam Games view and Launch Options Editor" width="100%">
 </p>
 
-<p align="center">
-  <a href="https://flathub.org/apps/com.vysp3r.ProtonPlus">Flathub</a>
-  ·
-  <a href="https://github.com/Vysp3r/ProtonPlus/releases">Releases</a>
-  ·
-  <a href="https://github.com/Vysp3r/ProtonPlus/issues">Issue tracker</a>
-</p>
-
-ProtonPlus helps you install, update, remove, and organize compatibility tools used by Steam and other Linux game launchers. It discovers supported launcher installations, downloads releases from their upstream sources, and installs them into the layouts expected by each launcher.
-
-## Features
-
-- Manage Proton, Wine, DXVK, and VKD3D tools from one application.
-- Install versioned releases and `Latest` builds, update installed tools, remove old versions, and migrate games between tools where supported.
-- Filter release variants against the detected CPU architecture and ISA level,
-  including native AArch64 builds and supported x86-64 builds on AArch64 hosts.
-- Detect system and Flatpak launcher installations, with Steam Snap support.
-- Manage tools for Steam, Faugus Launcher, Lutris, Heroic Games Launcher, Bottles, and WineZGUI.
-- Browse Steam games, change default and per-game compatibility tools, edit launch options, and apply compatibility-tool or launch-option changes to multiple games.
-- Configure Steam profiles and create or remove a ProtonPlus shortcut in Steam from the preferences view.
-- Coordinate required Steam restarts after compatibility-tool or Steam configuration changes.
-- Navigate Tools, Games, preferences, dialogs, and menus with a gamepad, with contextual button hints and optional vibration.
-- Track downloads and updates from the application header, with a shared speed limit, cancellation, and desktop notifications.
-- Use the command-line interface for listing launchers, installing, updating, and uninstalling tools.
-- Configure background updates, API tokens, proxy settings, themes, language, legacy-tool visibility, and other application preferences.
-- Localized through gettext and Weblate.
-
-## Screenshots
-
-<p align="center">
-  <img src="data/previews/Preview-1.png" alt="ProtonPlus tools view" width="45%">
-  <img src="data/previews/Preview-2.png" alt="ProtonPlus games view" width="45%">
-  <br>
-  <img src="data/previews/Preview-3.png" alt="ProtonPlus launch-options editor" width="45%">
-  <img src="data/previews/Preview-4.png" alt="ProtonPlus games mass-edit view" width="45%">
-</p>
-
-## Supported platforms and launchers
-
-ProtonPlus runs on Linux. It is distributed as a Flatpak and can also be built and installed natively with Meson. The application includes detection for these launcher installations:
-
-| Launcher | Supported installation types | Tool categories |
-| --- | --- | --- |
-| Steam | System, Flatpak, Snap | Proton, including Steam Tinker Launch |
-| Proton-Autogen | System profiles | Proton in the native Steam compatibility-tool directory |
-| Faugus Launcher | System, Flatpak | Selected Proton tools |
-| Lutris | System, Flatpak | Proton, Wine, DXVK, VKD3D |
-| Heroic Games Launcher | System, Flatpak | Proton, Wine |
-| Bottles | System, Flatpak | Proton, Wine, DXVK |
-| WineZGUI | System, Flatpak | Wine |
-
-Only installed and detectable launchers are shown. Tool availability also depends on the launcher and installation type.
-
-## Supported compatibility tools
-
-The Tools view uses estimated popularity to order the built-in tools within each category. Installed tools appear first among tools of the same kind. Niche and legacy tools have separate visibility settings.
-
-### Proton and Steam tools
-
-- Proton-GE
-- Proton-CachyOS
-- DW-Proton
-- Proton-Wineland
-- Proton-EM
-- Luxtorpeda
-- Proton-Tkg
-- Proton-RTSP
-- TinkerGame, for Steam
-- Rosemary for macOS Steam games on x86-64 native and Flatpak Steam, with **Show Niche Tools** enabled. Select it under the game's compatibility settings after restarting Steam.
-- Proton-Anime and Proton-HEVC, with **Preferences → Tools → Show Niche Tools** enabled
-- Steam Tinker Launch, for existing installations
-- Boxtron and Roberta, with **Preferences → Tools → Show Legacy Tools** enabled
-
-### Wine
-
-- Wine-Vanilla (Kron4ek)
-- Wine-Staging (Kron4ek)
-- Wine-Proton (Kron4ek)
-- Wine-Staging-Tkg (Kron4ek)
-
-### DXVK
-
-- DXVK (doitsujin)
-- DXVK (Sarek)
-- DXVK GPL+Async (Ph42oN)
-
-### VKD3D
-
-- VKD3D-Proton
-- VKD3D-Lutris, with **Preferences → Tools → Show Legacy Tools** enabled
-
-Release data is obtained from upstream GitHub, GitLab, Forgejo, and GitHub Actions sources. Available versions and architecture variants are determined by each provider's upstream releases.
+- Install and update Proton, Wine, DXVK, and VKD3D for [supported launchers](docs/compatibility.md).
+- Change compatibility tools and launch options for one Steam game or several at once.
+- Navigate with a gamepad or manage tools from the [command line](docs/usage.md#command-line-interface).
 
 ## Installation
 
-### Flatpak
+<a href="https://flathub.org/apps/com.vysp3r.ProtonPlus">
+  <img src="https://flathub.org/api/badge?locale=en" alt="Get it on Flathub" width="240">
+</a>
 
-The Flathub package is the recommended installation method.
+Or install from the terminal.
 
-```bash
+```sh
 flatpak install flathub com.vysp3r.ProtonPlus
-flatpak run com.vysp3r.ProtonPlus
 ```
 
-If the Flathub remote is not configured yet:
+For AppImage, native packages, and community packages, see the [installation guide](docs/installation.md).
 
-```bash
-flatpak remote-add --if-not-exists \
-  flathub https://flathub.org/repo/flathub.flatpakrepo
-```
+## Get involved
 
-The Flatpak uses host access required to find Steam libraries and launcher data, and requests access to the supported launcher Flatpak data directories. If a launcher is installed in an unsupported location or through a different packaging format, ProtonPlus may not be able to detect it.
-
-### GitHub release packages
-
-Download the file for your distribution and architecture from [GitHub Releases](https://github.com/Vysp3r/ProtonPlus/releases). Binary assets use `ProtonPlus-VERSION-TARGET-ARCH` with `x86_64` or `aarch64`.
-
-| Distribution or format | Target | Install the downloaded file |
-| --- | --- | --- |
-| Debian 13 | `debian13` | `sudo apt install ./FILE.deb` |
-| Ubuntu 26.04 LTS | `ubuntu26.04` | `sudo apt install ./FILE.deb` |
-| Fedora 45 | `fedora45` | `sudo dnf install ./FILE.rpm` |
-| Arch Linux / Arch Linux ARM | `archlinux` | `sudo pacman -U ./FILE.pkg.tar.zst` |
-| AppImage | `anylinux` | `chmod +x ./FILE.AppImage` then `./FILE.AppImage` |
-
-Releases with native packages also provide AppImage `.zsync` update metadata, `ProtonPlus-VERSION-source.tar.gz`, and `SHA256SUMS`. Run `sha256sum --check --ignore-missing SHA256SUMS` from the download directory to verify your files.
-
-### Community packages
-
-The following packages are maintained by distribution packagers or community maintainers. They are not managed by the ProtonPlus project and may have different release timing or packaging defaults than Flathub.
-
-| Distribution | Package source | Maintainer |
-| --- | --- | --- |
-| Arch Linux | [AUR](https://aur.archlinux.org/packages/protonplus) | [yochananmarqos](https://github.com/yochananmarqos) |
-| Fedora | [Copr](https://copr.fedorainfracloud.org/coprs/wehagy/protonplus/) | [wehagy](https://github.com/wehagy) |
-| Fedora | [Terra](https://terrapkg.com/) | [Owen Zimmerman](https://github.com/Owen-sz) |
-| NixOS | [nixpkgs](https://mynixos.com/nixpkgs/package/protonplus) | [Seth](https://github.com/seth-foss) |
-| Ubuntu | [Pacstall](https://pacstall.dev/packages/protonplus) | [Vysp3r](https://github.com/Vysp3r) |
-| openSUSE | [OBS](https://software.opensuse.org/package/ProtonPlus) | [rrahl0](https://github.com/rrahl0) |
-| Void Linux | [Official repository](https://github.com/void-linux/void-packages) | [xJayMorex](https://github.com/xJayMorex) |
-| Gentoo | [Overlay](https://github.com/amielke/amielke-overlay/tree/master/games-util/ProtonPlus) | [amielke](https://github.com/amielke) |
-
-### Native build
-
-A native build requires a Linux development environment with:
-
-- Git, a C compiler, pkg-config, Meson 1.0 or newer, Ninja, Vala, and Python 3
-- GLib and glib-compile-schemas
-- GTK 4.14 or newer
-- libadwaita 1.5 or newer
-- json-glib
-- libsoup 3
-- libgee
-- libarchive
-- Cairo
-- SDL 3.2 or newer
-- gettext and desktop-file-utils
-
-The distro-specific build dependencies are listed in the recipes under [`packaging/`](packaging/). The AppImage build has a separate Arch-based dependency installer in [`packaging/appimage/`](packaging/appimage/).
-
-Clone and build the application with the project build helper:
-
-```bash
-git clone https://github.com/Vysp3r/ProtonPlus.git
-cd ProtonPlus
-./scripts/build.sh native run
-```
-
-`./scripts/build.sh native run` runs the checkout with its local data and
-translations. It does not require a system-wide installation.
-
-To build without launching it, then install it system-wide:
-
-```bash
-./scripts/build.sh native
-sudo meson install -C build
-```
-
-The native build helper configures `/usr` as the install prefix.
-
-### Build the Flatpak locally
-
-The local Flatpak manifest builds the source tree and installs the result for the current user. Flatpak, a configured Flathub remote, and network access are required.
-
-```bash
-./scripts/build.sh local run
-```
-
-The local command installs the GNOME 51 SDK and runtime, the Vala SDK extension, and Flatpak Builder when they are missing. Use `./scripts/build.sh local` to build and install without launching the application.
-
-## Usage
-
-### Graphical interface
-
-1. Launch ProtonPlus and select a detected launcher from the launcher selector.
-2. Open the **Tools** view and choose a tool category.
-3. Select a tool to browse upstream releases, choose a release or variant, and install it.
-4. Use the installed, used, and unused filters to review tool usage.
-5. Open a release to update, remove, open its upstream page, or migrate compatible games when supported.
-6. For Steam, use **Games** to select a profile, change compatibility tools, edit launch options, or perform a mass edit.
-
-Downloads and updates appear in the header indicator. ProtonPlus also sends desktop notifications when an operation finishes while the application is not active.
-
-### Proton-Autogen
-
-Select **Proton-Autogen** in the launcher menu. **Tools** manages supported
-Proton builds in the native Steam compatibility-tool directory. **Games** shows
-the executables registered in Proton-Autogen. Choose **Automatic** to let
-Proton-Autogen pick a build, or select an installed build for one or more games.
-Use the play button in **Games** to launch a registered executable through
-Proton-Autogen. See the [profile format and supported
-locations](docs/integrations/proton-autogen.md).
-
-### Controller input
-
-ProtonPlus supports gamepad navigation through SDL 3. Use the D-pad or left
-stick to move, the right stick to scroll, the configured confirm face button
-to activate controls, and the other face button to go back or close the active
-dialog or menu. Shoulder and dedicated controller buttons provide contextual
-page, section, search, filter, menu, and launcher shortcuts where available;
-the hint bar shows the actions supported by the current view.
-
-On Steam Deck, focus a text field and use **Steam + X** to open the on-screen
-keyboard. Other systems may require a physical or system-provided keyboard for
-text entry.
-
-### Command-line interface
-
-Running `protonplus` without arguments opens the graphical interface. The CLI accepts these commands:
-
-```text
-protonplus version
-protonplus help
-protonplus list [launcher_id]
-protonplus install <launcher_id> <runner_id> [latest]
-protonplus uninstall <launcher_id> <runner_id|all> [all]
-protonplus update <all|launcher_id> [runner_id]
-```
-
-List detected launchers and installed tools first; the command output includes the IDs accepted by the other commands:
-
-```bash
-protonplus list
-protonplus list steam-system
-protonplus install steam-system proton-ge latest
-protonplus update steam-system
-protonplus update all
-protonplus uninstall steam-system proton-ge
-```
-d
-For each managed release, `list <launcher_id>` prints the runner ID, recorded
-release tag, and display title in labeled, aligned columns, grouped by tool
-category. Older records without a tag display `—` in the Version column.
-Unmanaged directories and records that cannot be resolved to an available
-provider are omitted.
-
-The `latest` argument selects the latest eligible release during installation. The `all` argument can remove all releases for a tool or all provider-tool releases for a launcher.
-
-## Configuration
-
-Application preferences are available from the preferences dialog. They include:
-
-- Appearance themes: system, Adwaita, Breeze, SteamOS, and OLED
-- Language selection and translated interface text
-- Controller confirm-button mapping and optional vibration
-- Background update frequency and update checks at launch or system startup
-- Default Steam compatibility tool and selected Steam profile
-- GitHub and GitLab API tokens for higher API limits or authenticated access
-- System or manual proxy configuration, an optional GitHub download mirror, and a shared download speed limit
-- Legacy-tool visibility and default-prefix migration behavior
-- Cache deletion and application environment diagnostics
-
-Native builds use the XDG user cache directory, normally `~/.cache/ProtonPlus`. Flatpak builds use the corresponding sandboxed XDG directories.
-
-### GitHub download mirrors
-
-In **Preferences > Advanced > Network**, set **GitHub download mirror** to an
-HTTPS URL prefix and apply the field, or leave it empty for direct downloads.
-For example, `https://mirror.example/` turns a release asset URL into
-`https://mirror.example/https://github.com/owner/repo/releases/download/tag/asset`.
-A missing trailing slash is added automatically. Credentials, query strings,
-and fragments are not accepted in the prefix. Only use a mirror you trust.
-
-This setting is independent of the HTTP/SOCKS proxy setting. It applies to new
-GitHub release asset downloads in both the GUI and CLI; ongoing downloads keep
-their original endpoint. API requests, release lists, source archives, Actions
-artifacts, and other hosts are unchanged, so GitHub API access is still needed.
-Changing endpoints discards incompatible partial downloads. Existing validated
-archive caches remain reusable, and upstream size and digest checks still apply;
-not every upstream asset supplies a digest.
-
-## Troubleshooting
-
-### A launcher is not detected
-
-Confirm that the launcher is installed and has been opened at least once, then refresh ProtonPlus. For Flatpak launchers, make sure the corresponding Flatpak application data exists and that ProtonPlus was installed with the official Flatpak package. Steam libraries on custom locations must also be visible to the ProtonPlus installation.
-
-### Release loading fails or an API limit is reached
-
-Check the network connection and the proxy setting in **Preferences > Advanced > Network**. GitHub and GitLab access tokens can be configured under **API Tokens**. An invalid token or an upstream API outage is reported separately from a missing release.
-
-### An install or update is blocked
-
-Close games that are using the compatibility tool. ProtonPlus refuses certain updates while a game is running to avoid modifying an active installation.
-
-### Cached release data or downloads appear stale
-
-Use the cache deletion action in the preferences dialog, then retry the operation. This clears ProtonPlus's cached release data and downloaded archives; releases are fetched again from their upstream sources.
-
-### An archive cannot be installed
-
-The provider may have published an asset in an unsupported or incomplete format. Refresh the release data and retry. If the problem persists, report the provider, release, and exact error in the [issue tracker](https://github.com/Vysp3r/ProtonPlus/issues).
-
-## Development
-
-Run the test suite after making changes:
-
-```bash
-./scripts/check.sh
-```
-
-Useful maintenance commands are available through the build helper:
-
-```bash
-./scripts/build.sh linter
-./scripts/build.sh translations
-./scripts/build.sh icons
-./scripts/build.sh clean
-```
-
-Use `./scripts/check.sh /launch-command-writer` while working on a specific
-area.
-The [maintainer guide](docs/maintenance.md) covers debugging, release preparation,
-and the maintenance-cost audit. Provider extension points and release-source
-architecture are documented in [docs/provider-architecture.md](docs/provider-architecture.md).
-
-Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. Bug reports and feature requests belong in the [issue tracker](https://github.com/Vysp3r/ProtonPlus/issues). Translation contributions are coordinated through [Weblate](https://hosted.weblate.org/projects/protonplus/protonplus/).
-
-## AI-assisted development
-
-AI tools, including OpenAI Codex, have been used to help advance ProtonPlus further. AI was used as a supporting engineering tool within a structured development process, under human direction and subject to code review, testing, and validation. Project decisions and final responsibility remain with the maintainers.
+[Contribute or build from source](CONTRIBUTING.md) · [Report an issue](https://github.com/Vysp3r/ProtonPlus/issues) · [Translate on Weblate](https://hosted.weblate.org/projects/protonplus/protonplus/) · [Donate](https://protonplus.vysp3r.com/#donate)
 
 ## License
 
-ProtonPlus is licensed under the [GNU General Public License version 3 or later](LICENSE.md).
+[GPL-3.0-or-later](LICENSE.md)

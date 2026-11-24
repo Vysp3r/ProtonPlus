@@ -1,3 +1,5 @@
+using ProtonPlus.LaunchOptions;
+
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
     class LaunchOptionInputFeedback {
         public static Gtk.Label create_label () {

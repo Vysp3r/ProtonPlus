@@ -1,6 +1,6 @@
 namespace AppTests.LaunchCommandParserTest {
     using GLib;
-    using ProtonPlus.Widgets.Games.LaunchOptionsEditor;
+    using ProtonPlus.LaunchOptions;
 
     public void register_tests () {
         Test.add_func ("/launch-command-parser/empty-and-arguments", test_empty_and_arguments);
