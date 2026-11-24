@@ -50,6 +50,15 @@ class VersionScriptFixture(unittest.TestCase):
 
 
 class SetVersionTest(VersionScriptFixture):
+    def test_prints_meson_version_without_release_metadata(self) -> None:
+        (self.root / "com.vysp3r.ProtonPlus.yml").unlink()
+        self.metainfo.unlink()
+        before = self.snapshot()
+        result = self.run_script("--print-version")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout, "1.2.3\n")
+        self.assertEqual(self.snapshot(), before)
+
     def test_validates_semantic_versions_without_writing(self) -> None:
         before = self.snapshot()
         for version in ("1.2.3", "1.2.3-beta.1"):
@@ -90,6 +99,7 @@ class SetVersionTest(VersionScriptFixture):
             (),
             ("--dry-run",),
             ("1.2.3", "--check", "--dry-run"),
+            ("1.2.3", "--print-version"),
             ("1.2.3", "1.2.4"),
             ("--unknown",),
         ):
@@ -442,15 +452,17 @@ class NativePackagingTest(unittest.TestCase):
             checkout = test_root / "checkout with spaces"
             (checkout / "scripts").mkdir(parents=True)
             shutil.copy(PROJECT_ROOT / "scripts" / "build.sh", checkout / "scripts")
+            shutil.copy(PROJECT_ROOT / "scripts" / "set-version.sh", checkout / "scripts")
             shutil.copytree(PROJECT_ROOT / "packaging", checkout / "packaging")
-            (checkout / "meson.build").write_text("initial version\n")
+            (checkout / "meson.build").write_text("project('example', version: '0.0.1')\n")
             (checkout / "removed").touch()
             (checkout / "replaced").mkdir()
             (checkout / "replaced" / "outside-file").touch()
             (checkout / ".gitignore").write_text("/dist/\n/ignored\n")
             subprocess.run(["git", "init", "-q", str(checkout)], check=True)
             subprocess.run(["git", "-C", str(checkout), "add", "."], check=True)
-            (checkout / "meson.build").write_text("working tree version\n")
+            working_meson = "project('example', version: '0.0.0')\n"
+            (checkout / "meson.build").write_text(working_meson)
             (checkout / "new-source").touch()
             (checkout / "ignored").touch()
             (checkout / "removed").unlink()
@@ -459,9 +471,6 @@ class NativePackagingTest(unittest.TestCase):
             (test_root / "outside-file").touch()
             (checkout / "replaced").symlink_to("..")
 
-            meson = test_root / "meson"
-            meson.write_text("#!/bin/sh\nprintf '%s\\n' '{\"version\":\"0.0.0\"}'\n")
-            meson.chmod(0o755)
             engine = test_root / "container-engine"
             engine.write_text(
                 "#!/bin/sh\nset -eu\n"
@@ -476,7 +485,6 @@ class NativePackagingTest(unittest.TestCase):
             archive = test_root / "source.tar.gz"
             container_args = test_root / "container-args"
             environment = os.environ | {
-                "PATH": f"{test_root}{os.pathsep}{os.environ['PATH']}",
                 "PROTONPLUS_CONTAINER_ENGINE": str(engine),
                 "PROTONPLUS_TEST_ARCHIVE": str(archive),
                 "PROTONPLUS_TEST_CONTAINER_ARGS": str(container_args),
@@ -507,7 +515,7 @@ class NativePackagingTest(unittest.TestCase):
             with tarfile.open(archive) as source:
                 prefix = "ProtonPlus-0.0.0/"
                 names = source.getnames()
-                self.assertEqual(source.extractfile(prefix + "meson.build").read(), b"working tree version\n")
+                self.assertEqual(source.extractfile(prefix + "meson.build").read(), working_meson.encode())
                 self.assertIn(prefix + "new-source", names)
                 self.assertNotIn(prefix + "removed", names)
                 self.assertNotIn(prefix + "ignored", names)

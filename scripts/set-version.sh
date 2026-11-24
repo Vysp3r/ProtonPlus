@@ -13,14 +13,16 @@ fail() {
 show_help() {
   cat <<'EOF'
 Usage: scripts/set-version.sh [VERSION] [--dry-run | --check]
+       scripts/set-version.sh --print-version
 
 Update the Meson version and tagged Flatpak source, or check release metadata.
 VERSION must be MAJOR.MINOR.PATCH with an optional prerelease suffix.
 
-  --dry-run  Validate and print planned updates without writing files.
-  --check    Check Meson, Flatpak, and the newest AppStream release without
-             writing files. Defaults to the Meson version. Requires xmllint.
-  --help     Show this help message.
+  --dry-run        Validate and print planned updates without writing files.
+  --check          Check Meson, Flatpak, and the newest AppStream release without
+                   writing files. Defaults to the Meson version. Requires xmllint.
+  --print-version  Print the version from meson.build.
+  --help           Show this help message.
 
 AppStream release notes and the Git tag must be updated manually.
 EOF
@@ -85,9 +87,9 @@ main() {
   for argument in "$@"; do
     case "${argument}" in
       --help | -h) show_help; return 0 ;;
-      --dry-run | --check)
+      --dry-run | --check | --print-version)
         [[ "${mode}" == update || "${mode}" == "${argument}" ]] ||
-          fail '--dry-run and --check are mutually exclusive.'
+          fail '--dry-run, --check, and --print-version are mutually exclusive.'
         mode="${argument}"
         ;;
       -*) fail "Unknown option: ${argument}." ;;
@@ -99,11 +101,19 @@ main() {
         ;;
     esac
   done
-  [[ -n "${version}" || "${mode}" == --check ]] || fail 'VERSION is required unless --check is used.'
+  if [[ "${mode}" == --print-version ]]; then
+    [[ -z "${version}" ]] || fail '--print-version takes no VERSION argument.'
+  else
+    [[ -n "${version}" || "${mode}" == --check ]] || fail 'VERSION is required unless --check is used.'
+  fi
 
   cd "${PROJECT_ROOT}"
   local meson_version manifest_version
   meson_version="$(read_version meson.build "(^|[^[:alnum:]_])version: '(${VERSION_PATTERN})'" 2)"
+  if [[ "${mode}" == --print-version ]]; then
+    printf '%s\n' "${meson_version}"
+    return
+  fi
   manifest_version="$(read_version com.vysp3r.ProtonPlus.yml "^[[:blank:]]*tag: v(${VERSION_PATTERN})[[:blank:]]*(#.*)?$" 1)"
   if [[ "${mode}" == --check ]]; then
     check_release "${version:-${meson_version}}" "${meson_version}" "${manifest_version}"

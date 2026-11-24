@@ -35,8 +35,7 @@ trap 'rm -rf -- "$work"' EXIT
 if [[ -z $archive ]]; then
   # Include current source edits and new files while excluding ignored output.
   cd "$project"
-  version=$(meson introspect --projectinfo meson.build | python3 -c \
-    'import json, sys; print(json.load(sys.stdin)["version"])')
+  version=$(bash scripts/set-version.sh --print-version)
   archive="$work/ProtonPlus-$version-source.tar.gz"
   git ls-files --cached --others --exclude-standard -z > "$work/source-paths"
   while IFS= read -r -d '' path; do

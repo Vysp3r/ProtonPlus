@@ -33,10 +33,12 @@ jobs:
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name || (github.ref_type == 'tag' && github.ref_name) || '' }}
         run: |
-          sudo apt-get update
-          sudo apt-get install -y --no-install-recommends meson libxml2-utils
-          version=$(meson introspect --projectinfo meson.build | jq -er .version)
+          version=$(./scripts/set-version.sh --print-version)
           if [[ -n $RELEASE_TAG ]]; then
+            if ! command -v xmllint >/dev/null; then
+              sudo apt-get update
+              sudo apt-get install -y --no-install-recommends libxml2-utils
+            fi
             ./scripts/set-version.sh "${RELEASE_TAG#v}" --check
           fi
           git archive --format=tar.gz --prefix="ProtonPlus-$version/" \
