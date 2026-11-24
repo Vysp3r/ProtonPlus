@@ -15,6 +15,10 @@ permissions:
   contents: read
 
 jobs:
+  debian:
+    name: Debian packages
+    uses: ./.github/workflows/deb.yml
+
   flatpak:
     name: Flatpak (${{ matrix.variant.arch }})
     container:
