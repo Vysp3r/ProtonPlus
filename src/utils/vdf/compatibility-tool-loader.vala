@@ -39,6 +39,7 @@ namespace ProtonPlus.Utils.VDF {
                 Models.CompatibilityToolRuntimeKind.UNKNOWN,
                 inspection_path, externally_managed
             );
+            tool.macos_only = (definition.get_child ("from_oslist")?.value ?? "").strip ().ascii_down () == "macos";
             Posix.Stat proton_stat;
             if (Posix.lstat (Path.build_filename (inspection_path, "proton"), out proton_stat) == 0
                 && Posix.S_ISREG (proton_stat.st_mode))

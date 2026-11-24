@@ -59,6 +59,7 @@ namespace AppTests.CompatibilityProcessGuardTest {
         Test.add_func ("/compatibility-process-guard/ignores-lookalikes-and-text", test_ignores_lookalikes_and_text);
         Test.add_func ("/compatibility-process-guard/recognizes-case-preloaders-and-wineserver", test_recognizes_case_preloaders_and_wineserver);
         Test.add_func ("/compatibility-process-guard/target-aware-association", test_target_aware_association);
+        Test.add_func ("/compatibility-process-guard/rosemary-wrapper-association", test_rosemary_wrapper_association);
         Test.add_func ("/compatibility-process-guard/path-prefix-boundary", test_path_prefix_boundary);
         Test.add_func ("/compatibility-process-guard/shared-physical-target", test_shared_physical_target);
         Test.add_func ("/compatibility-process-guard/returns-blocker-details", test_returns_blocker_details);
@@ -390,6 +391,16 @@ namespace AppTests.CompatibilityProcessGuardTest {
         assert (inspect_records (partial, "/tools/Tool A").status ==
             CompatibilityProcessInspectionStatus.ACTIVE);
         assert (inspect_records (partial, "/tools/Tool B").status ==
+            CompatibilityProcessInspectionStatus.CLEAR);
+    }
+
+    private void test_rosemary_wrapper_association () {
+        var process = record_for (
+            "/usr/bin/sh", { "/usr/bin/sh", "/tools/Rosemary Latest/rosemary-steam", "run", "/games/Game" }
+        );
+        assert (inspect_records (process, "/tools/Rosemary Latest").status ==
+            CompatibilityProcessInspectionStatus.ACTIVE);
+        assert (inspect_records (process, "/tools/Rosemary v0.5.0").status ==
             CompatibilityProcessInspectionStatus.CLEAR);
     }
 

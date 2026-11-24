@@ -190,6 +190,27 @@ namespace ProtonPlus.Models.Providers {
                         new VariantDefinition ("x86-64", "x86_64", "$tag_name.tar.gz", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE))
                     },
                     install_layouts = { InstallLayout.template ("default", "$release_name") }
+                }),
+                new ProviderDefinition (new ProviderConfig () {
+                    category = Category.PROTON,
+                    source_type = SourceType.GITHUB,
+                    provider_id = "rosemary",
+                    title = "Rosemary",
+                    description = N_ ("Steam compatibility tool for running macOS games on Linux."),
+                    endpoint = "https://api.github.com/repos/microlift/rosemary/releases",
+                    repository_url = "https://github.com/microlift/rosemary",
+                    sort_priority = 12,
+                    niche = true,
+                    supported_launcher_ids = { "steam-system", "steam-flatpak" },
+                    managed_steam_manifest = true,
+                    variants = {
+                        new VariantDefinition (
+                            "x86-64", "x86_64", "rosemary-steam-tool-$release_version-x86_64.tar.zst", true,
+                            VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE, false),
+                            { "rosemary-steam-tool-$release_version-x86_64.tar.gz" }
+                        )
+                    },
+                    install_layouts = { InstallLayout.template ("default", "$title $release_name") }
                 })
             };
         }

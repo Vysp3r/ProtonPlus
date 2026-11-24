@@ -8,6 +8,7 @@ namespace AppTests.ProviderSourceTest {
         Test.add_func ("/providers/github/canonical-release-page", test_github_release_page);
         Test.add_func ("/providers/github/proton-anime-variants", test_proton_anime_variants);
         Test.add_func ("/providers/github/proton-hevc-binary-asset", test_proton_hevc_binary_asset);
+        Test.add_func ("/providers/github/rosemary-steam-assets", test_rosemary_steam_assets);
         Test.add_func ("/providers/github-compatible/sarek-release-variants", test_sarek_release_variants);
         Test.add_func ("/providers/gitlab/canonical-release-page", test_gitlab_release_page);
         Test.add_func ("/providers/forgejo/canonical-release-page", test_forgejo_release_page);
@@ -122,6 +123,26 @@ namespace AppTests.ProviderSourceTest {
         assert (previous.variants[1].id == "arm64" && previous.variants[1].asset == null);
         var previous_arm = Models.VariantSelector.resolve_installation_variant (previous, "arm64", null, arm);
         assert (previous_arm.variant == null);
+    }
+
+    private void test_rosemary_steam_assets () {
+        var definition = new ProviderRegistry ().get_by_id ("rosemary");
+        var releases = new GitHubReleaseSource ().parse_response (
+            definition, fixture ("github", "rosemary.json"), 1, 25
+        ).require_page ().releases;
+        assert (releases.size == 2);
+        assert (releases[0].asset.name == "rosemary-steam-tool-0.5.0-x86_64.tar.zst");
+        assert (releases[1].asset.name == "rosemary-steam-tool-0.4.1-x86_64.tar.gz");
+        assert (releases[0].variants.size == 1);
+
+        var arm = new Models.CpuCapabilities (
+            Models.CpuArchitecture.AARCH64, Models.X86_64Level.UNKNOWN, Models.Aarch64Level.V8_1
+        );
+        var compatibility = releases[0].variants[0].compatibility;
+        assert (!compatibility.is_compatible_with (arm));
+        var restored = Models.VariantCompatibility.from_json (compatibility.to_json ());
+        assert (restored.equals (compatibility));
+        assert (!restored.is_compatible_with (arm));
     }
 
     private void test_proton_hevc_binary_asset () {
