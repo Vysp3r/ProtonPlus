@@ -7,6 +7,12 @@ REPOSITORY=${GITHUB_REPOSITORY:-Vysp3r/ProtonPlus}
 APPIMAGE_APPDIR=${PROTONPLUS_APPIMAGE_APPDIR:-./AppDir}
 APPIMAGE_LOCALE_SOURCE=${PROTONPLUS_APPIMAGE_LOCALE_SOURCE:-/usr/share/locale}
 
+# Stock Mesa links LLVM. Allow the larger bundle when the smaller Mesa package
+# could not be installed.
+if command -v pacman >/dev/null 2>&1 && pacman -Q mesa >/dev/null 2>&1; then
+    export I_WANT_FAT_APPIMAGE=${I_WANT_FAT_APPIMAGE:-1}
+fi
+
 # Build and install locally to /usr
 if [ -f build-appimage/meson-private/coredata.dat ]; then
     meson setup build-appimage --wipe --prefix=/usr
