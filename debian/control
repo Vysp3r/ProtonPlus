@@ -18,6 +18,7 @@ Build-Depends:
  libsoup-3.0-dev,
  libgee-0.8-dev,
  libarchive-dev,
+ libsdl3-dev,
  libcairo2-dev,
 Standards-Version: 4.7.0
 Rules-Requires-Root: no
