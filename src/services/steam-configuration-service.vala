@@ -54,6 +54,11 @@ namespace ProtonPlus.Services {
         public static void reset_configuration () { configured = null; }
 
         public SteamConfigurationMutation change_default_compatibility_tool (Launchers.Steam steam, string value) {
+            var tool = steam.find_compatibility_tool (value);
+            if (tool != null && tool.macos_only)
+                return new SteamConfigurationMutation (
+                    SteamConfigurationMutationResult.FAILED, "This compatibility tool is only for macOS games."
+                );
             return change_compatibility_mapping (steam, 0, value, SteamChangeKind.DEFAULT_COMPATIBILITY_TOOL_CHANGED);
         }
         public SteamConfigurationMutation change_game_compatibility_tool (Games.Steam game, string value) {

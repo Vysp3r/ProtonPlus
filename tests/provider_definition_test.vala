@@ -106,6 +106,12 @@ namespace AppTests.ProviderDefinitionTest {
             return "https://github.com/dreamer/boxtron";
         case "roberta":
             return "https://github.com/dreamer/roberta";
+        case "proton-anime":
+            return "https://github.com/MrLGamer/proton-anime";
+        case "proton-hevc":
+            return "https://github.com/changeforan/zzz-cloud-hevc";
+        case "rosemary":
+            return "https://github.com/microlift/rosemary";
         case "wine-proton":
         case "wine-staging":
         case "wine-staging-tkg":
@@ -119,7 +125,6 @@ namespace AppTests.ProviderDefinitionTest {
     private void test_definition_snapshot () {
         var expected = get_snapshot ().get_array_member ("definitions");
         var definitions = new ProviderRegistry ().get_all ();
-        assert (definitions.length == 19);
         assert (expected.get_length () == definitions.length);
 
         foreach (var expected_definition in expected.get_elements ()) {
@@ -127,6 +132,7 @@ namespace AppTests.ProviderDefinitionTest {
             var definition = get_definition (object.get_string_member ("provider_id"));
             assert (definition.provider_id == object.get_string_member ("provider_id"));
             assert (definition.title == object.get_string_member ("title"));
+            assert (definition.description.strip () != "");
             assert (category_name (definition.category) == object.get_string_member ("type"));
             assert (source_name (definition.source_type) == object.get_string_member ("source"));
             assert (definition.endpoint == object.get_string_member ("endpoint"));
@@ -134,6 +140,7 @@ namespace AppTests.ProviderDefinitionTest {
             assert (definition.sort_priority == object.get_int_member ("priority"));
             assert (definition.tag == object.get_string_member_with_default ("tag", ""));
             assert (definition.legacy == object.get_boolean_member_with_default ("legacy", false));
+            assert (definition.niche == object.get_boolean_member_with_default ("niche", false));
             assert (definition.single_archive_releases == object.get_boolean_member_with_default ("single_archive", false));
 
             Json.Array? expected_legacy_endpoints = object.has_member ("legacy_endpoints")

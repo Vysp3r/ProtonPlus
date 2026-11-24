@@ -71,6 +71,7 @@ namespace ProtonPlus.Models {
     public class InstalledToolInventory : Object {
         private Group group;
         private Gee.ArrayList<InstalledToolEntry> entries = new Gee.ArrayList<InstalledToolEntry> ();
+        private Gee.HashSet<string> linked_directory_names = new Gee.HashSet<string> ();
 
         public bool is_stale { get; private set; default = true; }
         public uint refresh_generation { get; private set; default = 0; }
@@ -227,6 +228,9 @@ namespace ProtonPlus.Models {
         // Latest is an installation slot, independent of the current display
         // title. All consumers share this cached ownership/mode decision.
         public bool is_latest_installation (InstalledToolEntry entry, Tools.ProviderTool tool, bool backup = false) {
+            if (tool.definition.managed_steam_manifest)
+                return !backup && entry.install_mode == "latest" && persisted_identity_matches_tool (entry, tool);
+
             if (entry.has_persisted_identity ()) {
                 if (!persisted_identity_matches_tool (entry, tool))
                     return false;
@@ -267,6 +271,25 @@ namespace ProtonPlus.Models {
                 }
             }
             return null;
+        }
+
+        internal bool has_linked_latest_installation (Tools.ProviderTool tool) {
+            if (linked_directory_names.is_empty)
+                return false;
+            if (has_linked_latest_slot (tool, tool.title))
+                return true;
+            foreach (var title in tool.definition.legacy_titles)
+                if (has_linked_latest_slot (tool, title))
+                    return true;
+            return false;
+        }
+
+        private bool has_linked_latest_slot (Tools.ProviderTool tool, string title) {
+            var latest = "%s Latest".printf (title);
+            foreach (var variant in tool.variants)
+                if (linked_directory_names.contains (tool.get_directory_name (latest, variant)))
+                    return true;
+            return false;
         }
 
         public InstalledToolEntry? get_latest_installation (
@@ -313,6 +336,7 @@ namespace ProtonPlus.Models {
 
         public void invalidate () {
             entries.clear ();
+            linked_directory_names.clear ();
             is_stale = true;
             clear_tool_states ();
         }
@@ -321,6 +345,7 @@ namespace ProtonPlus.Models {
         // resolution, legacy migration, and compatibility-tool usage checks.
         public void refresh () {
             entries.clear ();
+            linked_directory_names.clear ();
             discover_entries ();
             resolve_entries ();
             is_stale = false;
@@ -331,12 +356,15 @@ namespace ProtonPlus.Models {
             foreach (var directory_root in group.launcher.get_managed_tool_directories (group)) {
                 Posix.Stat root_stat;
                 if (Posix.lstat (directory_root, out root_stat) != 0 ||
-                    !Posix.S_ISDIR (root_stat.st_mode))
+                    (!Posix.S_ISDIR (root_stat.st_mode) && !FileUtils.test (directory_root, FileTest.IS_DIR)))
                     continue;
 
                 try {
                     var directory = File.new_for_path (directory_root);
-                    add_entry (directory_root);
+                    // A launcher can relocate its collection with a symlink.
+                    // Only real child directories count as installations there.
+                    if (Posix.S_ISDIR (root_stat.st_mode))
+                        add_entry (directory_root);
 
                     FileEnumerator? enumerator = directory.enumerate_children (
                         "standard::*", FileQueryInfoFlags.NOFOLLOW_SYMLINKS, null
@@ -346,9 +374,10 @@ namespace ProtonPlus.Models {
 
                     FileInfo? file_info;
                     while ((file_info = enumerator.next_file ()) != null) {
-                        if (file_info.get_file_type () != FileType.DIRECTORY)
-                            continue;
-                        add_entry (Path.build_filename (directory_root, file_info.get_name ()));
+                        if (file_info.get_file_type () == FileType.DIRECTORY)
+                            add_entry (Path.build_filename (directory_root, file_info.get_name ()));
+                        else if (file_info.get_file_type () == FileType.SYMBOLIC_LINK)
+                            linked_directory_names.add (file_info.get_name ());
                     }
                 } catch (Error e) {
                     warning (e.message);
@@ -469,6 +498,9 @@ namespace ProtonPlus.Models {
         }
 
         private bool persisted_identity_matches_tool (InstalledToolEntry entry, Tools.ProviderTool tool) {
+            if (tool.definition.managed_steam_manifest)
+                return matches_managed_identity (tool, entry.provider_id, entry.tool_id, entry.launcher_id);
+
             if (entry.tool_id != "") {
                 return entry.tool_id == tool.id &&
                        (entry.provider_id == "" || entry.provider_id == tool.provider_id) &&
@@ -481,6 +513,9 @@ namespace ProtonPlus.Models {
         }
 
         private bool legacy_metadata_matches_tool (InstalledToolEntry entry, Tools.ProviderTool tool) {
+            if (tool.definition.managed_steam_manifest)
+                return false;
+
             var endpoint_matches = tool.definition.matches_endpoint (entry.runner_endpoint);
             var title_matches = tool.definition.matches_title (entry.runner_title);
 
@@ -531,7 +566,7 @@ namespace ProtonPlus.Models {
         }
 
         private bool identifier_matches_tool (string identifier, Tools.ProviderTool tool) {
-            if (identifier == "")
+            if (identifier == "" || tool.definition.managed_steam_manifest)
                 return false;
             if (tool.definition.matches_title (identifier))
                 return true;
@@ -558,6 +593,22 @@ namespace ProtonPlus.Models {
                 }
             }
             return false;
+        }
+
+        private static bool matches_managed_identity (
+            Tools.ProviderTool tool, string provider_id, string tool_id, string launcher_id
+        ) {
+            return provider_id == tool.provider_id && tool_id == tool.id &&
+                launcher_id == tool.group.launcher.tool_target_id;
+        }
+
+        internal static bool owns_managed_installation (Tools.ProviderTool tool, string path) {
+            Posix.Stat info;
+            if (Posix.lstat (path, out info) != 0 || !Posix.S_ISDIR (info.st_mode))
+                return false;
+
+            var metadata = Utils.Metadata.load (path);
+            return matches_managed_identity (tool, metadata.provider_id, metadata.tool_id, metadata.launcher_id);
         }
 
         private string usage_identifier_for (InstalledToolEntry entry) {

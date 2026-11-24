@@ -1,4 +1,4 @@
-name: Build & Check
+name: CI
 
 on:
   push:
@@ -7,12 +7,16 @@ on:
     branches: [main]
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}-builds
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
 jobs:
   flatpak:
-    name: "Flatpak Build (${{ matrix.variant.arch }})"
+    name: Flatpak (${{ matrix.variant.arch }})
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-51
       options: --privileged
@@ -48,3 +52,73 @@ jobs:
           if [ -d "flatpak_app/export/share/metainfo" ]; then
             flatpak-builder-lint appstream flatpak_app/export/share/metainfo/*.xml
           fi
+
+  source:
+    name: Source archive
+    if: github.event.deleted != true && github.event_name != 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.source.outputs.version }}
+      distros: ${{ steps.source.outputs.distros }}
+      architectures: ${{ github.event_name == 'pull_request' && '["x86_64"]' || '["x86_64","aarch64"]' }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/package-source
+        id: source
+
+  native:
+    name: ${{ matrix.distro.name }} (${{ matrix.arch }})
+    needs: source
+    runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        distro: ${{ fromJSON(needs.source.outputs.distros) }}
+        arch: ${{ fromJSON(needs.source.outputs.architectures) }}
+    env:
+      VERSION: ${{ needs.source.outputs.version }}
+      TARGET: ${{ matrix.distro.target }}
+      ARCH: ${{ matrix.arch }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Source
+
+      - name: Extract packaging action
+        shell: bash
+        run: |
+          tar -xf "ProtonPlus-$VERSION-source.tar.gz" --strip-components=1 \
+            "ProtonPlus-$VERSION/.github/actions/package-native"
+      - uses: ./.github/actions/package-native
+
+  appimage:
+    name: AppImage (${{ matrix.arch }})
+    if: github.event_name == 'pull_request'
+    needs: source
+    runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: ${{ fromJSON(needs.source.outputs.architectures) }}
+    container:
+      image: ghcr.io/pkgforge-dev/archlinux:latest
+      volumes:
+        # The runner already provides its Docker socket to the job container.
+        - /usr/bin/docker:/usr/local/bin/docker:ro
+    env:
+      VERSION: ${{ needs.source.outputs.version }}
+      ARCH: ${{ matrix.arch }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Source
+
+      - name: Extract packaging action
+        shell: bash
+        run: |
+          tar -xf "ProtonPlus-$VERSION-source.tar.gz" --strip-components=1 \
+            "ProtonPlus-$VERSION/.github/actions/package-appimage"
+      - uses: ./.github/actions/package-appimage

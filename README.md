@@ -84,39 +84,41 @@ Only installed and detectable launchers are shown. Tool availability also depend
 
 ## Supported compatibility tools
 
-The built-in provider catalog currently contains:
+The Tools view uses estimated popularity to order the built-in tools within each category. Installed tools appear first among tools of the same kind. Niche and legacy tools have separate visibility settings.
 
 ### Proton and Steam tools
 
 - Proton-GE
 - Proton-CachyOS
 - DW-Proton
-- Proton-RTSP
-- Proton-Tkg
-- Proton-EM
 - Proton-Wineland
+- Proton-EM
 - Luxtorpeda
-- Boxtron
-- Roberta
-- Steam Tinker Launch, for Steam
+- Proton-Tkg
+- Proton-RTSP
+- TinkerGame, for Steam
+- Rosemary for macOS Steam games on x86-64 native and Flatpak Steam, with **Show Niche Tools** enabled. Select it under the game's compatibility settings after restarting Steam.
+- Proton-Anime and Proton-HEVC, with **Preferences → Tools → Show Niche Tools** enabled
+- Steam Tinker Launch, for existing installations
+- Boxtron and Roberta, with **Preferences → Tools → Show Legacy Tools** enabled
 
 ### Wine
 
-- Wine-Proton (Kron4ek)
-- Wine-Staging (Kron4ek)
-- Wine-Staging-Tkg (Kron4ek)
 - Wine-Vanilla (Kron4ek)
+- Wine-Staging (Kron4ek)
+- Wine-Proton (Kron4ek)
+- Wine-Staging-Tkg (Kron4ek)
 
 ### DXVK
 
 - DXVK (doitsujin)
-- DXVK GPL+Async (Ph42oN)
 - DXVK (Sarek)
+- DXVK GPL+Async (Ph42oN)
 
 ### VKD3D
 
 - VKD3D-Proton
-- VKD3D-Lutris
+- VKD3D-Lutris, with **Preferences → Tools → Show Legacy Tools** enabled
 
 Release data is obtained from upstream GitHub, GitLab, Forgejo, and GitHub Actions sources. Available versions and architecture variants are determined by each provider's upstream releases.
 
@@ -139,6 +141,20 @@ flatpak remote-add --if-not-exists \
 ```
 
 The Flatpak uses host access required to find Steam libraries and launcher data, and requests access to the supported launcher Flatpak data directories. If a launcher is installed in an unsupported location or through a different packaging format, ProtonPlus may not be able to detect it.
+
+### GitHub release packages
+
+Download the file for your distribution and architecture from [GitHub Releases](https://github.com/Vysp3r/ProtonPlus/releases). Binary assets use `ProtonPlus-VERSION-TARGET-ARCH` with `x86_64` or `aarch64`.
+
+| Distribution or format | Target | Install the downloaded file |
+| --- | --- | --- |
+| Debian 13 | `debian13` | `sudo apt install ./FILE.deb` |
+| Ubuntu 26.04 LTS | `ubuntu26.04` | `sudo apt install ./FILE.deb` |
+| Fedora 45 | `fedora45` | `sudo dnf install ./FILE.rpm` |
+| Arch Linux / Arch Linux ARM | `archlinux` | `sudo pacman -U ./FILE.pkg.tar.zst` |
+| AppImage | `anylinux` | `chmod +x ./FILE.AppImage` then `./FILE.AppImage` |
+
+Releases with native packages also provide AppImage `.zsync` update metadata, `ProtonPlus-VERSION-source.tar.gz`, and `SHA256SUMS`. Run `sha256sum --check --ignore-missing SHA256SUMS` from the download directory to verify your files.
 
 ### Community packages
 
@@ -171,7 +187,7 @@ A native build requires a Linux development environment with:
 - SDL 3.2 or newer
 - gettext and desktop-file-utils
 
-Package names differ between distributions. The repository's `scripts/get-dependencies.sh` installs the native build dependencies on Arch Linux; it is intended for Arch-based build environments and should not be run unchanged on other distributions.
+The distro-specific build dependencies are listed in the recipes under [`packaging/`](packaging/). The AppImage build has a separate Arch-based dependency installer in [`packaging/appimage/`](packaging/appimage/).
 
 Clone and build the application with the project build helper:
 

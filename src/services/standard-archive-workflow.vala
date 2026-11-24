@@ -5,11 +5,27 @@ namespace ProtonPlus.Services {
         private ArchiveWorkflowSupport archive_support = new ArchiveWorkflowSupport ();
 
         public override ReturnCode validate_install (InstallJob job, bool replace_existing) {
+            if (FileUtils.test (job.install_location, FileTest.IS_SYMLINK))
+                return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             var install_parent = Path.get_dirname (job.install_location);
             var target_error = job.tool.group.launcher.get_install_target_error (install_parent);
             if (target_error != null) {
                 job.error_message = (!) target_error;
                 return ReturnCode.FILESYSTEM_ERROR;
+            }
+            var provider = job.tool as Models.Tools.ProviderTool;
+            if (provider != null && provider.definition.managed_steam_manifest) {
+                if (job.mode == InstallJob.Mode.VERSIONED &&
+                    !Regex.match_simple (
+                        "^[A-Za-z0-9][A-Za-z0-9._+-]*$", job.release.source_tag, RegexCompileFlags.DOLLAR_ENDONLY
+                    ))
+                    return ReturnCode.INVALID_DATA;
+
+                Posix.Stat info;
+                if (Posix.lstat (job.install_location, out info) == 0 &&
+                    (!replace_existing ||
+                     !Models.InstalledToolInventory.owns_managed_installation (provider, job.install_location)))
+                    return ReturnCode.RUNNER_ALREADY_INSTALLED;
             }
             if (FileUtils.test (job.install_location, FileTest.EXISTS) && !replace_existing)
                 return ReturnCode.RUNNER_ALREADY_INSTALLED;
@@ -60,11 +76,18 @@ namespace ProtonPlus.Services {
             var preparation = yield prepare_staged_installation (job, staged_install_path);
             if (preparation != ReturnCode.RUNNER_INSTALLED)
                 return yield archive_support.complete_attempt (preparation, archive, true);
+            var provider = job.tool as Models.Tools.ProviderTool;
+            var managed_manifest = provider != null && provider.definition.managed_steam_manifest;
+            if (managed_manifest) {
+                var manifest_code = rewrite_compatibility_tool_vdf (job, staged_install_path, true);
+                if (manifest_code != ReturnCode.RUNNER_INSTALLED)
+                    return yield archive_support.complete_attempt (manifest_code, archive, true);
+            }
             if (!yield archive_support.publish_archive (archive))
                 return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
             if (job.canceled)
                 return yield archive_support.complete_attempt (ReturnCode.EXTRACTION_FAILED, archive);
-            if (job.mode == InstallJob.Mode.LATEST) {
+            if (job.mode == InstallJob.Mode.LATEST && !managed_manifest) {
                 var manifest_code = rewrite_compatibility_tool_vdf (job, staged_install_path);
                 if (manifest_code != ReturnCode.RUNNER_INSTALLED)
                     return yield archive_support.complete_attempt (manifest_code, archive);
@@ -117,6 +140,8 @@ namespace ProtonPlus.Services {
         public override async ReturnCode update (InstallJob job, InstallationOperationCoordinator coordinator) {
             if (job.mode != InstallJob.Mode.LATEST)
                 return ReturnCode.UNSUPPORTED_OPERATION;
+            if (FileUtils.test (job.install_location, FileTest.IS_SYMLINK))
+                return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             var runner = job.tool as Models.Tools.ProviderTool;
             if (runner == null || runner.release_catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
@@ -149,6 +174,11 @@ namespace ProtonPlus.Services {
             );
             if (guard_code != ReturnCode.RUNNER_INSTALLED)
                 return guard_code;
+            var provider = job.tool as Models.Tools.ProviderTool;
+            if (provider != null && provider.definition.managed_steam_manifest &&
+                !Models.InstalledToolInventory.owns_managed_installation (provider, job.install_location))
+                return ReturnCode.UNSUPPORTED_OPERATION;
+
             return (yield Utils.Filesystem.delete_directory (job.install_location))
                 ? ReturnCode.RUNNER_REMOVED : ReturnCode.FILESYSTEM_ERROR;
         }
@@ -158,7 +188,10 @@ namespace ProtonPlus.Services {
             var provider_tool = job.tool as Models.Tools.ProviderTool;
             var directory_valid = provider_tool != null && job.effective_directory_name_for_state () != "";
             var installed = job.install_location != "" && FileUtils.test (job.install_location, FileTest.IS_DIR);
-            if (job.mode == InstallJob.Mode.LATEST && provider_tool != null) {
+            if (provider_tool != null && provider_tool.definition.managed_steam_manifest) {
+                installed = installed &&
+                    Models.InstalledToolInventory.owns_managed_installation (provider_tool, job.install_location);
+            } else if (job.mode == InstallJob.Mode.LATEST && provider_tool != null) {
                 var backup = "%s Backup".printf (job.install_location);
                 installed = installed || FileUtils.test (backup, FileTest.IS_DIR);
             }
@@ -183,6 +216,8 @@ namespace ProtonPlus.Services {
                 runner.group.launcher.get_primary_managed_tool_directory (runner.group),
                 "%s Latest".printf (runner.title)
             );
+            if (FileUtils.test (directory, FileTest.IS_SYMLINK))
+                return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             if (!FileUtils.test (directory, FileTest.IS_DIR))
                 return ReturnCode.RUNNER_NOT_INSTALLED;
             var metadata = Utils.Metadata.load (directory);
@@ -225,6 +260,8 @@ namespace ProtonPlus.Services {
                 "%s Latest".printf (runner.title)
             );
             var backup = "%s Backup".printf (directory);
+            if (FileUtils.test (directory, FileTest.IS_SYMLINK) || FileUtils.test (backup, FileTest.IS_SYMLINK))
+                return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             if (FileUtils.test (directory, FileTest.EXISTS))
                 return ReturnCode.RUNNER_ALREADY_INSTALLED;
             if (!FileUtils.test (backup, FileTest.IS_DIR))
@@ -272,11 +309,17 @@ namespace ProtonPlus.Services {
         }
 
         private async ReturnCode update_latest_job (InstallJob job, InstallationOperationCoordinator coordinator) {
+            if (FileUtils.test (job.install_location, FileTest.IS_SYMLINK))
+                return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             var runner = job.tool as Models.Tools.ProviderTool;
             if (runner == null || !FileUtils.test (job.install_location, FileTest.IS_DIR)) {
                 job.refresh_state ();
                 return ReturnCode.RUNNER_NOT_INSTALLED;
             }
+            if (runner.definition.managed_steam_manifest &&
+                !Models.InstalledToolInventory.owns_managed_installation (runner, job.install_location))
+                return ReturnCode.RUNNER_NOT_INSTALLED;
+
             var metadata = Utils.Metadata.load (job.install_location);
             var release = job.release;
             if (release.source_tag != "" && metadata.tag == release.source_tag)
@@ -352,8 +395,18 @@ namespace ProtonPlus.Services {
             return yield Utils.Filesystem.extract (extract_path, archive_name, extension, job.get_cancellable ());
         }
 
-        private ReturnCode rewrite_compatibility_tool_vdf (InstallJob job, string staged_install_path) {
-            var path = "%s/compatibilitytool.vdf".printf (staged_install_path);
+        private ReturnCode rewrite_compatibility_tool_vdf (
+            InstallJob job, string staged_install_path, bool managed_manifest = false
+        ) {
+            var path = Path.build_filename (staged_install_path, "compatibilitytool.vdf");
+            if (managed_manifest) {
+                Posix.Stat info;
+                var tool_manifest = Path.build_filename (staged_install_path, "toolmanifest.vdf");
+                if (Posix.lstat (path, out info) != 0 || !Posix.S_ISREG (info.st_mode))
+                    return manifest_failure (job, path, "expected a regular compatibilitytool.vdf");
+                if (Posix.lstat (tool_manifest, out info) != 0 || !Posix.S_ISREG (info.st_mode))
+                    return manifest_failure (job, tool_manifest, "expected a regular toolmanifest.vdf");
+            }
             if (!FileUtils.test (path, FileTest.IS_REGULAR))
                 return ReturnCode.RUNNER_INSTALLED;
             var content = Utils.Filesystem.get_file_content (path);
@@ -370,10 +423,23 @@ namespace ProtonPlus.Services {
                 return manifest_failure (job, path, "compatibility tool name is missing or invalid");
             // Existing Steam assignments refer to this key. A provider rename
             // changes presentation, not the identity of an installed slot.
-            var installed_tool = Utils.VDF.CompatibilityToolLoader.try_from_paths (
-                job.install_location, job.install_location
-            );
-            var internal_title = installed_tool != null ? installed_tool.internal_title : job.title;
+            var internal_title = job.title;
+            var display_title = job.title;
+            if (managed_manifest) {
+                if (job.mode == InstallJob.Mode.LATEST) {
+                    internal_title = "protonplus-%s-latest".printf (job.tool.provider_id);
+                } else {
+                    internal_title = "protonplus-%s-release-%s".printf (job.tool.provider_id, job.release.source_tag);
+                    display_title = "%s %s".printf (job.tool.title, job.release.title);
+                }
+            }
+            if (job.mode == InstallJob.Mode.LATEST) {
+                var installed_tool = Utils.VDF.CompatibilityToolLoader.try_from_paths (
+                    job.install_location, job.install_location
+                );
+                if (installed_tool != null)
+                    internal_title = installed_tool.internal_title;
+            }
             content = document.replace_key (tool, internal_title);
             document = Utils.VDF.VdfParser.parse_document (content);
             if (document == null)
@@ -386,9 +452,9 @@ namespace ProtonPlus.Services {
             if (display_name == null || display_name.value == null ||
                 display_name.value_start < 0 || display_name.value_end < display_name.value_start)
                 return manifest_failure (job, path, "display_name is missing or invalid");
-            content = document.replace_value (display_name, job.title);
+            content = document.replace_value (display_name, display_title);
             if (!Utils.Filesystem.modify_file (path, content)) {
-                warning ("Could not rewrite Latest compatibility manifest for %s at %s: file write failed", job.title, path);
+                warning ("Could not rewrite compatibility manifest for %s at %s: file write failed", job.title, path);
                 job.error_message = _ ("Failed to update compatibilitytool.vdf");
                 return ReturnCode.FILESYSTEM_ERROR;
             }
@@ -405,7 +471,7 @@ namespace ProtonPlus.Services {
         }
 
         private ReturnCode manifest_failure (InstallJob job, string path, string reason) {
-            warning ("Could not rewrite Latest compatibility manifest for %s at %s: %s", job.title, path, reason);
+            warning ("Could not rewrite compatibility manifest for %s at %s: %s", job.title, path, reason);
             job.error_message = _ ("The compatibility tool manifest is invalid or incomplete");
             return ReturnCode.INVALID_DATA;
         }

@@ -27,6 +27,7 @@ namespace ProtonPlus {
         UNSUPPORTED_EXTENSION,
         EXTRACTION_FAILED,
         INCOMPATIBLE_VARIANT,
+        SYMLINKED_TOOL_DIRECTORY,
     }
 
     public string get_return_code_message (ReturnCode code) {
@@ -65,6 +66,8 @@ namespace ProtonPlus {
             return _ ("The archive could not be extracted.");
         case ReturnCode.INCOMPATIBLE_VARIANT:
             return _ ("The selected variant is not compatible with this system.");
+        case ReturnCode.SYMLINKED_TOOL_DIRECTORY:
+            return _ ("ProtonPlus cannot replace a compatibility tool directory that is a symbolic link.");
         case ReturnCode.RUNNERS_IN_USE:
             return _ ("A compatibility tool is currently in use. Close the running game and try again.");
         case ReturnCode.PROCESS_INSPECTION_FAILED:

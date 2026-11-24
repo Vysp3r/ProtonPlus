@@ -134,6 +134,28 @@ namespace AppTests.SteamConfigurationServiceTest {
         write (localconfig, LOCALCONFIG);
     }
 
+    private void test_macos_tool_can_only_be_assigned_per_game () {
+        var root = temporary_root ();
+        string config, localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        SteamRestartManager manager;
+        var service = service_for (root, new SessionFixture (), out manager);
+        var launcher = steam (root);
+        var tool_path = Path.build_filename (root, "compatibilitytools.d", "Rosemary");
+        make_directory (tool_path);
+        write (Path.build_filename (tool_path, "compatibilitytool.vdf"),
+            "\"compat_tools\" { \"Rosemary\" { \"from_oslist\" \"macos\" } }");
+        launcher.register_compatibility_tool_from_path (tool_path);
+        assert (launcher.can_assign_compatibility_tool ("Rosemary"));
+        assert (!service.change_default_compatibility_tool (launcher, "Rosemary").accepted);
+        assert (read (config) == CONFIG);
+
+        var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+        assert (service.change_game_compatibility_tool (game, "Rosemary").accepted);
+        assert (read (config).contains ("\"42\""));
+        assert (read (config).contains ("\"Rosemary\""));
+    }
+
     private void test_default_and_game_compatibility_lifecycle () {
         var root = temporary_root (); string config; string localconfig;
         prepare_text_files (root, out config, out localconfig);
@@ -731,6 +753,7 @@ namespace AppTests.SteamConfigurationServiceTest {
         Test.add_func ("/steam-configuration/automatic-reconciliation-diagnostics", test_automatic_reconciliation_reports_failure);
         Test.add_func ("/steam-configuration/pending-changes-key-casing", test_pending_changes_survive_steam_key_casing);
         Test.add_func ("/steam-configuration/default-and-game-compatibility-lifecycle", test_default_and_game_compatibility_lifecycle);
+        Test.add_func ("/steam-configuration/macos-tool-only-per-game", test_macos_tool_can_only_be_assigned_per_game);
         Test.add_func ("/steam-configuration/staged-reconciliation-and-conflict", test_staged_configuration_reconciles_or_detects_conflict);
         Test.add_func ("/steam-configuration/replaced-executable-keeps-changes-staged", test_replaced_executable_keeps_changes_staged);
         Test.add_func ("/steam-configuration/unconfirmed-states-never-apply", test_unconfirmed_states_never_apply_pending_configuration);

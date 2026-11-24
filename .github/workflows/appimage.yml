@@ -1,68 +1,111 @@
-name: AppImage
-
-concurrency:
-  group: build-${{ github.ref }}
-  cancel-in-progress: true
+name: Release
 
 on:
+  push:
+    tags: ['v[0-9]*']
   release:
     types: [published]
   workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'release' }}
 
 permissions:
   contents: read
 
 jobs:
-  build:
-    name: "Build AppImage (${{ matrix.arch }})"
-    runs-on: ${{ matrix.runs-on }}
-    strategy:
-      matrix:
-        include:
-          - runs-on: ubuntu-latest
-            arch: x86_64
-          - runs-on: ubuntu-24.04-arm
-            arch: aarch64
-    container: ghcr.io/pkgforge-dev/archlinux:latest
+  source:
+    name: Source archive
+    if: github.event.deleted != true
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.source.outputs.version }}
+      distros: ${{ steps.source.outputs.distros }}
+      architectures: '["x86_64","aarch64"]'
     steps:
       - uses: actions/checkout@v6
-
-      - name: Preparing Container
-        uses: pkgforge-dev/anylinux-setup-action@v1
-
-      - name: Install Dependencies
-        run: /bin/sh ./scripts/get-dependencies.sh
-
-      - name: Check release metadata
-        if: github.event_name == 'release'
-        env:
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
-        run: ./scripts/set-version.sh "${RELEASE_TAG#v}" --check
-
-      - name: Make AppImage
-        run: /bin/sh ./scripts/make-appimage.sh
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
         with:
-          name: AppImage-${{ matrix.arch }}
-          path: dist
+          persist-credentials: false
 
-  release:
-    if: github.event_name == 'release'
-    needs: [build]
-    permissions:
-      contents: write
-    runs-on: ubuntu-latest
+      - uses: ./.github/actions/package-source
+        id: source
+
+  native:
+    name: ${{ matrix.distro.name }} (${{ matrix.arch }})
+    needs: source
+    runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        distro: ${{ fromJSON(needs.source.outputs.distros) }}
+        arch: ${{ fromJSON(needs.source.outputs.architectures) }}
+    env:
+      VERSION: ${{ needs.source.outputs.version }}
+      TARGET: ${{ matrix.distro.target }}
+      ARCH: ${{ matrix.arch }}
     steps:
       - uses: actions/download-artifact@v4
         with:
-          pattern: AppImage-*
+          name: Source
+
+      - name: Extract packaging action
+        shell: bash
+        run: |
+          tar -xf "ProtonPlus-$VERSION-source.tar.gz" --strip-components=1 \
+            "ProtonPlus-$VERSION/.github/actions/package-native"
+      - uses: ./.github/actions/package-native
+
+  appimage:
+    name: AppImage (${{ matrix.arch }})
+    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    needs: source
+    runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: ${{ fromJSON(needs.source.outputs.architectures) }}
+    container:
+      image: ghcr.io/pkgforge-dev/archlinux:latest
+      volumes:
+        # The runner already provides its Docker socket to the job container.
+        - /usr/bin/docker:/usr/local/bin/docker:ro
+    env:
+      VERSION: ${{ needs.source.outputs.version }}
+      ARCH: ${{ matrix.arch }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Source
+
+      - name: Extract packaging action
+        shell: bash
+        run: |
+          tar -xf "ProtonPlus-$VERSION-source.tar.gz" --strip-components=1 \
+            "ProtonPlus-$VERSION/.github/actions/package-appimage"
+      - uses: ./.github/actions/package-appimage
+
+  publish:
+    if: github.event_name == 'release'
+    name: Publish
+    needs: [source, native, appimage]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: assets
           merge-multiple: true
 
-      - name: Release AppImage
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            *.AppImage
-            *.AppImage.zsync
+      - name: Generate SHA-256 checksums
+        working-directory: assets
+        run: LC_ALL=C sha256sum -- ProtonPlus-* > SHA256SUMS
+
+      - name: Upload assets to the published release
+        working-directory: assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: gh release upload "$RELEASE_TAG" ProtonPlus-* SHA256SUMS --clobber

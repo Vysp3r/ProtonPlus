@@ -156,7 +156,13 @@ namespace ProtonPlus.Services {
         }
 
         public string usage_name {
-            owned get { return mode == Mode.TINKER_GAME ? "Proton-tg" : steam_tinker_launch_context != null ? "Proton-stl" : title; }
+            owned get {
+                if (mode == Mode.TINKER_GAME)
+                    return "Proton-tg";
+                if (steam_tinker_launch_context != null)
+                    return "Proton-stl";
+                return title;
+            }
         }
 
         public string operation_id {

@@ -7,10 +7,10 @@ namespace ProtonPlus.Models.Providers {
                     source_type = SourceType.GITHUB,
                     provider_id = "proton-ge",
                     title = "Proton-GE",
-                    description = N_ ("Steam compatibility tool for running Windows games with improvements over Valve's default Proton."),
+                    description = N_ ("Community Proton build for Steam and umu with game-specific fixes and media playback patches."),
                     endpoint = "https://api.github.com/repos/GloriousEggroll/proton-ge-custom/releases",
                     repository_url = "https://github.com/GloriousEggroll/proton-ge-custom",
-                    sort_priority = 2,
+                    sort_priority = 1,
                     variants = {
                         new VariantDefinition (
                             "x86", "x86_64", "$release_name-x86_64", true,
@@ -31,10 +31,10 @@ namespace ProtonPlus.Models.Providers {
                     source_type = SourceType.GITHUB,
                     provider_id = "proton-cachyos",
                     title = "Proton-CachyOS",
-                    description = N_ ("Steam compatibility tool from the CachyOS Linux distribution for running Windows games with improvements over Valve's default Proton."),
+                    description = N_ ("CachyOS Proton build for Steam and umu with experimental features and performance patches."),
                     endpoint = "https://api.github.com/repos/CachyOS/proton-cachyos/releases",
                     repository_url = "https://github.com/CachyOS/proton-cachyos",
-                    sort_priority = 1,
+                    sort_priority = 2,
                     variants = {
                         new VariantDefinition ("x86-64", "x86_64", "proton-$tag_name-x86_64", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)),
                         new VariantDefinition ("x86-64-v3", "x86_64_v3", "proton-$tag_name-x86_64_v3", false, VariantCompatibility.for_x86_64_level (X86_64Level.V3)),
@@ -65,7 +65,7 @@ namespace ProtonPlus.Models.Providers {
                     description = N_ ("Custom Proton build based on Proton Experimental with additional patches for VRChat RTSP and media playback."),
                     endpoint = "https://api.github.com/repos/SpookySkeletons/proton-rtsp/releases",
                     repository_url = "https://github.com/SpookySkeletons/proton-rtsp",
-                    sort_priority = 4,
+                    sort_priority = 8,
                     variants = { new VariantDefinition ("standard", "default", "$tag_name.tar.gz", true) },
                     install_layouts = { InstallLayout.template ("default", "$release_name") },
                     legacy_endpoints = { "https://api.github.com/repos/SpookySkeletons/proton-ge-rtsp/releases" }
@@ -75,10 +75,10 @@ namespace ProtonPlus.Models.Providers {
                     source_type = SourceType.GITHUB_ACTIONS,
                     provider_id = "proton-tkg",
                     title = "Proton-Tkg",
-                    description = N_ ("Custom Proton build for running Windows games, based on Wine-tkg."),
+                    description = N_ ("Custom Proton build from the Wine-tkg build system with community patches for gaming."),
                     endpoint = "https://api.github.com/repos/Frogging-Family/wine-tkg-git/actions/workflows/proton-valvexbe-sniper.yml/runs",
                     repository_url = "https://github.com/Frogging-Family/wine-tkg-git",
-                    sort_priority = 5,
+                    sort_priority = 7,
                     variants = { new VariantDefinition ("standard", "default", "$title-$release_name", true) },
                     install_layouts = { InstallLayout.template ("default", "$title-$release_name") },
                     url_template = "https://nightly.link/Frogging-Family/wine-tkg-git/actions/runs/{id}/proton-tkg-build.zip",
@@ -90,10 +90,10 @@ namespace ProtonPlus.Models.Providers {
                     source_type = SourceType.GITHUB,
                     provider_id = "proton-em",
                     title = "Proton-EM",
-                    description = N_ ("Development-oriented custom Proton build with FSR 4 support, Wine Wayland work, and other experimental patches."),
+                    description = N_ ("Experimental Proton fork with FSR 4 upscaling, HDR support, and Wine Wayland improvements."),
                     endpoint = "https://api.github.com/repos/BananaWorks07/Proton/releases",
                     repository_url = "https://github.com/BananaWorks07/Proton",
-                    sort_priority = 6,
+                    sort_priority = 5,
                     variants = { new VariantDefinition ("standard", "default", "proton-$release_name", true) },
                     install_layouts = { InstallLayout.template ("default", "$release_name") },
                     single_archive_releases = true,
@@ -105,10 +105,10 @@ namespace ProtonPlus.Models.Providers {
                     provider_id = "proton-cachyos-wineland",
                     title = "Proton-Wineland",
                     legacy_titles = { "Proton-CachyOS Wineland" },
-                    description = N_ ("Steam compatibility tool built with native Wayland support, smoother desktop integration, Steam overlay and other new features."),
+                    description = N_ ("Proton build with native Wayland enabled by default and fixes for windowing, graphics, and game compatibility."),
                     endpoint = "https://api.github.com/repos/nanomatters/proton-cachyos/releases",
                     repository_url = "https://github.com/nanomatters/proton-cachyos",
-                    sort_priority = 7,
+                    sort_priority = 4,
                     variants = {
                         new VariantDefinition ("x86-64", "x86_64", "proton-$tag_name-x86_64", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)),
                         new VariantDefinition ("x86-64-v3", "x86_64_v3", "proton-$tag_name-x86_64_v3", false, VariantCompatibility.for_x86_64_level (X86_64Level.V3)),
@@ -126,10 +126,10 @@ namespace ProtonPlus.Models.Providers {
                     source_type = SourceType.FORGEJO,
                     provider_id = "luxtorpeda",
                     title = "Luxtorpeda",
-                    description = N_ ("Luxtorpeda provides Linux-native game engines for certain Windows-only games."),
+                    description = N_ ("Runs supported Steam games using native Linux game engines."),
                     endpoint = "https://codeberg.org/api/v1/repos/luxtorpeda/luxtorpeda/releases",
                     repository_url = "https://codeberg.org/luxtorpeda/luxtorpeda",
-                    sort_priority = 8,
+                    sort_priority = 6,
                     variants = { new VariantDefinition ("standard", "default", "luxtorpeda-$release_name", true) },
                     install_layouts = { InstallLayout.template ("default", "$title $release_name") },
                     single_archive_releases = true
@@ -142,7 +142,7 @@ namespace ProtonPlus.Models.Providers {
                     description = N_ ("Steam compatibility tool for running DOS games using DOSBox for Linux."),
                     endpoint = "https://api.github.com/repos/dreamer/boxtron/releases",
                     repository_url = "https://github.com/dreamer/boxtron",
-                    sort_priority = 9,
+                    sort_priority = 13,
                     variants = { new VariantDefinition ("standard", "default", "boxtron.tar.xz", true) },
                     install_layouts = { InstallLayout.template ("default", "$title $release_name") },
                     legacy = true
@@ -155,10 +155,62 @@ namespace ProtonPlus.Models.Providers {
                     description = N_ ("Steam compatibility tool for running adventure games using ScummVM for Linux."),
                     endpoint = "https://api.github.com/repos/dreamer/roberta/releases",
                     repository_url = "https://github.com/dreamer/roberta",
-                    sort_priority = 10,
+                    sort_priority = 14,
                     variants = { new VariantDefinition ("standard", "default", "roberta.tar.xz", true) },
                     install_layouts = { InstallLayout.template ("default", "$title $release_name") },
                     legacy = true
+                }),
+                new ProviderDefinition (new ProviderConfig () {
+                    category = Category.PROTON,
+                    source_type = SourceType.GITHUB,
+                    provider_id = "proton-anime",
+                    title = "Proton-Anime",
+                    description = N_ ("GE-Proton fork for anime games. Optional XXMI mods may put your account at risk in online games."),
+                    endpoint = "https://api.github.com/repos/MrLGamer/proton-anime/releases",
+                    repository_url = "https://github.com/MrLGamer/proton-anime",
+                    sort_priority = 10,
+                    niche = true,
+                    variants = {
+                        new VariantDefinition ("x86-64", "x86_64", "$tag_name.tar.gz", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE)),
+                        new VariantDefinition ("arm64", "arm64", "$tag_name-arm64.tar.gz", false, VariantCompatibility.for_aarch64_level (Aarch64Level.V8_1))
+                    },
+                    install_layouts = { InstallLayout.template ("default", "$release_name") }
+                }),
+                new ProviderDefinition (new ProviderConfig () {
+                    category = Category.PROTON,
+                    source_type = SourceType.GITHUB,
+                    provider_id = "proton-hevc",
+                    title = "Proton-HEVC",
+                    description = N_ ("Experimental Proton build with hardware HEVC decoding in Direct3D 11 for supported cloud gaming clients."),
+                    endpoint = "https://api.github.com/repos/changeforan/zzz-cloud-hevc/releases",
+                    repository_url = "https://github.com/changeforan/zzz-cloud-hevc",
+                    sort_priority = 11,
+                    niche = true,
+                    variants = {
+                        new VariantDefinition ("x86-64", "x86_64", "$tag_name.tar.gz", true, VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE))
+                    },
+                    install_layouts = { InstallLayout.template ("default", "$release_name") }
+                }),
+                new ProviderDefinition (new ProviderConfig () {
+                    category = Category.PROTON,
+                    source_type = SourceType.GITHUB,
+                    provider_id = "rosemary",
+                    title = "Rosemary",
+                    description = N_ ("Steam compatibility tool for running macOS games on Linux."),
+                    endpoint = "https://api.github.com/repos/microlift/rosemary/releases",
+                    repository_url = "https://github.com/microlift/rosemary",
+                    sort_priority = 9,
+                    niche = true,
+                    supported_launcher_ids = { "steam-system", "steam-flatpak" },
+                    managed_steam_manifest = true,
+                    variants = {
+                        new VariantDefinition (
+                            "x86-64", "x86_64", "rosemary-steam-tool-$release_version-x86_64.tar.zst", true,
+                            VariantCompatibility.for_x86_64_level (X86_64Level.BASELINE, false),
+                            { "rosemary-steam-tool-$release_version-x86_64.tar.gz" }
+                        )
+                    },
+                    install_layouts = { InstallLayout.template ("default", "$title $release_name") }
                 })
             };
         }

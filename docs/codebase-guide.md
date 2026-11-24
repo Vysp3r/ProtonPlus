@@ -71,7 +71,9 @@ continues to expose the resulting flags to existing consumers.
 | `data/` | GResources, CSS, icons, desktop/AppStream metadata, GSettings schema, and systemd user units. |
 | `tests/` | One TAP-producing Vala test executable, Python maintenance tests, and host-independent fixtures. |
 | `po/` | Gettext POT source list, template, and translation catalogs. |
-| `scripts/` | Native/Flatpak/AppImage build helpers and maintenance commands. |
+| `scripts/` | Build entry points and maintenance commands. |
+| `packaging/` | Native distro recipes, clean-install checks, and AppImage build scripts. |
+| `.github/workflows/`, `.github/actions/` | CI and release jobs and their shared packaging steps. |
 
 Each source subtree contributes files to the shared `sources` collection in
 its local `meson.build`; `src/meson.build` builds a static core library used by
@@ -139,6 +141,12 @@ Services invalidate this inventory after installation or removal. Consumers
 refresh it at an explicit boundary and read a snapshot. Do not let a widget or
 each tool independently rescan the same directory; that creates stale and
 cross-launcher state.
+
+A launcher can relocate its managed collection with a directory symlink.
+Inventory scans the collection's real child directories through that path.
+An individual tool directory symlink stays outside inventory ownership.
+Bulk updates report linked Latest slots and continue with eligible directories.
+Archive installation and replacement preserve individual links and their targets.
 
 Steam-selectable tools have a separate boundary:
 `SteamCompatibilityToolDiscovery` reads Steam library apps, the active Steam

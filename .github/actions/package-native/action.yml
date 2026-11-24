@@ -1,0 +1,29 @@
+name: Native package
+description: Build a distro package and test its installation.
+runs:
+  using: composite
+  steps:
+    - name: Extract source
+      shell: bash
+      run: |
+        tar -xf "ProtonPlus-$VERSION-source.tar.gz"
+
+    - name: Build native package and run Meson tests
+      shell: bash
+      run: |
+        test "$(uname -m)" = "$ARCH"
+        bash "ProtonPlus-$VERSION/packaging/native-container.sh" build "$TARGET" \
+          "ProtonPlus-$VERSION-source.tar.gz" "$PWD/dist"
+
+    - name: Test installation in a fresh container
+      shell: bash
+      run: |
+        bash "ProtonPlus-$VERSION/packaging/native-container.sh" test "$TARGET" \
+          "ProtonPlus-$VERSION-source.tar.gz" "$PWD/dist"
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Native-${{ env.TARGET }}-${{ env.ARCH }}
+        path: dist/ProtonPlus-${{ env.VERSION }}-${{ env.TARGET }}-${{ env.ARCH }}.*
+        if-no-files-found: error
+        compression-level: 0

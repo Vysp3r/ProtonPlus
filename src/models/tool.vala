@@ -10,6 +10,7 @@ namespace ProtonPlus.Models {
         public string repository_url { get; set; default = ""; }
         public Group group { get; set; }
         public bool legacy { get; set; }
+        public bool niche { get; protected set; }
         public int sort_priority { get; set; default = 1000; }
         public bool installed { get; private set; default = false; }
         public bool used { get; private set; default = false; }
@@ -24,6 +25,10 @@ namespace ProtonPlus.Models {
 
         protected void initialize_release_catalog (ReleaseCatalog catalog) {
             release_catalog = catalog;
+        }
+
+        internal bool is_visible_in_catalog (Settings? settings) {
+            return !niche || (settings != null && settings.get_boolean ("show-niche-tools"));
         }
 
         public bool is_installed () {

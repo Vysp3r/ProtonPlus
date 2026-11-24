@@ -1,0 +1,38 @@
+[
+  {
+    "id": 446323512,
+    "tag_name": "Anime-Proton11-7",
+    "name": "Anime-Proton11-7 Released",
+    "created_at": "2026-11-15T22:38:57Z",
+    "assets": [
+      {
+        "name": "Anime-Proton11-7-arm64.sha512sum",
+        "browser_download_url": "https://github.com/MrLGamer/proton-anime/releases/download/Anime-Proton11-7/Anime-Proton11-7-arm64.sha512sum",
+        "size": 160
+      },
+      {
+        "name": "Anime-Proton11-7-arm64.tar.gz",
+        "browser_download_url": "https://github.com/MrLGamer/proton-anime/releases/download/Anime-Proton11-7/Anime-Proton11-7-arm64.tar.gz",
+        "size": 650734891
+      },
+      {
+        "name": "Anime-Proton11-7.tar.gz",
+        "browser_download_url": "https://github.com/MrLGamer/proton-anime/releases/download/Anime-Proton11-7/Anime-Proton11-7.tar.gz",
+        "size": 565584916
+      }
+    ]
+  },
+  {
+    "id": 414214655,
+    "tag_name": "Anime-Proton11-6",
+    "name": "Anime-Proton11-6 Released",
+    "created_at": "2026-10-15T19:38:49Z",
+    "assets": [
+      {
+        "name": "Anime-Proton11-6.tar.gz",
+        "browser_download_url": "https://github.com/MrLGamer/proton-anime/releases/download/Anime-Proton11-6/Anime-Proton11-6.tar.gz",
+        "size": 564812551
+      }
+    ]
+  }
+]

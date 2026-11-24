@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@ --buildsystem=meson --builddirectory=build-package
+
+override_dh_auto_test:
+	mkdir -p build-package/test-locales
+	localedef --no-archive -i en_US -f UTF-8 build-package/test-locales/en_US.UTF-8
+	LOCPATH="$(CURDIR)/build-package/test-locales" dbus-run-session -- meson test -C build-package --print-errorlogs

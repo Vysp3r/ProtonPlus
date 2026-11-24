@@ -1,0 +1,43 @@
+Source: protonplus
+Section: games
+Priority: optional
+Maintainer: ProtonPlus contributors <dev@vysp3r.com>
+Rules-Requires-Root: no
+Build-Depends: debhelper-compat (= 13),
+ appstream <!nocheck>,
+ dbus-daemon <!nocheck>,
+ desktop-file-utils <!nocheck>,
+ fonts-dejavu-core <!nocheck>,
+ gettext,
+ git <!nocheck>,
+ libadwaita-1-dev (>= 1.5),
+ libarchive-dev,
+ libcairo2-dev,
+ libgee-0.8-dev,
+ libglib2.0-dev,
+ libgtk-4-dev (>= 4.14),
+ libjson-glib-dev,
+ libsdl3-dev (>= 3.2),
+ libsoup-3.0-dev,
+ libxml2-utils,
+ locales <!nocheck>,
+ meson (>= 1.0),
+ ninja-build,
+ pkgconf,
+ python3,
+ valac,
+ xauth <!nocheck>,
+ xvfb <!nocheck>
+Homepage: https://github.com/Vysp3r/ProtonPlus
+
+Package: protonplus
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends},
+ ca-certificates,
+ dconf-gsettings-backend,
+ glib-networking,
+ libglib2.0-bin
+Description: Manage compatibility tools for Linux game launchers
+ ProtonPlus discovers, installs, updates, and removes compatibility tools for
+ Steam and other Linux game launchers. It also manages Steam compatibility
+ tool selections and game launch options.

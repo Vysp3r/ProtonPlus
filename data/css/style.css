@@ -161,6 +161,23 @@ row.controller-focus {
     padding: 2px 6px 6px 6px;
 }
 
+.tool-metadata-pill {
+    border-radius: 9999px;
+    padding: 2px 8px;
+    color: var(--window-fg-color);
+    background-color: alpha(var(--window-fg-color), 0.10);
+    font-size: 0.85em;
+    font-weight: 600;
+}
+
+.tool-metadata-pill.tool-metadata-used {
+    background-color: alpha(var(--accent-bg-color), 0.16);
+}
+
+.tool-metadata-pill.tool-metadata-obsolete {
+    background-color: alpha(var(--warning-bg-color), 0.18);
+}
+
 .tools-releases-card {
     margin: 6px 6px 12px 6px;
 }

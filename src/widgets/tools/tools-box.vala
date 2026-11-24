@@ -26,6 +26,7 @@ namespace ProtonPlus.Widgets.Tools {
         GroupBox? heading_group;
         Header.Presentation migrate_presentation { get; set; }
         ulong show_legacy_tools_changed_handler = 0;
+        ulong show_niche_tools_changed_handler = 0;
         ulong migrate_back_handler = 0;
         GroupBox? expanded_group {
             get { return interaction_state.expanded_owner as GroupBox; }
@@ -238,7 +239,8 @@ namespace ProtonPlus.Widgets.Tools {
             append (action_bar);
 
             if (Globals.SETTINGS != null) {
-                show_legacy_tools_changed_handler = Globals.SETTINGS.changed["show-legacy-tools"].connect (refresh_groups_for_legacy_tools);
+                show_legacy_tools_changed_handler = Globals.SETTINGS.changed["show-legacy-tools"].connect (refresh_group_boxes);
+                show_niche_tools_changed_handler = Globals.SETTINGS.changed["show-niche-tools"].connect (refresh_group_boxes);
             }
         }
 
@@ -255,6 +257,10 @@ namespace ProtonPlus.Widgets.Tools {
                 if (show_legacy_tools_changed_handler != 0) {
                     Globals.SETTINGS.disconnect (show_legacy_tools_changed_handler);
                     show_legacy_tools_changed_handler = 0;
+                }
+                if (show_niche_tools_changed_handler != 0) {
+                    Globals.SETTINGS.disconnect (show_niche_tools_changed_handler);
+                    show_niche_tools_changed_handler = 0;
                 }
             }
 
@@ -294,15 +300,6 @@ namespace ProtonPlus.Widgets.Tools {
                     return migrate_presentation;
                 default:
                     return null;
-            }
-        }
-
-        void refresh_groups_for_legacy_tools () {
-            var child = groups_stack.get_first_child ();
-            while (child != null) {
-                if (child is GroupBox)
-                    ((GroupBox) child).refresh ();
-                child = child.get_next_sibling ();
             }
         }
 
@@ -668,6 +665,9 @@ namespace ProtonPlus.Widgets.Tools {
                     break;
                 case ReturnCode.NOTHING_TO_UPDATE:
                     toast_sent (_ ("Nothing to update"));
+                    break;
+                case ReturnCode.SYMLINKED_TOOL_DIRECTORY:
+                    toast_sent (get_return_code_message (code));
                     break;
                 case ReturnCode.RUNNERS_UPDATED:
                 case ReturnCode.RUNNER_UPDATED:

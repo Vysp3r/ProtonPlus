@@ -6,6 +6,7 @@ namespace AppTests.ProviderRegistryTest {
 
     public void register_tests () {
         Test.add_func ("/provider-registry/built-ins-valid", test_built_ins_are_valid);
+        Test.add_func ("/provider-registry/rosemary-steam-targets", test_rosemary_steam_targets);
         Test.add_func ("/provider-registry/lookups-and-order", test_lookups_and_order);
         Test.add_func ("/provider-registry/defensive-collections", test_defensive_collections);
         Test.add_func ("/provider-registry/validation/duplicate-provider", test_duplicate_provider_validation);
@@ -79,21 +80,39 @@ namespace AppTests.ProviderRegistryTest {
         }
     }
 
+    private void test_rosemary_steam_targets () {
+        var definition = new ProviderRegistry ().get_by_id ("rosemary");
+        assert (definition != null && definition.niche);
+        foreach (var type in new Launcher.InstallationTypes[] {
+            Launcher.InstallationTypes.SYSTEM, Launcher.InstallationTypes.FLATPAK, Launcher.InstallationTypes.SNAP
+        }) {
+            var steam = new Launchers.Steam (type);
+            var group = new Group ("Fixture", "", "", steam);
+            var tool = ProviderCatalog.create_tool (definition, group);
+            assert ((tool != null) == (type != Launcher.InstallationTypes.SNAP));
+        }
+        var shared_target = new Launcher (
+            "Fixture", Launcher.InstallationTypes.SYSTEM, "", {}, "other", null, null, "steam", "steam-system"
+        );
+        assert (ProviderCatalog.create_tool (definition, new Group ("Fixture", "", "", shared_target)) == null);
+    }
+
     private void test_lookups_and_order () {
         var registry = new ProviderRegistry ();
         var expected_ids = new string[] {
             "dxvk-doitsujin", "dxvk-gplasync-ph42on", "dxvk-sarek",
             "vkd3d-proton", "vkd3d-lutris",
             "proton-ge", "proton-cachyos", "dw-proton", "proton-ge-rtsp", "proton-tkg",
-            "proton-em", "proton-cachyos-wineland", "luxtorpeda", "boxtron", "roberta",
+            "proton-em", "proton-cachyos-wineland", "luxtorpeda", "boxtron", "roberta", "proton-anime", "proton-hevc",
+            "rosemary",
             "wine-proton", "wine-staging", "wine-staging-tkg", "wine-vanilla"
         };
 
         assert_provider_ids (registry.get_all (), expected_ids);
         assert_provider_ids (registry.get (Category.DXVK), expected_ids[0:3]);
         assert_provider_ids (registry.get (Category.VKD3D), expected_ids[3:5]);
-        assert_provider_ids (registry.get (Category.PROTON), expected_ids[5:15]);
-        assert_provider_ids (registry.get (Category.WINE), expected_ids[15:19]);
+        assert_provider_ids (registry.get (Category.PROTON), expected_ids[5:18]);
+        assert_provider_ids (registry.get (Category.WINE), expected_ids[18:22]);
 
         foreach (var provider_id in expected_ids) {
             var definition = registry.get_by_id (provider_id);

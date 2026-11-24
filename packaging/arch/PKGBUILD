@@ -1,0 +1,32 @@
+pkgname=protonplus
+_upstream_version=${PROTONPLUS_VERSION:?Set PROTONPLUS_VERSION to the upstream version}
+pkgver=$_upstream_version
+if [[ $_upstream_version == *-* ]]; then
+  _prerelease=${_upstream_version#*-}
+  pkgver="${_upstream_version%%-*}pre.${_prerelease//-/.}"
+fi
+pkgrel=1
+pkgdesc='Manage compatibility tools for Linux game launchers'
+arch=(x86_64 aarch64)
+url='https://github.com/Vysp3r/ProtonPlus'
+license=(GPL-3.0-or-later)
+depends=(cairo ca-certificates dconf glib2 glibc glib-networking 'gtk4>=4.14'
+  json-glib 'libadwaita>=1.5' libarchive libgee libsoup3 'sdl3>=3.2')
+makedepends=(gettext glib2-devel libxml2 meson ninja python vala)
+checkdepends=(appstream dbus desktop-file-utils git ttf-dejavu xorg-server-xvfb xorg-xauth)
+options=(!debug)
+source=("$url/releases/download/v$_upstream_version/ProtonPlus-$_upstream_version-source.tar.gz")
+sha256sums=("${PROTONPLUS_SOURCE_SHA256:?Set PROTONPLUS_SOURCE_SHA256 from SHA256SUMS}")
+
+build() {
+  arch-meson "ProtonPlus-$_upstream_version" build
+  meson compile -C build
+}
+
+check() {
+  dbus-run-session -- meson test -C build --print-errorlogs
+}
+
+package() {
+  DESTDIR="$pkgdir" meson install -C build --no-rebuild
+}

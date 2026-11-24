@@ -88,13 +88,21 @@ Gtk.Widget? find_widget (Gtk.Widget root, WidgetMatches matches) {
     return null;
 }
 
-void settle () {
+void settle (uint milliseconds = 200) {
     var loop = new MainLoop ();
-    Timeout.add (200, () => {
+    Timeout.add (milliseconds, () => {
         loop.quit ();
         return Source.REMOVE;
     });
     loop.run ();
+}
+
+delegate bool LayoutReady ();
+
+void wait_for_layout (LayoutReady ready) {
+    int64 deadline = get_monotonic_time () + 5 * TimeSpan.SECOND;
+    while (!ready () && get_monotonic_time () < deadline)
+        settle (20);
 }
 
 Gtk.ColumnViewColumn actions_column (GameListView view) {
@@ -140,12 +148,14 @@ void check_binding_selection_and_activation (string root) {
     // A profile replacement must retire the old selection bindings in both
     // views. GTK may recycle those cells immediately for replacement items.
     fixture.replace_games ("Charlie", "Delta");
-    settle ();
+    var replacement = fixture.collection.item_at (0);
+    assert (replacement != null && replacement != first);
+    wait_for_layout (() => fixture.view.get_selection_target ((!) first) == null
+        && row.get_item () != first && selection.get_item () != first
+        && fixture.view.get_selection_target ((!) replacement) is GameRow);
     assert (fixture.view.get_selection_target ((!) first) == null);
     assert (row.get_item () != first);
     assert (selection.get_item () != first);
-    var replacement = fixture.collection.item_at (0);
-    assert (replacement != null && replacement != first);
     var replacement_row = fixture.view.get_selection_target ((!) replacement) as GameRow;
     assert (replacement_row != null && replacement_row.get_item () == replacement);
     first.selected = true;
@@ -201,6 +211,15 @@ void wait_for_library_load (Models.Launchers.Steam steam) {
 
 void check_selection_footer_layout (Gtk.Widget page, Gtk.Widget summary,
     Gtk.Button clear, MassEditButton modify, bool compact) {
+    wait_for_layout (() => {
+        Graphene.Rect summary_allocation, clear_allocation;
+        if (!summary.compute_bounds (page, out summary_allocation))
+            return false;
+        if (!clear.compute_bounds (page, out clear_allocation))
+            return false;
+        bool stacked = summary_allocation.origin.y + summary_allocation.size.height <= clear_allocation.origin.y;
+        return summary_allocation.size.height > 0 && clear_allocation.size.height > 0 && stacked == compact;
+    });
     Graphene.Rect summary_bounds, clear_bounds, modify_bounds;
     assert (summary.compute_bounds (page, out summary_bounds));
     assert (clear.compute_bounds (page, out clear_bounds));
@@ -328,7 +347,7 @@ void check_selection_scope_and_scoped_retry (string root) {
     viewport.maximum_size = 850;
     viewport.tightening_threshold = 850;
     viewport.width_request = 850;
-    settle ();
+    wait_for_layout (() => page.get_width () >= 600);
     assert (page.get_width () >= 600);
     check_selection_footer_layout (page, summary, clear, modify, false);
     check_empty_wide_list (page, "No matching games", { "Game", "Prefix", "Tool" });
@@ -430,14 +449,18 @@ void check_proton_autogen_game_edit (string root) throws Error {
     viewport.maximum_size = 430;
     viewport.tightening_threshold = 430;
     viewport.width_request = 430;
-    settle ();
-    var compact_row = find_widget (page, (widget) => widget is GameRow && widget.get_mapped ());
+    Gtk.Widget? compact_row = null;
+    wait_for_layout (() => {
+        compact_row = find_widget (page, (widget) => widget is GameRow && widget.get_mapped ());
+        return compact_row != null && find_widget (compact_row, alpha_play_button) != null;
+    });
     assert (compact_row != null && find_widget (compact_row, alpha_play_button) != null);
 
     viewport.maximum_size = 850;
     viewport.tightening_threshold = 850;
     viewport.width_request = 850;
-    settle ();
+    wait_for_layout (() => wide.get_mapped () && page.get_width () >= 600);
+    assert (wide.get_mapped () && page.get_width () >= 600);
 
     var select_all = find_widget (page, (widget) => widget is Gtk.CheckButton &&
         widget.get_tooltip_text () == "Select all visible games") as Gtk.CheckButton;

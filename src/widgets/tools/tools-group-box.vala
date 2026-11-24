@@ -394,7 +394,7 @@ namespace ProtonPlus.Widgets.Tools {
                     var tool = ((!) row).get_data<Models.Tool> ("tool");
                     var state_label = ((!) row).get_data<Gtk.Label> ("state-label");
                     if (tool != null && state_label != null)
-                        update_tool_state_metadata ((!) state_label, tool);
+                        update_tool_state_metadata ((!) row, (!) state_label, tool);
                 }
                 child = child.get_next_sibling ();
             }
@@ -454,15 +454,32 @@ namespace ProtonPlus.Widgets.Tools {
             row.add_row (release_host);
             connect_expansion (this, row, tool);
 
-            var state_label = new Gtk.Label ("") {
-                valign = Gtk.Align.CENTER,
-                css_classes = { "caption", "dim-label" }
-            };
+            var state_label = create_metadata_pill ("");
             row.set_data ("state-label", state_label);
             metadata_box.append (state_label);
-            update_tool_state_metadata (state_label, tool);
+            if (tool.niche)
+                metadata_box.append (create_metadata_pill (
+                    _ ("Niche"), _ ("A newer, lesser-known, or game-specific compatibility tool.")
+                ));
+            if (tool.legacy) {
+                var obsolete_label = create_metadata_pill (
+                    _ ("Obsolete"), _ ("Active maintenance has ended for this tool.")
+                );
+                obsolete_label.add_css_class ("tool-metadata-obsolete");
+                metadata_box.append (obsolete_label);
+            }
+            update_tool_state_metadata (row, state_label, tool);
 
             return row;
+        }
+
+        Gtk.Label create_metadata_pill (string label, string? tooltip = null) {
+            return new Gtk.Label (label) {
+                valign = Gtk.Align.CENTER,
+                ellipsize = Pango.EllipsizeMode.END,
+                tooltip_text = tooltip,
+                css_classes = { "tool-metadata-pill" }
+            };
         }
 
         void on_row_expanded_changed (Adw.ExpanderRow row, Models.Tool tool) {
@@ -510,6 +527,9 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public bool expand_tool (Models.Tool tool) {
+            if (!tool.is_visible_in_catalog (Globals.SETTINGS))
+                return false;
+
             var child = list_box.get_first_child ();
             while (child != null) {
                 if (child.get_data<Models.Tool> ("tool") == tool && child is Adw.ExpanderRow) {
@@ -658,39 +678,41 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void update_tool_state_metadata (
-            Gtk.Label state_label, Models.Tool tool
+            Adw.ExpanderRow row, Gtk.Label state_label, Models.Tool tool
         ) {
-            if (tool.is_used ()) {
+            var used = tool.is_used ();
+            var installed = tool.is_installed ();
+            if (used) {
                 state_label.set_label (_ ("Used by games"));
-                state_label.set_tooltip_text (_ ("One or more releases of this tool is installed and currently used by one or more games"));
-                state_label.set_visible (true);
-            } else if (tool.is_installed ()) {
+                state_label.set_tooltip_text (_ ("At least one game is configured to use an installed release of this tool."));
+                state_label.add_css_class ("tool-metadata-used");
+            } else if (installed) {
                 state_label.set_label (_ ("Installed"));
-                state_label.set_tooltip_text (_ ("One or more releases of this tool is installed, but not currently used by any games"));
-                state_label.set_visible (true);
-            } else {
-                state_label.set_visible (false);
+                state_label.set_tooltip_text (_ ("At least one release is installed for this launcher."));
+                state_label.remove_css_class ("tool-metadata-used");
             }
+            state_label.set_visible (installed);
 
-            var metadata_box = state_label.get_parent () as Gtk.Box;
-            if (metadata_box == null)
-                return;
-            bool has_visible_metadata = false;
-            var child = ((!) metadata_box).get_first_child ();
-            while (child != null) {
-                if (child.get_visible ()) {
-                    has_visible_metadata = true;
-                    break;
-                }
-                child = child.get_next_sibling ();
+            var metadata_box = state_label.get_parent ();
+            var description = new StringBuilder ();
+            for (var child = metadata_box.get_first_child (); child != null; child = child.get_next_sibling ()) {
+                if (!child.get_visible ())
+                    continue;
+                if (description.len > 0)
+                    description.append (", ");
+                description.append (((Gtk.Label) child).label);
             }
-            ((!) metadata_box).set_visible (has_visible_metadata);
+            metadata_box.set_visible (description.len > 0);
+            row.update_property (Gtk.AccessibleProperty.DESCRIPTION, description.str, -1);
         }
 
         bool filter_func (Gtk.ListBoxRow row) {
             var tool = row.get_data<Models.Tool> ("tool");
             if (tool == null)
             return true;
+
+            if (!tool.is_visible_in_catalog (Globals.SETTINGS))
+                return false;
 
             if (filter == Filter.INSTALLED)
                 return tools_with_installations.contains (tool);
@@ -716,6 +738,11 @@ namespace ProtonPlus.Widgets.Tools {
 
             if (tool1 == null || tool2 == null)
                 return 0;
+
+            if (tool1.legacy != tool2.legacy)
+                return tool1.legacy ? 1 : -1;
+            if (!tool1.legacy && tool1.niche != tool2.niche)
+                return tool1.niche ? 1 : -1;
 
             var tool1_installed = tool1.is_installed ();
             var tool2_installed = tool2.is_installed ();

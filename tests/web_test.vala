@@ -155,27 +155,19 @@ namespace AppTests.WebTest {
             requests++;
             if (requests == 1)
                 first_request_at = get_monotonic_time ();
-            if (requests == 2 && scenario == "retry-after")
-                assert (get_monotonic_time () - first_request_at >= 1800000);
-
-            if (requests == 2 && scenario == "retry-after-date")
-                assert (get_monotonic_time () - first_request_at >= 4500000);
+            if (requests == 2 && (scenario == "retry-after" || scenario == "retry-after-date"))
+                assert (get_monotonic_time () - first_request_at >= 2000000);
             assert (message.get_request_headers ().get_one ("Accept-Encoding") == "identity");
             var range = message.get_request_headers ().get_one ("Range");
             var validator = message.get_request_headers ().get_one ("If-Range");
             string response;
-            if ((scenario == "retry-after" ||
-                 scenario == "retry-after-date" ||
-                 scenario == "retry-after-long") && requests == 1) {
-
-                var retry_after = scenario == "retry-after" ? "2" :
-                    scenario == "retry-after-date" ?
-                    Soup.date_time_to_string (new DateTime.now_utc ().add_seconds (6), Soup.DateFormat.HTTP) :
-                    "1200";
-
-                response = "HTTP/1.1 503 Service Unavailable\r\n" +
-                    "Content-Length: 0\r\n" +
-                    "Retry-After: %s\r\n\r\n".printf (retry_after);
+            if ((scenario == "retry-after" || scenario == "retry-after-date" || scenario == "retry-after-long") && requests == 1) {
+                string retry_after = "1200";
+                if (scenario == "retry-after")
+                    retry_after = "2";
+                else if (scenario == "retry-after-date")
+                    retry_after = Soup.date_time_to_string (new DateTime.now_utc ().add_seconds (3), Soup.DateFormat.HTTP);
+                response = "HTTP/1.1 503 Service Unavailable\r\nContent-Length: 0\r\nRetry-After: %s\r\n\r\n".printf (retry_after);
             } else if (scenario == "http-permanent") {
                 response = "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n";
             } else if (scenario == "http-retry" && requests == 1) {

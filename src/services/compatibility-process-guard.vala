@@ -631,7 +631,7 @@ namespace ProtonPlus.Services {
             return basename == "proton" || basename == "umu" || basename == "umu-run" ||
                 basename == "wine" || basename == "wine64" ||
                 basename == "wine-preloader" || basename == "wine64-preloader" ||
-                basename == "wineserver";
+                basename == "wineserver" || basename == "rosemary" || basename == "rosemary-steam";
         }
 
         private static CompatibilityProcessMatchReason target_association_reason (

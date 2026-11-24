@@ -3,6 +3,7 @@ namespace AppTests.InstallerTransactionTest {
     using ProtonPlus;
     using ProtonPlus.Models;
     using ProtonPlus.Models.Providers;
+    using ProtonPlus.Providers.Sources;
     using ProtonPlus.Services;
 
     private class FixtureJob : ProtonPlus.Services.InstallJob {
@@ -20,23 +21,23 @@ namespace AppTests.InstallerTransactionTest {
             bool fail_promotion = false,
             ProtonPlus.Services.InstallJob.Mode mode = ProtonPlus.Services.InstallJob.Mode.VERSIONED,
             int64 download_size = 0,
-            string digest = ""
+            string digest = "",
+            string tag = "fixture-tag"
         ) {
             base (new Release (
-                "Fixture Runner", "", "", new Models.Assets.Asset (
+                tag == "fixture-tag" ? "Fixture Runner" : tag, "", "", new Models.Assets.Asset (
                     "runner.zip", "https://fixtures.invalid/%s".printf (Path.get_basename (fixture_path)),
                     download_size, digest
                 ),
-                "", null, "fixture-release-id", "fixture-tag"
+                "", null, "fixture-release-id", tag
             ), runner, mode, location);
             this.fixture_path = fixture_path;
             this.cancel_download = cancel_download;
             this.fail_promotion = fail_promotion;
+            var variant = runner.definition.managed_steam_manifest ? runner.variants[0] : null;
             release.variants.add (new Models.Variant (
-                "fixture-default", "Default", "", true,
-                "https://fixtures.invalid/%s".printf (Path.get_basename (fixture_path)),
-                null,
-                release.asset
+                variant?.id ?? "fixture-default", variant?.name ?? "Default", "", true,
+                release.asset.download_url, variant?.compatibility, release.asset
             ));
         }
 
@@ -129,6 +130,18 @@ namespace AppTests.InstallerTransactionTest {
         }
     }
 
+    private class FixtureLatestSource : Object, ReleaseSource {
+        public Release release;
+
+        public async Models.Tools.ReleasePageResult fetch_page (
+            ProviderDefinition definition, int requested_page, int limit
+        ) {
+            var releases = new Gee.LinkedList<Release> ();
+            releases.add (release);
+            return Models.Tools.ReleasePageResult.success (new Models.Tools.ReleasePage (releases, requested_page + 1, false));
+        }
+    }
+
     public void register_tests () {
         Test.add_func ("/installer-transaction/stages-promotes-cleans-and-writes-metadata", test_stages_promotes_and_writes_metadata);
         Test.add_func ("/installer-transaction/canceled-download-cleans-private-workspace", test_canceled_download_cleans_workspace);
@@ -145,6 +158,8 @@ namespace AppTests.InstallerTransactionTest {
         Test.add_func ("/installer-transaction/digest-mismatch-rejects-download", test_digest_mismatch_rejects_download);
         Test.add_func ("/installer-transaction/latest-rewrites-supported-compatibility-manifest-layouts", test_latest_rewrites_supported_compatibility_manifest_layouts);
         Test.add_func ("/installer-transaction/versioned-install-preserves-compatibility-manifest", test_versioned_install_preserves_compatibility_manifest);
+        Test.add_func ("/installer-transaction/rosemary-steam-registration", test_rosemary_steam_registration);
+        Test.add_func ("/installer-transaction/rosemary-manifest-required", test_rosemary_manifest_required);
         Test.add_func ("/installer-transaction/latest-rejects-malformed-compatibility-manifest", test_latest_rejects_malformed_compatibility_manifest);
         Test.add_func ("/installer-transaction/all-built-in-providers-use-latest-workflow", test_all_built_in_providers_use_latest_workflow);
         Test.add_func ("/installer-transaction/aarch64-host-installs-x86-64-variant", test_aarch64_host_installs_x86_64_variant);
@@ -216,12 +231,23 @@ namespace AppTests.InstallerTransactionTest {
         assert (value != null);
         return (!) value;
     }
-    private Models.Tools.ProviderTool runner_for_definition (string root, ProviderDefinition definition) {
+    private Models.Tools.ProviderTool runner_for_definition (
+        string root, ProviderDefinition definition, ReleaseSource? source = null
+    ) {
         assert (ProtonPlus.Utils.Filesystem.create_directory (root));
-        var launcher = new Launcher ("Test", Launcher.InstallationTypes.SYSTEM, "", { root });
-        var group = new Group ("Test", "", "", launcher);
-        var value = ProviderCatalog.create_tool (definition, group);
+        var installation_type = Launcher.InstallationTypes.SYSTEM;
+        var discovery = new SteamCompatibilityToolDiscovery (
+            installation_type, false, Path.build_filename (root, "system-tools")
+        );
+        var launcher = new Models.Launchers.Steam (installation_type, null, discovery);
+        launcher.directory = root;
+        var group = new Group ("Test", "", "/compatibilitytools.d", launcher, "proton");
+        var value = source == null
+            ? ProviderCatalog.create_tool (definition, group)
+            : new Models.Tools.ProviderTool.with_catalog (definition, source, group, definition.get_install_layout ("steam"));
         assert (value != null);
+        group.tools = new Gee.LinkedList<Tool> ();
+        group.tools.add ((!) value);
         return (!) value;
     }
     private ReturnCode install (FixtureJob job, bool replacement = false) {
@@ -869,6 +895,97 @@ namespace AppTests.InstallerTransactionTest {
         assert (delete_directory (root));
     }
 
+    private void test_rosemary_steam_registration () {
+        string root, cache, tools, unused_location;
+        prepare (out root, out cache, out tools, out unused_location);
+        var definition = new ProviderRegistry ().get_by_id ("rosemary");
+        var source = new FixtureLatestSource ();
+        var target = runner_for_definition (tools, definition, source);
+        var launcher = (Models.Launchers.Steam) target.group.launcher;
+        var inventory = target.group.installed_tool_inventory;
+        var tool_root = launcher.get_primary_managed_tool_directory (target.group);
+        var manual = Path.build_filename (tool_root, "Rosemary");
+        var latest_path = Path.build_filename (tool_root, "Rosemary Latest");
+        foreach (var directory in new string[] { manual, latest_path }) {
+            assert (ProtonPlus.Utils.Filesystem.create_directory (directory));
+            ProtonPlus.Utils.Filesystem.create_file (
+                Path.build_filename (directory, "compatibilitytool.vdf"),
+                "\"compat_tools\" { \"Rosemary\" { \"display_name\" \"Rosemary (macOS)\" \"from_oslist\" \"macos\" } }"
+            );
+        }
+        launcher.refresh_compatibility_tools ();
+        assert (launcher.find_compatibility_tool ("Rosemary") != null);
+        target.group.refresh_installed_state ();
+        assert (target.resolved_installed_entry == null);
+        assert (inventory.get_installations_for_tool (target).size == 0);
+
+        var original_cpu = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.BASELINE);
+        var archive = fixture_archive_named (root, "rosemary.zip.base64");
+        var latest = new FixtureJob (target, latest_path, archive, false, false, InstallJob.Mode.LATEST);
+        assert (latest.state == InstallJob.State.NOT_INSTALLED);
+        assert (install (latest, true) == ReturnCode.RUNNER_ALREADY_INSTALLED);
+        assert (remove (latest) == ReturnCode.UNSUPPORTED_OPERATION);
+        assert (delete_directory (latest_path));
+        assert (install (latest) == ReturnCode.RUNNER_INSTALLED);
+
+        foreach (var tag in new string[] { "v0.4.1", "v0.5.0" }) {
+            var destination = Path.build_filename (tool_root, "Rosemary " + tag);
+            var versioned = new FixtureJob (
+                target, destination, archive, false, false, InstallJob.Mode.VERSIONED, 0, "", tag
+            );
+            assert (install (versioned) == ReturnCode.RUNNER_INSTALLED);
+            var registered = launcher.find_compatibility_tool ("protonplus-rosemary-release-" + tag);
+            assert (registered != null && registered.macos_only && registered.display_title == "Rosemary " + tag);
+            assert (registered.runtime_kind == CompatibilityToolRuntimeKind.UNKNOWN);
+            assert (FileUtils.test (Path.build_filename (destination, "rosemary-steam"), FileTest.IS_EXECUTABLE));
+            assert (FileUtils.test (Path.build_filename (destination, "wrapper-link"), FileTest.IS_SYMLINK));
+            var manifest = ProtonPlus.Utils.Filesystem.get_file_content (
+                Path.build_filename (destination, "compatibilitytool.vdf")
+            );
+            assert (manifest.contains ("\"to_oslist\" \"linux\""));
+        }
+
+        var next = new FixtureJob (
+            target, latest_path, archive, false, false, InstallJob.Mode.LATEST, 0, "", "v0.5.0"
+        );
+        source.release = next.release;
+        var loop = new MainLoop ();
+        latest.update.begin ((obj, res) => {
+            assert (latest.update.end (res) == ReturnCode.RUNNER_UPDATED);
+            loop.quit ();
+        });
+        loop.run ();
+        launcher.refresh_compatibility_tools ();
+        assert (launcher.find_compatibility_tool ("protonplus-rosemary-latest") != null);
+        assert (launcher.find_compatibility_tool ("Rosemary") != null);
+        target.group.refresh_installed_state ();
+        assert (inventory.get_installations_for_tool (target).size == 3);
+        assert (inventory.get_latest_installation (target)?.path == latest_path);
+        assert (ProtonPlus.Utils.Metadata.load (latest_path).tag == "v0.5.0");
+        assert (remove (latest) == ReturnCode.RUNNER_REMOVED);
+        assert (launcher.find_compatibility_tool ("protonplus-rosemary-latest") == null);
+        assert (FileUtils.test (manual, FileTest.IS_DIR));
+        Globals.CPU_CAPABILITIES = original_cpu;
+        assert (delete_directory (root));
+    }
+
+    private void test_rosemary_manifest_required () {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        var definition = new ProviderRegistry ().get_by_id ("rosemary");
+        var target = runner_for_definition (tools, definition);
+        var original_cpu = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.BASELINE);
+        var job = new FixtureJob (target, location, fixture_archive (root));
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*expected a regular compatibilitytool.vdf*");
+        assert (install (job) == ReturnCode.INVALID_DATA);
+        Test.assert_expected_messages ();
+        assert (!FileUtils.test (location, FileTest.EXISTS));
+        Globals.CPU_CAPABILITIES = original_cpu;
+        assert (delete_directory (root));
+    }
+
     private void test_latest_rejects_malformed_compatibility_manifest () {
         string root, cache, tools, location;
         prepare (out root, out cache, out tools, out location);
@@ -897,6 +1014,9 @@ namespace AppTests.InstallerTransactionTest {
         assert (ProtonPlus.Utils.Filesystem.create_directory (tools));
         var wrapped_archive = fixture_archive_named (root, "wrapped-manifest-runner.zip.base64");
         var nested_archive = fixture_archive_named (root, "nested-wrapped-manifest-runner.zip.base64");
+        var steam_archive = fixture_archive_named (root, "rosemary.zip.base64");
+        var original_cpu = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.BASELINE);
 
         foreach (var definition in new ProviderRegistry ().get_all ()) {
             var target_root = Path.build_filename (tools, definition.provider_id);
@@ -904,6 +1024,8 @@ namespace AppTests.InstallerTransactionTest {
             var location = Path.build_filename (target_root, "Latest installation");
             var archive = definition.archive_install_requirement == ArchiveInstallRequirement.NESTED_ARCHIVE
                 ? nested_archive : wrapped_archive;
+            if (definition.managed_steam_manifest)
+                archive = steam_archive;
             var job = new FixtureJob (
                 target, location, archive, false, false,
                 ProtonPlus.Services.InstallJob.Mode.LATEST
@@ -920,6 +1042,7 @@ namespace AppTests.InstallerTransactionTest {
         }
 
         no_entries (cache, ".protonplus-install-");
+        Globals.CPU_CAPABILITIES = original_cpu;
         assert (delete_directory (root));
     }
 }

@@ -8,12 +8,14 @@ namespace ProtonPlus.Models {
         public X86_64Level minimum_x86_64_level { get; private set; }
         public Aarch64Level minimum_aarch64_level { get; private set; }
         public bool architecture_independent { get; private set; }
+        public bool allow_x86_64_emulation { get; private set; }
 
         public VariantCompatibility (
             CpuArchitecture[]? supported_architectures = null,
             X86_64Level minimum_x86_64_level = X86_64Level.UNKNOWN,
             bool architecture_independent = false,
-            Aarch64Level minimum_aarch64_level = Aarch64Level.UNKNOWN
+            Aarch64Level minimum_aarch64_level = Aarch64Level.UNKNOWN,
+            bool allow_x86_64_emulation = true
         ) {
             this.supported_architectures = supported_architectures ?? new CpuArchitecture[0];
             this.minimum_x86_64_level = minimum_x86_64_level;
@@ -22,6 +24,7 @@ namespace ProtonPlus.Models {
                 ? Aarch64Level.V8_0
                 : minimum_aarch64_level;
             this.architecture_independent = architecture_independent;
+            this.allow_x86_64_emulation = allow_x86_64_emulation;
         }
 
         public bool is_specified {
@@ -48,8 +51,10 @@ namespace ProtonPlus.Models {
             return new VariantCompatibility ({ architecture });
         }
 
-        public static VariantCompatibility for_x86_64_level (X86_64Level level) {
-            return new VariantCompatibility ({ CpuArchitecture.X86_64 }, level);
+        public static VariantCompatibility for_x86_64_level (X86_64Level level, bool allow_emulation = true) {
+            return new VariantCompatibility (
+                { CpuArchitecture.X86_64 }, level, false, Aarch64Level.UNKNOWN, allow_emulation
+            );
         }
 
         public static VariantCompatibility for_aarch64_level (Aarch64Level level) {
@@ -69,12 +74,13 @@ namespace ProtonPlus.Models {
         public VariantCompatibility copy () {
             return new VariantCompatibility (
                 supported_architectures, minimum_x86_64_level, architecture_independent,
-                minimum_aarch64_level
+                minimum_aarch64_level, allow_x86_64_emulation
             );
         }
 
         public bool equals (VariantCompatibility other) {
             if (architecture_independent != other.architecture_independent ||
+                allow_x86_64_emulation != other.allow_x86_64_emulation ||
                 minimum_x86_64_level != other.minimum_x86_64_level ||
                 minimum_aarch64_level != other.minimum_aarch64_level ||
                 supported_architectures.length != other.supported_architectures.length)
@@ -98,7 +104,8 @@ namespace ProtonPlus.Models {
                 // AArch64 systems may run x86-64 tools through an emulation
                 // layer. Keep this intentionally one-way: an x86-64 system
                 // must not be offered AArch64 artifacts.
-                var supports_emulated_x86_64 = capabilities.architecture == CpuArchitecture.AARCH64 &&
+                var supports_emulated_x86_64 = allow_x86_64_emulation &&
+                    capabilities.architecture == CpuArchitecture.AARCH64 &&
                     supports_architecture (CpuArchitecture.X86_64);
                 if (!supports_emulated_x86_64)
                     return false;
@@ -160,6 +167,8 @@ namespace ProtonPlus.Models {
             obj.set_string_member ("minimum_x86_64_level", x86_64_level_to_string (minimum_x86_64_level));
             obj.set_string_member ("minimum_aarch64_level", aarch64_level_to_string (minimum_aarch64_level));
             obj.set_boolean_member ("architecture_independent", architecture_independent);
+            if (!allow_x86_64_emulation)
+                obj.set_boolean_member ("allow_x86_64_emulation", false);
             return obj;
         }
 
@@ -215,8 +224,17 @@ namespace ProtonPlus.Models {
                     return unspecified ();
             }
 
+            var allow_x86_64_emulation = true;
+            if (obj.has_member ("allow_x86_64_emulation")) {
+                var node = obj.get_member ("allow_x86_64_emulation");
+                if (node == null || node.get_node_type () != Json.NodeType.VALUE ||
+                    node.get_value_type () != typeof (bool))
+                    return unspecified ();
+                allow_x86_64_emulation = node.get_boolean ();
+            }
+
             var compatibility = new VariantCompatibility (
-                parsed_architectures, level, architecture_independent, aarch64_level
+                parsed_architectures, level, architecture_independent, aarch64_level, allow_x86_64_emulation
             );
             return compatibility.is_structurally_valid () ? compatibility : unspecified ();
         }
