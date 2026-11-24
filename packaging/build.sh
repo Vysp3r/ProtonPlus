@@ -48,7 +48,7 @@ EOF
     install -m644 "$work"/RPMS/*/protonplus-"$package_version"-1.*.rpm "$artifact.rpm"
     ;;
   pkg.tar.zst)
-    pacman -Syu --needed --noconfirm base-devel sudo
+    pacman -Syu --needed --noconfirm base-devel sudo zstd
     useradd --create-home package-builder
     cp "$project/packaging/arch/PKGBUILD" "$archive" "$work/"
     chown -R package-builder "$work"
@@ -58,7 +58,8 @@ EOF
     printf '%s\n' 'package-builder ALL=(root) NOPASSWD: /usr/bin/pacman' > /etc/sudoers.d/protonplus-build
     chmod 440 /etc/sudoers.d/protonplus-build
     runuser -u package-builder -- env PROTONPLUS_VERSION="$version" \
-      PROTONPLUS_SOURCE_SHA256="${checksum%% *}" makepkg --syncdeps --noconfirm
+      PROTONPLUS_SOURCE_SHA256="${checksum%% *}" PKGDEST="$work" PKGEXT=.pkg.tar.zst \
+      makepkg --syncdeps --noconfirm
     install -m644 "$work"/protonplus-*.pkg.tar.zst "$artifact.pkg.tar.zst"
     ;;
   *)
