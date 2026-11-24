@@ -339,6 +339,9 @@ namespace ProtonPlus.Widgets.Main {
                 case ReturnCode.NOTHING_TO_UPDATE:
                     send_toast (_ ("Nothing to update"));
                     break;
+                case ReturnCode.SYMLINKED_TOOL_DIRECTORY:
+                    send_toast (get_return_code_message (code));
+                    break;
                 case ReturnCode.RUNNERS_UPDATED:
                 case ReturnCode.RUNNER_UPDATED:
                     send_toast (_ ("Everything is now up-to-date"));

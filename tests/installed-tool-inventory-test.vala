@@ -41,7 +41,7 @@ namespace AppTests.InstalledToolInventoryTest {
         Test.add_func ("/installed-tool-inventory/steam-tinker-launch-usage", test_steam_tinker_launch_usage);
         Test.add_func ("/installed-tool-inventory/queries-are-cached-and-invalidation-refreshes", test_cached_queries_and_refresh);
         Test.add_func ("/installed-tool-inventory/groups-are-isolated", test_group_isolation);
-        Test.add_func ("/installed-tool-inventory/ignores-symlinked-directories", test_ignores_symlinked_directories);
+        Test.add_func ("/installed-tool-inventory/follows-collection-link-only", test_follows_collection_link_only);
         Test.add_func ("/installed-tool-inventory/offline-installations-preserve-identity", test_offline_installations);
     }
 
@@ -748,14 +748,14 @@ namespace AppTests.InstalledToolInventoryTest {
         assert (delete_directory (root));
     }
 
-    private void test_ignores_symlinked_directories () {
+    private void test_follows_collection_link_only () {
         var root = temporary_directory ();
         var external_root = temporary_directory ();
         var launcher = new InventoryLauncher (root);
         var value = group (launcher);
         var tool = add_tool (value, definition ("linked", "Linked Tool"));
-        var external_tool = Path.build_filename (external_root, "Linked Tool");
-        var linked_tool = Path.build_filename (root, "Linked Tool");
+        var external_tool = Path.build_filename (external_root, "Linked Tool Latest");
+        var linked_tool = Path.build_filename (root, "Linked Tool Latest");
         var linked_root = Path.build_filename (root, "linked-root");
         assert (ProtonPlus.Utils.Filesystem.create_directory (external_tool));
         save_metadata (external_tool, tool.provider_id, tool.id, launcher.instance_id);
@@ -764,6 +764,7 @@ namespace AppTests.InstalledToolInventoryTest {
 
         value.refresh_installed_state ();
         assert (!tool.is_installed ());
+        assert (ProtonPlus.Services.InstallationService.instance.get_update_candidates (value).contains (tool));
         assert (value.get_installed_tool_snapshot ().size == 1);
         assert (value.get_installed_tool_snapshot ()[0].path == root);
 
@@ -771,8 +772,10 @@ namespace AppTests.InstalledToolInventoryTest {
         var linked_root_group = group (linked_root_launcher);
         var linked_root_tool = add_tool (linked_root_group, definition ("linked", "Linked Tool"));
         linked_root_group.refresh_installed_state ();
-        assert (!linked_root_tool.is_installed ());
-        assert (linked_root_group.get_installed_tool_snapshot ().size == 0);
+        assert (linked_root_tool.is_installed ());
+        assert (linked_root_group.get_installed_tool_snapshot ().size == 1);
+        assert (linked_root_group.get_installed_tool_snapshot ()[0].path ==
+            Path.build_filename (linked_root, "Linked Tool Latest"));
 
         assert (Posix.unlink (linked_tool) == 0);
         assert (Posix.unlink (linked_root) == 0);
