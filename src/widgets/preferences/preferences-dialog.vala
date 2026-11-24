@@ -145,7 +145,8 @@ namespace ProtonPlus.Widgets.Preferences {
 
                     var compatibility_tools = new Gee.ArrayList<ProtonPlus.Models.CompatibilityTool> ();
                     foreach (var compatibility_tool in steam_launcher.compatibility_tools) {
-                        if (compatibility_tool.is_assignable && compatibility_tool.is_available
+                        if (compatibility_tool.is_assignable && compatibility_tool.is_available &&
+                            !compatibility_tool.macos_only
                             && !Models.Launchers.Steam.is_steam_linux_runtime (compatibility_tool.display_title, compatibility_tool.internal_title))
                             compatibility_tools.add (compatibility_tool);
                     }

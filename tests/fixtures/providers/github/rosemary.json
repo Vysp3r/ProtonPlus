@@ -1,0 +1,45 @@
+[
+  {
+    "id": 503,
+    "tag_name": "v0.6.0",
+    "assets": [
+      {
+        "name": "Rosemary-0.6.0-x86_64-freebsd.tar.gz",
+        "size": 256,
+        "browser_download_url": "https://fixtures.invalid/v0.6.0/Rosemary-0.6.0-x86_64-freebsd.tar.gz"
+      }
+    ]
+  },
+  {
+    "id": 502,
+    "tag_name": "v0.5.0",
+    "assets": [
+      {
+        "name": "rosemary-steam-tool-0.5.0-x86_64.tar.gz",
+        "size": 159229094,
+        "browser_download_url": "https://fixtures.invalid/v0.5.0/rosemary-steam-tool-0.5.0-x86_64.tar.gz"
+      },
+      {
+        "name": "rosemary-steam-tool-0.5.0-x86_64.tar.zst",
+        "size": 120920716,
+        "browser_download_url": "https://fixtures.invalid/v0.5.0/rosemary-steam-tool-0.5.0-x86_64.tar.zst"
+      },
+      {
+        "name": "Rosemary-0.5.0-x86_64.AppImage",
+        "size": 121000000,
+        "browser_download_url": "https://fixtures.invalid/v0.5.0/Rosemary-0.5.0-x86_64.AppImage"
+      }
+    ]
+  },
+  {
+    "id": 501,
+    "tag_name": "v0.4.1",
+    "assets": [
+      {
+        "name": "rosemary-steam-tool-0.4.1-x86_64.tar.gz",
+        "size": 158605720,
+        "browser_download_url": "https://fixtures.invalid/v0.4.1/rosemary-steam-tool-0.4.1-x86_64.tar.gz"
+      }
+    ]
+  }
+]

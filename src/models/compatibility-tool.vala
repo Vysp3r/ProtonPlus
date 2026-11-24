@@ -9,6 +9,7 @@ namespace ProtonPlus.Models {
     // synthetically for Steam's Default and Native choices.  It deliberately
     // has no provider, catalog, inventory, or installation state.
     public class CompatibilityTool : Object {
+        public bool macos_only { get; internal set; }
         public string display_title { get; set; default = ""; }
         public string internal_title { get; set; default = ""; }
         /* path is valid for the target launcher or a host-side command.

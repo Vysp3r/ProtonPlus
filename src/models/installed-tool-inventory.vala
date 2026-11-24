@@ -227,6 +227,9 @@ namespace ProtonPlus.Models {
         // Latest is an installation slot, independent of the current display
         // title. All consumers share this cached ownership/mode decision.
         public bool is_latest_installation (InstalledToolEntry entry, Tools.ProviderTool tool, bool backup = false) {
+            if (tool.definition.managed_steam_manifest)
+                return !backup && entry.install_mode == "latest" && persisted_identity_matches_tool (entry, tool);
+
             if (entry.has_persisted_identity ()) {
                 if (!persisted_identity_matches_tool (entry, tool))
                     return false;
@@ -469,6 +472,9 @@ namespace ProtonPlus.Models {
         }
 
         private bool persisted_identity_matches_tool (InstalledToolEntry entry, Tools.ProviderTool tool) {
+            if (tool.definition.managed_steam_manifest)
+                return matches_managed_identity (tool, entry.provider_id, entry.tool_id, entry.launcher_id);
+
             if (entry.tool_id != "") {
                 return entry.tool_id == tool.id &&
                        (entry.provider_id == "" || entry.provider_id == tool.provider_id) &&
@@ -481,6 +487,9 @@ namespace ProtonPlus.Models {
         }
 
         private bool legacy_metadata_matches_tool (InstalledToolEntry entry, Tools.ProviderTool tool) {
+            if (tool.definition.managed_steam_manifest)
+                return false;
+
             var endpoint_matches = tool.definition.matches_endpoint (entry.runner_endpoint);
             var title_matches = tool.definition.matches_title (entry.runner_title);
 
@@ -531,7 +540,7 @@ namespace ProtonPlus.Models {
         }
 
         private bool identifier_matches_tool (string identifier, Tools.ProviderTool tool) {
-            if (identifier == "")
+            if (identifier == "" || tool.definition.managed_steam_manifest)
                 return false;
             if (tool.definition.matches_title (identifier))
                 return true;
@@ -558,6 +567,22 @@ namespace ProtonPlus.Models {
                 }
             }
             return false;
+        }
+
+        private static bool matches_managed_identity (
+            Tools.ProviderTool tool, string provider_id, string tool_id, string launcher_id
+        ) {
+            return provider_id == tool.provider_id && tool_id == tool.id &&
+                launcher_id == tool.group.launcher.tool_target_id;
+        }
+
+        internal static bool owns_managed_installation (Tools.ProviderTool tool, string path) {
+            Posix.Stat info;
+            if (Posix.lstat (path, out info) != 0 || !Posix.S_ISDIR (info.st_mode))
+                return false;
+
+            var metadata = Utils.Metadata.load (path);
+            return matches_managed_identity (tool, metadata.provider_id, metadata.tool_id, metadata.launcher_id);
         }
 
         private string usage_identifier_for (InstalledToolEntry entry) {

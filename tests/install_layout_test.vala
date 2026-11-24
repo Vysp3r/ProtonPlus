@@ -39,7 +39,17 @@ namespace AppTests.InstallLayoutTest {
 
         for (var definition_index = 0; definition_index < definitions.get_length (); definition_index++) {
             var entry = definitions.get_object_element (definition_index);
-            var tool = ProviderCatalog.create_tool (get_definition (entry.get_string_member ("provider_id")), group);
+            var definition = get_definition (entry.get_string_member ("provider_id"));
+            var tool = ProviderCatalog.create_tool (definition, group);
+            if (entry.has_member ("supported_launcher_ids")) {
+                var supported = false;
+                foreach (var id in entry.get_array_member ("supported_launcher_ids").get_elements ())
+                    supported = supported || id.get_string () == launcher.instance_id;
+                if (!supported) {
+                    assert (tool == null);
+                    continue;
+                }
+            }
             assert (tool != null);
             var names = entry.get_object_member ("install_names");
             var expected_name = names.get_string_member_with_default (title, names.get_string_member ("default"));

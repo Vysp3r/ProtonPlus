@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-24 12:58-0500\n"
+"POT-Creation-Date: 2026-11-24 13:27-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -515,26 +515,26 @@ msgid "%s (Unavailable)"
 msgstr ""
 
 #: src/models/launchers/steam.vala:207
-#: src/widgets/preferences/preferences-dialog.vala:410
+#: src/widgets/preferences/preferences-dialog.vala:411
 msgid "Flatpak"
 msgstr ""
 
 #: src/models/launchers/steam.vala:207 src/models/launchers/steam.vala:208
-#: src/widgets/preferences/preferences-dialog.vala:407
-#: src/widgets/preferences/preferences-dialog.vala:410
+#: src/widgets/preferences/preferences-dialog.vala:408
+#: src/widgets/preferences/preferences-dialog.vala:411
 #: src/widgets/tools/tools-stl-release-row.vala:175
 msgid "Yes"
 msgstr ""
 
 #: src/models/launchers/steam.vala:207 src/models/launchers/steam.vala:208
-#: src/widgets/preferences/preferences-dialog.vala:407
-#: src/widgets/preferences/preferences-dialog.vala:410
+#: src/widgets/preferences/preferences-dialog.vala:408
+#: src/widgets/preferences/preferences-dialog.vala:411
 #: src/widgets/tools/tools-stl-release-row.vala:174
 msgid "No"
 msgstr ""
 
 #: src/models/launchers/steam.vala:208
-#: src/widgets/preferences/preferences-dialog.vala:407
+#: src/widgets/preferences/preferences-dialog.vala:408
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
 msgstr ""
@@ -636,6 +636,10 @@ msgstr ""
 msgid ""
 "Experimental Proton build with hardware HEVC decoding in Direct3D 11 for "
 "supported cloud gaming clients."
+msgstr ""
+
+#: src/models/providers/definitions/proton.vala:199
+msgid "Steam compatibility tool for running macOS games on Linux."
 msgstr ""
 
 #: src/models/providers/definitions/vkd3d.vala:10
@@ -859,48 +863,48 @@ msgstr ""
 msgid "The Proton-Autogen profile requires an absolute executable path."
 msgstr ""
 
-#: src/services/standard-archive-workflow.vala:32
-#: src/services/standard-archive-workflow.vala:41
+#: src/services/standard-archive-workflow.vala:46
+#: src/services/standard-archive-workflow.vala:55
 #: src/services/steam-tinker-launch-workflow.vala:47
 msgid "Extraction failed"
 msgstr ""
 
-#: src/services/standard-archive-workflow.vala:57
-#: src/services/standard-archive-workflow.vala:111
+#: src/services/standard-archive-workflow.vala:71
+#: src/services/standard-archive-workflow.vala:132
 #: src/services/steam-tinker-launch-workflow.vala:62
 #: src/services/steam-tinker-launch-workflow.vala:109
 msgid "Moving failed"
 msgstr ""
 
-#: src/services/standard-archive-workflow.vala:73
+#: src/services/standard-archive-workflow.vala:94
 msgid "Failed to save compatibility tool metadata"
 msgstr ""
 
-#: src/services/standard-archive-workflow.vala:392
+#: src/services/standard-archive-workflow.vala:448
 msgid "Failed to update compatibilitytool.vdf"
 msgstr ""
 
-#: src/services/standard-archive-workflow.vala:409
+#: src/services/standard-archive-workflow.vala:465
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr ""
 
-#: src/services/steam-configuration-service.vala:277
+#: src/services/steam-configuration-service.vala:282
 msgid "Unable to create shortcuts.vdf."
 msgstr ""
 
-#: src/services/steam-configuration-service.vala:285
+#: src/services/steam-configuration-service.vala:290
 msgid "Configuration file is missing."
 msgstr ""
 
-#: src/services/steam-configuration-service.vala:290
+#: src/services/steam-configuration-service.vala:295
 msgid "Configuration file could not be parsed."
 msgstr ""
 
-#: src/services/steam-configuration-service.vala:293
+#: src/services/steam-configuration-service.vala:298
 msgid "The targeted Steam setting changed externally."
 msgstr ""
 
-#: src/services/steam-configuration-service.vala:295
+#: src/services/steam-configuration-service.vala:300
 msgid "Unable to apply a pending Steam setting."
 msgstr ""
 
@@ -945,7 +949,7 @@ msgid "The TinkerGame archive is invalid or incomplete."
 msgstr ""
 
 #: src/utils/github-download-mirror.vala:14
-#: src/widgets/preferences/preferences-dialog.vala:339
+#: src/widgets/preferences/preferences-dialog.vala:340
 msgid "Enter an HTTPS mirror URL without credentials, a query, or a fragment."
 msgstr ""
 
@@ -1037,7 +1041,7 @@ msgid "Exit"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:121
-#: src/widgets/preferences/preferences-dialog.vala:199
+#: src/widgets/preferences/preferences-dialog.vala:200
 msgid "Close"
 msgstr ""
 
@@ -1762,7 +1766,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1248
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1249
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1250
-#: src/widgets/preferences/preferences-dialog.vala:454
+#: src/widgets/preferences/preferences-dialog.vala:455
 msgid "Gamescope"
 msgstr ""
 
@@ -1773,7 +1777,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1254
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1255
 #: src/widgets/games/launch-options-editor/launch-options-option-catalog.vala:1256
-#: src/widgets/preferences/preferences-dialog.vala:457
+#: src/widgets/preferences/preferences-dialog.vala:458
 msgid "ScopeBuddy"
 msgstr ""
 
@@ -3376,7 +3380,7 @@ msgstr ""
 
 #. Advanced Page
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:40
-#: src/widgets/preferences/preferences-dialog.vala:251
+#: src/widgets/preferences/preferences-dialog.vala:252
 msgid "Advanced"
 msgstr ""
 
@@ -3752,7 +3756,7 @@ msgid ""
 msgstr ""
 
 #: src/widgets/introduction/help-dialog.vala:62
-#: src/widgets/preferences/preferences-dialog.vala:382
+#: src/widgets/preferences/preferences-dialog.vala:383
 msgid "Troubleshooting"
 msgstr ""
 
@@ -4469,172 +4473,172 @@ msgstr ""
 msgid "Steam"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:167
+#: src/widgets/preferences/preferences-dialog.vala:168
 msgid "Default Compatibility Tool"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:168
+#: src/widgets/preferences/preferences-dialog.vala:169
 msgid "The compatibility tool games will use by default"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:196
+#: src/widgets/preferences/preferences-dialog.vala:197
 msgid "Couldn’t change the default compatibility tool"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:197
+#: src/widgets/preferences/preferences-dialog.vala:198
 msgid ""
 "The previous selection has been restored. Check that Steam’s configuration "
 "is writable, then try again."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:213
+#: src/widgets/preferences/preferences-dialog.vala:214
 msgid "Steam Profile"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:258
+#: src/widgets/preferences/preferences-dialog.vala:259
 msgid "Tool Updates"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:263
+#: src/widgets/preferences/preferences-dialog.vala:264
 msgid "Migrate Default Prefix"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:264
+#: src/widgets/preferences/preferences-dialog.vala:265
 msgid ""
 "Carry over the tool’s bundled default Wine prefix when replacing it with an "
 "update"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:270
+#: src/widgets/preferences/preferences-dialog.vala:271
 msgid "API Tokens"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:271
+#: src/widgets/preferences/preferences-dialog.vala:272
 msgid "Optional tokens increase GitHub and GitLab request limits"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:292
-#: src/widgets/preferences/preferences-dialog.vala:298
+#: src/widgets/preferences/preferences-dialog.vala:293
+#: src/widgets/preferences/preferences-dialog.vala:299
 msgid "Network"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:299
+#: src/widgets/preferences/preferences-dialog.vala:300
 msgid "Proxy, download mirror, and speed limit"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:305
+#: src/widgets/preferences/preferences-dialog.vala:306
 msgid "Proxy URL"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:308
+#: src/widgets/preferences/preferences-dialog.vala:309
 msgid "Example: http://127.0.0.1:7890 or socks5://127.0.0.1:1080"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:315
+#: src/widgets/preferences/preferences-dialog.vala:316
 msgid "GitHub Download Mirror"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:319
+#: src/widgets/preferences/preferences-dialog.vala:320
 msgid "Example: https://mirror.example/"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:321
-#: src/widgets/preferences/preferences-dialog.vala:336
+#: src/widgets/preferences/preferences-dialog.vala:322
+#: src/widgets/preferences/preferences-dialog.vala:337
 msgid ""
 "Optional. Leave empty to download directly from GitHub. Only release "
 "downloads use this mirror. Only use a mirror you trust."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:344
+#: src/widgets/preferences/preferences-dialog.vala:345
 msgid "Download Speed Limit"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:345
+#: src/widgets/preferences/preferences-dialog.vala:346
 msgid "Maximum total speed in KB/s for all downloads. Set to 0 for unlimited."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:348
+#: src/widgets/preferences/preferences-dialog.vala:349
 msgid "This limit is shared across all active downloads."
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:369
+#: src/widgets/preferences/preferences-dialog.vala:370
 msgid "Maintenance"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:370
+#: src/widgets/preferences/preferences-dialog.vala:371
 msgid "Refresh app data or clear cached files"
 msgstr ""
 
 #. Read-only troubleshooting information
-#: src/widgets/preferences/preferences-dialog.vala:378
-#: src/widgets/preferences/preferences-dialog.vala:385
+#: src/widgets/preferences/preferences-dialog.vala:379
+#: src/widgets/preferences/preferences-dialog.vala:386
 msgid "System Information"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:386
+#: src/widgets/preferences/preferences-dialog.vala:387
 msgid "Environment, dependencies, and detected launchers"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:390
+#: src/widgets/preferences/preferences-dialog.vala:391
 msgid "Copy System Information"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:396
+#: src/widgets/preferences/preferences-dialog.vala:397
 msgid "System information copied"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:402
+#: src/widgets/preferences/preferences-dialog.vala:403
 msgid "Software Environment"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:414
+#: src/widgets/preferences/preferences-dialog.vala:415
 msgid "Hardware"
-msgstr ""
-
-#: src/widgets/preferences/preferences-dialog.vala:425
-#: src/widgets/preferences/preferences-dialog.vala:428
-msgid "CPU Features"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:426
 #: src/widgets/preferences/preferences-dialog.vala:429
+msgid "CPU Features"
+msgstr ""
+
+#: src/widgets/preferences/preferences-dialog.vala:427
+#: src/widgets/preferences/preferences-dialog.vala:430
 msgid "None detected"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:434
+#: src/widgets/preferences/preferences-dialog.vala:435
 msgid "Dependencies"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:439
+#: src/widgets/preferences/preferences-dialog.vala:440
 msgid "Proton-Autogen command"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:442
+#: src/widgets/preferences/preferences-dialog.vala:443
 msgid "Protontricks"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:445
+#: src/widgets/preferences/preferences-dialog.vala:446
 msgid "Protontricks (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:448
+#: src/widgets/preferences/preferences-dialog.vala:449
 msgid "MangoHud"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:451
+#: src/widgets/preferences/preferences-dialog.vala:452
 msgid "MangoHud (Flatpak)"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:460
+#: src/widgets/preferences/preferences-dialog.vala:461
 msgid "Feral Gamemode"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:464
+#: src/widgets/preferences/preferences-dialog.vala:465
 msgid "Detected Launchers"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:479
-#: src/widgets/preferences/preferences-dialog.vala:482
+#: src/widgets/preferences/preferences-dialog.vala:480
+#: src/widgets/preferences/preferences-dialog.vala:483
 #: src/widgets/tools/tools-box.vala:134
 #: src/widgets/tools/tools-group-box.vala:690
 #: src/widgets/tools/tools-release-row.vala:909
@@ -4643,8 +4647,8 @@ msgstr ""
 msgid "Installed"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:479
-#: src/widgets/preferences/preferences-dialog.vala:483
+#: src/widgets/preferences/preferences-dialog.vala:480
+#: src/widgets/preferences/preferences-dialog.vala:484
 msgid "Not installed"
 msgstr ""
 

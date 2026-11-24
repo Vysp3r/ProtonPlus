@@ -232,6 +232,8 @@ namespace ProtonPlus.Models.Providers {
         public string tag = "";
         public bool legacy = false;
         public bool niche = false;
+        public string[] supported_launcher_ids = {};
+        public bool managed_steam_manifest = false;
         public string url_template = "";
         public ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD;
         public bool single_archive_releases = false;
@@ -254,6 +256,8 @@ namespace ProtonPlus.Models.Providers {
         public int sort_priority { get; private set; }
         public bool legacy { get; private set; }
         public bool niche { get; private set; }
+        public bool managed_steam_manifest { get; private set; }
+        private string[] supported_launcher_ids;
         public string tag { get; private set; }
         private VariantDefinition[] variants;
         private ReleaseVariantSet[] release_variant_sets;
@@ -306,6 +310,8 @@ namespace ProtonPlus.Models.Providers {
             this.tag = config.tag;
             this.legacy = config.legacy;
             this.niche = config.niche;
+            this.supported_launcher_ids = config.supported_launcher_ids;
+            this.managed_steam_manifest = config.managed_steam_manifest;
             this.url_template = config.url_template;
             this.archive_install_requirement = config.archive_install_requirement;
             this.single_archive_releases = config.single_archive_releases;
@@ -369,6 +375,10 @@ namespace ProtonPlus.Models.Providers {
             }
 
             return null;
+        }
+
+        internal bool supports_launcher (Launcher launcher) {
+            return supported_launcher_ids.length == 0 || launcher.instance_id in supported_launcher_ids;
         }
 
         public bool matches_title (string candidate) {

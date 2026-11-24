@@ -97,6 +97,13 @@ When renaming a provider, retain its provider ID and add its previous title to
 `legacy_titles` so installations without stable metadata can migrate. Keep old
 aliases across subsequent renames.
 
+Use `supported_launcher_ids` to restrict a provider to particular launcher
+instances. Rosemary uses `managed_steam_manifest` because each upstream
+archive declares the same Steam key. The standard workflow assigns a stable
+Latest key and a distinct key per versioned release, and the inventory requires
+matching provider, tool, and target metadata for ownership. Steam discovery
+can still read manually installed copies through their upstream key.
+
 Definitions use named configuration fields; optional settings can be omitted:
 
 ```vala
