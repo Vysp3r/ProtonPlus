@@ -91,7 +91,7 @@ Use fixtures for filesystem, launcher, and Steam mutations, as described in
    remote Git tag exists or packaging succeeds.
    The metadata check requires `xmllint` (the libxml2 tools package).
 5. Commit the reviewed release changes and push the matching `vVERSION` tag.
-   The **Release Packages** workflow checks the tag against the release metadata,
+   The **Release** workflow checks the tag against the release metadata,
    creates a versioned source archive, and runs the native build and installation
    tests. Review the results before publishing the GitHub release for that tag.
 6. Publish the GitHub release. The workflow rebuilds and tests the native

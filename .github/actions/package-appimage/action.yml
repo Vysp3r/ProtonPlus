@@ -1,0 +1,44 @@
+name: AppImage package
+description: Build and check an AppImage in a clean container.
+runs:
+  using: composite
+  steps:
+    - name: Prepare container
+      uses: pkgforge-dev/anylinux-setup-action@v1
+
+    - name: Build AppImage
+      shell: bash
+      run: |
+        tar -xf "ProtonPlus-$VERSION-source.tar.gz"
+        cd "ProtonPlus-$VERSION"
+        /bin/sh packaging/appimage/get-dependencies.sh
+        ./scripts/build.sh package appimage
+
+    - name: Check update metadata and launch in a clean container
+      shell: bash
+      run: |
+        file="ProtonPlus-$VERSION-anylinux-$ARCH.AppImage"
+        appimage="ProtonPlus-$VERSION/dist/$file"
+        test -s "$appimage"
+        grep -aFx "Filename: $file" "$appimage.zsync"
+        grep -aFx "URL: $file" "$appimage.zsync"
+        docker run --rm -i --network none docker.io/library/debian:13 sh -ec '
+            cd "$(mktemp -d)"
+            appimage="./$1"
+            cat > "$appimage"
+            chmod +x "$appimage"
+            app_id=com.vysp3r.ProtonPlus
+            "$appimage" --appimage-extract >/dev/null
+            test -s "squashfs-root/$app_id.desktop"
+            test -s squashfs-root/.DirIcon
+            test -s "squashfs-root/usr/share/metainfo/$app_id.metainfo.xml"
+            grep -aFq "$app_id.State" squashfs-root/share/glib-2.0/schemas/gschemas.compiled
+            APPIMAGE_EXTRACT_AND_RUN=1 GSETTINGS_BACKEND=memory "$appimage" version
+          ' sh "$file" < "$appimage" | grep -Fx "ProtonPlus $VERSION"
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: AppImage-${{ env.ARCH }}
+        path: ProtonPlus-${{ env.VERSION }}/dist/ProtonPlus-${{ env.VERSION }}-anylinux-${{ env.ARCH }}.AppImage*
+        if-no-files-found: error
+        compression-level: 0

@@ -6,22 +6,16 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
-  workflow_call:
-    inputs:
-      release_build:
-        type: boolean
-        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.ref }}-builds
-  cancel-in-progress: ${{ github.event_name != 'release' }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
   flatpak:
-    if: ${{ !inputs.release_build }}
     name: Flatpak (${{ matrix.variant.arch }})
     container:
       image: ghcr.io/flathub-infra/flatpak-github-actions:gnome-51
@@ -61,38 +55,19 @@ jobs:
 
   source:
     name: Source archive
-    if: github.event.deleted != true && (github.event_name != 'workflow_dispatch' || inputs.release_build)
+    if: github.event.deleted != true && github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-24.04
     outputs:
-      version: ${{ steps.archive.outputs.version }}
+      version: ${{ steps.source.outputs.version }}
+      distros: ${{ steps.source.outputs.distros }}
       architectures: ${{ github.event_name == 'pull_request' && '["x86_64"]' || '["x86_64","aarch64"]' }}
     steps:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
 
-      - name: Prepare tagged source or development snapshot
-        id: archive
-        env:
-          RELEASE_TAG: ${{ github.event.release.tag_name || (github.ref_type == 'tag' && github.ref_name) || '' }}
-        run: |
-          version=$(./scripts/set-version.sh --print-version)
-          if [[ -n $RELEASE_TAG ]]; then
-            if ! command -v xmllint >/dev/null; then
-              sudo apt-get update
-              sudo apt-get install -y --no-install-recommends libxml2-utils
-            fi
-            ./scripts/set-version.sh "${RELEASE_TAG#v}" --check
-          fi
-          git archive --format=tar.gz --prefix="ProtonPlus-$version/" \
-            --output="ProtonPlus-$version-source.tar.gz" HEAD
-          echo "version=$version" >> "$GITHUB_OUTPUT"
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Source
-          path: ProtonPlus-${{ steps.archive.outputs.version }}-source.tar.gz
-          if-no-files-found: error
+      - uses: ./.github/actions/package-source
+        id: source
 
   native:
     name: ${{ matrix.distro.name }} (${{ matrix.arch }})
@@ -101,11 +76,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        distro:
-          - {target: debian13, name: Debian 13}
-          - {target: ubuntu26.04, name: Ubuntu 26.04}
-          - {target: fedora45, name: Fedora 45}
-          - {target: archlinux, name: Arch Linux}
+        distro: ${{ fromJSON(needs.source.outputs.distros) }}
         arch: ${{ fromJSON(needs.source.outputs.architectures) }}
     env:
       VERSION: ${{ needs.source.outputs.version }}
@@ -116,30 +87,16 @@ jobs:
         with:
           name: Source
 
-      - name: Extract source
+      - name: Extract packaging action
+        shell: bash
         run: |
-          tar -xf "ProtonPlus-$VERSION-source.tar.gz"
-
-      - name: Build native package and run Meson tests
-        run: |
-          test "$(uname -m)" = "$ARCH"
-          bash "ProtonPlus-$VERSION/packaging/native-container.sh" build "$TARGET" \
-            "ProtonPlus-$VERSION-source.tar.gz" "$PWD/dist"
-
-      - name: Test installation in a fresh container
-        run: |
-          bash "ProtonPlus-$VERSION/packaging/native-container.sh" test "$TARGET" \
-            "ProtonPlus-$VERSION-source.tar.gz" "$PWD/dist"
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: Native-${{ env.TARGET }}-${{ env.ARCH }}
-          path: dist/ProtonPlus-${{ env.VERSION }}-${{ env.TARGET }}-${{ env.ARCH }}.*
-          if-no-files-found: error
+          tar -xf "ProtonPlus-$VERSION-source.tar.gz" --strip-components=1 \
+            "ProtonPlus-$VERSION/.github/actions/package-native"
+      - uses: ./.github/actions/package-native
 
   appimage:
     name: AppImage (${{ matrix.arch }})
-    if: github.event_name == 'pull_request' || github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'pull_request'
     needs: source
     runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     strategy:
@@ -159,41 +116,9 @@ jobs:
         with:
           name: Source
 
-      - name: Prepare container
-        uses: pkgforge-dev/anylinux-setup-action@v1
-
-      - name: Build AppImage
+      - name: Extract packaging action
         shell: bash
         run: |
-          tar -xf "ProtonPlus-$VERSION-source.tar.gz"
-          cd "ProtonPlus-$VERSION"
-          /bin/sh packaging/appimage/get-dependencies.sh
-          ./scripts/build.sh package appimage
-
-      - name: Check update metadata and launch in a clean container
-        shell: bash
-        run: |
-          file="ProtonPlus-$VERSION-anylinux-$ARCH.AppImage"
-          appimage="ProtonPlus-$VERSION/dist/$file"
-          test -s "$appimage"
-          grep -aFx "Filename: $file" "$appimage.zsync"
-          grep -aFx "URL: $file" "$appimage.zsync"
-          docker run --rm -i --network none docker.io/library/debian:13 sh -ec '
-              cd "$(mktemp -d)"
-              appimage="./$1"
-              cat > "$appimage"
-              chmod +x "$appimage"
-              app_id=com.vysp3r.ProtonPlus
-              "$appimage" --appimage-extract >/dev/null
-              test -s "squashfs-root/$app_id.desktop"
-              test -s squashfs-root/.DirIcon
-              test -s "squashfs-root/usr/share/metainfo/$app_id.metainfo.xml"
-              grep -aFq "$app_id.State" squashfs-root/share/glib-2.0/schemas/gschemas.compiled
-              APPIMAGE_EXTRACT_AND_RUN=1 GSETTINGS_BACKEND=memory "$appimage" version
-            ' sh "$file" < "$appimage" | grep -Fx "ProtonPlus $VERSION"
-
-      - uses: actions/upload-artifact@v4
-        with:
-          name: AppImage-${{ matrix.arch }}
-          path: ProtonPlus-${{ env.VERSION }}/dist/ProtonPlus-${{ env.VERSION }}-anylinux-${{ env.ARCH }}.AppImage*
-          if-no-files-found: error
+          tar -xf "ProtonPlus-$VERSION-source.tar.gz" --strip-components=1 \
+            "ProtonPlus-$VERSION/.github/actions/package-appimage"
+      - uses: ./.github/actions/package-appimage

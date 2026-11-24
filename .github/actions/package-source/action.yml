@@ -1,0 +1,48 @@
+name: Package source
+description: Validate release metadata and archive the build commit.
+outputs:
+  version:
+    description: ProtonPlus version from Meson.
+    value: ${{ steps.archive.outputs.version }}
+  distros:
+    description: Distribution targets and their job names as JSON.
+    value: ${{ steps.archive.outputs.distros }}
+runs:
+  using: composite
+  steps:
+    - name: Prepare tagged source or development snapshot
+      id: archive
+      env:
+        RELEASE_TAG: ${{ github.event.release.tag_name || (github.ref_type == 'tag' && github.ref_name) || '' }}
+      shell: bash
+      run: |
+        version=$(./scripts/set-version.sh --print-version)
+        if [[ -n $RELEASE_TAG ]]; then
+          if ! command -v xmllint >/dev/null; then
+            sudo apt-get update
+            sudo apt-get install -y --no-install-recommends libxml2-utils
+          fi
+          ./scripts/set-version.sh "${RELEASE_TAG#v}" --check
+        fi
+        git archive --format=tar.gz --prefix="ProtonPlus-$version/" \
+          --output="ProtonPlus-$version-source.tar.gz" HEAD
+        {
+          echo "version=$version"
+          echo 'distros<<JSON'
+          cat <<'JSON'
+        [
+          {"target":"debian13","name":"Debian 13"},
+          {"target":"ubuntu26.04","name":"Ubuntu 26.04"},
+          {"target":"fedora45","name":"Fedora 45"},
+          {"target":"archlinux","name":"Arch Linux"}
+        ]
+        JSON
+          echo JSON
+        } >> "$GITHUB_OUTPUT"
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Source
+        path: ProtonPlus-${{ steps.archive.outputs.version }}-source.tar.gz
+        if-no-files-found: error
+        compression-level: 0
