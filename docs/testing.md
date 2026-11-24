@@ -63,8 +63,9 @@ do not need an explicit reconfigure.
 The Meson suite currently contains:
 
 - `ProtonPlus unit tests`: the Vala/GLib test binary using TAP.
-- `Maintenance script tests`: Python tests for repository scripts. Release
-  metadata checks use `xmllint` and skip when it is unavailable.
+- `Maintenance script tests`: Python tests for repository scripts, including
+  native package commands and AppImage bundling fixtures. Release metadata
+  checks use `xmllint` and skip when it is unavailable.
 - `Check command tests`: isolated command stubs covering build setup, focused
   fixture paths, and failure propagation without compiling or touching user data.
 - `Games presentation`: fixture-backed wide/narrow list bindings, selection
@@ -195,6 +196,13 @@ keep that larger generated diff separate from code changes where practical.
 Neither command builds the application. Icon generation updates tracked PNG
 assets. Flatpak commands require installed runtimes, network access, and
 substantially more time than native unit tests.
+
+`./scripts/build.sh package debian13` builds a native package and runs the
+Meson suite in Docker or Podman. The **CI** and **Release** workflows also
+install each distro package in a fresh container. AppImage jobs verify update
+metadata and run the bundled `protonplus version` command in a clean container.
+See the [release checklist](maintenance.md#prepare-a-release) for the tested
+platforms.
 
 ## Final verification and report
 

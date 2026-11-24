@@ -144,7 +144,7 @@ The Flatpak uses host access required to find Steam libraries and launcher data,
 
 Download the file for your distribution and architecture from [GitHub Releases](https://github.com/Vysp3r/ProtonPlus/releases). Binary assets use `ProtonPlus-VERSION-TARGET-ARCH` with `x86_64` or `aarch64`.
 
-| Distribution | Target | Install the downloaded file |
+| Distribution or format | Target | Install the downloaded file |
 | --- | --- | --- |
 | Debian 13 | `debian13` | `sudo apt install ./FILE.deb` |
 | Ubuntu 26.04 LTS | `ubuntu26.04` | `sudo apt install ./FILE.deb` |
@@ -152,7 +152,7 @@ Download the file for your distribution and architecture from [GitHub Releases](
 | Arch Linux / Arch Linux ARM | `archlinux` | `sudo pacman -U ./FILE.pkg.tar.zst` |
 | AppImage | `anylinux` | `chmod +x ./FILE.AppImage` then `./FILE.AppImage` |
 
-Releases with native packages also provide `ProtonPlus-VERSION-source.tar.gz` and `SHA256SUMS`. Run `sha256sum --check --ignore-missing SHA256SUMS` from the download directory to verify your files.
+Releases with native packages also provide AppImage `.zsync` update metadata, `ProtonPlus-VERSION-source.tar.gz`, and `SHA256SUMS`. Run `sha256sum --check --ignore-missing SHA256SUMS` from the download directory to verify your files.
 
 ### Community packages
 

@@ -96,8 +96,8 @@ Use fixtures for filesystem, launcher, and Steam mutations, as described in
    tests. Review the results before publishing the GitHub release for that tag.
 6. Publish the GitHub release. The workflow rebuilds and tests the native
    packages from the tag, checks both AppImages in clean containers, and
-   attaches all assets with `SHA256SUMS` after the jobs pass. Manual dispatch
-   on a branch builds test artifacts for the selected commit.
+   attaches all assets with `SHA256SUMS` after the jobs pass. Run **Release**
+   manually on a branch to build test artifacts for the selected commit.
 
 Native packages are built and tested for Debian 13, Ubuntu 26.04 LTS, Fedora 45,
 and Arch Linux or Arch Linux ARM on `x86_64` and `aarch64`. Each build runs the
@@ -105,6 +105,9 @@ Meson suite with Xvfb and a D-Bus session. A second container installs the
 result through the distribution package manager. It checks runtime dependencies,
 the exact application version, desktop and AppStream metadata, icons, and
 GSettings schema discovery after the package-manager triggers run.
+
+If the smaller optional Arch dependencies are unavailable, the AppImage build
+uses stock Arch dependencies. This can produce a larger AppImage.
 
 Downstream recipes such as the AUR package can use the versioned release
 asset at `releases/download/vVERSION/ProtonPlus-VERSION-source.tar.gz` with its
@@ -128,7 +131,7 @@ duplication without changing installed-tool identities or Steam data formats.
 | Priority | Finding and evidence | Action / status |
 | --- | --- | --- |
 | 1 | Build/run previously built twice and could implicitly install system-wide. Test instructions used multiple defaults. | Completed: build/run once from the checkout; `scripts/check.sh` uses `build/` for full and focused checks. Build and maintenance commands live in scripts; translation source-list generation moved there when the Makefile was removed. |
-| 2 | Version updates had no consistency check across Meson, tagged Flatpak source, and AppStream. | Completed: read-only `--check`, fixture tests, and a release-only AppImage guard. Local metadata is aligned; publishing the matching source tag remains a release step. |
+| 2 | Version updates had no consistency check across Meson, tagged Flatpak source, and AppStream. | Completed. Read-only `--check` and fixture tests cover local metadata. The Release workflow validates it against the version tag before packaging. |
 | 3 | `InstallJob` and inventory separately spelled non-default variant directory suffixes. A change in one could make an installed tool disappear from discovery. | Completed: `ProviderTool.get_directory_name()` owns full spelling; job-to-inventory regression covers default and named variants. CLI batch updates also reuse single-update reporting. |
 | 4 | Three GUI executables repeated Meson display/environment registration. | Completed: one registration table preserves target names and per-test environment. New GUI tests add a table entry. |
 | 5 | Reports omitted the launcher packaging and exact tool/release; the PR template repeated generic checkboxes and linked to a missing heading. | Completed: targeted integration/log prompts and a shorter problem/validation/maintenance template. |

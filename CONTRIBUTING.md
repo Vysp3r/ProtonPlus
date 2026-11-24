@@ -16,8 +16,8 @@ first so the scope can be agreed before implementation. Small fixes,
 documentation improvements, tests, and translations are welcome without prior
 approval.
 
-The default integration branch is main; the required CI workflow runs for pull
-requests targeting main. There is no enforced branch-name or commit-message
+The default integration branch is `main`. The **CI** workflow runs for pull
+requests targeting `main`. There is no enforced branch-name or commit-message
 convention, but short-lived branches such as fix/... or feat/... and concise
 imperative commit subjects make reviews easier.
 
@@ -173,12 +173,14 @@ The repository configures vala-lint through .pre-commit-config.yaml and
 the compiler, Meson validation tests, Vala lint, and Flatpak linters are the
 authoritative checks currently configured in the repository. CI runs the local
 Flatpak build and its tests on x86_64 and aarch64. Its Flatpak lint step is
-advisory. The Linux packages jobs run the same Meson test suite in the native
-package builds and verify each binary package in a fresh container.
-Pull requests build and test the x86_64 AppImage and native packages for every
-distribution. Pushes to main and version tags also check native packages on
-aarch64. Manual runs and published releases check every format on both
-architectures.
+advisory. Native package jobs run the same Meson test suite during the build and
+verify the result in a fresh container. For pull requests, **CI** checks the
+AppImage and all four distro packages on `x86_64`. Pushes to `main` check the
+distro packages on both architectures. Manual **CI** runs check both Flatpaks.
+
+The **Release** workflow checks native packages on both architectures when a
+version tag is pushed. Manual **Release** runs and published releases also
+build and check both AppImages.
 
 Additional helper commands:
 
