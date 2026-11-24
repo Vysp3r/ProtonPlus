@@ -95,17 +95,21 @@ jobs:
           if-no-files-found: error
 
   native:
-    name: Native (${{ matrix.target }}, ${{ matrix.arch }})
+    name: ${{ matrix.distro.name }} (${{ matrix.arch }})
     needs: source
     runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     strategy:
       fail-fast: false
       matrix:
-        target: [debian13, ubuntu26.04, fedora45, archlinux]
+        distro:
+          - {target: debian13, name: Debian 13}
+          - {target: ubuntu26.04, name: Ubuntu 26.04}
+          - {target: fedora45, name: Fedora 45}
+          - {target: archlinux, name: Arch Linux}
         arch: ${{ fromJSON(needs.source.outputs.architectures) }}
     env:
       VERSION: ${{ needs.source.outputs.version }}
-      TARGET: ${{ matrix.target }}
+      TARGET: ${{ matrix.distro.target }}
       ARCH: ${{ matrix.arch }}
     steps:
       - uses: actions/download-artifact@v4
