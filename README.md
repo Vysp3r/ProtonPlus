@@ -140,6 +140,20 @@ flatpak remote-add --if-not-exists \
 
 The Flatpak uses host access required to find Steam libraries and launcher data, and requests access to the supported launcher Flatpak data directories. If a launcher is installed in an unsupported location or through a different packaging format, ProtonPlus may not be able to detect it.
 
+### GitHub release packages
+
+Download the file for your distribution and architecture from [GitHub Releases](https://github.com/Vysp3r/ProtonPlus/releases). Binary assets use `ProtonPlus-VERSION-TARGET-ARCH` with `x86_64` or `aarch64`.
+
+| Distribution or format | Target | Install the downloaded file |
+| --- | --- | --- |
+| Debian 13 | `debian13` | `sudo apt install ./FILE.deb` |
+| Ubuntu 26.04 LTS | `ubuntu26.04` | `sudo apt install ./FILE.deb` |
+| Fedora 45 | `fedora45` | `sudo dnf install ./FILE.rpm` |
+| Arch Linux / Arch Linux ARM | `archlinux` | `sudo pacman -U ./FILE.pkg.tar.zst` |
+| AppImage | `anylinux` | `chmod +x ./FILE.AppImage` then `./FILE.AppImage` |
+
+Releases with native packages also provide AppImage `.zsync` update metadata, `ProtonPlus-VERSION-source.tar.gz`, and `SHA256SUMS`. Run `sha256sum --check --ignore-missing SHA256SUMS` from the download directory to verify your files.
+
 ### Community packages
 
 The following packages are maintained by distribution packagers or community maintainers. They are not managed by the ProtonPlus project and may have different release timing or packaging defaults than Flathub.
@@ -171,7 +185,7 @@ A native build requires a Linux development environment with:
 - SDL 3.2 or newer
 - gettext and desktop-file-utils
 
-Package names differ between distributions. The repository's `scripts/get-dependencies.sh` installs the native build dependencies on Arch Linux; it is intended for Arch-based build environments and should not be run unchanged on other distributions.
+The distro-specific build dependencies are listed in the recipes under [`packaging/`](packaging/). The AppImage build has a separate Arch-based dependency installer in [`packaging/appimage/`](packaging/appimage/).
 
 Clone and build the application with the project build helper:
 

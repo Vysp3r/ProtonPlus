@@ -71,7 +71,9 @@ continues to expose the resulting flags to existing consumers.
 | `data/` | GResources, CSS, icons, desktop/AppStream metadata, GSettings schema, and systemd user units. |
 | `tests/` | One TAP-producing Vala test executable, Python maintenance tests, and host-independent fixtures. |
 | `po/` | Gettext POT source list, template, and translation catalogs. |
-| `scripts/` | Native/Flatpak/AppImage build helpers and maintenance commands. |
+| `scripts/` | Build entry points and maintenance commands. |
+| `packaging/` | Native distro recipes, clean-install checks, and AppImage build scripts. |
+| `.github/workflows/`, `.github/actions/` | CI and release jobs and their shared packaging steps. |
 
 Each source subtree contributes files to the shared `sources` collection in
 its local `meson.build`; `src/meson.build` builds a static core library used by

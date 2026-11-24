@@ -2,7 +2,7 @@
 
 set -eu
 
-echo "Installing package dependencies..."
+echo "Installing AppImage build dependencies..."
 echo "---------------------------------------------------------------"
 pacman -Syu --noconfirm \
     git \
@@ -29,6 +29,15 @@ pacman -Syu --noconfirm \
     sdl3
 
 if command -v get-debloated-pkgs >/dev/null 2>&1; then
+    # The stock packages above also work when the optional GitHub release is unavailable.
+    if [ -z "${SOURCE:-}" ] && command -v curl >/dev/null 2>&1; then
+        package_list=https://api.github.com/repos/pkgforge-dev/archlinux-pkgs-debloated/releases/latest
+        if ! headers=$(curl --fail --silent --head --max-time 10 "$package_list") ||
+            printf '%s\n' "$headers" | grep -Eiq '^x-ratelimit-remaining:[[:space:]]*0[[:space:]]*$'; then
+            printf '%s\n' 'Optional AppImage dependency packages are unavailable. Using stock Arch packages.'
+            exit 0
+        fi
+    fi
     echo "Installing debloated packages..."
     echo "---------------------------------------------------------------"
     get-debloated-pkgs --add-common --prefer-nano
