@@ -211,6 +211,15 @@ void wait_for_library_load (Models.Launchers.Steam steam) {
 
 void check_selection_footer_layout (Gtk.Widget page, Gtk.Widget summary,
     Gtk.Button clear, MassEditButton modify, bool compact) {
+    wait_for_layout (() => {
+        Graphene.Rect summary_allocation, clear_allocation;
+        if (!summary.compute_bounds (page, out summary_allocation))
+            return false;
+        if (!clear.compute_bounds (page, out clear_allocation))
+            return false;
+        bool stacked = summary_allocation.origin.y + summary_allocation.size.height <= clear_allocation.origin.y;
+        return summary_allocation.size.height > 0 && clear_allocation.size.height > 0 && stacked == compact;
+    });
     Graphene.Rect summary_bounds, clear_bounds, modify_bounds;
     assert (summary.compute_bounds (page, out summary_bounds));
     assert (clear.compute_bounds (page, out clear_bounds));

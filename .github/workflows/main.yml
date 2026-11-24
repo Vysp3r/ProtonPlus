@@ -11,6 +11,14 @@ permissions:
   contents: read
 
 jobs:
+  packages:
+    name: Linux packages
+    if: github.event_name != 'workflow_dispatch'
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}-packages
+      cancel-in-progress: true
+    uses: ./.github/workflows/linux-packages.yml
+
   flatpak:
     name: "Flatpak Build (${{ matrix.variant.arch }})"
     container:
