@@ -17,7 +17,9 @@ permissions:
 jobs:
   packages:
     name: Linux packages
-    uses: ./.github/workflows/linux-packages.yml
+    uses: ./.github/workflows/main.yml
+    with:
+      release_build: true
 
   publish:
     if: github.event_name == 'release'
