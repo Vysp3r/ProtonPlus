@@ -175,9 +175,10 @@ authoritative checks currently configured in the repository. CI runs the local
 Flatpak build and its tests on x86_64 and aarch64. Its Flatpak lint step is
 advisory. The Release Packages workflow runs the same Meson test suite in the
 native package builds and verifies each binary package in a fresh container.
-Pull requests run native packaging checks on x86_64 for every distribution.
-Pushes to main, version tags, manual runs, and published releases also check
-aarch64.
+Pull requests build and test the x86_64 AppImage and native packages for every
+distribution. Pushes to main and version tags also check native packages on
+aarch64. Manual runs and published releases check every format on both
+architectures.
 
 Additional helper commands:
 

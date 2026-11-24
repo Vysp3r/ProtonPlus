@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-24.04
     outputs:
       version: ${{ steps.archive.outputs.version }}
+      architectures: ${{ github.event_name == 'pull_request' && '["x86_64"]' || '["x86_64","aarch64"]' }}
     steps:
       - uses: actions/checkout@v6
         with:
@@ -59,7 +60,7 @@ jobs:
       fail-fast: false
       matrix:
         target: [debian13, ubuntu26.04, fedora45, archlinux]
-        arch: ${{ fromJSON(github.event_name == 'pull_request' && '["x86_64"]' || '["x86_64","aarch64"]') }}
+        arch: ${{ fromJSON(needs.source.outputs.architectures) }}
     env:
       VERSION: ${{ needs.source.outputs.version }}
       TARGET: ${{ matrix.target }}
@@ -92,15 +93,13 @@ jobs:
 
   appimage:
     name: AppImage (${{ matrix.arch }})
-    if: github.event_name == 'release' || github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'pull_request' || github.event_name == 'release' || github.event_name == 'workflow_dispatch'
     needs: source
-    runs-on: ${{ matrix.runner }}
+    runs-on: ${{ matrix.arch == 'aarch64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - {arch: x86_64, runner: ubuntu-24.04}
-          - {arch: aarch64, runner: ubuntu-24.04-arm}
+        arch: ${{ fromJSON(needs.source.outputs.architectures) }}
     container: ghcr.io/pkgforge-dev/archlinux:latest
     env:
       VERSION: ${{ needs.source.outputs.version }}
@@ -136,7 +135,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [x86_64, aarch64]
+        arch: ${{ fromJSON(needs.source.outputs.architectures) }}
     env:
       VERSION: ${{ needs.source.outputs.version }}
       ARCH: ${{ matrix.arch }}
