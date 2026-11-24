@@ -199,7 +199,7 @@ namespace ProtonPlus.Models.Providers {
                     description = N_ ("Steam compatibility tool for running macOS games on Linux."),
                     endpoint = "https://api.github.com/repos/microlift/rosemary/releases",
                     repository_url = "https://github.com/microlift/rosemary",
-                    sort_priority = 12,
+                    sort_priority = 9,
                     niche = true,
                     supported_launcher_ids = { "steam-system", "steam-flatpak" },
                     managed_steam_manifest = true,

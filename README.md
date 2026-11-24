@@ -97,8 +97,8 @@ The Tools view uses estimated popularity to order the built-in tools within each
 - Proton-Tkg
 - Proton-RTSP
 - TinkerGame, for Steam
-- Proton-Anime and Proton-HEVC, with **Preferences → Tools → Show Niche Tools** enabled
 - Rosemary for macOS Steam games on x86-64 native and Flatpak Steam, with **Show Niche Tools** enabled. Select it under the game's compatibility settings after restarting Steam.
+- Proton-Anime and Proton-HEVC, with **Preferences → Tools → Show Niche Tools** enabled
 - Steam Tinker Launch, for existing installations
 - Boxtron and Roberta, with **Preferences → Tools → Show Legacy Tools** enabled
 
