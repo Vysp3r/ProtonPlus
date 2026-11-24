@@ -42,17 +42,7 @@ namespace ProtonPlus.Services {
 
     public class HostSteamRestartProcessFactory : Object, SteamRestartProcessFactory {
         public Subprocess spawn_detached (string[] argv) throws Error {
-            var launcher = new SubprocessLauncher (
-                SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE
-            );
-            launcher.set_stdin_file_path ("/dev/null");
-            launcher.set_child_setup (detach_child_session);
-            return launcher.spawnv (argv);
-        }
-
-        private static void detach_child_session () {
-            if (Posix.setsid () < 0)
-                Posix._exit (127);
+            return Utils.System.spawn_detached (argv);
         }
     }
 
@@ -128,7 +118,7 @@ namespace ProtonPlus.Services {
                 desktop.launch_uris_as_manager (
                     uris, null,
                     SpawnFlags.STDOUT_TO_DEV_NULL | SpawnFlags.STDERR_TO_DEV_NULL,
-                    detach_child_session
+                    Utils.System.detach_child_session
                 );
                 var argv = new Gee.ArrayList<string> ();
                 argv.add ("gio-app:" + desktop_id);
@@ -209,11 +199,6 @@ namespace ProtonPlus.Services {
             } catch (Error e) {
                 return new SteamRestartCommandResult (SteamRestartCommandStatus.FAILED, argv, e.message);
             }
-        }
-
-        private static void detach_child_session () {
-            if (Posix.setsid () < 0)
-                Posix._exit (127);
         }
     }
 }

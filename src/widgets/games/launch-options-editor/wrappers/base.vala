@@ -77,13 +77,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             return -1;
         }
 
-        internal void append_token (StringBuilder output, string token) {
-            if (output.len > 0)
-                output.append (" ");
-
-            output.append (token);
-        }
-
         public void add_child (ILaunchOption child) {
             this._children.add (child);
         }

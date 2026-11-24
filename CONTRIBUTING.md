@@ -37,11 +37,12 @@ For a native build, install the development packages provided by your
 distribution for:
 
 - Git, a C compiler, pkg-config, Meson 1.0 or newer, Ninja, and Vala
-- GLib, including glib-compile-schemas, GTK4, and libadwaita 1.6 or newer
+- GLib, including glib-compile-schemas
+- GTK 4.14 or newer and libadwaita 1.5 or newer
 - json-glib, libsoup 3, libgee, libarchive, Cairo, and
   SDL 3.2 or newer
 - gettext and desktop-file-utils
-- Python 3 for the maintenance-script tests
+- Python 3 for the compatibility stylesheets and maintenance-script tests
 
 scripts/get-dependencies.sh installs the native packages used by the project
 on Arch-based systems. It is not a portable dependency installer and must not

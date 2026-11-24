@@ -6,7 +6,6 @@ namespace AppTests.ProviderSourceTest {
 
     public void register_tests () {
         Test.add_func ("/providers/github/canonical-release-page", test_github_release_page);
-        Test.add_func ("/providers/github/proton-autogen-package", test_proton_autogen_package);
         Test.add_func ("/providers/github-compatible/sarek-release-variants", test_sarek_release_variants);
         Test.add_func ("/providers/gitlab/canonical-release-page", test_gitlab_release_page);
         Test.add_func ("/providers/forgejo/canonical-release-page", test_forgejo_release_page);
@@ -91,27 +90,6 @@ namespace AppTests.ProviderSourceTest {
         assert (release.variants[0].resolved_asset ().digest == "sha256:github");
         assert (page.next_page == 2);
         assert (!page.has_more);
-    }
-
-    private void test_proton_autogen_package () {
-        var definition = new ProviderRegistry ().get_by_id ("proton-autogen");
-        var result = new GitHubReleaseSource ().parse_response (definition, """[
-            {"id": 1, "tag_name": "v3.4.7", "assets": [
-                {"name": "proton-autogen-3.4.6-1-any.pkg.tar.zst", "browser_download_url": "https://example.test/wrong"},
-                {"name": "proton-autogen_3.4.7_all.deb", "browser_download_url": "https://example.test/deb"},
-                {"name": "proton-autogen-3.4.7-1-any.pkg.tar.zst", "browser_download_url": "https://example.test/package",
-                 "size": 42, "digest": "sha256:fixture"}
-            ]},
-            {"id": 2, "tag_name": "v3.4.6", "assets": [
-                {"name": "proton-autogen-3.4.6.tar.gz", "browser_download_url": "https://example.test/source"}
-            ]}
-        ]""", 1, 25);
-        var releases = result.require_page ().releases;
-        assert (releases.size == 1);
-        assert (releases[0].source_tag == "v3.4.7");
-        assert (releases[0].asset.download_url == "https://example.test/package");
-        assert (releases[0].asset.download_size == 42);
-        assert (releases[0].asset.digest == "sha256:fixture");
     }
 
     private void test_sarek_release_variants () {

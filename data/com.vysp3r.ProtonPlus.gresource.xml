@@ -7,6 +7,7 @@
         <file alias="fork.svg">images/fork.svg</file>
         <file alias="hgl.svg">images/hgl.svg</file>
         <file alias="lutris.svg">images/lutris.svg</file>
+        <file alias="proton-autogen.svg">images/proton-autogen.svg</file>
         <file alias="rocket.svg">images/rocket.svg</file>
         <file alias="steam.svg">images/steam.svg</file>
         <file alias="winezgui.svg">images/winezgui.svg</file>
@@ -16,10 +17,14 @@
         <file alias="oled.css">css/oled.css</file>
         <file alias="breeze-dark.css">css/breeze-dark.css</file>
         <file alias="breeze-light.css">css/breeze-light.css</file>
+        <file alias="legacy/style.css">style-legacy.css</file>
+        <file alias="legacy/steamos.css">steamos-legacy.css</file>
+        <file alias="legacy/oled.css">oled-legacy.css</file>
+        <file alias="legacy/breeze-dark.css">breeze-dark-legacy.css</file>
+        <file alias="legacy/breeze-light.css">breeze-light-legacy.css</file>
         <file alias="metainfo.xml">com.vysp3r.ProtonPlus.metainfo.xml.in</file>
         <file alias="protonplus.service">protonplus.service</file>
         <file alias="protonplus.timer">protonplus.timer</file>
-        <file>proton-autogen-steam.py</file>
     </gresource>
     <gresource prefix="/com/vysp3r/ProtonPlus/icons">
         <file alias="scalable/actions/trash-symbolic.svg">icons/trash.svg</file>

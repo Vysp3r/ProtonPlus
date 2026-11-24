@@ -31,7 +31,7 @@ namespace ProtonPlus.Services {
             steam_tinker_launch_workflow = new SteamTinkerLaunchWorkflow ();
         }
 
-        private string operation_target (string path) {
+        internal static string operation_target (string path) {
             var canonical = Filename.canonicalize (path, null);
             var parent = Path.get_dirname (canonical);
             return Path.build_filename (Posix.realpath (parent) ?? parent, Path.get_basename (canonical));
@@ -74,7 +74,15 @@ namespace ProtonPlus.Services {
             var key = operation_target (job.install_location);
             job.begin_operation ();
             try {
-                return yield start_install (job, replace_existing, true);
+                var code = yield start_install (job, replace_existing);
+                complete_download (job, code, replace_existing ? DownloadOperation.REPLACEMENT : DownloadOperation.INSTALL);
+                if (code == ReturnCode.RUNNER_INSTALLED) {
+                    record_successful_change (job, job.steam_tinker_launch_context != null
+                        ? Models.SteamChangeKind.STEAMTINKERLAUNCH_CHANGED
+                        : replace_existing ? Models.SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED
+                        : Models.SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED);
+                }
+                return code;
             } finally {
                 job.finish_operation ();
                 release_operation (job, key);
@@ -126,6 +134,7 @@ namespace ProtonPlus.Services {
                 job.tool.group.invalidate_installed_state ();
                 if (code == ReturnCode.RUNNER_REMOVED) {
                     workflow.finalize_removal_success (job);
+                    Utils.DownloadManager.instance.clear_failure (key);
                     if (notify_removal)
                         Utils.DownloadManager.instance.tool_removed (job);
                     if (had_durable_state)
@@ -147,7 +156,7 @@ namespace ProtonPlus.Services {
             job.state = InstallJob.State.BUSY_UPDATING;
             try {
                 var code = yield select_workflow (job).update (job, this);
-                complete_update (job, code);
+                complete_download (job, code, DownloadOperation.UPDATE);
                 return code;
             } finally {
                 job.finish_operation ();
@@ -195,6 +204,12 @@ namespace ProtonPlus.Services {
             // named nondefault slot adds a selection absent from old receipts.
             if (installed_variant != null && !installed_variant.is_default)
                 job.set_selected_variant (installed_variant.name, null, installed_variant.id);
+            return yield run_provider_update (runner, job, restore_backup);
+        }
+
+        private async ReturnCode run_provider_update (
+            Models.Tools.ProviderTool runner, InstallJob job, bool restore_backup = false
+        ) {
             if (!reserve_operation (job))
                 return ReturnCode.OPERATION_IN_PROGRESS;
             var key = operation_target (job.install_location);
@@ -203,13 +218,15 @@ namespace ProtonPlus.Services {
             job.state = InstallJob.State.BUSY_UPDATING;
             try {
                 if (restore_backup) {
-                    var code = yield standard_archive_workflow.restore_legacy_latest_backup (runner, directory);
-                    if (code != ReturnCode.RUNNER_INSTALLED)
+                    var code = yield standard_archive_workflow.restore_legacy_latest_backup (runner, job.install_location);
+                    if (code != ReturnCode.RUNNER_INSTALLED) {
+                        complete_download (job, code, DownloadOperation.PROVIDER_UPDATE);
                         return code;
+                    }
                     runner.group.invalidate_installed_state ();
                 }
-                var result = yield standard_archive_workflow.update_specific_runner (runner, this, directory, job);
-                complete_update (job, result);
+                var result = yield standard_archive_workflow.update_specific_runner (runner, this, job.install_location, job);
+                complete_download (job, result, DownloadOperation.PROVIDER_UPDATE);
                 return result;
             } finally {
                 job.finish_operation ();
@@ -225,7 +242,7 @@ namespace ProtonPlus.Services {
             if (update_operations.contains (job)) {
                 if (Utils.DownloadManager.instance.is_downloading (job))
                     return ReturnCode.OPERATION_IN_PROGRESS;
-                return yield start_install (job, true, false);
+                return yield start_install (job, true);
             }
             // Standalone coordinator callers still need a complete reservation.
             if (!reserve_operation (job))
@@ -233,31 +250,70 @@ namespace ProtonPlus.Services {
             var key = operation_target (job.install_location);
             job.begin_operation ();
             try {
-                return yield start_install (job, true, false);
+                var code = yield start_install (job, true);
+                complete_download (job, code, DownloadOperation.REPLACEMENT);
+                return code;
             } finally {
                 job.finish_operation ();
                 release_operation (job, key);
             }
         }
 
-        private void complete_update (InstallJob job, ReturnCode code) {
-            // No-op and lookup failures never registered a download.
-            if (!Utils.DownloadManager.instance.active_downloads.contains (job))
-                return;
-            complete_install (job, select_workflow (job),
-                code == ReturnCode.RUNNER_UPDATED ? ReturnCode.RUNNER_INSTALLED : code);
-        }
+        private void complete_download (InstallJob job, ReturnCode code, DownloadOperation operation) {
+            var manager = Utils.DownloadManager.instance;
+            var key = operation_target (job.install_location);
+            var success = code == ReturnCode.RUNNER_INSTALLED || code == ReturnCode.RUNNER_UPDATED;
+            if (success || job.canceled || code == ReturnCode.NOTHING_TO_UPDATE)
+                manager.clear_failure (key);
+            else if (code != ReturnCode.OPERATION_IN_PROGRESS)
+                manager.retain_failure (new DownloadFailure (job, code, operation, key));
 
-        private void complete_install (InstallJob job, InstallationWorkflow workflow, ReturnCode code) {
+            // Lookup and preflight failures never registered an active row.
+            if (!manager.active_downloads.contains (job))
+                return;
             job.tool.group.invalidate_installed_state ();
-            var success = code == ReturnCode.RUNNER_INSTALLED;
             job.is_finished = true;
             job.install_success = success;
             if (success)
-                workflow.finalize_install_success (job);
-            Utils.DownloadManager.instance.remove_download (job);
+                select_workflow (job).finalize_install_success (job);
+            manager.remove_download (job);
             if (code != ReturnCode.RUNNERS_IN_USE && code != ReturnCode.PROCESS_INSPECTION_FAILED)
-                Utils.DownloadManager.instance.add_to_history (job, success);
+                manager.add_to_history (job, success);
+        }
+
+        public async bool retry_download (DownloadFailure failure) {
+            var manager = Utils.DownloadManager.instance;
+            if (!manager.has_failure (failure) || failure.retrying ||
+                active_operations.has_key (failure.target_key) || !failure.can_retry ())
+                return false;
+
+            failure.retrying = true;
+            var job = failure.job;
+            ReturnCode code;
+            job.retry_target = job.install_location;
+            try {
+                switch (failure.operation) {
+                case DownloadOperation.UPDATE:
+                    code = yield update (job);
+                    break;
+                case DownloadOperation.PROVIDER_UPDATE:
+                    code = yield run_provider_update ((Models.Tools.ProviderTool) job.tool, job);
+                    break;
+                default:
+                    code = yield install (job, false);
+                    break;
+                }
+            } finally {
+                job.retry_target = null;
+                failure.retrying = false;
+            }
+            if (failure.is_update) {
+                if (code == ReturnCode.RUNNER_UPDATED)
+                    manager.tool_updated (job, true);
+                else if (code == ReturnCode.NOTHING_TO_UPDATE)
+                    manager.tool_updated (job, false);
+            }
+            return code != ReturnCode.OPERATION_IN_PROGRESS;
         }
 
         public void record_completed_update (InstallJob job) {
@@ -350,7 +406,8 @@ namespace ProtonPlus.Services {
             return runner.group.installed_tool_inventory.is_latest_installation (entry, runner, true);
         }
 
-        private async ReturnCode start_install (InstallJob job, bool replace_existing, bool record_change) {
+        private async ReturnCode start_install (InstallJob job, bool replace_existing) {
+            job.step = InstallJob.Step.PREPARING;
             bool missing_explicit_selection;
             var compatibility = resolve_provider_install_variant (job, out missing_explicit_selection);
             if (compatibility != ReturnCode.RUNNER_INSTALLED)
@@ -361,7 +418,7 @@ namespace ProtonPlus.Services {
             var validation = workflow.validate_install (job, replace_existing);
             if (validation != ReturnCode.RUNNER_INSTALLED)
                 return validation;
-            return yield execute_install (job, workflow, replace_existing, record_change);
+            return yield execute_install (job, workflow, replace_existing);
         }
 
         // Provider archives are the only jobs whose assets originate from a
@@ -412,8 +469,7 @@ namespace ProtonPlus.Services {
         private async ReturnCode execute_install (
             InstallJob job,
             InstallationWorkflow workflow,
-            bool replace_existing,
-            bool record_change
+            bool replace_existing
         ) {
             var operation_kind = updating_operation_kind (job, replace_existing);
             var operation_context = process_operation_context (
@@ -446,19 +502,7 @@ namespace ProtonPlus.Services {
                     cache_operation.release ();
             }
             yield Utils.PartialDownloadCache.prune (Globals.CACHE_PATH);
-            // The outer update owns completion through settings migration,
-            // backup cleanup and rollback. Keep the job active until then.
-            if (updating)
-                return code;
-            complete_install (job, workflow, code);
-            job.finish_operation ();
-            var success = code == ReturnCode.RUNNER_INSTALLED;
-            if (success && record_change) {
-                record_successful_change (job, job.steam_tinker_launch_context != null
-                    ? Models.SteamChangeKind.STEAMTINKERLAUNCH_CHANGED
-                    : replace_existing ? Models.SteamChangeKind.COMPATIBILITY_TOOL_UPDATED_OR_REPLACED
-                    : Models.SteamChangeKind.COMPATIBILITY_TOOL_INSTALLED);
-            }
+            // Keep the active entry through the outer operation's finalization.
             return code;
         }
 

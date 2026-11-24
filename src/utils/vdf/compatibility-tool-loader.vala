@@ -40,22 +40,10 @@ namespace ProtonPlus.Utils.VDF {
                 inspection_path, externally_managed
             );
             Posix.Stat proton_stat;
-            if ((Posix.lstat (Path.build_filename (inspection_path, "proton"), out proton_stat) == 0
-                && Posix.S_ISREG (proton_stat.st_mode)) || declares_proton_layer (inspection_path))
+            if (Posix.lstat (Path.build_filename (inspection_path, "proton"), out proton_stat) == 0
+                && Posix.S_ISREG (proton_stat.st_mode))
                 tool.runtime_kind = Models.CompatibilityToolRuntimeKind.PROTON;
             return tool;
-        }
-
-        private static bool declares_proton_layer (string inspection_path) {
-            var path = Path.build_filename (inspection_path, "toolmanifest.vdf");
-            Posix.Stat manifest_stat;
-            if (Posix.lstat (path, out manifest_stat) != 0 || !Posix.S_ISREG (manifest_stat.st_mode))
-                return false;
-
-            // A Steam wrapper can declare the Proton layer without exposing a
-            // standalone proton executable for ProtonPlus to invoke directly.
-            var document = VdfParser.parse_document (Filesystem.get_file_content (path));
-            return document?.root.get_child ("manifest")?.get_child ("compatmanager_layer_name")?.value == "proton";
         }
 
         private static VdfEntry? find_compat_tools (VdfDocument document) {

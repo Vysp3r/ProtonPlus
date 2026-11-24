@@ -128,6 +128,9 @@ using Gtk;
                 }
             }
 
+            var pending_key = get_pending_custom_key ();
+            if (pending_key != "" && get_validation_diagnostic () == null)
+                final_parts += "%s=%s".printf (pending_key, get_default_custom_value ());
             return string.joinv (this.separator, final_parts);
         }
 

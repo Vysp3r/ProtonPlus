@@ -16,6 +16,17 @@ namespace ProtonPlus.Utils {
             return _instance;
         }
 
+        public static Gtk.CssProvider load_stylesheet (string name) {
+            // GTK 4.14 cannot parse custom properties, and libadwaita 1.5
+            // does not supply its palette as custom properties.
+            var directory = Gtk.check_version (4, 16, 0) != null || Adw.get_minor_version () < 6
+                ? Config.RESOURCE_BASE + "/legacy"
+                : Config.RESOURCE_BASE;
+            var provider = new Gtk.CssProvider ();
+            provider.load_from_resource ("%s/%s.css".printf (directory, name));
+            return provider;
+        }
+
         construct {
             var application = (Adw.Application) GLib.Application.get_default ();
             var style_manager = Adw.StyleManager.get_default ();
@@ -71,22 +82,20 @@ namespace ProtonPlus.Utils {
             switch (theme) {
                 case 2:
                     stylesheet = Adw.StyleManager.get_default ().get_dark () ?
-                        "/com/vysp3r/ProtonPlus/breeze-dark.css" :
-                        "/com/vysp3r/ProtonPlus/breeze-light.css";
+                        "breeze-dark" : "breeze-light";
                     break;
                 case 3:
-                    stylesheet = "/com/vysp3r/ProtonPlus/steamos.css";
+                    stylesheet = "steamos";
                     break;
                 case 4:
-                    stylesheet = "/com/vysp3r/ProtonPlus/oled.css";
+                    stylesheet = "oled";
                     break;
             }
 
             if (stylesheet == null)
             return;
 
-            custom_theme_provider = new Gtk.CssProvider ();
-            custom_theme_provider.load_from_resource (stylesheet);
+            custom_theme_provider = load_stylesheet (stylesheet);
             add_provider_for_display (
                 display,
                 custom_theme_provider,

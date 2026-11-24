@@ -75,7 +75,7 @@ namespace ProtonPlus.Widgets.Games {
                 if (tool.internal_title == game.compatibility_tool)
                     return tool.display_title;
             }
-            return _("Default");
+            return game.launcher.get_default_game_tool_title ();
         }
 
         public override void dispose () {
@@ -108,6 +108,7 @@ namespace ProtonPlus.Widgets.Games {
         Gee.HashMap<GameListItem, ulong> selection_handlers;
         Gee.HashMap<GameListItem, ulong> sort_value_handlers;
         ulong sorter_changed_handler = 0;
+        bool changing_selection = false;
         string query = "";
         GameFilterMode filter_mode = GameFilterMode.ALL;
 
@@ -156,8 +157,10 @@ namespace ProtonPlus.Widgets.Games {
             foreach (var game in games) {
                 var item = new GameListItem (game);
                 var handler_id = item.notify["selected"].connect (() => {
-                    sync_item_selection (item);
-                    state_changed ();
+                    if (!changing_selection) {
+                        sync_item_selection (item);
+                        state_changed ();
+                    }
                 });
                 selection_handlers.set (item, handler_id);
                 var sort_handler_id = item.notify["tool-title"].connect (() => {
@@ -230,21 +233,28 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         public void select_all_visible (bool selected) {
+            changing_selection = true;
             for (uint i = 0; i < sorted_model.get_n_items (); i++) {
                 var item = sorted_model.get_item (i) as GameListItem;
                 if (item != null)
                     ((!) item).selected = selected;
             }
-            sync_visible_selection ();
+            changing_selection = false;
+            if (selected)
+                selection_model.select_all ();
+            else
+                selection_model.unselect_all ();
             state_changed ();
         }
 
         public void clear_selection () {
+            changing_selection = true;
             for (uint i = 0; i < store.get_n_items (); i++) {
                 var item = store.get_item (i) as GameListItem;
                 if (item != null)
                     ((!) item).selected = false;
             }
+            changing_selection = false;
             selection_model.unselect_all ();
             state_changed ();
         }

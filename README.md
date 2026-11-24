@@ -73,6 +73,7 @@ ProtonPlus runs on Linux. It is distributed as a Flatpak and can also be built a
 | Launcher | Supported installation types | Tool categories |
 | --- | --- | --- |
 | Steam | System, Flatpak, Snap | Proton, including Steam Tinker Launch |
+| Proton-Autogen | System profiles | Proton in the native Steam compatibility-tool directory |
 | Faugus Launcher | System, Flatpak | Selected Proton tools |
 | Lutris | System, Flatpak | Proton, Wine, DXVK, VKD3D |
 | Heroic Games Launcher | System, Flatpak | Proton, Wine |
@@ -158,10 +159,10 @@ The following packages are maintained by distribution packagers or community mai
 
 A native build requires a Linux development environment with:
 
-- Git, a C compiler, pkg-config, Meson 1.0 or newer, Ninja, and Vala
+- Git, a C compiler, pkg-config, Meson 1.0 or newer, Ninja, Vala, and Python 3
 - GLib and glib-compile-schemas
-- GTK4
-- libadwaita 1.6 or newer
+- GTK 4.14 or newer
+- libadwaita 1.5 or newer
 - json-glib
 - libsoup 3
 - libgee
@@ -217,15 +218,13 @@ Downloads and updates appear in the header indicator. ProtonPlus also sends desk
 
 ### Proton-Autogen
 
-For native Steam, install **Proton-Autogen** from **Tools > Proton** and choose
-it for a game in **Games** or in Steam after restarting Steam. Use the **Latest**
-installation to receive updates. Install a Proton build that uses Steam Linux
-Runtime 4.0, such as Proton 11 or GE-Proton 11.
-The adapter uses any custom Proton search paths and saved per-game Proton
-choice from `~/.config/proton-autogen`. Configuration is optional. If the
-preferred build is unavailable, the adapter picks a compatible build and
-reports its choice in the launch output. Steam supplies the game's prefix,
-app ID, working directory, and launch arguments.
+Select **Proton-Autogen** in the launcher menu. **Tools** manages supported
+Proton builds in the native Steam compatibility-tool directory. **Games** shows
+the executables registered in Proton-Autogen. Choose **Automatic** to let
+Proton-Autogen pick a build, or select an installed build for one or more games.
+Use the play button in **Games** to launch a registered executable through
+Proton-Autogen. See the [profile format and supported
+locations](docs/integrations/proton-autogen.md).
 
 ### Controller input
 

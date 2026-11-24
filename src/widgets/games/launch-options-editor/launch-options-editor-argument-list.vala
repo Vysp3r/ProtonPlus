@@ -1,29 +1,18 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
     class LaunchOptionArgumentRow : Adw.EntryRow {
-        public signal void value_applied ();
         public signal void remove_requested ();
 
-        string committed_text;
+        string original_text;
         public int source_index { get; construct; }
-        Gtk.Button apply_button;
+        public Gtk.Label validation_label { get; private set; }
+        public Gtk.ListBoxRow validation_row { get; private set; }
 
         public LaunchOptionArgumentRow (string value = "", int source_index = -1) {
             Object (title: _("Argument"), source_index: source_index);
-            committed_text = value;
+            original_text = value;
             text = value;
             Utils.TextInputMetadataPolicy.apply (this, Utils.TextInputFieldKind.COMMAND);
             set_tooltip_text (_("One exact shell argument. Quotes and escapes are preserved."));
-
-            apply_button = new Gtk.Button.from_icon_name ("object-select-symbolic") {
-                valign = Gtk.Align.CENTER,
-                css_classes = { "flat" }
-            };
-            apply_button.set_tooltip_text (_("Apply argument edit"));
-            apply_button.update_property (
-                Gtk.AccessibleProperty.LABEL, _("Apply argument edit"), -1
-            );
-            apply_button.clicked.connect (apply_pending_text);
-            add_suffix (apply_button);
 
             var remove_button = new Gtk.Button.from_icon_name ("user-trash-symbolic") {
                 valign = Gtk.Align.CENTER,
@@ -36,35 +25,33 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             remove_button.clicked.connect (() => remove_requested ());
             add_suffix (remove_button);
 
-            var keys = new Gtk.EventControllerKey ();
-            keys.set_propagation_phase (Gtk.PropagationPhase.CAPTURE);
-            keys.key_pressed.connect ((keyval, keycode, state) => {
-                if (keyval == Gdk.Key.Return || keyval == Gdk.Key.KP_Enter) {
-                    apply_pending_text ();
-                    return true;
-                }
-                return false;
-            });
-            add_controller (keys);
-            activate.connect (apply_pending_text);
-            changed.connect (refresh_apply_state);
-            refresh_apply_state ();
+            validation_label = LaunchOptionInputFeedback.create_label ();
+            validation_row = new Gtk.ListBoxRow () {
+                child = validation_label,
+                activatable = false,
+                selectable = false,
+                focusable = false,
+                visible = false
+            };
+            changed.connect (refresh_validation);
         }
 
-        public string get_committed_text () {
-            return committed_text;
+        public string? get_validation_diagnostic () {
+            // Imported shell content can be left in place or removed.
+            if (text == "" || (source_index >= 0 && text == original_text))
+                return null;
+            if (text.contains ("%command%"))
+                return _("Remove %command% from this argument.");
+            var tokens = new LaunchOptionShellTokenizer ().tokenize (text);
+            if (tokens.size != 1 || tokens[0].raw != text || tokens[0].is_opaque)
+                return _("Enter one complete argument. Use quotes around spaces and close all quotes.");
+            return null;
         }
 
-        void apply_pending_text () {
-            if (text == committed_text)
-                return;
-            committed_text = text;
-            refresh_apply_state ();
-            value_applied ();
-        }
-
-        void refresh_apply_state () {
-            apply_button.sensitive = text != committed_text;
+        void refresh_validation () {
+            var diagnostic = get_validation_diagnostic ();
+            LaunchOptionInputFeedback.update (this, validation_label, diagnostic);
+            validation_row.visible = diagnostic != null;
         }
     }
 
@@ -119,7 +106,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public string[] get_raw_arguments () {
             var values = new Gee.ArrayList<string> ();
             foreach (var row in rows) {
-                var value = row.get_committed_text ();
+                var value = row.text;
                 if (value != "")
                     values.add (value);
             }
@@ -129,7 +116,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public int[] get_source_indexes () {
             var indexes = new Gee.ArrayList<int> ();
             foreach (var row in rows) {
-                if (row.get_committed_text () != "")
+                if (row.text != "")
                     indexes.add (row.source_index);
             }
             return indexes.to_array ();
@@ -140,12 +127,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         public string? get_validation_diagnostic () {
-            foreach (var value in get_raw_arguments ()) {
-                var tokens = new LaunchOptionShellTokenizer ().tokenize (value);
-                if (tokens.size != 1 || tokens[0].raw != value)
-                    return _("Each custom game argument must be one complete shell argument.");
-                if (value.contains ("%command%"))
-                    return _("Custom game arguments cannot contain %command%.");
+            foreach (var row in rows) {
+                var diagnostic = row.get_validation_diagnostic ();
+                if (diagnostic != null)
+                    return diagnostic;
             }
             return null;
         }
@@ -160,20 +145,20 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         LaunchOptionArgumentRow append_argument (string value, int source_index) {
             var row = new LaunchOptionArgumentRow (value, source_index);
-            row.value_applied.connect (() => {
-                if (row.get_committed_text () == "")
-                    remove_argument (row);
-                else if (!refreshing)
+            row.changed.connect (() => {
+                if (!refreshing)
                     changed ();
             });
             row.remove_requested.connect (() => remove_argument (row));
             rows.add (row);
             add_row (row);
+            add_row (row.validation_row);
             return row;
         }
 
         void remove_argument (LaunchOptionArgumentRow row) {
-            var had_value = row.get_committed_text () != "";
+            var had_value = row.text != "";
+            remove (row.validation_row);
             remove (row);
             rows.remove (row);
             if (had_value && !refreshing)
@@ -181,8 +166,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         void remove_all_rows () {
-            foreach (var row in rows)
+            foreach (var row in rows) {
+                remove (row.validation_row);
                 remove (row);
+            }
             rows.clear ();
         }
 

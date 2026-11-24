@@ -5,8 +5,13 @@ namespace ProtonPlus.Widgets.Tools {
     }
 
     public class STLReleaseRow : ReleaseRow {
-        public STLReleaseRow (Services.InstallJob job) {
-            base (job);
+        public STLReleaseRow (
+            Services.InstallJob job,
+            bool release_action_available = true,
+            Models.InstalledToolEntry? installed_entry = null,
+            bool release_details_available = true
+        ) {
+            base (job, release_action_available, installed_entry, release_details_available);
         }
 
         protected override void install_button_clicked () {

@@ -282,7 +282,6 @@ namespace ProtonPlus.Widgets {
                 this.launchers = launchers;
 
                 header_box.initialize (launchers, main_box.view_switcher);
-                main_box.initialize (launchers);
                 toolbar_view.set_content (main_box);
                 main_content_visible = true;
                 search_action.set_enabled (main_box.search_available ());

@@ -7,6 +7,7 @@ sources += files(
     'compatibility-tool.vala',
     'steam-compatibility-tool-discovery.vala',
     'installed-tool-inventory.vala',
+    'steam-game-library-issue.vala',
     'steam-profile.vala',
     'steam-restart-target.vala',
     'steam-restart-operation.vala',

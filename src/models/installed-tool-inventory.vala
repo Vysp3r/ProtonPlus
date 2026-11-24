@@ -110,6 +110,105 @@ namespace ProtonPlus.Models {
             return null;
         }
 
+        // Includes legacy installs whose exact layout identifies one tool.
+        // Stable receipts still take precedence over names on disk.
+        public Gee.List<InstalledToolEntry> get_installations_for_tool (Tool tool) {
+            var result = new Gee.ArrayList<InstalledToolEntry> ();
+            var provider = tool as Tools.ProviderTool;
+            if (provider == null) {
+                if (tool.resolved_installed_entry != null)
+                    result.add ((!) tool.resolved_installed_entry);
+                return result;
+            }
+
+            foreach (var entry in entries) {
+                if (is_latest_installation (entry, provider, true))
+                    continue;
+                var owner = get_provider_tool_for_entry (entry);
+                if (owner == null && !entry.has_persisted_identity () &&
+                    entry.runner_endpoint == "" && entry.runner_title == "" && entry.tag == "")
+                    owner = get_legacy_layout_owner (entry);
+                if (owner == provider)
+                    result.add (entry);
+            }
+            result.sort ((left, right) => strcmp (left.directory_name, right.directory_name));
+            return result;
+        }
+
+        private Tools.ProviderTool? get_legacy_layout_owner (InstalledToolEntry entry) {
+            if (group.tools == null)
+                return null;
+            foreach (var directory_root in group.launcher.get_managed_tool_directories (group))
+                if (entry.path == directory_root)
+                    return null;
+
+            Tools.ProviderTool? owner = null;
+            foreach (var candidate in group.tools) {
+                var provider = candidate as Tools.ProviderTool;
+                if (provider == null || !identifier_matches_tool (entry.directory_name, provider))
+                    continue;
+                if (owner != null)
+                    return null;
+                owner = provider;
+            }
+            return owner;
+        }
+
+        public Release? find_installed_release (Tool tool, InstalledToolEntry entry) {
+            var catalog = tool.release_catalog;
+            if (catalog == null)
+                return null;
+
+            var provider = tool as Tools.ProviderTool;
+            Release? match = null;
+            foreach (var release in catalog.releases) {
+                bool matched;
+                if (entry.release_id != "")
+                    matched = entry.release_id == release.upstream_release_id;
+                else if (entry.tag != "")
+                    matched = entry.tag == release.source_tag || entry.tag == release.title;
+                else {
+                    var variant = provider != null ? find_installed_variant (provider, entry, release) : null;
+                    matched = variant != null && provider != null &&
+                        entry.directory_name == provider.get_directory_name (release.title, variant);
+                }
+                if (!matched)
+                    continue;
+                if (match != null)
+                    return null;
+                match = release;
+            }
+            return match;
+        }
+
+        public Variant? find_installed_variant (Tools.ProviderTool tool, InstalledToolEntry entry, Release? release) {
+            if (entry.variant_id != "") {
+                if (release != null)
+                    foreach (var variant in release.variants)
+                        if (variant.id == entry.variant_id)
+                            return variant;
+                foreach (var variant in tool.variants)
+                    if (variant.id == entry.variant_id)
+                        return variant;
+                return null;
+            }
+
+            if (is_latest_installation (entry, tool))
+                return get_latest_variant (entry, tool);
+            if (release == null)
+                return null;
+
+            Variant? match = null;
+            foreach (var variant in release.variants) {
+                if (entry.directory_name != tool.get_directory_name (release.title, variant))
+                    continue;
+                if (match != null)
+                    return null;
+                match = variant;
+            }
+            return match;
+        }
+
         // Pure cached lookup for consumers that already know the physical
         // installation target.  This deliberately performs no discovery or
         // manifest parsing.

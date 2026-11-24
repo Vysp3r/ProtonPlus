@@ -47,6 +47,12 @@ namespace ProtonPlus.Models {
             steam_appid_by_internal_title.clear ();
         }
 
+        internal SteamCompatibilityToolDiscovery new_scan () {
+            return new SteamCompatibilityToolDiscovery (
+                installation_type, false, system_root, system_inspection_root, flatpak_runtime_roots
+            );
+        }
+
         public void add_steam_library_app (
             string path,
             uint appid,

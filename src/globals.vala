@@ -6,6 +6,7 @@ namespace ProtonPlus.Globals {
     public static List<string> HWCAPS;
     public static string CACHE_PATH;
     public static bool PROTONTRICKS_INSTALLED;
+    public static bool PROTON_AUTOGEN_INSTALLED;
     public static bool PROTONTRICKS_FLATPAK_INSTALLED;
     public static bool FAUGUS_FLATPAK_INSTALLED;
     public static bool MANGOHUD_INSTALLED;
@@ -112,6 +113,7 @@ namespace ProtonPlus.Globals {
 
         var components = new Utils.InstalledComponents (Globals.IS_FLATPAK);
         Globals.PROTONTRICKS_INSTALLED = components.protontricks;
+        Globals.PROTON_AUTOGEN_INSTALLED = components.proton_autogen;
         Globals.PROTONTRICKS_FLATPAK_INSTALLED = components.has_flatpak ("com.github.Matoking.protontricks");
         Globals.FAUGUS_FLATPAK_INSTALLED = components.has_flatpak (
             Models.Launchers.FaugusLauncher.FLATPAK_ID

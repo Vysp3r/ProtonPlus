@@ -50,6 +50,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public LaunchCommandCapabilityContext? capabilities;
         public bool explicit_clear;
         public bool retain_placeholder_for_arguments_only;
+        public bool preserve_unedited_custom_arguments;
 
         public LaunchCommandWriteRequest (LaunchCommandParseResult parsed,
                                           LaunchCommandSelection[] selections,
@@ -57,7 +58,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                                           string[] adapter_diagnostics = {},
                                           LaunchCommandCapabilityContext? capabilities = null,
                                           bool explicit_clear = false,
-                                          bool retain_placeholder_for_arguments_only = false) {
+                                          bool retain_placeholder_for_arguments_only = false,
+                                          bool preserve_unedited_custom_arguments = false) {
             Object ();
             this.parsed = parsed;
             this.selections = selections;
@@ -66,12 +68,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             this.capabilities = capabilities;
             this.explicit_clear = explicit_clear;
             this.retain_placeholder_for_arguments_only = retain_placeholder_for_arguments_only;
+            this.preserve_unedited_custom_arguments = preserve_unedited_custom_arguments;
         }
     }
 
     class CustomArgumentReplacements : Object {
         public HashMap<int, string> anchored { get; private set; }
         public ArrayList<string> additions { get; private set; }
+        public bool preserve_unedited;
 
         public CustomArgumentReplacements () {
             anchored = new HashMap<int, string> ();
@@ -173,11 +177,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             ));
             var generated = parser.parse (generated_composition.launch_line);
             var custom_arguments = collect_custom_argument_replacements (
-                request.parsed, request.selections, changed
+                request.parsed, request.selections, changed, request.preserve_unedited_custom_arguments
             );
             var launch_line = only_dynamic_game_arguments_changed (changed)
                 ? merge_custom_arguments_in_source (request.parsed, custom_arguments)
-                : merge (request.parsed, generated, changed, custom_arguments);
+                : merge (request.parsed, generated, changed, custom_arguments, request.selections);
             var result = new LaunchCommandWriteResult (
                 request.parsed.original_input == "" ? LaunchCommandWriteStatus.FRESH_MANAGED_OUTPUT
                                                      : LaunchCommandWriteStatus.SOURCE_PRESERVING_MANAGED_MERGE,
@@ -197,14 +201,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                                                          string[] adapter_diagnostics = {},
                                                          LaunchCommandCapabilityContext? capabilities = null,
                                                          bool explicit_clear = false,
-                                                         bool retain_placeholder_for_arguments_only = false) {
+                                                         bool retain_placeholder_for_arguments_only = false,
+                                                         bool preserve_unedited_custom_arguments = false) {
             var parsed = parser.parse (source);
             if (!explicit_clear && parsed.command_boundary_indexes.size == 1
                 && parsed.command_boundary_indexes[0] == 0)
                 retain_placeholder_for_arguments_only = true;
             return prepare (new LaunchCommandWriteRequest (parsed, selections,
                 modified_option_ids, adapter_diagnostics, capabilities, explicit_clear,
-                retain_placeholder_for_arguments_only));
+                retain_placeholder_for_arguments_only, preserve_unedited_custom_arguments));
         }
 
         bool requires_context (LaunchCommandSelection[] selections) {
@@ -312,9 +317,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         CustomArgumentReplacements collect_custom_argument_replacements (
             LaunchCommandParseResult parsed, LaunchCommandSelection[] selections,
-            HashSet<string> changed
+            HashSet<string> changed, bool preserve_unedited
         ) {
-            var replacements = new CustomArgumentReplacements ();
+            var replacements = new CustomArgumentReplacements () { preserve_unedited = preserve_unedited };
             foreach (var selection in selections) {
                 var metadata = catalog.lookup (selection.option_id);
                 if (metadata == null || metadata.semantics == null
@@ -344,7 +349,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         ) {
             var output = new ArrayList<string> ();
             for (var index = 0; index < source.tokens.size; index++) {
-                if (!source.is_custom_game_argument_index (index)) {
+                if (replacements.preserve_unedited || !source.is_custom_game_argument_index (index)) {
                     output.add (source.tokens[index].raw);
                     continue;
                 }
@@ -357,14 +362,16 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         string merge (LaunchCommandParseResult source, LaunchCommandParseResult generated,
-                      HashSet<string> changed, CustomArgumentReplacements custom_arguments) {
+                      HashSet<string> changed, CustomArgumentReplacements custom_arguments,
+                      LaunchCommandSelection[] selections) {
             var source_boundary = source.command_boundary_indexes.size == 1
                 ? source.command_boundary_indexes[0] : -1;
             var generated_boundary = generated.command_boundary_indexes.size == 1
                 ? generated.command_boundary_indexes[0] : -1;
             var output = new ArrayList<string> ();
             var emitted = new HashSet<string> ();
-            var replace_unrecognized_arguments = has_changed_dynamic_game_arguments (changed);
+            var custom_arguments_changed = has_changed_dynamic_game_arguments (changed);
+            var replace_unrecognized_arguments = custom_arguments_changed && !custom_arguments.preserve_unedited;
 
             /* Keep unrecognized environment assignments in their source order
              * and apply source-anchored custom edits without normalizing them. */
@@ -413,7 +420,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             } else {
                 append_merged_wrappers (
                     output, source, generated, changed, emitted,
-                    custom_arguments, replace_unrecognized_arguments
+                    custom_arguments, replace_unrecognized_arguments, selections
                 );
             }
 
@@ -436,7 +443,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             }
             append_generated_region (output, generated, generated_boundary + 1, generated.tokens.size,
                 changed, emitted, Region.GAME_ARGUMENT);
-            if (replace_unrecognized_arguments) {
+            if (custom_arguments_changed) {
                 foreach (var addition in custom_arguments.additions)
                     output.add (addition);
             }
@@ -502,7 +509,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                                      LaunchCommandParseResult generated, HashSet<string> changed,
                                      HashSet<string> emitted,
                                      CustomArgumentReplacements custom_arguments,
-                                     bool replace_custom_arguments) {
+                                     bool replace_custom_arguments,
+                                     LaunchCommandSelection[] selections) {
             /* The catalog is ordered by nesting priority.  Select one raw
              * invocation for each wrapper identity: unchanged source first,
              * otherwise the generated replacement.  This keeps independent
@@ -516,6 +524,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                         output, source, source_invocation, emitted,
                         custom_arguments, replace_custom_arguments
                     );
+                } else if (source_invocation != null && generated_invocation != null) {
+                    append_edited_wrapper (
+                        output, source, source_invocation, generated, generated_invocation,
+                        changed, custom_arguments, replace_custom_arguments, selections
+                    );
                 } else if (generated_invocation != null) {
                     append_wrapper_tokens (
                         output, generated, generated_invocation, emitted,
@@ -523,6 +536,76 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     );
                 }
             }
+        }
+
+        void append_edited_wrapper (
+            ArrayList<string> output, LaunchCommandParseResult source, LaunchCommandWrapperInvocation invocation,
+            LaunchCommandParseResult generated, LaunchCommandWrapperInvocation replacement, HashSet<string> changed,
+            CustomArgumentReplacements custom_arguments, bool replace_custom_arguments, LaunchCommandSelection[] selections
+        ) {
+            var edited_arguments = new HashMap<string, ArrayList<string>> ();
+            var edited_order = new ArrayList<string> ();
+            foreach (var index in replacement.argument_indexes) {
+                var occurrence = occurrence_at (generated, index);
+                if (occurrence == null || !changed.contains (occurrence.option_id))
+                    continue;
+                var id = occurrence.option_id;
+                if (!edited_arguments.has_key (id)) {
+                    edited_arguments.set (id, new ArrayList<string> ());
+                    edited_order.add (id);
+                }
+                edited_arguments.get (id).add (generated.tokens[index].raw);
+            }
+
+            var extra_id = changed_extra_wrapper_arguments (invocation.wrapper_id, changed);
+            if (extra_id != "") {
+                var extra_arguments = new ArrayList<string> ();
+                foreach (var selection in selections) {
+                    if (selection.option_id == extra_id)
+                        foreach (var value in selection.get_values ())
+                            extra_arguments.add (value);
+                }
+                edited_arguments.set (extra_id, extra_arguments);
+                edited_order.add (extra_id);
+            }
+
+            foreach (var index in invocation.executable_indexes)
+                output.add (source.tokens[index].raw);
+            foreach (var index in invocation.argument_indexes) {
+                var occurrence = occurrence_at (source, index);
+                var id = occurrence != null ? occurrence.option_id : extra_id;
+                if (changed.contains (id))
+                    append_edited_arguments (output, edited_arguments, id);
+                else if (invocation.unknown_argument_indexes.contains (index))
+                    append_source_custom_argument (output, source, index, custom_arguments, replace_custom_arguments);
+                else
+                    output.add (source.tokens[index].raw);
+            }
+            foreach (var id in edited_order)
+                append_edited_arguments (output, edited_arguments, id);
+            if (invocation.delimiter_index >= 0)
+                output.add (source.tokens[invocation.delimiter_index].raw);
+        }
+
+        void append_edited_arguments (
+            ArrayList<string> output, HashMap<string, ArrayList<string>> arguments, string id
+        ) {
+            var values = arguments.get (id);
+            if (values == null)
+                return;
+            output.add_all (values);
+            arguments.unset (id);
+        }
+
+        string changed_extra_wrapper_arguments (string wrapper_id, HashSet<string> changed) {
+            foreach (var id in changed) {
+                var semantics = catalog.lookup (id)?.semantics;
+                if (semantics != null && semantics.wrapper_id == wrapper_id
+                    && semantics.emission_mode == LaunchOptionEmissionMode.DYNAMIC_WRAPPER_ARGUMENT
+                    && semantics.parse_shape == null)
+                    return id;
+            }
+            return "";
         }
 
         LaunchCommandWrapperInvocation? wrapper_invocation (LaunchCommandParseResult parsed, string id) {

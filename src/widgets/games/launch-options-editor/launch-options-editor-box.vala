@@ -24,6 +24,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         string loaded_source;
         Gee.ArrayList<string> preview_source_labels;
         Gee.ArrayList<string> preview_sources;
+        Gee.HashMap<string, string> field_diagnostics;
+        Gee.List<string> adapter_diagnostics;
 
         Adw.EntryRow search_entry { get; set; }
         Adw.ComboRow category_filter { get; set; }
@@ -57,6 +59,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             loaded_source = "";
             preview_source_labels = new Gee.ArrayList<string> ();
             preview_sources = new Gee.ArrayList<string> ();
+            field_diagnostics = new Gee.HashMap<string, string> ();
             preview_source_labels.add ("");
             preview_sources.add (loaded_source);
             category_boxes = new Gee.HashMap<int, Gtk.Box> ();
@@ -107,6 +110,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             append (no_results_label);
 
             gpu_vendor_group.set_advanced_visible (true);
+            adapter_diagnostics = presentations.validate_selection_sources ();
             refreshing_controls = false;
             refresh_state ();
         }
@@ -269,15 +273,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             get { return projection.composition_diagnostics; }
         }
         public bool is_dirty { get { return edit_state.is_dirty; } }
-        public bool writing_allowed {
-            get {
-                foreach (var source in preview_sources) {
-                    if (!prepare_write_for_source (source).writing_allowed)
-                        return false;
-                }
-                return true;
-            }
-        }
+        public bool writing_allowed { get; private set; }
+        public bool has_changes_to_write { get; private set; }
+        public bool can_clear { get; private set; }
         public Gee.List<string> write_diagnostics { get { return prepare_write ().writer_diagnostics; } }
 
         public LaunchCommandWriteResult prepare_write () {
@@ -285,11 +283,19 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         public LaunchCommandWriteResult prepare_write_for_source (string source) {
-            var diagnostics = presentations.validate_selection_sources ();
-            var selections = collect_managed_selections (diagnostics);
-            return writer.prepare_source (source, selections.to_array (), edit_state.get_modified_option_ids (),
-                diagnostics.to_array (), capability_context, edit_state.explicit_clear,
-                false);
+            var diagnostics = new Gee.ArrayList<string> ();
+            diagnostics.add_all (adapter_diagnostics);
+            bool has_draft_options;
+            var selections = collect_managed_selections (diagnostics, out has_draft_options);
+            return write_source (source, selections.to_array (), diagnostics.to_array ());
+        }
+
+        LaunchCommandWriteResult write_source (
+            string source, LaunchCommandSelection[] selections, string[] diagnostics
+        ) {
+            return writer.prepare_source (source, selections, edit_state.get_modified_option_ids (),
+                diagnostics, capability_context, edit_state.explicit_clear, false,
+                source != loaded_source);
         }
 
         public void set_capability_context (LaunchCommandCapabilityContext? context) {
@@ -306,10 +312,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             preview_sources.add (loaded_source);
             gpu_vendor_group.reset_controls ();
             launch_option_handlers.load_from_string (launch_options);
-            advanced_options_group.load_custom_arguments (
-                new LaunchCommandParser (catalog).parse (launch_options)
-            );
+            var parsed = new LaunchCommandParser (catalog).parse (launch_options);
+            advanced_options_group.load_custom_arguments (parsed);
             wrapper_group.normalize_selection ();
+            wrapper_group.load_raw_arguments (parsed);
             gpu_vendor_group.normalize_dependencies ();
             edit_state.record_baseline (collect_sources ());
             refreshing_controls = false;
@@ -331,6 +337,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 preview_sources.add (loaded_source);
             }
             refresh_preview ();
+            refresh_filters ();
         }
 
         void standard_control_changed () {
@@ -342,16 +349,16 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         void refresh_state (bool notify_change = false) {
-            refresh_filters ();
             refresh_projection ();
             refresh_preview ();
+            refresh_filters ();
             if (notify_change)
                 content_changed ();
         }
 
         void refresh_projection () {
             var sources = collect_sources (true);
-            projection.update (loaded_source, sources, presentations.validate_selection_sources (), capability_context);
+            projection.update (loaded_source, sources, adapter_diagnostics, capability_context);
         }
 
         Gee.ArrayList<ILaunchCommandSelectionSource> collect_sources (bool exclude_unavailable = false) {
@@ -378,13 +385,19 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             return sources;
         }
 
-        Gee.ArrayList<LaunchCommandSelection> collect_managed_selections (Gee.Collection<string> diagnostics) {
+        Gee.ArrayList<LaunchCommandSelection> collect_managed_selections (
+            Gee.Collection<string> diagnostics, out bool has_draft_options, Gee.Map<string, string>? fields = null
+        ) {
+            has_draft_options = false;
             var selections = new Gee.ArrayList<LaunchCommandSelection> ();
             foreach (var source in collect_sources ()) {
                 var selection = source.get_selection ();
                 var source_diagnostic = source.get_diagnostic ();
-                if (source_diagnostic != null)
+                has_draft_options |= selection != null || source_diagnostic != null;
+                if (source_diagnostic != null && edit_state.is_option_modified (source.option_id)) {
                     diagnostics.add (source_diagnostic);
+                    fields?.set (source.option_id, source_diagnostic);
+                }
                 if (selection == null)
                     continue;
                 var metadata = catalog.lookup (selection.option_id);
@@ -396,8 +409,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 var eligibility = capability_resolver.evaluate_selection (metadata, selection,
                     capability_context, true);
                 if (!eligibility.may_activate) {
-                    if (edit_state.is_option_modified (selection.option_id))
+                    if (edit_state.is_option_modified (selection.option_id)) {
                         diagnostics.add (eligibility.reason);
+                        fields?.set (selection.option_id, eligibility.reason);
+                    }
                     continue;
                 }
                 if (semantics.managed_emission
@@ -405,7 +420,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     && semantics.kind != LaunchOptionSemanticKind.OPAQUE_CONTEXT_DEPENDENT) {
                     selections.add (selection);
                 } else if (edit_state.is_option_modified (selection.option_id)) {
-                    diagnostics.add ("Launch option '%s' cannot be newly enabled.".printf (selection.option_id));
+                    var diagnostic = _("This launch option cannot be enabled here.");
+                    diagnostics.add (diagnostic);
+                    fields?.set (selection.option_id, diagnostic);
                 }
             }
             return selections;
@@ -414,7 +431,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         void refresh_filters () {
             var query = search_entry.text.strip ();
             var view = get_selected_view ();
-            presentations.apply_filter (view, query, capability_resolver, capability_context);
+            presentations.apply_filter (view, query, capability_resolver, capability_context, field_diagnostics);
 
             foreach (var group in subsection_groups.values) {
                 var parts = group.get_data<string> ("launch-options-subsection-key").split (":", 2);
@@ -508,31 +525,46 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         void refresh_preview () {
+            field_diagnostics.clear ();
+            var diagnostics = new Gee.ArrayList<string> ();
+            diagnostics.add_all (adapter_diagnostics);
+            bool has_draft_options;
+            var selections = collect_managed_selections (diagnostics, out has_draft_options, field_diagnostics).to_array ();
+            var issues = diagnostics.to_array ();
             var results = new Gee.ArrayList<LaunchCommandWriteResult> ();
-            foreach (var source in preview_sources)
-                results.add (prepare_write_for_source (source));
-
+            var results_by_source = new Gee.HashMap<string, LaunchCommandWriteResult> ();
             LaunchCommandWriteResult? blocked_result = null;
-            foreach (var candidate in results) {
-                if (!candidate.writing_allowed) {
-                    blocked_result = candidate;
-                    break;
+            can_clear = has_draft_options;
+            has_changes_to_write = false;
+            foreach (var source in preview_sources) {
+                var candidate = results_by_source.get (source);
+                if (candidate == null) {
+                    candidate = write_source (source, selections, issues);
+                    results_by_source.set (source, candidate);
                 }
+                results.add (candidate);
+                can_clear |= source != "";
+                has_changes_to_write |= candidate.requires_persistence;
+                if (!candidate.writing_allowed && blocked_result == null)
+                    blocked_result = candidate;
             }
+            writing_allowed = blocked_result == null;
 
             var result = blocked_result ?? results[0];
-            var preview = result.writing_allowed ? result.launch_line : loaded_source;
+            var preview = result.writing_allowed ? result.launch_line : result.parsed.original_input;
             var reason = "";
             foreach (var diagnostic in result.composition_diagnostics) {
-                if (diagnostic.code == LaunchCommandCompositionDiagnosticCode.MISSING_REQUIRED_CAPABILITY) {
+                if (!field_diagnostics.has_key (diagnostic.option_id))
+                    field_diagnostics.set (diagnostic.option_id, diagnostic.message);
+                if (reason == "")
                     reason = diagnostic.message;
-                    break;
-                }
             }
-            if (reason == "" && result.writer_diagnostics.size > 0)
+            if (result.status == LaunchCommandWriteStatus.BLOCKED_UNSAFE_SOURCE)
+                reason = _("Use Clear Launch Options to replace a command that cannot be merged safely.");
+            else if (reason == "" && result.writer_diagnostics.size > 0)
                 reason = result.writer_diagnostics[0];
-            if (!result.writing_allowed && is_dirty && reason == "")
-                preview = _("Unable to safely prepare these launch options.");
+            if (!result.writing_allowed && reason == "")
+                reason = _("Review the selected launch options before applying changes.");
 
             var same_output = blocked_result == null;
             var commands = new string[results.size];
@@ -551,7 +583,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     LaunchOptionsList.build_command_preview_markup (preview));
                 preview_field.set_empty (preview == "");
             }
-            preview_field.set_attention_required (!result.writing_allowed && is_dirty, reason);
+            preview_field.set_attention_required (!writing_allowed, reason);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace ProtonPlus.Services {
                     ReturnCode.EXTRACTION_FAILED, archive, !job.canceled
                 );
             }
-            if (job.archive_install_requirement == Models.Providers.ArchiveInstallRequirement.NESTED_ARCHIVE) {
+            if (requires_nested_archive (job)) {
                 source_path = yield extract_nested_archive (job, source_path, archive.operation_path);
                 if (source_path == null || source_path == "") {
                     if (!job.canceled)
@@ -42,15 +42,6 @@ namespace ProtonPlus.Services {
                     return yield archive_support.complete_attempt (
                         ReturnCode.EXTRACTION_FAILED, archive, !job.canceled
                     );
-                }
-            }
-            var autogen_package = job.archive_install_requirement == Models.Providers.ArchiveInstallRequirement.STEAM_PROTON_AUTOGEN;
-            if (autogen_package) {
-                // Package metadata precedes the actual usr/ payload.
-                source_path = Path.build_filename (archive.operation_path, "usr");
-                if (!ProtonAutogenArchive.is_directory (source_path)) {
-                    job.error_message = _ ("The Proton-Autogen package is invalid or incomplete.");
-                    return yield archive_support.complete_attempt (ReturnCode.INVALID_DATA, archive, true);
                 }
             }
 
@@ -66,9 +57,7 @@ namespace ProtonPlus.Services {
                 job.error_message = _ ("Moving failed");
                 return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
             }
-            var preparation = autogen_package
-                ? yield ProtonAutogenArchive.prepare (job, staged_install_path)
-                : yield prepare_staged_installation (job, staged_install_path);
+            var preparation = yield prepare_staged_installation (job, staged_install_path);
             if (preparation != ReturnCode.RUNNER_INSTALLED)
                 return yield archive_support.complete_attempt (preparation, archive, true);
             if (!yield archive_support.publish_archive (archive))
@@ -131,6 +120,7 @@ namespace ProtonPlus.Services {
             var runner = job.tool as Models.Tools.ProviderTool;
             if (runner == null || runner.release_catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
+            job.step = InstallJob.Step.CHECKING_RELEASE;
             var lookup = yield runner.release_catalog.fetch_latest_eligible_release ();
             if (!lookup.succeeded)
                 return lookup.code;
@@ -198,6 +188,8 @@ namespace ProtonPlus.Services {
             var metadata = Utils.Metadata.load (directory);
             if (runner.release_catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
+            if (reserved_job != null)
+                reserved_job.step = InstallJob.Step.CHECKING_RELEASE;
             var lookup = yield runner.release_catalog.fetch_latest_eligible_release ();
             if (!lookup.succeeded)
                 return lookup.code;
@@ -313,6 +305,7 @@ namespace ProtonPlus.Services {
                 job.finish_operation ();
                 return install_code;
             }
+            job.step = InstallJob.Step.FINALIZING;
             var backup = job.replacement_backup_path;
             if (backup == null || !FileUtils.test (backup, FileTest.IS_DIR)) {
                 job.finish_operation ();
@@ -325,6 +318,10 @@ namespace ProtonPlus.Services {
                 coordinator.record_completed_update (job);
             }
             return code;
+        }
+
+        private bool requires_nested_archive (InstallJob job) {
+            return job.archive_install_requirement == Models.Providers.ArchiveInstallRequirement.NESTED_ARCHIVE;
         }
 
         private ReturnCode restore_installed_variant (InstallJob job, string variant_id) {

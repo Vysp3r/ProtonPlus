@@ -28,13 +28,13 @@ namespace ProtonPlus.Widgets.Preferences {
             refresh_button.set_sensitive (false);
 
             refresh_button.set_child (spinner);
+            spinner.start ();
 
             activate_action ("app.reload", null);
 
-            spinner?.unparent ();
-
-            refresh_button?.set_icon_name ("view-refresh-symbolic");
-            refresh_button?.set_sensitive (true);
+            spinner.stop ();
+            refresh_button.set_icon_name ("view-refresh-symbolic");
+            refresh_button.set_sensitive (true);
         }
     }
 }

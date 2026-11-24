@@ -62,10 +62,10 @@ namespace ProtonPlus.Widgets.Games {
             bool is_non_steam, bool is_native, bool has_install_directory,
             bool has_prefix_directory, bool protontricks_available,
             string? anticheat_status, bool has_anticheat_page,
-            bool anticheat_lookup_complete) {
+            bool anticheat_lookup_complete, bool proton_autogen_available = false) {
             var result = new GameActionAvailability ();
             result.native_game = is_native;
-            result.show_launch = is_steam;
+            result.show_launch = is_steam || proton_autogen_available;
             result.show_custom_executable = is_steam;
             result.enable_custom_executable = is_steam && has_prefix_directory;
             result.show_install_directory = has_install_directory;

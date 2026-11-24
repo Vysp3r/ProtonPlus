@@ -41,24 +41,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
             framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Caps the frame rate inside Gamescope."), _("FPS"), 30, 360, 60, "-r ");
             register_option ("gamescope-frame-limit", framerate_tile, framerate_tile);
-            framerate_tile.toggle.notify["active"].connect (() => {
-                this.changed ();
-            });
-            framerate_tile.value_applied.connect (() => {
-                this.changed ();
-            });
+            framerate_tile.draft_changed.connect (() => this.changed ());
 
             resolution_field = new LaunchOptionResolutionField (_("Resolution"), _("Sets the Gamescope output resolution."), false, false);
             register_option ("gamescope-resolution", resolution_field, resolution_field);
-            resolution_field.toggle.notify["active"].connect (() => {
-                this.changed ();
-            });
-            resolution_field.dropdown.notify["selected"].connect (() => {
-                this.changed ();
-            });
-            resolution_field.value_applied.connect (() => {
-                this.changed ();
-            });
+            resolution_field.draft_changed.connect (() => this.changed ());
 
             group.add (fullscreen_tile);
             group.add (hdr_tile);
@@ -75,14 +62,19 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                 _("Add Gamescope arguments")
             );
             register_option ("gamescope-arguments", args_field);
-            args_field.value_applied.connect (() => {
+            args_field.changed.connect (() => {
                 this.changed ();
             });
 
             group.add (args_field);
+            group.add (args_field.validation_label);
 
             cached_page = group;
             return group;
+        }
+
+        internal void set_raw_arguments (string arguments) {
+            args_field.text = arguments;
         }
 
         public override void clear () {
@@ -103,7 +95,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             consumed[wrapper_index] = true;
 
             var end_index = get_wrapper_end_index (tokens, wrapper_index, consumed);
-            var extra_args = new StringBuilder ();
+            resolution_field.parse_tokens (tokens, consumed);
 
             for (var index = wrapper_index + 1; index < end_index; index++) {
                 var token = tokens[index];
@@ -141,11 +133,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                     }
                 }
 
-                append_token (extra_args, token);
                 consumed[index] = true;
             }
-
-            args_field.set_text (extra_args.str);
 
             foreach (var child in this._children) {
                 child.parse_tokens (tokens, consumed);

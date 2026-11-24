@@ -12,7 +12,7 @@ namespace ProtonPlus.Models {
         public string directory;
         public bool installed;
         public bool has_library_support;
-        public bool game_library_available { get; private set; default = false; }
+        public bool game_library_available { get; protected set; default = false; }
         public List<Game> games;
         public Gee.LinkedList<CompatibilityTool> compatibility_tools;
 
@@ -121,14 +121,14 @@ namespace ProtonPlus.Models {
             return null;
         }
 
-        public static async bool get_all (out Gee.LinkedList<Launcher> launchers) {
-            var _launchers = new Gee.LinkedList<Launcher> ();
-            var definitions = new ProviderRegistry ();
+        internal static Launcher[] detect_candidates () {
+            var native_steam = new Launchers.Steam (InstallationTypes.SYSTEM);
 
-            Launcher[] candidates = {
-                new Launchers.Steam (InstallationTypes.SYSTEM),
+            return {
+                native_steam,
                 new Launchers.Steam (InstallationTypes.FLATPAK),
                 new Launchers.Steam (InstallationTypes.SNAP),
+                new Launchers.ProtonAutogen (native_steam),
                 new Launchers.FaugusLauncher (InstallationTypes.SYSTEM),
                 new Launchers.FaugusLauncher (InstallationTypes.FLATPAK),
                 new Launchers.Lutris (InstallationTypes.SYSTEM),
@@ -140,8 +140,13 @@ namespace ProtonPlus.Models {
                 new Launchers.WineZGUI (InstallationTypes.SYSTEM),
                 new Launchers.WineZGUI (InstallationTypes.FLATPAK)
             };
+        }
 
-            foreach (var launcher in candidates) {
+        public static async bool get_all (out Gee.LinkedList<Launcher> launchers) {
+            var _launchers = new Gee.LinkedList<Launcher> ();
+            var definitions = new ProviderRegistry ();
+
+            foreach (var launcher in detect_candidates ()) {
                 if (launcher.installed) {
                     _launchers.add (launcher);
                 }
@@ -216,7 +221,7 @@ namespace ProtonPlus.Models {
                     /* Game/profile data is optional launcher state.  A broken
                      * library must not discard otherwise usable tool groups or
                      * prevent later launchers from being initialized. */
-                    yield launcher.setup_profile_library_for_test ();
+                    yield launcher.load_profile_library ();
                 }
             }
 
@@ -224,7 +229,7 @@ namespace ProtonPlus.Models {
         }
 
         private static Category[]? get_categories_for_launcher (Launcher launcher) {
-            if (launcher is Launchers.Steam || launcher is Launchers.FaugusLauncher)
+            if (launcher is Launchers.Steam || launcher is Launchers.FaugusLauncher || launcher is Launchers.ProtonAutogen)
                 return { Category.PROTON };
 
             if (launcher is Launchers.Lutris)
@@ -288,7 +293,8 @@ namespace ProtonPlus.Models {
         }
 
         private static string? get_group_directory (Launcher launcher, Category category) {
-            if ((launcher is Launchers.Steam || launcher is Launchers.FaugusLauncher) && category == Category.PROTON)
+            if ((launcher is Launchers.Steam || launcher is Launchers.FaugusLauncher || launcher is Launchers.ProtonAutogen)
+                && category == Category.PROTON)
                 return "/compatibilitytools.d";
 
             if (launcher is Launchers.Lutris) {
@@ -332,39 +338,9 @@ namespace ProtonPlus.Models {
             return null;
         }
 
-        public virtual async bool setup_profile_library_for_test () {
-            game_library_available = false;
-
-            var games_loaded = yield this.load_game_library ();
-
-            if (!games_loaded)
-                return false;
-
-            if (this is Launchers.Steam) {
-                var steam_launcher = this as Launchers.Steam;
-                var discovered_profiles = SteamProfile.get_profiles (steam_launcher);
-                steam_launcher.profiles = new List<SteamProfile> ();
-
-                foreach (var profile in discovered_profiles) {
-                    if (yield profile.load_extra_data ())
-                        steam_launcher.profiles.append (profile);
-                }
-
-                if (steam_launcher.profiles.length () == 0)
-                    return false;
-
-                var selected_profile_id = Globals.SETTINGS != null
-                    ? Globals.SETTINGS.get_string ("steam-selected-profile-id")
-                    : "";
-                var selected_profile = steam_launcher.get_steam_profile_by_id (selected_profile_id);
-
-                yield steam_launcher.switch_profile (
-                    selected_profile != null ? selected_profile : steam_launcher.profiles.nth_data (0)
-                );
-            }
-
-            game_library_available = true;
-            return true;
+        public virtual async bool load_profile_library () {
+            game_library_available = yield load_game_library ();
+            return game_library_available;
         }
 
         public virtual List<string> get_managed_tool_directories (Group group) {
@@ -392,6 +368,14 @@ namespace ProtonPlus.Models {
 
         public virtual bool supports_provider_definition (ProviderDefinition definition) {
             return true;
+        }
+
+        public virtual string get_default_game_tool_title () {
+            return _ ("Default");
+        }
+
+        public virtual async bool refresh_game_compatibility_tools () {
+            return false;
         }
 
         public virtual int get_compatibility_tool_usage_count (string compatibility_tool_name) {

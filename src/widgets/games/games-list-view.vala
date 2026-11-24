@@ -10,6 +10,9 @@ namespace ProtonPlus.Widgets.Games {
 
         GameCollection games;
         Gtk.Stack views_stack;
+        Gtk.ScrolledWindow wide_scroller;
+        Gtk.ColumnViewColumn title_column;
+        Gtk.ColumnViewColumn prefix_column;
         Gtk.ColumnViewColumn actions_column;
         Gee.HashMap<GameListItem, GameRow> narrow_rows;
         Gee.HashMap<GameListItem, GameSelectionCell> wide_selection_cells;
@@ -19,6 +22,7 @@ namespace ProtonPlus.Widgets.Games {
         unowned GameVerticalFocusRequest focus_wide_relative;
         unowned GameActivationRequest activate_game_item;
         bool narrow_view_active = false;
+        bool empty = false;
         uint focus_idle_id = 0;
         ulong wide_activation_handler = 0;
         ulong narrow_activation_handler = 0;
@@ -45,7 +49,8 @@ namespace ProtonPlus.Widgets.Games {
                 transition_type = Gtk.StackTransitionType.CROSSFADE,
                 transition_duration = 150
             };
-            views_stack.add_named (create_collection_scroller (wide_view), "wide");
+            wide_scroller = create_collection_scroller (wide_view);
+            views_stack.add_named (wide_scroller, "wide");
             views_stack.add_named (create_collection_scroller (narrow_view), "narrow");
             views_stack.set_visible_child_name ("wide");
             append (views_stack);
@@ -55,6 +60,7 @@ namespace ProtonPlus.Widgets.Games {
             var focused_item = find_focused_item ();
             narrow_view_active = narrow;
             views_stack.set_visible_child_name (narrow ? "narrow" : "wide");
+            update_empty_layout ();
             if (focused_item != null) {
                 var position = games.position_of ((!) focused_item);
                 if (position >= 0)
@@ -63,10 +69,34 @@ namespace ProtonPlus.Widgets.Games {
             return focused_item;
         }
 
+        public void set_empty (bool empty) {
+            if (this.empty == empty)
+                return;
+            this.empty = empty;
+            update_empty_layout ();
+        }
+
+        void update_empty_layout () {
+            // With zero rows, the wide view's natural height is its header.
+            wide_scroller.propagate_natural_height = empty;
+            vexpand = !empty;
+            visible = !empty || !narrow_view_active;
+        }
+
         public Gtk.Widget? get_selection_target (GameListItem item) {
             if (narrow_view_active)
                 return narrow_rows.get (item);
             return wide_selection_cells.get (item);
+        }
+
+        public bool set_prefix_visible (bool visible) {
+            if (prefix_column.visible == visible)
+                return false;
+            var sorter = wide_view.get_sorter () as Gtk.ColumnViewSorter;
+            if (!visible && sorter?.get_primary_sort_column () == prefix_column)
+                wide_view.sort_by_column (title_column, Gtk.SortType.ASCENDING);
+            prefix_column.visible = visible;
+            return true;
         }
 
         Gtk.ColumnView build_wide_view () {
@@ -86,14 +116,14 @@ namespace ProtonPlus.Widgets.Games {
             selection_column.set_expand (false);
             view.append_column (selection_column);
 
-            var title_column = new Gtk.ColumnViewColumn (
+            title_column = new Gtk.ColumnViewColumn (
                 _("Game"), create_title_factory ()
             );
             title_column.set_expand (false);
             title_column.set_sorter (games.name_sorter);
             view.append_column (title_column);
 
-            var prefix_column = new Gtk.ColumnViewColumn (
+            prefix_column = new Gtk.ColumnViewColumn (
                 _("Prefix"), create_text_factory (GameTextCellKind.PREFIX)
             );
             prefix_column.set_expand (false);

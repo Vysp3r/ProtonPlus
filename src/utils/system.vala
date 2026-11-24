@@ -245,6 +245,20 @@ namespace ProtonPlus.Utils {
         [CCode (cname = "protonplus_cpu_get_feature_probe", cheader_filename = "utils/cpu-probe.h", has_target = false)]
         private static extern CpuFeatureProbe get_cpu_feature_probe ();
 
+        internal static Subprocess spawn_detached (string[] argv) throws Error {
+            var launcher = new SubprocessLauncher (
+                SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE
+            );
+            launcher.set_stdin_file_path ("/dev/null");
+            launcher.set_child_setup (detach_child_session);
+            return launcher.spawnv (argv);
+        }
+
+        internal static void detach_child_session () {
+            if (Posix.setsid () < 0)
+                Posix._exit (127);
+        }
+
         public static async CommandResult run_command (string command) {
             try {
                 var argv = get_command_argv (command);
