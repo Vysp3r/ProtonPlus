@@ -12,7 +12,7 @@ namespace ProtonPlus {
         }
 
         if (args.length > 1) {
-            var changes_tools = CLI.changes_installed_tools (args[1]);
+            var changes_tools = CLI.changes_installed_tools (args);
             Globals.load (changes_tools);
             Globals.setupLanguage ();
 
