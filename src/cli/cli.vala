@@ -20,30 +20,44 @@ namespace ProtonPlus.CLI {
     private const string SEARCH_USAGE = "search [--json] [query]";
     private const string OUTDATED_USAGE = "outdated [--json] [launcher_id]";
     private const string SYNC_USAGE = "sync [launcher_id]";
+
+    private const string LIST_USAGE = "list [launcher_id]";
     private const string INSTALL_USAGE = "install <launcher_id> <runner_id> [latest]";
     private const string UNINSTALL_USAGE = "uninstall <launcher_id> {all | <runner_id> [all]}";
-    private const string UPDATE_USAGE = "update {all | <launcher_id> [runner_id]}";
+    private const string UPDATE_USAGE = "update all | update <launcher_id> [runner_id]";
 
-    public static bool changes_installed_tools (string command) {
-        return command == CMD_INSTALL || command == CMD_UNINSTALL || command == CMD_UPDATE;
+    public static bool changes_installed_tools (string[] args) {
+        return args.length >= 2 && tool_command_usage (args[1]) != null && has_valid_tool_arguments (args);
     }
 
-    public static string? invalid_tool_command_usage (string[] args) {
-        if (args.length < 2)
+    private static string? tool_command_usage (string command) {
+        switch (command) {
+        case CMD_INSTALL:
+            return INSTALL_USAGE;
+        case CMD_UNINSTALL:
+            return UNINSTALL_USAGE;
+        case CMD_UPDATE:
+            return UPDATE_USAGE;
+        default:
             return null;
+        }
+    }
+
+    private static bool has_valid_tool_arguments (string[] args) {
+        for (var i = 2; i < args.length; i++) {
+            if (args[i].strip () == "" || args[i].has_prefix ("-"))
+                return false;
+        }
 
         switch (args[1]) {
         case CMD_INSTALL:
-            return args.length == 4 || (args.length == 5 && args[4] == OPT_LATEST)
-                ? null : INSTALL_USAGE;
+            return args.length == 4 || (args.length == 5 && args[4] == OPT_LATEST);
         case CMD_UNINSTALL:
-            return args.length == 4 || (args.length == 5 && args[3] != OPT_ALL && args[4] == OPT_ALL)
-                ? null : UNINSTALL_USAGE;
+            return args.length == 4 || (args.length == 5 && args[3] != OPT_ALL && args[4] == OPT_ALL);
         case CMD_UPDATE:
-            return args.length == 3 || (args.length == 4 && args[2] != OPT_ALL)
-                ? null : UPDATE_USAGE;
+            return args.length == 3 || (args.length == 4 && args[2] != OPT_ALL);
         default:
-            return null;
+            return false;
         }
     }
 
@@ -251,11 +265,11 @@ namespace ProtonPlus.CLI {
             if (command == CMD_STEAM_KEY_REPAIR)
                 return yield handle_steam_key_repair (args);
 
-            var invalid_usage = invalid_tool_command_usage (args);
-            if (invalid_usage != null)
-                return usage_error (invalid_usage);
+            var mutation_usage = tool_command_usage (command);
+            var changes_tools = mutation_usage != null;
+            if (mutation_usage != null && !has_valid_tool_arguments (args))
+                return usage_error (mutation_usage);
 
-            var changes_tools = changes_installed_tools (command);
             if (!changes_tools && command != CMD_LIST && command != CMD_SEARCH &&
                 command != CMD_OUTDATED && command != CMD_SYNC) {
                 output.error (_ ("Error: Unknown command '%s'\n"), command);
@@ -409,6 +423,8 @@ namespace ProtonPlus.CLI {
         }
 
         private int handle_list (string[] args) {
+            if (args.length > 3 || (args.length == 3 && args[2].has_prefix ("-")))
+                return usage_error (LIST_USAGE);
             if (args.length < 3) {
                 print_launcher_table (false);
                 return 0;
@@ -745,8 +761,8 @@ namespace ProtonPlus.CLI {
             if (catalog == null)
                 return 1;
             Models.Release release;
-            if (operation == CMD_UNINSTALL && tool is Models.Tools.TinkerGame) {
-                // Removal uses local ownership, so it must also work offline.
+            if (tool is Models.Tools.TinkerGame && operation != CMD_INSTALL) {
+                // Removal uses local ownership. The update workflow looks up its release.
                 release = new Models.Release (tool.title, "", "", new Models.Assets.Asset ("", ""),
                     "", 0, "", "", Models.Release.Kind.TINKER_GAME);
             } else {
@@ -1166,7 +1182,7 @@ namespace ProtonPlus.CLI {
             var table = new Table ({ _ ("Command"), _ ("Description") });
             table.add ({ "version", _ ("Show version") });
             table.add ({ "help", _ ("Show this help") });
-            table.add ({ "list [launcher_id]", _ ("List launchers or installed runners") });
+            table.add ({ LIST_USAGE, _ ("List launchers or installed runners") });
             table.add ({ SEARCH_USAGE, _ ("Search available runners") });
             table.add ({ OUTDATED_USAGE, _ ("List available runner updates") });
             table.add ({ SYNC_USAGE, _ ("Refresh cached release metadata") });

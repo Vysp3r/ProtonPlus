@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-25 09:31-0500\n"
+"POT-Creation-Date: 2026-11-25 09:44-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -71,116 +71,116 @@ msgctxt "shortcut window"
 msgid "Search Current View"
 msgstr ""
 
-#: src/cli/cli.vala:261
+#: src/cli/cli.vala:275
 #, c-format
 msgid "Error: Unknown command '%s'\n"
 msgstr ""
 
-#: src/cli/cli.vala:270
+#: src/cli/cli.vala:284
 #, c-format
 msgid "Warning: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:309
+#: src/cli/cli.vala:323
 msgid "Select a Steam launcher for this repair.\n"
 msgstr ""
 
-#: src/cli/cli.vala:335
+#: src/cli/cli.vala:349
 msgid "Steam compatibility key repair completed.\n"
 msgstr ""
 
-#: src/cli/cli.vala:338
+#: src/cli/cli.vala:352
 #, c-format
 msgid "Steam compatibility key repair: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:345
+#: src/cli/cli.vala:359
 msgid ""
 "An interrupted repair is available. Exit Steam and run this command with "
 "resume.\n"
 msgstr ""
 
-#: src/cli/cli.vala:358
+#: src/cli/cli.vala:372
 #, c-format
 msgid ""
 "\n"
 "Shared Steam key %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:363
+#: src/cli/cli.vala:377
 #, c-format
 msgid "  %s (external or ownership uncertain)\n"
 msgstr ""
 
-#: src/cli/cli.vala:367
+#: src/cli/cli.vala:381
 #, c-format
 msgid "  %s (fresh key %s)\n"
 msgstr ""
 
-#: src/cli/cli.vala:370
+#: src/cli/cli.vala:384
 msgid "    Can retain the historical key.\n"
 msgstr ""
 
-#: src/cli/cli.vala:372
+#: src/cli/cli.vala:386
 #, c-format
 msgid "    Cannot retain the historical key: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:381
+#: src/cli/cli.vala:395
 msgid "  AppID 0 (global default, also used by games that inherit it)\n"
 msgstr ""
 
-#: src/cli/cli.vala:383
+#: src/cli/cli.vala:397
 #, c-format
 msgid "  AppID %u\n"
 msgstr ""
 
-#: src/cli/cli.vala:390
+#: src/cli/cli.vala:404
 #, c-format
 msgid "  Pending ProtonPlus edit for AppID %s: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:391
+#: src/cli/cli.vala:405
 msgid "inherit default"
 msgstr ""
 
-#: src/cli/cli.vala:395
+#: src/cli/cli.vala:409
 msgid "No duplicate Steam compatibility keys were found.\n"
 msgstr ""
 
-#: src/cli/cli.vala:397
+#: src/cli/cli.vala:411
 #, c-format
 msgid ""
 "\n"
 "Preview token %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:423 src/cli/cli.vala:1195
+#: src/cli/cli.vala:439 src/cli/cli.vala:1211
 msgid "Runner ID"
 msgstr ""
 
-#: src/cli/cli.vala:423 src/cli/cli.vala:871
+#: src/cli/cli.vala:439 src/cli/cli.vala:887
 msgid "Version"
 msgstr ""
 
-#: src/cli/cli.vala:423 src/cli/cli.vala:466 src/cli/cli.vala:823
-#: src/cli/cli.vala:871 src/cli/cli.vala:1187 src/cli/cli.vala:1195
+#: src/cli/cli.vala:439 src/cli/cli.vala:482 src/cli/cli.vala:839
+#: src/cli/cli.vala:887 src/cli/cli.vala:1203 src/cli/cli.vala:1211
 msgid "Name"
 msgstr ""
 
-#: src/cli/cli.vala:454
+#: src/cli/cli.vala:470
 msgid "No runners installed\n"
 msgstr ""
 
-#: src/cli/cli.vala:466 src/cli/cli.vala:519
+#: src/cli/cli.vala:482 src/cli/cli.vala:535
 msgid "Package ID"
 msgstr ""
 
-#: src/cli/cli.vala:491
+#: src/cli/cli.vala:507
 msgid "No matching runners\n"
 msgstr ""
 
-#: src/cli/cli.vala:519 src/widgets/preferences/preferences-dialog.vala:480
+#: src/cli/cli.vala:535 src/widgets/preferences/preferences-dialog.vala:480
 #: src/widgets/preferences/preferences-dialog.vala:483
 #: src/widgets/tools/tools-group-box.vala:690
 #: src/widgets/tools/tools-page.vala:134
@@ -190,320 +190,320 @@ msgstr ""
 msgid "Installed"
 msgstr ""
 
-#: src/cli/cli.vala:519
+#: src/cli/cli.vala:535
 msgid "Available"
 msgstr ""
 
-#: src/cli/cli.vala:519
+#: src/cli/cli.vala:535
 msgid "Variant"
 msgstr ""
 
-#: src/cli/cli.vala:539
+#: src/cli/cli.vala:555
 #, c-format
 msgid "Error: Could not check %s: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:548
+#: src/cli/cli.vala:564
 msgid "No updates available\n"
 msgstr ""
 
-#: src/cli/cli.vala:572
+#: src/cli/cli.vala:588
 #, c-format
 msgid "Error: Could not sync %s: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:582
+#: src/cli/cli.vala:598
 msgid "Release cache is up to date\n"
 msgstr ""
 
-#: src/cli/cli.vala:591
+#: src/cli/cli.vala:607
 msgid "Error: Could not clear the cache\n"
 msgstr ""
 
-#: src/cli/cli.vala:594
+#: src/cli/cli.vala:610
 msgid "Cache cleared\n"
 msgstr ""
 
-#: src/cli/cli.vala:615
+#: src/cli/cli.vala:631
 #, c-format
 msgid "Usage: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:672
+#: src/cli/cli.vala:688
 #, c-format
 msgid "Enable niche tools in Preferences to install %s.\n"
 msgstr ""
 
-#: src/cli/cli.vala:763
+#: src/cli/cli.vala:779
 msgid ""
 "SteamTinkerLaunch is legacy. Install tinkergame for a new installation.\n"
 msgstr ""
 
-#: src/cli/cli.vala:789 src/cli/cli.vala:1034
+#: src/cli/cli.vala:805 src/cli/cli.vala:1050
 #, c-format
 msgid "Error: Failed to load releases: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:794 src/cli/cli.vala:1036
+#: src/cli/cli.vala:810 src/cli/cli.vala:1052
 msgid "Error: No releases are available\n"
 msgstr ""
 
-#: src/cli/cli.vala:798
+#: src/cli/cli.vala:814
 #, c-format
 msgid "Installing %s Latest...\n"
 msgstr ""
 
-#: src/cli/cli.vala:807
+#: src/cli/cli.vala:823
 #, c-format
 msgid "Successfully installed %s Latest\n"
 msgstr ""
 
-#: src/cli/cli.vala:809 src/cli/cli.vala:859
+#: src/cli/cli.vala:825 src/cli/cli.vala:875
 #, c-format
 msgid "Error: Installation failed: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:822
+#: src/cli/cli.vala:838
 #, c-format
 msgid "Available releases for %s:\n"
 msgstr ""
 
-#: src/cli/cli.vala:823 src/cli/cli.vala:841 src/cli/cli.vala:871
+#: src/cli/cli.vala:839 src/cli/cli.vala:857 src/cli/cli.vala:887
 msgid "Number"
 msgstr ""
 
-#: src/cli/cli.vala:823
+#: src/cli/cli.vala:839
 msgid "Release date"
 msgstr ""
 
-#: src/cli/cli.vala:831 src/cli/cli.vala:878
+#: src/cli/cli.vala:847 src/cli/cli.vala:894
 msgid "Select release number"
 msgstr ""
 
-#: src/cli/cli.vala:841 src/widgets/tools/tools-release-row.vala:840
+#: src/cli/cli.vala:857 src/widgets/tools/tools-release-row.vala:840
 #: src/widgets/tools/tools-releases-box.vala:132
 #: src/widgets/tools/tools-releases-box.vala:144
 msgid "Build"
 msgstr ""
 
-#: src/cli/cli.vala:845
+#: src/cli/cli.vala:861
 msgid "Select build number"
 msgstr ""
 
-#: src/cli/cli.vala:852
+#: src/cli/cli.vala:868
 #, c-format
 msgid "Installing %s...\n"
 msgstr ""
 
-#: src/cli/cli.vala:857
+#: src/cli/cli.vala:873
 #, c-format
 msgid "Successfully installed %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:866 src/cli/cli.vala:889
+#: src/cli/cli.vala:882 src/cli/cli.vala:905
 #, c-format
 msgid "No installed releases found for %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:870
+#: src/cli/cli.vala:886
 #, c-format
 msgid "Installed releases for %s:\n"
 msgstr ""
 
-#: src/cli/cli.vala:893
+#: src/cli/cli.vala:909
 #, c-format
 msgid "Uninstalling all releases for %s...\n"
 msgstr ""
 
-#: src/cli/cli.vala:905
+#: src/cli/cli.vala:921
 #, c-format
 msgid "Uninstalling all releases for launcher %s...\n"
 msgstr ""
 
-#: src/cli/cli.vala:931
+#: src/cli/cli.vala:947
 #, c-format
 msgid "Uninstalling %s...\n"
 msgstr ""
 
-#: src/cli/cli.vala:935
+#: src/cli/cli.vala:951
 #, c-format
 msgid "Successfully uninstalled %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:937
+#: src/cli/cli.vala:953
 #, c-format
 msgid "Error: Uninstallation failed: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:942
+#: src/cli/cli.vala:958
 msgid "Updating all runners...\n"
 msgstr ""
 
-#: src/cli/cli.vala:948
+#: src/cli/cli.vala:964
 #, c-format
 msgid "Updating runners for %s...\n"
 msgstr ""
 
-#: src/cli/cli.vala:959
+#: src/cli/cli.vala:975
 #, c-format
 msgid "Successfully updated %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:962
+#: src/cli/cli.vala:978
 #, c-format
 msgid "Already up to date: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:965
+#: src/cli/cli.vala:981
 #, c-format
 msgid "Error: Failed to update %s: %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:991
+#: src/cli/cli.vala:1007
 msgid "Already up to date\n"
 msgstr ""
 
-#: src/cli/cli.vala:1006
+#: src/cli/cli.vala:1022
 #, c-format
 msgid "Updating %s..."
 msgstr ""
 
-#: src/cli/cli.vala:1022
+#: src/cli/cli.vala:1038
 msgid "Error: Failed to load launchers\n"
 msgstr ""
 
-#: src/cli/cli.vala:1046
+#: src/cli/cli.vala:1062
 #, c-format
 msgid "Error: Launcher '%s' not found\n"
 msgstr ""
 
-#: src/cli/cli.vala:1060
+#: src/cli/cli.vala:1076
 #, c-format
 msgid "Error: Tool '%s' not found\n"
 msgstr ""
 
-#: src/cli/cli.vala:1130
+#: src/cli/cli.vala:1146
 #, c-format
 msgid "Error: Tool '%s' does not support %s\n"
 msgstr ""
 
-#: src/cli/cli.vala:1151
+#: src/cli/cli.vala:1167
 msgid "Error: Invalid input, please enter a number\n"
 msgstr ""
 
-#: src/cli/cli.vala:1156
+#: src/cli/cli.vala:1172
 msgid "Error: Selection out of range\n"
 msgstr ""
 
-#: src/cli/cli.vala:1163
+#: src/cli/cli.vala:1179
 msgid "Usage:\n"
 msgstr ""
 
-#: src/cli/cli.vala:1165
+#: src/cli/cli.vala:1181
 msgid "Commands:\n"
 msgstr ""
 
-#: src/cli/cli.vala:1166
+#: src/cli/cli.vala:1182
 msgid "Command"
 msgstr ""
 
-#: src/cli/cli.vala:1166
+#: src/cli/cli.vala:1182
 msgid "Description"
 msgstr ""
 
-#: src/cli/cli.vala:1167
+#: src/cli/cli.vala:1183
 msgid "Show version"
 msgstr ""
 
-#: src/cli/cli.vala:1168
+#: src/cli/cli.vala:1184
 msgid "Show this help"
 msgstr ""
 
-#: src/cli/cli.vala:1169
+#: src/cli/cli.vala:1185
 msgid "List launchers or installed runners"
 msgstr ""
 
-#: src/cli/cli.vala:1170
+#: src/cli/cli.vala:1186
 msgid "Search available runners"
 msgstr ""
 
-#: src/cli/cli.vala:1171
+#: src/cli/cli.vala:1187
 msgid "List available runner updates"
 msgstr ""
 
-#: src/cli/cli.vala:1172
+#: src/cli/cli.vala:1188
 msgid "Refresh cached release metadata"
 msgstr ""
 
-#: src/cli/cli.vala:1173
+#: src/cli/cli.vala:1189
 msgid "Clear cached releases and downloads"
 msgstr ""
 
-#: src/cli/cli.vala:1174
+#: src/cli/cli.vala:1190
 msgid "Install runner"
 msgstr ""
 
-#: src/cli/cli.vala:1175
+#: src/cli/cli.vala:1191
 msgid "Uninstall runner"
 msgstr ""
 
-#: src/cli/cli.vala:1176
+#: src/cli/cli.vala:1192
 msgid "Update runner"
 msgstr ""
 
-#: src/cli/cli.vala:1177
+#: src/cli/cli.vala:1193
 msgid "Preview or resolve shared Steam compatibility keys"
 msgstr ""
 
-#: src/cli/cli.vala:1182
+#: src/cli/cli.vala:1198
 msgid ""
 "\n"
 "Available launchers:\n"
 msgstr ""
 
-#: src/cli/cli.vala:1187
+#: src/cli/cli.vala:1203
 msgid "Launcher ID"
 msgstr ""
 
-#: src/cli/cli.vala:1194
+#: src/cli/cli.vala:1210
 #, c-format
 msgid ""
 "\n"
 "Available runners for %s:\n"
 msgstr ""
 
-#: src/cli/cli.vala:1212
+#: src/cli/cli.vala:1228
 #, c-format
 msgid "ETA: %s"
 msgstr ""
 
-#: src/cli/cli.vala:1214
+#: src/cli/cli.vala:1230
 msgid "ETA: --"
 msgstr ""
 
-#: src/cli/cli.vala:1217 src/widgets/tools/tools-release-row.vala:926
+#: src/cli/cli.vala:1233 src/widgets/tools/tools-release-row.vala:926
 msgid "Updating"
 msgstr ""
 
-#: src/cli/cli.vala:1217 src/services/installation/download-failure.vala:70
+#: src/cli/cli.vala:1233 src/services/installation/download-failure.vala:70
 #: src/widgets/header/header-downloads-indicator.vala:529
 #: src/widgets/tools/tools-release-row.vala:922
 msgid "Installing"
 msgstr ""
 
-#: src/cli/cli.vala:1230 src/widgets/header/header-downloads-indicator.vala:549
+#: src/cli/cli.vala:1246 src/widgets/header/header-downloads-indicator.vala:549
 #: src/widgets/tools/tools-release-row.vala:1056
 #, c-format
 msgid "%dh %dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:1232 src/widgets/header/header-downloads-indicator.vala:551
+#: src/cli/cli.vala:1248 src/widgets/header/header-downloads-indicator.vala:551
 #: src/widgets/tools/tools-release-row.vala:1060
 #, c-format
 msgid "%dm %ds"
 msgstr ""
 
-#: src/cli/cli.vala:1234 src/widgets/header/header-downloads-indicator.vala:552
+#: src/cli/cli.vala:1250 src/widgets/header/header-downloads-indicator.vala:552
 #: src/widgets/tools/tools-release-row.vala:1061
 #, c-format
 msgid "%ds"
@@ -2580,12 +2580,12 @@ msgstr ""
 msgid "Steam restart state could not be locked or read."
 msgstr ""
 
-#: src/utils/filesystem.vala:271
+#: src/utils/filesystem.vala:269
 #, c-format
 msgid "Expected a regular file at %s."
 msgstr ""
 
-#: src/utils/filesystem.vala:276
+#: src/utils/filesystem.vala:274
 #, c-format
 msgid "Unexpected binary data in %s."
 msgstr ""

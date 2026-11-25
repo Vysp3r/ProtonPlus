@@ -88,6 +88,10 @@ with several outdated variants can have several rows with the same package ID.
 ```sh
 protonplus list
 protonplus list steam-system
+protonplus search "steam-system proton-ge"
+protonplus outdated steam-system
+protonplus sync steam-system
+protonplus cleanup
 protonplus install steam-system proton-ge latest
 protonplus update steam-system
 protonplus update all
@@ -96,7 +100,9 @@ protonplus uninstall steam-system proton-ge
 
 `latest` selects the newest eligible release. Use
 `uninstall <launcher_id> <runner_id> all` for every release of one tool, or
-`uninstall <launcher_id> all` for every managed tool in that launcher.
+`uninstall <launcher_id> all` for the launcher's provider-backed tools.
+To remove TinkerGame or SteamTinkerLaunch, pass its runner ID explicitly.
+Commands that change installed tools reject unexpected arguments before starting.
 
 ## Preferences
 
