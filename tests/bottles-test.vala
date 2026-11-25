@@ -210,6 +210,11 @@ namespace AppTests.BottlesTest {
             assert (FileUtils.chmod (inaccessible, 0) == 0);
             assert (FileUtils.symlink (Path.get_dirname (mapped), Path.build_filename (prefix, "dosdevices", "d:")) == 0);
             assert (FileUtils.symlink (inaccessible, Path.build_filename (prefix, "dosdevices", "e:")) == 0);
+            // Native package builds can run as root and traverse mode-000
+            // directories. Use a missing directory within the mapped drive
+            // when permission bits do not make it inaccessible.
+            var restricted_path = Posix.access (inaccessible, Posix.R_OK | Posix.X_OK) == 0
+                ? """E:\\Missing\\Game.exe""" : """E:\\Game.exe""";
 
             var cli = new FixtureCli (FLATPAK_PREFIX);
             cli.root = "/var/data/bottles/bottles";
@@ -217,10 +222,10 @@ namespace AppTests.BottlesTest {
                 "Unknown":{"Path":"Missing"}}""".printf (home);
             cli.programs["Flat"] = """[
                 {"name":"Mapped","path":"D:\\game files\\Game.exe"},
-                {"name":"Restricted","path":"E:\\Game.exe"},
+                {"name":"Restricted","path":"%s"},
                 {"name":"Missing mapping","path":"Q:\\Game.exe"},
                 {"name":"Sandbox absolute","path":"/var/data/bottles/Tools.exe"}
-            ]""";
+            ]""".printf (restricted_path);
             cli.programs["Custom"] = """[{"name":"Custom","path":"C:\\Native Files\\Game.exe"}]""";
             cli.programs["Unknown"] = """[{"name":"Unknown","path":"C:\\Game.exe"}]""";
             var target = launcher (cli, true, false, home);
