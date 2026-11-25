@@ -11,10 +11,8 @@ namespace ProtonPlus.Models {
         public SteamConfigurationOperation operation { get; private set; }
         public string path { get; private set; }
         public string field_id { get; private set; }
-        /* A baseline is intentionally kept in memory for the lifetime of a
-         * staged edit, but is serialized as a fingerprint.  Desired values
-         * remain replayable state and are protected by the private state file. */
-        public string baseline { get; private set; }
+        // Desired values are replayable. A fingerprint is sufficient to
+        // compare the original value both before and after reopening.
         public string baseline_fingerprint { get; private set; }
         public string desired { get; private set; }
         public bool baseline_present { get; private set; }
@@ -25,7 +23,7 @@ namespace ProtonPlus.Models {
             string baseline, string desired, bool baseline_present = true,
             bool desired_present = true, string? baseline_fingerprint = null) {
             this.file = file; this.operation = operation; this.path = path;
-            this.field_id = field_id; this.baseline = baseline;
+            this.field_id = field_id;
             this.desired = desired;
             this.baseline_present = baseline_present;
             this.desired_present = desired_present;
@@ -79,6 +77,11 @@ namespace ProtonPlus.Models {
             var material = (present ? "present\x1f" : "absent\x1f") + value;
             checksum.update (material.data, material.length);
             return checksum.get_string ();
+        }
+
+        internal bool matches_baseline (string value, bool present) {
+            return present == baseline_present &&
+                (!present || fingerprint (value, true) == baseline_fingerprint);
         }
     }
 

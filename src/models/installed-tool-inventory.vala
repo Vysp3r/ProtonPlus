@@ -251,8 +251,11 @@ namespace ProtonPlus.Models {
                 : entry.directory_name;
             foreach (var title in latest_titles (entry, tool)) {
                 var latest = "%s Latest".printf (title);
-                if (name == latest || name.has_prefix ("%s-".printf (latest)))
+                if (name == latest || (entry.variant_id != "" && name.has_prefix (latest + "-")))
                     return true;
+                foreach (var variant in tool.variants)
+                    if (name == tool.get_directory_name (latest, variant))
+                        return true;
             }
             return false;
         }

@@ -309,21 +309,97 @@ fi
     }
 
     void appimage_dependencies (Fixture fixture) throws Error {
-        fixture.executable (Path.build_filename (fixture.bin, "pacman"), "#!/bin/sh\nexit 0\n");
-        fixture.executable (Path.build_filename (fixture.bin, "get-debloated-pkgs"),
-            "#!/bin/sh\ntouch \"$DEBLOAT_CALLED\"\n");
-        var installed = Path.build_filename (fixture.root, "debloat-called");
-        fixture.launcher.setenv ("DEBLOAT_CALLED", installed, true);
-        fixture.launcher.setenv ("SOURCE", "", true);
-        string[] responses = {
-            "exit 22", "printf 'x-ratelimit-remaining: 0\\r\\n'", "printf 'x-ratelimit-remaining: 20\\r\\n'"
-        };
-        var script = Path.build_filename (Environment.get_current_dir (), "packaging/appimage/get-dependencies.sh");
-        for (var index = 0; index < responses.length; index++) {
-            fixture.executable (Path.build_filename (fixture.bin, "curl"), "#!/bin/sh\n" + responses[index] + "\n");
-            fixture.run ({ "sh", script }).expect_status (0);
-            require (FileUtils.test (installed, FileTest.EXISTS) == (index == 2),
-                "Unexpected optional package decision for " + responses[index]);
+        fixture.copy ("packaging/appimage/get-dependencies.sh");
+        fixture.executable (Path.build_filename (fixture.bin, "pacman"), """#!/bin/sh
+case "$1" in
+    -Syu) printf 'stock\n' > packages ;;
+    -Qk) test "$(/bin/cat packages)" = stock ;;
+    *) exit 1 ;;
+esac
+""");
+        fixture.launcher.setenv ("PATH", fixture.bin, true);
+        fixture.launcher.unsetenv ("PROTONPLUS_APPIMAGE_HELPER_URL");
+        var script = fixture.path ("packaging/appimage/get-dependencies.sh");
+        var packages = Path.build_filename (fixture.root, "packages");
+
+        fixture.run ({ "/bin/sh", script, "--try-debloated" }).expect_status (0);
+        expect_text (read_text (packages), "stock\n");
+
+        fixture.executable (Path.build_filename (fixture.bin, "get-debloated-pkgs"), """#!/bin/sh
+test "$*" = "--add-common --prefer-nano" || exit 1
+printf 'debloated\n' > packages
+""");
+        fixture.run ({ "/bin/sh", script, "--stock-only" }).expect_status (0);
+        expect_text (read_text (packages), "stock\n");
+        fixture.run ({ "/bin/sh", script }).expect_status (0);
+        expect_text (read_text (packages), "stock\n");
+        fixture.run ({ "/bin/sh", script, "--try-debloated" }).expect_status (0);
+        expect_text (read_text (packages), "debloated\n");
+    }
+
+    void appimage_fallback (Fixture fixture) throws Error {
+        fixture.copy ("packaging/appimage/get-dependencies.sh");
+        fixture.copy ("packaging/appimage/build-container.sh");
+        fixture.executable (Path.build_filename (fixture.bin, "pacman"), """#!/bin/sh
+case "$1" in
+    -Syu) test "$SCENARIO" != install-failure || exit 75
+          test ! -e packages && printf 'stock\n' > packages ;;
+    -Qk) test "$SCENARIO" != inventory-failure && test "$(cat packages)" = stock ;;
+    *) exit 1 ;;
+esac
+""");
+        fixture.executable (Path.build_filename (fixture.bin, "get-debloated-pkgs"), """#!/bin/sh
+case "$SCENARIO" in
+    before-changes) exit 1 ;;
+    after-changes) printf 'damaged\n' > packages; exit 1 ;;
+    *) printf 'debloated\n' > packages ;;
+esac
+""");
+        fixture.executable (Path.build_filename (fixture.bin, "docker"), """#!/bin/sh
+set -eu
+case "$1" in
+    pull) exit 0 ;;
+    image) printf 'fixture-image\n'; exit 0 ;;
+    run) ;;
+    *) exit 1 ;;
+esac
+test "$2" = --rm
+while [ "$1" != fixture-image ]; do shift; done
+mode=$5
+printf '%s\n' "$mode" >> attempts
+mkdir "container-${mode#--}"
+cd "container-${mode#--}"
+sh ../get-dependencies.sh "$mode"
+test "$SCENARIO" != build-failure || exit 1
+cat packages >> ../bundled
+""");
+        fixture.executable (Path.build_filename (fixture.bin, "uname"), "#!/bin/sh\nprintf 'x86_64\\n'\n");
+        fixture.launcher.setenv ("VERSION", "1.2.3", true);
+        fixture.launcher.setenv ("ARCH", "x86_64", true);
+        fixture.launcher.unsetenv ("PROTONPLUS_APPIMAGE_HELPER_URL");
+        var script = fixture.path ("packaging/appimage/build-container.sh");
+        foreach (var scenario in new string[] {
+            "before-changes", "after-changes", "success", "install-failure", "inventory-failure", "build-failure"
+        }) {
+            var workdir = fixture.path (scenario);
+            write_text (Path.build_filename (workdir, "ProtonPlus-1.2.3-source.tar.gz"), "source");
+            File.new_for_path (fixture.path ("packaging/appimage/get-dependencies.sh")).copy (
+                File.new_for_path (Path.build_filename (workdir, "get-dependencies.sh")), FileCopyFlags.NONE);
+            fixture.launcher.setenv ("SCENARIO", scenario, true);
+            var result = fixture.run ({ "sh", script, "--try-debloated" }, workdir);
+            var fallback = scenario == "before-changes" || scenario == "after-changes";
+            var success = fallback || scenario == "success";
+            result.expect_status (success ? 0 : 1);
+            expect_text (read_text (Path.build_filename (workdir, "attempts")),
+                fallback ? "--try-debloated\n--stock-only\n" : "--try-debloated\n");
+            var artifact = Path.build_filename (workdir, "bundled");
+            if (success)
+                expect_text (read_text (artifact), fallback ? "stock\n" : "debloated\n");
+            else
+                require (!FileUtils.test (artifact, FileTest.EXISTS), "Failed build produced a bundle");
+            if (scenario == "after-changes")
+                expect_text (read_text (Path.build_filename (workdir, "container-try-debloated", "packages")),
+                    "damaged\n");
         }
     }
 
@@ -491,6 +567,7 @@ printf '%s\n' "$@" > "$PROTONPLUS_TEST_CONTAINER_ARGS"
         register ("/translations/extract-template", extract_template);
         register ("/translations/update-catalogs", update_catalogs);
         register ("/appimage/dependencies", appimage_dependencies);
+        register ("/appimage/fallback", appimage_fallback);
         register ("/appimage/catalogs", appimage_catalogs);
         register ("/native-packaging/checkout-and-legacy-archive", native_packages);
         return Test.run ();

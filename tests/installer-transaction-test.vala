@@ -22,14 +22,15 @@ namespace AppTests.InstallerTransactionTest {
             ProtonPlus.Services.InstallJob.Mode mode = ProtonPlus.Services.InstallJob.Mode.VERSIONED,
             int64 download_size = 0,
             string digest = "",
-            string tag = "fixture-tag"
+            string tag = "fixture-tag",
+            string? release_id = null
         ) {
             base (new Release (
                 tag == "fixture-tag" ? "Fixture Runner" : tag, "", "", new Models.Assets.Asset (
                     "runner.zip", "https://fixtures.invalid/%s".printf (Path.get_basename (fixture_path)),
                     download_size, digest
                 ),
-                "", null, "fixture-release-id", tag
+                "", null, fixture_release_id (tag, release_id), tag
             ), runner, mode, location);
             this.fixture_path = fixture_path;
             this.cancel_download = cancel_download;
@@ -39,6 +40,13 @@ namespace AppTests.InstallerTransactionTest {
                 variant?.id ?? "fixture-default", variant?.name ?? "Default", "", true,
                 release.asset.download_url, variant?.compatibility, release.asset
             ));
+        }
+
+        private static string fixture_release_id (string tag, string? release_id) {
+            // Vala 0.56.18 frees the fallback early when this expression is inlined in base().
+            if (release_id != null)
+                return release_id;
+            return tag == "fixture-tag" ? "fixture-release-id" : "fixture-release-" + tag;
         }
 
         public override async bool download_archive (string url, string path, out string? error_message) {
@@ -154,9 +162,14 @@ namespace AppTests.InstallerTransactionTest {
         Test.add_func ("/installer-transaction/nested-archive-requirement-extracts-nested-archive", test_nested_archive_requirement_extracts_nested_archive);
         Test.add_func ("/installer-transaction/invalid-download-is-not-cached", test_invalid_download_is_not_cached);
         Test.add_func ("/installer-transaction/extraction-failure-evicts-cached-archive", test_extraction_failure_evicts_cached_archive);
+        Test.add_func ("/installer-transaction/competing-cache-publishers", test_competing_cache_publishers);
+        Test.add_func ("/installer-transaction/stale-cache-eviction-preserves-repair", test_stale_cache_eviction);
+        Test.add_func ("/installer-transaction/update-downloads-new-release-at-reused-url", test_update_at_reused_url);
+        Test.add_func ("/installer-transaction/subprocess/publish-archive", publish_archive_subprocess);
         Test.add_func ("/installer-transaction/integrity-metadata-rejects-corrupt-cache", test_integrity_metadata_rejects_corrupt_cache);
         Test.add_func ("/installer-transaction/digest-mismatch-rejects-download", test_digest_mismatch_rejects_download);
         Test.add_func ("/installer-transaction/latest-rewrites-supported-compatibility-manifest-layouts", test_latest_rewrites_supported_compatibility_manifest_layouts);
+        Test.add_func ("/installer-transaction/latest-variants-use-distinct-steam-keys", test_latest_variants_use_distinct_steam_keys);
         Test.add_func ("/installer-transaction/versioned-install-preserves-compatibility-manifest", test_versioned_install_preserves_compatibility_manifest);
         Test.add_func ("/installer-transaction/rosemary-steam-registration", test_rosemary_steam_registration);
         Test.add_func ("/installer-transaction/rosemary-manifest-required", test_rosemary_manifest_required);
@@ -201,7 +214,8 @@ namespace AppTests.InstallerTransactionTest {
     private Models.Tools.ProviderTool runner (
         string root,
         ArchiveInstallRequirement archive_install_requirement = ArchiveInstallRequirement.STANDARD,
-        Launcher? target_launcher = null
+        Launcher? target_launcher = null,
+        ReleaseSource? release_source = null
     ) {
         assert (ProtonPlus.Utils.Filesystem.create_directory (root));
         Launcher launcher;
@@ -227,7 +241,9 @@ namespace AppTests.InstallerTransactionTest {
             });
         }
         assert (definition != null);
-        var value = ProviderCatalog.create_tool ((!) definition, group);
+        var value = release_source == null ? ProviderCatalog.create_tool ((!) definition, group)
+            : new Models.Tools.ProviderTool.with_catalog ((!) definition, release_source, group,
+                definition.get_install_layout ("default"));
         assert (value != null);
         return (!) value;
     }
@@ -285,10 +301,9 @@ namespace AppTests.InstallerTransactionTest {
             new CompatibilityProcessGuard (new EmptyCompatibilityProcessQuery ())
         );
     }
-    private string archive_cache_path (string cache, string url) {
-        return Path.build_filename (
-            cache, "archives", "%s.zip".printf (Checksum.compute_for_string (ChecksumType.SHA256, url))
-        );
+    private string archive_cache_path (string cache, InstallJob job) {
+        return ArchiveWorkflowSupport.get_cache_archive_path (
+            cache, job.tool.provider_id, job.release, job.selected_asset.download_url, ".zip");
     }
     private string file_sha256 (string path) {
         try {
@@ -786,7 +801,7 @@ namespace AppTests.InstallerTransactionTest {
         var invalid_archive = Path.build_filename (root, "invalid.zip");
         ProtonPlus.Utils.Filesystem.create_file (invalid_archive, "not an archive");
         var job = new FixtureJob (runner (tools), location, invalid_archive);
-        var cache_path = archive_cache_path (cache, job.selected_asset.download_url);
+        var cache_path = archive_cache_path (cache, job);
 
         assert (install (job) == ReturnCode.EXTRACTION_FAILED);
         assert (job.download_calls == 1);
@@ -799,7 +814,7 @@ namespace AppTests.InstallerTransactionTest {
         prepare (out root, out cache, out tools, out location);
         var fixture = fixture_archive (root);
         var first = new FixtureJob (runner (tools), location, fixture);
-        var cache_path = archive_cache_path (cache, first.selected_asset.download_url);
+        var cache_path = archive_cache_path (cache, first);
         assert (ProtonPlus.Utils.Filesystem.create_directory (Path.get_dirname (cache_path)));
         ProtonPlus.Utils.Filesystem.create_file (cache_path, "truncated archive");
 
@@ -814,6 +829,135 @@ namespace AppTests.InstallerTransactionTest {
         assert (delete_directory (root));
     }
 
+    private void test_update_at_reused_url () {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        var old_archive = fixture_archive (root);
+        var replacement_dir = Path.build_filename (root, "replacement");
+        assert (DirUtils.create (replacement_dir, 0700) == 0);
+        var new_archive = Path.build_filename (replacement_dir, "runner.zip");
+        assert (FileUtils.rename (fixture_archive_named (replacement_dir, "direct-manifest-runner.zip.base64"),
+            new_archive) == 0);
+
+        var source = new FixtureLatestSource ();
+        var target = runner (tools, ArchiveInstallRequirement.STANDARD, null, source);
+        var initial = new FixtureJob (target, location, old_archive, false, false,
+            InstallJob.Mode.LATEST, 0, "", "v1", "old-release-id");
+        assert (install (initial) == ReturnCode.RUNNER_INSTALLED);
+        var marker = Path.build_filename (location, "marker.txt");
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (marker) == "new runner\n");
+
+        var replacement = new FixtureJob (target, location, new_archive, false, false,
+            InstallJob.Mode.LATEST, 0, "", "v1", "new-release-id");
+        source.release = replacement.release;
+        assert (replacement.selected_asset.download_url == initial.selected_asset.download_url);
+
+        var loop = new MainLoop ();
+        replacement.update.begin ((obj, response) => {
+            assert (replacement.update.end (response) == ReturnCode.RUNNER_UPDATED);
+            loop.quit ();
+        });
+        loop.run ();
+        assert (replacement.download_calls == 1);
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (marker) == "direct runner\n");
+        assert (ProtonPlus.Utils.Metadata.load (location).release_id == "new-release-id");
+        assert (delete_directory (root));
+    }
+
+    private void publish_archive_subprocess () {
+        var root = Environment.get_variable ("PROTONPLUS_TEST_ARCHIVE_ROOT");
+        assert (root != null);
+        Globals.CACHE_PATH = Path.build_filename (root, "cache");
+        InstallationService.instance.configure_compatibility_process_guard (
+            new CompatibilityProcessGuard (new EmptyCompatibilityProcessQuery ())
+        );
+        var tools = Path.build_filename (root, "publisher-tools");
+        var location = Path.build_filename (tools, "Fixture Runner");
+        var fixture = Path.build_filename (root, "runner.zip");
+        var job = new FixtureJob (
+            runner (tools), location, fixture, false, false, InstallJob.Mode.VERSIONED, 0,
+            "sha256:" + file_sha256 (fixture)
+        );
+        assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+        assert (job.download_calls == 1);
+        assert (file_sha256 (archive_cache_path (Globals.CACHE_PATH, job)) ==
+                file_sha256 (fixture));
+        no_entries (tools, ".protonplus-stage-");
+    }
+
+    private void publish_in_other_process (string root) {
+        Environment.set_variable ("PROTONPLUS_TEST_ARCHIVE_ROOT", root, true);
+        Test.trap_subprocess ("/installer-transaction/subprocess/publish-archive", 10000000, TestSubprocessFlags.DEFAULT);
+        Test.trap_assert_passed ();
+        Environment.unset_variable ("PROTONPLUS_TEST_ARCHIVE_ROOT");
+    }
+
+    private void test_competing_cache_publishers () {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        var winner = fixture_archive (root);
+        var contender_dir = Path.build_filename (root, "contender");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (contender_dir));
+        var contender = Path.build_filename (contender_dir, "runner.zip");
+        var different_archive = fixture_archive_named (contender_dir, "direct-manifest-runner.zip.base64");
+        assert (FileUtils.rename (different_archive, contender) == 0);
+        assert (file_sha256 (contender) != file_sha256 (winner));
+
+        var job = new FixtureJob (runner (tools), location, contender);
+        var cache_path = archive_cache_path (cache, job);
+        var raced = false;
+        job.notify["step"].connect (() => {
+            if (job.step == InstallJob.Step.MOVING && !raced) {
+                raced = true;
+                assert (!FileUtils.test (cache_path, FileTest.EXISTS));
+                publish_in_other_process (root);
+            }
+        });
+        assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+        assert (raced && job.download_calls == 1);
+        assert (file_sha256 (cache_path) == file_sha256 (winner));
+
+        var reader_tools = Path.build_filename (root, "reader-tools");
+        var reader_location = Path.build_filename (reader_tools, "Fixture Runner");
+        var reader = new FixtureJob (runner (reader_tools), reader_location, contender);
+        reader.fail_download = true;
+        assert (install (reader) == ReturnCode.RUNNER_INSTALLED);
+        assert (reader.download_calls == 0);
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (
+            Path.build_filename (reader_location, "marker.txt")
+        ) == "new runner\n");
+        assert (file_sha256 (cache_path) == file_sha256 (winner));
+        no_entries (cache, ".protonplus-install-");
+        no_entries (tools, ".protonplus-stage-");
+        no_entries (reader_tools, ".protonplus-stage-");
+        assert (delete_directory (root));
+    }
+
+    private void test_stale_cache_eviction () {
+        string root, cache, tools, location;
+        prepare (out root, out cache, out tools, out location);
+        var fixture = fixture_archive (root);
+        var job = new FixtureJob (runner (tools), location, fixture);
+        var cache_path = archive_cache_path (cache, job);
+        assert (ProtonPlus.Utils.Filesystem.create_directory (Path.get_dirname (cache_path)));
+        ProtonPlus.Utils.Filesystem.create_file (cache_path, "truncated archive");
+
+        var repaired = false;
+        job.notify["step"].connect (() => {
+            if (job.step == InstallJob.Step.EXTRACTING && !repaired) {
+                repaired = true;
+                publish_in_other_process (root);
+            }
+        });
+        assert (install (job) == ReturnCode.EXTRACTION_FAILED);
+        assert (repaired && job.download_calls == 0);
+        assert (!FileUtils.test (location, FileTest.EXISTS));
+        assert (file_sha256 (cache_path) == file_sha256 (fixture));
+        no_entries (cache, ".protonplus-install-");
+        no_entries (tools, ".protonplus-stage-");
+        assert (delete_directory (root));
+    }
+
     private void test_integrity_metadata_rejects_corrupt_cache () {
         string root, cache, tools, location;
         prepare (out root, out cache, out tools, out location);
@@ -825,7 +969,7 @@ namespace AppTests.InstallerTransactionTest {
             ProtonPlus.Services.InstallJob.Mode.VERSIONED, fixture_stat.st_size,
             "sha256:%s".printf (file_sha256 (fixture))
         );
-        var cache_path = archive_cache_path (cache, job.selected_asset.download_url);
+        var cache_path = archive_cache_path (cache, job);
         assert (ProtonPlus.Utils.Filesystem.create_directory (Path.get_dirname (cache_path)));
         ProtonPlus.Utils.Filesystem.create_file (cache_path, "short");
 
@@ -846,7 +990,7 @@ namespace AppTests.InstallerTransactionTest {
             ProtonPlus.Services.InstallJob.Mode.VERSIONED, 0,
             "sha256:0000000000000000000000000000000000000000000000000000000000000000"
         );
-        var cache_path = archive_cache_path (cache, job.selected_asset.download_url);
+        var cache_path = archive_cache_path (cache, job);
 
         assert (install (job) == ReturnCode.DOWNLOAD_FAILED);
         assert (job.download_calls == 1);
@@ -875,6 +1019,41 @@ namespace AppTests.InstallerTransactionTest {
             assert (!content.contains ("\"display_name\" \"Fixture Runner\""));
             assert (delete_directory (root));
         }
+    }
+
+    private void test_latest_variants_use_distinct_steam_keys () {
+        string root, cache, tools, unused_location;
+        prepare (out root, out cache, out tools, out unused_location);
+        var definition = new ProviderRegistry ().get_by_id ("proton-cachyos");
+        var target = runner_for_definition (tools, definition);
+        var launcher = (Models.Launchers.Steam) target.group.launcher;
+        var managed_root = launcher.get_primary_managed_tool_directory (target.group);
+        var archive = fixture_archive_named (root, "wrapped-manifest-runner.zip.base64");
+        var original_cpu = Globals.CPU_CAPABILITIES;
+        Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V3);
+
+        for (int index = 0; index < 2; index++) {
+            var variant = target.variants[index];
+            var location = Path.build_filename (managed_root, target.get_directory_name ("Proton-CachyOS Latest", variant));
+            var job = new FixtureJob (target, location, archive, false, false, InstallJob.Mode.LATEST);
+            job.release.variants.clear ();
+            foreach (var configured in target.variants) {
+                job.release.variants.add (new Models.Variant (
+                    configured.id, configured.name, configured.format, configured.is_default,
+                    job.release.asset.download_url, configured.compatibility, job.release.asset
+                ));
+            }
+            job.set_selected_variant (variant.name, null, variant.id);
+            assert (install (job) == ReturnCode.RUNNER_INSTALLED);
+        }
+
+        launcher.refresh_compatibility_tools ();
+        var standard = launcher.find_compatibility_tool ("Proton-CachyOS Latest");
+        var optimized = launcher.find_compatibility_tool ("protonplus-proton-cachyos-latest-x86-64-v3");
+        assert (standard != null && optimized != null && standard.path != optimized.path);
+        assert (optimized.display_title == "Proton-CachyOS Latest (x86_64_v3)");
+        Globals.CPU_CAPABILITIES = original_cpu;
+        assert (delete_directory (root));
     }
 
     private void test_versioned_install_preserves_compatibility_manifest () {

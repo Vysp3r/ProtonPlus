@@ -86,12 +86,17 @@ namespace ProtonPlus.Utils {
         private uint64 restore_generation = 0;
 
         public ControllerBackAction navigate_back (bool has_modal_surface,
-            ControllerNavigationHost? host, bool exit_at_root = false) {
-            if (has_modal_surface)
+            ControllerNavigationHost? application_host, bool exit_at_root = false,
+            ControllerNavigationHost? dialog_host = null) {
+            if (has_modal_surface) {
+                if (dialog_host != null && dialog_host.controller_can_navigate_back () &&
+                    dialog_host.controller_navigate_back ())
+                    return ControllerBackAction.NAVIGATE_APPLICATION;
                 return ControllerBackAction.DISMISS_SURFACE;
-            if (host != null && host.controller_navigate_back ())
+            }
+            if (application_host != null && application_host.controller_navigate_back ())
                 return ControllerBackAction.NAVIGATE_APPLICATION;
-            if (exit_at_root && host != null)
+            if (exit_at_root && application_host != null)
                 return ControllerBackAction.REQUEST_EXIT;
             return ControllerBackAction.NONE;
         }

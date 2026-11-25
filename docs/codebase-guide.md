@@ -278,6 +278,12 @@ verification, extraction and staging, so another GUI or CLI process cannot clear
 its working files. Its small lock file lives beside
 the disposable cache tree so clearing cannot replace a locked inode.
 
+Completed archives use a separate per-key lock for validation, copying,
+publication, and eviction. The workflow publishes an extracted and validated
+archive with an atomic operation that preserves any existing entry. If
+extraction of a cached copy fails, eviction checks that the cache still holds
+the inode that supplied the copy.
+
 Cleanup takes an exclusive cache lock off the GTK thread after installs and
 around standalone downloads. It preserves active transfers, expires partials
 after **7 days**, and keeps at most **32 entries and 2 GiB** of recent partials.

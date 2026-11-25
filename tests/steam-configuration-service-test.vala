@@ -6,11 +6,19 @@ namespace AppTests.SteamConfigurationServiceTest {
 
     private class SessionFixture : Object, SteamSessionBackend {
         public NativeProcessQuery native_query = new NativeProcessQuery (true);
+        public bool stop_after_next_query = false;
         public FlatpakProcessQuery flatpak_query = new FlatpakProcessQuery (true);
         public string? get_boot_id () { return "configuration-fixture"; }
         public int64 get_monotonic_time_usec () { return 60 * 1000 * 1000; }
         public int64 get_clock_ticks_per_second () { return 100; }
-        public NativeProcessQuery query_native_processes () { return native_query; }
+        public NativeProcessQuery query_native_processes () {
+            var query = native_query;
+            if (stop_after_next_query) {
+                native_query = new NativeProcessQuery (true);
+                stop_after_next_query = false;
+            }
+            return query;
+        }
         public FlatpakProcessQuery query_flatpak_processes () { return flatpak_query; }
         public SteamDesktopEntry? find_desktop_entry (string? id) { return null; }
         public bool is_steamos_gaming_mode () { return false; }
@@ -36,13 +44,14 @@ namespace AppTests.SteamConfigurationServiceTest {
                 shortcut.Icon = "";
                 shortcuts.append_shortcut (shortcut);
             }
-            return true;
+            try { shortcuts.save (); return true; }
+            catch (Error e) { return false; }
         }
         public bool remove (ProtonPlus.Utils.VDF.Shortcuts shortcuts) {
             removals++;
             if (!remove_result) return false;
             if (!shortcuts.get_installed_status ()) return true;
-            try { shortcuts.remove_shortcut_by_name ("ProtonPlus"); }
+            try { shortcuts.remove_shortcut_by_name ("ProtonPlus"); shortcuts.save (); }
             catch (Error e) { return false; }
             return true;
         }
@@ -81,16 +90,20 @@ namespace AppTests.SteamConfigurationServiceTest {
     }
 
     private void create_shortcut_file (string path, uint appid, string launch_options) {
+        append_shortcut (path, appid, launch_options, "");
+    }
+
+    private void append_shortcut (string path, uint appid, string launch_options, string executable) {
         try {
-            ProtonPlus.Utils.VDF.Shortcuts.create_new_shortcuts_file_at (path);
-            var shortcuts = ProtonPlus.Utils.VDF.Shortcuts.load (path);
+            var shortcuts = FileUtils.test (path, FileTest.EXISTS)
+                ? ProtonPlus.Utils.VDF.Shortcuts.load (path) : ProtonPlus.Utils.VDF.Shortcuts.empty (path);
             ProtonPlus.Utils.VDF.Shortcut shortcut = {};
             shortcut.AppID = (int32) appid;
             shortcut.AllowDesktopConfig = true;
             shortcut.AllowOverlay = true;
             shortcut.AppName = "Fixture shortcut";
             shortcut.DevkitGameID = "";
-            shortcut.Exe = "";
+            shortcut.Exe = executable;
             shortcut.FlatpakAppID = "";
             shortcut.LaunchOptions = launch_options;
             shortcut.ShortcutPath = "";
@@ -725,6 +738,123 @@ namespace AppTests.SteamConfigurationServiceTest {
         assert (!service.protonplus_shortcut_is_effectively_installed (profile));
     }
 
+    private void test_staged_shortcut_creates_missing_file () {
+        var root = temporary_root ();
+        string config, localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var launcher = steam (root);
+        var userdata = Path.build_filename (root, "userdata", "1");
+        var path = Path.build_filename (userdata, "config", "shortcuts.vdf");
+        var profile = new SteamProfile (launcher, "Fixture", "76561197960265729", userdata);
+        var target = launcher.get_steam_restart_target ();
+        var backend = new SessionFixture ();
+        set_running (backend, target);
+        var shortcuts = new ShortcutFixture ();
+        SteamRestartManager manager;
+        var service = service_for (root, backend, out manager, shortcuts);
+        assert (run_shortcut_install (service, profile).result == SteamConfigurationMutationResult.STAGED);
+        assert (!FileUtils.test (path, FileTest.EXISTS));
+
+        backend.native_query = new NativeProcessQuery (true);
+        assert (service.reconcile_target (target).result == SteamConfigurationMutationResult.CHANGED);
+        assert (FileUtils.test (path, FileTest.IS_REGULAR));
+        assert (shortcuts.installs == 1);
+        assert (service.verify_target_after_session (target));
+
+        set_running (backend, target);
+        assert (run_shortcut_remove (service, profile).result == SteamConfigurationMutationResult.STAGED);
+        backend.native_query = new NativeProcessQuery (true);
+        assert (run_shortcut_install (service, profile).result == SteamConfigurationMutationResult.CHANGED);
+        assert (shortcuts.removals == 0);
+        assert (manager.pending_count () == 0);
+        assert (service.protonplus_shortcut_is_effectively_installed (profile));
+    }
+
+    private void test_duplicate_shortcut_names_and_reloaded_clear () {
+        var root = temporary_root ();
+        string config, localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var userdata = Path.build_filename (root, "userdata", "1");
+        var path = Path.build_filename (userdata, "config", "shortcuts.vdf");
+        append_shortcut (path, 10, "--first", "/fixture/first");
+        append_shortcut (path, 20, "--second", "/fixture/second");
+        var launcher = steam (root);
+        launcher.profile = new SteamProfile (launcher, "Fixture", "76561197960265729", userdata);
+        var game = new Games.Steam.non_steam (10, "Fixture shortcut", "--first", "Default", launcher);
+        var target = launcher.get_steam_restart_target ();
+        var backend = new SessionFixture ();
+        set_running (backend, target);
+        SteamRestartManager manager;
+        var service = service_for (root, backend, out manager);
+        assert (service.change_game_launch_options (game, "--staged", localconfig).result
+            == SteamConfigurationMutationResult.STAGED);
+
+        service = service_for (root, backend, out manager);
+        assert (service.change_game_launch_options (game, "", localconfig).result
+            == SteamConfigurationMutationResult.STAGED);
+        backend.native_query = new NativeProcessQuery (true);
+        assert (service.reconcile_target (target).result == SteamConfigurationMutationResult.CHANGED);
+        try {
+            var shortcuts = ProtonPlus.Utils.VDF.Shortcuts.load (path);
+            var first = shortcuts.get_shortcut_by_appid (10);
+            var second = shortcuts.get_shortcut_by_appid (20);
+            assert (first.AppID == 10 && first.Exe == "/fixture/first" && first.LaunchOptions == "");
+            assert (second.AppID == 20 && second.Exe == "/fixture/second" && second.LaunchOptions == "--second");
+        } catch (Error e) { assert_not_reached (); }
+    }
+
+    private void test_compact_vdf_edits () {
+        var root = temporary_root ();
+        string config, localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var launcher = steam (root);
+        var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+        SteamRestartManager manager;
+        var service = service_for (root, new SessionFixture (), out manager);
+        var compact = "\"UserLocalConfigStore\" { \"Software\" { \"Valve\" { \"Steam\" { "
+            + "\"apps\" { \"42\" { \"LaunchOptions\" \"--old\" \"LastPlayed\" \"12\" } } } } } }";
+        write (localconfig, compact);
+        assert (service.change_game_launch_options (game, "", localconfig).result == SteamConfigurationMutationResult.CHANGED);
+        assert (read (localconfig) == compact.replace ("\"LaunchOptions\" \"--old\"", ""));
+        assert (service.change_game_launch_options (game, "--new", localconfig).result == SteamConfigurationMutationResult.CHANGED);
+        assert (service.change_game_launch_options (game, "--newer", localconfig).result == SteamConfigurationMutationResult.CHANGED);
+        assert (read (localconfig).contains ("\"LastPlayed\" \"12\""));
+        assert (read (localconfig).contains ("\"--newer\""));
+
+        var malformed = compact.replace ("\"--old\"", "{ \"nested\" \"value\" }");
+        write (localconfig, malformed);
+        assert (service.change_game_launch_options (game, "--new", localconfig).result == SteamConfigurationMutationResult.FAILED);
+        assert (read (localconfig) == malformed);
+    }
+
+    private void test_steam_stops_during_staging () {
+        var root = temporary_root ();
+        string config, localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var launcher = steam (root);
+        var target = launcher.get_steam_restart_target ();
+        var backend = new SessionFixture ();
+        set_running (backend, target);
+        SteamRestartManager manager;
+        var service = service_for (root, backend, out manager);
+        var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+        backend.stop_after_next_query = true;
+        assert (service.change_game_launch_options (game, "--staged", localconfig).result
+            == SteamConfigurationMutationResult.STAGED);
+        assert (manager.pending_count () == 1);
+        assert (read (localconfig) == LOCALCONFIG);
+        assert (service.reconcile_target (target).result == SteamConfigurationMutationResult.CHANGED);
+        assert (read (localconfig).contains ("--staged"));
+
+        assert (service.verify_target_after_session (target));
+        assert (service.change_game_launch_options (game, "", localconfig).accepted);
+        set_running (backend, target);
+        assert (service.change_game_launch_options (game, "--temporary", localconfig).accepted);
+        assert (service.change_game_launch_options (game, "", localconfig).result
+            == SteamConfigurationMutationResult.UNCHANGED);
+        assert (manager.pending_count () == 0);
+    }
+
     private SteamConfigurationMutation run_shortcut_install (SteamConfigurationService service, SteamProfile profile) {
         var loop = new MainLoop (); SteamConfigurationMutation? result = null;
         service.install_protonplus_shortcut.begin (profile, (obj, response) => { result = service.install_protonplus_shortcut.end (response); loop.quit (); });
@@ -822,5 +952,9 @@ namespace AppTests.SteamConfigurationServiceTest {
         Test.add_func ("/steam-configuration/effective-state-reload-does-not-write", test_effective_state_survives_service_reload_without_writing_disk);
         Test.add_func ("/steam-configuration/game-mapping-removal-overlay-clears-explicit-runtime", test_game_mapping_removal_overlay_clears_explicit_runtime);
         Test.add_func ("/steam-configuration/shortcut-presence-host-independent", test_shortcut_presence_is_host_independent_and_coalesces);
+        Test.add_func ("/steam-configuration/staged-shortcut-creates-missing-file", test_staged_shortcut_creates_missing_file);
+        Test.add_func ("/steam-configuration/duplicate-shortcut-names-and-reloaded-clear", test_duplicate_shortcut_names_and_reloaded_clear);
+        Test.add_func ("/steam-configuration/compact-vdf-edits", test_compact_vdf_edits);
+        Test.add_func ("/steam-configuration/steam-stops-during-staging", test_steam_stops_during_staging);
     }
 }

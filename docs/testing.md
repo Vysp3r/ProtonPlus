@@ -117,9 +117,11 @@ meson test -C build --print-errorlogs "ProtonPlus unit tests"
 | Proton-Autogen | `/proton-autogen`, **Games presentation** |
 | Steam tool diagnostics | `/steam-library-diagnostics`, `/steam/broken-steam-library-tool-is-detected`, **Steam diagnostics presentation** |
 | Download recovery | `./tests/check.sh downloads` or the three `/web` paths above |
+| Completed archive publication | `/filesystem/competing-file-publications`, `/installer-transaction/competing-cache-publishers`, `/installer-transaction/stale-cache-eviction-preserves-repair`. |
 | Installation and updates | `/compatibility-process-guard`, `/installer-transaction`, `/update-transaction`, `/steamtinkerlaunch`. |
 | VDF and Steam library parsing | `/vdf`, `/vdf-binary`, `/vdf-shortcuts`, `/steam`. |
 | Steam lifecycle | `/steam-session`, `/steam-configuration`, `/steam-restart-manager`, `/steam-restart-orchestrator`, `/steam-restart-presentation`. |
+| Shared Steam key repair | `/steam-key-repair`. |
 | Launch options | `/launch-options`, `/launch-command`, `/launch-command-parser`, `/launch-command-composer`, `/launch-command-writer`, `/launch-command-editor-projection`, `/launch-option-capabilities`; see [`launch-options.md`](launch-options.md) for feature-probe fixtures and compatibility contracts. |
 | CLI | `/cli`, using `RecordingCliOutputSink` for output assertions. |
 | Saved variant preferences | `/variant-settings` |
@@ -190,8 +192,17 @@ substantially more time than native unit tests.
 
 `make package TARGET=debian13` builds a native package and runs the
 Meson suite in Docker or Podman. The **CI** and **Release** workflows also
-install each distro package in a fresh container. AppImage jobs verify update
-metadata and run the bundled `protonplus version` command in a clean container.
+install each distro package in a fresh container. AppImage jobs build with
+stock Arch dependencies, then check zsync metadata, extract the artifact, and
+run the bundled `protonplus version` command in a container with networking
+disabled.
+
+From the directory containing `ProtonPlus-$VERSION-source.tar.gz`, run
+`packaging/appimage/build-container.sh` with Docker and export `VERSION` and
+`ARCH` (the host's `uname -m`). Pass `--try-debloated` to opt in to the
+optional helper. If the helper fails, the script discards that container and
+retries with stock packages in a fresh container.
+
 See the [release checklist](maintenance.md#prepare-a-release) for the tested
 platforms.
 

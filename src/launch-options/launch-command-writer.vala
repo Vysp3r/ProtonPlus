@@ -271,6 +271,9 @@ namespace ProtonPlus.LaunchOptions {
         bool safe_to_merge (LaunchCommandParseResult parsed, HashSet<string> changed) {
             if (parsed.command_boundary_indexes.size > 1)
                 return false;
+            if (trailing_shell_comment (parsed) != "" && (parsed.opaque_tokens.size != 1
+                || parsed.original_input.contains ("\n") || parsed.original_input.contains ("\r")))
+                return false;
             var only_custom_arguments_changed = only_dynamic_game_arguments_changed (changed);
             if (only_custom_arguments_changed && has_custom_argument_source (parsed))
                 return true;
@@ -348,6 +351,20 @@ namespace ProtonPlus.LaunchOptions {
             return false;
         }
 
+        string trailing_shell_comment (LaunchCommandParseResult parsed) {
+            if (parsed.tokens.size == 0)
+                return "";
+            var last = parsed.tokens[parsed.tokens.size - 1];
+            return last.is_opaque && last.raw.has_prefix ("#") ? last.raw : "";
+        }
+
+        string take_preserved_comment (ArrayList<string> output, LaunchCommandParseResult source) {
+            var comment = trailing_shell_comment (source);
+            if (comment != "" && output.size > 0 && output[output.size - 1] == comment)
+                return output.remove_at (output.size - 1);
+            return "";
+        }
+
         string environment_key (string value) {
             var separator = value.index_of_char ('=');
             return separator > 0 ? value.substring (0, separator) : "";
@@ -394,8 +411,11 @@ namespace ProtonPlus.LaunchOptions {
                 if (replacements.anchored.has_key (index))
                     output.add (replacements.anchored.get (index));
             }
+            var comment = take_preserved_comment (output, source);
             foreach (var addition in replacements.additions)
                 output.add (addition);
+            if (comment != "")
+                output.add (comment);
             return string.joinv (" ", output.to_array ());
         }
 
@@ -467,12 +487,15 @@ namespace ProtonPlus.LaunchOptions {
                     && (occurrence == null || !changed.contains (occurrence.option_id)))
                     output.add (source.tokens[index].raw);
             }
+            var comment = take_preserved_comment (output, source);
             append_generated_region (output, generated, generated_boundary + 1, generated.tokens.size,
                 changed, emitted, Region.GAME_ARGUMENT);
             if (custom_arguments_changed) {
                 foreach (var addition in custom_arguments.additions)
                     output.add (addition);
             }
+            if (comment != "")
+                output.add (comment);
             return string.joinv (" ", output.to_array ());
         }
 
@@ -539,28 +562,44 @@ namespace ProtonPlus.LaunchOptions {
                                      CustomArgumentReplacements custom_arguments,
                                      bool replace_custom_arguments,
                                      LaunchCommandSelection[] selections) {
-            /* The catalog is ordered by nesting priority.  Select one raw
-             * invocation for each wrapper identity: unchanged source first,
-             * otherwise the generated replacement.  This keeps independent
-             * wrappers and their unknown arguments while replacing only the
-             * changed backend or wrapper. */
-            foreach (var definition in catalog.get_wrappers ()) {
-                var source_invocation = wrapper_invocation (source, definition.id);
-                var generated_invocation = wrapper_invocation (generated, definition.id);
-                if (source_invocation != null && !wrapper_changed (definition.id, changed)) {
-                    append_wrapper_tokens (
-                        output, source, source_invocation, emitted,
-                        custom_arguments, replace_custom_arguments
-                    );
-                } else if (source_invocation != null && generated_invocation != null) {
+            var invocations = new ArrayList<LaunchCommandWrapperInvocation> ();
+            foreach (var invocation in source.wrappers) {
+                if (!wrapper_changed (invocation.wrapper_id, changed) ||
+                    wrapper_invocation (generated, invocation.wrapper_id) != null)
+                    invocations.add (invocation);
+            }
+
+            // Give new wrappers a catalog position without reordering source wrappers.
+            foreach (var invocation in generated.wrappers) {
+                if (wrapper_invocation (source, invocation.wrapper_id) != null)
+                    continue;
+                var priority = catalog.lookup_wrapper (invocation.wrapper_id).nesting_priority;
+                var insert_at = 0;
+                while (insert_at < invocations.size &&
+                    catalog.lookup_wrapper (invocations[insert_at].wrapper_id).nesting_priority <= priority)
+                    insert_at++;
+                invocations.insert (insert_at, invocation);
+            }
+
+            var edited = new HashSet<string> ();
+            foreach (var invocation in invocations) {
+                if (generated.wrappers.contains (invocation)) {
+                    append_wrapper_tokens (output, generated, invocation, emitted, custom_arguments, false);
+                    continue;
+                }
+
+                var id = invocation.wrapper_id;
+                var replacement = wrapper_invocation (generated, id);
+                // The editor loads the first invocation of a repeated wrapper.
+                if (replacement != null && wrapper_changed (id, changed) && edited.add (id)) {
                     append_edited_wrapper (
-                        output, source, source_invocation, generated, generated_invocation,
+                        output, source, invocation, generated, replacement,
                         changed, custom_arguments, replace_custom_arguments, selections
                     );
-                } else if (generated_invocation != null) {
+                } else {
                     append_wrapper_tokens (
-                        output, generated, generated_invocation, emitted,
-                        custom_arguments, false
+                        output, source, invocation, emitted,
+                        custom_arguments, replace_custom_arguments
                     );
                 }
             }

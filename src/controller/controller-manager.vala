@@ -274,7 +274,7 @@ namespace ProtonPlus.Utils {
                 surface = new GtkSurface (ControllerSurfaceKind.POPOVER, popover, opener, initial_focus);
                 registered_surfaces.add (surface);
                 surface.state_handler = popover.notify["visible"].connect (() => {
-                    if (popover.get_visible ())
+                    if (surface.widget?.get_visible () == true)
                         present_popover (surface);
                     else
                         remove_surface (surface);
@@ -1381,12 +1381,17 @@ namespace ProtonPlus.Utils {
         }
 
         bool perform_navigate_back () {
-            var has_modal = has_active_modal_surface ();
-            var host = get_active_navigation_host ();
-            if (!has_modal)
+            var surface = get_active_surface ();
+            var has_popover = surface.kind == ControllerSurfaceKind.POPOVER ||
+                find_focused_popover () != null;
+            var has_modal = surface.kind != ControllerSurfaceKind.WINDOW || has_popover;
+            var application_host = has_modal ? null : get_active_navigation_host ();
+            var dialog_host = surface.kind == ControllerSurfaceKind.DIALOG && !has_popover
+                ? surface.widget as ControllerNavigationHost : null;
+            if (!has_modal || dialog_host != null)
                 save_current_page_focus ();
 
-            var action = navigation_policy.navigate_back (has_modal, host, true);
+            var action = navigation_policy.navigate_back (has_modal, application_host, true, dialog_host);
             var succeeded = false;
             switch (action) {
             case ControllerBackAction.DISMISS_SURFACE:

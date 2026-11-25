@@ -10,6 +10,9 @@ namespace ProtonPlus.CLI {
     private const string CMD_SYNC = "sync";
     private const string CMD_CLEANUP = "cleanup";
 
+    private const string CMD_STEAM_KEY_REPAIR = "steam-key-repair";
+    private const string STEAM_KEY_REPAIR_USAGE = "steam-key-repair <steam_launcher_id> {preview | apply <preview_token> <key> <owner_directory> [<appid>=<directory> ...] | resume}";
+
     private const string OPT_LATEST = "latest";
     private const string OPT_ALL = "all";
     private const string OPT_JSON = "--json";
@@ -20,7 +23,7 @@ namespace ProtonPlus.CLI {
 
     private const string LIST_USAGE = "list [launcher_id]";
     private const string INSTALL_USAGE = "install <launcher_id> <runner_id> [latest]";
-    private const string UNINSTALL_USAGE = "uninstall <launcher_id> <runner_id|all> [all]";
+    private const string UNINSTALL_USAGE = "uninstall <launcher_id> {all | <runner_id> [all]}";
     private const string UPDATE_USAGE = "update all | update <launcher_id> [runner_id]";
 
     public static bool changes_installed_tools (string[] args) {
@@ -50,7 +53,7 @@ namespace ProtonPlus.CLI {
         case CMD_INSTALL:
             return args.length == 4 || (args.length == 5 && args[4] == OPT_LATEST);
         case CMD_UNINSTALL:
-            return args.length == 4 || (args.length == 5 && args[4] == OPT_ALL);
+            return args.length == 4 || (args.length == 5 && args[3] != OPT_ALL && args[4] == OPT_ALL);
         case CMD_UPDATE:
             return args.length == 3 || (args.length == 4 && args[2] != OPT_ALL);
         default:
@@ -259,6 +262,9 @@ namespace ProtonPlus.CLI {
             if (command == CMD_CLEANUP)
                 return yield handle_cleanup (args);
 
+            if (command == CMD_STEAM_KEY_REPAIR)
+                return yield handle_steam_key_repair (args);
+
             var mutation_usage = tool_command_usage (command);
             var changes_tools = mutation_usage != null;
             if (mutation_usage != null && !has_valid_tool_arguments (args))
@@ -304,6 +310,105 @@ namespace ProtonPlus.CLI {
             } finally {
                 disconnect_runtime_signals ();
             }
+        }
+
+        private async int handle_steam_key_repair (string[] args) {
+            if (args.length < 4 || (args[3] == "apply" ? args.length < 7
+                : args.length != 4 || (args[3] != "preview" && args[3] != "resume")))
+                return usage_error (STEAM_KEY_REPAIR_USAGE);
+            if (!yield load_launchers (true))
+                return 1;
+            var steam = find_launcher (args[2]) as Models.Launchers.Steam;
+            if (steam == null) {
+                output.error (_ ("Select a Steam launcher for this repair.\n"));
+                return 1;
+            }
+            try {
+                var sessions = Services.SteamSessionService.instance;
+                var manager = new Services.SteamRestartManager (sessions, new Services.SteamRestartStateStore ());
+                var configuration = new Services.SteamConfigurationService (sessions, manager);
+                var repair = new Services.SteamKeyRepair (steam, sessions, manager, configuration);
+                switch (args[3]) {
+                case "preview":
+                    print_steam_key_preview (repair, repair.preview ());
+                    return 0;
+                case "apply":
+                    var assignments = new Gee.HashMap<string, string> ();
+                    for (var i = 7; i < args.length; i++) {
+                        var pair = args[i].split ("=", 2);
+                        if (pair.length != 2 || assignments.has_key (pair[0]))
+                            return usage_error (STEAM_KEY_REPAIR_USAGE);
+                        assignments.set (pair[0], pair[1]);
+                    }
+                    repair.apply (args[4], args[5], args[6], assignments);
+                    break;
+                case "resume":
+                    repair.resume ();
+                    break;
+                }
+                output.info (_ ("Steam compatibility key repair completed.\n"));
+                return 0;
+            } catch (Error e) {
+                output.error (_ ("Steam compatibility key repair: %s\n"), e.message);
+                return 1;
+            }
+        }
+
+        private void print_steam_key_preview (Services.SteamKeyRepair repair, Services.SteamKeyRepairPreview preview) {
+            if (preview.recovery_available) {
+                output.info (_ ("An interrupted repair is available. Exit Steam and run this command with resume.\n"));
+                return;
+            }
+            var keys = new Gee.TreeMap<string, int> ();
+            foreach (var claim in preview.claims) {
+                var key = claim.key.ascii_down ();
+                keys.set (key, (keys.has_key (key) ? keys.get (key) : 0) + 1);
+            }
+            var reported = new Gee.HashSet<string> ();
+            foreach (var claim in preview.claims) {
+                var key = claim.key;
+                if (keys.get (key.ascii_down ()) < 2 || !reported.add (key.ascii_down ()))
+                    continue;
+                output.info (_ ("\nShared Steam key %s\n"), Shell.quote (key));
+                foreach (var slot in preview.claims) {
+                    if (slot.key.ascii_down () != key.ascii_down ())
+                        continue;
+                    if (slot.replacement == "") {
+                        output.info (_ ("  %s (external or ownership uncertain)\n"), Shell.quote (slot.path));
+                        continue;
+                    }
+                    var dir = Path.get_basename (slot.path);
+                    output.info (_ ("  %s (fresh key %s)\n"), Shell.quote (dir), Shell.quote (slot.replacement));
+                    var conflict = repair.owner_conflict (preview, key, dir);
+                    if (conflict == null)
+                        output.info (_ ("    Can retain the historical key.\n"));
+                    else
+                        output.info (_ ("    Cannot retain the historical key: %s\n"), conflict);
+                }
+                var appids = new Gee.TreeSet<uint> ((a, b) => a < b ? -1 : a == b ? 0 : 1);
+                preview.mappings.foreach ((appid, value) => {
+                    if (value.ascii_down () == key.ascii_down ())
+                        appids.add (appid);
+                });
+                foreach (var appid in appids) {
+                    if (appid == 0)
+                        output.info (_ ("  AppID 0 (global default, also used by games that inherit it)\n"));
+                    else
+                        output.info (_ ("  AppID %u\n"), appid);
+                }
+                foreach (var record in preview.pending) {
+                    var intent = record.receipt.configuration_intent;
+                    if (intent != null && intent.operation == Models.SteamConfigurationOperation.COMPATIBILITY_MAPPING
+                        && (preview.affects (intent, key)
+                            || (!intent.desired_present && intent.field_id != "0" && preview.mappings.get (0) == key)))
+                        output.info (_ ("  Pending ProtonPlus edit for AppID %s: %s\n"),
+                            intent.field_id, intent.desired_present ? Shell.quote (intent.desired) : _ ("inherit default"));
+                }
+            }
+            if (reported.is_empty)
+                output.info (_ ("No duplicate Steam compatibility keys were found.\n"));
+            else
+                output.info (_ ("\nPreview token %s\n"), preview.token);
         }
 
         private void disconnect_runtime_signals () {
@@ -1043,22 +1148,27 @@ namespace ProtonPlus.CLI {
             return provider_tool;
         }
 
-        protected virtual int read_user_selection (string prompt, int max) {
+        protected virtual string? read_selection_input () {
+            return stdin.read_line ();
+        }
+
+        private int read_user_selection (string prompt, int max) {
             output.info ("\n%s: ", prompt);
             output.flush_stdout ();
-            var input = stdin.read_line ();
+            var input = read_selection_input ()?.strip () ?? "";
 
-            if (input == null || input.strip () == "") {
+            if (input == "") {
                 return -1;
             }
 
             int selection;
-            if (!int.try_parse (input.strip (), out selection, null, 10)) {
+            unowned string remainder;
+            if (!int.try_parse (input, out selection, out remainder, 10) || remainder != "") {
                 output.error (_ ("Error: Invalid input, please enter a number\n"));
                 return -1;
             }
 
-            if (selection < 1 || selection > max) {
+            if (selection <= 0 || selection > max) {
                 output.error (_ ("Error: Selection out of range\n"));
                 return -1;
             }
@@ -1080,6 +1190,7 @@ namespace ProtonPlus.CLI {
             table.add ({ INSTALL_USAGE, _ ("Install runner") });
             table.add ({ UNINSTALL_USAGE, _ ("Uninstall runner") });
             table.add ({ UPDATE_USAGE, _ ("Update runner") });
+            table.add ({ STEAM_KEY_REPAIR_USAGE, _ ("Preview or resolve shared Steam compatibility keys") });
             table.print (output);
         }
 

@@ -85,22 +85,40 @@ namespace ProtonPlus.Utils.VDF {
         public string remove_entry (VdfEntry entry) {
             var start = line_start (entry.start);
             var end = entry.end;
-
-            if (end < content.length && content.get_char (end) == '\n') {
-                end++;
+            var after = skip_indentation (end);
+            if (skip_indentation (start) == entry.start &&
+                (after == content.length || content[after] == '\n' || content[after] == '\r')) {
+                end = after;
+                if (end < content.length && content[end] == '\r')
+                    end++;
+                if (end < content.length && content[end] == '\n')
+                    end++;
+            } else {
+                start = entry.start;
             }
 
             return content.substring (0, start) + content.substring (end);
         }
 
         public string insert_before_closing_brace (VdfEntry entry, string text) {
-            var position = line_start (entry.closing_brace_start);
-            return content.substring (0, position) + text + content.substring (position);
+            var brace = entry.closing_brace_start;
+            var start = line_start (brace);
+            if (skip_indentation (start) == brace)
+                return content.substring (0, start) + text + content.substring (start);
+
+            return content.substring (0, brace) + "\n" + text
+                + indentation_of_closing_brace (entry) + content.substring (brace);
         }
 
         public string indentation_of_closing_brace (VdfEntry entry) {
-            var line_start = line_start (entry.closing_brace_start);
-            return content.substring (line_start, entry.closing_brace_start - line_start);
+            var start = line_start (entry.closing_brace_start);
+            return content.substring (start, skip_indentation (start) - start);
+        }
+
+        private int skip_indentation (int position) {
+            while (position < content.length && (content[position] == ' ' || content[position] == '\t'))
+                position++;
+            return position;
         }
 
         private int line_start (int position) {

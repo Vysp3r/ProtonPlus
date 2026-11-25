@@ -53,9 +53,10 @@ protonplus outdated [--json] [launcher_id]
 protonplus sync [launcher_id]
 protonplus cleanup
 protonplus install <launcher_id> <runner_id> [latest]
-protonplus uninstall <launcher_id> <runner_id|all> [all]
-protonplus update all
+protonplus uninstall <launcher_id> <runner_id> [all]
+protonplus uninstall <launcher_id> all
 protonplus update <launcher_id> [runner_id]
+protonplus update all
 ```
 
 Start with `list` to find launcher IDs, then use `list <launcher_id>` to find
@@ -134,3 +135,26 @@ Actions artifacts, and other hosts use their original endpoints.
 Changing the mirror discards partial downloads from the previous endpoint.
 Validated archives remain reusable. ProtonPlus still checks the size and
 digest whenever the provider supplies them.
+
+### Repair shared Steam compatibility tool keys
+
+To inspect a Steam installation, run `protonplus steam-key-repair steam-system preview`.
+Use the corresponding launcher ID for Steam Flatpak or Snap. The preview lists
+duplicate keys, their claimants, affected AppIDs, and pending ProtonPlus edits.
+AppID 0 is Steam's global default. Games that inherit the default follow it
+unless you add a per-game assignment.
+
+Exit Steam completely before applying the repair. Copy the preview token and
+select a directory the preview says can retain the key. For example:
+
+```sh
+protonplus steam-key-repair steam-system apply TOKEN 'Shared Key' 'Default Latest' \
+  '0=Alternate Latest' '12345=Alternate Latest'
+```
+
+Each optional assignment sends one AppID to a rekeyed directory. Omitted
+assignments continue to use the historical key or inherit the global default.
+Repair one shared key at a time and run a fresh preview before repairing the
+next. A conflicting external tool or pending edit must be resolved before
+applying. If an operation stops partway through, exit Steam and run
+`protonplus steam-key-repair steam-system resume` for the same target.

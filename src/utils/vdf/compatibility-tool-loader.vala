@@ -24,7 +24,29 @@ namespace ProtonPlus.Utils.VDF {
             if (compatibility_tools == null || compatibility_tools.children.size == 0)
                 return null;
 
-            var definition = compatibility_tools.children[0];
+            return from_definition (compatibility_tools.children[0], path, inspection_path, externally_managed);
+        }
+
+        internal static Gee.List<Models.CompatibilityTool> read_claims (string path, string inspection_path, bool external) {
+            var claims = new Gee.ArrayList<Models.CompatibilityTool> ();
+            Posix.Stat info;
+            var manifest = Path.build_filename (inspection_path, "compatibilitytool.vdf");
+            if (Posix.lstat (manifest, out info) != 0 || !Posix.S_ISREG (info.st_mode))
+                return claims;
+            var document = VdfParser.parse_document (Filesystem.get_file_content (manifest));
+            var definitions = document == null ? null : find_compat_tools (document);
+            if (definitions != null) {
+                foreach (var definition in definitions.children) {
+                    var claim = from_definition (definition, path, inspection_path, external);
+                    if (claim != null)
+                        claims.add (claim);
+                }
+            }
+            return claims;
+        }
+
+        private static Models.CompatibilityTool? from_definition (VdfEntry definition, string path,
+            string inspection_path, bool externally_managed) {
             var internal_title = definition.key.strip ();
             if (!valid_internal_title (internal_title))
                 return null;
@@ -47,7 +69,7 @@ namespace ProtonPlus.Utils.VDF {
             return tool;
         }
 
-        private static VdfEntry? find_compat_tools (VdfDocument document) {
+        internal static VdfEntry? find_compat_tools (VdfDocument document) {
             var compatibility_tools = document.root.get_child ("compat_tools");
             if (compatibility_tools != null)
                 return compatibility_tools;

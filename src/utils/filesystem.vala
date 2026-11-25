@@ -263,6 +263,23 @@ namespace ProtonPlus.Utils {
             return output;
         }
 
+        internal static string read_regular_text (string path) throws Error {
+            Posix.Stat info;
+            if (Posix.lstat (path, out info) != 0 || !Posix.S_ISREG (info.st_mode))
+                throw new IOError.INVALID_DATA (_ ("Expected a regular file at %s.").printf (path));
+            string contents;
+            size_t length;
+            FileUtils.get_contents (path, out contents, out length);
+            if (contents.length != length)
+                throw new IOError.INVALID_DATA (_ ("Unexpected binary data in %s.").printf (path));
+            return contents;
+        }
+
+        internal static void replace_text_durably (string path, string contents) throws Error {
+            FileUtils.set_contents_full (path, contents, contents.length,
+                FileSetContentsFlags.CONSISTENT | FileSetContentsFlags.DURABLE, 0600);
+        }
+
         public static bool modify_file (string path, string content) {
             try {
                 FileUtils.set_contents (path, content);
@@ -344,25 +361,35 @@ namespace ProtonPlus.Utils {
             return output;
         }
 
-        // Like move_directory_atomic, but for an archive cache entry.  A
-        // concurrent downloader winning the race is harmless: its cache file
-        // is retained and the caller can use that immutable result.
-        public static async bool move_file_atomic_if_absent (string source, string destination) {
+        public enum FilePublication {
+            PUBLISHED,
+            DESTINATION_PRESENT,
+            IO_FAILURE
+        }
+
+        // The private source and cache destination share a filesystem.
+        // link(2) publishes without replacing any existing directory entry.
+        public static async FilePublication move_file_atomic_if_absent (string source, string destination) {
             SourceFunc callback = move_file_atomic_if_absent.callback;
 
-            bool output = false;
-            new Thread<void> ("move_file_atomic", () => {
-                if (!FileUtils.test (source, FileTest.IS_REGULAR) || FileUtils.test (destination, FileTest.EXISTS)) {
-                    Idle.add ((owned) callback, Priority.DEFAULT);
-                    return;
+            var outcome = FilePublication.IO_FAILURE;
+            new Thread<void> ("publish_file", () => {
+                Posix.Stat info;
+                if (Posix.lstat (source, out info) == 0 && Posix.S_ISREG (info.st_mode)) {
+                    if (Posix.link (source, destination) == 0) {
+                        outcome = FilePublication.PUBLISHED;
+                        // Publication has succeeded. Attempt cleanup can remove
+                        // the private name if unlinking it here fails.
+                        Posix.unlink (source);
+                    } else if (Posix.errno == Posix.EEXIST) {
+                        outcome = FilePublication.DESTINATION_PRESENT;
+                    }
                 }
-
-                output = FileUtils.rename (source, destination) == 0;
                 Idle.add ((owned) callback, Priority.DEFAULT);
             });
 
             yield;
-            return output;
+            return outcome;
         }
 
         public static async bool copy_file (string source, string destination) {
@@ -416,11 +443,12 @@ namespace ProtonPlus.Utils {
         }
 
         public static async bool move_directory (string source, string destination) {
-            var destination_existed = FileUtils.test (destination, FileTest.EXISTS);
+            var destination_existed = FileUtils.test (destination, FileTest.EXISTS | FileTest.IS_SYMLINK);
             var copied = yield copy_directory (source, destination);
 
             if (!copied) {
-                if (!destination_existed && FileUtils.test (destination, GLib.FileTest.IS_DIR))
+                if (!destination_existed && File.new_for_path (destination).query_file_type (
+                    FileQueryInfoFlags.NOFOLLOW_SYMLINKS) == FileType.DIRECTORY)
                     yield delete_directory (destination);
 
                 return false;
@@ -434,21 +462,21 @@ namespace ProtonPlus.Utils {
                 File src = File.parse_name (source);
                 File dest = File.parse_name (destination);
 
-                // Check if the source directory exists
-                if (!src.query_exists ()) {
-                    warning ("Source directory does not exist: %s", source);
+                var no_follow = FileQueryInfoFlags.NOFOLLOW_SYMLINKS;
+                if (src.query_file_type (no_follow) != FileType.DIRECTORY) {
+                    warning ("Source is not a directory: %s", source);
                     return false;
                 }
 
-                // Create the destination directory if it doesn't exist
-                if (!dest.query_exists ()) {
+                var destination_type = dest.query_file_type (no_follow);
+                if (destination_type == FileType.UNKNOWN) {
                     yield dest.make_directory_async ();
+                } else if (destination_type != FileType.DIRECTORY) {
+                    warning ("Destination is not a directory: %s", destination);
+                    return false;
                 }
 
-                // Enumerate the contents of the source directory
-                FileEnumerator enumerator = yield src.enumerate_children_async (
-                    "standard::*", FileQueryInfoFlags.NOFOLLOW_SYMLINKS
-                );
+                FileEnumerator enumerator = yield src.enumerate_children_async ("standard::*", no_follow);
 
                 FileInfo? file_info;
                 while ((file_info = enumerator.next_file ()) != null) {

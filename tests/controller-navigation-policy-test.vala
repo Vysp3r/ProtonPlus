@@ -78,6 +78,22 @@ namespace AppTests.ControllerNavigationPolicyTest {
         assert (host.page_id == "tools:release");
     }
 
+    private void test_dialog_back_uses_its_own_host () {
+        var policy = new ControllerNavigationPolicy ();
+        var application = new FakeNavigationHost ("tools:release");
+        application.parents["tools:release"] = "tools:groups";
+        var dialog = new FakeNavigationHost ("help:install");
+        dialog.parents["help:install"] = "help:topics";
+
+        assert (policy.navigate_back (true, application, true, dialog)
+            == ControllerBackAction.NAVIGATE_APPLICATION);
+        assert (dialog.page_id == "help:topics");
+        assert (policy.navigate_back (true, application, true, dialog)
+            == ControllerBackAction.DISMISS_SURFACE);
+        assert (dialog.back_calls == 1);
+        assert (application.back_calls == 0);
+    }
+
     private void test_tools_back_transitions () {
         var policy = new ControllerNavigationPolicy ();
         var host = new FakeNavigationHost ("tools:migrate");
@@ -187,6 +203,7 @@ namespace AppTests.ControllerNavigationPolicyTest {
 
     public void register_tests () {
         Test.add_func ("/controller-navigation/modal-precedence", test_modal_back_precedence);
+        Test.add_func ("/controller-navigation/dialog-back", test_dialog_back_uses_its_own_host);
         Test.add_func ("/controller-navigation/tools-back", test_tools_back_transitions);
         Test.add_func ("/controller-navigation/games-back-root-exit", test_games_back_and_root_exit);
         Test.add_func ("/controller-navigation/application-back-never-closes", test_application_back_never_closes);

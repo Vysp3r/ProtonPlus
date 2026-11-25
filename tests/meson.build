@@ -51,6 +51,7 @@ test_sources = files(
     'steam-session-test.vala',
     'steam-game-launch-test.vala',
     'steam-configuration-service-test.vala',
+    'steam-key-repair-test.vala',
     'steam-restart-manager-test.vala',
     'steam-restart-orchestrator-test.vala',
     'steam-restart-presentation-test.vala',

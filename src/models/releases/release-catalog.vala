@@ -72,14 +72,19 @@ namespace ProtonPlus.Models {
             if (refreshed_catalog == null || definition == null || refreshed_catalog.definition != definition)
                 return yield load_first_page (true, true);
 
-            // Launcher targets have separate cache keys but share the release
-            // page when they use the same provider definition.
-            apply_snapshot (new ReleaseCatalogSnapshot (
-                refreshed_catalog.releases, refreshed_catalog.page, refreshed_catalog.has_more, refreshed_catalog.last_updated
-            ));
-            if (!yield save_snapshot ())
-                return ReleaseCatalogResult.failure (ReturnCode.FILESYSTEM_ERROR, releases);
-            return ReleaseCatalogResult.success (releases);
+            yield begin_browse_request ();
+            try {
+                // Launcher targets have separate cache keys but share the release
+                // page when they use the same provider definition.
+                apply_snapshot (new ReleaseCatalogSnapshot (
+                    refreshed_catalog.releases, refreshed_catalog.page, refreshed_catalog.has_more, refreshed_catalog.last_updated
+                ));
+                if (!yield save_snapshot ())
+                    return ReleaseCatalogResult.failure (ReturnCode.FILESYSTEM_ERROR, releases);
+                return ReleaseCatalogResult.success (releases);
+            } finally {
+                loading = false;
+            }
         }
 
         private async ReleaseCatalogResult load_first_page (bool force_refresh, bool require_cache) {
@@ -89,44 +94,41 @@ namespace ProtonPlus.Models {
                 return ReleaseCatalogResult.success (releases);
             }
 
-            if (!force_refresh && cache_is_fresh (last_updated))
-                return ReleaseCatalogResult.success (releases);
+            yield begin_browse_request ();
+            try {
+                if (!force_refresh && cache_is_fresh (last_updated))
+                    return ReleaseCatalogResult.success (releases);
 
-            loading = true;
-            if (!force_refresh && releases.size == 0 && cache != null) {
-                var snapshot = yield cache.load ();
-                if (snapshot != null && cached_releases_match_definition (snapshot.releases)) {
-                    apply_snapshot (snapshot);
-                    if (cache_is_fresh (snapshot.last_updated)) {
-                        loading = false;
-                        return ReleaseCatalogResult.success (releases);
+                if (!force_refresh && releases.size == 0 && cache != null) {
+                    var snapshot = yield cache.load ();
+                    if (snapshot != null && cached_releases_match_definition (snapshot.releases)) {
+                        apply_snapshot (snapshot);
+                        if (cache_is_fresh (snapshot.last_updated))
+                            return ReleaseCatalogResult.success (releases);
                     }
                 }
-            }
 
-            var page_result = yield fetch_page (1);
-            if (!page_result.succeeded) {
-                loading = false;
-                return ReleaseCatalogResult.failure (page_result.code, releases);
-            }
-            var release_page = page_result.require_page ();
+                var page_result = yield fetch_page (1);
+                if (!page_result.succeeded)
+                    return ReleaseCatalogResult.failure (page_result.code, releases);
+                var release_page = page_result.require_page ();
 
-            // Browsing retains visible releases after an empty response.
-            // Sync explicitly replaces the persisted snapshot.
-            page = release_page.next_page;
-            has_more = release_page.has_more;
-            if (release_page.releases.size == 0 && !require_cache) {
-                loading = false;
+                // Retained rows keep their pagination and freshness. Sync
+                // explicitly replaces the snapshot even when there are no rows.
+                if (release_page.releases.is_empty && !releases.is_empty && !require_cache)
+                    return ReleaseCatalogResult.success (releases);
+
+                apply_snapshot (new ReleaseCatalogSnapshot (
+                    release_page.releases, release_page.next_page, release_page.has_more,
+                    new DateTime.now_local ().format_iso8601 ()
+                ));
+                var saved = yield save_snapshot ();
+                if (require_cache && !saved)
+                    return ReleaseCatalogResult.failure (ReturnCode.FILESYSTEM_ERROR, releases);
                 return ReleaseCatalogResult.success (releases);
+            } finally {
+                loading = false;
             }
-
-            replace_releases (release_page.releases);
-            last_updated = new DateTime.now_local ().format_iso8601 ();
-            var saved = yield save_snapshot ();
-            loading = false;
-            if (require_cache && !saved)
-                return ReleaseCatalogResult.failure (ReturnCode.FILESYSTEM_ERROR, releases);
-            return ReleaseCatalogResult.success (releases);
         }
 
         public async ReleaseCatalogResult refresh () {
@@ -134,27 +136,45 @@ namespace ProtonPlus.Models {
         }
 
         public async ReleaseCatalogResult load_more () {
-            if (static_release != null) {
+            if (static_release != null)
                 return ReleaseCatalogResult.success (new Gee.LinkedList<Release> ());
-            }
 
-            loading = true;
-            var page_result = yield fetch_page (page);
-            if (!page_result.succeeded) {
+            yield begin_browse_request ();
+            try {
+                if (!has_more)
+                    return ReleaseCatalogResult.success (new Gee.LinkedList<Release> ());
+
+                var page_result = yield fetch_page (page);
+                if (!page_result.succeeded)
+                    return ReleaseCatalogResult.failure (page_result.code, releases);
+                var release_page = page_result.require_page ();
+
+                foreach (var release in release_page.releases)
+                    releases.add (release);
+                page = release_page.next_page;
+                has_more = release_page.has_more;
+                _last_version = null;
+                releases_changed ();
+                yield save_snapshot ();
+                return ReleaseCatalogResult.success (release_page.releases);
+            } finally {
                 loading = false;
-                return ReleaseCatalogResult.failure (page_result.code, releases);
             }
-            var release_page = page_result.require_page ();
+        }
 
-            foreach (var release in release_page.releases)
-                releases.add (release);
-            page = release_page.next_page;
-            has_more = release_page.has_more;
-            _last_version = null;
-            releases_changed ();
-            yield save_snapshot ();
-            loading = false;
-            return ReleaseCatalogResult.success (release_page.releases);
+        // A return to the same tool can overlap an earlier browse request.
+        // Read or advance the cursor only after that request has finished saving.
+        private async void begin_browse_request () {
+            while (loading) {
+                SourceFunc resume = begin_browse_request.callback;
+                var handler = notify["loading"].connect (() => {
+                    if (!loading && resume != null)
+                        Idle.add ((owned) resume);
+                });
+                yield;
+                disconnect (handler);
+            }
+            loading = true;
         }
 
         // This discovery path intentionally begins at upstream page one and

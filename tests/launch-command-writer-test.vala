@@ -17,6 +17,7 @@ namespace AppTests.LaunchCommandWriterTest {
         Test.add_func ("/launch-command-writer/prepare-source-is-per-game", test_prepare_source_is_per_game);
         Test.add_func ("/launch-command-writer/bulk-additions-preserve-custom-source", test_bulk_additions_preserve_custom_source);
         Test.add_func ("/launch-command-writer/wrapper-edit-retains-untouched-arguments", test_wrapper_edit_retains_untouched_arguments);
+        Test.add_func ("/launch-command-writer/wrapper-edit-preserves-duplicates-and-order", test_wrapper_edit_preserves_duplicates_and_order);
         Test.add_func ("/launch-command-writer/clear-remains-a-replacement-session", test_clear_remains_a_replacement_session);
         Test.add_func ("/launch-command-writer/edit-state-preserves-clear-intent", test_edit_state_preserves_clear_intent);
         Test.add_func ("/launch-command-writer/custom-arguments-replace-unrecognized-arguments", test_custom_arguments_replace_unrecognized_arguments);
@@ -25,6 +26,7 @@ namespace AppTests.LaunchCommandWriterTest {
         Test.add_func ("/launch-command-writer/pre-command-custom-argument-keeps-its-slot", test_pre_command_custom_argument_keeps_its_slot);
         Test.add_func ("/launch-command-writer/custom-argument-anchors-are-source-local", test_custom_argument_anchors_are_source_local);
         Test.add_func ("/launch-command-writer/intentional-custom-duplicates-survive", test_intentional_custom_duplicates_survive);
+        Test.add_func ("/launch-command-writer/append-arguments-before-trailing-comment", test_append_arguments_before_trailing_comment);
         Test.add_func ("/launch-command-writer/current-options-preview-and-validation", test_current_options_preview_and_validation);
         Test.add_func ("/launch-command-writer/custom-wrapper-lifecycle", test_custom_wrapper_lifecycle);
         Test.add_func ("/launch-command-writer/custom-wrapper-preserves-backends", test_custom_wrapper_preserves_backends);
@@ -327,6 +329,20 @@ namespace AppTests.LaunchCommandWriterTest {
         assert (extra.launch_line == "gamescope --label='new & safe' -r 60 -f -- %command% --game");
     }
 
+    private void test_wrapper_edit_preserves_duplicates_and_order () {
+        var source = "gamemoderun mangohud 'gamemoderun' %command% --tag";
+        var edited = write (source, {
+            new LaunchCommandSelection ("gamemode"),
+            new LaunchCommandSelection ("performance-overlay"),
+            new LaunchCommandSelection ("launch-backend", {}, "gamescope")
+        }, { "launch-backend" }, {
+            LaunchOptionCapability.GAMEMODE, LaunchOptionCapability.MANGOHUD, LaunchOptionCapability.GAMESCOPE
+        });
+
+        assert (edited.writing_allowed);
+        assert (edited.launch_line == "gamemoderun mangohud 'gamemoderun' gamescope -- %command% --tag");
+    }
+
     private class MutableSelectionSource : Object, ILaunchCommandSelectionSource {
         public string option_id { get; set; }
         public LaunchCommandSelection? selection;
@@ -515,6 +531,25 @@ namespace AppTests.LaunchCommandWriterTest {
         );
         assert (merged.writing_allowed);
         assert (merged.launch_line == "gamemoderun %command% --tag --tag");
+    }
+
+    private void test_append_arguments_before_trailing_comment () {
+        var source = "%command% '# literal' --tag=#exact # keep this comment";
+        var console = new LaunchCommandSelection ("developer-console");
+        var writer = new LaunchCommandWriter ();
+        var capabilities = new LaunchCommandCapabilityContext ();
+        var merged = writer.prepare_source (source, { console }, { "developer-console" }, {}, capabilities);
+        assert (merged.writing_allowed);
+        assert (merged.launch_line == "%command% '# literal' --tag=#exact -console # keep this comment");
+
+        var appended = writer.prepare_source (source,
+            { new LaunchCommandSelection ("custom-game-arguments", { "--extra" }) },
+            { "custom-game-arguments" }, {}, capabilities, false, false, true);
+        assert (appended.writing_allowed);
+        assert (appended.launch_line == "%command% '# literal' --tag=#exact --extra # keep this comment");
+
+        var compound = write ("%command% && echo trailer # keep this comment", { console }, { "developer-console" });
+        assert (compound.status == LaunchCommandWriteStatus.BLOCKED_UNSAFE_SOURCE);
     }
 
     private LaunchCommandSelection custom_wrapper (string input) {

@@ -185,57 +185,86 @@ namespace ProtonPlus.Utils.VDF {
         public VDF.Shortcut get_shortcut_by_name (string name) {
             VDF.Shortcut shortcut = {};
             foreach (var entry in nodes.entries) {
-                if (is_shortcut_node (entry.key)) {
-                    if (entry.value.has_key ("AppName") && entry.value.get ("AppName").get_string () == name) {
-                        shortcut.AppID = entry.value.get ("appid").get_int32 ();
-                        shortcut.AllowDesktopConfig = entry.value.get ("AllowDesktopConfig").get_int32 () > 0 ? true : false;
-                        shortcut.AllowOverlay = entry.value.get ("AllowOverlay").get_int32 () > 0 ? true : false;
-                        shortcut.AppName = entry.value.get ("AppName").get_string ();
-                        shortcut.Devkit = entry.value.get ("Devkit").get_int32 ();
-                        shortcut.DevkitGameID = entry.value.get ("DevkitGameID").get_string ();
-                        shortcut.DevkitOverrideAppID = entry.value.get ("DevkitOverrideAppID").get_int32 ();
-                        shortcut.Exe = entry.value.get ("Exe").get_string ();
-                        shortcut.FlatpakAppID = entry.value.get ("FlatpakAppID").get_string ();
-                        shortcut.IsHidden = entry.value.get ("IsHidden").get_int32 () > 0 ? true : false;
-                        shortcut.LastPlayTime = entry.value.get ("LastPlayTime").get_int32 ();
-                        shortcut.LaunchOptions = entry.value.get ("LaunchOptions").get_string ();
-                        shortcut.OpenVR = entry.value.get ("OpenVR").get_int32 ();
-                        shortcut.ShortcutPath = entry.value.get ("ShortcutPath").get_string ();
-                        shortcut.StartDir = entry.value.get ("StartDir").get_string ();
-                        shortcut.Icon = entry.value.get ("icon").get_string ();
-                    }
-                }
+                if (is_shortcut_node (entry.key) && get_string_field (entry.value, "AppName") == name)
+                    shortcut = read_shortcut (entry.value);
             }
             return shortcut;
         }
 
         public VDF.Shortcut get_shortcut_by_appid (uint appid) {
+            return read_shortcut (find_shortcut_by_appid (appid));
+        }
+
+        private static VDF.Shortcut read_shortcut (Node? node) {
             VDF.Shortcut shortcut = {};
-            foreach (var entry in nodes.entries) {
-                if (is_shortcut_node (entry.key) && entry.value.has_key ("appid")
-                    && (uint) entry.value.get ("appid").get_int32 () == appid) {
-                    shortcut = get_shortcut_by_name (entry.value.get ("AppName").get_string ());
-                    break;
-                }
-            }
+            if (node == null)
+                return shortcut;
+
+            shortcut.AppID = get_int_field (node, "appid");
+            shortcut.AllowDesktopConfig = get_int_field (node, "AllowDesktopConfig") > 0;
+            shortcut.AllowOverlay = get_int_field (node, "AllowOverlay") > 0;
+            shortcut.AppName = get_string_field (node, "AppName");
+            shortcut.Devkit = get_int_field (node, "Devkit");
+            shortcut.DevkitGameID = get_string_field (node, "DevkitGameID");
+            shortcut.DevkitOverrideAppID = get_int_field (node, "DevkitOverrideAppID");
+            shortcut.Exe = get_string_field (node, "Exe");
+            shortcut.FlatpakAppID = get_string_field (node, "FlatpakAppID");
+            shortcut.IsHidden = get_int_field (node, "IsHidden") > 0;
+            shortcut.LastPlayTime = get_int_field (node, "LastPlayTime");
+            shortcut.LaunchOptions = get_string_field (node, "LaunchOptions");
+            shortcut.OpenVR = get_int_field (node, "OpenVR");
+            shortcut.ShortcutPath = get_string_field (node, "ShortcutPath");
+            shortcut.StartDir = get_string_field (node, "StartDir");
+            shortcut.Icon = get_string_field (node, "icon");
             return shortcut;
         }
 
-        public bool replace_shortcut_by_appid (uint appid, VDF.Shortcut shortcut) {
+        private static string? get_string_field (Node node, string key) {
+            var field = node.get (key);
+            return field != null && field.is_of_type (VariantType.STRING) ? field.get_string () : null;
+        }
+
+        private static int32 get_int_field (Node node, string key) {
+            var field = node.get (key);
+            return field != null && field.is_of_type (VariantType.INT32) ? field.get_int32 () : 0;
+        }
+
+        private Node? find_shortcut_by_appid (uint appid) {
             foreach (var entry in nodes.entries) {
-                if (is_shortcut_node (entry.key) && entry.value.has_key ("appid")
-                    && (uint) entry.value.get ("appid").get_int32 () == appid) {
-                    write_shortcut_on_node (entry.value, shortcut);
-                    return true;
-                }
+                if (!is_shortcut_node (entry.key))
+                    continue;
+                var id = entry.value.get ("appid");
+                if (id != null && id.is_of_type (VariantType.INT32) && (uint) id.get_int32 () == appid)
+                    return entry.value;
             }
-            return false;
+            return null;
+        }
+
+        public string? get_launch_options (uint appid) {
+            var node = find_shortcut_by_appid (appid);
+            if (node == null)
+                return null;
+            var options = node.get ("LaunchOptions");
+            if (options == null)
+                return "";
+            return options.is_of_type (VariantType.STRING) ? options.get_string () : null;
+        }
+
+        public bool set_launch_options (uint appid, string value) {
+            var node = find_shortcut_by_appid (appid);
+            if (node == null)
+                return false;
+            var options = node.get ("LaunchOptions");
+            if (options != null && !options.is_of_type (VariantType.STRING))
+                return false;
+            node.set ("LaunchOptions", new Variant.string (value));
+            return true;
         }
 
         public int get_shortcut_id_by_name (string name) throws Error {
             foreach (var entry in nodes.entries) {
                 if (is_shortcut_node (entry.key)) {
-                    if (entry.value.get ("AppName").get_string () == name) {
+                    if (get_string_field (entry.value, "AppName") == name) {
                         int id;
                         get_shortcut_id_from_path (entry.key, out id);
                         return id;

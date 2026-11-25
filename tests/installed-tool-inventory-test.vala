@@ -34,6 +34,7 @@ namespace AppTests.InstalledToolInventoryTest {
         Test.add_func ("/installed-tool-inventory/sarek-variant-slots", test_sarek_variant_slots);
         Test.add_func ("/installed-tool-inventory/renamed-latest-jobs-use-installed-path", test_renamed_latest_jobs);
         Test.add_func ("/installed-tool-inventory/latest-slots-respect-mode-identity-and-variant", test_latest_slot_constraints);
+        Test.add_func ("/installed-tool-inventory/legacy-latest-requires-known-variant-layout", test_legacy_latest_requires_known_variant);
         Test.add_func ("/installed-tool-inventory/ambiguous-legacy-title-is-not-migrated", test_ambiguous_legacy_title);
         Test.add_func ("/installed-tool-inventory/job-directory-names-round-trip", test_job_directory_names_round_trip);
         Test.add_func ("/installed-tool-inventory/usage-spans-installed-releases", test_usage_spans_installed_releases);
@@ -466,6 +467,24 @@ namespace AppTests.InstalledToolInventoryTest {
             value.refresh_installed_state ();
             assert (inventory.get_latest_installation (tool, tool.variants[1]) == null);
         }
+        assert (delete_directory (root));
+    }
+
+    private void test_legacy_latest_requires_known_variant () {
+        var root = temporary_directory ();
+        var value = group (new InventoryLauncher (root));
+        var tool = add_tool (value, definition ("runner", "Runner"));
+        var service = ProtonPlus.Services.InstallationService.instance;
+        foreach (var name in new string[] { "Runner Latest-Scratch", "Runner Latest-Scratch Backup" })
+            assert (ProtonPlus.Utils.Filesystem.create_directory (Path.build_filename (root, name)));
+        value.refresh_installed_state ();
+        assert (!service.get_update_candidates (value).contains (tool));
+
+        var known = Path.build_filename (root, "Runner Latest-Arm_64");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (known));
+        value.refresh_installed_state ();
+        assert (service.get_update_candidates (value).contains (tool));
+        assert (value.installed_tool_inventory.get_latest_installation (tool, tool.variants[1])?.path == known);
         assert (delete_directory (root));
     }
 

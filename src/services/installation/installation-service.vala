@@ -49,16 +49,68 @@ namespace ProtonPlus.Services {
             return Path.build_filename (Posix.realpath (parent) ?? parent, Path.get_basename (canonical));
         }
 
+        [CCode (cname = "flock", cheader_filename = "sys/file.h")]
+        private static extern int flock (int fd, int operation);
+
+        private const int LOCK_SHARED = 1;
+        private const int LOCK_EXCLUSIVE = 2;
+        private const int LOCK_NONBLOCKING = 4;
+        private Gee.HashMap<InstallJob, int> steam_tool_locks = new Gee.HashMap<InstallJob, int> ();
+
+        // Lock the directory inode so launchers sharing the same physical
+        // target also share the guard, even in separate ProtonPlus processes.
+        internal static int lock_steam_tool_root (string root, bool exclusive) {
+            var fd = Posix.open (root, Posix.O_RDONLY | Posix.O_DIRECTORY | Posix.O_CLOEXEC);
+            if (fd < 0)
+                return -1;
+            if (flock (fd, (exclusive ? LOCK_EXCLUSIVE : LOCK_SHARED) | LOCK_NONBLOCKING) != 0
+                || (!exclusive && FileUtils.test (Path.build_filename (root, SteamKeyRepair.JOURNAL),
+                    FileTest.EXISTS | FileTest.IS_SYMLINK))) {
+                Posix.close (fd);
+                return -1;
+            }
+            return fd;
+        }
+
+        internal void run_steam_key_repair (string root, SteamKeyRepairOperation operation) throws Error {
+            var physical_root = Posix.realpath (root) ?? root;
+            foreach (var path in active_operations.keys) {
+                if (path == physical_root || path.has_prefix (physical_root + "/"))
+                    throw new IOError.BUSY (_ ("A compatibility tool operation is already in progress for this target."));
+            }
+            var fd = lock_steam_tool_root (root, true);
+            if (fd < 0)
+                throw new IOError.BUSY (_ ("The Steam tool directory could not be locked for repair."));
+            try {
+                operation ();
+            } finally {
+                Posix.close (fd);
+            }
+        }
+
         private bool reserve_operation (InstallJob job) {
             var key = operation_target (job.install_location);
             if (active_operations.has_key (key) || Utils.DownloadManager.instance.has_active_installation_at (job.install_location))
                 return false;
+            var group = job.tool.group;
+            if (group.launcher.tool_target_family_id == Models.Launchers.Steam.FAMILY_ID) {
+                var root = group.launcher.get_primary_managed_tool_directory (group);
+                if (FileUtils.test (root, FileTest.IS_DIR)) {
+                    var fd = lock_steam_tool_root (root, false);
+                    if (fd < 0)
+                        return false;
+                    steam_tool_locks.set (job, fd);
+                }
+            }
             active_operations.set (key, job);
             return true;
         }
 
         private void release_operation (InstallJob job, string key) {
             assert (active_operations.get (key) == job);
+            int fd;
+            if (steam_tool_locks.unset (job, out fd))
+                Posix.close (fd);
             var keys = new Gee.ArrayList<string> ();
             foreach (var entry in active_operations.entries)
                 if (entry.value == job)

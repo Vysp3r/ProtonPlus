@@ -11,6 +11,8 @@ namespace ProtonPlus.Widgets {
     }
 
     private class ControllerPopoverRegistration : Object {
+        private const string DATA_KEY = "controller-popover-registration";
+
         weak Gtk.Popover? popover;
         weak Gtk.Widget? opener;
         weak Gtk.Widget? initial_focus;
@@ -25,10 +27,12 @@ namespace ProtonPlus.Widgets {
         }
 
         public void start () {
-            if (popover == null)
+            var current_popover = popover;
+            if (current_popover == null)
                 return;
-            visible_handler = ((!) popover).notify["visible"].connect (try_register);
-            map_handler = ((!) popover).map.connect (try_register);
+            current_popover.set_data<ControllerPopoverRegistration> (DATA_KEY, this);
+            visible_handler = current_popover.notify["visible"].connect (try_register);
+            map_handler = current_popover.map.connect (try_register);
             try_register ();
         }
 
@@ -58,6 +62,7 @@ namespace ProtonPlus.Widgets {
                 current_popover.disconnect (map_handler);
                 map_handler = 0;
             }
+            current_popover.set_data<ControllerPopoverRegistration?> (DATA_KEY, null);
         }
     }
 

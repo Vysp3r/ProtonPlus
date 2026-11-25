@@ -74,12 +74,13 @@ namespace ProtonPlus.Services {
                 var path = Path.build_filename (launcher.profile.userdata_path, "config", "shortcuts.vdf");
                 if (!FileUtils.test (path, FileTest.IS_REGULAR)) return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "shortcuts.vdf is missing.");
                 try {
-                    var shortcuts = Utils.VDF.Shortcuts.load (path); var shortcut = shortcuts.get_shortcut_by_appid (game.appid);
-                    if (shortcut.AppName == null) return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Shortcut was not found.");
+                    var shortcuts = Utils.VDF.Shortcuts.load (path);
+                    var current = shortcuts.get_launch_options (game.appid);
+                    if (current == null) return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Shortcut was not found.");
                     return submit (target, SteamChangeKind.NON_STEAM_GAME_LAUNCH_OPTIONS_CHANGED,
                         "%s#shortcut/%u/LaunchOptions".printf (Filename.canonicalize (path, null), game.appid),
                         new SteamConfigurationIntent (SteamConfigurationFile.SHORTCUTS, SteamConfigurationOperation.SHORTCUT_LAUNCH_OPTIONS,
-                            Filename.canonicalize (path, null), game.appid.to_string (), shortcut.LaunchOptions,
+                            Filename.canonicalize (path, null), game.appid.to_string (), current,
                             value.replace ("\"", "\\\"")), "");
                 } catch (Error e) { return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "shortcuts.vdf could not be parsed."); }
             }
@@ -91,7 +92,7 @@ namespace ProtonPlus.Services {
             return submit (target, SteamChangeKind.STEAM_GAME_LAUNCH_OPTIONS_CHANGED,
                 "%s#%s/LaunchOptions".printf (Filename.canonicalize (localconfig_path, null), game.appid.to_string ()),
                 new SteamConfigurationIntent (SteamConfigurationFile.LOCALCONFIG, SteamConfigurationOperation.LAUNCH_OPTIONS,
-                    Filename.canonicalize (localconfig_path, null), game.appid.to_string (), (!) current,
+                    Filename.canonicalize (localconfig_path, null), game.appid.to_string (), current == ABSENT ? "" : (!) current,
                     value, current != ABSENT, value != ""), content);
         }
 
@@ -171,26 +172,14 @@ namespace ProtonPlus.Services {
             var target = profile.launcher.get_steam_restart_target ();
             if (target == null) return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "No Steam target.");
             var path = Filename.canonicalize (Path.build_filename (profile.userdata_path, "config", "shortcuts.vdf"), null);
-            var installed = profile.shortcuts != null && ((!) profile.shortcuts).get_installed_status ();
-            var existing = manager.get_pending_configuration_intent (target, "%s#ProtonPlus".printf (path));
-            if (existing != null && ((!) existing).desired_present == desired_present)
-                return new SteamConfigurationMutation (SteamConfigurationMutationResult.UNCHANGED);
-            if (existing == null && installed == desired_present)
-                return new SteamConfigurationMutation (SteamConfigurationMutationResult.UNCHANGED);
-
-            var snapshot = sessions.inspect (target);
-            if (snapshot.state == SteamSessionState.STOPPED && snapshot.state_confidence == SteamEvidenceLevel.CONFIRMED) {
-                try {
-                    var shortcuts = FileUtils.test (path, FileTest.IS_REGULAR)
-                        ? Utils.VDF.Shortcuts.load (path) : Utils.VDF.Shortcuts.empty (path);
-                    var changed = desired_present ? shortcut_mutator.install (shortcuts) : shortcut_mutator.remove (shortcuts);
-                    if (!changed) return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Unable to change ProtonPlus shortcut.");
-                    profile.shortcuts = shortcuts;
-                    return new SteamConfigurationMutation (SteamConfigurationMutationResult.CHANGED);
-                } catch (Error e) {
-                    return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Unable to change ProtonPlus shortcut.");
-                }
+            Utils.VDF.Shortcuts shortcuts;
+            try {
+                shortcuts = load_shortcuts_or_empty (path);
+            } catch (Error e) {
+                return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "Unable to change ProtonPlus shortcut.");
             }
+            profile.shortcuts = shortcuts;
+            var installed = shortcuts.get_installed_status ();
 
             /* Shortcut presence is a single replayable operation.  During
              * reconciliation it creates a missing file only when creation is
@@ -200,19 +189,8 @@ namespace ProtonPlus.Services {
                 SteamConfigurationOperation.SHORTCUT_PRESENCE, path, "ProtonPlus",
                 installed ? "present" : "", desired_present ? "present" : "",
                 installed, desired_present);
-            return record_intent (target, desired_present ? SteamChangeKind.PROTONPLUS_SHORTCUT_CREATED
-                : SteamChangeKind.PROTONPLUS_SHORTCUT_REMOVED, "%s#ProtonPlus".printf (path), intent);
-        }
-
-        private SteamConfigurationMutation record_intent (SteamRestartTarget target, SteamChangeKind kind,
-            string key, SteamConfigurationIntent intent) {
-            var result = manager.record (new SteamChangeReceipt (target, kind, SteamRestartRequirement.CONSERVATIVE,
-                key, intent.field_id, null, null, intent));
-            if (result == SteamRestartRecordResult.PERSISTENCE_FAILED)
-                return new SteamConfigurationMutation (SteamConfigurationMutationResult.PERSISTENCE_FAILED, manager.last_persistence_error);
-            if (result == SteamRestartRecordResult.REQUIREMENT_CLEARED)
-                return new SteamConfigurationMutation (SteamConfigurationMutationResult.UNCHANGED);
-            return new SteamConfigurationMutation (SteamConfigurationMutationResult.STAGED);
+            return submit (target, desired_present ? SteamChangeKind.PROTONPLUS_SHORTCUT_CREATED
+                : SteamChangeKind.PROTONPLUS_SHORTCUT_REMOVED, "%s#ProtonPlus".printf (path), intent, "", shortcuts);
         }
 
         private SteamConfigurationMutation change_compatibility_mapping (Launchers.Steam steam, uint appid, string value, SteamChangeKind kind) {
@@ -221,6 +199,22 @@ namespace ProtonPlus.Services {
                     SteamConfigurationMutationResult.FAILED,
                     "The externally managed compatibility tool is no longer available."
                 );
+            var tool_root = steam.get_managed_compatibility_tools_root ();
+            if (!FileUtils.test (tool_root, FileTest.IS_DIR))
+                return submit_compatibility_mapping (steam, appid, value, kind);
+            var fd = InstallationService.lock_steam_tool_root (tool_root, false);
+            if (fd < 0)
+                return new SteamConfigurationMutation (SteamConfigurationMutationResult.CONFLICT,
+                    _ ("A Steam compatibility key repair is in progress."));
+            try {
+                return submit_compatibility_mapping (steam, appid, value, kind);
+            } finally {
+                Posix.close (fd);
+            }
+        }
+
+        private SteamConfigurationMutation submit_compatibility_mapping (Launchers.Steam steam, uint appid, string value,
+            SteamChangeKind kind) {
             var target = steam.get_steam_restart_target ();
             if (target == null) return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED, "No Steam target.");
             var path = Path.build_filename (steam.directory, "config", "config.vdf");
@@ -238,15 +232,14 @@ namespace ProtonPlus.Services {
         }
 
         private SteamConfigurationMutation submit (SteamRestartTarget target, SteamChangeKind kind, string key,
-            SteamConfigurationIntent intent, string content) {
+            SteamConfigurationIntent intent, string content, Utils.VDF.Shortcuts? shortcuts = null) {
             var existing = manager.get_pending_configuration_intent (target, key);
-            if (existing == null && intent.baseline_present == intent.desired_present
-                && intent.baseline == intent.desired)
+            var already_matches = intent.matches_baseline (intent.desired, intent.desired_present);
+            if (existing == null && already_matches)
                 return new SteamConfigurationMutation (SteamConfigurationMutationResult.UNCHANGED);
             var snapshot = sessions.inspect (target);
             if (snapshot.state == SteamSessionState.STOPPED && snapshot.state_confidence == SteamEvidenceLevel.CONFIRMED) {
-                var changed = apply_intent (intent, content, true);
-                if (!changed)
+                if (!already_matches && !apply_intent (intent, content, shortcuts))
                     return new SteamConfigurationMutation (SteamConfigurationMutationResult.FAILED);
                 // A successful explicit edit supersedes this resource's older
                 // request, even when that request could not be reconciled.
@@ -257,7 +250,7 @@ namespace ProtonPlus.Services {
             if (existing != null && same_desired ((!) existing, intent))
                 return new SteamConfigurationMutation (SteamConfigurationMutationResult.UNCHANGED);
             var receipt = new SteamChangeReceipt (target, kind, SteamRestartRequirement.CONSERVATIVE, key, intent.field_id, null, null, intent);
-            var recorded = manager.record (receipt);
+            var recorded = manager.record_configuration (receipt, snapshot);
             if (recorded == SteamRestartRecordResult.PERSISTENCE_FAILED)
                 return new SteamConfigurationMutation (SteamConfigurationMutationResult.PERSISTENCE_FAILED, manager.last_persistence_error);
             if (recorded == SteamRestartRecordResult.REQUIREMENT_CLEARED)
@@ -278,7 +271,7 @@ namespace ProtonPlus.Services {
             foreach (var record in records) {
                 var intent = record.receipt.configuration_intent;
                 if (intent == null || ((!) intent).operation != SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT) continue;
-                if (!apply_pending_intent ((!) intent))
+                if (!ensure_shortcuts_file (intent.path))
                     return configuration_failure ((!) intent, SteamConfigurationMutationResult.FAILED, _ ("Unable to create shortcuts.vdf."));
                 aggregate = SteamConfigurationMutationResult.CHANGED;
             }
@@ -286,7 +279,8 @@ namespace ProtonPlus.Services {
                 var intent = record.receipt.configuration_intent;
                 if (intent == null) continue;
                 if (((!) intent).operation == SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT) continue;
-                if (!FileUtils.test (((!) intent).path, FileTest.IS_REGULAR))
+                if (intent.operation != SteamConfigurationOperation.SHORTCUT_PRESENCE &&
+                    !FileUtils.test (intent.path, FileTest.IS_REGULAR))
                     return configuration_failure ((!) intent, SteamConfigurationMutationResult.FAILED, _ ("Configuration file is missing."));
                 var content = intent.file == SteamConfigurationFile.SHORTCUTS
                     ? "" : Utils.Filesystem.get_file_content (intent.path);
@@ -296,7 +290,7 @@ namespace ProtonPlus.Services {
                 if (matches_desired ((!) intent, current)) continue;
                 if (!matches_baseline ((!) intent, current))
                     return configuration_failure ((!) intent, SteamConfigurationMutationResult.CONFLICT, _ ("The targeted Steam setting changed externally."));
-                if (!apply_intent ((!) intent, content, true))
+                if (!apply_intent ((!) intent, content))
                     return configuration_failure ((!) intent, SteamConfigurationMutationResult.FAILED, _ ("Unable to apply a pending Steam setting."));
                 aggregate = SteamConfigurationMutationResult.CHANGED;
             }
@@ -315,7 +309,8 @@ namespace ProtonPlus.Services {
             foreach (var record in manager.get_pending_changes_for_target (target)) {
                 var intent = record.receipt.configuration_intent;
                 if (intent == null) continue;
-                if (!FileUtils.test (((!) intent).path, FileTest.IS_REGULAR))
+                if (intent.operation != SteamConfigurationOperation.SHORTCUT_PRESENCE &&
+                    !FileUtils.test (intent.path, FileTest.IS_REGULAR))
                     return false;
                 var content = ((!) intent).file == SteamConfigurationFile.SHORTCUTS
                     ? "" : Utils.Filesystem.get_file_content (((!) intent).path);
@@ -337,16 +332,16 @@ namespace ProtonPlus.Services {
                 return launch_value (content, appid);
             case SteamConfigurationOperation.SHORTCUT_LAUNCH_OPTIONS:
                 uint shortcut_id; if (!uint.try_parse (intent.field_id, out shortcut_id)) return null;
-                try { return Utils.VDF.Shortcuts.load (intent.path).get_shortcut_by_appid (shortcut_id).LaunchOptions; } catch (Error e) { return null; }
+                try { return Utils.VDF.Shortcuts.load (intent.path).get_launch_options (shortcut_id); } catch (Error e) { return null; }
             case SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT:
                 return FileUtils.test (intent.path, FileTest.IS_REGULAR) ? "present" : ABSENT;
             case SteamConfigurationOperation.SHORTCUT_PRESENCE:
-                try { return Utils.VDF.Shortcuts.load (intent.path).get_installed_status () ? "present" : ABSENT; }
-                catch (Error e) { return FileUtils.test (intent.path, FileTest.EXISTS) ? null : ABSENT; }
+                try { return load_shortcuts_or_empty (intent.path).get_installed_status () ? "present" : ABSENT; }
+                catch (Error e) { return null; }
             default: return null;
             }
         }
-        private bool apply_intent (SteamConfigurationIntent intent, string content, bool write) {
+        private bool apply_intent (SteamConfigurationIntent intent, string content, Utils.VDF.Shortcuts? existing_shortcuts = null) {
             string? modified = null;
             switch (intent.operation) {
             case SteamConfigurationOperation.COMPATIBILITY_MAPPING:
@@ -358,37 +353,147 @@ namespace ProtonPlus.Services {
             case SteamConfigurationOperation.SHORTCUT_LAUNCH_OPTIONS:
                 uint shortcut_id; if (!uint.try_parse (intent.field_id, out shortcut_id)) return false;
                 try {
-                    var shortcuts = Utils.VDF.Shortcuts.load (intent.path); var shortcut = shortcuts.get_shortcut_by_appid (shortcut_id);
-                    if (shortcut.AppName == null) return false;
                     if (!intent.desired_present) return false;
-                    shortcut.LaunchOptions = intent.desired;
-                    if (!shortcuts.replace_shortcut_by_appid (shortcut_id, shortcut)) return false;
-                    if (write) shortcuts.save ();
+                    var shortcuts = Utils.VDF.Shortcuts.load (intent.path);
+                    if (!shortcuts.set_launch_options (shortcut_id, intent.desired)) return false;
+                    shortcuts.save ();
                     return true;
                 } catch (Error e) { return false; }
-            case SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT:
             case SteamConfigurationOperation.SHORTCUT_PRESENCE:
-                return apply_pending_intent (intent);
-            default: return false;
-            }
-            return modified != null && (!write || Utils.Filesystem.modify_file (intent.path, (!) modified));
-        }
-
-        private bool apply_pending_intent (SteamConfigurationIntent intent) {
-            if (intent.operation == SteamConfigurationOperation.SHORTCUTS_FILE_PRESENT) {
-                if (FileUtils.test (intent.path, FileTest.IS_REGULAR)) return true;
-                try { Utils.VDF.Shortcuts.empty (intent.path).save (); return true; } catch (Error e) { return false; }
-            }
-            if (intent.operation == SteamConfigurationOperation.SHORTCUT_PRESENCE) {
                 try {
-                    var shortcuts = FileUtils.test (intent.path, FileTest.IS_REGULAR)
-                        ? Utils.VDF.Shortcuts.load (intent.path) : Utils.VDF.Shortcuts.empty (intent.path);
+                    var shortcuts = existing_shortcuts ?? load_shortcuts_or_empty (intent.path);
                     if (intent.desired_present)
                         return shortcuts.get_installed_status () || shortcut_mutator.install (shortcuts);
                     return !shortcuts.get_installed_status () || shortcut_mutator.remove (shortcuts);
                 } catch (Error e) { return false; }
+            default: return false;
             }
-            return apply_intent (intent, Utils.Filesystem.get_file_content (intent.path), true);
+            return modified != null && Utils.Filesystem.modify_file (intent.path, (!) modified);
+        }
+
+        private bool ensure_shortcuts_file (string path) {
+            if (FileUtils.test (path, FileTest.IS_REGULAR)) return true;
+            try { load_shortcuts_or_empty (path).save (); return true; } catch (Error e) { return false; }
+        }
+
+        private Utils.VDF.Shortcuts load_shortcuts_or_empty (string path) throws Error {
+            if (!FileUtils.test (path, FileTest.EXISTS | FileTest.IS_SYMLINK))
+                return Utils.VDF.Shortcuts.empty (path);
+            if (!FileUtils.test (path, FileTest.IS_REGULAR))
+                throw new IOError.INVALID_DATA ("shortcuts.vdf is not a regular file.");
+            return Utils.VDF.Shortcuts.load (path);
+        }
+
+        internal static HashTable<uint, string> read_repair_mappings (string content) throws Error {
+            var doc = Utils.VDF.VdfParser.parse_document (content);
+            if (doc == null)
+                throw new IOError.INVALID_DATA (_ ("Steam compatibility mappings could not be read."));
+            var steam = doc.root;
+            foreach (var component in new string[] { "InstallConfigStore", "Software", "Valve", "Steam" }) {
+                var child = unique_mapping_section (steam, component);
+                if (child == null)
+                    throw new IOError.INVALID_DATA (_ ("Steam compatibility mappings could not be read."));
+                steam = child;
+            }
+            var mapping = unique_mapping_section (steam, "CompatToolMapping");
+
+            var result = new HashTable<uint, string> (null, null);
+            if (mapping == null)
+                return result;
+            var seen = new Gee.HashSet<string> ();
+            foreach (var entry in mapping.children) {
+                uint appid;
+                if (!uint.try_parse (entry.key, out appid) || entry.key != appid.to_string ()
+                    || !seen.add (entry.key) || entry.value != null)
+                    throw new IOError.INVALID_DATA (_ ("Steam compatibility mappings contain an invalid or repeated AppID."));
+                var has_name = false;
+                foreach (var child in entry.children) {
+                    if (child.key.ascii_down () != "name")
+                        continue;
+                    if (has_name || child.value == null)
+                        throw new IOError.INVALID_DATA (_ ("A Steam compatibility mapping has an ambiguous tool name."));
+                    has_name = true;
+                    result.set (appid, child.value);
+                }
+            }
+            return result;
+        }
+
+        private static Utils.VDF.VdfEntry? unique_mapping_section (Utils.VDF.VdfEntry root, string key) throws Error {
+            Utils.VDF.VdfEntry? result = null;
+            foreach (var entry in root.children) {
+                if (entry.key.ascii_casecmp (key) != 0)
+                    continue;
+                if (result != null || entry.value != null)
+                    throw new IOError.INVALID_DATA (_ ("Steam configuration has an ambiguous %s section.").printf (key));
+                result = entry;
+            }
+            return result;
+        }
+
+        internal string plan_repair_mapping (string content, uint appid, string? baseline, string replacement) throws Error {
+            if (compatibility_value (content, appid) != (baseline ?? ABSENT))
+                throw new IOError.BUSY (_ ("A Steam compatibility mapping changed since the preview."));
+            var updated = mutate_compatibility (content, appid, replacement, true);
+            if (updated == null)
+                throw new IOError.INVALID_DATA (_ ("A Steam compatibility mapping could not be rewritten."));
+            return updated;
+        }
+
+        internal void validate_repair_mappings (string current, string baseline, string replacement,
+            Gee.Set<string> relevant_keys) throws Error {
+            var actual = read_repair_mappings (current);
+            var before = read_repair_mappings (baseline);
+            var after = read_repair_mappings (replacement);
+            var affected = new Gee.HashSet<uint> ();
+            foreach (var map in new HashTable<uint, string>[] { actual, before, after }) {
+                map.foreach ((appid, name) => {
+                    if (relevant_keys.contains (name.ascii_down ()))
+                        affected.add (appid);
+                });
+            }
+            foreach (var appid in affected) {
+                var value = actual.get (appid);
+                if (value != before.get (appid) && value != after.get (appid))
+                    throw new IOError.BUSY (_ ("The Steam mapping for AppID %u changed during the repair.").printf (appid));
+            }
+        }
+
+        internal void apply_repair_mappings (SteamRestartTarget target, string path,
+            string baseline, string replacement, Gee.Set<string> relevant_keys) throws Error {
+            var current = Utils.Filesystem.read_regular_text (path);
+            validate_repair_mappings (current, baseline, replacement, relevant_keys);
+            var updated = current;
+            var before = read_repair_mappings (baseline);
+            var after = read_repair_mappings (replacement);
+            var receipts = new Gee.ArrayList<SteamChangeReceipt> ();
+            var iter = HashTableIter<uint, string> (after);
+            uint appid;
+            string name;
+            while (iter.next (out appid, out name)) {
+                var old = before.get (appid);
+                if (old == name)
+                    continue;
+                if (compatibility_value (updated, appid) != name)
+                    updated = plan_repair_mapping (updated, appid, old, name);
+                var kind = appid == 0 ? SteamChangeKind.DEFAULT_COMPATIBILITY_TOOL_CHANGED
+                    : SteamChangeKind.GAME_COMPATIBILITY_TOOL_CHANGED;
+                var key = "%s#CompatToolMapping/%u".printf (path, appid);
+                var intent = new SteamConfigurationIntent (SteamConfigurationFile.CONFIG,
+                    SteamConfigurationOperation.COMPATIBILITY_MAPPING, path, appid.to_string (),
+                    old ?? "", name, old != null, true);
+                receipts.add (new SteamChangeReceipt (target, kind, SteamRestartRequirement.CONSERVATIVE,
+                    key, intent.field_id, null, null, intent));
+            }
+            var snapshot = sessions.inspect (target);
+            if (snapshot.state != SteamSessionState.STOPPED || snapshot.state_confidence != SteamEvidenceLevel.CONFIRMED)
+                throw new IOError.BUSY (_ ("Exit Steam completely before applying or resuming this repair."));
+            if (Utils.Filesystem.read_regular_text (path) != current)
+                throw new IOError.BUSY (_ ("Steam config.vdf changed during the repair."));
+            if (current != updated)
+                Utils.Filesystem.replace_text_durably (path, updated);
+            foreach (var receipt in receipts)
+                manager.record_repair_configuration (receipt, snapshot);
         }
 
         private string? compatibility_value (string content, uint appid) {
@@ -396,16 +501,19 @@ namespace ProtonPlus.Services {
             var root = doc.root.get_child ("InstallConfigStore"); var software = root != null ? root.get_child ("Software") : null;
             var valve = software != null ? software.get_child ("Valve") : null; var steam = valve != null ? valve.get_child ("Steam") : null;
             var mapping = steam != null ? steam.get_child ("CompatToolMapping") : null; var entry = mapping != null ? mapping.get_child (appid.to_string ()) : null;
+            if (steam == null || steam.value != null || (mapping != null && mapping.value != null)
+                || (entry != null && entry.value != null))
+                return null;
             var name = entry != null ? entry.get_child ("name") : null;
-            return name != null && name.value != null ? name.value : ABSENT;
+            return name != null ? name.value : ABSENT;
         }
         private string? launch_value (string content, uint appid) {
             var doc = Utils.VDF.VdfParser.parse_document (content); if (doc == null) return null;
             var root = doc.root.get_child ("UserLocalConfigStore"); var software = root != null ? root.get_child ("Software") : null;
             var valve = software != null ? software.get_child ("Valve") : null; var steam = valve != null ? valve.get_child ("Steam") : null;
             var apps = steam != null ? steam.get_child ("apps") : null; var app = apps != null ? apps.get_child (appid.to_string ()) : null;
-            if (app == null) return null;
-            var field = app.get_child ("LaunchOptions"); return field != null && field.value != null ? field.value : ABSENT;
+            if (app == null || app.value != null) return null;
+            var field = app.get_child ("LaunchOptions"); return field != null ? field.value : ABSENT;
         }
         private bool same_desired (SteamConfigurationIntent first, SteamConfigurationIntent second) {
             return first.desired_present == second.desired_present && first.desired == second.desired;
@@ -419,9 +527,7 @@ namespace ProtonPlus.Services {
         private bool matches_baseline (SteamConfigurationIntent intent, string? value) {
             if (value == null) return false;
             var present = value != ABSENT;
-            if (intent.baseline != "" || !intent.baseline_present)
-                return present == intent.baseline_present && (!present || value == intent.baseline);
-            return SteamConfigurationIntent.fingerprint (present ? value : "", present) == intent.baseline_fingerprint;
+            return intent.matches_baseline (present ? value : "", present);
         }
 
         private string? mutate_compatibility (string content, uint appid, string desired, bool desired_present) {
@@ -436,9 +542,10 @@ namespace ProtonPlus.Services {
                 root = doc.root.get_child ("InstallConfigStore"); software = root != null ? root.get_child ("Software") : null; valve = software != null ? software.get_child ("Valve") : null; steam = valve != null ? valve.get_child ("Steam") : null; mapping = steam != null ? steam.get_child ("CompatToolMapping") : null;
             }
             if (mapping == null) return content;
+            if (mapping.closing_brace_start == -1) return null;
             var entry = mapping.get_child (appid.to_string ());
             if (!desired_present) return entry != null ? doc.remove_entry (entry) : content;
-            if (entry != null) { var name = entry.get_child ("name"); return name != null ? doc.replace_value (name, desired) : null; }
+            if (entry != null) { var name = entry.get_child ("name"); return name != null && name.value != null ? doc.replace_value (name, desired) : null; }
             var i = doc.indentation_of_closing_brace (mapping); var e = i + "\t";
             return doc.insert_before_closing_brace (mapping, "%s\"%u\"\n%s{\n%s\t\"name\"\t\t%s\n%s\t\"config\"\t\t\"\"\n%s\t\"priority\"\t\t\"%s\"\n%s}\n".printf (e, appid, e, e, Utils.VDF.VdfDocument.quote (desired), e, e, appid == 0 ? "75" : "250", e));
         }
@@ -447,6 +554,7 @@ namespace ProtonPlus.Services {
             var root = doc.root.get_child ("UserLocalConfigStore"); var software = root != null ? root.get_child ("Software") : null;
             var valve = software != null ? software.get_child ("Valve") : null; var steam = valve != null ? valve.get_child ("Steam") : null; var apps = steam != null ? steam.get_child ("apps") : null; var app = apps != null ? apps.get_child (appid.to_string ()) : null;
             if (app == null || app.closing_brace_start == -1) return null; var field = app.get_child ("LaunchOptions");
+            if (field != null && field.value == null) return null;
             if (!desired_present) return field != null ? doc.remove_entry (field) : content;
             if (field != null) return doc.replace_value (field, desired);
             var i = doc.indentation_of_closing_brace (app) + "\t"; return doc.insert_before_closing_brace (app, "%s\"LaunchOptions\"\t\t%s\n".printf (i, Utils.VDF.VdfDocument.quote (desired)));

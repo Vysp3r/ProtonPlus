@@ -452,7 +452,7 @@ namespace AppTests.SteamTest {
         var root = temporary_directory ();
         var config_directory = Path.build_filename (root, "config");
         var steamapps_directory = Path.build_filename (root, "steamapps");
-        var game_directory = Path.build_filename (steamapps_directory, "common", "FixtureGame");
+        var game_directory = Path.build_filename (steamapps_directory, "common", "Fixture \"Install\"");
         var missing_game_directory = Path.build_filename (steamapps_directory, "common", "MissingGame");
         assert (ProtonPlus.Utils.Filesystem.create_directory (config_directory));
         assert (ProtonPlus.Utils.Filesystem.create_directory (game_directory));
@@ -467,7 +467,9 @@ namespace AppTests.SteamTest {
         ));
         assert (ProtonPlus.Utils.Filesystem.modify_file (
             Path.build_filename (steamapps_directory, "appmanifest_42.acf"),
-            "\"AppState\" { \"appid\" \"42\" \"name\" \"Fixture Game\" \"installdir\" \"FixtureGame\" }"
+            "\"AppState\" { \"appid\" \"42\" "
+            + "\"metadata\" { \"name\" \"Nested entry\" \"installdir\" \"MissingGame\" } "
+            + "\"name\" \"Fixture \\\"Game\\\"\" \"installdir\" \"Fixture \\\"Install\\\"\" }"
         ));
         assert (ProtonPlus.Utils.Filesystem.modify_file (
             Path.build_filename (steamapps_directory, "appmanifest_43.acf"),
@@ -496,6 +498,8 @@ namespace AppTests.SteamTest {
         }
         assert (matched_game != null);
         assert (missing_game != null);
+        assert (((!) matched_game).name == "Fixture \"Game\"");
+        assert (((!) matched_game).installdir == game_directory);
         assert (((!) matched_game).awacy_status == null);
         assert (!((!) matched_game).awacy_lookup_complete);
         assert (!((!) missing_game).awacy_lookup_complete);

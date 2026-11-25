@@ -122,7 +122,7 @@ namespace AppTests.CliTest {
     private class FixtureHandler : ProtonPlus.CLI.Handler {
         private FixtureJobBehavior behavior;
         public InstallJob? last_job { get; private set; default = null; }
-        public int[] selections = {};
+        public string[] selections = {};
         private int selection_index = 0;
 
         public FixtureHandler (Gee.LinkedList<Launcher> launchers,
@@ -132,8 +132,8 @@ namespace AppTests.CliTest {
             this.behavior = behavior;
         }
 
-        protected override int read_user_selection (string prompt, int max) {
-            return selection_index < selections.length ? selections[selection_index++] : -1;
+        protected override string? read_selection_input () {
+            return selection_index < selections.length ? selections[selection_index++] : null;
         }
 
         protected override InstallJob create_install_job (
@@ -150,6 +150,8 @@ namespace AppTests.CliTest {
 
     public void register_tests () {
         Test.add_func ("/cli/exit-codes", test_exit_codes);
+        Test.add_func ("/cli/rejects-malformed-tool-commands", test_rejects_malformed_tool_commands);
+        Test.add_func ("/cli/rejects-malformed-release-selection", test_rejects_malformed_release_selection);
         Test.add_func ("/cli/invalid-arguments-prevent-mutations", test_invalid_arguments_prevent_mutations);
         Test.add_func ("/cli/niche-provider-requires-opt-in", test_niche_provider_requires_opt_in);
         Test.add_func ("/cli/sarek-release-build-selection", test_sarek_release_build_selection);
@@ -265,11 +267,10 @@ namespace AppTests.CliTest {
         return launchers;
     }
 
-    private void cache_archive (string cache, string url) {
-        var archive_dir = Path.build_filename (cache, "archives");
-        assert (Utils.Filesystem.create_directory (archive_dir));
-        var path = Path.build_filename (archive_dir,
-            "%s.zip".printf (Checksum.compute_for_string (ChecksumType.SHA256, url)));
+    private void cache_archive (string cache, ProviderTool runner, Release release) {
+        var path = ArchiveWorkflowSupport.get_cache_archive_path (
+            cache, runner.provider_id, release, release.asset.download_url, ".zip");
+        assert (Utils.Filesystem.create_directory (Path.get_dirname (path)));
         try {
             FileUtils.set_data (path, Base64.decode (Utils.Filesystem.get_file_content (
                 Path.build_filename ("fixtures", "archives", "runner.zip.base64")
@@ -403,7 +404,7 @@ namespace AppTests.CliTest {
                 new CompatibilityProcessGuard (new EmptyCompatibilityProcessQuery ()));
             var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
             var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.CANCEL_DOWNLOAD, output);
-            handler.selections = { 0, 1 };
+            handler.selections = { "1", "2" };
             assert (run_cli ({ "protonplus", "install", launcher.instance_id, runner.provider_id }, handler) == 1);
             assert (handler.last_job.selected_variant_id == "non-async");
             assert (handler.last_job.selected_asset.download_url == releases[4].variants[1].download_url);
@@ -906,6 +907,70 @@ namespace AppTests.CliTest {
         }
     }
 
+    private void test_rejects_malformed_tool_commands () {
+        var root = temporary_directory ();
+        try {
+            ProviderTool runner;
+            var latest = release ("v1", "v1", "https://fixtures.invalid/runner.zip");
+            var launcher = setup_launcher (root, "fixture-command", "Fixture Command", latest, out runner);
+            var installed = seed_latest_state (runner, runner.title + " Latest", "v1");
+            var launcher_id = launcher.instance_id;
+            var provider_id = runner.provider_id;
+            string[] commands = {
+                "install %s %s newest".printf (launcher_id, provider_id),
+                "install %s %s latest extra".printf (launcher_id, provider_id),
+                "uninstall %s all %s".printf (launcher_id, provider_id),
+                "uninstall %s %s al".printf (launcher_id, provider_id),
+                "uninstall %s %s all extra".printf (launcher_id, provider_id),
+                "update all %s".printf (provider_id),
+                "update %s %s extra".printf (launcher_id, provider_id)
+            };
+            configure_fixture_services (new RecordingSteamChange (), root);
+            foreach (var command in commands) {
+                var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+                var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.CANCEL_DOWNLOAD, output);
+                assert (run_cli (("protonplus " + command).split (" "), handler) == 1);
+                assert (output.stdout_text == "" && output.stderr_text.contains ("Usage:"));
+                assert (handler.last_job == null);
+                assert (FileUtils.test (installed, FileTest.IS_DIR));
+            }
+        } finally {
+            InstallationService.reset_lifecycle_configuration_for_tests ();
+            SteamConfigurationService.reset_configuration ();
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_rejects_malformed_release_selection () {
+        var root = temporary_directory ();
+        try {
+            ProviderTool runner;
+            var latest = release ("v1", "v1", "https://fixtures.invalid/runner.zip");
+            var launcher = setup_launcher (root, "fixture-release", "Fixture Release", latest, out runner);
+            var installed = seed_latest_state (runner, runner.title + " Latest", "v1");
+            configure_fixture_services (new RecordingSteamChange (), root);
+            string[] args = { "protonplus", "uninstall", launcher.instance_id, runner.provider_id };
+            foreach (var selection in new string[] { "1wrong", "1 2", "4294967297", "0", "-2147483648" }) {
+                var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+                var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, output);
+                handler.selections = { selection };
+                assert (run_cli (args, handler) == 1);
+                assert (output.stderr_text != "");
+                assert (handler.last_job == null);
+                assert (FileUtils.test (installed, FileTest.IS_DIR));
+            }
+
+            var handler = new FixtureHandler (launcher_list (launcher));
+            handler.selections = { " 01 " };
+            assert (run_cli (args, handler) == 0);
+            assert (!FileUtils.test (installed, FileTest.EXISTS));
+        } finally {
+            InstallationService.reset_lifecycle_configuration_for_tests ();
+            SteamConfigurationService.reset_configuration ();
+            assert (delete_directory (root));
+        }
+    }
+
     private void test_uninstall_uses_inventory_path () {
         var root = temporary_directory ();
         InstallationService.reset_lifecycle_configuration_for_tests ();
@@ -1070,10 +1135,11 @@ namespace AppTests.CliTest {
 
         try {
             var install_url = "https://fixtures.invalid/install.zip";
+            var install_release = release ("v2", "v2", install_url);
             ProviderTool install_runner;
             var install_launcher = setup_launcher (Path.build_filename (root, "install"),
-                "fixture-install", "Fixture Install", release ("v2", "v2", install_url), out install_runner);
-            cache_archive (Globals.CACHE_PATH, install_url);
+                "fixture-install", "Fixture Install", install_release, out install_runner);
+            cache_archive (Globals.CACHE_PATH, install_runner, install_release);
             var install_recorder = new RecordingSteamChange ();
             configure_fixture_services (install_recorder, root);
             var install_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
@@ -1103,11 +1169,12 @@ namespace AppTests.CliTest {
                 install_launcher, ((!) uninstall_handler.last_job).install_location);
 
             var update_url = "https://fixtures.invalid/update.zip";
+            var update_release = release ("v2", "v2", update_url);
             ProviderTool update_runner;
             var update_launcher = setup_launcher (Path.build_filename (root, "update"),
-                "fixture-update", "Fixture Update", release ("v2", "v2", update_url), out update_runner);
+                "fixture-update", "Fixture Update", update_release, out update_runner);
             seed_latest_installation (update_runner, "v1");
-            cache_archive (Globals.CACHE_PATH, update_url);
+            cache_archive (Globals.CACHE_PATH, update_runner, update_release);
             InstallationService.reset_lifecycle_configuration_for_tests ();
             SteamConfigurationService.reset_configuration ();
             var update_recorder = new RecordingSteamChange ();
@@ -1152,10 +1219,11 @@ namespace AppTests.CliTest {
             assert (update_recorder.receipts.size == 1);
 
             var failed_url = "https://fixtures.invalid/failed.zip";
+            var failed_release = release ("v2", "v2", failed_url);
             ProviderTool failed_runner;
             var failed_launcher = setup_launcher (Path.build_filename (root, "failed"),
-                "fixture-failed", "Fixture Failed", release ("v2", "v2", failed_url), out failed_runner);
-            cache_archive (Globals.CACHE_PATH, failed_url);
+                "fixture-failed", "Fixture Failed", failed_release, out failed_runner);
+            cache_archive (Globals.CACHE_PATH, failed_runner, failed_release);
             var failed_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
             var failed_handler = new FixtureHandler (launcher_list (failed_launcher),
                 FixtureJobBehavior.FAIL_PROMOTION, failed_output);
@@ -1165,10 +1233,11 @@ namespace AppTests.CliTest {
             assert (update_recorder.receipts.size == 1);
 
             var persistence_url = "https://fixtures.invalid/persistence.zip";
+            var persistence_release = release ("v2", "v2", persistence_url);
             ProviderTool persistence_runner;
             var persistence_launcher = setup_launcher (Path.build_filename (root, "persistence"),
-                "fixture-persistence", "Fixture Persistence", release ("v2", "v2", persistence_url), out persistence_runner);
-            cache_archive (Globals.CACHE_PATH, persistence_url);
+                "fixture-persistence", "Fixture Persistence", persistence_release, out persistence_runner);
+            cache_archive (Globals.CACHE_PATH, persistence_runner, persistence_release);
             InstallationService.reset_lifecycle_configuration_for_tests ();
             SteamConfigurationService.reset_configuration ();
             var persistence_recorder = new RecordingSteamChange ();
@@ -1190,10 +1259,11 @@ namespace AppTests.CliTest {
             SteamConfigurationService.reset_configuration ();
             assert (SteamConfigurationService.instance == null);
             var teardown_url = "https://fixtures.invalid/teardown.zip";
+            var teardown_release = release ("v2", "v2", teardown_url);
             ProviderTool teardown_runner;
             var teardown_launcher = setup_launcher (Path.build_filename (root, "teardown"),
-                "fixture-teardown", "Fixture Teardown", release ("v2", "v2", teardown_url), out teardown_runner);
-            cache_archive (Globals.CACHE_PATH, teardown_url);
+                "fixture-teardown", "Fixture Teardown", teardown_release, out teardown_runner);
+            cache_archive (Globals.CACHE_PATH, teardown_runner, teardown_release);
             assert (run_cli ({ "protonplus", "install", teardown_launcher.instance_id,
                 teardown_runner.provider_id, "latest" }, new FixtureHandler (launcher_list (teardown_launcher))) == 0);
             assert (persistence_recorder.receipts.size == 1);

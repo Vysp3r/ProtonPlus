@@ -610,6 +610,22 @@ void snapshot (Gtk.Window window, string name) {
     assert (texture.save_to_png (Path.build_filename (directory, name + ".png")));
 }
 
+void check_deferred_controller_popover_registration () {
+    var button = new Gtk.MenuButton ();
+    Gtk.Popover? popover = new Gtk.Popover ();
+    var lifetime = WeakRef (popover);
+    button.set_popover (popover);
+    assert (!popover.get_visible () && !popover.get_mapped ());
+
+    Widgets.Window.register_popover_for_controller (popover, button);
+    uint map_signal = Signal.lookup ("map", typeof (Gtk.Widget));
+    assert (Signal.has_handler_pending (popover, map_signal, 0, false));
+
+    button.set_popover (null);
+    popover = null;
+    assert (lifetime.get () == null);
+}
+
 int main (string[] args) {
     string root;
     try { root = DirUtils.make_tmp ("protonplus-presentation-XXXXXX"); }
@@ -626,6 +642,7 @@ int main (string[] args) {
     }
     Adw.init ();
     Gtk.Settings.get_default ().gtk_enable_animations = false;
+    check_deferred_controller_popover_registration ();
     check_theme_palettes ();
     var launcher = new Models.Launcher ("Fixture", Models.Launcher.InstallationTypes.SYSTEM,
         "", { root }, "fixture");
