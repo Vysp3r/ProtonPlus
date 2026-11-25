@@ -115,6 +115,8 @@ meson test -C build --print-errorlogs "ProtonPlus unit tests"
 | Installed state and metadata | `/installed-tool-inventory`, `/protonplus-metadata`, `/protonplus-installed-discovery`, `/compatibility-tool` |
 | Steam-selectable tools | `/steam-compatibility-tool-discovery`, `/steam/library-compatibility-tools-use-stable-identities` |
 | Proton-Autogen | `/proton-autogen`, **Games presentation** |
+| External Games libraries and actions | `/lutris`, `/faugus-games`, `/heroic`, `/bottles`, `/games-actions`, `/games-collection`, **Games presentation** |
+| Flatpak runner-save guard | `/system/flatpak-launcher` |
 | Steam tool diagnostics | `/steam-library-diagnostics`, `/steam/broken-steam-library-tool-is-detected`, **Steam diagnostics presentation** |
 | Download recovery | `./tests/check.sh downloads` or the three `/web` paths above |
 | Completed archive publication | `/filesystem/competing-file-publications`, `/installer-transaction/competing-cache-publishers`, `/installer-transaction/stale-cache-eviction-preserves-repair`. |
@@ -170,6 +172,31 @@ At minimum, consider:
 
 If a real GUI, launcher, packaging environment, or hardware variant was not
 available, say so. Compilation is not a substitute for that evidence.
+
+### External Games integrations
+
+Run **Games presentation** and the focused GLib suites in the test map.
+Fixture-backed tests cover native and Flatpak command routing, library errors,
+duplicate IDs, and isolated configuration writes. GTK tests cover switching
+launchers while a library loads, search, row actions, and narrow and wide
+layouts.
+
+For a live check, build the current checkout with `make local` and test the
+packaged Games view. Give disposable Lutris, Faugus, and Bottles profiles a
+test game that displays a confirmation or records its saved argument.
+
+- Use the same numeric ID in separate native and Flatpak Lutris libraries.
+  Verify Play uses each installation's saved settings and that the other
+  running Lutris installation blocks a launch that could be misrouted.
+- In Lutris and Faugus, try Apply while the launcher runs, then close it,
+  save a runner, reopen ProtonPlus, and verify the selection persists. Reset
+  to **Inherit** and check the underlying settings after reloading.
+- In Heroic, confirm Play reaches the intended store entry. In Bottles,
+  verify the registered program runs with its saved arguments in the
+  selected bottle.
+- Open game and prefix folders where offered. Verify the desktop receives
+  the expected paths, including folder names with spaces. Exercise the
+  action menu with the keyboard and a physical controller when available.
 
 ## Generated and packaging checks
 

@@ -27,6 +27,7 @@ foreach gui_test : [
         'target': 'games-presentation-test',
         'name': 'Games presentation',
         'environment': ['GSK_RENDERER=cairo', 'LC_ALL=C'],
+        'xvfb_args': ['-s', '-screen 0 1280x1024x24'],
     },
     {
         'target': 'help-presentation-test',
@@ -45,7 +46,7 @@ foreach gui_test : [
     gui_test_env = ['GTK_A11Y=none'] + gui_test['environment']
     if xvfb_run.found()
         test(gui_test['name'], xvfb_run,
-            args: ['-a', gui_test_exe],
+            args: ['-a'] + gui_test.get('xvfb_args', []) + [gui_test_exe],
             env: ['GDK_BACKEND=x11'] + gui_test_env)
     else
         # Help checks focus restoration. Other GUI tests can steal focus

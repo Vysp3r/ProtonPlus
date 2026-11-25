@@ -4,7 +4,7 @@ namespace ProtonPlus.Models.Games {
         private bool writing_tool;
 
         public string executable_path { get { return profile.path; } }
-        public bool can_launch { get { return ((Launchers.ProtonAutogen) launcher).command_installed; } }
+        public override bool can_launch { get { return ((Launchers.ProtonAutogen) launcher).command_installed; } }
 
         public ProtonAutogen (Utils.ProtonAutogenProfile profile, Launchers.ProtonAutogen launcher) {
             base (profile.name, Path.get_dirname (profile.path), "", 0, launcher);

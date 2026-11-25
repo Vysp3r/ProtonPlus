@@ -18,6 +18,9 @@ level, including native AArch64 builds and eligible x86-64 variants on AArch64
 hosts. Available versions and variants come from each provider's upstream
 releases.
 
+See the [Games tab guide](usage.md#manage-games-in-other-launchers) for the
+libraries and actions available to each launcher.
+
 ## Compatibility tools
 
 Installed tools appear first within each category. ProtonPlus orders other

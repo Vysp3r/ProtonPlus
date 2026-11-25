@@ -102,8 +102,9 @@ detected installations, and then initializes each launcher:
 4. Filter the `ProviderRegistry` definitions through launcher capabilities and
    ask `ProviderCatalog` to create `ProviderTool` instances.
 5. Add TinkerGame and the retained legacy SteamTinkerLaunch tool for Steam's Proton group.
-6. Load the launcher library and, for Steam, profiles plus effective staged
-   configuration overlays.
+6. Load libraries that opt into startup loading, including Steam profiles
+   and effective staged configuration overlays. Lutris, Faugus, Heroic,
+   and Bottles defer their library reads until selected in Games.
 
 The resulting launchers are passed to the header and `Widgets.Main.Box`.
 Changing launcher detection therefore affects models, group/tool composition,
@@ -367,6 +368,29 @@ decisions, and single-game/mass-edit navigation. List factories belong in
 `games-list-view.vala`. Page navigation belongs in `games-page.vala`. Wide and
 narrow views share the same collection, preserving selection and sort order
 when the width changes.
+
+#### External launcher libraries
+
+`Games.Box` observes the selected launcher's deferred library load. It
+disconnects when selection changes and validates the current launcher and
+collection generation before opening an asynchronously loaded runner editor.
+Launcher models publish the rows and any load error or partial-load warning.
+Game models expose Play, folder, and per-game runner capabilities to the row
+widgets.
+
+| Service directory | Library and persistence |
+| --- | --- |
+| `src/services/lutris/` | Reads installed games from SQLite and resolves per-game YAML. Play uses the numeric game ID. Eligible Wine games write or remove only the `wine.version` override. |
+| `src/services/faugus/` | Reads saved games by `gameid`. Runner changes update the selected entry in the game library. Reset stores Faugus's `Default` value. Both installations share the native Steam tool target. |
+| `src/services/heroic/` | Reads local installed metadata and game settings. Play uses the launcher instance, store, and application ID. Runner settings are read-only. |
+| `src/services/bottles/` | Uses the selected Bottles CLI to list registered programs and launch them by bottle and program selector. Program and prefix folders come from accessible host paths. Runner settings are read-only. |
+
+Lutris and Faugus revalidate the current record and guard writes against a
+running launcher. Both use atomic, etag-checked replacement. Flatpak runner
+discovery marks its read-only probe instances so the guard can exclude them
+while Flatpak retires their sandboxes. Native ProtonPlus dispatches on the host
+directly, and Flatpak ProtonPlus uses `flatpak-spawn --host` for launcher
+commands.
 
 ### Tools presentation
 

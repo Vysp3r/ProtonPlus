@@ -14,7 +14,7 @@ esac
 # Reinstall the requested packages from the Arch repositories, even when the
 # image already has the same versions. Keep this inventory for the file check.
 set -- base-devel curl wget git meson ninja vala gcc pkgconf glib2 cairo gtk4 libadwaita \
-    json-glib libsoup3 libgee libarchive gettext desktop-file-utils appstream \
+    json-glib libsoup3 libgee libarchive sqlite libyaml gettext desktop-file-utils appstream \
     libxml2 bluez-libs libnm glib-networking libproxy mesa patchelf sdl3 \
     libx11 libxrandr libxss pulseaudio pulseaudio-alsa xorg-server-xvfb zsync
 

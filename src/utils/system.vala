@@ -245,12 +245,88 @@ namespace ProtonPlus.Utils {
         [CCode (cname = "protonplus_cpu_get_feature_probe", cheader_filename = "utils/cpu-probe.h", has_target = false)]
         private static extern CpuFeatureProbe get_cpu_feature_probe ();
 
-        internal static Subprocess spawn_detached (string[] argv) throws Error {
+        internal const string FLATPAK_RUNNER_PROBE_OPTION = "--env=PROTONPLUS_READ_ONLY_RUNNER_PROBE=1";
+        private const string FLATPAK_LAUNCHER_PROCESS_PROBE = """
+instances=$(flatpak ps --columns=instance,application) || exit 1
+runtime_dir=${XDG_RUNTIME_DIR:-/run/user/$(id -u)}
+printf '%s\n' "$instances" | awk -v app="$1" -v runtime="$runtime_dir" '
+    $2 == app {
+        probe = 0
+        if ($1 ~ /^[0-9]+$/) {
+            info = runtime "/.flatpak/" $1 "/info"
+            section = ""
+            while ((getline line < info) > 0) {
+                if (line ~ /^\[/)
+                    section = line
+                if (section == "[Environment]" && line == "PROTONPLUS_READ_ONLY_RUNNER_PROBE=1") {
+                    probe = 1
+                    break
+                }
+            }
+            close(info)
+        }
+        if (!probe) {
+            running = 1
+            exit
+        }
+    }
+    END { print running ? "running" : "closed" }
+'
+""";
+
+        internal static bool is_flatpak_launcher_closed (string app_id, string failure_message) throws Error {
+            // A finished runner probe can remain in flatpak ps while Flatpak
+            // retires its sandbox. Only ignore explicitly marked probes.
+            string[] command = { "sh", "-c", FLATPAK_LAUNCHER_PROCESS_PROBE, "launcher-process-check", app_id };
+            if (Globals.IS_FLATPAK)
+                command = { "flatpak-spawn", "--host", "sh", "-c", FLATPAK_LAUNCHER_PROCESS_PROBE,
+                    "launcher-process-check", app_id };
+            return query_process (command, failure_message).strip () == "closed";
+        }
+
+        internal static string query_process (string[] argv, string failure_message) throws Error {
+            var process = new Subprocess.newv (argv, SubprocessFlags.STDOUT_PIPE | SubprocessFlags.STDERR_SILENCE);
+            string? output = null;
+            Error? failure = null;
+            var cancellable = new Cancellable ();
+            var context = new MainContext ();
+            var loop = new MainLoop (context);
+            var timeout = new TimeoutSource.seconds (12);
+            timeout.set_callback (() => {
+                cancellable.cancel ();
+                process.force_exit ();
+                return Source.REMOVE;
+            });
+            timeout.attach (context);
+
+            context.push_thread_default ();
+            try {
+                process.communicate_utf8_async.begin (null, cancellable, (source, result) => {
+                    try {
+                        process.communicate_utf8_async.end (result, out output, null);
+                    } catch (Error error) {
+                        failure = error;
+                    }
+                    loop.quit ();
+                });
+                loop.run ();
+            } finally {
+                timeout.destroy ();
+                context.pop_thread_default ();
+            }
+            if (failure != null || !process.get_successful ())
+                throw new IOError.FAILED (failure_message);
+            return output ?? "";
+        }
+
+        internal static Subprocess spawn_detached (string[] argv, string working_directory = "") throws Error {
             var launcher = new SubprocessLauncher (
                 SubprocessFlags.STDOUT_SILENCE | SubprocessFlags.STDERR_SILENCE
             );
             launcher.set_stdin_file_path ("/dev/null");
             launcher.set_child_setup (detach_child_session);
+            if (working_directory != "")
+                launcher.set_cwd (working_directory);
             return launcher.spawnv (argv);
         }
 

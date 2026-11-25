@@ -9,6 +9,21 @@ Check that your launcher uses a
 launcher, confirm that its app data exists and that any external Steam
 library is visible to ProtonPlus.
 
+## A Games library is empty or incomplete
+
+Check the installation selected in the launcher menu. A native launcher and
+its Flatpak use separate libraries. Confirm the game appears in that
+installation, then reselect the launcher or refresh application data. For
+Bottles, register the program within its bottle so it appears in the list.
+If ProtonPlus reports a load error, check the indicated path or launcher
+command and choose **Retry**.
+
+## A per-game runner change is blocked
+
+Exit the selected Lutris or Faugus installation, including any tray instance,
+and close games it started. Reopen the game editor if the launcher changed
+its settings after you opened it.
+
 ## Releases fail to load
 
 Check your network connection and proxy in **Preferences → Advanced →

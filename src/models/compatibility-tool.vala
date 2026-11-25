@@ -2,7 +2,8 @@ namespace ProtonPlus.Models {
     public enum CompatibilityToolRuntimeKind {
         UNKNOWN,
         NATIVE,
-        PROTON
+        PROTON,
+        WINE
     }
 
     // A launcher-selectable compatibility entry discovered locally or created

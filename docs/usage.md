@@ -20,6 +20,28 @@ know when Steam needs to restart for changes to take effect.
 Use **Preferences** to set Steam's default compatibility tool or add a
 ProtonPlus shortcut to Steam.
 
+## Manage games in other launchers
+
+Select the launcher installation you want, then open **Games**. Native and
+Flatpak installations have separate libraries, even when they contain a game
+with the same name. Use **Play** to launch through that installation with its
+saved game settings. The row's action menu offers **Open Game Folder** and
+**Open Prefix Folder** when ProtonPlus can access the corresponding paths.
+
+| Launcher | What appears | Runner editing |
+| --- | --- | --- |
+| Lutris | Installed games, including native games and emulator entries | Per-game Wine or Proton version for eligible Wine games |
+| Faugus Launcher | Saved games | Per-game Proton runner for eligible entries |
+| Heroic Games Launcher | Installed Epic, GOG, and Amazon games, plus installed sideloaded games | Current runner displayed when available |
+| Bottles | Registered programs grouped by bottle | Current bottle runner displayed when available |
+
+To edit an eligible Lutris or Faugus game, close the launcher and its running
+games, open the game row, select a runner, and choose **Apply Changes**. Choose
+the **Inherit** option to restore the launcher's default. The Games tab reads
+Heroic's local game metadata without accessing account credentials or changing
+runner settings. Bottles runs the registered program with its bottle's saved
+configuration.
+
 ## Use Proton-Autogen
 
 Select **Proton-Autogen** in the launcher menu. **Tools** manages builds in

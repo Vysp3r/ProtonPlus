@@ -30,6 +30,9 @@ finish-args:
   - --filesystem=~/.var/app/com.usebottles.bottles/data/bottles
   - --filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam
   - --filesystem=~/.var/app/net.lutris.Lutris/data/lutris
+  - --filesystem=~/.var/app/net.lutris.Lutris/config/lutris
+  - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/config/faugus-launcher
+  - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/data/faugus-launcher
   - --filesystem=~/.var/app/io.github.fastrizwaan.WineZGUI/data/winezgui
 build-options:
   append-path: /usr/lib/sdk/vala/bin
@@ -46,6 +49,14 @@ cleanup:
   - '*.a'
   - '*.la'
 modules:
+  - name: libyaml
+    buildsystem: autotools
+    config-opts:
+      - --disable-static
+    sources:
+      - type: archive
+        url: https://pyyaml.org/download/libyaml/yaml-0.2.5.tar.gz
+        sha256: c642ae9b75fee120b2d96c712538bd2cf283228d2337df2cf2988e3c02678ef4
   - name: ProtonPlus
     builddir: true
     buildsystem: meson

@@ -86,6 +86,8 @@ namespace ProtonPlus.Widgets.Games {
         public Gtk.Widget? get_selection_target (GameListItem item) {
             if (narrow_view_active)
                 return narrow_rows.get (item);
+            if (!item.game.launcher.supports_bulk_game_edit)
+                return wide_title_cells.get (item);
             return wide_selection_cells.get (item);
         }
 
@@ -424,6 +426,8 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         bool focus_wide_selection (GameListItem item) {
+            if (!item.game.launcher.supports_bulk_game_edit)
+                return false;
             var cell = wide_selection_cells.get (item);
             return cell != null && ((!) cell).grab_focus ();
         }
@@ -453,9 +457,11 @@ namespace ProtonPlus.Widgets.Games {
             if (narrow) {
                 var row = narrow_rows.get (item);
                 focus_ready = row != null && ((!) row).get_mapped ();
-                return focus_ready && ((!) row).focus_lane (lane);
+                return focus_ready && (((!) row).focus_lane (lane) ||
+                    (!item.game.launcher.supports_bulk_game_edit && ((!) row).grab_focus ()));
             }
-            if (lane == GameFocusLane.ROW) {
+            if (lane == GameFocusLane.ROW ||
+                (lane == GameFocusLane.SELECTION && !item.game.launcher.supports_bulk_game_edit)) {
                 var cell = wide_title_cells.get (item);
                 focus_ready = cell != null && ((!) cell).get_mapped ();
                 return focus_ready && ((!) cell).grab_focus ();
@@ -463,6 +469,13 @@ namespace ProtonPlus.Widgets.Games {
             if (lane != GameFocusLane.SELECTION) {
                 var cell = wide_action_cells.get (item);
                 focus_ready = cell != null && ((!) cell).get_mapped ();
+                if (!item.game.launcher.supports_bulk_game_edit) {
+                    if (focus_ready && ((!) cell).focus_lane (lane))
+                        return true;
+                    var title = wide_title_cells.get (item);
+                    focus_ready = title != null && ((!) title).get_mapped ();
+                    return focus_ready && ((!) title).grab_focus ();
+                }
                 return focus_ready && ((!) cell).focus_lane (lane);
             }
             var cell = wide_selection_cells.get (item);

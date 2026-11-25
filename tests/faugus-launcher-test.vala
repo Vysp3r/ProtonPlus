@@ -228,7 +228,8 @@ namespace AppTests.FaugusLauncherTest {
         assert (launcher.groups.length == 1);
         assert (launcher.groups[0].id == "proton");
         assert (launcher.groups[0].directory == "/compatibilitytools.d");
-        assert (!launcher.has_library_support);
+        assert (launcher.has_library_support);
+        assert (!launcher.load_library_on_startup && !launcher.game_library_available);
 
         var provider_ids = new Gee.HashSet<string> ();
         foreach (var tool in launcher.groups[0].tools) {

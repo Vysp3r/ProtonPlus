@@ -518,6 +518,552 @@ void check_proton_autogen_game_edit (string root) throws Error {
     assert (DirUtils.remove (Path.build_filename (root, ".config")) == 0);
 }
 
+class PresentationLutrisBackend : Object, Services.LutrisBackend {
+    public bool is_closed (bool flatpak) {
+        return true;
+    }
+
+    public Gee.List<Models.CompatibilityTool> get_runners (bool flatpak, string? custom_path) {
+        var tools = new Gee.ArrayList<Models.CompatibilityTool> ();
+        tools.add (new Models.CompatibilityTool ("Fixture Wine", "wine-fixture", "", Models.CompatibilityToolRuntimeKind.WINE));
+        return tools;
+    }
+
+    public Subprocess? spawn (string[] argv) {
+        return null;
+    }
+}
+
+class DeferredLutrisLibrary : Models.Launchers.Lutris {
+    SourceFunc? pending_callback;
+
+    public DeferredLutrisLibrary (Services.LutrisConfigurationService service) {
+        base (Models.Launcher.InstallationTypes.FLATPAK, service);
+    }
+
+    public override async bool load_game_library () {
+        pending_callback = load_game_library.callback;
+        yield;
+        return yield base.load_game_library ();
+    }
+
+    public void complete () {
+        Idle.add ((owned) pending_callback);
+    }
+}
+
+void check_lutris_library_states (string root) throws Error {
+    var data = Path.build_filename (root, ".var", "app", "net.lutris.Lutris", "data", "lutris");
+    assert (DirUtils.create_with_parents (data, 0700) == 0);
+    var db_file = Path.build_filename (data, "pga.db");
+    FileUtils.set_contents (db_file, "invalid database");
+    var service = new Services.LutrisConfigurationService (true, root, root, root, new PresentationLutrisBackend ());
+    var launcher = new DeferredLutrisLibrary (service);
+    var page = new ProtonPlus.Widgets.Games.Box ();
+    var window = new Adw.Window () { default_width = 850, default_height = 650, content = page };
+    page.set_selected_launcher (launcher);
+    window.present ();
+    settle ();
+    var status = find_widget (page, (widget) => widget is Adw.StatusPage && widget.get_mapped ()) as Adw.StatusPage;
+    assert (status != null && status.title == "Loading Lutris games");
+
+    launcher.complete ();
+    wait_for_layout (() => status.title == "Lutris games couldn’t be loaded");
+    assert (status.description.contains ("Lutris (Flatpak)"));
+    var retry = find_widget (status, (widget) =>
+        widget is Gtk.Button && widget.get_mapped () && ((Gtk.Button) widget).label == "Retry") as Gtk.Button;
+    assert (retry != null);
+    assert (FileUtils.remove (db_file) == 0);
+    Sqlite.Database db;
+    assert (Sqlite.Database.open (db_file, out db) == Sqlite.OK);
+    assert (db.exec ("CREATE TABLE games (id INTEGER, name TEXT, runner TEXT, directory TEXT, configpath TEXT, installed INTEGER, slug TEXT, installed_at INTEGER)") == Sqlite.OK);
+    retry.clicked ();
+    assert (status.title == "Loading Lutris games");
+    launcher.complete ();
+    wait_for_layout (() => find_widget (page, (widget) => widget is Adw.StatusPage && widget.get_mapped () &&
+        ((Adw.StatusPage) widget).title == "No games found") != null);
+
+    assert (db.exec ("INSERT INTO games (id, name, runner, directory, configpath, installed) VALUES (10, 'Read-only Wine game', 'wine', '', 'missing', 1)") == Sqlite.OK);
+    launcher.load_profile_library.begin ();
+    launcher.complete ();
+    WidgetMatches configuration_unavailable = (widget) => widget is Gtk.Label && widget.get_mapped () &&
+        ((Gtk.Label) widget).label == "Configuration unavailable";
+    wait_for_layout (() => find_widget (page, configuration_unavailable) != null);
+    var play = find_widget (page, (widget) => widget is Gtk.Button && widget.get_mapped () &&
+        widget.get_tooltip_text () == "Launch Read-only Wine game");
+    assert (play != null);
+    assert (find_widget (page, (widget) => widget is Gtk.CheckButton && widget.get_mapped ()) == null);
+    var table = find_widget (page, (widget) => widget is Gtk.ColumnView && widget.get_mapped ()) as Gtk.ColumnView;
+    var list = find_widget (page, (widget) => widget is Gtk.ListView && widget.get_mapped ()) as Gtk.ListView;
+    if (table != null)
+        table.activate (0);
+    else {
+        assert (list != null);
+        list.activate (0);
+    }
+    settle ();
+    assert (page.get_header_presentation () == null);
+    var games_dir = Path.build_filename (data, "games");
+    var config = Path.build_filename (games_dir, "editable.yml");
+    assert (DirUtils.create_with_parents (games_dir, 0700) == 0);
+    FileUtils.set_contents (config, "# Keep this comment in the game config\nwine:\n  version: missing\n  dxvk: false\n");
+    assert (db.exec ("UPDATE games SET configpath = 'editable' WHERE id = 10") == Sqlite.OK);
+    launcher.load_profile_library.begin ();
+    launcher.complete ();
+    wait_for_layout (() => !launcher.game_library_loading);
+    settle ();
+    if (table != null)
+        table.activate (0);
+    else
+        list.activate (0);
+    wait_for_layout (() => page.get_header_presentation () != null);
+    var choice = find_widget (page, (widget) => widget is CompatibilityToolRow && widget.get_mapped ()) as CompatibilityToolRow;
+    assert (choice != null && choice.title == "Wine or Proton version");
+    assert (choice.model.get_n_items () == 3);
+    assert (((Models.CompatibilityTool) choice.get_selected_item ()).internal_title == "missing");
+    assert (find_widget (page, (widget) => widget is Adw.SwitchRow && widget.get_mapped ()) == null);
+    var presentation = page.get_header_presentation ();
+    var apply = find_widget (presentation.end_actions[0], (widget) => widget is Gtk.Button &&
+        ((Gtk.Button) widget).label == "Apply Changes") as Gtk.Button;
+    assert (apply != null && !apply.sensitive);
+    for (uint i = 0; i < choice.model.get_n_items (); i++) {
+        if (((Models.CompatibilityTool) choice.model.get_item (i)).internal_title == "wine-fixture") {
+            choice.selected = i;
+            break;
+        }
+    }
+    assert (apply.sensitive);
+    apply.clicked ();
+    wait_for_layout (() => page.get_header_presentation () == null);
+    string updated;
+    FileUtils.get_contents (config, out updated);
+    assert (updated == "# Keep this comment in the game config\nwine:\n  version: \"wine-fixture\"\n  dxvk: false\n");
+
+    var empty_launcher = new Models.Launchers.HeroicGamesLauncher (
+        Models.Launcher.InstallationTypes.SYSTEM, root, root);
+    launcher.load_profile_library.begin ();
+    page.set_selected_launcher (empty_launcher);
+    page.set_selected_launcher (launcher);
+    page.set_selected_launcher (empty_launcher);
+    launcher.complete ();
+    wait_for_layout (() => !launcher.game_library_loading && !empty_launcher.game_library_loading);
+    assert (find_widget (page, widget => widget is Adw.StatusPage && widget.get_mapped () &&
+        ((Adw.StatusPage) widget).title == "No games found") != null);
+    assert (find_widget (page, configuration_unavailable) == null);
+
+    page.set_selected_launcher (launcher);
+    assert (launcher.game_library_loading);
+    window.destroy ();
+    launcher.complete ();
+    wait_for_layout (() => !launcher.game_library_loading);
+    assert (!page.get_mapped () && page.get_header_presentation () == null);
+    assert (FileUtils.remove (config) == 0);
+    assert (DirUtils.remove (games_dir) == 0);
+
+    assert (FileUtils.remove (db_file) == 0);
+    while (data != root) {
+        assert (DirUtils.remove (data) == 0);
+        data = Path.get_dirname (data);
+    }
+}
+
+class PresentationFaugusBackend : Object, Services.FaugusBackend {
+    public string[] command;
+    public bool closed = true;
+
+    public bool is_closed (bool flatpak) {
+        return closed;
+    }
+
+    public bool host_path_exists (string path) {
+        return false;
+    }
+
+    public Gee.List<Models.CompatibilityTool> installed_runners (bool flatpak) {
+        return new Gee.ArrayList<Models.CompatibilityTool> ();
+    }
+
+    public Subprocess? spawn (string[] argv, string working_directory) {
+        command = argv;
+        return null;
+    }
+}
+
+void check_faugus_library_and_editor (string root) throws Error {
+    var data = Path.build_filename (root, "faugus-launcher");
+    var flatpak_data = Path.build_filename (root, ".var", "app", Models.Launchers.FaugusLauncher.FLATPAK_ID,
+        "data", "faugus-launcher");
+    assert (DirUtils.create_with_parents (data, 0700) == 0);
+    assert (DirUtils.create_with_parents (flatpak_data, 0700) == 0);
+    var native_file = Path.build_filename (data, "games.json");
+    var flatpak_file = Path.build_filename (flatpak_data, "games.json");
+    FileUtils.set_contents (native_file, """[{"gameid":"native","title":"Native Fixture","runner":"Steam"}]""");
+    FileUtils.set_contents (flatpak_file, "{malformed");
+    var backend = new PresentationFaugusBackend ();
+    var native_service = new Services.FaugusConfigurationService (false, root, root, root, backend);
+    var flatpak_service = new Services.FaugusConfigurationService (true, root, root, root, backend);
+    var native = new Models.Launchers.FaugusLauncher (Models.Launcher.InstallationTypes.SYSTEM,
+        root, root, root, root, root, native_service);
+    var flatpak = new Models.Launchers.FaugusLauncher (Models.Launcher.InstallationTypes.FLATPAK,
+        root, root, root, root, root, flatpak_service);
+    var page = new ProtonPlus.Widgets.Games.Box ();
+    var window = new Adw.Window () { default_width = 850, default_height = 650, content = page };
+
+    page.set_selected_launcher (native);
+    window.present ();
+    assert (native.game_library_loading);
+    WidgetMatches native_row = (widget) => widget is Gtk.Button && widget.get_mapped () &&
+        widget.get_tooltip_text () == "Launch Native Fixture";
+    wait_for_layout (() => find_widget (page, native_row) != null);
+    page.set_selected_launcher (flatpak);
+    assert (flatpak.game_library_loading);
+    var status = find_widget (page, (widget) => widget is Adw.StatusPage && widget.get_mapped ()) as Adw.StatusPage;
+    assert (status != null && status.title == "Loading Faugus Launcher games");
+    wait_for_layout (() => status.title == "Faugus Launcher games couldn’t be loaded");
+    assert (status.description.contains ("Faugus Launcher (Flatpak)") && status.description.contains (flatpak_file));
+    assert (find_widget (page, native_row) == null);
+
+    var retry = find_widget (status, (widget) => widget is Gtk.Button && widget.get_mapped () &&
+        ((Gtk.Button) widget).label == "Retry") as Gtk.Button;
+    assert (retry != null);
+    FileUtils.set_contents (flatpak_file, "[]");
+    retry.clicked ();
+    wait_for_layout (() => find_widget (page, (widget) => widget is Adw.StatusPage && widget.get_mapped () &&
+        ((Adw.StatusPage) widget).title == "No games found") != null);
+
+    FileUtils.set_contents (flatpak_file, """
+[
+    {"gameid":"other","title":"Another Fixture","runner":"Steam"},
+    {"gameid":"selected","title":"Flatpak Fixture","runner":"Removed Runner"}
+]
+""");
+    flatpak.load_profile_library.begin ();
+    WidgetMatches flatpak_row = (widget) => widget is Gtk.Button && widget.get_mapped () &&
+        widget.get_tooltip_text () == "Launch Flatpak Fixture";
+    wait_for_layout (() => find_widget (page, flatpak_row) != null);
+    var search = find_widget (page, (widget) => widget is Gtk.SearchEntry && widget.get_mapped ()) as Gtk.SearchEntry;
+    assert (search != null);
+    search.set_text ("flatpak");
+    wait_for_layout (() => find_widget (page, (widget) => widget is Gtk.Button && widget.get_mapped () &&
+        widget.get_tooltip_text () == "Launch Another Fixture") == null);
+    assert (find_widget (page, (widget) => widget is Gtk.CheckButton && widget.get_mapped ()) == null);
+    var play = find_widget (page, flatpak_row) as Gtk.Button;
+    assert (play != null);
+    play.clicked ();
+    wait_for_layout (() => backend.command != null);
+    assert (string.joinv (" ", backend.command) == "flatpak run io.github.Faugus.faugus-launcher --game selected");
+
+    var table = find_widget (page, (widget) => widget is Gtk.ColumnView && widget.get_mapped ()) as Gtk.ColumnView;
+    if (table != null)
+        table.activate (0);
+    else {
+        var list = find_widget (page, (widget) => widget is Gtk.ListView && widget.get_mapped ()) as Gtk.ListView;
+        assert (list != null);
+        list.activate (0);
+    }
+    wait_for_layout (() => page.get_header_presentation () != null);
+    var choice = find_widget (page, (widget) => widget is CompatibilityToolRow && widget.get_mapped ()) as CompatibilityToolRow;
+    assert (choice != null);
+    var saved = choice.get_selected_item () as Models.CompatibilityTool;
+    assert (saved != null && !saved.is_assignable && saved.internal_title == "Removed Runner");
+    assert (find_widget (page, (widget) => widget is Adw.SwitchRow && widget.get_mapped ()) == null);
+    var apply = find_widget (page.get_header_presentation ().end_actions[0], (widget) =>
+        widget is Gtk.Button && ((Gtk.Button) widget).label == "Apply Changes") as Gtk.Button;
+    assert (apply != null && !apply.sensitive);
+    choice.selected = 0;
+    assert (((Models.CompatibilityTool) choice.get_selected_item ()).internal_title == "Default");
+    assert (apply.sensitive);
+    backend.closed = false;
+    apply.clicked ();
+    wait_for_layout (() => window.get_visible_dialog () is ProtonPlus.Widgets.Main.ErrorDialog);
+    var failed_save = window.get_visible_dialog () as ProtonPlus.Widgets.Main.ErrorDialog;
+    assert (failed_save != null && failed_save.get_heading () == "Could Not Change the Runner");
+    assert (page.get_header_presentation () != null && apply.sensitive);
+    var parser = new Json.Parser ();
+    parser.load_from_file (flatpak_file);
+    assert (parser.get_root ().get_array ().get_object_element (1).get_string_member ("runner") == "Removed Runner");
+    failed_save.force_close ();
+    backend.closed = true;
+    apply.clicked ();
+    wait_for_layout (() => page.get_header_presentation () == null);
+
+    parser.load_from_file (flatpak_file);
+    assert (parser.get_root ().get_array ().get_object_element (1).get_string_member ("runner") == "Default");
+    wait_for_layout (() => find_widget (page, (widget) => widget is Gtk.Label && widget.get_mapped () &&
+        ((Gtk.Label) widget).label == "Inherited (Proton-CachyOS Latest)") != null);
+    window.destroy ();
+    assert (FileUtils.remove (native_file) == 0 && DirUtils.remove (data) == 0);
+    assert (FileUtils.remove (flatpak_file) == 0);
+    while (flatpak_data != root) {
+        assert (DirUtils.remove (flatpak_data) == 0);
+        flatpak_data = Path.get_dirname (flatpak_data);
+    }
+}
+
+class PresentationHeroicBackend : Object {
+    public string[] command;
+    public bool fail;
+
+    public Subprocess? spawn (string[] argv) throws Error {
+        command = argv;
+        if (fail)
+            throw new IOError.FAILED ("Heroic launch fixture failed");
+        return null;
+    }
+}
+
+void check_heroic_library_states_and_actions (string home) throws Error {
+    var app_id = Models.Launchers.HeroicGamesLauncher.FLATPAK_ID;
+    var native_root = Path.build_filename (home, "heroic", "gog_store");
+    var flatpak_root = Path.build_filename (home, ".var", "app", app_id, "config", "heroic");
+    var flatpak_gog = Path.build_filename (flatpak_root, "gog_store");
+    assert (DirUtils.create_with_parents (native_root, 0700) == 0);
+    assert (DirUtils.create_with_parents (flatpak_gog, 0700) == 0);
+    var native_file = Path.build_filename (native_root, "installed.json");
+    var flatpak_file = Path.build_filename (flatpak_gog, "installed.json");
+    FileUtils.set_contents (native_file, """{"installed":[{"appName":"shared", "title":"Native Heroic Fixture", "platform":"linux"}]}""");
+    FileUtils.set_contents (flatpak_file, "{");
+
+    var backend = new PresentationHeroicBackend ();
+    var service = new Services.HeroicLaunchService (false, Path.build_filename (home, "applications"), backend.spawn);
+    var native = new Models.Launchers.HeroicGamesLauncher (Models.Launcher.InstallationTypes.SYSTEM, home, home, service);
+    var flatpak = new Models.Launchers.HeroicGamesLauncher (Models.Launcher.InstallationTypes.FLATPAK, home, home, service);
+    var page = new ProtonPlus.Widgets.Games.Box ();
+    var window = new Adw.Window () { default_width = 850, default_height = 650, content = page };
+    window.present ();
+    page.set_selected_launcher (flatpak);
+    var status = find_widget (page, (widget) => widget is Adw.StatusPage &&
+        widget.get_visible () && ((Adw.StatusPage) widget).title == "Loading Heroic Games Launcher games") as Adw.StatusPage;
+    assert (status != null);
+    wait_for_layout (() => status.get_mapped () && status.title == "Heroic Games Launcher games couldn’t be loaded");
+    assert (status.get_mapped () && status.description.contains ("Heroic Games Launcher (Flatpak)"));
+    var retry = find_widget (status, (widget) => widget is Gtk.Button && widget.get_mapped () &&
+        ((Gtk.Button) widget).label == "Retry") as Gtk.Button;
+    assert (retry != null);
+
+    FileUtils.set_contents (flatpak_file, """{"installed":[]}""");
+    retry.clicked ();
+    WidgetMatches empty = (widget) => widget is Adw.StatusPage && widget.get_mapped () &&
+        ((Adw.StatusPage) widget).title == "No games found";
+    wait_for_layout (() => find_widget (page, empty) != null);
+    assert (find_widget (page, empty) != null);
+
+    FileUtils.set_contents (flatpak_file, """{"installed":[
+        {"appName":"shared", "title":"Flatpak Heroic Fixture", "install_path":"%s", "platform":"windows"},
+        {"appName":"other", "title":"Other Game", "platform":"linux"}
+    ]}""".printf (flatpak_root));
+    FileUtils.set_contents (Path.build_filename (flatpak_root, "config.json"), """{"defaultSettings":{
+        "wineVersion":{"name":"Fixture Wine", "type":"wine"}, "winePrefix":"%s"
+    }}""".printf (flatpak_root));
+
+    WidgetMatches native_play = (widget) => widget is Gtk.Button && widget.get_mapped () &&
+        widget.get_tooltip_text () == "Launch Native Heroic Fixture";
+    WidgetMatches flatpak_play = (widget) => widget is Gtk.Button && widget.get_mapped () &&
+        widget.get_tooltip_text () == "Launch Flatpak Heroic Fixture";
+    WidgetMatches other_play = (widget) => widget is Gtk.Button && widget.get_mapped () &&
+        widget.get_tooltip_text () == "Launch Other Game";
+    page.set_selected_launcher (native);
+    wait_for_layout (() => find_widget (page, native_play) != null);
+    assert (find_widget (page, native_play) != null && find_widget (page, flatpak_play) == null);
+    page.set_selected_launcher (flatpak);
+    wait_for_layout (() => find_widget (page, flatpak_play) != null);
+    assert (find_widget (page, flatpak_play) != null && find_widget (page, native_play) == null);
+    assert (find_widget (page, other_play) != null);
+    var search = find_widget (page, (widget) => widget is Gtk.SearchEntry && widget.get_mapped ()) as Gtk.SearchEntry;
+    assert (search != null);
+    search.set_text ("flatpak");
+    wait_for_layout (() => find_widget (page, other_play) == null);
+    assert (find_widget (page, other_play) == null);
+    assert (find_widget (page, (widget) => widget is Gtk.CheckButton && widget.get_mapped ()) == null);
+    var actions = find_widget (page, (widget) => widget is Gtk.MenuButton && widget.get_mapped () &&
+        widget.get_tooltip_text () == "Game Actions") as Gtk.MenuButton;
+    assert (actions != null);
+    var menu = ((Gtk.PopoverMenu) actions.get_popover ()).get_menu_model ();
+    assert (menu.get_n_items () == 2);
+    assert (menu.get_item_attribute_value (0, Menu.ATTRIBUTE_ACTION, VariantType.STRING).get_string () ==
+        "game.open-install-directory");
+    assert (menu.get_item_attribute_value (1, Menu.ATTRIBUTE_ACTION, VariantType.STRING).get_string () ==
+        "game.open-prefix-directory");
+
+    var table = find_widget (page, (widget) => widget is Gtk.ColumnView && widget.get_mapped ()) as Gtk.ColumnView;
+    if (table != null)
+        table.activate (0);
+    else {
+        var list = find_widget (page, (widget) => widget is Gtk.ListView && widget.get_mapped ()) as Gtk.ListView;
+        assert (list != null);
+        list.activate (0);
+    }
+    settle ();
+    assert (page.get_header_presentation () == null);
+    var play = find_widget (page, flatpak_play) as Gtk.Button;
+    assert (play != null);
+    backend.fail = true;
+    play.clicked ();
+    wait_for_layout (() => window.get_visible_dialog () is ProtonPlus.Widgets.Main.ErrorDialog);
+    var dialog = window.get_visible_dialog () as ProtonPlus.Widgets.Main.ErrorDialog;
+    assert (dialog != null && dialog.get_heading () == "Game Launch Failed");
+    assert (string.joinv (" ", backend.command) ==
+        "flatpak run %s heroic://launch?appName=shared&runner=gog".printf (app_id));
+    dialog.force_close ();
+    window.destroy ();
+}
+
+class PresentationBottlesCli : Object, Services.BottlesCliBackend {
+    public string bottles = "{";
+    public string prefix;
+    public string[] dispatched = {};
+    public bool fail_launch;
+
+    public PresentationBottlesCli (string prefix) {
+        this.prefix = prefix;
+    }
+
+    public string query (string[] argv) throws Error {
+        var command = string.joinv ("\n", argv);
+        const string route = "flatpak\nrun\n--command=bottles-cli\ncom.usebottles.bottles\n";
+        assert (command.has_prefix (route));
+        switch (command.substring (route.length)) {
+        case "--json\nlist\nbottles":
+            return bottles;
+        case "run\n--help":
+            return "usage: bottles-cli run [--program-id PROGRAM_ID]";
+        case "info\nbottles-path":
+            return "";
+        case "--json\nprograms\n--bottle=Fixture Bottle":
+            return """[{"name":"Bottles Game","id":"stable-id","path":"C:\\Game Files\\Game.exe",
+                "arguments":"--saved fixture"}]""";
+        case "--json\nprograms\n--bottle=Second Bottle":
+            return """[{"name":"Bottles Game","path":"C:\\Game.exe"},
+                {"name":"Bottles Game","path":"C:\\Another.exe"}]""";
+        default:
+            throw new IOError.NOT_FOUND ("Fixture bottle unavailable");
+        }
+    }
+
+    public Subprocess? launch (string[] argv) throws Error {
+        dispatched = argv.copy ();
+        if (fail_launch)
+            throw new IOError.FAILED ("Bottles fixture dispatch failed");
+        return null;
+    }
+}
+
+void check_bottles_library_states_and_actions (string root) throws Error {
+    var prefix = Path.build_filename (root, "bottles-fixture");
+    var install = Path.build_filename (prefix, "drive_c", "Game Files");
+    assert (DirUtils.create_with_parents (install, 0700) == 0);
+    var backend = new PresentationBottlesCli (prefix);
+    var launcher = new Models.Launchers.Bottles (Models.Launcher.InstallationTypes.FLATPAK,
+        new Services.BottlesLibrary (true, false, backend));
+    var page = new ProtonPlus.Widgets.Games.Box ();
+    var viewport = new Adw.Clamp () { maximum_size = 1000, tightening_threshold = 1000, child = page };
+    var window = new Adw.Window () { default_width = 1100, default_height = 650, content = viewport };
+    window.present ();
+    page.set_selected_launcher (launcher);
+    var status = find_widget (page, widget => widget is Adw.StatusPage &&
+        ((Adw.StatusPage) widget).title == "Loading Bottles games") as Adw.StatusPage;
+    assert (status != null);
+    wait_for_layout (() => status.get_mapped () && status.title == "Bottles games couldn’t be loaded");
+    assert (status.get_mapped () && status.description.contains ("Bottles (Flatpak)"));
+    var retry = find_widget (status, widget => widget is Gtk.Button && ((Gtk.Button) widget).label == "Retry") as Gtk.Button;
+    assert (retry != null);
+
+    backend.bottles = "{}";
+    retry.clicked ();
+    WidgetMatches empty = widget => widget is Adw.StatusPage && widget.get_mapped () &&
+        ((Adw.StatusPage) widget).title == "No games found";
+    wait_for_layout (() => find_widget (page, empty) != null);
+    assert (find_widget (page, empty) != null);
+
+    backend.bottles = """{
+        "Fixture Bottle":{"Path":"%s","Custom_Path":true,"Runner":"soda-fixture"},
+        "Second Bottle":{},
+        "Unavailable Bottle":{}
+    }""".printf (backend.prefix);
+    launcher.load_profile_library.begin ();
+    WidgetMatches play_button = widget => widget is Gtk.Button && widget.get_mapped () &&
+        widget.get_tooltip_text () == "Launch Bottles Game (Fixture Bottle)";
+    wait_for_layout (() => find_widget (page, play_button) != null);
+    var banner = find_widget (page, widget => widget is Adw.Banner && ((Adw.Banner) widget).revealed) as Adw.Banner;
+    assert (banner != null && banner.title == "Some Bottles programs couldn’t be loaded.");
+    WidgetMatches second_bottle = widget => widget is Gtk.Label && widget.get_mapped () &&
+        ((Gtk.Label) widget).label == "Second Bottle";
+    assert (find_widget (page, second_bottle) != null);
+    assert (find_widget (page, widget => widget is Gtk.Label && widget.get_mapped () &&
+        ((Gtk.Label) widget).label == "soda-fixture") != null);
+    assert (find_widget (page, widget => widget is Gtk.Button && widget.get_mapped () &&
+        widget.get_tooltip_text () == "Launch Bottles Game (Second Bottle)") == null);
+    assert (find_widget (page, widget => widget is Gtk.CheckButton && widget.get_mapped ()) == null);
+
+    foreach (var width in new int[] { 1000, 500 }) {
+        bool narrow = width < 700;
+        viewport.maximum_size = width;
+        viewport.tightening_threshold = width;
+        WidgetMatches visible_view = widget => widget.get_mapped () &&
+            (narrow ? widget is Gtk.ListView : widget is Gtk.ColumnView);
+        wait_for_layout (() => find_widget (page, visible_view) != null);
+        var view = find_widget (page, visible_view);
+        assert (view != null);
+        var launch = find_widget (view, play_button);
+        assert (launch != null && launch.grab_focus ());
+        var cell = launch.get_parent () as GameActions;
+        assert (cell != null && cell.controller_focus_direction (launch, Utils.ControllerNavigationDirection.DOWN));
+        LayoutReady second_has_focus = () => {
+            var focused = window.get_focus ();
+            if (narrow)
+                return focused is GameRow && ((GameRow) focused).get_item ().game.library_context == "Second Bottle";
+            return focused is GameTitleCell && ((GameTitleCell) focused).get_item ().game.library_context == "Second Bottle";
+        };
+        wait_for_layout (second_has_focus);
+        assert (second_has_focus ());
+    }
+
+    var search = find_widget (page, widget => widget is Gtk.SearchEntry && widget.get_mapped ()) as Gtk.SearchEntry;
+    assert (search != null);
+    search.set_text ("second bottle");
+    wait_for_layout (() => find_widget (page, play_button) == null);
+    assert (find_widget (page, play_button) == null && find_widget (page, second_bottle) != null);
+    assert (find_widget (page, widget => widget is Gtk.MenuButton && widget.get_mapped () &&
+        widget.get_tooltip_text () == "Game Actions") == null);
+
+    search.set_text ("fixture bottle");
+    wait_for_layout (() => find_widget (page, play_button) != null);
+    var actions = find_widget (page, widget => widget is Gtk.MenuButton && widget.get_mapped () &&
+        widget.get_tooltip_text () == "Game Actions") as Gtk.MenuButton;
+    assert (actions != null);
+    var menu = ((Gtk.PopoverMenu) actions.get_popover ()).get_menu_model ();
+    assert (menu.get_n_items () == 2);
+    assert (menu.get_item_attribute_value (0, Menu.ATTRIBUTE_ACTION, VariantType.STRING).get_string () ==
+        "game.open-install-directory");
+    assert (menu.get_item_attribute_value (1, Menu.ATTRIBUTE_ACTION, VariantType.STRING).get_string () ==
+        "game.open-prefix-directory");
+    var table = find_widget (page, widget => widget is Gtk.ColumnView && widget.get_mapped ()) as Gtk.ColumnView;
+    if (table != null)
+        table.activate (0);
+    else {
+        var list = find_widget (page, widget => widget is Gtk.ListView && widget.get_mapped ()) as Gtk.ListView;
+        assert (list != null);
+        list.activate (0);
+    }
+    settle ();
+    assert (page.get_header_presentation () == null);
+
+    var play = find_widget (page, play_button) as Gtk.Button;
+    assert (play != null);
+    backend.fail_launch = true;
+    play.clicked ();
+    wait_for_layout (() => window.get_visible_dialog () is ProtonPlus.Widgets.Main.ErrorDialog);
+    var dialog = window.get_visible_dialog () as ProtonPlus.Widgets.Main.ErrorDialog;
+    assert (dialog != null && dialog.get_heading () == "Game Launch Failed");
+    assert (string.joinv ("\n", backend.dispatched) ==
+        "flatpak\nrun\n--command=bottles-cli\ncom.usebottles.bottles\nrun\n--bottle=Fixture Bottle\n--program-id=stable-id");
+    dialog.force_close ();
+    window.destroy ();
+    assert (DirUtils.remove (install) == 0);
+    assert (DirUtils.remove (Path.get_dirname (install)) == 0);
+    assert (DirUtils.remove (prefix) == 0);
+}
+
 int main (string[] args) {
     Environment.set_variable ("GSETTINGS_BACKEND", "memory", true);
     if (!Gtk.init_check ())
@@ -535,6 +1081,17 @@ int main (string[] args) {
     check_selection_scope_and_scoped_retry (root);
     try {
         check_proton_autogen_game_edit (root);
+        check_lutris_library_states (root);
+        check_faugus_library_and_editor (root);
+        check_bottles_library_states_and_actions (root);
+        var heroic_home = Path.build_filename (root, "heroic-home");
+        check_heroic_library_states_and_actions (heroic_home);
+        var cleanup = new MainLoop ();
+        Utils.Filesystem.delete_directory.begin (heroic_home, (object, result) => {
+            assert (Utils.Filesystem.delete_directory.end (result));
+            cleanup.quit ();
+        });
+        cleanup.run ();
     } catch (Error error) {
         GLib.error ("%s", error.message);
     }
