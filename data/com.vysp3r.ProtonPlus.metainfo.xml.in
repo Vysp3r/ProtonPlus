@@ -5,7 +5,7 @@
   <project_license>GPL-3.0-or-later</project_license>
 
   <name>ProtonPlus</name>
-  <summary>Manage Proton, Wine, and other compatibility tools</summary>
+  <summary>Manage compatibility tools</summary>
   <description>
     <p>
       Install and update compatibility tools for Steam and other Linux game launchers. Browse installed games, launch them with their saved settings, and preview Steam launch options before applying them.
@@ -77,15 +77,15 @@
 
   <screenshots>
     <screenshot type="default">
-      <image type="source" width="1440" height="810">https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-1.png</image>
+      <image type="source" width="1440" height="810">https://raw.githubusercontent.com/Vysp3r/ProtonPlus/e8b24e12b5a22d0e95f8dae56e9edc62c8bfb5b3/data/previews/Preview-1.png</image>
       <caption>Browse compatibility tools and switch to installed builds</caption>
     </screenshot>
     <screenshot>
-      <image type="source" width="1440" height="810">https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-2.png</image>
+      <image type="source" width="1440" height="810">https://raw.githubusercontent.com/Vysp3r/ProtonPlus/e8b24e12b5a22d0e95f8dae56e9edc62c8bfb5b3/data/previews/Preview-2.png</image>
       <caption>Manage compatibility tools for Steam games</caption>
     </screenshot>
     <screenshot>
-      <image type="source" width="1440" height="810">https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-3.png</image>
+      <image type="source" width="1440" height="810">https://raw.githubusercontent.com/Vysp3r/ProtonPlus/e8b24e12b5a22d0e95f8dae56e9edc62c8bfb5b3/data/previews/Preview-3.png</image>
       <caption>Choose a compatibility version and preview Steam launch options</caption>
     </screenshot>
   </screenshots>
