@@ -48,6 +48,9 @@ foreach gui_test : [
             args: ['-a', gui_test_exe],
             env: ['GDK_BACKEND=x11'] + gui_test_env)
     else
-        test(gui_test['name'], gui_test_exe, env: gui_test_env)
+        # Help checks focus restoration. Other GUI tests can steal focus
+        # when they share the desktop display.
+        test(gui_test['name'], gui_test_exe, env: gui_test_env,
+            is_parallel: gui_test['target'] != 'help-presentation-test')
     endif
 endforeach
