@@ -216,39 +216,58 @@ namespace ProtonPlus.Services {
                 runner.group.launcher.get_primary_managed_tool_directory (runner.group),
                 "%s Latest".printf (runner.title)
             );
+            var placeholder = new Models.Release (runner.title, "", "", new Models.Assets.Asset ("", ""), "");
+            var job = reserved_job ?? new InstallJob (placeholder, runner, InstallJob.Mode.LATEST, directory);
+            var result = yield prepare_provider_update (job);
+            if (result != ReturnCode.RUNNER_INSTALLED)
+                return result;
+            return yield update_latest_job (job, coordinator);
+        }
+
+        internal ReturnCode check_provider_update (InstallJob job, Models.Release release) {
+            var result = prepare_provider_update_release (job, release);
+            if (result != ReturnCode.RUNNER_INSTALLED)
+                return result;
+            bool backfill_metadata;
+            return compare_latest_release (job, out backfill_metadata);
+        }
+
+        private async ReturnCode prepare_provider_update (InstallJob job) {
+            var directory = job.install_location;
             if (FileUtils.test (directory, FileTest.IS_SYMLINK))
                 return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             if (!FileUtils.test (directory, FileTest.IS_DIR))
                 return ReturnCode.RUNNER_NOT_INSTALLED;
-            var metadata = Utils.Metadata.load (directory);
-            if (runner.release_catalog == null)
+            var catalog = job.tool.release_catalog;
+            if (catalog == null)
                 return ReturnCode.INVALID_CONFIGURATION;
-            if (reserved_job != null)
-                reserved_job.step = InstallJob.Step.CHECKING_RELEASE;
-            var lookup = yield runner.release_catalog.fetch_latest_eligible_release ();
+            job.step = InstallJob.Step.CHECKING_RELEASE;
+            var lookup = yield catalog.fetch_latest_eligible_release ();
             if (!lookup.succeeded)
                 return lookup.code;
             if (!lookup.has_release)
                 return ReturnCode.NOTHING_TO_UPDATE;
-            var job = reserved_job ?? new InstallJob (
-                lookup.require_release (), runner, InstallJob.Mode.LATEST, directory
-            );
+            return prepare_provider_update_release (job, lookup.require_release ());
+        }
+
+        private ReturnCode prepare_provider_update_release (InstallJob job, Models.Release release) {
             if (job.canceled)
                 return ReturnCode.EXTRACTION_FAILED;
-            if (reserved_job != null)
-                job.set_release_for_update (lookup.require_release ());
+            if (FileUtils.test (job.install_location, FileTest.IS_SYMLINK))
+                return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
+            if (!FileUtils.test (job.install_location, FileTest.IS_DIR))
+                return ReturnCode.RUNNER_NOT_INSTALLED;
+            var metadata = Utils.Metadata.load (job.install_location);
+            job.set_release_for_update (release);
             var restored_variant = restore_installed_variant (
                 job, metadata.variant_id != "" ? metadata.variant_id : job.selected_variant_id ?? ""
             );
             if (restored_variant != ReturnCode.RUNNER_INSTALLED)
                 return restored_variant;
             bool missing_explicit_selection;
-            var compatibility = InstallationService.instance.resolve_provider_install_variant (
+            return InstallationService.instance.resolve_provider_install_variant (
                 job, out missing_explicit_selection
             );
-            if (compatibility != ReturnCode.RUNNER_INSTALLED)
-                return compatibility;
-            return yield update_latest_job (job, coordinator);
         }
 
         // The older updater moved Latest to this visible backup name before
@@ -260,14 +279,22 @@ namespace ProtonPlus.Services {
                 "%s Latest".printf (runner.title)
             );
             var backup = "%s Backup".printf (directory);
+            var validation = check_legacy_latest_backup (directory);
+            if (validation != ReturnCode.RUNNER_INSTALLED)
+                return validation;
+            return (yield Utils.Filesystem.move_directory_atomic (backup, directory))
+                ? ReturnCode.RUNNER_INSTALLED : ReturnCode.FILESYSTEM_ERROR;
+        }
+
+        internal static ReturnCode check_legacy_latest_backup (string directory) {
+            var backup = "%s Backup".printf (directory);
             if (FileUtils.test (directory, FileTest.IS_SYMLINK) || FileUtils.test (backup, FileTest.IS_SYMLINK))
                 return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             if (FileUtils.test (directory, FileTest.EXISTS))
                 return ReturnCode.RUNNER_ALREADY_INSTALLED;
             if (!FileUtils.test (backup, FileTest.IS_DIR))
                 return ReturnCode.RUNNER_NOT_INSTALLED;
-            return (yield Utils.Filesystem.move_directory_atomic (backup, directory))
-                ? ReturnCode.RUNNER_INSTALLED : ReturnCode.FILESYSTEM_ERROR;
+            return ReturnCode.RUNNER_INSTALLED;
         }
 
         public async ReturnCode finalize_replaced_runner (string directory, string backup, bool migrate_prefix) {
@@ -308,7 +335,8 @@ namespace ProtonPlus.Services {
                 ? ReturnCode.RUNNER_UPDATED : ReturnCode.FILESYSTEM_ERROR;
         }
 
-        private async ReturnCode update_latest_job (InstallJob job, InstallationOperationCoordinator coordinator) {
+        private ReturnCode compare_latest_release (InstallJob job, out bool backfill_metadata) {
+            backfill_metadata = false;
             if (FileUtils.test (job.install_location, FileTest.IS_SYMLINK))
                 return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
             var runner = job.tool as Models.Tools.ProviderTool;
@@ -330,17 +358,28 @@ namespace ProtonPlus.Services {
                 ? Utils.Filesystem.get_file_content (version_path) : "";
             var proton_content = FileUtils.test (proton_path, FileTest.IS_REGULAR)
                 ? Utils.Filesystem.get_file_content (proton_path) : "";
-            if (version_content != "" && proton_content != "" && release_matches_installed_version (release, version_content, proton_content)) {
+            backfill_metadata = version_content != "" && proton_content != "" &&
+                release_matches_installed_version (release, version_content, proton_content);
+            if (backfill_metadata)
+                return ReturnCode.NOTHING_TO_UPDATE;
+            return job.selected_asset.is_archive () ? ReturnCode.UPDATE_AVAILABLE : ReturnCode.INVALID_DATA;
+        }
+
+        private async ReturnCode update_latest_job (InstallJob job, InstallationOperationCoordinator coordinator) {
+            bool backfill_metadata;
+            var comparison = compare_latest_release (job, out backfill_metadata);
+            if (backfill_metadata) {
+                var metadata = Utils.Metadata.load (job.install_location);
+                var release = job.release;
                 if (!persist_runner_identity (
-                    metadata, runner, job.install_location,
+                    metadata, (Models.Tools.ProviderTool) job.tool, job.install_location,
                     release.source_tag != "" ? release.source_tag : release.title,
                     release.upstream_release_id, job.selected_variant_identity ()
                 ))
                     return ReturnCode.FILESYSTEM_ERROR;
-                return ReturnCode.NOTHING_TO_UPDATE;
             }
-            if (!job.selected_asset.is_archive ())
-                return ReturnCode.INVALID_DATA;
+            if (comparison != ReturnCode.UPDATE_AVAILABLE)
+                return comparison;
 
             job.state = InstallJob.State.BUSY_UPDATING;
             var install_code = yield coordinator.install_for_update (job);

@@ -28,6 +28,7 @@ namespace ProtonPlus {
         EXTRACTION_FAILED,
         INCOMPATIBLE_VARIANT,
         SYMLINKED_TOOL_DIRECTORY,
+        UPDATE_AVAILABLE,
     }
 
     public string get_return_code_message (ReturnCode code) {

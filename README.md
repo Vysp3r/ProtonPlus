@@ -20,7 +20,8 @@
 
 - Install and update Proton, Wine, DXVK, and VKD3D for [supported launchers](docs/compatibility.md).
 - Change compatibility tools and launch options for one Steam game or several at once.
-- Navigate with a gamepad or manage tools from the [command line](docs/usage.md#command-line-interface).
+- Navigate with a gamepad.
+- Search for runners, check for updates, and manage tools from the [command line](docs/usage.md#command-line-interface).
 
 ## Installation
 

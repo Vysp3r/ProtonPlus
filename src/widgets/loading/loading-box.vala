@@ -70,7 +70,7 @@ namespace ProtonPlus.Widgets.Loading {
 
             Gee.LinkedList<Models.Launcher> launchers;
 
-            var success = yield Models.Launcher.get_all (out launchers);
+            var success = yield Models.Launcher.get_all (false, out launchers);
 
             if (slow_warning_timeout_id != 0) {
                 Source.remove (slow_warning_timeout_id);

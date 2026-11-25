@@ -17,7 +17,7 @@
       <li>Edit compatibility tools and launch options for one or more Steam games</li>
       <li>Track downloads and updates, with cancellation and desktop notifications</li>
       <li>Navigate the app with a gamepad</li>
-      <li>Use the command-line interface to list, install, update, and uninstall tools</li>
+      <li>Search for runners, check for updates, and manage installations and the release cache from the command line</li>
     </ul>
   </description>
 
@@ -97,6 +97,7 @@
           <li>✨ Added automatic download retries and resume, plus an optional HTTPS mirror for GitHub release assets</li>
           <li>✨ Added native Linux packages and SHA-256 checksums to GitHub Releases</li>
           <li>✨ Added Proton-Autogen, TinkerGame, and Rosemary support</li>
+          <li>✨ Added CLI runner search, update checks, and release cache maintenance</li>
           <li>🐛 Improved Steam game discovery and restart handling</li>
           <li>🐛 Hardened tool installation and updates, including symlinked directories and provider renames</li>
           <li>🔄 Updated the Flatpak runtime to GNOME 51 and removed the built-in MangoHud configuration editor</li>

@@ -22,8 +22,8 @@ namespace ProtonPlus.Models {
             installed_tool_inventory = new InstalledToolInventory (this);
         }
 
-        public void refresh_installed_state () {
-            installed_tool_inventory.refresh ();
+        public void refresh_installed_state (bool migrate_legacy_metadata = true) {
+            installed_tool_inventory.refresh (migrate_legacy_metadata);
             installed_state_refreshed ();
         }
 
