@@ -13,7 +13,6 @@ namespace ProtonPlus.Widgets.Games {
         public bool is_non_steam { get; private set; }
         public bool has_install_directory { get; private set; }
         public bool has_prefix_directory { get; private set; }
-        public uint prefix { get; private set; }
         public string tool_title { get; private set; }
         public bool selected { get; set; default = false; }
 
@@ -31,7 +30,6 @@ namespace ProtonPlus.Widgets.Games {
                 && ((Models.Games.Steam) game).is_non_steam;
             has_install_directory = game.has_game_directory;
             has_prefix_directory = game.has_prefix_directory;
-            prefix = game.prefix;
             tool_title = resolve_tool_title ();
 
             compatibility_tool_handler = game.notify["compatibility-tool"].connect (
@@ -99,7 +97,6 @@ namespace ProtonPlus.Widgets.Games {
         public Gtk.SortListModel sorted_model { get; private set; }
         public Gtk.MultiSelection selection_model { get; private set; }
         public Gtk.StringSorter name_sorter { get; private set; }
-        public Gtk.NumericSorter prefix_sorter { get; private set; }
         public Gtk.Sorter tool_sorter { get; private set; }
         public uint64 generation { get; private set; default = 0; }
 
@@ -124,9 +121,6 @@ namespace ProtonPlus.Widgets.Games {
 
             name_sorter = new Gtk.StringSorter (new Gtk.PropertyExpression (
                 typeof (GameListItem), null, "normalized-name"
-            ));
-            prefix_sorter = new Gtk.NumericSorter (new Gtk.PropertyExpression (
-                typeof (GameListItem), null, "prefix"
             ));
             tool_sorter = new Gtk.CustomSorter ((object_a, object_b) => {
                 var result = ((GameListItem) object_a).tool_title.casefold ().collate (

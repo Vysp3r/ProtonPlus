@@ -5,12 +5,6 @@ namespace ProtonPlus.Widgets.Games {
     public delegate bool GamePeerFocusRequest (GameListItem item);
     public delegate void GameActivationRequest (GameListItem item);
 
-    public enum GameTextCellKind {
-        TITLE,
-        PREFIX,
-        TOOL
-    }
-
     public class GameSelectionCell : Gtk.Box, Utils.ControllerDirectionalFocus,
         Utils.ControllerActivationHandler {
         Gtk.CheckButton check_button;
@@ -220,33 +214,35 @@ namespace ProtonPlus.Widgets.Games {
         }
     }
 
-    public class GameTextCell : Gtk.Box {
+    public class GameCompatibilityCell : Gtk.Box {
         Gtk.Label label;
-        GameTextCellKind kind;
         GameListItem? item;
         ulong tool_title_handler = 0;
 
-        public GameTextCell (GameTextCellKind kind) {
-            Object (orientation: Gtk.Orientation.HORIZONTAL);
-            this.kind = kind;
-            // ColumnView supplies matching padding for headers and cells.
-            set_valign (Gtk.Align.CENTER);
-
+        public GameCompatibilityCell () {
+            Object (orientation: Gtk.Orientation.HORIZONTAL, valign: Gtk.Align.CENTER);
             label = new Gtk.Label (null) {
                 xalign = 0,
-                halign = Gtk.Align.FILL,
                 hexpand = true,
                 ellipsize = Pango.EllipsizeMode.END
             };
             append (label);
+
+            // Lists activate on click. Consume clicks in this cell in browse
+            // mode, while leaving bulk selection and scrolling to the list.
+            var click = new Gtk.GestureClick () { button = Gdk.BUTTON_PRIMARY };
+            click.released.connect (() => {
+                var view = get_ancestor (typeof (GameListView)) as GameListView;
+                if (view != null && !view.selection_mode_active)
+                    click.set_state (Gtk.EventSequenceState.CLAIMED);
+            });
+            add_controller (click);
         }
 
         public void bind (GameListItem item) {
             unbind ();
             this.item = item;
-            if (kind == GameTextCellKind.TOOL) {
-                tool_title_handler = item.notify["tool-title"].connect (refresh);
-            }
+            tool_title_handler = item.notify["tool-title"].connect (refresh);
             refresh ();
         }
 
@@ -263,22 +259,9 @@ namespace ProtonPlus.Widgets.Games {
         void refresh () {
             if (item == null)
                 return;
-            switch (kind) {
-            case GameTextCellKind.TITLE:
-                label.set_label (((!) item).game.name);
-                label.set_tooltip_text (((!) item).game.name);
-                break;
-            case GameTextCellKind.PREFIX:
-                label.set_label (((!) item).game.prefix.to_string ());
-                label.set_tooltip_text (null);
-                break;
-            case GameTextCellKind.TOOL:
-                label.set_label (((!) item).tool_title);
-                label.set_tooltip_text (((!) item).tool_title);
-                break;
-            }
+            label.set_label (((!) item).tool_title);
+            label.set_tooltip_text (((!) item).tool_title);
         }
-
     }
 
     public class GameActions : Gtk.Box, Utils.ControllerDirectionalFocus,
@@ -510,13 +493,11 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.CheckButton select_check_button;
         Gtk.Label title_label;
         Gtk.Label context_label;
-        Gtk.Label tool_label;
-        Gtk.Label prefix_label;
+        GameCompatibilityCell compatibility;
         GameActions actions;
         Gtk.Image navigation_image;
         Binding? selected_binding;
         GameListItem? item;
-        ulong tool_title_handler = 0;
         unowned GameVerticalFocusRequest vertical_focus;
         unowned GameActivationRequest activation_request;
 
@@ -540,14 +521,15 @@ namespace ProtonPlus.Widgets.Games {
             select_check_button.update_property (
                 Gtk.AccessibleProperty.LABEL, _("Select game"), -1
             );
-            title_label = compact_label (true);
+            title_label = compact_label ();
             title_label.add_css_class ("heading");
-            context_label = compact_label (true);
+            title_label.set_wrap (true);
+            title_label.set_wrap_mode (Pango.WrapMode.WORD_CHAR);
+            title_label.set_lines (2);
+            context_label = compact_label ();
             context_label.add_css_class ("dim-label");
             context_label.set_visible (false);
-            tool_label = compact_label (true);
-            prefix_label = compact_label (false);
-            prefix_label.add_css_class ("dim-label");
+            compatibility = new GameCompatibilityCell () { hexpand = true };
 
             var title_line = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
             title_line.append (select_check_button);
@@ -557,25 +539,20 @@ namespace ProtonPlus.Widgets.Games {
             };
             title_line.append (navigation_image);
 
-            var details_line = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
-            details_line.set_margin_start (30);
-            details_line.append (tool_label);
-            details_line.append (prefix_label);
-
-            actions = new GameActions (on_vertical_focus, focus_selection);
+            actions = new GameActions (vertical_focus, focus_selection);
             actions.set_margin_start (30);
 
             append (title_line);
             append (context_label);
-            append (details_line);
+            append (compatibility);
             append (actions);
         }
 
-        static Gtk.Label compact_label (bool expand) {
+        static Gtk.Label compact_label () {
             return new Gtk.Label (null) {
                 xalign = 0,
                 halign = Gtk.Align.FILL,
-                hexpand = expand,
+                hexpand = true,
                 ellipsize = Pango.EllipsizeMode.END
             };
         }
@@ -592,18 +569,15 @@ namespace ProtonPlus.Widgets.Games {
                 _("Select %s").printf (item.game.name),
                 -1
             );
-            tool_title_handler = item.notify["tool-title"].connect (refresh_tool_title);
             title_label.set_label (item.game.name);
             title_label.set_tooltip_text (item.display_name);
             var context = item.game.library_context;
             context_label.set_label (context ?? "");
             context_label.set_tooltip_text (context);
             context_label.set_visible (context != null);
-            prefix_label.set_label (item.game.prefix.to_string ());
-            prefix_label.set_visible (item.game is Models.Games.Steam);
-            prefix_label.set_tooltip_text (null);
             select_check_button.set_visible (item.game.launcher.supports_bulk_game_edit);
-            refresh_tool_title ();
+            compatibility.set_margin_start (item.game.launcher.supports_bulk_game_edit ? 30 : 0);
+            compatibility.bind (item);
             actions.bind (item);
             update_accessibility (false);
         }
@@ -611,16 +585,11 @@ namespace ProtonPlus.Widgets.Games {
         public void unbind () {
             selected_binding?.unbind ();
             selected_binding = null;
-            if (tool_title_handler != 0 && item != null) {
-                ((!) item).disconnect (tool_title_handler);
-                tool_title_handler = 0;
-            }
+            compatibility.unbind ();
             actions.unbind ();
             item = null;
             title_label.set_label ("");
             context_label.set_visible (false);
-            tool_label.set_label ("");
-            prefix_label.set_label ("");
             select_check_button.set_active (false);
             select_check_button.update_property (
                 Gtk.AccessibleProperty.LABEL, _("Select game"), -1
@@ -631,17 +600,6 @@ namespace ProtonPlus.Widgets.Games {
 
         public GameListItem? get_item () {
             return item;
-        }
-
-        void refresh_tool_title () {
-            if (item == null)
-                return;
-            tool_label.set_label (((!) item).tool_title);
-            tool_label.set_tooltip_text (((!) item).tool_title);
-        }
-
-        public bool focus_first_action () {
-            return actions.focus_first_action ();
         }
 
         public bool focus_lane (GameFocusLane lane) {
@@ -666,10 +624,6 @@ namespace ProtonPlus.Widgets.Games {
                     : (item.game.can_edit_compatibility_tool ? _("Modify %s").printf (item.game.name) : ""),
                 -1
             );
-        }
-
-        bool on_vertical_focus (GameListItem item, int delta, GameFocusLane lane) {
-            return vertical_focus (item, delta, lane);
         }
 
         bool focus_selection (GameListItem item) {

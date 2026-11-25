@@ -350,7 +350,7 @@ void check_selection_scope_and_scoped_retry (string root) {
     wait_for_layout (() => page.get_width () >= 600);
     assert (page.get_width () >= 600);
     check_selection_footer_layout (page, summary, clear, modify, false);
-    check_empty_wide_list (page, "No matching games", { "Game", "Prefix", "Tool" });
+    check_empty_wide_list (page, "No matching games", { "Game", "Compatibility" });
     var toolbar = search.get_parent ();
     int steam_toolbar_height = toolbar.get_height ();
     assert (steam_toolbar_height > 0 && page.controller_can_open_filter ());
@@ -366,7 +366,7 @@ void check_selection_scope_and_scoped_retry (string root) {
     clear.clicked ();
     assert (!clear.get_mapped () && !modify.get_mapped ());
     settle ();
-    check_empty_wide_list (page, "No matching games", { "Game", "Prefix", "Tool", "Actions" });
+    check_empty_wide_list (page, "No matching games", { "Game", "Compatibility", "Actions" });
     search.set_text ("");
     settle ();
     assert (!select_all.active && !modify.get_mapped ());
@@ -376,11 +376,22 @@ void check_selection_scope_and_scoped_retry (string root) {
     settle ();
     modify.clicked ();
     settle ();
-    var affected = find_widget (page, (widget) => widget is Adw.ExpanderRow &&
-        widget.get_mapped () && ((Adw.ExpanderRow) widget).title == "Affected games") as Adw.ExpanderRow;
-    assert (affected != null);
-    assert (find_widget (affected, (widget) => widget is Adw.ActionRow && ((Adw.ActionRow) widget).title == "Alpha") != null);
-    assert (find_widget (affected, (widget) => widget is Adw.ActionRow && ((Adw.ActionRow) widget).title == "Bravo") != null);
+    var title = page.get_header_presentation ().title_widget;
+    var selected = find_widget (title, widget => widget is Gtk.MenuButton) as Gtk.MenuButton;
+    assert (selected != null && selected.label == "2 games selected");
+    var menu_window = new Gtk.Window () { transient_for = window, child = title };
+    menu_window.present ();
+    selected.popup ();
+    var dropdown = selected.get_popover ();
+    wait_for_layout (() => dropdown.get_mapped ());
+    assert (dropdown.get_mapped ());
+    assert (find_widget (dropdown, widget => widget is Gtk.Label && ((Gtk.Label) widget).label == "Alpha") != null);
+    assert (find_widget (dropdown, widget => widget is Gtk.Label && ((Gtk.Label) widget).label == "Bravo") != null);
+    assert (find_widget (dropdown, widget => widget is Gtk.Label && ((Gtk.Label) widget).label == selected.label) == null);
+    assert (find_widget (page, widget => widget is Adw.ExpanderRow && ((Adw.ExpanderRow) widget).title == "Affected games") == null);
+    selected.popdown ();
+    menu_window.set_child (null);
+    menu_window.destroy ();
 
     var autogen = new Models.Launchers.ProtonAutogen (first, root, false);
     load_autogen_library (autogen);
@@ -405,6 +416,237 @@ void load_autogen_library (Models.Launchers.ProtonAutogen launcher) {
         loaded.quit ();
     });
     loaded.run ();
+}
+
+class GamesSteamSession : Object, Services.SteamSessionBackend {
+    public string root;
+    public bool running = true;
+
+    public string? get_boot_id () { return "games-presentation-fixture"; }
+    public int64 get_monotonic_time_usec () { return 60 * TimeSpan.SECOND; }
+    public int64 get_clock_ticks_per_second () { return 100; }
+    public Services.NativeProcessQuery query_native_processes () {
+        var processes = new Gee.ArrayList<Services.SteamProcessRecord> ();
+        if (running)
+            processes.add (new Services.SteamProcessRecord (101, Path.build_filename (root, "steam"), root, 100));
+        return new Services.NativeProcessQuery (true, processes);
+    }
+    public Services.FlatpakProcessQuery query_flatpak_processes () {
+        return new Services.FlatpakProcessQuery (true);
+    }
+    public Services.SteamDesktopEntry? find_desktop_entry (string? id) { return null; }
+    public bool is_steamos_gaming_mode () { return false; }
+}
+
+Gtk.Button steam_editor_button (ProtonPlus.Widgets.Games.Box page, string text) {
+    var presentation = page.get_header_presentation ();
+    assert (presentation != null);
+    var button = find_widget (presentation.end_actions[0], widget => widget is Gtk.Button &&
+        (((Gtk.Button) widget).label == text || widget.get_tooltip_text () == text)) as Gtk.Button;
+    assert (button != null);
+    return button;
+}
+
+void check_steam_compatibility_editor (string parent) throws Error {
+    var root = Path.build_filename (parent, "steam-editor");
+    var config = Path.build_filename (root, "config", "config.vdf");
+    var login = Path.build_filename (root, "config", "loginusers.vdf");
+    var localconfig = Path.build_filename (root, "userdata", "1", "config", "localconfig.vdf");
+    assert (DirUtils.create_with_parents (Path.get_dirname (config), 0700) == 0);
+    assert (DirUtils.create_with_parents (Path.get_dirname (localconfig), 0700) == 0);
+    const string config_contents = """
+        "InstallConfigStore" { "Software" { "Valve" { "Steam" { "CompatToolMapping" {
+            "1" { "name" "removed-proton" "config" "" "priority" "250" }
+        } } } } }
+    """;
+    const string launch_contents = """
+        "UserLocalConfigStore" { "Software" { "Valve" { "Steam" { "apps" {
+            "1" { "LaunchOptions" "ALPHA=1 %command%" }
+            "2" { "LaunchOptions" "BRAVO=2 %command%" }
+        } } } } }
+    """;
+    FileUtils.set_contents (config, config_contents);
+    FileUtils.set_contents (login, """"users" { "76561197960265729" { "PersonaName" "Fixture" } }""");
+    FileUtils.set_contents (localconfig, launch_contents);
+
+    var backend = new GamesSteamSession () { root = root };
+    var lifecycle = new Services.SteamLifecycle (new Services.SteamSessionService (backend),
+        new Services.SteamRestartStateStore (Path.build_filename (root, "restart-state.json")));
+    var launcher = new DeferredSteamLibrary (Models.Launcher.InstallationTypes.SNAP, root) { defer_load = true };
+    launcher.load_profile_library.begin ();
+    launcher.complete ();
+    wait_for_library_load (launcher);
+    assert (launcher.game_library_available);
+    var alpha = (Models.Games.Steam) launcher.games.nth_data (0);
+    var bravo = (Models.Games.Steam) launcher.games.nth_data (1);
+    var long_name = "Bravo and the Surprisingly Long Adventure Through Compatibility Country";
+    bravo.name = long_name;
+    launcher.update_game_compatibility_tool_mapping (alpha.appid, "removed-proton");
+    alpha.apply_effective_compatibility_tool ("removed-proton");
+    launcher.register_compatibility_tool (new Models.CompatibilityTool ("Fixture Proton", "fixture-proton"));
+
+    var page = new ProtonPlus.Widgets.Games.Box ();
+    var viewport = new Adw.Clamp () {
+        maximum_size = 850, tightening_threshold = 850, width_request = 850, child = page
+    };
+    var window = new Adw.Window () {
+        default_width = 850, default_height = 720,
+        content = new Gtk.ScrolledWindow () {
+            hscrollbar_policy = Gtk.PolicyType.EXTERNAL, vscrollbar_policy = Gtk.PolicyType.NEVER, child = viewport
+        }
+    };
+    page.set_selected_launcher (launcher);
+    window.present ();
+    WidgetMatches compatibility_text = widget => widget is GameCompatibilityCell && widget.get_mapped ();
+    WidgetMatches picker = widget => widget is CompatibilityToolRow && widget.get_mapped ();
+    WidgetMatches bulk_switch = widget => widget is Adw.SwitchRow && widget.get_mapped () &&
+        ((Adw.SwitchRow) widget).title == "Change compatibility tool";
+    wait_for_layout (() => find_widget (page, compatibility_text) != null);
+    var compatibility = find_widget (page, compatibility_text);
+    assert (compatibility != null && compatibility.get_first_child () is Gtk.Label);
+    assert (!compatibility.get_focusable () && !compatibility.get_first_child ().get_focusable ());
+    var wide_title = find_widget (page, widget => widget is GameTitleCell && widget.get_mapped () &&
+        ((GameTitleCell) widget).get_item ().game == alpha) as GameTitleCell;
+    var alpha_actions = find_widget (page, widget => widget is GameActions && widget.get_mapped () &&
+        ((GameActions) widget).get_item ().game == alpha);
+    assert (alpha_actions != null);
+    var game_menu = find_widget (alpha_actions, widget => widget is Gtk.MenuButton) as Gtk.MenuButton;
+    assert (game_menu != null);
+    game_menu.popup ();
+    var popover = game_menu.get_popover ();
+    wait_for_layout (() => popover.get_mapped ());
+    var anti_cheat = find_widget (popover, widget => widget is Gtk.Label &&
+        ((Gtk.Label) widget).get_text () == "Anti-Cheat: Loading…");
+    var proton_db = find_widget (popover, widget => widget is Gtk.Label &&
+        ((Gtk.Label) widget).get_text () == "Open ProtonDB");
+    Graphene.Rect anti_cheat_bounds, proton_db_bounds;
+    assert (anti_cheat != null && proton_db != null);
+    assert (anti_cheat.compute_bounds (popover, out anti_cheat_bounds));
+    assert (proton_db.compute_bounds (popover, out proton_db_bounds));
+    assert (Math.fabs (anti_cheat_bounds.origin.x - proton_db_bounds.origin.x) <= 1);
+    game_menu.popdown ();
+    assert (wide_title != null && wide_title.grab_focus () && wide_title.controller_activate (wide_title));
+    wait_for_layout (() => find_widget (page, picker) != null);
+    var choice = find_widget (page, picker) as CompatibilityToolRow;
+    assert (choice != null && choice.title == "Compatibility version");
+    var header_title = page.get_header_presentation ().title_widget;
+    assert (find_widget (header_title, widget => widget is Gtk.Label && ((Gtk.Label) widget).label == "Alpha") != null);
+    assert (((Models.CompatibilityTool) choice.get_selected_item ()).internal_title == "removed-proton");
+    assert (page.get_controller_initial_focus () == choice);
+    assert (find_widget (page, bulk_switch) == null);
+    WidgetMatches technical_details = widget => widget is Adw.ExpanderRow &&
+        ((Adw.ExpanderRow) widget).title == "Technical details";
+    assert (find_widget (page, technical_details) == null);
+    var apply = steam_editor_button (page, "Apply Changes");
+    assert (!apply.sensitive);
+    choice.selected = 0;
+    assert (apply.sensitive);
+    choice.selected = choice.model.get_n_items () - 1;
+    assert (!apply.sensitive);
+    steam_editor_button (page, "Clear Launch Options").clicked ();
+    assert (apply.sensitive);
+    apply.clicked ();
+    wait_for_layout (() => page.get_header_presentation () == null);
+    assert (alpha.compatibility_tool == "removed-proton" && alpha.launch_options == "");
+    assert (lifecycle.restarts.pending_count () == 1);
+    assert (lifecycle.restarts.get_pending_changes ()[0].receipt.kind ==
+        Models.SteamChangeKind.STEAM_GAME_LAUNCH_OPTIONS_CHANGED);
+
+    viewport.maximum_size = 430;
+    viewport.tightening_threshold = 430;
+    viewport.width_request = 430;
+    wait_for_layout (() => find_widget (page, widget => widget is GameRow && widget.get_mapped ()) != null);
+    var row = find_widget (page, widget => widget is GameRow && widget.get_mapped () &&
+        ((GameRow) widget).get_item ().game == alpha) as GameRow;
+    assert (row != null && row.grab_focus ());
+    assert (find_widget (row, widget => widget is Gtk.Label && ((Gtk.Label) widget).label == "1") == null);
+    var bravo_row = find_widget (page, widget => widget is GameRow && widget.get_mapped () &&
+        ((GameRow) widget).get_item ().game == bravo);
+    assert (bravo_row != null);
+    var bravo_title = find_widget (bravo_row, widget => widget is Gtk.Label &&
+        ((Gtk.Label) widget).label == long_name) as Gtk.Label;
+    assert (bravo_title != null && bravo_title.wrap && bravo_title.get_width () <= bravo_row.get_width ());
+    compatibility = find_widget (row, compatibility_text);
+    assert (compatibility != null && compatibility.get_first_child () is Gtk.Label);
+    assert (!compatibility.get_focusable () && !compatibility.get_first_child ().get_focusable ());
+    assert (row.controller_activate (row));
+    wait_for_layout (() => find_widget (page, picker) != null);
+    choice = find_widget (page, picker) as CompatibilityToolRow;
+    assert (choice != null);
+    assert (find_widget (page, technical_details) == null);
+    choice.selected = 0;
+    steam_editor_button (page, "Apply Changes").clicked ();
+    wait_for_layout (() => page.get_header_presentation () == null);
+    assert (alpha.compatibility_tool == "Default" && bravo.launch_options == "BRAVO=2 %command%");
+    assert (lifecycle.restarts.pending_count () == 2);
+
+    var collection = find_widget (page, widget => widget is GameRow && widget.get_mapped () &&
+        ((GameRow) widget).get_item ().game == alpha) as GameRow;
+    assert (collection != null);
+    collection.get_item ().selected = true;
+    var modify_one = find_widget (page, widget => widget is MassEditButton && widget.get_mapped ()) as MassEditButton;
+    assert (modify_one != null);
+    modify_one.clicked ();
+    wait_for_layout (() => find_widget (page, bulk_switch) != null);
+    assert (find_widget (page, picker) == null && find_widget (page, technical_details) == null);
+    assert (find_widget (page.get_header_presentation ().title_widget, widget =>
+        widget is Gtk.MenuButton && ((Gtk.MenuButton) widget).label == "1 game selected") != null);
+    assert (page.controller_navigate_back ());
+    wait_for_layout (() => page.get_header_presentation () == null);
+
+    for (var opt_in = 0; opt_in < 2; opt_in++) {
+        var select_all = find_widget (page, widget => widget is Gtk.CheckButton && widget.get_mapped () &&
+            widget.get_tooltip_text () == "Select all visible games") as Gtk.CheckButton;
+        assert (select_all != null);
+        select_all.active = true;
+        var modify = find_widget (page, widget => widget is MassEditButton && widget.get_mapped ()) as MassEditButton;
+        assert (modify != null);
+        modify.clicked ();
+        wait_for_layout (() => find_widget (page, bulk_switch) != null);
+        var change_tool = find_widget (page, bulk_switch) as Adw.SwitchRow;
+        assert (change_tool != null && !change_tool.active && find_widget (page, picker) == null);
+        assert (find_widget (page, technical_details) == null);
+        assert (find_widget (page.get_header_presentation ().title_widget, widget =>
+            widget is Gtk.MenuButton && ((Gtk.MenuButton) widget).label == "2 games selected") != null);
+        apply = steam_editor_button (page, "Apply Changes");
+        assert (!apply.sensitive);
+        if (opt_in == 0) {
+            steam_editor_button (page, "Clear Launch Options").clicked ();
+        } else {
+            change_tool.active = true;
+            choice = find_widget (page, picker) as CompatibilityToolRow;
+            assert (choice != null && choice.model.get_n_items () == 2);
+            choice.selected = 1;
+        }
+        assert (apply.sensitive);
+        apply.clicked ();
+        wait_for_layout (() => page.get_header_presentation () == null);
+        var expected = opt_in == 0 ? "Default" : "fixture-proton";
+        assert (alpha.compatibility_tool == expected && bravo.compatibility_tool == expected);
+        assert (alpha.launch_options == "" && bravo.launch_options == "");
+    }
+
+    string contents;
+    FileUtils.get_contents (config, out contents);
+    assert (contents == config_contents);
+    FileUtils.get_contents (localconfig, out contents);
+    assert (contents == launch_contents);
+    assert (lifecycle.restarts.pending_count () == 4);
+    backend.running = false;
+    assert (lifecycle.configuration.reconcile_target (launcher.get_steam_restart_target ()).result ==
+        Services.SteamConfigurationMutationResult.CHANGED);
+    FileUtils.get_contents (config, out contents);
+    assert (contents.contains ("fixture-proton") && !contents.contains ("removed-proton"));
+    FileUtils.get_contents (localconfig, out contents);
+    assert (!contents.contains ("LaunchOptions"));
+    window.destroy ();
+    lifecycle.stop ();
+    var cleanup = new MainLoop ();
+    Utils.Filesystem.delete_directory.begin (root, (object, result) => {
+        assert (Utils.Filesystem.delete_directory.end (result));
+        cleanup.quit ();
+    });
+    cleanup.run ();
 }
 
 void check_proton_autogen_game_edit (string root) throws Error {
@@ -440,7 +682,7 @@ void check_proton_autogen_game_edit (string root) throws Error {
     settle ();
     var wide = find_widget (page, (widget) => widget is Gtk.ColumnView) as Gtk.ColumnView;
     assert (wide != null);
-    assert (!((Gtk.ColumnViewColumn) wide.get_columns ().get_item (2)).visible);
+    assert (((Gtk.ColumnViewColumn) wide.get_columns ().get_item (2)).title == "Compatibility");
     WidgetMatches alpha_play_button = (widget) => widget is Gtk.Button && widget.get_mapped () &&
         ((Gtk.Button) widget).icon_name == "media-playback-start-symbolic" &&
         widget.get_tooltip_text () == "Launch Alpha";
@@ -506,7 +748,7 @@ void check_proton_autogen_game_edit (string root) throws Error {
     load_autogen_library (empty_launcher);
     page.set_selected_launcher (empty_launcher);
     settle ();
-    check_empty_wide_list (page, "No games found", { "Game", "Tool", "Actions" });
+    check_empty_wide_list (page, "No games found", { "Game", "Compatibility", "Actions" });
     assert (find_widget (wide, (widget) => widget is Gtk.Label && widget.get_mapped () &&
         ((Gtk.Label) widget).label == "Prefix") == null);
     window.destroy ();
@@ -766,6 +1008,8 @@ void check_faugus_library_and_editor (string root) throws Error {
     assert (choice != null);
     var saved = choice.get_selected_item () as Models.CompatibilityTool;
     assert (saved != null && !saved.is_assignable && saved.internal_title == "Removed Runner");
+    assert (find_widget (page, widget => widget is Adw.ExpanderRow && widget.get_mapped () &&
+        ((Adw.ExpanderRow) widget).title == "Technical details") == null);
     assert (find_widget (page, (widget) => widget is Adw.SwitchRow && widget.get_mapped ()) == null);
     var apply = find_widget (page.get_header_presentation ().end_actions[0], (widget) =>
         widget is Gtk.Button && ((Gtk.Button) widget).label == "Apply Changes") as Gtk.Button;
@@ -956,8 +1200,11 @@ void check_bottles_library_states_and_actions (string root) throws Error {
     var launcher = new Models.Launchers.Bottles (Models.Launcher.InstallationTypes.FLATPAK,
         new Services.BottlesLibrary (true, false, backend));
     var page = new ProtonPlus.Widgets.Games.Box ();
-    var viewport = new Adw.Clamp () { maximum_size = 1000, tightening_threshold = 1000, child = page };
-    var window = new Adw.Window () { default_width = 1100, default_height = 650, content = viewport };
+    var viewport = new Adw.Clamp () { maximum_size = 1000, tightening_threshold = 1000, width_request = 1000, child = page };
+    var window = new Adw.Window () { default_width = 1100, default_height = 650,
+        content = new Gtk.ScrolledWindow () {
+            hscrollbar_policy = Gtk.PolicyType.EXTERNAL, vscrollbar_policy = Gtk.PolicyType.NEVER, child = viewport
+        } };
     window.present ();
     page.set_selected_launcher (launcher);
     var status = find_widget (page, widget => widget is Adw.StatusPage &&
@@ -999,6 +1246,7 @@ void check_bottles_library_states_and_actions (string root) throws Error {
         bool narrow = width < 700;
         viewport.maximum_size = width;
         viewport.tightening_threshold = width;
+        viewport.width_request = width;
         WidgetMatches visible_view = widget => widget.get_mapped () &&
             (narrow ? widget is Gtk.ListView : widget is Gtk.ColumnView);
         wait_for_layout (() => find_widget (page, visible_view) != null);
@@ -1080,6 +1328,7 @@ int main (string[] args) {
     check_pending_focus_cleanup (root);
     check_selection_scope_and_scoped_retry (root);
     try {
+        check_steam_compatibility_editor (root);
         check_proton_autogen_game_edit (root);
         check_lutris_library_states (root);
         check_faugus_library_and_editor (root);

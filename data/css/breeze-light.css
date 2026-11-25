@@ -331,19 +331,6 @@ columnview.list-content > header > button.games-sort-header-controller-focus {
     border-radius: 12px;
 }
 
-.selection-popover-list > row {
-    background: transparent;
-    border-radius: 8px;
-}
-
-.selection-popover-list > row:hover {
-    background-color: alpha(@accent_bg_color, 0.08);
-}
-
-.selection-popover-row image {
-    color: @accent_color;
-}
-
 .launchers-popover-list > row.launcher-selected,
 .launchers-popover-list > row:selected {
     background-color: alpha(@accent_bg_color, 0.14);

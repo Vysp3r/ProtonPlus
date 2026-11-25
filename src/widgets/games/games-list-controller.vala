@@ -182,14 +182,6 @@ namespace ProtonPlus.Widgets.Games {
             configure_sort_headers ();
         }
 
-        public void reset_sort_header_configuration () {
-            clear_sort_header_focus ();
-            foreach (var target in sort_headers)
-                target.detach ();
-            sort_headers.clear ();
-            begin_sort_header_configuration ();
-        }
-
         void configure_sort_headers () {
             if (!wide_view.get_mapped () || sort_headers.size > 0)
                 return;
