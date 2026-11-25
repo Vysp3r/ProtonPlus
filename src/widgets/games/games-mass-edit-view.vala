@@ -241,8 +241,11 @@ namespace ProtonPlus.Widgets.Games {
             };
             foreach (var item in items) {
                 row.add_row (new Adw.ActionRow () {
-                    title = item.game.name,
+                    // Set use_markup before title: the title label must be in
+                    // plain-text mode before a game name with markup-like
+                    // characters reaches it.
                     use_markup = false,
+                    title = item.game.name,
                     selectable = false,
                     focusable = false
                 });

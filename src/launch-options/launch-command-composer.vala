@@ -190,8 +190,13 @@ namespace ProtonPlus.LaunchOptions {
                     validate_no_additional_arguments (diagnostics, selection);
                 } else if (semantics.kind == LaunchOptionSemanticKind.CUSTOM_WRAPPER) {
                     var values = selection.get_values ();
-                    var input = values.length == 1
-                        ? (selection.values_are_serialized ? values[0] : Shell.quote (values[0])) : "";
+                    string input;
+                    if (values.length != 1)
+                        input = "";
+                    else if (selection.values_are_serialized)
+                        input = values[0].dup ();
+                    else
+                        input = Shell.quote (values[0]);
                     var diagnostic = LaunchCustomWrapperInput.read (input, out custom_wrapper);
                     if (diagnostic != null || custom_wrapper == "")
                         add (diagnostics, LaunchCommandCompositionDiagnosticCode.EMPTY_OR_UNSAFE_ARGUMENT,
