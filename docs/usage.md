@@ -54,7 +54,8 @@ protonplus sync [launcher_id]
 protonplus cleanup
 protonplus install <launcher_id> <runner_id> [latest]
 protonplus uninstall <launcher_id> <runner_id|all> [all]
-protonplus update <all|launcher_id> [runner_id]
+protonplus update all
+protonplus update <launcher_id> [runner_id]
 ```
 
 Start with `list` to find launcher IDs, then use `list <launcher_id>` to find
@@ -98,7 +99,9 @@ protonplus uninstall steam-system proton-ge
 
 `latest` selects the newest eligible release. Use
 `uninstall <launcher_id> <runner_id> all` for every release of one tool, or
-`uninstall <launcher_id> all` for every managed tool in that launcher.
+`uninstall <launcher_id> all` for the launcher's provider-backed tools.
+To remove TinkerGame or SteamTinkerLaunch, pass its runner ID explicitly.
+Commands that change installed tools reject unexpected arguments before starting.
 
 ## Preferences
 

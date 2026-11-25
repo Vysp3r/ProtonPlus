@@ -328,7 +328,7 @@ namespace AppTests.TinkerGameTest {
                     assert ((yield handler.run ({ "protonplus", "update", "all" })) == 0);
                     assert (source.requests == 1);
                     source.latest_release = next.release;
-                    assert ((yield handler.run ({ "protonplus", "update", "all" })) == 0);
+                    assert ((yield handler.run ({ "protonplus", "update", launcher.instance_id, tool.provider_id })) == 0);
                     assert (source.requests == 2);
                     source.fail = true;
                     assert ((yield handler.run ({ "protonplus", "update", launcher.instance_id })) == 1);

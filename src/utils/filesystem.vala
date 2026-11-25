@@ -2,17 +2,15 @@ namespace ProtonPlus.Utils {
     public class Filesystem {
         public const Posix.mode_t S_IRWXUGO = (Posix.S_IRWXU | Posix.S_IRWXG | Posix.S_IRWXO);
 
-        // Required GSettings keys for the application to function properly
-        private static string[] REQUIRED_SCHEMA_KEYS = {
-            "width", "height", "is-maximized", "is-fullscreen",
-            "check-updates-on-launch", "background-updates", "background-updates-frequency", "check-updates-on-boot",
-            "github-api-key", "gitlab-api-key", "selected-tool-variants", "steam-selected-profile-id",
-            "first-run", "theme", "language", "experimental-features", "show-legacy-tools", "show-niche-tools",
-            "migrate-default-prefix", "proxy-mode", "proxy-url", "github-download-mirror", "download-speed-limit-bps", "controller-confirm-button",
-            "controller-haptics-enabled", "last-version"
-        };
-
         public static bool is_valid_schema (SettingsSchema schema) {
+            const string[] REQUIRED_SCHEMA_KEYS = {
+                "width", "height", "is-maximized", "is-fullscreen",
+                "check-updates-on-launch", "background-updates", "background-updates-frequency", "check-updates-on-boot",
+                "github-api-key", "gitlab-api-key", "selected-tool-variants", "steam-selected-profile-id",
+                "first-run", "theme", "language", "experimental-features", "show-legacy-tools", "show-niche-tools",
+                "migrate-default-prefix", "proxy-mode", "proxy-url", "github-download-mirror", "download-speed-limit-bps", "controller-confirm-button",
+                "controller-haptics-enabled", "last-version"
+            };
             foreach (var key in REQUIRED_SCHEMA_KEYS) {
                 if (!schema.has_key (key)) {
                     warning ("Missing required GSettings key: %s", key);
