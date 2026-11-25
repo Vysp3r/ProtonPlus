@@ -86,6 +86,10 @@ with several outdated variants can have several rows with the same package ID.
 ```sh
 protonplus list
 protonplus list steam-system
+protonplus search "steam-system proton-ge"
+protonplus outdated steam-system
+protonplus sync steam-system
+protonplus cleanup
 protonplus install steam-system proton-ge latest
 protonplus update steam-system
 protonplus update all
