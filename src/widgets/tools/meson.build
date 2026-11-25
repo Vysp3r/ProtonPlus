@@ -2,6 +2,7 @@ sources += files(
     'tools-page.vala',
     'tools-group-box.vala',
     'tools-releases-box.vala',
+    'tools-build-dropdown.vala',
     'tools-release-state.vala',
     'tools-release-changelog.vala',
     'tools-release-changelog-dialog.vala',

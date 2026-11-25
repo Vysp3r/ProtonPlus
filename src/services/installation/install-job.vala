@@ -222,12 +222,14 @@ namespace ProtonPlus.Services {
             Models.Assets.Asset? asset = null,
             string? variant_id = null
         ) {
+            freeze_notify ();
             selected_variant_name = variant_name;
             selected_variant_id = variant_id;
             if (asset != null)
                 selected_asset = asset;
             update_install_location (null);
             refresh_state ();
+            thaw_notify ();
         }
 
         public void set_release_for_update (Models.Release release) {

@@ -9,9 +9,12 @@ namespace ProtonPlus.Widgets.Tools {
             Services.InstallJob job,
             bool release_action_available = true,
             Models.InstalledToolEntry? installed_entry = null,
-            bool release_details_available = true
+            bool release_details_available = true,
+            bool show_tool_title = false,
+            Models.Release? installed_release_details = null
         ) {
-            base (job, release_action_available, installed_entry, release_details_available);
+            base (job, release_action_available, installed_entry, release_details_available,
+                show_tool_title, installed_release_details);
         }
 
         protected override void install_button_clicked () {

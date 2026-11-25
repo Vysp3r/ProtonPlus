@@ -3,43 +3,47 @@ namespace ProtonPlus.Widgets.Tools {
         Utils.ControllerActivationHandler {
         public signal void tool_expansion_changed (Models.Tool tool, bool expanded);
         public signal void reset_filter_requested ();
-        public Gtk.Box header_title { get; private set; }
-        public Gtk.Box header_actions { get; private set; }
+        public signal void changelog_requested (Services.InstallJob job, Models.Release release);
+        public signal void games_requested (Services.InstallJob job);
+        public signal void rows_changed ();
+
         Gtk.ListBox list_box;
+        Gtk.ListBox installed_list;
         Models.Group group;
         ulong invalidated_handler;
         ulong refreshed_handler;
-        Gtk.ScrolledWindow scrolled;
         Gtk.Stack stack;
         Adw.StatusPage status_page;
         Gtk.Button empty_action_button;
         weak Gtk.Widget? controller_up_target;
+        weak Gtk.Widget? controller_down_target;
         Adw.ExpanderRow? expanded_row;
         Models.Tool? expanded_tool;
         ReleasesBox? releases_section;
         Gtk.Box? releases_host;
         bool changing_expansion = false;
         uint visibility_change_generation = 0;
-        Gee.HashSet<Models.Tool> tools_with_installations = new Gee.HashSet<Models.Tool> ();
+        uint installed_update_generation = 0;
 
         private Filter _filter = Filter.ALL;
         public Filter filter {
             get { return _filter; }
             set {
                 visibility_change_generation++;
+                installed_update_generation++;
                 _filter = value;
                 if (value == Filter.INSTALLED)
-                    update_installed_tools ();
+                    refresh_installed_rows ();
                 list_box.invalidate_filter ();
                 update_status_page ();
                 update_visibility ();
                 collapse_if_hidden ();
-                update_release_section_boundary ();
+                rows_changed ();
             }
         }
 
         public GroupBox (Models.Group group, Gtk.Widget? controller_up_target = null) {
-            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 0);
+            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 6);
             this.controller_up_target = controller_up_target;
             this.group = group;
 
@@ -47,38 +51,28 @@ namespace ProtonPlus.Widgets.Tools {
             // and comparator callbacks below.
             group.refresh_installed_state ();
 
-            var icon = new Gtk.Image.from_icon_name ("view-grid-symbolic");
-
             var title_label = new Gtk.Label (group.title) {
-                halign = Gtk.Align.START,
+                xalign = 0,
                 css_classes = { "title-4" }
             };
-
-            var desc_label = new Gtk.Label (group.description) {
-                halign = Gtk.Align.START,
-                css_classes = { "caption" },
+            var subtitle_label = new Gtk.Label (group.description) {
+                xalign = 0,
                 wrap = true,
-                xalign = 0
+                wrap_mode = Pango.WrapMode.WORD_CHAR,
+                visible = group.description != "",
+                css_classes = { "caption" }
             };
-
-            var title_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            var title_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0) { hexpand = true };
             title_box.append (title_label);
-            title_box.append (desc_label);
-
-            header_title = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
+            title_box.append (subtitle_label);
+            var category_heading = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
                 hexpand = true,
-                margin_start = 12
+                valign = Gtk.Align.CENTER,
+                margin_start = 12,
+                overflow = Gtk.Overflow.HIDDEN
             };
-            header_title.append (icon);
-            header_title.append (title_box);
-
-            header_actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
-            var collection_toolbar = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
-                hexpand = true
-            };
-            collection_toolbar.add_css_class ("tools-collection-toolbar");
-            collection_toolbar.append (header_title);
-            collection_toolbar.append (header_actions);
+            category_heading.append (new Gtk.Image.from_icon_name ("view-grid-symbolic"));
+            category_heading.append (title_box);
 
             list_box = new Gtk.ListBox () {
                 selection_mode = Gtk.SelectionMode.NONE,
@@ -91,18 +85,8 @@ namespace ProtonPlus.Widgets.Tools {
             invalidated_handler = group.installed_tool_index_invalidated.connect (refresh_installed_state);
             refreshed_handler = group.installed_state_refreshed.connect (refresh);
 
-            scrolled = new Gtk.ScrolledWindow () {
-                child = list_box,
-                vexpand = true,
-                hscrollbar_policy = Gtk.PolicyType.NEVER,
-                vscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
-                overflow = Gtk.Overflow.HIDDEN
-            };
-
             status_page = new Adw.StatusPage () {
-                title = _ ("No tools found"),
-                description = _ ("No tools match the current filter."),
-                icon_name = "edit-find-symbolic"
+                css_classes = { "compact" }
             };
             empty_action_button = new Gtk.Button () {
                 halign = Gtk.Align.CENTER,
@@ -113,36 +97,32 @@ namespace ProtonPlus.Widgets.Tools {
             status_page.set_child (empty_action_button);
 
             stack = new Gtk.Stack () {
-                vexpand = true,
-                overflow = Gtk.Overflow.HIDDEN
+                hhomogeneous = false,
+                vhomogeneous = false
             };
-            stack.add_named (scrolled, "list");
+            stack.add_named (list_box, "list");
+            installed_list = new Gtk.ListBox () {
+                selection_mode = Gtk.SelectionMode.NONE,
+                valign = Gtk.Align.START,
+                css_classes = { "boxed-list", "tools-tools-card" }
+            };
+            stack.add_named (installed_list, "installed");
             stack.add_named (status_page, "empty");
+            map.connect (check_installed_updates);
+            unmap.connect (() => installed_update_generation++);
 
             foreach (var tool in group.tools) {
                 var row = create_tool_card (tool);
                 row.set_data ("tool", tool);
                 list_box.append (row);
-
             }
 
             list_box.invalidate_sort ();
 
-            var group_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 6);
-            group_box.append (collection_toolbar);
-            group_box.append (stack);
+            append (category_heading);
+            append (stack);
 
-            var clamp = new Adw.Clamp () {
-                maximum_size = 975,
-                margin_top = 12,
-                margin_bottom = 12,
-                margin_start = 12,
-                margin_end = 12,
-                child = group_box,
-            };
-
-            append (clamp);
-
+            update_status_page ();
             update_visibility ();
         }
 
@@ -180,6 +160,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         public override void dispose () {
+            detach_release_section ();
             if (invalidated_handler != 0) {
                 group.disconnect (invalidated_handler);
                 invalidated_handler = 0;
@@ -197,14 +178,22 @@ namespace ProtonPlus.Widgets.Tools {
             var focused = focused_object as Gtk.Widget;
             var focused_row = find_expander_row_ancestor (focused);
             if (focused_row == null)
-                return false;
+                return focused == empty_action_button && focus_section_boundary (direction);
 
             bool in_release_section = releases_section != null && focused != null &&
                 (focused == releases_section || ((!) focused).is_ancestor ((!) releases_section));
             if (in_release_section)
                 return false;
 
+            var tool_actions = releases_section?.actions_button;
+            bool actions_focused = tool_actions != null && focused != null &&
+                (focused == tool_actions || ((!) focused).is_ancestor ((!) tool_actions));
+            if (direction == Utils.ControllerNavigationDirection.RIGHT && focused_row == expanded_row &&
+                tool_actions != null && tool_actions.get_mapped ())
+                return actions_focused || tool_actions.grab_focus ();
             if (direction == Utils.ControllerNavigationDirection.LEFT) {
+                if (actions_focused)
+                    return focused_row.grab_focus ();
                 if (focused_row.expanded)
                     focused_row.expanded = false;
                 return true;
@@ -221,29 +210,30 @@ namespace ProtonPlus.Widgets.Tools {
                     return ((!) adjacent).grab_focus ();
             }
 
-            if (direction != Utils.ControllerNavigationDirection.UP ||
-                focused_row != find_first_visible_row ())
-                return false;
+            return focus_section_boundary (direction);
+        }
 
-            return controller_up_target != null &&
-                ((!) controller_up_target).get_mapped () &&
-                ((!) controller_up_target).is_visible () &&
-                ((!) controller_up_target).is_sensitive () &&
-                ((!) controller_up_target).grab_focus ();
+        bool focus_section_boundary (Utils.ControllerNavigationDirection direction) {
+            Gtk.Widget? target = null;
+            if (direction == Utils.ControllerNavigationDirection.UP)
+                target = controller_up_target;
+            else if (direction == Utils.ControllerNavigationDirection.DOWN)
+                target = controller_down_target;
+            return target != null && target.get_mapped () && target.grab_focus ();
         }
 
         public bool controller_activate (Object focused_object) {
             var focused = focused_object as Gtk.Widget;
             if (focused == null)
                 return false;
+            if (focused == empty_action_button)
+                return ((Gtk.Widget) empty_action_button).activate ();
 
-            var header_action = find_header_action_ancestor ((!) focused);
-            if (header_action is Gtk.MenuButton) {
-                ((Gtk.MenuButton) header_action).popup ();
+            var tool_actions = releases_section?.actions_button;
+            if (tool_actions != null && (focused == tool_actions || ((!) focused).is_ancestor ((!) tool_actions))) {
+                tool_actions.popup ();
                 return true;
             }
-            if (header_action != null)
-                return ((!) header_action).activate ();
 
             var row = find_expander_row_ancestor (focused);
             if (row == null)
@@ -253,25 +243,13 @@ namespace ProtonPlus.Widgets.Tools {
             return true;
         }
 
-        Gtk.Widget? find_header_action_ancestor (Gtk.Widget focused) {
-            Gtk.Widget? current = focused;
-            while (current != null && current != header_actions) {
-                if (current.get_parent () == header_actions)
-                    return current;
-                current = current.get_parent ();
-            }
-            return null;
-        }
-
         Adw.ExpanderRow? find_adjacent_visible_row (
             Adw.ExpanderRow row, Utils.ControllerNavigationDirection direction
         ) {
             Gtk.Widget? child = direction == Utils.ControllerNavigationDirection.UP
                 ? row.get_prev_sibling () : row.get_next_sibling ();
             while (child != null) {
-                if (child is Adw.ExpanderRow && child.get_mapped () &&
-                    child.is_visible () && child.get_child_visible () &&
-                    child.is_sensitive () && child.get_focusable ())
+                if (child is Adw.ExpanderRow && is_row_focusable (child))
                     return (Adw.ExpanderRow) child;
                 child = direction == Utils.ControllerNavigationDirection.UP
                     ? child.get_prev_sibling () : child.get_next_sibling ();
@@ -289,49 +267,41 @@ namespace ProtonPlus.Widgets.Tools {
             return null;
         }
 
-        Gtk.ListBoxRow? find_first_visible_row () {
-            var child = list_box.get_first_child ();
+        static bool is_row_focusable (Gtk.Widget row) {
+            return row.visible && row.get_child_visible () && row.is_sensitive () && row.get_focusable ();
+        }
+
+        public Gtk.Widget? get_section_focus (bool last = false) {
+            if (!visible)
+                return null;
+            if (stack.get_visible_child () == status_page)
+                return empty_action_button.visible ? empty_action_button : null;
+
+            var list = filter == Filter.INSTALLED ? installed_list : list_box;
+            var child = last ? list.get_last_child () : list.get_first_child ();
             while (child != null) {
-                if (child is Gtk.ListBoxRow && child.get_mapped () &&
-                    child.is_visible () && child.get_child_visible () &&
-                    child.is_sensitive () && child.get_focusable ())
-                    return (Gtk.ListBoxRow) child;
-                child = child.get_next_sibling ();
+                if (child is Gtk.ListBoxRow && is_row_focusable (child))
+                    return child;
+                child = last ? child.get_prev_sibling () : child.get_next_sibling ();
             }
             return null;
         }
 
-        public Object? get_controller_initial_focus () {
-            var row = find_first_visible_row ();
-            if (row != null)
-                return row;
-            return empty_action_button.visible ? empty_action_button : null;
-        }
-
-        public void clear_header_actions () {
-            Gtk.Widget? child;
-            while ((child = header_actions.get_first_child ()) != null)
-                header_actions.remove ((!) child);
-        }
-
-        public void populate_header_actions (
-            Gtk.Widget refresh, Gtk.Widget filter
-        ) {
-            clear_header_actions ();
-            header_actions.append (refresh);
-            header_actions.append (filter);
+        public void set_controller_boundaries (Gtk.Widget up, Gtk.Widget? down) {
+            controller_up_target = up;
+            controller_down_target = down;
+            var first = installed_list.get_first_child () as ReleaseRow;
+            first?.set_controller_up_targets (up, up, up);
+            var last = installed_list.get_last_child () as ReleaseRow;
+            last?.set_controller_down_target (down);
+            update_release_section_boundary ();
         }
 
         void update_status_page () {
-            empty_action_button.set_visible (filter != Filter.ALL);
-            if (filter != Filter.ALL)
+            empty_action_button.set_visible (filter == Filter.USED);
+            if (filter == Filter.USED)
                 empty_action_button.set_label (_ ("Reset Filters"));
             switch (filter) {
-                case Filter.INSTALLED:
-                    status_page.set_title (_ ("No installed tools"));
-                    status_page.set_description (_ ("Install a compatibility tool to see it here."));
-                    status_page.set_icon_name ("package-x-generic-symbolic");
-                    break;
                 case Filter.USED:
                     status_page.set_title (_ ("No tools in use"));
                     status_page.set_description (_ ("No games currently use a tool from this group."));
@@ -346,6 +316,12 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void update_visibility () {
+            if (filter == Filter.INSTALLED) {
+                stack.set_visible_child_name ("installed");
+                visible = installed_list.get_first_child () != null;
+                return;
+            }
+            visible = true;
             bool has_visible = false;
             var child = list_box.get_first_child ();
             while (child != null) {
@@ -368,22 +344,86 @@ namespace ProtonPlus.Widgets.Tools {
         public void refresh () {
             visibility_change_generation++;
             if (filter == Filter.INSTALLED)
-                update_installed_tools ();
+                refresh_installed_rows ();
             refresh_tool_state_metadata ();
             list_box.invalidate_filter ();
             list_box.invalidate_sort ();
             update_status_page ();
             update_visibility ();
             collapse_if_hidden ();
-            update_release_section_boundary ();
             releases_section?.refresh_installed_rows ();
+            rows_changed ();
         }
 
-        void update_installed_tools () {
-            tools_with_installations.clear ();
-            foreach (var tool in group.tools)
-                if (group.installed_tool_inventory.get_installations_for_tool (tool).size > 0)
-                    tools_with_installations.add (tool);
+        void refresh_installed_rows () {
+            var focused = get_root ()?.get_focus ();
+            var focused_row = focused as ReleaseRow ?? focused?.get_ancestor (typeof (ReleaseRow)) as ReleaseRow;
+            var restore_focus = focused_row != null && focused_row.get_parent () == installed_list;
+            var focused_job = focused_row != null ? focused_row.get_data<Services.InstallJob> ("job") : null;
+            var focused_path = focused_job?.install_location;
+            installed_list.remove_all ();
+
+            ReleaseRow? replacement = null;
+            var inventory = group.installed_tool_inventory;
+            foreach (var tool in group.tools) {
+                var entries = inventory.get_installations_for_tool (tool);
+                if (entries.is_empty)
+                    continue;
+                var rows_without_details = new Gee.ArrayList<ReleaseRow> ();
+                foreach (var entry in entries) {
+                    var row = ReleasesBox.create_installed_row (tool, entry, inventory, true);
+                    connect_installed_row (this, row);
+                    installed_list.append (row);
+                    if (row.needs_cached_release_details ())
+                        rows_without_details.add (row);
+                    if (entry.path == focused_path)
+                        replacement = row;
+                }
+                ReleasesBox.read_installed_release_details.begin (tool, rows_without_details);
+            }
+
+            if (restore_focus) {
+                var target = (Gtk.Widget?) replacement ?? installed_list.get_first_child () ?? controller_up_target;
+                target?.grab_focus ();
+            }
+            check_installed_updates ();
+        }
+
+        void check_installed_updates () {
+            var generation = ++installed_update_generation;
+            if (filter != Filter.INSTALLED || !get_mapped () || installed_list.get_first_child () == null)
+                return;
+            var service = Services.InstallationService.instance;
+            foreach (var tool in service.get_update_candidates (group))
+                check_tool_updates.begin (service, tool, generation);
+        }
+
+        async void check_tool_updates (Services.InstallationService service, Models.Tool tool, uint generation) {
+            Gee.List<Services.AvailableToolUpdate> updates;
+            var code = yield service.find_available_updates (tool, out updates);
+            if (generation != installed_update_generation ||
+                (code != ReturnCode.UPDATE_AVAILABLE && code != ReturnCode.NOTHING_TO_UPDATE))
+                return;
+            var releases_by_path = new Gee.HashMap<string, Models.Release> ();
+            foreach (var update in updates)
+                releases_by_path.set (update.install_location, update.release);
+            for (var child = installed_list.get_first_child (); child != null; child = child.get_next_sibling ()) {
+                var job = child.get_data<Services.InstallJob> ("job");
+                if (job.tool == tool)
+                    ((ReleaseRow) child).set_checked_update (releases_by_path.get (job.install_location));
+            }
+        }
+
+        static void connect_installed_row (GroupBox group_box, ReleaseRow row) {
+            var owner_ref = WeakRef (group_box);
+            row.changelog_requested.connect ((job, release) => {
+                var owner = owner_ref.get () as GroupBox;
+                owner?.changelog_requested (job, release);
+            });
+            row.games_requested.connect ((job) => {
+                var owner = owner_ref.get () as GroupBox;
+                owner?.games_requested (job);
+            });
         }
 
         void refresh_tool_state_metadata () {
@@ -496,9 +536,10 @@ namespace ProtonPlus.Widgets.Tools {
             } else if (expanded_row == row) {
                 var root = get_root ();
                 var focused = root?.get_focus ();
+                var tool_actions = releases_section?.actions_button;
                 bool focus_was_inside = releases_section != null && focused != null &&
-                    (((!) focused) == releases_section ||
-                     ((!) focused).is_ancestor ((!) releases_section));
+                    (focused == releases_section || ((!) focused).is_ancestor ((!) releases_section)
+                    || focused == tool_actions || (tool_actions != null && ((!) focused).is_ancestor ((!) tool_actions)));
                 detach_release_section ();
                 expanded_row = null;
                 expanded_tool = null;
@@ -563,12 +604,11 @@ namespace ProtonPlus.Widgets.Tools {
             if (current_parent != null)
                 ((!) current_parent).remove (section);
             ((!) host).append (section);
+            ((!) expanded_row).add_suffix (section.actions_button);
             releases_section = section;
             releases_host = host;
             section.set_controller_up_target ((!) expanded_row);
-            section.set_controller_down_target (find_adjacent_visible_row (
-                (!) expanded_row, Utils.ControllerNavigationDirection.DOWN
-            ));
+            update_release_section_boundary ();
         }
 
         void detach_release_section () {
@@ -579,6 +619,9 @@ namespace ProtonPlus.Widgets.Tools {
             var host = releases_host;
             releases_section = null;
             releases_host = null;
+            section.actions_button.popdown ();
+            if (expanded_row != null && section.actions_button.is_ancestor ((!) expanded_row))
+                ((!) expanded_row).remove (section.actions_button);
             if (host != null && section.get_parent () == host)
                 ((!) host).remove (section);
         }
@@ -606,42 +649,6 @@ namespace ProtonPlus.Widgets.Tools {
             return expanded_row;
         }
 
-        public double get_scroll_position () {
-            return scrolled.get_vadjustment ().get_value ();
-        }
-
-        public void restore_scroll_position (double position) {
-            Idle.add (() => {
-                var adjustment = scrolled.get_vadjustment ();
-                var maximum = double.max (
-                    adjustment.lower, adjustment.upper - adjustment.page_size
-                );
-                adjustment.set_value (double.min (
-                    maximum, double.max (adjustment.lower, position)
-                ));
-                return Source.REMOVE;
-            });
-        }
-
-        public void focus_release_widget (Gtk.Widget widget, bool center = true) {
-            widget.grab_focus ();
-            if (!center)
-                return;
-            Idle.add (() => {
-                Graphene.Rect bounds;
-                if (widget.compute_bounds (list_box, out bounds)) {
-                    var adjustment = scrolled.get_vadjustment ();
-                    var maximum = double.max (adjustment.lower,
-                        adjustment.upper - adjustment.page_size);
-                    var value = bounds.origin.y -
-                        ((adjustment.page_size - bounds.size.height) / 2.0);
-                    adjustment.set_value (double.min (maximum,
-                        double.max (adjustment.lower, value)));
-                }
-                return Source.REMOVE;
-            });
-        }
-
         void collapse_if_hidden () {
             if (expanded_row == null)
                 return;
@@ -659,7 +666,7 @@ namespace ProtonPlus.Widgets.Tools {
                     if (expected_generation != visibility_change_generation ||
                         expanded_row != null)
                         return Source.REMOVE;
-                    var target = find_first_visible_row ();
+                    var target = get_section_focus ();
                     if (target != null)
                         ((!) target).grab_focus ();
                     else if (controller_up_target != null)
@@ -672,9 +679,10 @@ namespace ProtonPlus.Widgets.Tools {
         void update_release_section_boundary () {
             if (releases_section == null || expanded_row == null)
                 return;
-            ((!) releases_section).set_controller_down_target (find_adjacent_visible_row (
+            var next_row = find_adjacent_visible_row (
                 (!) expanded_row, Utils.ControllerNavigationDirection.DOWN
-            ));
+            );
+            ((!) releases_section).set_controller_down_target ((Gtk.Widget?) next_row ?? controller_down_target);
         }
 
         void update_tool_state_metadata (
@@ -715,7 +723,7 @@ namespace ProtonPlus.Widgets.Tools {
                 return false;
 
             if (filter == Filter.INSTALLED)
-                return tools_with_installations.contains (tool);
+                return false;
 
             if (tool is Models.Tools.SteamTinkerLaunch && !tool.is_installed ())
                 return false;

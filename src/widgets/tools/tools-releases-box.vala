@@ -1,7 +1,7 @@
 namespace ProtonPlus.Widgets.Tools {
     public class ReleasesBox : Gtk.Box, Utils.ControllerDirectionalFocus,
         Utils.ControllerActivationHandler {
-        public signal void changelog_requested (Services.InstallJob job);
+        public signal void changelog_requested (Services.InstallJob job, Models.Release release);
         public signal void games_requested (Services.InstallJob job);
         public signal void reset_filter_requested ();
 
@@ -30,8 +30,6 @@ namespace ProtonPlus.Widgets.Tools {
         private Gee.LinkedList<Models.Variant> displayed_variants = new Gee.LinkedList<Models.Variant> ();
         Gtk.DropDown variant_dropdown { get; set; }
         Gtk.Label variant_label;
-        HashTable<Gtk.StringObject, Gtk.ListItem> variant_list_items;
-        Gtk.Image? selected_variant_checkmark = null;
         public Gtk.Box variant_box { get; private set; }
         bool provider_has_compatible_variants = true;
         bool updating_variant_dropdown = false;
@@ -61,32 +59,10 @@ namespace ProtonPlus.Widgets.Tools {
             }
         }
 
-        private static string get_variant_tooltip (string variant_name) {
-            switch (variant_name) {
-            case "x86_64":
-                return _("Standard 64-bit build for most Intel and AMD PCs.");
-            case "x86_64_v3":
-                return _("Optimized 64-bit build for Intel and AMD CPUs that support the x86-64-v3 instruction set.");
-            case "arm64":
-            case "aarch64":
-                return _("64-bit ARM build. Choose this only on ARM64 hardware.");
-            case "x86":
-                return _("32-bit x86 build. Choose this only when a 32-bit runner is required.");
-            case "wow64":
-            case "x86_64_wow64":
-                return _("64-bit build with WoW64 support for running 32-bit Windows applications.");
-            case "default":
-                return _("The provider's recommended build for most systems.");
-            default:
-                return _("Select the %s build variant.").printf (variant_name);
-            }
-        }
-
         public ReleasesBox () {
             Object (orientation : Gtk.Orientation.VERTICAL, spacing : 0);
 
             variant_preferences = new Models.ToolVariantPreferences (Globals.SETTINGS);
-            variant_list_items = new HashTable<Gtk.StringObject, Gtk.ListItem> (null, null);
 
             var refresh_button_content = new Adw.ButtonContent () {
                 icon_name = "view-refresh-symbolic",
@@ -122,43 +98,17 @@ namespace ProtonPlus.Widgets.Tools {
                     Utils.System.open_uri (current_tool.repository_url);
             });
 
-            Gtk.Expression expression = new Gtk.PropertyExpression (typeof (Gtk.StringObject), null, "string");
-
-            variant_dropdown = new Gtk.DropDown (null, expression) {
-                visible = false,
-                tooltip_text = _("Choose which architecture or build variant to show.")
-            };
-            variant_dropdown.update_property (
-                Gtk.AccessibleProperty.LABEL, _("Build"), -1
-            );
-            variant_dropdown.set_valign (Gtk.Align.CENTER);
-            variant_dropdown.set_hexpand (true);
+            variant_dropdown = BuildDropdown.create ();
+            variant_dropdown.visible = false;
+            variant_dropdown.tooltip_text = _("Choose which architecture or build variant to show.");
+            variant_dropdown.hexpand = true;
             variant_dropdown.notify["selected"].connect (on_variant_selected);
-
-            var variant_list_factory = new Gtk.SignalListItemFactory ();
-            variant_list_factory.setup.connect (on_variant_list_item_setup);
-            variant_list_factory.bind.connect (on_variant_list_item_bind);
-            variant_list_factory.unbind.connect (on_variant_list_item_unbind);
-            variant_dropdown.set_list_factory (variant_list_factory);
 
             variant_label = new Gtk.Label (_("Build")) {
                 halign = Gtk.Align.START,
                 valign = Gtk.Align.CENTER,
                 css_classes = { "dim-label" }
             };
-
-            var variant_controls = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8) {
-                hexpand = true
-            };
-            var releases_label = new Gtk.Label (_("Releases")) {
-                halign = Gtk.Align.START,
-                css_classes = { "dim-label" }
-            };
-            variant_dropdown.bind_property ("visible", releases_label, "visible",
-                BindingFlags.SYNC_CREATE | BindingFlags.INVERT_BOOLEAN);
-            variant_controls.append (releases_label);
-            variant_controls.append (variant_label);
-            variant_controls.append (variant_dropdown);
 
             variant_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8) {
                 visible = false,
@@ -170,7 +120,8 @@ namespace ProtonPlus.Widgets.Tools {
                 margin_end = 12
             };
             variant_box.add_css_class ("tools-release-toolbar");
-            variant_box.append (variant_controls);
+            variant_box.append (variant_label);
+            variant_box.append (variant_dropdown);
 
             list_box = new Gtk.ListBox () {
                 selection_mode = Gtk.SelectionMode.NONE
@@ -283,7 +234,6 @@ namespace ProtonPlus.Widgets.Tools {
                 tooltip_text = _("Tool Actions"),
                 popover = actions_popover
             };
-            variant_box.append (actions_button);
             Window.register_popover_for_controller (actions_popover, actions_button);
 
             tool_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
@@ -295,7 +245,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         void update_toolbar () {
             var show_browser_actions = current_tool != null && filter != Filter.INSTALLED;
-            variant_box.set_visible (show_browser_actions);
+            variant_box.set_visible (show_browser_actions && variant_dropdown.get_visible ());
             actions_button.set_visible (show_browser_actions);
             if (current_tool != null)
                 actions_button.update_property (
@@ -551,10 +501,6 @@ namespace ProtonPlus.Widgets.Tools {
             if (variant_control != null)
                 return ((!) variant_control).grab_focus ();
 
-            var tool_actions_control = toolbar_actions_control ();
-            if (tool_actions_control != null)
-                return ((!) tool_actions_control).grab_focus ();
-
             return focus_first_release_target ();
         }
 
@@ -598,31 +544,17 @@ namespace ProtonPlus.Widgets.Tools {
             if (focused == null)
                 return false;
 
-            var inline_control = find_inline_control_ancestor ((!) focused);
-            if (inline_control != null) {
-                if (direction == Utils.ControllerNavigationDirection.LEFT ||
-                    direction == Utils.ControllerNavigationDirection.RIGHT) {
-                    var forward = direction == Utils.ControllerNavigationDirection.RIGHT;
-                    var target = find_inline_control ((!) inline_control, forward);
-                    if (target != null)
-                        return ((!) target).grab_focus ();
-                    return false;
-                }
+            if (focused == variant_dropdown || ((!) focused).is_ancestor (variant_dropdown)) {
                 if (direction == Utils.ControllerNavigationDirection.UP)
                     return focus_controller_up_target ();
-                if (direction == Utils.ControllerNavigationDirection.DOWN) {
-                    var actions_control = toolbar_actions_control ();
-                    if (actions_control != null &&
-                        inline_control == actions_control)
-                        return focus_first_release_actions_target ();
+                if (direction == Utils.ControllerNavigationDirection.DOWN)
                     return focus_first_release_target ();
-                }
                 return false;
             }
 
             if (focused == error_banner || ((!) focused).is_ancestor (error_banner)) {
                 if (direction == Utils.ControllerNavigationDirection.UP) {
-                    var target = find_inline_control (null, false);
+                    var target = focusable_inline_control (variant_dropdown);
                     return target != null
                         ? ((!) target).grab_focus ()
                         : focus_controller_up_target ();
@@ -644,7 +576,7 @@ namespace ProtonPlus.Widgets.Tools {
             if (focused == error_retry_button || ((!) focused).is_ancestor (error_retry_button) ||
                 focused == empty_action_button || ((!) focused).is_ancestor (empty_action_button)) {
                 if (direction == Utils.ControllerNavigationDirection.UP) {
-                    var target = find_inline_control (null, false);
+                    var target = focusable_inline_control (variant_dropdown);
                     return target != null
                         ? ((!) target).grab_focus ()
                         : focus_controller_up_target ();
@@ -675,32 +607,12 @@ namespace ProtonPlus.Widgets.Tools {
             return load_more_button.grab_focus ();
         }
 
-        bool focus_first_release_actions_target () {
-            var child = list_box.get_first_child ();
-            while (child != null) {
-                if (child is ReleaseRow && child.get_mapped () &&
-                    child.is_visible () && child.get_child_visible () &&
-                    child.is_sensitive ())
-                    return ((ReleaseRow) child)
-                        .focus_more_actions_controller_target ();
-                child = child.get_next_sibling ();
-            }
-            return focus_first_release_target ();
-        }
-
         public bool controller_activate (Object focused_object) {
             var focused = focused_object as Gtk.Widget;
             if (focused == null)
                 return false;
-
-            var inline_control = find_inline_control_ancestor ((!) focused);
-            if (inline_control is Gtk.MenuButton) {
-                ((Gtk.MenuButton) inline_control).popup ();
-                return true;
-            }
-            if (inline_control != null)
-                return ((!) inline_control).activate ();
-
+            if (focused == variant_dropdown || ((!) focused).is_ancestor (variant_dropdown))
+                return ((Gtk.Widget) variant_dropdown).activate ();
             return ((!) focused).activate ();
         }
 
@@ -720,118 +632,11 @@ namespace ProtonPlus.Widgets.Tools {
                 ((!) controller_down_target).grab_focus ();
         }
 
-        Gtk.Widget? find_inline_control_ancestor (Gtk.Widget focused) {
-            var tool_actions_control = toolbar_actions_control ();
-            if (tool_actions_control != null &&
-                (focused == tool_actions_control ||
-                 focused.is_ancestor ((!) tool_actions_control)))
-                return tool_actions_control;
-            if (focused == variant_dropdown ||
-                focused.is_ancestor (variant_dropdown))
-                return variant_dropdown;
-            return null;
-        }
-
-        Gtk.Widget? find_inline_control (Gtk.Widget? current, bool forward) {
-            Gtk.Widget? first = focusable_inline_control (variant_dropdown);
-            Gtk.Widget? last = toolbar_actions_control ();
-
-            if (current == null)
-                return forward ? first ?? last : last ?? first;
-            if (forward && current == first)
-                return last;
-            if (!forward && current == last)
-                return first;
-            return null;
-        }
-
-        Gtk.Widget? toolbar_actions_control () {
-            return focusable_inline_control (actions_button);
-        }
-
         Gtk.Widget? focusable_inline_control (Gtk.Widget? control) {
             return control != null && ((!) control).get_mapped () &&
                 ((!) control).is_visible () && ((!) control).is_sensitive () &&
                 ((!) control).get_can_focus ()
                 ? control : null;
-        }
-
-        private void on_variant_list_item_setup (Object object) {
-            var list_item = object as Gtk.ListItem;
-            var label = new Gtk.Label (null) {
-                xalign = 0.0f,
-                hexpand = true
-            };
-            var checkmark = new Gtk.Image.from_icon_name ("object-select-symbolic") {
-                visible = false
-            };
-            var row = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
-                hexpand = true
-            };
-            var content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 12) {
-                hexpand = true,
-                margin_top = 6,
-                margin_bottom = 6,
-                margin_start = 12,
-                margin_end = 12
-            };
-            content.append (label);
-            content.append (checkmark);
-            row.append (content);
-
-            object.set_data ("variant-label", label);
-            object.set_data ("variant-checkmark", checkmark);
-            object.set_data ("variant-row", row);
-            list_item.set_child (row);
-        }
-
-        private void on_variant_list_item_bind (Object object) {
-            var list_item = object as Gtk.ListItem;
-            var variant = list_item.item as Gtk.StringObject;
-            if (variant == null)
-                return;
-
-            variant_list_items.set (variant, list_item);
-
-            var variant_name = variant.string;
-            var tooltip = get_variant_tooltip (variant_name);
-            var label = object.get_data<Gtk.Label> ("variant-label");
-            var checkmark = object.get_data<Gtk.Image> ("variant-checkmark");
-            var row = object.get_data<Gtk.Box> ("variant-row");
-            var list_row = row.get_parent ();
-
-            label.set_label (variant_name);
-            if (list_row != null)
-                list_row.set_tooltip_text (tooltip);
-            checkmark.set_visible (variant == variant_dropdown.selected_item);
-            if (checkmark.visible)
-                selected_variant_checkmark = checkmark;
-        }
-
-        private void on_variant_list_item_unbind (Object object) {
-            var list_item = object as Gtk.ListItem;
-            var variant = list_item.item as Gtk.StringObject;
-            if (variant != null && variant_list_items.get (variant) == list_item)
-                variant_list_items.remove (variant);
-
-            var checkmark = object.get_data<Gtk.Image> ("variant-checkmark");
-            if (checkmark == selected_variant_checkmark)
-                selected_variant_checkmark = null;
-        }
-
-        private void update_variant_list_item_checkmark () {
-            if (selected_variant_checkmark != null)
-                selected_variant_checkmark.set_visible (false);
-
-            var selected_item = variant_dropdown.selected_item as Gtk.StringObject;
-            var list_item = selected_item != null ? variant_list_items.get (selected_item) : null;
-            if (list_item == null) {
-                selected_variant_checkmark = null;
-                return;
-            }
-
-            selected_variant_checkmark = list_item.get_data<Gtk.Image> ("variant-checkmark");
-            selected_variant_checkmark.set_visible (true);
         }
 
         private void on_refresh_clicked () {
@@ -908,7 +713,6 @@ namespace ProtonPlus.Widgets.Tools {
 
             content_stack.set_visible_child_name ("list");
             error_banner.set_revealed (false);
-            apply_selected_variant_to_rows ();
             update_refresh_tooltip ();
             update_visibility ();
             refresh_button.sensitive = true;
@@ -949,7 +753,7 @@ namespace ProtonPlus.Widgets.Tools {
             int selected_index = 0;
             int index = 0;
             foreach (var variant in displayed_variants) {
-                model.append (variant.name);
+                model.append (Utils.safe_translate (variant.name));
                 if (variant == selected_variant)
                     selected_index = index;
                 index++;
@@ -959,7 +763,6 @@ namespace ProtonPlus.Widgets.Tools {
             variant_dropdown.model = model;
             variant_dropdown.selected = (uint) selected_index;
             updating_variant_dropdown = false;
-            update_variant_list_item_checkmark ();
             variant_label.set_visible (true);
             variant_dropdown.set_visible (true);
             update_toolbar ();
@@ -988,7 +791,6 @@ namespace ProtonPlus.Widgets.Tools {
             if (variant == null)
                 return;
 
-            update_variant_list_item_checkmark ();
 
             if (selected_variant == variant)
                 return;
@@ -1030,7 +832,7 @@ namespace ProtonPlus.Widgets.Tools {
             }
 
             var variant = resolve_release_variant (job.release, job.mode);
-            if (variant == null || variant.download_url == null || variant.download_url == "") {
+            if (variant == null) {
                 // Keep state, usage, folder, and removal checks bound to the
                 // selected installation slot even when this release has no
                 // installable asset for it.  The row then disables only the
@@ -1053,7 +855,8 @@ namespace ProtonPlus.Widgets.Tools {
             var child = list_box.get_first_child ();
             while (child != null) {
                 var job = child.get_data<Services.InstallJob> ("job");
-                if (job != null) {
+                if (job != null && job.state != Services.InstallJob.State.BUSY_INSTALLING &&
+                    job.state != Services.InstallJob.State.BUSY_UPDATING && job.state != Services.InstallJob.State.BUSY_REMOVING) {
                     var row = child as ReleaseRow;
                     var available = apply_selected_variant_to_job (job);
                     if (row != null)
@@ -1203,8 +1006,8 @@ namespace ProtonPlus.Widgets.Tools {
                 list_box.invalidate_filter ();
                 update_visibility ();
             });
-            row.changelog_requested.connect ((selected_job) => {
-                changelog_requested (selected_job);
+            row.changelog_requested.connect ((selected_job, release) => {
+                changelog_requested (selected_job, release);
             });
             row.games_requested.connect ((selected_job) => {
                 games_requested (selected_job);
@@ -1230,20 +1033,39 @@ namespace ProtonPlus.Widgets.Tools {
             list_box.remove_all ();
             var inventory = tool.group.installed_tool_inventory;
             Gtk.Widget? replacement_focus = null;
+            var rows_without_details = new Gee.ArrayList<ReleaseRow> ();
             foreach (var entry in inventory.get_installations_for_tool (tool)) {
-                add_installed_row (tool, entry, inventory);
-                var row = list_box.get_last_child ();
+                var row = create_installed_row (tool, entry, inventory);
+                configure_release_row_up_targets (row);
+                row.set_controller_down_target (controller_down_target);
+                row.changelog_requested.connect ((selected_job, release) => changelog_requested (selected_job, release));
+                row.games_requested.connect ((selected_job) => games_requested (selected_job));
+                list_box.append (row);
+                if (row.needs_cached_release_details ())
+                    rows_without_details.add (row);
                 var job = row != null ? row.get_data<Services.InstallJob> ("job") : null;
                 if (job != null && job.install_location == focused_path)
                     replacement_focus = row;
             }
+            read_installed_release_details.begin (tool, rows_without_details);
             update_visibility ();
             if (focused_path != "" && (replacement_focus == null || !replacement_focus.grab_focus ()))
                 focus_first_release_target ();
         }
 
-        void add_installed_row (
-            Models.Tool tool, Models.InstalledToolEntry entry, Models.InstalledToolInventory inventory
+        internal static async void read_installed_release_details (Models.Tool tool, Gee.List<ReleaseRow> rows) {
+            var catalog = tool.release_catalog;
+            if (catalog == null || rows.is_empty)
+                return;
+            var releases = yield catalog.read_cached_releases ();
+            if (releases != null)
+                foreach (var row in rows)
+                    row.apply_cached_release_details (releases);
+        }
+
+        internal static ReleaseRow create_installed_row (
+            Models.Tool tool, Models.InstalledToolEntry entry, Models.InstalledToolInventory inventory,
+            bool show_tool_title = false
         ) {
             var release = inventory.find_installed_release (tool, entry);
             var provider = tool as Models.Tools.ProviderTool;
@@ -1275,7 +1097,17 @@ namespace ProtonPlus.Widgets.Tools {
                     tool.group.launcher.installation_type == Models.Launcher.InstallationTypes.SYSTEM;
             else if (mode == Services.InstallJob.Mode.LATEST && variant != null)
                 can_check_for_update = variant.is_compatible_with (Globals.CPU_CAPABILITIES);
-            append_job_row (job, can_check_for_update, entry, release != null);
+            var active_job = Utils.DownloadManager.instance.get_active_download (job);
+            if (active_job != null)
+                job = active_job;
+
+            ReleaseRow row;
+            if (job.steam_tinker_launch_context != null)
+                row = new STLReleaseRow (job, can_check_for_update, entry, release != null, show_tool_title, release);
+            else
+                row = new ReleaseRow (job, can_check_for_update, entry, release != null, show_tool_title, release);
+            row.set_data ("job", job);
+            return row;
         }
 
         private void disconnect_job_state_handlers () {

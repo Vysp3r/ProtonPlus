@@ -109,16 +109,6 @@ Gtk.MenuButton? find_release_actions (Gtk.Widget widget) {
     return null;
 }
 
-MenuModel? find_build_menu (Gtk.MenuButton button) {
-    var menu = ((Gtk.PopoverMenu) button.popover).menu_model;
-    for (var index = 0; index < menu.get_n_items (); index++) {
-        var submenu = menu.get_item_link (index, Menu.LINK_SUBMENU);
-        if (submenu != null)
-            return submenu;
-    }
-    return null;
-}
-
 void check_sarek_build_choices (Models.Group group) {
     var tool = new PresentationSarekTool (group);
     group.tools = new Gee.LinkedList<Models.Tool> ();
@@ -127,7 +117,7 @@ void check_sarek_build_choices (Models.Group group) {
     var group_box = new Widgets.Tools.GroupBox (group);
     group_box.expand_tool (tool);
     group_box.attach_release_section (tool, box);
-    var window = fixture_window (group_box, 400, 500);
+    var window = group_fixture_window (group_box, 400, 500);
     window.present ();
     bool loaded = false;
     box.set_selected_tool.begin (tool, (obj, res) => { loaded = box.set_selected_tool.end (res); });
@@ -136,32 +126,47 @@ void check_sarek_build_choices (Models.Group group) {
     collect_rows (box, rows);
     assert (loaded && rows.size == 6);
     assert (!find_build_selector (box).visible);
+    assert (!box.variant_box.get_mapped ());
     assert (rows[1].subtitle.contains ("Default"));
     assert (rows[4].subtitle.contains ("dyasync"));
     assert (rows[5].subtitle.contains ("Async"));
-    assert (find_build_menu (find_release_actions (rows[1])) == null);
-    assert (find_build_menu (find_release_actions (rows[4])) == null);
-    var actions = find_release_actions (rows[5]);
-    var builds = find_build_menu (actions);
-    assert (builds != null && builds.get_n_items () == 2);
-    assert (builds.get_item_attribute_value (0, Menu.ATTRIBUTE_TARGET, VariantType.STRING).get_string () == "standard");
-    assert (builds.get_item_attribute_value (1, Menu.ATTRIBUTE_TARGET, VariantType.STRING).get_string () == "non-async");
+    assert (!find_build_selector (rows[1]).get_mapped ());
+    assert (!find_build_selector (rows[4]).get_mapped ());
+    var builds = find_build_selector (rows[5]);
+    assert (builds != null && builds.get_mapped () && builds.model.get_n_items () == 2);
+    assert (((Gtk.StringObject) builds.model.get_item (0)).string == "Async");
+    assert (((Gtk.StringObject) builds.model.get_item (1)).string == "Standard");
     var legacy = rows[5].get_data<Services.InstallJob> ("job");
     var original_path = legacy.install_location;
-    actions.popup ();
+    assert (rows[5].grab_focus ());
+    assert (rows[5].controller_focus_direction (rows[5], Utils.ControllerNavigationDirection.RIGHT));
+    var focused = window.get_focus ();
+    assert (focused == builds || (focused != null && focused.is_ancestor (builds)));
+    assert (rows[5].controller_activate (focused));
     settle ();
-    assert (actions.popover.get_mapped ());
-    assert (actions.activate_action_variant ("release.variant", new Variant.string ("non-async")));
+    var async_description = find_label (builds, "Build with asynchronous shader compilation.");
+    var standard_description = find_label (builds, "Standard build for this release.");
+    assert (async_description != null && async_description.get_mapped () && standard_description != null);
+    var async_check = async_description.get_parent ().get_next_sibling ();
+    var standard_check = standard_description.get_parent ().get_next_sibling ();
+    var popup_list = async_description.get_ancestor (typeof (Gtk.ListView)) as Gtk.ListView;
+    assert (popup_list != null && async_check.visible && !standard_check.visible);
+    assert (popup_list.model.select_item (1, true));
+    assert (builds.selected == 0 && async_check.visible && !standard_check.visible);
+    builds.activate ();
+    builds.selected = 1;
     settle ();
     assert (legacy.selected_variant_id == "non-async");
     assert (legacy.install_location == original_path + "-Standard");
+    assert (legacy.selected_asset.download_url == legacy.release.variants[1].download_url);
+    assert (rows[5].controller_focus_direction (builds, Utils.ControllerNavigationDirection.RIGHT));
+    assert (window.get_focus () == find_button (rows[5], "Install"));
     assert (rows[5].subtitle.contains ("Standard"));
     assert (rows[4].get_data<Services.InstallJob> ("job").selected_variant_name == "dyasync");
     assert (rows[0].get_data<Services.InstallJob> ("job").selected_variant_name == "Default");
-    actions.activate_action_variant ("release.variant", new Variant.string ("missing"));
-    assert (legacy.selected_variant_id == "non-async");
     legacy.set ("state", Services.InstallJob.State.BUSY_INSTALLING);
-    actions.activate_action_variant ("release.variant", new Variant.string ("standard"));
+    assert (!builds.get_mapped ());
+    builds.selected = 0;
     assert (legacy.selected_variant_id == "non-async");
     legacy.set ("state", Services.InstallJob.State.NOT_INSTALLED);
     assert (tool.variants.size == 2 && tool.release_catalog.releases[4].variants.size == 2);
@@ -197,8 +202,20 @@ Adw.Window fixture_window (Gtk.Widget content, int width, int height) {
     };
 }
 
+Adw.Window group_fixture_window (Widgets.Tools.GroupBox group, int width, int height) {
+    return fixture_window (new Gtk.ScrolledWindow () {
+        child = new Gtk.Viewport (null, null) { child = group, scroll_to_focus = true },
+        hscrollbar_policy = Gtk.PolicyType.NEVER
+    }, width, height);
+}
+
 void close_fixture_window (Adw.Window window) {
-    ((Adw.Clamp) window.content).child = null;
+    var clamp = (Adw.Clamp) window.content;
+    var scroll = clamp.child as Gtk.ScrolledWindow;
+    var viewport = scroll?.child as Gtk.Viewport;
+    if (viewport != null)
+        viewport.child = null;
+    clamp.child = null;
     window.destroy ();
 }
 
@@ -223,7 +240,7 @@ void check_build_choices (Models.Group group) {
     var group_box = new Widgets.Tools.GroupBox (group);
     group_box.expand_tool (tool);
     group_box.attach_release_section (tool, box);
-    var window = fixture_window (group_box, 600, 400);
+    var window = group_fixture_window (group_box, 600, 400);
     window.present ();
     bool loaded = false;
     box.set_selected_tool.begin (tool, (obj, res) => { loaded = box.set_selected_tool.end (res); });
@@ -235,9 +252,11 @@ void check_build_choices (Models.Group group) {
     assert (rows[0].get_child_visible () && rows[1].get_child_visible ());
     assert (rows[2].get_mapped ());
     assert (!find_button (rows[2], "Install").has_css_class ("suggested-action"));
+    assert (!find_build_selector (rows[2]).get_mapped ());
     var build = find_build_selector (box);
     assert (build != null && build.visible);
     assert (build.get_mapped ());
+    assert (box.variant_box.get_mapped ());
     build.selected = 1;
     settle ();
     var job = rows[2].get_data<Services.InstallJob> ("job");
@@ -265,6 +284,17 @@ Gtk.Button? find_button (Gtk.Widget widget, string label) {
     return null;
 }
 
+Gtk.ToggleButton? find_toggle (Gtk.Widget widget, string label) {
+    if (widget is Gtk.ToggleButton && ((Gtk.ToggleButton) widget).label == label)
+        return (Gtk.ToggleButton) widget;
+    for (var child = widget.get_first_child (); child != null; child = child.get_next_sibling ()) {
+        var found = find_toggle (child, label);
+        if (found != null)
+            return found;
+    }
+    return null;
+}
+
 Gtk.Label? find_label (Gtk.Widget widget, string text) {
     if (widget is Gtk.Label && ((Gtk.Label) widget).label == text)
         return (Gtk.Label) widget;
@@ -279,7 +309,7 @@ Gtk.Label? find_label (Gtk.Widget widget, string text) {
 void check_tool_heading (Widgets.Tools.GroupBox group_box, Widgets.Tools.ReleasesBox box) {
     var row = group_box.get_expanded_row ();
     var actions = box.actions_button;
-    assert (actions.get_parent () == box.variant_box);
+    assert (actions.is_ancestor (row) && !actions.is_ancestor (box));
     var state = row.get_data<Gtk.Label> ("state-label");
     // Exercise the layout of an installed status without touching tool storage.
     state.label = "Installed";
@@ -327,7 +357,7 @@ void check_inline_transitions (Models.Launcher launcher, Models.Group group) {
     var host = first_row.get_data<Gtk.Box> ("inline-release-host");
     var releases = (Widgets.Tools.ReleasesBox) host.get_first_child ();
     var menu = releases.actions_button;
-    var toolbar = menu.get_parent ();
+    assert (menu.is_ancestor (first_row) && !menu.is_ancestor (releases));
     assert (releases.is_showing_tool (first));
     assert (page.get_controller_page_id () == "tools:groups");
 
@@ -335,11 +365,11 @@ void check_inline_transitions (Models.Launcher launcher, Models.Group group) {
     settle ();
     assert (!first_row.expanded);
     assert (releases.is_showing_tool (second));
-    assert (menu.get_parent () == toolbar && menu.get_visible ());
+    assert (menu.is_ancestor (group_box.get_expanded_row ()) && menu.get_visible ());
     assert (page.controller_navigate_back ());
     settle ();
     assert (group_box.get_expanded_row () == null);
-    assert (!menu.get_visible () && menu.get_parent () == toolbar);
+    assert (!menu.get_visible () && menu.get_parent () == null);
 
     assert (group_box.expand_tool (first));
     settle ();
@@ -461,6 +491,23 @@ void check_offline_installed_rows (string root) {
     group.tools.add (tool);
     launcher.groups = { group };
 
+    var previous_cache = Globals.CACHE_PATH;
+    Globals.CACHE_PATH = Path.build_filename (root, "installed-changelog-cache");
+    var cached_release = new Models.Release ("v1", "Cached changelog fixture", "",
+        new Models.Assets.Asset ("fixture.tar.gz", "https://example.test/fixture.tar.gz"),
+        "https://example.test/releases/v1", null, "cached-upstream-release", "v1");
+    var cached_releases = new Gee.LinkedList<Models.Release> ();
+    cached_releases.add (cached_release);
+    var cache = new Models.ReleaseCatalogCache (tool.id, tool.title);
+    var saved = new MainLoop ();
+    cache.save.begin (new Models.ReleaseCatalogSnapshot (
+        cached_releases, 1, false, new DateTime.now_utc ().add_days (-2).format_iso8601 ()
+    ), (object, result) => {
+        assert (cache.save.end (result));
+        saved.quit ();
+    });
+    saved.run ();
+
     var first_path = Path.build_filename (launcher.directory, "A legacy installation path");
     var second_path = Path.build_filename (launcher.directory, "Another installed build");
     foreach (var path in new string[] { first_path, second_path }) {
@@ -470,7 +517,7 @@ void check_offline_installed_rows (string root) {
         metadata.tool_id = tool.id;
         metadata.launcher_id = launcher.tool_target_id;
         metadata.variant_id = path == first_path ? "x86" : "retired-build";
-        metadata.release_id = "deleted-upstream-release";
+        metadata.release_id = path == first_path ? "cached-upstream-release" : "deleted-upstream-release";
         metadata.tag = "v1";
         metadata.install_mode = "versioned";
         assert (metadata.save (path));
@@ -482,33 +529,26 @@ void check_offline_installed_rows (string root) {
     var window = fixture_window (page, 400, 500);
     window.present ();
     var group_box = find_group_box (page, tool);
-    assert (group_box != null && group_box.expand_tool (tool));
+    assert (group_box != null && group_box.get_expanded_row () == null);
     settle ();
-
-    var state_pill = group_box.get_expanded_row ().get_data<Gtk.Label> ("state-label");
-    assert (state_pill.get_mapped () && state_pill.label == "Installed");
-    assert (!state_pill.has_css_class ("tool-metadata-used"));
-    var installed_tooltip = state_pill.tooltip_text;
-    assert (state_pill.get_has_tooltip ());
-    launcher.used_tool_name = Path.get_basename (second_path);
-    group.refresh_installed_state ();
-    assert (state_pill.label == "Used by games" && state_pill.has_css_class ("tool-metadata-used"));
-    assert (state_pill.get_has_tooltip () && state_pill.tooltip_text != installed_tooltip);
-    launcher.used_tool_name = null;
-    group.refresh_installed_state ();
-    assert (state_pill.label == "Installed" && !state_pill.has_css_class ("tool-metadata-used"));
-    assert (state_pill.tooltip_text == installed_tooltip);
+    var installed = find_toggle (page, "Installed");
+    var browse = find_toggle (page, "Browse");
+    assert (browse != null && installed != null && installed.active && !browse.active);
+    assert (installed.get_mapped () && find_button (page, "Update Tools").get_mapped ());
 
     var rows = new Gee.ArrayList<Widgets.Tools.ReleaseRow> ();
     collect_rows (page, rows);
-    assert (source.requests == 0);
+    assert (source.requests == 0 && tool.release_catalog.releases.is_empty);
     assert (rows.size == 2 && rows[0].get_mapped () && rows[1].get_mapped ());
     var first_job = rows[0].get_data<Services.InstallJob> ("job");
     var second_job = rows[1].get_data<Services.InstallJob> ("job");
     assert (first_job.install_location == first_path && second_job.install_location == second_path);
+    assert (rows[0].subtitle.contains ("v1") && rows[1].subtitle.contains ("v1"));
+    assert (find_button (rows[0], "Update") == null && find_button (rows[1], "Update") == null);
     assert (first_job.selected_variant_id == "x86" && first_job.selected_variant_name == "x86_64");
     assert (second_job.selected_variant_id == "retired-build");
-    assert (first_job.release.upstream_release_id == "deleted-upstream-release");
+    assert (first_job.release.upstream_release_id == "cached-upstream-release");
+    assert (first_job.release.description == "");
     assert (first_job.operation_id != second_job.operation_id);
     // The installed directory remains actionable even if the browse job
     // cannot describe it with today's release layout.
@@ -519,12 +559,19 @@ void check_offline_installed_rows (string root) {
         assert (has_release_action (menu, "release.open-folder"));
         assert (has_release_action (menu, "release.delete"));
         assert (!has_release_action (menu, "release.update"));
-        assert (!has_release_action (menu, "release.changelog"));
-        assert (find_build_menu (actions) == null);
+        assert (has_release_action (menu, "release.changelog") == (row == rows[0]));
+        assert (has_release_action (menu, "release.open-release-page") == (row == rows[0]));
+        assert (!find_build_selector (row).get_mapped ());
         assert (row.grab_focus () && row.controller_activate (row));
         settle ();
-        assert (actions.popover.get_mapped ());
-        actions.popdown ();
+        if (row == rows[0]) {
+            var dialog = window.get_visible_dialog () as Widgets.Tools.ReleaseChangelogDialog;
+            assert (dialog != null && find_label (dialog, "Cached changelog fixture") != null);
+            dialog.force_close ();
+        } else {
+            assert (actions.popover.get_mapped ());
+            actions.popdown ();
+        }
     }
 
     assert (rows[1].grab_focus ());
@@ -554,6 +601,205 @@ void check_offline_installed_rows (string root) {
     rows[0].get_data<Services.InstallJob> ("job").set ("state", Services.InstallJob.State.NOT_INSTALLED);
     var stale_actions = find_release_actions (rows[0]);
     assert (!stale_actions.visible);
+    close_fixture_window (window);
+    remove_fixture_directory (Globals.CACHE_PATH);
+    Globals.CACHE_PATH = previous_cache;
+}
+
+bool focus_is_within (Gtk.Widget widget) {
+    var focus = widget.get_root ()?.get_focus ();
+    return focus != null && (focus == widget || focus.is_ancestor (widget));
+}
+
+void check_tab_between_sections (Widgets.Tools.Box page, Gtk.Widget first, Gtk.Widget next) {
+    assert (first.grab_focus ());
+    for (var step = 0; step < 8 && !focus_is_within (next); step++)
+        assert (page.child_focus (Gtk.DirectionType.TAB_FORWARD));
+    assert (focus_is_within (next));
+    for (var step = 0; step < 8 && !focus_is_within (first); step++)
+        assert (page.child_focus (Gtk.DirectionType.TAB_BACKWARD));
+    assert (focus_is_within (first));
+}
+
+void check_tools_views_and_latest (string root) {
+    var launcher = new OfflineToolsLauncher (root);
+    const string proton_description = "Compatibility tools by Valve for running Windows software on Linux.";
+    const string dxvk_description = "Direct3D 8, 9, 10 and 11 translation to Vulkan.";
+    var proton = new Models.Group ("Proton", proton_description, "", launcher, "proton");
+    var wine = new Models.Group ("Wine", "Windows compatibility layer.", "", launcher, "wine");
+    var dxvk = new Models.Group ("DXVK", dxvk_description, "", launcher, "dxvk");
+    var registry = new Models.Providers.ProviderRegistry ();
+    var tool = new PresentationProviderTool (proton, registry.get_by_id ("proton-ge"));
+    var newest = tool.release_catalog.releases[0];
+    newest.variants.add (new Models.Variant ("default", "Standard", "", true,
+        "https://example.test/newest.tar.gz"));
+    var wine_tool = new PresentationFixtureTool (wine);
+    var dxvk_tool = new PresentationProviderTool (dxvk, registry.get_by_id ("dxvk-doitsujin"));
+    proton.tools = new Gee.LinkedList<Models.Tool> ();
+    proton.tools.add (tool);
+    wine.tools = new Gee.LinkedList<Models.Tool> ();
+    wine.tools.add (wine_tool);
+    dxvk.tools = new Gee.LinkedList<Models.Tool> ();
+    dxvk.tools.add (dxvk_tool);
+    launcher.groups = { proton, wine, dxvk };
+
+    var slot = Path.build_filename (root, tool.get_directory_name (tool.title + " Latest", tool.variants[0]));
+    assert (DirUtils.create (slot, 0700) == 0);
+    var metadata = new Utils.Metadata ();
+    metadata.provider_id = tool.provider_id;
+    metadata.tool_id = tool.id;
+    metadata.launcher_id = launcher.tool_target_id;
+    metadata.variant_id = "default";
+    metadata.tag = "1.0";
+    metadata.install_mode = "latest";
+    assert (metadata.save (slot));
+
+    var page = new Widgets.Tools.Box ();
+    page.set_selected_launcher (launcher);
+    var window = fixture_window (page, 384, 400);
+    window.present ();
+    settle ();
+    var proton_box = find_group_box (page, tool);
+    var wine_box = find_group_box (page, wine_tool);
+    var dxvk_box = find_group_box (page, dxvk_tool);
+    assert (proton_box != null && wine_box != null && dxvk_box != null);
+    assert (proton_box.get_next_sibling () == wine_box && wine_box.get_next_sibling () == dxvk_box);
+    var scroll = proton_box.get_ancestor (typeof (Gtk.ScrolledWindow)) as Gtk.ScrolledWindow;
+    assert (scroll != null && dxvk_box.get_ancestor (typeof (Gtk.ScrolledWindow)) == scroll);
+
+    var browse = find_toggle (page, "Browse");
+    var installed = find_toggle (page, "Installed");
+    var update_all = find_button (page, "Update Tools");
+    assert (browse != null && installed != null && update_all != null);
+    assert (browse.active && browse.get_mapped () && installed.get_mapped () && update_all.get_mapped ());
+    assert (browse.get_ancestor (typeof (Gtk.ScrolledWindow)) == null);
+    foreach (var section in new Gtk.Widget[] { proton_box, wine_box, dxvk_box })
+        assert (section.get_mapped ());
+    var title = find_label (proton_box, "Proton");
+    var subtitle = find_label (proton_box, proton_description);
+    assert (title != null && subtitle != null && title.get_mapped () && subtitle.get_mapped ());
+    assert (find_label (dxvk_box, dxvk_description).get_mapped ());
+    var icon = title.get_parent ().get_prev_sibling () as Gtk.Image;
+    assert (icon != null && icon.icon_name == "view-grid-symbolic" && icon.get_mapped ());
+
+    Graphene.Rect title_bounds, browse_bounds, installed_bounds, update_bounds;
+    assert (title.compute_bounds (page, out title_bounds));
+    assert (browse.compute_bounds (page, out browse_bounds));
+    assert (installed.compute_bounds (page, out installed_bounds));
+    assert (update_all.compute_bounds (page, out update_bounds));
+    assert (update_bounds.origin.y + update_bounds.size.height < title_bounds.origin.y);
+    assert (browse_bounds.origin.y == update_bounds.origin.y && installed_bounds.origin.y == update_bounds.origin.y);
+    assert (update_bounds.origin.x >= installed_bounds.origin.x + installed_bounds.size.width);
+    int minimum_width;
+    page.measure (Gtk.Orientation.HORIZONTAL, -1, out minimum_width, null, null, null);
+    assert (minimum_width <= 384 && page.get_width () <= 384);
+    assert (update_bounds.origin.x + update_bounds.size.width <= page.get_width ());
+
+    assert (page.controller_focus_direction (browse, Utils.ControllerNavigationDirection.RIGHT));
+    assert (installed.is_focus ());
+    assert (page.controller_focus_direction (installed, Utils.ControllerNavigationDirection.RIGHT));
+    assert (update_all.is_focus ());
+    var proton_row = proton_box.get_section_focus () as Adw.ExpanderRow;
+    var wine_row = wine_box.get_section_focus () as Adw.ExpanderRow;
+    var dxvk_row = dxvk_box.get_section_focus () as Adw.ExpanderRow;
+    assert (proton_row != null && wine_row != null && dxvk_row != null);
+    assert (!proton_row.expanded && !wine_row.expanded && !dxvk_row.expanded);
+    assert (page.controller_focus_direction (update_all, Utils.ControllerNavigationDirection.DOWN));
+    assert (focus_is_within (proton_row));
+    assert (proton_box.controller_focus_direction (proton_row, Utils.ControllerNavigationDirection.DOWN));
+    assert (focus_is_within (wine_row));
+    assert (wine_box.controller_focus_direction (wine_row, Utils.ControllerNavigationDirection.DOWN));
+    assert (focus_is_within (dxvk_row));
+    assert (dxvk_box.controller_focus_direction (dxvk_row, Utils.ControllerNavigationDirection.UP));
+    assert (focus_is_within (wine_row));
+    check_tab_between_sections (page, proton_row, wine_row);
+    snapshot (window, "tools-browse-categories");
+
+    // Force the responsive layout at a width below the controls' combined minimum.
+    var viewport = (Adw.Clamp) window.content;
+    int options_width, update_width;
+    browse.get_parent ().measure (Gtk.Orientation.HORIZONTAL, -1, out options_width, null, null, null);
+    update_all.measure (Gtk.Orientation.HORIZONTAL, -1, out update_width, null, null, null);
+    var wrapped_width = int.max (options_width, update_width) + 32;
+    viewport.tightening_threshold = wrapped_width;
+    viewport.maximum_size = wrapped_width;
+    settle ();
+    assert (browse.compute_bounds (page, out browse_bounds));
+    assert (update_all.compute_bounds (page, out update_bounds));
+    assert (update_bounds.origin.y >= browse_bounds.origin.y + browse_bounds.size.height);
+    assert (update_bounds.origin.x + update_bounds.size.width <= page.get_width ());
+    assert (page.controller_focus_direction (browse, Utils.ControllerNavigationDirection.DOWN));
+    assert (update_all.is_focus ());
+    assert (page.controller_focus_direction (update_all, Utils.ControllerNavigationDirection.DOWN));
+    assert (focus_is_within (proton_row));
+    assert (proton_box.controller_focus_direction (proton_row, Utils.ControllerNavigationDirection.UP));
+    assert (update_all.is_focus ());
+    viewport.maximum_size = 384;
+    viewport.tightening_threshold = 384;
+    settle ();
+
+    installed.active = true;
+    settle ();
+    assert (!wine_box.get_mapped () && !dxvk_box.get_mapped ());
+    assert (installed.active && proton_box.get_expanded_row () == null);
+    var rows = new Gee.ArrayList<Widgets.Tools.ReleaseRow> ();
+    collect_rows (proton_box, rows);
+    assert (rows.size == 1 && rows[0].get_mapped ());
+    assert (rows[0].title.contains ("Latest (1.0)") && rows[0].subtitle.contains ("Update available: 3.0"));
+    assert (find_button (rows[0], "Update").get_mapped ());
+
+    var dxvk_slot = Path.build_filename (root, "Fixture DXVK 2.0");
+    assert (DirUtils.create (dxvk_slot, 0700) == 0);
+    metadata.provider_id = dxvk_tool.provider_id;
+    metadata.tool_id = dxvk_tool.id;
+    metadata.tag = "2.0";
+    metadata.install_mode = "versioned";
+    assert (metadata.save (dxvk_slot));
+    dxvk.invalidate_installed_state ();
+    settle ();
+    assert (proton_box.get_mapped () && dxvk_box.get_mapped () && !wine_box.get_mapped ());
+    var proton_build = rows[0];
+    var dxvk_build = dxvk_box.get_section_focus () as Widgets.Tools.ReleaseRow;
+    assert (dxvk_build != null && dxvk_build.get_mapped () && dxvk_build.subtitle.contains ("2.0"));
+    assert (proton_build.controller_focus_direction (proton_build, Utils.ControllerNavigationDirection.DOWN));
+    assert (focus_is_within (dxvk_build));
+    assert (dxvk_build.controller_focus_direction (dxvk_build, Utils.ControllerNavigationDirection.UP));
+    assert (focus_is_within (proton_build));
+    check_tab_between_sections (page, proton_build, dxvk_build);
+    snapshot (window, "tools-installed-categories");
+
+    browse.active = true;
+    assert (proton_box.expand_tool (tool));
+    settle ();
+    rows.clear ();
+    collect_rows (proton_box.get_expanded_row (), rows);
+    assert (rows.size == 3);
+    assert (rows[0].title == "Latest (1.0)" && rows[0].subtitle.contains ("Update available: 3.0"));
+    assert (rows[1].title == "3.0" && rows[1].subtitle.contains ("Stays on this version."));
+    assert (!find_build_selector (rows[1]).get_mapped ());
+    assert (!find_build_selector (rows[2]).get_mapped ());
+
+    remove_fixture_directory (slot);
+    remove_fixture_directory (dxvk_slot);
+    proton.invalidate_installed_state ();
+    dxvk.invalidate_installed_state ();
+    installed.active = true;
+    settle ();
+    assert (!proton_box.get_mapped () && !wine_box.get_mapped () && !dxvk_box.get_mapped ());
+    assert (find_label (page, "No installed tools").get_mapped ());
+    var browse_tools = find_button (page, "Browse Tools");
+    assert (browse_tools != null && browse_tools.get_mapped ());
+    assert (page.controller_focus_direction (installed, Utils.ControllerNavigationDirection.DOWN));
+    assert (browse_tools.is_focus ());
+    browse_tools.clicked ();
+    assert (browse.active && browse.is_focus ());
+    page.show_groups_page ();
+    assert (proton_box.expand_tool (tool));
+    settle ();
+    rows.clear ();
+    collect_rows (proton_box.get_expanded_row (), rows);
+    assert (rows[0].title == "Latest (3.0)");
+    assert (rows[0].subtitle.contains ("Eligible for ProtonPlus updates."));
     close_fixture_window (window);
 }
 
@@ -657,7 +903,7 @@ int main (string[] args) {
     var group_box = new Widgets.Tools.GroupBox (group);
     group_box.expand_tool (tool);
     group_box.attach_release_section (tool, box);
-    var window = fixture_window (group_box, 600, 400);
+    var window = group_fixture_window (group_box, 600, 400);
     window.present ();
     bool loaded = false;
     box.set_selected_tool.begin (tool, (obj, res) => { loaded = box.set_selected_tool.end (res); });
@@ -706,7 +952,7 @@ int main (string[] args) {
         Adw.StyleManager.get_default ().color_scheme = theme == "dark"
             ? Adw.ColorScheme.FORCE_DARK : Adw.ColorScheme.FORCE_LIGHT;
         close_fixture_window (window);
-        window = fixture_window (group_box, 400, 500);
+        window = group_fixture_window (group_box, 400, 500);
         window.present ();
         settle ();
         snapshot (window, "adwaita-" + theme);
@@ -714,7 +960,7 @@ int main (string[] args) {
         Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default (), breeze,
             Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION + 1);
         close_fixture_window (window);
-        window = fixture_window (group_box, 400, 500);
+        window = group_fixture_window (group_box, 400, 500);
         window.present ();
         settle ();
         snapshot (window, "breeze-" + theme);
@@ -729,6 +975,7 @@ int main (string[] args) {
     check_sarek_build_choices (group);
     check_inline_transitions (launcher, group);
     check_offline_installed_rows (root);
+    check_tools_views_and_latest (root);
     check_niche_tool_visibility (root, launcher, group);
     remove_fixture_directory (root);
     return 0;

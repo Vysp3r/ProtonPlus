@@ -32,7 +32,7 @@ namespace ProtonPlus.Widgets.Tools {
             step_handler = job.notify["step"].connect (step_changed);
             progress_handler = job.progress_updated.connect (progress_changed);
             canceled_handler = job.notify["canceled"].connect (canceled_changed);
-            variant_handler = job.notify["selected-variant-name"].connect (
+            variant_handler = job.notify["selected-variant-id"].connect (
                 variant_changed
             );
             release_handler = job.notify["release"].connect (release_changed);

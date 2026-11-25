@@ -232,6 +232,7 @@ src/widgets/preferences/preferences-theme-row.vala
 src/widgets/preferences/preferences-tool-row.vala
 src/widgets/preferences/proxy-mode-row.vala
 src/widgets/tools/steam-tinker-launch-release-row.vala
+src/widgets/tools/tools-build-dropdown.vala
 src/widgets/tools/tools-game-row.vala
 src/widgets/tools/tools-group-box.vala
 src/widgets/tools/tools-migrate-box.vala

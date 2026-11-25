@@ -68,6 +68,15 @@ namespace ProtonPlus.Models {
             return yield load_first_page (force_refresh, false);
         }
 
+        // Installed release details are useful even after the browse snapshot
+        // expires. Reading them does not publish browse state or query upstream.
+        internal async Gee.List<Release>? read_cached_releases () {
+            if (cache == null || Globals.CACHE_PATH == null || Globals.CACHE_PATH == "")
+                return null;
+            var snapshot = yield cache.load_snapshot (false);
+            return snapshot?.releases;
+        }
+
         internal async ReleaseCatalogResult sync (ReleaseCatalog? refreshed_catalog) {
             if (refreshed_catalog == null || definition == null || refreshed_catalog.definition != definition)
                 return yield load_first_page (true, true);
