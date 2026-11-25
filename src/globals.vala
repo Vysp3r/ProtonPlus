@@ -88,10 +88,15 @@ namespace ProtonPlus.Globals {
         Intl.textdomain (Config.APP_ID);
     }
 
-    public static void load () {
-        if (loaded)
-            return;
+    public static void load (bool prepare_cache = true) {
+        if (!loaded)
+            load_environment ();
 
+        if (prepare_cache && !FileUtils.test (CACHE_PATH, FileTest.IS_DIR))
+            Utils.Filesystem.create_directory (CACHE_PATH);
+    }
+
+    private static void load_environment () {
         loaded = true;
 
         var schema_source = SettingsSchemaSource.get_default ();
@@ -135,8 +140,5 @@ namespace ProtonPlus.Globals {
         Globals.VKBASALT_INSTALLED = components.vkbasalt;
 
         Globals.CACHE_PATH = Path.build_filename (Environment.get_user_cache_dir (), "ProtonPlus");
-        if (!FileUtils.test (Globals.CACHE_PATH, FileTest.IS_DIR)) {
-            Utils.Filesystem.create_directory (Globals.CACHE_PATH);
-        }
     }
 }

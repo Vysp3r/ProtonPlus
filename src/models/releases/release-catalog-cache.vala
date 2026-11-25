@@ -33,7 +33,7 @@ namespace ProtonPlus.Models {
             this.tool_title = tool_title;
         }
 
-        public async void save (ReleaseCatalogSnapshot snapshot) {
+        public async bool save (ReleaseCatalogSnapshot snapshot) {
             var root_obj = new Json.Object ();
             root_obj.set_string_member ("last_updated", snapshot.last_updated);
             root_obj.set_int_member ("page", snapshot.page);
@@ -49,8 +49,31 @@ namespace ProtonPlus.Models {
             root_node.set_object (root_obj);
             generator.set_root (root_node);
 
-            if (Utils.Filesystem.modify_file (get_cache_file (), generator.to_data (null)))
-                Utils.Filesystem.delete_file (get_legacy_cache_file ());
+            return yield write_cache (generator.to_data (null));
+        }
+
+        private async bool write_cache (string contents, bool migrate_legacy = false) {
+            try {
+                var operation = yield Utils.CacheManager.begin_cache_operation ();
+                try {
+                    var cache_file = get_cache_file ();
+                    var legacy_file = get_legacy_cache_file ();
+                    if (migrate_legacy && !FileUtils.test (legacy_file, FileTest.EXISTS))
+                        return true;
+                    if (!migrate_legacy || !FileUtils.test (cache_file, FileTest.EXISTS)) {
+                        if (!Utils.Filesystem.create_directory (Globals.CACHE_PATH))
+                            return false;
+                        FileUtils.set_contents (cache_file, contents);
+                    }
+                    Utils.Filesystem.delete_file (legacy_file);
+                    return true;
+                } finally {
+                    operation.release ();
+                }
+            } catch (Error e) {
+                warning ("Could not save release cache: %s", e.message);
+                return false;
+            }
         }
 
         public async ReleaseCatalogSnapshot? load () {
@@ -84,20 +107,18 @@ namespace ProtonPlus.Models {
             var releases = new Gee.LinkedList<Release> ();
             var releases_array = releases_node.get_array ();
             for (var i = 0; i < releases_array.get_length (); i++) {
-                var release_obj = releases_array.get_object_element (i);
-                if (release_obj == null)
+                var node = releases_array.get_element (i);
+                if (node == null || node.get_node_type () != Json.NodeType.OBJECT)
                     continue;
-                var release = Release.from_json (release_obj);
+                var release = Release.from_json (node.get_object ());
                 if (release != null)
                     releases.add (release);
             }
+            if (releases_array.get_length () > 0 && releases.is_empty)
+                return null;
 
-            if (loading_legacy_cache) {
-                if (Utils.Filesystem.modify_file (get_cache_file (), json))
-                    Utils.Filesystem.delete_file (legacy_cache_file);
-            } else if (FileUtils.test (legacy_cache_file, FileTest.EXISTS)) {
-                Utils.Filesystem.delete_file (legacy_cache_file);
-            }
+            if (loading_legacy_cache || FileUtils.test (legacy_cache_file, FileTest.EXISTS))
+                yield write_cache (json, true);
 
             return new ReleaseCatalogSnapshot (
                 releases,

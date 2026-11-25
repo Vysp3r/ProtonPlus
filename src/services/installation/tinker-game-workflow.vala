@@ -5,8 +5,7 @@ namespace ProtonPlus.Services {
         public override ReturnCode validate_install (InstallJob job, bool replace_existing) {
             if (job.mode != InstallJob.Mode.TINKER_GAME)
                 return ReturnCode.INVALID_CONFIGURATION;
-            if (Globals.IS_STEAM_OS || Globals.IS_FLATPAK ||
-                job.tool.group.launcher.installation_type != Models.Launcher.InstallationTypes.SYSTEM) {
+            if (!is_supported_on (job.tool.group.launcher)) {
                 job.error_message = _("TinkerGame currently requires native Steam and native ProtonPlus outside SteamOS.");
                 return ReturnCode.UNSUPPORTED_OPERATION;
             }
@@ -15,6 +14,11 @@ namespace ProtonPlus.Services {
                 return ReturnCode.INVALID_CONFIGURATION;
             }
             return base.validate_install (job, replace_existing);
+        }
+
+        internal static bool is_supported_on (Models.Launcher launcher) {
+            return !Globals.IS_STEAM_OS && !Globals.IS_FLATPAK &&
+                launcher.installation_type == Models.Launcher.InstallationTypes.SYSTEM;
         }
 
         internal static bool exists (string path) {
@@ -193,7 +197,9 @@ namespace ProtonPlus.Services {
             return yield job.tool.release_catalog.fetch_latest_eligible_release ();
         }
 
-        public override async ReturnCode update (InstallJob job, InstallationOperationCoordinator coordinator) {
+        internal async ReturnCode check_available_update (InstallJob job, bool include_repairs) {
+            if (!include_repairs && (!is_supported_on (job.tool.group.launcher) || !is_owned (job)))
+                return ReturnCode.NOTHING_TO_UPDATE;
             job.step = InstallJob.Step.CHECKING_RELEASE;
             var lookup = yield lookup_latest (job);
             if (!lookup.succeeded)
@@ -206,6 +212,11 @@ namespace ProtonPlus.Services {
             refresh_state (job);
             if (job.state == InstallJob.State.NOT_INSTALLED)
                 return ReturnCode.RUNNER_NOT_INSTALLED;
+            if (!include_repairs) {
+                var metadata = Utils.Metadata.load (job.install_location);
+                return metadata.release_id == job.release.upstream_release_id
+                    ? ReturnCode.NOTHING_TO_UPDATE : ReturnCode.UPDATE_AVAILABLE;
+            }
             if (job.state == InstallJob.State.UP_TO_DATE) {
                 var healthy = yield validate_runtime_async (job.install_location, true);
                 refresh_state (job);
@@ -214,6 +225,13 @@ namespace ProtonPlus.Services {
                 if (job.state == InstallJob.State.UP_TO_DATE && healthy)
                     return ReturnCode.NOTHING_TO_UPDATE;
             }
+            return ReturnCode.UPDATE_AVAILABLE;
+        }
+
+        public override async ReturnCode update (InstallJob job, InstallationOperationCoordinator coordinator) {
+            var comparison = yield check_available_update (job, true);
+            if (comparison != ReturnCode.UPDATE_AVAILABLE)
+                return comparison;
             job.state = InstallJob.State.BUSY_UPDATING;
             var result = yield coordinator.install_for_update (job);
             job.finish_operation ();

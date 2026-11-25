@@ -65,19 +65,37 @@ namespace ProtonPlus.Models {
         }
 
         public async ReleaseCatalogResult load (bool force_refresh) {
+            return yield load_first_page (force_refresh, false);
+        }
+
+        internal async ReleaseCatalogResult sync (ReleaseCatalog? refreshed_catalog) {
+            if (refreshed_catalog == null || definition == null || refreshed_catalog.definition != definition)
+                return yield load_first_page (true, true);
+
+            // Launcher targets have separate cache keys but share the release
+            // page when they use the same provider definition.
+            apply_snapshot (new ReleaseCatalogSnapshot (
+                refreshed_catalog.releases, refreshed_catalog.page, refreshed_catalog.has_more, refreshed_catalog.last_updated
+            ));
+            if (!yield save_snapshot ())
+                return ReleaseCatalogResult.failure (ReturnCode.FILESYSTEM_ERROR, releases);
+            return ReleaseCatalogResult.success (releases);
+        }
+
+        private async ReleaseCatalogResult load_first_page (bool force_refresh, bool require_cache) {
             if (static_release != null) {
                 if (releases.size == 0)
                     replace_releases (single_release (static_release));
                 return ReleaseCatalogResult.success (releases);
             }
 
-            if (releases.size > 0 && !force_refresh && cache_is_fresh (last_updated))
+            if (!force_refresh && cache_is_fresh (last_updated))
                 return ReleaseCatalogResult.success (releases);
 
             loading = true;
             if (!force_refresh && releases.size == 0 && cache != null) {
                 var snapshot = yield cache.load ();
-                if (snapshot != null && snapshot.releases.size > 0 && cached_releases_match_definition (snapshot.releases)) {
+                if (snapshot != null && cached_releases_match_definition (snapshot.releases)) {
                     apply_snapshot (snapshot);
                     if (cache_is_fresh (snapshot.last_updated)) {
                         loading = false;
@@ -93,20 +111,21 @@ namespace ProtonPlus.Models {
             }
             var release_page = page_result.require_page ();
 
-            // Preserve the established empty-page behaviour: browsing state
-            // advances, but an existing collection is not replaced by empty
-            // source output.
+            // Browsing retains visible releases after an empty response.
+            // Sync explicitly replaces the persisted snapshot.
             page = release_page.next_page;
             has_more = release_page.has_more;
-            if (release_page.releases.size == 0) {
+            if (release_page.releases.size == 0 && !require_cache) {
                 loading = false;
                 return ReleaseCatalogResult.success (releases);
             }
 
             replace_releases (release_page.releases);
             last_updated = new DateTime.now_local ().format_iso8601 ();
-            yield save_snapshot ();
+            var saved = yield save_snapshot ();
             loading = false;
+            if (require_cache && !saved)
+                return ReleaseCatalogResult.failure (ReturnCode.FILESYSTEM_ERROR, releases);
             return ReleaseCatalogResult.success (releases);
         }
 
@@ -187,10 +206,10 @@ namespace ProtonPlus.Models {
             replace_releases (snapshot.releases);
         }
 
-        private async void save_snapshot () {
+        private async bool save_snapshot () {
             if (cache == null)
-                return;
-            yield cache.save (new ReleaseCatalogSnapshot (releases, page, has_more, last_updated));
+                return true;
+            return yield cache.save (new ReleaseCatalogSnapshot (releases, page, has_more, last_updated));
         }
 
         private void replace_releases (Gee.Iterable<Release> values) {

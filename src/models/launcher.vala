@@ -142,7 +142,7 @@ namespace ProtonPlus.Models {
             };
         }
 
-        public static async bool get_all (out Gee.LinkedList<Launcher> launchers) {
+        public static async bool get_all (bool read_only, out Gee.LinkedList<Launcher> launchers) {
             var _launchers = new Gee.LinkedList<Launcher> ();
             var definitions = new ProviderRegistry ();
 
@@ -157,15 +157,39 @@ namespace ProtonPlus.Models {
             if (launchers == null || launchers.size == 0)
                 return true;
 
-            var initialized = yield initialize_launchers (launchers, definitions);
-
-            if (!initialized)
-                return false;
-
-            return true;
+            if (read_only)
+                return initialize_launcher_groups (launchers, definitions);
+            return yield initialize_launchers (launchers, definitions);
         }
 
         public static async bool initialize_launchers (Gee.LinkedList<Launcher> launchers, ProviderRegistry definitions) {
+            if (!initialize_launcher_groups (launchers, definitions))
+                return false;
+
+            foreach (var launcher in launchers) {
+                foreach (var group in launcher.groups) {
+                    if (!yield launcher.ensure_group_directory (group.directory)) {
+                        warning (
+                            "Could not prepare group directory for launcher '%s': %s",
+                            launcher.instance_id,
+                            launcher.directory + group.directory
+                        );
+                    }
+                }
+
+                if (launcher.installed) {
+                    /* Game/profile data is optional launcher state.  A broken
+                     * library must not discard otherwise usable tool groups or
+                     * prevent later launchers from being initialized. */
+                    yield launcher.load_profile_library ();
+                }
+            }
+            return true;
+        }
+
+        private static bool initialize_launcher_groups (
+            Gee.LinkedList<Launcher> launchers, ProviderRegistry definitions
+        ) {
             foreach (var launcher in launchers) {
                 var categories = get_categories_for_launcher (launcher);
                 if (categories == null)
@@ -180,14 +204,6 @@ namespace ProtonPlus.Models {
 
                     if (group_directory == null)
                         return false;
-
-                    if (!yield launcher.ensure_group_directory (group_directory)) {
-                        warning (
-                            "Could not prepare group directory for launcher '%s': %s",
-                            launcher.instance_id,
-                            launcher.directory + group_directory
-                        );
-                    }
 
                     var app_group = new Group (
                                                group_title,
@@ -216,13 +232,6 @@ namespace ProtonPlus.Models {
                 }
 
                 launcher.groups = launcher_groups.to_array ();
-
-                if (launcher.installed) {
-                    /* Game/profile data is optional launcher state.  A broken
-                     * library must not discard otherwise usable tool groups or
-                     * prevent later launchers from being initialized. */
-                    yield launcher.load_profile_library ();
-                }
             }
 
             return true;
