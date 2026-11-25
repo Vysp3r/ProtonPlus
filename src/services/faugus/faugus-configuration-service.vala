@@ -315,21 +315,22 @@ namespace ProtonPlus.Services {
                 if (cancellable != null)
                     cancellable.set_error_if_cancelled ();
                 choices = runners ();
-                var library = read_library ();
-                var current = revalidate (library, expected);
-                inherited = library.default_runner;
                 if (runner != DEFAULT && !choices.any_match (tool =>
                     tool.is_assignable && tool.internal_title == runner))
                     throw new IOError.INVALID_ARGUMENT (_("The selected Faugus runner is no longer available."));
                 if (!backend.is_closed (flatpak))
                     throw new IOError.BUSY (_("Close the selected Faugus installation and its running games before applying changes."));
+
+                // Re-read after the process check. An edit during that check
+                // can leave the file's timestamp-based etag unchanged.
+                var library = read_library ();
+                var current = revalidate (library, expected);
+                inherited = library.default_runner;
                 if (library.etag == null)
                     throw new IOError.FAILED (_("The Faugus library cannot be updated atomically."));
                 if (current.runner == runner)
                     return current;
 
-                // Faugus rewrites this array from its in-memory library. Check
-                // the selected instance above and use the fresh file's etag.
                 current.entry.set_string_member ("runner", runner);
                 var node = new Json.Node (Json.NodeType.ARRAY);
                 node.set_array (library.entries);

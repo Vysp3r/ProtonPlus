@@ -16,8 +16,19 @@ namespace AppTests.FaugusGamesTest {
 
         public bool is_closed (bool flatpak) throws Error {
             last_checked_flatpak = flatpak;
-            if (changed_during_guard_path != null)
-                FileUtils.set_contents (changed_during_guard_path, changed_during_guard_contents);
+            if (changed_during_guard_path != null) {
+                var file = File.new_for_path (changed_during_guard_path);
+                var timestamps = file.query_info ("time::modified,time::modified-usec,time::modified-nsec",
+                    FileQueryInfoFlags.NONE);
+                var before = file.query_info (FileAttribute.ETAG_VALUE, FileQueryInfoFlags.NONE);
+                var stream = file.open_readwrite ();
+                size_t written;
+                stream.output_stream.write_all (changed_during_guard_contents.data, out written);
+                stream.close ();
+                file.set_attributes_from_info (timestamps, FileQueryInfoFlags.NONE);
+                var after = file.query_info (FileAttribute.ETAG_VALUE, FileQueryInfoFlags.NONE);
+                assert (before.get_etag () == after.get_etag ());
+            }
             return closed;
         }
 
@@ -319,12 +330,13 @@ namespace AppTests.FaugusGamesTest {
             assert (!apply (game, "Default"));
             assert (read (fixture.data).equal (external));
 
-            write (fixture.data, "games.json", """[{"gameid":"a","title":"A","runner":"DW-Proton Latest"}]""");
+            write (fixture.data, "games.json",
+                """[{"gameid":"a","title":"A","runner":"DW-Proton Latest","external_change":false}]""");
             assert (choices (game) != null);
             assert (game.compatibility_tool == "DW-Proton Latest");
             fixture.backend.changed_during_guard_path = Path.build_filename (fixture.data, "games.json");
             fixture.backend.changed_during_guard_contents =
-                """[{"gameid":"a","title":"A","runner":"DW-Proton Latest","external_change":true}]""";
+                """[{"gameid":"a","title":"A","runner":"DW-Proton Latest","external_change": true}]""";
             assert (!apply (game, "Default"));
             var after_race = read (fixture.data).get_array ().get_object_element (0);
             assert (after_race.get_boolean_member ("external_change"));
