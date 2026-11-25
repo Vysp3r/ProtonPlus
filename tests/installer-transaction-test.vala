@@ -30,7 +30,7 @@ namespace AppTests.InstallerTransactionTest {
                     "runner.zip", "https://fixtures.invalid/%s".printf (Path.get_basename (fixture_path)),
                     download_size, digest
                 ),
-                "", null, release_id ?? (tag == "fixture-tag" ? "fixture-release-id" : "fixture-release-" + tag), tag
+                "", null, fixture_release_id (tag, release_id), tag
             ), runner, mode, location);
             this.fixture_path = fixture_path;
             this.cancel_download = cancel_download;
@@ -40,6 +40,13 @@ namespace AppTests.InstallerTransactionTest {
                 variant?.id ?? "fixture-default", variant?.name ?? "Default", "", true,
                 release.asset.download_url, variant?.compatibility, release.asset
             ));
+        }
+
+        private static string fixture_release_id (string tag, string? release_id) {
+            // Vala 0.56.18 frees the fallback early when this expression is inlined in base().
+            if (release_id != null)
+                return release_id;
+            return tag == "fixture-tag" ? "fixture-release-id" : "fixture-release-" + tag;
         }
 
         public override async bool download_archive (string url, string path, out string? error_message) {
