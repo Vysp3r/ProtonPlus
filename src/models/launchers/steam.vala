@@ -3,7 +3,6 @@ namespace ProtonPlus.Models.Launchers {
         public const string FAMILY_ID = "steam";
         public List<SteamProfile> profiles;
         public SteamProfile profile { get; set; }
-        public bool game_library_loading { get; private set; }
         public SteamGameLibraryIssue? game_library_issue { get; private set; }
         public string default_compatibility_tool { get; set; }
         public HashTable<uint, string> compatibility_tool_hashtable;

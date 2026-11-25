@@ -28,6 +28,10 @@ src/main.vala
 src/models/compatibility-tool.vala
 src/models/cpu-capabilities.vala
 src/models/game.vala
+src/models/games/bottles.vala
+src/models/games/faugus.vala
+src/models/games/heroic.vala
+src/models/games/lutris.vala
 src/models/games/proton-autogen.vala
 src/models/games/steam.vala
 src/models/installed-tool-inventory.vala
@@ -82,6 +86,11 @@ src/providers/sources/release-source-support.vala
 src/providers/sources/release-source.vala
 src/providers/sources/tinkergame-release-source.vala
 src/return-code.vala
+src/services/bottles/bottles-library.vala
+src/services/faugus/faugus-backend.vala
+src/services/faugus/faugus-configuration-service.vala
+src/services/heroic/heroic-launch-service.vala
+src/services/heroic/heroic-library.vala
 src/services/installation/archive-workflow-support.vala
 src/services/installation/compatibility-process-guard.vala
 src/services/installation/download-failure.vala
@@ -94,6 +103,8 @@ src/services/installation/steam-tinker-launch-workflow.vala
 src/services/installation/steam-tinker-launch-yad-compatibility.vala
 src/services/installation/tinker-game-migration.vala
 src/services/installation/tinker-game-workflow.vala
+src/services/lutris/lutris-backend.vala
+src/services/lutris/lutris-configuration-service.vala
 src/services/migrations/imigration.vala
 src/services/migrations/manager.vala
 src/services/migrations/versions/v0.6.0.vala

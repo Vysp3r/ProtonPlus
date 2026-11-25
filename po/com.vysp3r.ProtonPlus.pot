@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-25 09:44-0500\n"
+"POT-Creation-Date: 2026-11-25 13:04-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1945,36 +1945,105 @@ msgid ""
 "%command% at the end."
 msgstr ""
 
-#: src/models/launcher.vala:292
+#: src/models/games/bottles.vala:31
+msgid "This Bottles program cannot be uniquely targeted."
+msgstr ""
+
+#: src/models/games/faugus.vala:32
+msgid "Automatic (UMU)"
+msgstr ""
+
+#: src/models/games/faugus.vala:34
+msgid "Linux Native"
+msgstr ""
+
+#: src/models/games/faugus.vala:40 src/models/games/lutris.vala:49
+#: src/models/games/lutris.vala:54 src/models/launchers/proton-autogen.vala:118
+#: src/models/launchers/steam.vala:502
+#, c-format
+msgid "%s (Unavailable)"
+msgstr ""
+
+#: src/models/games/faugus.vala:46 src/models/games/heroic.vala:31
+#: src/models/games/lutris.vala:40
+#, c-format
+msgid "Inherited (%s)"
+msgstr ""
+
+#: src/models/games/faugus.vala:47 src/models/games/heroic.vala:31
+#: src/models/games/lutris.vala:41
+msgid "Inherited"
+msgstr ""
+
+#: src/models/games/faugus.vala:80
+#, c-format
+msgid "Inherit Faugus default (%s)"
+msgstr ""
+
+#: src/models/games/heroic.vala:25 src/models/games/lutris.vala:35
+#: src/widgets/games/games-collection.vala:74
+#: src/widgets/games/games-mass-edit-view.vala:152
+#: src/widgets/games/games-page.vala:313
+msgid "Native"
+msgstr ""
+
+#: src/models/games/heroic.vala:27 src/models/games/lutris.vala:37
+msgid "Configuration unavailable"
+msgstr ""
+
+#: src/models/games/lutris.vala:47
+#, c-format
+msgid "Custom (%s)"
+msgstr ""
+
+#: src/models/games/lutris.vala:47
+#: src/widgets/games/launch-options-editor/launch-options-editor-resolution-field.vala:39
+msgid "Custom"
+msgstr ""
+
+#: src/models/games/lutris.vala:101
+#, c-format
+msgid "Inherit Lutris default (%s)"
+msgstr ""
+
+#: src/models/games/lutris.vala:102
+msgid "Inherit Lutris default"
+msgstr ""
+
+#: src/models/launcher.vala:297
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr ""
 
-#: src/models/launcher.vala:294
+#: src/models/launcher.vala:299
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
 
-#: src/models/launcher.vala:296
+#: src/models/launcher.vala:301
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
 
-#: src/models/launcher.vala:298
+#: src/models/launcher.vala:303
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr ""
 
-#: src/models/launcher.vala:383 src/models/providers/definitions/dxvk.vala:50
+#: src/models/launcher.vala:392 src/models/providers/definitions/dxvk.vala:50
 #: src/widgets/tools/tools-migrate-box.vala:98
 msgid "Default"
 msgstr ""
 
-#: src/models/launchers/faugus-launcher.vala:83
+#: src/models/launchers/bottles.vala:50
+msgid "Some Bottles programs couldn’t be loaded."
+msgstr ""
+
+#: src/models/launchers/faugus-launcher.vala:136
 msgid ""
 "Faugus Launcher uses this folder for Proton installations, but ProtonPlus "
 "cannot access its symlink target:"
 msgstr ""
 
-#: src/models/launchers/faugus-launcher.vala:85
+#: src/models/launchers/faugus-launcher.vala:138
 msgid "Grant ProtonPlus access, restart it, and try the installation again:"
 msgstr ""
 
@@ -1982,32 +2051,26 @@ msgstr ""
 msgid "Automatic"
 msgstr ""
 
-#: src/models/launchers/proton-autogen.vala:118
-#: src/models/launchers/steam.vala:503
-#, c-format
-msgid "%s (Unavailable)"
-msgstr ""
-
-#: src/models/launchers/steam.vala:207
+#: src/models/launchers/steam.vala:206
 #: src/widgets/preferences/preferences-dialog.vala:411
 msgid "Flatpak"
 msgstr ""
 
-#: src/models/launchers/steam.vala:207 src/models/launchers/steam.vala:208
+#: src/models/launchers/steam.vala:206 src/models/launchers/steam.vala:207
 #: src/widgets/preferences/preferences-dialog.vala:408
 #: src/widgets/preferences/preferences-dialog.vala:411
 #: src/widgets/tools/steam-tinker-launch-release-row.vala:175
 msgid "Yes"
 msgstr ""
 
-#: src/models/launchers/steam.vala:207 src/models/launchers/steam.vala:208
+#: src/models/launchers/steam.vala:206 src/models/launchers/steam.vala:207
 #: src/widgets/preferences/preferences-dialog.vala:408
 #: src/widgets/preferences/preferences-dialog.vala:411
 #: src/widgets/tools/steam-tinker-launch-release-row.vala:174
 msgid "No"
 msgstr ""
 
-#: src/models/launchers/steam.vala:208
+#: src/models/launchers/steam.vala:207
 #: src/widgets/preferences/preferences-dialog.vala:408
 #: src/widgets/preferences/preferences-theme-row.vala:18
 msgid "SteamOS"
@@ -2279,8 +2342,86 @@ msgstr ""
 msgid "The operation could not be completed."
 msgstr ""
 
+#: src/services/bottles/bottles-library.vala:9
+msgid "The Bottles command did not complete successfully."
+msgstr ""
+
+#: src/services/bottles/bottles-library.vala:138
+msgid ""
+"The selected Bottles program is no longer uniquely available. Reload the "
+"games list and try again."
+msgstr ""
+
+#: src/services/bottles/bottles-library.vala:150
+msgid "Could not read the bottle list from the selected Bottles CLI."
+msgstr ""
+
+#: src/services/bottles/bottles-library.vala:158
+#: src/services/bottles/bottles-library.vala:176
+msgid "Bottles returned invalid library data."
+msgstr ""
+
+#: src/services/faugus/faugus-backend.vala:92
+#: src/services/faugus/faugus-backend.vala:99
+#: src/services/faugus/faugus-backend.vala:122
+msgid "Could not query the selected Faugus installation."
+msgstr ""
+
+#: src/services/faugus/faugus-backend.vala:129
+#, c-format
+msgid "%s (Flatpak)"
+msgstr ""
+
+#: src/services/faugus/faugus-configuration-service.vala:102
+#, c-format
+msgid "Expected a regular Faugus file: %s"
+msgstr ""
+
+#: src/services/faugus/faugus-configuration-service.vala:107
+#: src/services/faugus/faugus-configuration-service.vala:109
+#, c-format
+msgid "ProtonPlus cannot access this Faugus file: %s"
+msgstr ""
+
+#: src/services/faugus/faugus-configuration-service.vala:126
+#, c-format
+msgid "The Faugus JSON file is invalid: %s"
+msgstr ""
+
+#: src/services/faugus/faugus-configuration-service.vala:263
+msgid ""
+"This Faugus game changed or its ID is no longer unique. Reload the library "
+"and try again."
+msgstr ""
+
+#: src/services/faugus/faugus-configuration-service.vala:290
+#: src/services/faugus/faugus-configuration-service.vala:304
+msgid "This Faugus game does not support changing its Proton runner."
+msgstr ""
+
+#: src/services/faugus/faugus-configuration-service.vala:323
+msgid "The selected Faugus runner is no longer available."
+msgstr ""
+
+#: src/services/faugus/faugus-configuration-service.vala:325
+msgid ""
+"Close the selected Faugus installation and its running games before applying "
+"changes."
+msgstr ""
+
+#: src/services/faugus/faugus-configuration-service.vala:327
+msgid "The Faugus library cannot be updated atomically."
+msgstr ""
+
+#: src/services/heroic/heroic-library.vala:251
+#, c-format
+msgid "Invalid Heroic metadata in %s."
+msgstr ""
+
 #: src/services/installation/download-failure.vala:44
 #: src/services/installation/standard-archive-workflow.vala:478
+#: src/widgets/games/games-collection.vala:27
+#: src/widgets/games/games-page.vala:510
 #, c-format
 msgid "%s (%s)"
 msgstr ""
@@ -2410,6 +2551,74 @@ msgstr ""
 
 #: src/services/installation/tinker-game-workflow.vala:90
 msgid "The TinkerGame archive is invalid or incomplete."
+msgstr ""
+
+#: src/services/lutris/lutris-backend.vala:106
+#: src/services/lutris/lutris-backend.vala:121
+#: src/services/lutris/lutris-backend.vala:133
+#: src/services/lutris/lutris-backend.vala:137
+msgid "Could not query the selected Lutris installation."
+msgstr ""
+
+#: src/services/lutris/lutris-backend.vala:145
+msgid "GE-Proton (Latest)"
+msgstr ""
+
+#. Relative database paths depend on the working directory Lutris
+#. started in. Require a path that identifies the same database.
+#: src/services/lutris/lutris-configuration-service.vala:36
+#, c-format
+msgid "Lutris uses an unsupported path override for %s."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:127
+#: src/services/lutris/lutris-configuration-service.vala:136
+#: src/services/lutris/lutris-configuration-service.vala:141
+#: src/services/lutris/lutris-configuration-service.vala:404
+msgid "The Lutris game configuration is invalid."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:134
+msgid "The Lutris game configuration changed. Reopen the editor and try again."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:377
+msgid ""
+"The Lutris game configuration changed or is read-only. Reload the Games list "
+"and try again."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:393
+msgid "The Lutris game configuration is read-only."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:396
+msgid "Another Lutris configuration change is in progress."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:400
+#: src/widgets/games/games-mass-edit-view.vala:313
+msgid "This tool is no longer available. Choose a different tool."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:422
+msgid "Close the selected Lutris installation before saving."
+msgstr ""
+
+#. Native and Flatpak Lutris share a GApplication ID. If the other
+#. client owns it, GLib could hand the game ID to the wrong library.
+#: src/services/lutris/lutris-configuration-service.vala:429
+msgid "Close the other Lutris installation before launching this game."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:432
+msgid ""
+"The selected Lutris game changed or its ID is no longer unique. Reload the "
+"Games list and try again."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:440
+msgid "Could not read the Lutris game database."
 msgstr ""
 
 #: src/services/proton-autogen-game-launch-service.vala:5
@@ -2723,7 +2932,7 @@ msgid "Search"
 msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:149
-#: src/widgets/games/games-page.vala:337 src/widgets/tools/tools-page.vala:126
+#: src/widgets/games/games-page.vala:343 src/widgets/tools/tools-page.vala:126
 #: src/widgets/tools/tools-page.vala:128 src/widgets/tools/tools-page.vala:276
 msgid "Filter"
 msgstr ""
@@ -2792,12 +3001,6 @@ msgstr ""
 
 #: src/widgets/controller-hint-bar.vala:227
 msgid "Top face button"
-msgstr ""
-
-#: src/widgets/games/games-collection.vala:72
-#: src/widgets/games/games-mass-edit-view.vala:149
-#: src/widgets/games/games-page.vala:307
-msgid "Native"
 msgstr ""
 
 #: src/widgets/games/games-extra-button.vala:70
@@ -2898,19 +3101,19 @@ msgstr ""
 msgid "The custom executable for %s could not be launched."
 msgstr ""
 
-#: src/widgets/games/games-list-view.vala:120
+#: src/widgets/games/games-list-view.vala:122
 msgid "Game"
 msgstr ""
 
-#: src/widgets/games/games-list-view.vala:127
+#: src/widgets/games/games-list-view.vala:129
 msgid "Prefix"
 msgstr ""
 
-#: src/widgets/games/games-list-view.vala:134
+#: src/widgets/games/games-list-view.vala:136
 msgid "Tool"
 msgstr ""
 
-#: src/widgets/games/games-list-view.vala:141
+#: src/widgets/games/games-list-view.vala:143
 #: src/widgets/introduction/controller.vala:49
 msgid "Actions"
 msgstr ""
@@ -2933,88 +3136,91 @@ msgid_plural "Modify %d selected games all at once"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/games/games-mass-edit-view.vala:28
-#: src/widgets/games/games-page.vala:621
+#: src/widgets/games/games-mass-edit-view.vala:29
+#: src/widgets/games/games-page.vala:661
 #, c-format
 msgid "%u game selected"
 msgid_plural "%u games selected"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/games/games-mass-edit-view.vala:38
-#: src/widgets/games/games-mass-edit-view.vala:41
+#: src/widgets/games/games-mass-edit-view.vala:39
+#: src/widgets/games/games-mass-edit-view.vala:42
 msgid "Clear Launch Options"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:46
+#: src/widgets/games/games-mass-edit-view.vala:47
 msgid "Apply Changes"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:55
+#: src/widgets/games/games-mass-edit-view.vala:56
 msgid "Change compatibility tool"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:239
+#: src/widgets/games/games-mass-edit-view.vala:218
+msgid "Wine or Proton version"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:245
 msgid "Affected games"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:263
+#: src/widgets/games/games-mass-edit-view.vala:269
 msgid "Choose a compatibility tool."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:265
+#: src/widgets/games/games-mass-edit-view.vala:271
 msgid "Choose an available compatibility tool."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:306
-msgid "This tool is no longer available. Choose a different tool."
-msgstr ""
-
-#: src/widgets/games/games-mass-edit-view.vala:333
+#: src/widgets/games/games-mass-edit-view.vala:340
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:335
+#: src/widgets/games/games-mass-edit-view.vala:342
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:574
 #, c-format
 msgid "%s — %s"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:336
+#: src/widgets/games/games-mass-edit-view.vala:343
 msgid "Launch options cannot be applied"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:337
+#: src/widgets/games/games-mass-edit-view.vala:344
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:390
+#: src/widgets/games/games-mass-edit-view.vala:360
+msgid "The change could not be saved."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:361
+msgid "Could Not Change the Runner"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:403
 msgid "Batch Update Failed"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:391
+#: src/widgets/games/games-mass-edit-view.vala:404
 msgid ""
 "Some games could not be updated. Their tool or configuration may have "
 "changed or become unavailable."
 msgstr ""
 
-#: src/widgets/games/games-page.vala:71 src/widgets/games/games-page.vala:595
+#: src/widgets/games/games-page.vala:74 src/widgets/games/games-page.vala:635
 msgid "No games found"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:72
+#: src/widgets/games/games-page.vala:75
 msgid "Try a different search term or filter."
 msgstr ""
 
-#: src/widgets/games/games-page.vala:152 src/widgets/games/games-page.vala:155
-#: src/widgets/main/main-box.vala:72
-msgid "Games"
-msgstr ""
-
-#: src/widgets/games/games-page.vala:179
+#: src/widgets/games/games-page.vala:120 src/widgets/games/games-page.vala:185
 #: src/widgets/header/header-downloads-indicator.vala:289
 #: src/widgets/header/header-downloads-indicator.vala:334
 #: src/widgets/tools/tools-release-row.vala:774
@@ -3024,160 +3230,179 @@ msgstr ""
 msgid "Retry"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:190
+#: src/widgets/games/games-page.vala:158 src/widgets/games/games-page.vala:161
+#: src/widgets/main/main-box.vala:72
+msgid "Games"
+msgstr ""
+
+#: src/widgets/games/games-page.vala:196
 msgid "Copy Diagnostics"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:198
+#: src/widgets/games/games-page.vala:204
 msgid "Diagnostics copied"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:220
+#: src/widgets/games/games-page.vala:226
 msgid "Clear Selection"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:304 src/widgets/tools/tools-page.vala:131
+#: src/widgets/games/games-page.vala:310 src/widgets/tools/tools-page.vala:131
 msgid "All"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:309
+#: src/widgets/games/games-page.vala:315
 msgid "Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:342
+#: src/widgets/games/games-page.vala:348
 msgid "Filter Games"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:352
+#: src/widgets/games/games-page.vala:358
 msgid "Search games"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:366 src/widgets/games/games-page.vala:370
+#: src/widgets/games/games-page.vala:372 src/widgets/games/games-page.vala:376
 msgid "Select all visible games"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:449
+#: src/widgets/games/games-page.vala:469
 msgid "Games couldn’t be loaded"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:459
+#: src/widgets/games/games-page.vala:482
 msgid "Unsupported launcher"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:461
+#: src/widgets/games/games-page.vala:484
 #, c-format
 msgid "%s is currently not supported."
 msgstr ""
 
-#: src/widgets/games/games-page.vala:462
+#: src/widgets/games/games-page.vala:485
 msgid ""
 "If you want me to speed up the development make sure to show your support!"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:481
+#: src/widgets/games/games-page.vala:513
+#, c-format
+msgid "Loading %s games"
+msgstr ""
+
+#: src/widgets/games/games-page.vala:513
+#, c-format
+msgid "%s games couldn’t be loaded"
+msgstr ""
+
+#: src/widgets/games/games-page.vala:521
 #: src/widgets/preferences/preferences-dialog.vala:143
 #, c-format
 msgid "Steam (%s)"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:489
+#: src/widgets/games/games-page.vala:529
 msgid "Loading Steam games"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:489
+#: src/widgets/games/games-page.vala:529
 msgid "Steam games couldn’t be loaded"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:565
+#: src/widgets/games/games-page.vala:605
 msgid "Filter: Native"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:567
+#: src/widgets/games/games-page.vala:607
 msgid "Filter: Non-Steam"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:569
+#: src/widgets/games/games-page.vala:609
 msgid "Filter: All games"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:579
+#: src/widgets/games/games-page.vala:619
 msgid "No matching games"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:581
+#: src/widgets/games/games-page.vala:621
 msgid "Try a different search term or clear the search."
 msgstr ""
 
-#: src/widgets/games/games-page.vala:584
+#: src/widgets/games/games-page.vala:624
 msgid "Clear Search"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:587
+#: src/widgets/games/games-page.vala:627
 msgid "No games match this filter"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:589
+#: src/widgets/games/games-page.vala:629
 msgid "Choose All games to see your complete library."
 msgstr ""
 
-#: src/widgets/games/games-page.vala:592
+#: src/widgets/games/games-page.vala:632
 #: src/widgets/tools/tools-group-box.vala:328
 #: src/widgets/tools/tools-releases-box.vala:514
 #: src/widgets/tools/tools-releases-box.vala:528
 msgid "Reset Filters"
 msgstr ""
 
-#: src/widgets/games/games-page.vala:597
+#: src/widgets/games/games-page.vala:637
 msgid "No games are available for this launcher."
 msgstr ""
 
-#: src/widgets/games/games-page.vala:624
+#: src/widgets/games/games-page.vala:664
 #, c-format
 msgid "%s · %u hidden by search or filters"
 msgstr ""
 
+#: src/widgets/games/games-page.vala:721
+msgid "Could Not Open the Runner Editor"
+msgstr ""
+
 #: src/widgets/games/games-row.vala:36 src/widgets/games/games-row.vala:40
-#: src/widgets/games/games-row.vala:70 src/widgets/games/games-row.vala:512
-#: src/widgets/games/games-row.vala:516 src/widgets/games/games-row.vala:591
+#: src/widgets/games/games-row.vala:74 src/widgets/games/games-row.vala:537
+#: src/widgets/games/games-row.vala:541 src/widgets/games/games-row.vala:626
 msgid "Select game"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:44 src/widgets/games/games-row.vala:528
+#: src/widgets/games/games-row.vala:44 src/widgets/games/games-row.vala:556
 msgid "Modify Game"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:58 src/widgets/games/games-row.vala:563
+#: src/widgets/games/games-row.vala:58 src/widgets/games/games-row.vala:592
 #: src/widgets/tools/tools-game-row.vala:15
 #: src/widgets/tools/tools-game-row.vala:19
 #, c-format
 msgid "Select %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:114 src/widgets/games/games-row.vala:630
+#: src/widgets/games/games-row.vala:120 src/widgets/games/games-row.vala:665
 #, c-format
 msgid "Toggle selection for %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:159 src/widgets/games/games-row.vala:631
+#: src/widgets/games/games-row.vala:177 src/widgets/games/games-row.vala:666
 #, c-format
 msgid "Modify %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:314 src/widgets/games/games-row.vala:317
+#: src/widgets/games/games-row.vala:332 src/widgets/games/games-row.vala:335
 #, c-format
 msgid "Launch %s"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:347
+#: src/widgets/games/games-row.vala:371
 msgid "Game Launch Failed"
 msgstr ""
 
-#: src/widgets/games/games-row.vala:348
+#: src/widgets/games/games-row.vala:372
 #, c-format
 msgid "%s could not be launched."
 msgstr ""
 
-#: src/widgets/games/games-row.vala:363
+#: src/widgets/games/games-row.vala:387
 #, c-format
 msgid "The Proton-Autogen command failed for %s."
 msgstr ""
@@ -3674,10 +3899,6 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-resolution-field.vala:38
 msgid "Auto detect"
-msgstr ""
-
-#: src/widgets/games/launch-options-editor/launch-options-editor-resolution-field.vala:39
-msgid "Custom"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-resolution-field.vala:60

@@ -30,7 +30,7 @@ Install your distribution's development packages for these tools and libraries.
 - **Build tools** include Git, GNU Make, a C compiler, pkg-config, Meson 1.0 or
   newer, Ninja, Vala, and gettext.
 - **Libraries** include GLib, GTK 4.14 or newer, libadwaita 1.5 or newer,
-  SDL 3.2 or newer, json-glib, libsoup 3, libgee, libarchive, and Cairo.
+  SDL 3.2 or newer, json-glib, libsoup 3, libgee, libarchive, SQLite, libyaml, and Cairo.
 - **Desktop tools** include `glib-compile-schemas` and desktop-file-utils.
 
 The [packaging recipes](packaging/) list distro-specific dependency names.

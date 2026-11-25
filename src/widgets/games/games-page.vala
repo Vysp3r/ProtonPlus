@@ -8,9 +8,12 @@ namespace ProtonPlus.Widgets.Games {
         Models.Launchers.Steam? observed_steam;
         ulong steam_loading_handler;
         ulong steam_profile_handler;
+        Models.Launcher? observed_deferred_library;
+        ulong library_loading_handler;
 
         Gtk.Image image;
         Adw.StatusPage status_page;
+        Adw.Banner library_warning_banner;
         Gtk.Box status_actions;
         Gtk.Button retry_button;
         Gtk.Button copy_diagnostics_button;
@@ -114,8 +117,11 @@ namespace ProtonPlus.Widgets.Games {
             games_card.set_size_request (360, 144);
             games_card.add_css_class ("card");
             toolbar = build_toolbar ();
+            library_warning_banner = new Adw.Banner ("") { use_markup = false, button_label = _("Retry") };
+            library_warning_banner.button_clicked.connect (() => retry_launcher_library.begin ());
             var games_content = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
             games_content.append (toolbar);
+            games_content.append (library_warning_banner);
             games_content.append (collection_view);
             games_content.append (empty_status_page);
             games_content.append (selection_footer);
@@ -404,9 +410,10 @@ namespace ProtonPlus.Widgets.Games {
         public void set_selected_launcher (Models.Launcher launcher) {
             if (launcher == this.launcher)
                 return;
-            disconnect_steam_library ();
+            disconnect_library ();
             show_games_list_page ();
             this.launcher = launcher;
+            check_button.set_visible (launcher.supports_bulk_game_edit);
             var steam_filters = launcher is Models.Launchers.Steam;
             filter_button.set_visible (steam_filters);
             non_steam_filter_check.set_visible (steam_filters);
@@ -425,15 +432,26 @@ namespace ProtonPlus.Widgets.Games {
                     }
                 });
             }
+            if (launcher.has_library_support && !launcher.load_library_on_startup) {
+                observed_deferred_library = launcher;
+                library_loading_handler = observed_deferred_library.notify["game-library-loading"].connect (refresh_launcher_page);
+                observed_deferred_library.load_profile_library.begin ();
+            }
             refresh_launcher_page ();
         }
 
-        void disconnect_steam_library () {
-            if (observed_steam == null)
-                return;
-            observed_steam.disconnect (steam_loading_handler);
-            observed_steam.disconnect (steam_profile_handler);
-            observed_steam = null;
+        void disconnect_library () {
+            if (observed_deferred_library != null) {
+                if (library_loading_handler != 0)
+                    observed_deferred_library.disconnect (library_loading_handler);
+                library_loading_handler = 0;
+                observed_deferred_library = null;
+            }
+            if (observed_steam != null) {
+                observed_steam.disconnect (steam_loading_handler);
+                observed_steam.disconnect (steam_profile_handler);
+                observed_steam = null;
+            }
         }
 
         void refresh_launcher_page () {
@@ -441,6 +459,8 @@ namespace ProtonPlus.Widgets.Games {
                 var steam = observed_steam;
                 if (steam != null && (steam.game_library_loading || !steam.game_library_available)) {
                     show_steam_status (steam);
+                } else if (observed_deferred_library != null && (launcher.game_library_loading || !launcher.game_library_available)) {
+                    show_library_status ((!) observed_deferred_library);
                 } else if (!launcher.game_library_available) {
                     status_actions.set_visible (true);
                     retry_button.set_visible (true);
@@ -449,6 +469,9 @@ namespace ProtonPlus.Widgets.Games {
                     show_status_box ("dialog-error-symbolic", _("Games couldn’t be loaded"), launcher.title);
                 } else {
                     status_page.set_visible (false);
+                    var warning = launcher.game_library_warning;
+                    library_warning_banner.set_title (warning ?? "");
+                    library_warning_banner.set_revealed (warning != null);
                     games_card.set_visible (true);
                     load_games ();
                 }
@@ -469,11 +492,28 @@ namespace ProtonPlus.Widgets.Games {
 
         async void retry_launcher_library () {
             var requested = launcher;
+            if (requested.game_library_loading)
+                return;
             retry_button.set_visible (false);
             status_spinner.set_visible (true);
             yield requested.load_profile_library ();
             if (launcher == requested && get_root () != null)
                 refresh_launcher_page ();
+        }
+
+        void show_library_status (Models.Launcher launcher) {
+            var loading = launcher.game_library_loading;
+            status_actions.set_visible (true);
+            retry_button.set_visible (!loading);
+            status_spinner.set_visible (loading);
+            copy_diagnostics_button.set_visible (false);
+            var installation = _("%s (%s)").printf (launcher.title, launcher.get_installation_type_title ());
+            show_status_box (
+                loading ? "input-gaming-symbolic" : "dialog-error-symbolic",
+                loading ? _("Loading %s games").printf (launcher.title) : _("%s games couldn’t be loaded").printf (launcher.title),
+                launcher.game_library_error != null && !loading
+                    ? "%s\n%s".printf (installation, launcher.game_library_error) : installation
+            );
         }
 
         void show_steam_status (Models.Launchers.Steam steam) {
@@ -623,7 +663,8 @@ namespace ProtonPlus.Widgets.Games {
             selection_summary.set_label (hidden_count > 0
                 ? _("%s · %u hidden by search or filters").printf (count_text, hidden_count)
                 : count_text);
-            bool show_actions = selected_count > 0 && games_card.get_visible ();
+            bool show_actions = launcher != null && launcher.supports_bulk_game_edit &&
+                selected_count > 0 && games_card.get_visible ();
             selection_footer.set_visible (show_actions);
             if (show_actions) {
                 mass_edit_button.set_selected_count ((int) selected_count);
@@ -645,14 +686,23 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void open_single_game_edit (GameListItem item) {
-            open_mass_edit.begin ({ item });
+            if (item.game.can_edit_compatibility_tool)
+                open_mass_edit.begin ({ item });
         }
 
         async void open_mass_edit (owned GameListItem[] items) {
             var request = ++edit_request;
             var selected_launcher = launcher;
             var generation = games.generation;
-            var tools_refreshed = yield selected_launcher.refresh_game_compatibility_tools ();
+            var per_game = !selected_launcher.supports_bulk_game_edit;
+            if (per_game && (items.length != 1 || !items[0].game.can_edit_compatibility_tool))
+                return;
+            Gee.List<Models.CompatibilityTool>? game_tools = null;
+            bool tools_refreshed = false;
+            if (per_game)
+                game_tools = yield items[0].game.load_game_tool_choices ();
+            else
+                tools_refreshed = yield selected_launcher.refresh_game_compatibility_tools ();
             if (request != edit_request || launcher != selected_launcher || generation != games.generation ||
                 navigation_view.get_visible_page () != list_page || !get_mapped ())
                 return;
@@ -661,7 +711,22 @@ namespace ProtonPlus.Widgets.Games {
                 for (uint index = 0; index < games.store.get_n_items (); index++)
                     ((GameListItem) games.store.get_item (index)).refresh_tool_title ();
             }
-            mass_edit_view.load (items, compatibility_tool_model, expression);
+            var model = compatibility_tool_model;
+            if (per_game) {
+                if (game_tools == null) {
+                    var detail = items[0].game.compatibility_edit_error;
+                    var root = get_root () as Gtk.Window;
+                    if (root != null && detail != null)
+                        Window.present_dialog_for_controller (new Main.ErrorDialog (
+                            _("Could Not Open the Runner Editor"), items[0].game.name, detail), root);
+                    return;
+                }
+                model = new ListStore (typeof (Models.CompatibilityTool));
+                foreach (var tool in game_tools)
+                    model.append (tool);
+                items[0].refresh_tool_title ();
+            }
+            mass_edit_view.load (items, model, expression, per_game);
             selection_button.set_label (mass_edit_view.get_selection_text ());
             selection_button.set_visible (true);
             selection_popover_title.set_label (mass_edit_view.get_selection_text ());
@@ -715,7 +780,7 @@ namespace ProtonPlus.Widgets.Games {
                 return false;
             var target = position + delta;
             if (target < 0) {
-                if (GameControllerNavigationPolicy.top_boundary_uses_selection (lane))
+                if (launcher.supports_bulk_game_edit && GameControllerNavigationPolicy.top_boundary_uses_selection (lane))
                     return check_button.grab_focus ();
                 return search_entry.grab_focus ();
             }
@@ -896,7 +961,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         public override void dispose () {
-            disconnect_steam_library ();
+            disconnect_library ();
             if (search_timeout_id != 0) {
                 Source.remove (search_timeout_id);
                 search_timeout_id = 0;

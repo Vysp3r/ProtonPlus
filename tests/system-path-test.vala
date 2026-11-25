@@ -28,6 +28,7 @@ namespace AppTests.SystemPathTest {
         Test.add_func ("/system/flatpak-dependency/installed-branches", test_flatpak_installed_branches);
         Test.add_func ("/system/flatpak-dependency/exact-id", test_flatpak_exact_id);
         Test.add_func ("/system/flatpak-dependency/command-status", test_flatpak_command_status);
+        Test.add_func ("/system/flatpak-launcher/runner-probes", test_flatpak_launcher_runner_probes);
         Test.add_func ("/system/components/native-command-detection", test_native_command_detection);
         Test.add_func ("/system/components/flatpak-host-command-detection", test_flatpak_host_command_detection);
         Test.add_func ("/system/components/flatpak-snapshot", test_flatpak_snapshot);
@@ -64,6 +65,76 @@ namespace AppTests.SystemPathTest {
         assert (!has_dependency ("", "spawn failed", -1));
         assert (!has_dependency ("", MANGOHUD_ID));
         assert (has_dependency (MANGOHUD_ID + "\n", "warning: error: diagnostic"));
+    }
+
+    private void test_flatpak_launcher_runner_probes () {
+        if (!Test.subprocess ()) {
+            Test.trap_subprocess (null, 5000000, TestSubprocessFlags.DEFAULT);
+            Test.trap_assert_passed ();
+            return;
+        }
+
+        try {
+            var root = DirUtils.make_tmp ("protonplus-flatpak-launcher-test-XXXXXX");
+            var flatpak = Path.build_filename (root, "flatpak");
+            var spawn = Path.build_filename (root, "flatpak-spawn");
+            var instances = Path.build_filename (root, ".flatpak");
+            var probe = Path.build_filename (instances, "101");
+            var running = Path.build_filename (instances, "102");
+            var snapshot = Path.build_filename (root, "snapshot");
+            assert (DirUtils.create_with_parents (probe, 0700) == 0);
+            assert (DirUtils.create_with_parents (running, 0700) == 0);
+
+            var marker = "PROTONPLUS_READ_ONLY_RUNNER_PROBE=1";
+            FileUtils.set_contents (Path.build_filename (probe, "info"), "[Environment]\n" + marker + "\n");
+            FileUtils.set_contents (Path.build_filename (running, "info"), "[Instance]\n" + marker + "\n");
+            FileUtils.set_contents (flatpak, """#!/bin/sh
+[ "$1" = ps ] && [ "$2" = --columns=instance,application ] || exit 2
+cat "$PROTONPLUS_TEST_FLATPAK_SNAPSHOT"
+""");
+            FileUtils.set_contents (spawn, """#!/bin/sh
+[ "$1" = --host ] || exit 2
+shift
+exec "$@"
+""");
+            assert (Posix.chmod (flatpak, 0700) == 0 && Posix.chmod (spawn, 0700) == 0);
+            Environment.set_variable ("PATH", root + ":" + Environment.get_variable ("PATH"), true);
+            Environment.set_variable ("XDG_RUNTIME_DIR", root, true);
+            Environment.set_variable ("PROTONPLUS_TEST_FLATPAK_SNAPSHOT", snapshot, true);
+
+            var lutris = new ProtonPlus.Services.HostLutrisBackend ();
+            var faugus = new ProtonPlus.Services.HostFaugusBackend ();
+            foreach (var through_host in new bool[] { false, true }) {
+                ProtonPlus.Globals.IS_FLATPAK = through_host;
+                FileUtils.set_contents (snapshot, "101\tnet.lutris.Lutris\n104\tio.github.Faugus.faugus-launcher\n");
+                assert (lutris.is_closed (true));
+                assert (!faugus.is_closed (true));
+                FileUtils.set_contents (snapshot, "101\tnet.lutris.Lutris\n102\tnet.lutris.Lutris\n");
+                assert (!lutris.is_closed (true));
+                FileUtils.set_contents (snapshot, "101\tio.github.Faugus.faugus-launcher\n");
+                assert (faugus.is_closed (true));
+                FileUtils.set_contents (snapshot, "103\tnet.lutris.Lutris\n");
+                assert (!lutris.is_closed (true));
+            }
+            FileUtils.unlink (snapshot);
+            try {
+                lutris.is_closed (true);
+                assert_not_reached ();
+            } catch (IOError.FAILED e) {
+                assert (e.message != "");
+            }
+
+            FileUtils.unlink (Path.build_filename (probe, "info"));
+            FileUtils.unlink (Path.build_filename (running, "info"));
+            DirUtils.remove (probe);
+            DirUtils.remove (running);
+            DirUtils.remove (instances);
+            FileUtils.unlink (flatpak);
+            FileUtils.unlink (spawn);
+            DirUtils.remove (root);
+        } catch (Error e) {
+            error ("%s", e.message);
+        }
     }
 
     private void test_native_command_detection () {

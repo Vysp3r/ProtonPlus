@@ -26,6 +26,8 @@ deps = [
     dependency('libsoup-3.0'),
     dependency('gee-0.8'),
     dependency('libarchive'),
+    dependency('sqlite3'),
+    dependency('yaml-0.1'),
     dependency('cairo'),
     meson.get_compiler('c').find_library('m'),
     sdl3_dep,
@@ -35,7 +37,7 @@ protonplus_lib = static_library(
     'protonplus_core',
     sources,
     dependencies : deps,
-    include_directories : config_inc,
+    include_directories : [config_inc, include_directories('.')],
     install : false
 )
 

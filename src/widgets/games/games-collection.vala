@@ -7,6 +7,7 @@ namespace ProtonPlus.Widgets.Games {
 
     public class GameListItem : Object {
         public Models.Game game { get; construct; }
+        public string display_name { get; private set; }
         public string normalized_name { get; private set; }
         public bool is_native { get; private set; }
         public bool is_non_steam { get; private set; }
@@ -22,16 +23,14 @@ namespace ProtonPlus.Widgets.Games {
         public GameListItem (Models.Game game) {
             Object (game: game);
 
-            normalized_name = game.name.down ();
+            var context = game.library_context;
+            display_name = context != null ? _("%s (%s)").printf (game.name, context) : game.name;
+            normalized_name = display_name.down ();
             is_native = game.is_native;
             is_non_steam = game is Models.Games.Steam
                 && ((Models.Games.Steam) game).is_non_steam;
-            has_install_directory = FileUtils.test (
-                game.installdir, FileTest.IS_DIR
-            );
-            has_prefix_directory = FileUtils.test (
-                game.prefixdir, FileTest.IS_DIR
-            );
+            has_install_directory = game.has_game_directory;
+            has_prefix_directory = game.has_prefix_directory;
             prefix = game.prefix;
             tool_title = resolve_tool_title ();
 
@@ -68,6 +67,9 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         string resolve_tool_title () {
+            var title = game.get_game_tool_title ();
+            if (title != null)
+                return title;
             if (game.compatibility_tool == "Default" && game.is_native)
                 return _("Native");
 

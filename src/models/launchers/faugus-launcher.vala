@@ -3,17 +3,32 @@ namespace ProtonPlus.Models.Launchers {
         public const string FAMILY_ID = "faugus";
         public const string FLATPAK_ID = "io.github.Faugus.faugus-launcher";
 
+        private Services.FaugusConfigurationService configuration;
+        private string? library_error;
+        private string? library_warning;
+        public override string? game_library_error { get { return library_error; } }
+        public override string? game_library_warning { get { return library_warning; } }
+        public override bool load_library_on_startup { get { return false; } }
+        public override bool supports_bulk_game_edit { get { return false; } }
+
         public FaugusLauncher (
             Launcher.InstallationTypes installation_type,
             string? home_directory_override = null,
             string? host_data_home_override = null,
             string? config_home_override = null,
             string? data_home_override = null,
-            string? state_home_override = null
+            string? state_home_override = null,
+            Services.FaugusConfigurationService? configuration = null
         ) {
             var home_directory = home_directory_override ?? Environment.get_home_dir ();
-            var config_home = config_home_override ?? Environment.get_user_config_dir ();
-            var data_home = data_home_override ?? Environment.get_user_data_dir ();
+            var config_home = config_home_override ?? (Globals.IS_FLATPAK
+                ? Environment.get_variable ("HOST_XDG_CONFIG_HOME") : Environment.get_user_config_dir ());
+            var data_home = data_home_override ?? (Globals.IS_FLATPAK
+                ? Environment.get_variable ("HOST_XDG_DATA_HOME") : Environment.get_user_data_dir ());
+            if (config_home == null || config_home == "")
+                config_home = Path.build_filename (home_directory, ".config");
+            if (data_home == null || data_home == "")
+                data_home = Path.build_filename (home_directory, ".local", "share");
             var state_home = state_home_override ?? Environment.get_variable ("XDG_STATE_HOME");
             if (state_home == null || state_home == "")
                 state_home = Path.build_filename (home_directory, ".local", "state");
@@ -58,10 +73,48 @@ namespace ProtonPlus.Models.Launchers {
                 "steam-system"
             );
 
-            // Other Flatpak apps' private data is intentionally hidden from
-            // the sandbox. Use the host package query cached at startup instead.
+            has_library_support = installation_type == InstallationTypes.SYSTEM || installation_type == InstallationTypes.FLATPAK;
+            this.configuration = configuration ?? new Services.FaugusConfigurationService (
+                installation_type == InstallationTypes.FLATPAK, home_directory, config_home, data_home,
+                null, Globals.IS_FLATPAK);
+
+            // Package detection stays independent of access to the library.
             if (installation_type == Launcher.InstallationTypes.FLATPAK && Globals.IS_FLATPAK)
                 installed = Globals.FAUGUS_FLATPAK_INSTALLED;
+        }
+
+        public override async bool load_game_library () {
+            Gee.List<Services.FaugusGameRecord>? records = null;
+            Gee.List<CompatibilityTool>? choices = null;
+            string inherited = "";
+            string? failure = null;
+            string? settings_error = null;
+            SourceFunc resume = load_game_library.callback;
+            new Thread<void> ("faugus-library", () => {
+                try {
+                    records = configuration.list_games (out inherited, out settings_error);
+                    if (records.any_match (record => record.can_edit ())) {
+                        try {
+                            choices = configuration.runners ();
+                        } catch (Error error) {
+                            debug ("Could not read Faugus runners: %s", error.message);
+                        }
+                    }
+                } catch (Error error) {
+                    failure = error.message;
+                }
+                Idle.add ((owned) resume);
+            });
+            yield;
+            library_error = failure;
+            library_warning = settings_error;
+            if (records == null)
+                return false;
+            var discovered = new List<Game> ();
+            foreach (var record in records)
+                discovered.append (new Games.Faugus (record, this, configuration, inherited, choices));
+            games = (owned) discovered;
+            return true;
         }
 
         /* Faugus writes the host native Steam compatibility-tool directory.

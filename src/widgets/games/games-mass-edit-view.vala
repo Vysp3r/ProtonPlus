@@ -17,6 +17,7 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Box content_box { get; set; }
         GameListItem[] items;
         string? compatibility_tool_diagnostic;
+        bool runner_only;
         uint load_generation;
         Cancellable? apply_request;
         LaunchOptions.LaunchOptionCapabilityResolver capability_resolver;
@@ -110,8 +111,10 @@ namespace ProtonPlus.Widgets.Games {
             return selection_button;
         }
 
-        public void load (GameListItem[] items, ListStore model, Gtk.PropertyExpression expression) {
+        public void load (GameListItem[] items, ListStore model, Gtk.PropertyExpression expression,
+            bool runner_only = false) {
             this.items = items;
+            this.runner_only = runner_only;
             var generation = ++load_generation;
             compatibility_tool_diagnostic = null;
             load_affected_games ();
@@ -142,7 +145,7 @@ namespace ProtonPlus.Widgets.Games {
                     continue;
                 if (!runner.is_available && (items.length != 1 || runner.internal_title != items[0].game.compatibility_tool))
                     continue;
-                if (Models.Launchers.Steam.is_steam_linux_runtime (runner.display_title, runner.internal_title)
+                if (!runner_only && Models.Launchers.Steam.is_steam_linux_runtime (runner.display_title, runner.internal_title)
                     && !all_steam_linux_runtime_compatible)
                     continue;
                 if (all_native && runner.internal_title == "Default") {
@@ -208,8 +211,11 @@ namespace ProtonPlus.Widgets.Games {
             launch_options_editor.visible = has_steam_launch_options;
             clear_button.visible = has_steam_launch_options;
 
-            compatibility_tool_apply_row.active = false;
-            compatibility_tool_row.visible = false;
+            compatibility_tool_apply_row.set_visible (!runner_only);
+            compatibility_tool_apply_row.active = runner_only;
+            compatibility_tool_row.visible = runner_only;
+            if (runner_only)
+                compatibility_tool_row.title = _("Wine or Proton version");
 
             compatibility_tool_row.notify["selected-item"].connect (() => {
                 compatibility_tool_diagnostic = null;
@@ -270,8 +276,9 @@ namespace ProtonPlus.Widgets.Games {
                 compatibility_tool_row.subtitle = tool_error ?? "";
 
             clear_button.sensitive = apply_request == null && launch_options_editor.can_clear;
-            apply_button.sensitive = apply_request == null && tool_error == null && launch_options_editor.writing_allowed
-                && (tool_enabled || launch_options_editor.has_changes_to_write);
+            apply_button.sensitive = apply_request == null && tool_error == null && (runner_only || launch_options_editor.writing_allowed)
+                && (tool_enabled || launch_options_editor.has_changes_to_write)
+                && (!runner_only || selected_tool?.internal_title != items[0].game.compatibility_tool);
         }
 
         void clear_button_clicked () {
@@ -349,6 +356,12 @@ namespace ProtonPlus.Widgets.Games {
                     if (request.is_cancelled () || generation != load_generation || get_root () == null)
                         return;
                     if (!success) {
+                        if (runner_only) {
+                            var detail = item.game.compatibility_edit_error ?? _("The change could not be saved.");
+                            var dialog = new Main.ErrorDialog (_("Could Not Change the Runner"), item.game.name, detail);
+                            Window.present_dialog_for_controller (dialog, (Gtk.Window) get_root ());
+                            return;
+                        }
                         compatibility_applied = false;
                         if (invalids.find (item.game.name) == null)
                             invalids.append (item.game.name);

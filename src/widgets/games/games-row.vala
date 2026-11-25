@@ -58,6 +58,10 @@ namespace ProtonPlus.Widgets.Games {
                 _("Select %s").printf (item.game.name),
                 -1
             );
+            var bulk = item.game.launcher.supports_bulk_game_edit;
+            check_button.set_visible (bulk);
+            navigation_image.set_visible (item.game.can_edit_compatibility_tool);
+            set_focusable (bulk);
             update_accessibility ();
         }
 
@@ -101,6 +105,8 @@ namespace ProtonPlus.Widgets.Games {
         public bool controller_activate (Object focused) {
             if (item == null)
                 return false;
+            if (!item.game.launcher.supports_bulk_game_edit)
+                return false;
             ((!) item).selected = !((!) item).selected;
             return true;
         }
@@ -120,6 +126,7 @@ namespace ProtonPlus.Widgets.Games {
     public class GameTitleCell : Gtk.Box, Utils.ControllerDirectionalFocus,
         Utils.ControllerActivationHandler {
         Gtk.Label label;
+        Gtk.Label context_label;
         GameListItem? item;
         unowned GameVerticalFocusRequest vertical_focus;
         unowned GamePeerFocusRequest selection_focus;
@@ -130,7 +137,7 @@ namespace ProtonPlus.Widgets.Games {
             GamePeerFocusRequest selection_focus,
             GamePeerFocusRequest actions_focus,
             GameActivationRequest activation_request) {
-            Object (orientation: Gtk.Orientation.HORIZONTAL);
+            Object (orientation: Gtk.Orientation.VERTICAL);
             this.vertical_focus = vertical_focus;
             this.selection_focus = selection_focus;
             this.actions_focus = actions_focus;
@@ -146,17 +153,28 @@ namespace ProtonPlus.Widgets.Games {
                 ellipsize = Pango.EllipsizeMode.END
             };
             append (label);
+            context_label = new Gtk.Label (null) {
+                xalign = 0,
+                ellipsize = Pango.EllipsizeMode.END,
+                css_classes = { "dim-label" },
+                visible = false
+            };
+            append (context_label);
         }
 
         public void bind (GameListItem item) {
             unbind ();
             this.item = item;
             label.set_label (item.game.name);
-            label.set_tooltip_text (item.game.name);
+            label.set_tooltip_text (item.display_name);
+            var context = item.game.library_context;
+            context_label.set_label (context ?? "");
+            context_label.set_tooltip_text (context);
+            context_label.set_visible (context != null);
             update_property (
-                Gtk.AccessibleProperty.LABEL, item.game.name,
+                Gtk.AccessibleProperty.LABEL, item.display_name,
                 Gtk.AccessibleProperty.DESCRIPTION,
-                _("Modify %s").printf (item.game.name),
+                item.game.can_edit_compatibility_tool ? _("Modify %s").printf (item.game.name) : "",
                 -1
             );
         }
@@ -165,6 +183,7 @@ namespace ProtonPlus.Widgets.Games {
             item = null;
             label.set_label ("");
             label.set_tooltip_text (null);
+            context_label.set_visible (false);
             reset_property (Gtk.AccessibleProperty.LABEL);
             reset_property (Gtk.AccessibleProperty.DESCRIPTION);
         }
@@ -194,7 +213,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         public bool controller_activate (Object focused) {
-            if (item == null)
+            if (item == null || !item.game.can_edit_compatibility_tool)
                 return false;
             activation_request ((!) item);
             return true;
@@ -285,7 +304,7 @@ namespace ProtonPlus.Widgets.Games {
             ) {
                 css_classes = { "flat" }
             };
-            launch_button.clicked.connect (launch_game);
+            launch_button.clicked.connect (() => launch_game.begin ());
 
             extra_button = new ExtraButton (target);
             append (launch_button);
@@ -296,7 +315,6 @@ namespace ProtonPlus.Widgets.Games {
             unbind ();
             target.bind (item);
             var steam_game = item.game as Models.Games.Steam;
-            var autogen_game = item.game as Models.Games.ProtonAutogen;
             var availability = GameActionAvailability.evaluate (
                 steam_game != null,
                 item.is_non_steam,
@@ -308,23 +326,25 @@ namespace ProtonPlus.Widgets.Games {
                 steam_game?.awacy_status,
                 steam_game?.awacy_name != null,
                 steam_game?.awacy_lookup_complete ?? false,
-                autogen_game?.can_launch ?? false
+                item.game.can_launch
             );
             launch_button.set_visible (availability.show_launch);
-            launch_button.set_tooltip_text (_("Launch %s").printf (item.game.name));
+            launch_button.set_tooltip_text (_("Launch %s").printf (item.display_name));
             launch_button.update_property (
                 Gtk.AccessibleProperty.LABEL,
-                _("Launch %s").printf (item.game.name),
+                _("Launch %s").printf (item.display_name),
                 -1
             );
             extra_button.bind (item);
             refresh_visibility ();
         }
 
-        void launch_game () {
-            var game = target.item?.game;
-            if (game == null)
+        async void launch_game () {
+            var generation = target.generation;
+            var item = target.item;
+            if (item == null)
                 return;
+            var game = item.game;
             var root = get_root () as Gtk.Window;
             var steam_game = game as Models.Games.Steam;
             var autogen_game = game as Models.Games.ProtonAutogen;
@@ -340,12 +360,16 @@ namespace ProtonPlus.Widgets.Games {
                         autogen_game.executable_path, Globals.IS_FLATPAK);
                     if (root != null)
                         observe_autogen_exit (process, root, game.name);
+                } else if (game.can_launch) {
+                    var process = yield game.launch_external ();
+                    if (process != null)
+                        yield process.wait_check_async ();
                 }
             } catch (Error error) {
-                if (root != null)
+                if (root != null && generation == target.generation && root.get_mapped ())
                     Window.present_dialog_for_controller (new Main.ErrorDialog (
                         _("Game Launch Failed"),
-                        _("%s could not be launched.").printf (game.name),
+                        _("%s could not be launched.").printf (item.display_name),
                         error.message), root);
             }
         }
@@ -485,6 +509,7 @@ namespace ProtonPlus.Widgets.Games {
         Utils.ControllerActivationHandler {
         Gtk.CheckButton select_check_button;
         Gtk.Label title_label;
+        Gtk.Label context_label;
         Gtk.Label tool_label;
         Gtk.Label prefix_label;
         GameActions actions;
@@ -517,6 +542,9 @@ namespace ProtonPlus.Widgets.Games {
             );
             title_label = compact_label (true);
             title_label.add_css_class ("heading");
+            context_label = compact_label (true);
+            context_label.add_css_class ("dim-label");
+            context_label.set_visible (false);
             tool_label = compact_label (true);
             prefix_label = compact_label (false);
             prefix_label.add_css_class ("dim-label");
@@ -538,6 +566,7 @@ namespace ProtonPlus.Widgets.Games {
             actions.set_margin_start (30);
 
             append (title_line);
+            append (context_label);
             append (details_line);
             append (actions);
         }
@@ -565,10 +594,15 @@ namespace ProtonPlus.Widgets.Games {
             );
             tool_title_handler = item.notify["tool-title"].connect (refresh_tool_title);
             title_label.set_label (item.game.name);
-            title_label.set_tooltip_text (item.game.name);
+            title_label.set_tooltip_text (item.display_name);
+            var context = item.game.library_context;
+            context_label.set_label (context ?? "");
+            context_label.set_tooltip_text (context);
+            context_label.set_visible (context != null);
             prefix_label.set_label (item.game.prefix.to_string ());
             prefix_label.set_visible (item.game is Models.Games.Steam);
             prefix_label.set_tooltip_text (null);
+            select_check_button.set_visible (item.game.launcher.supports_bulk_game_edit);
             refresh_tool_title ();
             actions.bind (item);
             update_accessibility (false);
@@ -584,6 +618,7 @@ namespace ProtonPlus.Widgets.Games {
             actions.unbind ();
             item = null;
             title_label.set_label ("");
+            context_label.set_visible (false);
             tool_label.set_label ("");
             prefix_label.set_label ("");
             select_check_button.set_active (false);
@@ -616,7 +651,7 @@ namespace ProtonPlus.Widgets.Games {
 
         public void set_selection_mode (bool selection_mode) {
             actions.set_selection_mode (selection_mode);
-            navigation_image.set_visible (!selection_mode);
+            navigation_image.set_visible (!selection_mode && (item != null && item.game.can_edit_compatibility_tool));
             update_accessibility (selection_mode);
         }
 
@@ -624,11 +659,11 @@ namespace ProtonPlus.Widgets.Games {
             if (item == null)
                 return;
             update_property (
-                Gtk.AccessibleProperty.LABEL, ((!) item).game.name,
+                Gtk.AccessibleProperty.LABEL, ((!) item).display_name,
                 Gtk.AccessibleProperty.DESCRIPTION,
                 selection_mode
                     ? _("Toggle selection for %s").printf (((!) item).game.name)
-                    : _("Modify %s").printf (((!) item).game.name),
+                    : (item.game.can_edit_compatibility_tool ? _("Modify %s").printf (item.game.name) : ""),
                 -1
             );
         }
@@ -666,6 +701,8 @@ namespace ProtonPlus.Widgets.Games {
             var focused = focused_object as Gtk.Widget;
             if (focused != null && ((!) focused).is_ancestor (actions))
                 return ((!) focused).activate ();
+            if (!item.game.can_edit_compatibility_tool)
+                return false;
             activation_request ((!) item);
             return true;
         }

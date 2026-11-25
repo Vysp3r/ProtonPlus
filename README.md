@@ -5,7 +5,7 @@
 <h1 align="center">ProtonPlus</h1>
 
 <p align="center">
-  Manage compatibility tools and fine-tune Steam games on Linux.
+  Manage compatibility tools and launch games on Linux.
 </p>
 
 <p align="center">
@@ -20,6 +20,7 @@
 
 - Install and update Proton, Wine, DXVK, and VKD3D for [supported launchers](docs/compatibility.md).
 - Change compatibility tools and launch options for one Steam game or several at once.
+- Browse and launch games from Lutris, Faugus Launcher, Heroic Games Launcher, and Bottles. Edit per-game runners in Lutris and Faugus. [Games tab guide](docs/usage.md#manage-games-in-other-launchers)
 - Navigate with a gamepad.
 - Search for runners, check for updates, and manage tools from the [command line](docs/usage.md#command-line-interface).
 

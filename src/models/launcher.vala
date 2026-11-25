@@ -12,6 +12,11 @@ namespace ProtonPlus.Models {
         public string directory;
         public bool installed;
         public bool has_library_support;
+        public virtual bool load_library_on_startup { get { return true; } }
+        public virtual bool supports_bulk_game_edit { get { return true; } }
+        public virtual string? game_library_error { get { return null; } }
+        public virtual string? game_library_warning { get { return null; } }
+        public bool game_library_loading { get; protected set; }
         public bool game_library_available { get; protected set; default = false; }
         public List<Game> games;
         public Gee.LinkedList<CompatibilityTool> compatibility_tools;
@@ -177,7 +182,7 @@ namespace ProtonPlus.Models {
                     }
                 }
 
-                if (launcher.installed) {
+                if (launcher.installed && launcher.load_library_on_startup) {
                     /* Game/profile data is optional launcher state.  A broken
                      * library must not discard otherwise usable tool groups or
                      * prevent later launchers from being initialized. */
@@ -348,7 +353,11 @@ namespace ProtonPlus.Models {
         }
 
         public virtual async bool load_profile_library () {
+            if (game_library_loading)
+                return false;
+            game_library_loading = true;
             game_library_available = yield load_game_library ();
+            game_library_loading = false;
             return game_library_available;
         }
 

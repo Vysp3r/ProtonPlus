@@ -5,16 +5,18 @@
   <project_license>GPL-3.0-or-later</project_license>
 
   <name>ProtonPlus</name>
-  <summary>Manage compatibility tools and fine-tune Steam games on Linux</summary>
+  <summary>Manage compatibility tools and launch games on Linux</summary>
   <description>
     <p>
-      Install and update compatibility tools for Steam and other Linux game launchers. Choose a compatibility tool for each Steam game and preview launch options before applying them.
+      Install and update compatibility tools for Steam and other Linux game launchers. Browse installed games, launch them with their saved settings, and preview Steam launch options before applying them.
     </p>
     <ul>
       <li>Manage Proton, Wine, DXVK, VKD3D, and related compatibility tools</li>
       <li>Manage tools for Steam, Faugus Launcher, Lutris, Heroic Games Launcher, Bottles, and WineZGUI</li>
       <li>Manage Proton builds and game profiles for Proton-Autogen</li>
       <li>Edit compatibility tools and launch options for one or more Steam games</li>
+      <li>Launch games and open their folders in Lutris, Faugus Launcher, Heroic Games Launcher, and Bottles</li>
+      <li>Change or reset compatible per-game runners in Lutris and Faugus Launcher</li>
       <li>Track downloads and updates, with cancellation and desktop notifications</li>
       <li>Navigate the app with a gamepad</li>
       <li>Search for runners, check for updates, and manage installations and the release cache from the command line</li>
@@ -97,6 +99,7 @@
           <li>✨ Added automatic download retries and resume, plus an optional HTTPS mirror for GitHub release assets</li>
           <li>✨ Added native Linux packages and SHA-256 checksums to GitHub Releases</li>
           <li>✨ Added Proton-Autogen, TinkerGame, and Rosemary support</li>
+          <li>✨ Added Games support for Lutris, Faugus Launcher, Heroic Games Launcher, and Bottles, with runner editing in Lutris and Faugus</li>
           <li>✨ Added CLI runner search, update checks, and release cache maintenance</li>
           <li>🐛 Improved Steam game discovery and restart handling</li>
           <li>🐛 Fixed custom launch wrappers appearing after the Steam command</li>

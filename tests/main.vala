@@ -30,7 +30,11 @@ int main (string[] args) {
     AppTests.SystemdTimerTest.register_tests ();
     AppTests.MigrationV0_6_6Test.register_tests ();
     AppTests.FaugusLauncherTest.register_tests ();
+    AppTests.FaugusGamesTest.register_tests ();
     AppTests.ProtonAutogenTest.register_tests ();
+    AppTests.LutrisTest.register_tests ();
+    AppTests.BottlesTest.register_tests ();
+    AppTests.HeroicTest.register_tests ();
     AppTests.MetadataTest.register_tests ();
     AppTests.CompatibilityToolTest.register_tests ();
     AppTests.SteamCompatibilityToolDiscoveryTest.register_tests ();
