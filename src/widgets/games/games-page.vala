@@ -44,7 +44,6 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.MenuButton selection_button;
         Gtk.ListBox selection_list_box;
         Gtk.Popover selection_popover;
-        Gtk.Label selection_popover_title;
         GameListItem? last_focused_item;
         string search_query = "";
         uint search_timeout_id = 0;
@@ -97,7 +96,7 @@ namespace ProtonPlus.Widgets.Games {
             mass_edit_button.mass_edit_requested.connect (() => {
                 var selected = games.selected_items ();
                 if (selected.length > 0)
-                    open_mass_edit.begin ((owned) selected);
+                    open_editor.begin ((owned) selected, true);
             });
 
             build_selection_popover ();
@@ -276,32 +275,24 @@ namespace ProtonPlus.Widgets.Games {
                 selection_mode = Gtk.SelectionMode.NONE,
                 focusable = false
             };
-            selection_list_box.add_css_class ("selection-popover-list");
             var selection_scrolled_window = new Gtk.ScrolledWindow () {
+                focusable = true,
                 hscrollbar_policy = Gtk.PolicyType.NEVER,
                 vscrollbar_policy = Gtk.PolicyType.AUTOMATIC,
-                max_content_height = 300,
+                max_content_height = 280,
                 propagate_natural_height = true,
                 child = selection_list_box
             };
-            selection_popover_title = new Gtk.Label ("") {
-                halign = Gtk.Align.START,
-                xalign = 0,
-                ellipsize = Pango.EllipsizeMode.END
-            };
-            selection_popover_title.add_css_class ("heading");
-            var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 8);
-            content.add_css_class ("selection-popover-content");
-            content.append (selection_popover_title);
-            content.append (selection_scrolled_window);
+            selection_scrolled_window.add_css_class ("selection-popover-content");
             selection_popover = new Gtk.Popover () {
-                child = content
+                child = selection_scrolled_window
             };
             selection_button = new Gtk.MenuButton () {
                 popover = selection_popover,
-                visible = false
+                visible = false,
+                tooltip_text = _("View selected games")
             };
-            Window.register_popover_for_controller (selection_popover, selection_button);
+            Window.register_popover_for_controller (selection_popover, selection_button, selection_scrolled_window);
             selection_button.add_css_class ("flat");
             selection_button.add_css_class ("bold");
         }
@@ -418,8 +409,6 @@ namespace ProtonPlus.Widgets.Games {
             filter_button.set_visible (steam_filters);
             non_steam_filter_check.set_visible (steam_filters);
             native_filter_check.set_visible (steam_filters);
-            if (collection_view.set_prefix_visible (steam_filters))
-                games_controller_box.reset_sort_header_configuration ();
             last_focused_item = null;
 
             observed_steam = launcher as Models.Launchers.Steam;
@@ -686,11 +675,13 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void open_single_game_edit (GameListItem item) {
-            if (item.game.can_edit_compatibility_tool)
-                open_mass_edit.begin ({ item });
+            if (item.game.can_edit_compatibility_tool) {
+                last_focused_item = item;
+                open_editor.begin ({ item }, false);
+            }
         }
 
-        async void open_mass_edit (owned GameListItem[] items) {
+        async void open_editor (owned GameListItem[] items, bool mass_edit) {
             var request = ++edit_request;
             var selected_launcher = launcher;
             var generation = games.generation;
@@ -726,31 +717,34 @@ namespace ProtonPlus.Widgets.Games {
                     model.append (tool);
                 items[0].refresh_tool_title ();
             }
-            mass_edit_view.load (items, model, expression, per_game);
+            mass_edit_view.load (items, model, expression, per_game, mass_edit);
+            if (mass_edit)
+                load_editor_selection (items);
+            mass_edit_cleanup_pending = true;
+            push_mass_edit_page ();
+        }
+
+        void load_editor_selection (GameListItem[] items) {
             selection_button.set_label (mass_edit_view.get_selection_text ());
-            selection_button.set_visible (true);
-            selection_popover_title.set_label (mass_edit_view.get_selection_text ());
             selection_list_box.remove_all ();
             foreach (var item in items) {
                 var title = new Gtk.Label (item.game.name) {
-                    halign = Gtk.Align.START,
-                    hexpand = true,
                     xalign = 0,
-                    ellipsize = Pango.EllipsizeMode.END
+                    wrap = true,
+                    wrap_mode = Pango.WrapMode.WORD_CHAR,
+                    lines = 2,
+                    max_width_chars = 38,
+                    ellipsize = Pango.EllipsizeMode.END,
+                    tooltip_text = item.game.name,
+                    css_classes = { "selection-popover-row" }
                 };
-                var content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
-                content.add_css_class ("selection-popover-row");
-                content.append (new Gtk.Image.from_icon_name ("input-gaming-symbolic"));
-                content.append (title);
                 selection_list_box.append (new Gtk.ListBoxRow () {
                     activatable = false,
                     selectable = false,
                     focusable = false,
-                    child = content
+                    child = title
                 });
             }
-            mass_edit_cleanup_pending = true;
-            push_mass_edit_page ();
         }
 
         void switch_collection_view (bool narrow) {

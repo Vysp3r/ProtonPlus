@@ -59,20 +59,8 @@ namespace AppTests.GameCollectionTest {
         collection.replace (game_list ({ zulu, alpha, bravo }));
         assert (collection.item_at (0).game.name == "Alpha");
 
-        collection.set_sorter (collection.prefix_sorter);
-        assert (collection.item_at (0).game.name == "Bravo");
-        assert (collection.item_at (1).game.name == "Zulu");
-        assert (collection.item_at (2).game.name == "Alpha");
-
-        var selected = collection.item_at (1);
+        var selected = collection.item_at (2);
         selected.selected = true;
-        collection.prefix_sorter.set_sort_order (Gtk.SortType.DESCENDING);
-        assert (collection.item_at (0).game.name == "Alpha");
-        assert (collection.item_at (1).game.name == "Zulu");
-        assert (collection.item_at (2).game.name == "Bravo");
-        assert (selected.selected);
-        assert (collection.selected_visible_count () == 1);
-
         collection.set_sorter (collection.tool_sorter);
         assert (collection.item_at (0).game.name == "Zulu");
         assert (collection.item_at (1).game.name == "Alpha");

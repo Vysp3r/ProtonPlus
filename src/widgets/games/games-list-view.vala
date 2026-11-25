@@ -12,7 +12,6 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.Stack views_stack;
         Gtk.ScrolledWindow wide_scroller;
         Gtk.ColumnViewColumn title_column;
-        Gtk.ColumnViewColumn prefix_column;
         Gtk.ColumnViewColumn actions_column;
         Gee.HashMap<GameListItem, GameRow> narrow_rows;
         Gee.HashMap<GameListItem, GameSelectionCell> wide_selection_cells;
@@ -91,16 +90,6 @@ namespace ProtonPlus.Widgets.Games {
             return wide_selection_cells.get (item);
         }
 
-        public bool set_prefix_visible (bool visible) {
-            if (prefix_column.visible == visible)
-                return false;
-            var sorter = wide_view.get_sorter () as Gtk.ColumnViewSorter;
-            if (!visible && sorter?.get_primary_sort_column () == prefix_column)
-                wide_view.sort_by_column (title_column, Gtk.SortType.ASCENDING);
-            prefix_column.visible = visible;
-            return true;
-        }
-
         Gtk.ColumnView build_wide_view () {
             var view = new Gtk.ColumnView (games.selection_model) {
                 hexpand = true,
@@ -121,19 +110,12 @@ namespace ProtonPlus.Widgets.Games {
             title_column = new Gtk.ColumnViewColumn (
                 _("Game"), create_title_factory ()
             );
-            title_column.set_expand (false);
+            title_column.set_expand (true);
             title_column.set_sorter (games.name_sorter);
             view.append_column (title_column);
 
-            prefix_column = new Gtk.ColumnViewColumn (
-                _("Prefix"), create_text_factory (GameTextCellKind.PREFIX)
-            );
-            prefix_column.set_expand (false);
-            prefix_column.set_sorter (games.prefix_sorter);
-            view.append_column (prefix_column);
-
             var tool_column = new Gtk.ColumnViewColumn (
-                _("Tool"), create_text_factory (GameTextCellKind.TOOL)
+                _("Compatibility"), create_compatibility_factory ()
             );
             tool_column.set_expand (true);
             tool_column.set_sorter (games.tool_sorter);
@@ -290,29 +272,29 @@ namespace ProtonPlus.Widgets.Games {
             return factory;
         }
 
-        Gtk.SignalListItemFactory create_text_factory (GameTextCellKind kind) {
+        Gtk.SignalListItemFactory create_compatibility_factory () {
             var factory = new Gtk.SignalListItemFactory ();
             factory.setup.connect ((object) => {
                 var list_item = (Gtk.ListItem) object;
                 list_item.set_activatable (true);
                 list_item.set_focusable (false);
                 list_item.set_selectable (false);
-                list_item.set_child (new GameTextCell (kind));
+                list_item.set_child (new GameCompatibilityCell ());
             });
             factory.bind.connect ((object) => {
                 var list_item = (Gtk.ListItem) object;
                 var item = list_item.get_item () as GameListItem;
-                var cell = list_item.get_child () as GameTextCell;
+                var cell = list_item.get_child () as GameCompatibilityCell;
                 if (item != null && cell != null)
                     ((!) cell).bind ((!) item);
             });
             factory.unbind.connect ((object) => {
-                var cell = ((Gtk.ListItem) object).get_child () as GameTextCell;
+                var cell = ((Gtk.ListItem) object).get_child () as GameCompatibilityCell;
                 cell?.unbind ();
             });
             factory.teardown.connect ((object) => {
                 var list_item = (Gtk.ListItem) object;
-                var cell = list_item.get_child () as GameTextCell;
+                var cell = list_item.get_child () as GameCompatibilityCell;
                 cell?.unbind ();
                 list_item.set_child (null);
             });

@@ -60,8 +60,8 @@ Gtk.Label? find_layout_label (Gtk.Widget widget, string text) {
 void check_game_column_alignment () {
     var model = new Gtk.StringList ({ "fixture" });
     var view = new Gtk.ColumnView (new Gtk.NoSelection (model));
-    string[] headings = { "", "Game", "Prefix", "Tool" };
-    string[] values = { "", "Fixture game", "12345", "Default" };
+    string[] headings = { "", "Game", "Compatibility" };
+    string[] values = { "", "Fixture game", "Default" };
     for (int i = 0; i < headings.length; i++) {
         int column_index = i;
         var factory = new Gtk.SignalListItemFactory ();
@@ -77,18 +77,14 @@ void check_game_column_alignment () {
                     (item) => false, (item) => {}
                 );
             } else {
-                cell = new ProtonPlus.Widgets.Games.GameTextCell (
-                    column_index == 2
-                        ? ProtonPlus.Widgets.Games.GameTextCellKind.PREFIX
-                        : ProtonPlus.Widgets.Games.GameTextCellKind.TOOL
-                );
+                cell = new ProtonPlus.Widgets.Games.GameCompatibilityCell ();
             }
             if (column_index > 0)
                 ((Gtk.Label) cell.get_first_child ()).set_label (values[column_index]);
             ((Gtk.ListItem) object).set_child (cell);
         });
         var column = new Gtk.ColumnViewColumn (headings[i], factory);
-        column.expand = i == 3;
+        column.expand = i > 0;
         if (i > 0)
             column.sorter = new Gtk.StringSorter (null);
         view.append_column (column);
@@ -247,7 +243,7 @@ void check_launch_options_draft () {
     view.load ({
         new ProtonPlus.Widgets.Games.GameListItem (first),
         new ProtonPlus.Widgets.Games.GameListItem (second)
-    }, model, expression);
+    }, model, expression, false, true);
 
     var actions = view.header_presentation.end_actions[0];
     var apply = (Gtk.Button) find_widget (actions, (widget) => widget is Gtk.Button
@@ -256,14 +252,6 @@ void check_launch_options_draft () {
         && widget.tooltip_text == "Clear Launch Options");
     assert (apply != null && clear != null);
     assert (!apply.sensitive && clear.sensitive);
-    var affected = (Adw.ExpanderRow) find_widget (view, (widget) => widget is Adw.ExpanderRow
-        && ((Adw.ExpanderRow) widget).title == "Affected games");
-    assert (affected != null);
-    assert (find_widget (affected, (widget) => widget is Adw.ActionRow
-        && ((Adw.ActionRow) widget).title == first.name) != null);
-    assert (find_widget (affected, (widget) => widget is Adw.ActionRow
-        && ((Adw.ActionRow) widget).title == second.name) != null);
-
     var editor = (ProtonPlus.Widgets.Games.LaunchOptionsEditor.Box)
         find_widget (view, (widget) => widget is ProtonPlus.Widgets.Games.LaunchOptionsEditor.Box);
     assert (editor != null);
