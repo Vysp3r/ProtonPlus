@@ -17,9 +17,15 @@ application is inactive.
 
 ## Manage Steam games
 
-Open **Games** to select a Steam profile, change a game's compatibility tool, or
-edit launch options. Select multiple games for bulk edits. ProtonPlus lets you
-know when Steam needs to restart for changes to take effect.
+Open **Games** and choose a Steam profile. Select a game's name to open its
+editor. Choose a **Compatibility version**, edit launch options, and select
+**Apply Changes** to save. The game list shows the assigned compatibility tool.
+
+For a bulk edit, check the games you want and select **Modify**. The editor
+header opens the list of selected games. Turn on **Change compatibility tool**
+to assign the same version to every selected game. Leave it off to edit only
+launch options. ProtonPlus lets you know when Steam needs to restart for the
+changes to take effect.
 
 Use **Preferences** to set Steam's default compatibility tool or add a
 ProtonPlus shortcut to Steam.

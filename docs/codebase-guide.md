@@ -369,6 +369,12 @@ decisions, and single-game/mass-edit navigation. List factories belong in
 narrow views share the same collection, preserving selection and sort order
 when the width changes.
 
+`MassEditView` also serves as the single-game editor. It preselects the current
+Steam compatibility version for a single game, including an unavailable
+assignment, and applies a tool change only when the selection changes. Bulk
+editing requires turning on **Change compatibility tool** before assigning a
+version across the selected games.
+
 #### External launcher libraries
 
 `Games.Box` observes the selected launcher's deferred library load. It

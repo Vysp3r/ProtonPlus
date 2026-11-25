@@ -6,7 +6,7 @@
 - [Usage](usage.md) covers the Tools and Games views, gamepad navigation, the command line, and preferences.
 - [Compatibility](compatibility.md) lists supported launchers, installation types, and tools.
 - [Troubleshooting](troubleshooting.md) covers launcher detection, downloads, and installations.
-- [Full release notes](releases/) contains the detailed notes for GitHub Releases.
+- [ProtonPlus 0.6.9 release notes](releases/0.6.9.md) cover the latest changes.
 - [Release history](changelog.md) archives older release notes.
 
 ## Integrations

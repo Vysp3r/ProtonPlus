@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-25 16:19-0500\n"
+"POT-Creation-Date: 2026-11-25 16:55-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4197,7 +4197,9 @@ msgid "1. Choose a game launcher from the top-left menu"
 msgstr ""
 
 #: src/widgets/introduction/help-dialog.vala:28
-msgid "2. Open the Tools tab and select a tool to see its releases"
+msgid ""
+"2. Open Tools, choose Browse, and expand a tool in its category to see its "
+"releases"
 msgstr ""
 
 #: src/widgets/introduction/help-dialog.vala:29
@@ -4219,17 +4221,21 @@ msgid "Use an installed tool with a game"
 msgstr ""
 
 #: src/widgets/introduction/help-dialog.vala:34
-msgid "1. Select the launcher where the tool is installed"
+msgid ""
+"Select Steam, open a game in Games, choose a Compatibility version, and "
+"select Apply Changes."
 msgstr ""
 
 #: src/widgets/introduction/help-dialog.vala:35
 msgid ""
-"2. Open the Games tab and choose the game’s compatibility tool, where "
-"supported"
+"To change several Steam games at once, select the games, choose Modify, and "
+"turn on Change compatibility tool."
 msgstr ""
 
 #: src/widgets/introduction/help-dialog.vala:36
-msgid "3. For other launchers, select the tool in the launcher’s game settings"
+msgid ""
+"Close Lutris or Faugus before saving a runner for an eligible game. For "
+"other launchers, use their game settings."
 msgstr ""
 
 #: src/widgets/introduction/help-dialog.vala:37
@@ -4248,7 +4254,9 @@ msgid "Update manually or set a schedule"
 msgstr ""
 
 #: src/widgets/introduction/help-dialog.vala:41
-msgid "Select Update Tools in the Tools tab to update eligible installed tools"
+msgid ""
+"Choose Update Tools to update eligible builds in every category. To update "
+"one build, use its Update button in Installed."
 msgstr ""
 
 #: src/widgets/introduction/help-dialog.vala:42
