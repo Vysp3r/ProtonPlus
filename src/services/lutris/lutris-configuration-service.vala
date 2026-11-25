@@ -399,7 +399,9 @@ namespace ProtonPlus.Services {
                     tool.internal_title == version && tool.is_available && tool.is_assignable))
                     throw new IOError.NOT_FOUND (_("This tool is no longer available. Choose a different tool."));
                 var updated = current.config.yaml.set_version (version);
-                var updated_yaml = updated != null ? LutrisYaml.parse (updated) : null;
+                LutrisYaml? updated_yaml = null;
+                if (updated != null)
+                    updated_yaml = LutrisYaml.parse (updated);
                 if (updated_yaml == null || updated_yaml.get ("wine", "version") != version)
                     throw new IOError.INVALID_DATA (_("The Lutris game configuration is invalid."));
                 // Probe work can take time. Check the process and source again
