@@ -99,6 +99,7 @@
           <li>✨ Added Proton-Autogen, TinkerGame, and Rosemary support</li>
           <li>✨ Added CLI runner search, update checks, and release cache maintenance</li>
           <li>🐛 Improved Steam game discovery and restart handling</li>
+          <li>🐛 Fixed custom launch wrappers appearing after the Steam command</li>
           <li>🐛 Hardened tool installation and updates, including symlinked directories and provider renames</li>
           <li>🔄 Updated the Flatpak runtime to GNOME 51 and removed the built-in MangoHud configuration editor</li>
           <li>🌐 Updated translations and improved plural labels</li>

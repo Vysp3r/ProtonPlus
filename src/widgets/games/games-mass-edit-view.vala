@@ -328,6 +328,8 @@ namespace ProtonPlus.Widgets.Games {
                             detail = launch_write.composition_diagnostics[0].message;
                         else
                             detail = _("The selected launch options are incomplete or unsupported for these games.");
+                        if (launch_write.status == LaunchOptions.LaunchCommandWriteStatus.BLOCKED_CUSTOM_WRAPPER_CONFLICT)
+                            detail = _("%s — %s").printf (steam_game.name, detail);
                         var dialog = new Main.ErrorDialog (_("Launch options cannot be applied"),
                             _("No games were changed because the launch command could not be prepared safely."), detail);
                         ProtonPlus.Widgets.Window.present_dialog_for_controller (dialog, (Gtk.Window) this.get_root ());

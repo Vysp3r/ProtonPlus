@@ -144,6 +144,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
     /* Adapters are chosen by control type, never from option-ID branches. */
     public class LaunchCommandSelectionAdapterFactory : Object {
         public static ILaunchCommandSelectionSource? create (string id, Gtk.Widget? widget, ILaunchOption? option) {
+            var source = option as ILaunchCommandSelectionSource;
+            if (source != null) return source;
             var arguments = option as LaunchOptionArgumentList;
             if (arguments != null) return new LaunchCommandArgumentListSource (id, arguments);
             var resolution = option as LaunchOptionResolutionField;

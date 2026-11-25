@@ -41,17 +41,20 @@ namespace ProtonPlus.LaunchOptions {
         public LaunchEnvironmentAssignment[] environment_assignments;
         public LaunchWrapperInvocation[] wrappers;
         public string[] game_arguments { get; private set; }
+        public string custom_wrapper { get; private set; }
         public bool retain_placeholder_for_arguments_only { get; private set; }
 
         public LaunchCommandPlan (
             LaunchEnvironmentAssignment[] environment_assignments = {},
             LaunchWrapperInvocation[] wrappers = {},
             string[] game_arguments = {},
-            bool retain_placeholder_for_arguments_only = false
+            bool retain_placeholder_for_arguments_only = false,
+            string custom_wrapper = ""
         ) {
             this.environment_assignments = environment_assignments;
             this.wrappers = wrappers;
             this.game_arguments = game_arguments;
+            this.custom_wrapper = custom_wrapper;
             this.retain_placeholder_for_arguments_only = retain_placeholder_for_arguments_only;
         }
     }

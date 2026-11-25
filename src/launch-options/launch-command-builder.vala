@@ -41,6 +41,8 @@ namespace ProtonPlus.LaunchOptions {
                     segments.add (wrapper.delimiter);
             }
 
+            if (plan.custom_wrapper != "")
+                segments.add (plan.custom_wrapper);
             if (requires_placeholder (plan))
                 segments.add (COMMAND_PLACEHOLDER);
 
@@ -51,6 +53,7 @@ namespace ProtonPlus.LaunchOptions {
         bool requires_placeholder (LaunchCommandPlan plan) {
             return plan.environment_assignments.length > 0
                    || plan.wrappers.length > 0
+                   || plan.custom_wrapper != ""
                    || plan.retain_placeholder_for_arguments_only;
         }
 
@@ -102,6 +105,13 @@ namespace ProtonPlus.LaunchOptions {
 
             foreach (var argument in plan.game_arguments)
                 validate_token (errors, argument, "game argument");
+
+            if (plan.custom_wrapper != "") {
+                string executable;
+                var diagnostic = LaunchCustomWrapperInput.read (plan.custom_wrapper, out executable);
+                if (diagnostic != null || executable != plan.custom_wrapper)
+                    errors.add (diagnostic ?? _("The custom wrapper must contain only an executable path."));
+            }
 
             return errors;
         }
