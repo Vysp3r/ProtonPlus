@@ -2101,9 +2101,7 @@ msgid ""
 msgstr ""
 
 #: src/models/providers/definitions/proton.vala:168
-msgid ""
-"GE-Proton fork for anime games. Optional XXMI mods may put your account at "
-"risk in online games."
+msgid "GE-Proton fork with fixes for anime gacha games and their launchers."
 msgstr ""
 
 #: src/models/providers/definitions/proton.vala:184
