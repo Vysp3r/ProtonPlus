@@ -25,20 +25,20 @@ namespace ProtonPlus.Widgets.Introduction {
             add_topic (tasks, "install", _("Install a Compatibility Tool"),
                 _("Choose a launcher and install a release"), "folder-download-symbolic", {
                     _("1. Choose a game launcher from the top-left menu"),
-                    _("2. Open the Tools tab and select a tool to see its releases"),
+                    _("2. Open Tools, choose Browse, and expand a tool in its category to see its releases"),
                     _("3. Choose a release and select Install"),
                     _("Installing a tool makes it available to the selected launcher. Select it for a game before playing.")
                 });
             add_topic (tasks, "select", _("Choose a Tool for a Game"),
                 _("Use an installed tool with a game"), "applications-games-symbolic", {
-                    _("1. Select the launcher where the tool is installed"),
-                    _("2. Open the Games tab and choose the game’s compatibility tool, where supported"),
-                    _("3. For other launchers, select the tool in the launcher’s game settings"),
+                    _("Select Steam, open a game in Games, choose a Compatibility version, and select Apply Changes."),
+                    _("To change several Steam games at once, select the games, choose Modify, and turn on Change compatibility tool."),
+                    _("Close Lutris or Faugus before saving a runner for an eligible game. For other launchers, use their game settings."),
                     _("Follow any Steam restart prompt to finish applying changes. Close running games before restarting Steam.")
                 });
             add_topic (tasks, "updates", _("Update Tools"),
                 _("Update manually or set a schedule"), "view-refresh-symbolic", {
-                    _("Select Update Tools in the Tools tab to update eligible installed tools"),
+                    _("Choose Update Tools to update eligible builds in every category. To update one build, use its Update button in Installed."),
                     _("Automatic updates check for and install updates. Configure scheduled updates or updates at startup in Preferences → Tools."),
                     _("Scheduled updates can run while ProtonPlus is closed. System-startup and app-startup updates are separate options.")
                 }, _("Open Update Preferences"), "tools");

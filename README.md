@@ -5,7 +5,7 @@
 <h1 align="center">ProtonPlus</h1>
 
 <p align="center">
-  Manage compatibility tools and launch games on Linux.
+  Manage compatibility tools.
 </p>
 
 <p align="center">

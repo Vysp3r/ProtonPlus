@@ -5,7 +5,7 @@
   <project_license>GPL-3.0-or-later</project_license>
 
   <name>ProtonPlus</name>
-  <summary>Manage compatibility tools and launch games on Linux</summary>
+  <summary>Manage compatibility tools</summary>
   <description>
     <p>
       Install and update compatibility tools for Steam and other Linux game launchers. Browse installed games, launch them with their saved settings, and preview Steam launch options before applying them.
@@ -77,16 +77,16 @@
 
   <screenshots>
     <screenshot type="default">
-      <image type="source" width="1440" height="810">https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-1.png</image>
-      <caption>Browse and install compatibility tools</caption>
+      <image type="source" width="1440" height="810">https://raw.githubusercontent.com/Vysp3r/ProtonPlus/e8b24e12b5a22d0e95f8dae56e9edc62c8bfb5b3/data/previews/Preview-1.png</image>
+      <caption>Browse compatibility tools and switch to installed builds</caption>
     </screenshot>
     <screenshot>
-      <image type="source" width="1440" height="810">https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-2.png</image>
+      <image type="source" width="1440" height="810">https://raw.githubusercontent.com/Vysp3r/ProtonPlus/e8b24e12b5a22d0e95f8dae56e9edc62c8bfb5b3/data/previews/Preview-2.png</image>
       <caption>Manage compatibility tools for Steam games</caption>
     </screenshot>
     <screenshot>
-      <image type="source" width="1440" height="810">https://raw.githubusercontent.com/Vysp3r/ProtonPlus/main/data/previews/Preview-3.png</image>
-      <caption>Preview and edit Steam launch options</caption>
+      <image type="source" width="1440" height="810">https://raw.githubusercontent.com/Vysp3r/ProtonPlus/e8b24e12b5a22d0e95f8dae56e9edc62c8bfb5b3/data/previews/Preview-3.png</image>
+      <caption>Choose a compatibility version and preview Steam launch options</caption>
     </screenshot>
   </screenshots>
 
@@ -96,6 +96,7 @@
       <description>
         <ul>
           <li>✨ Refined Tools and Games, improved download progress, and added an in-app Help guide</li>
+          <li>✨ Grouped tool categories on one page and simplified compatibility version selection for individual Steam games</li>
           <li>✨ Added automatic download retries and resume, plus an optional HTTPS mirror for GitHub release assets</li>
           <li>✨ Added native Linux packages and SHA-256 checksums to GitHub Releases</li>
           <li>✨ Added Proton-Autogen, TinkerGame, and Rosemary support</li>
