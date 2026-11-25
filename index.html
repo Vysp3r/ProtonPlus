@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="color-scheme" content="light dark" />
     <meta name="description"
         content="Install and update Proton, Wine, DXVK, and VKD3D for Linux game launchers. Browse and launch games, and fine-tune Steam launch options." />
 
@@ -14,7 +15,11 @@
     <meta property="og:description"
         content="Install and update Proton, Wine, DXVK, and VKD3D for Linux game launchers. Browse and launch games, and fine-tune Steam launch options." />
     <meta property="og:image"
-        content="https://protonplus.vysp3r.com/assets/readme-preview.webp" />
+        content="https://protonplus.vysp3r.com/assets/social-preview.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="ProtonPlus Tools view showing available Proton builds for Steam" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
@@ -23,7 +28,8 @@
     <meta property="twitter:description"
         content="Install and update Proton, Wine, DXVK, and VKD3D for Linux game launchers. Browse and launch games, and fine-tune Steam launch options." />
     <meta property="twitter:image"
-        content="https://protonplus.vysp3r.com/assets/readme-preview.webp" />
+        content="https://protonplus.vysp3r.com/assets/social-preview.jpg" />
+    <meta name="twitter:image:alt" content="ProtonPlus Tools view showing available Proton builds for Steam" />
 
     <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#1d1d20" media="(prefers-color-scheme: dark)" />
@@ -31,8 +37,7 @@
 
     <link rel="icon"
         href="assets/protonplus.svg" />
-    <link rel="apple-touch-icon" type="image/svg"
-        href="assets/protonplus.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
     <link rel="stylesheet" href="style.css">
     <title>ProtonPlus — Compatibility Tools Manager for Linux</title>
 </head>
@@ -43,8 +48,7 @@
         <nav aria-label="Main navigation">
             <div class="nav-brand">
                 <a href="#">
-                    <img src="assets/protonplus.svg"
-                        alt="ProtonPlus Logo" class="nav-logo">
+                    <img src="assets/protonplus.svg" alt="" width="32" height="32" class="nav-logo">
                     <span>ProtonPlus</span>
                 </a>
             </div>
@@ -78,6 +82,8 @@
 
         <a class="app-preview" id="screenshots" href="assets/readme-preview.webp">
             <img src="assets/readme-preview.webp"
+                srcset="assets/readme-preview-800.webp 800w, assets/readme-preview.webp 1440w"
+                sizes="(max-width: 480px) calc(100vw - 32px), (max-width: 840px) calc(100vw - 42px), 798px"
                 alt="ProtonPlus Tools view above the Steam Games view and Launch Options Editor" width="1440" height="1219">
         </a>
 
@@ -181,7 +187,8 @@
 
             <div class="primary-download">
                 <a href="https://flathub.org/apps/com.vysp3r.ProtonPlus" target="_blank" rel="noopener noreferrer">
-                    <img width='240' alt='Download on Flathub' src='https://flathub.org/api/badge?svg&locale=en' />
+                    <img src="https://flathub.org/api/badge?svg&amp;locale=en" alt="Download on Flathub"
+                        width="240" height="80" loading="lazy">
                 </a>
             </div>
 
@@ -328,32 +335,28 @@
     <script>
         const menuToggle = document.getElementById('menu-toggle');
         const navLinks = document.getElementById('nav-links');
+        const mobileMenu = window.matchMedia('(max-width: 900px)');
 
-        const closeMenu = () => {
-            navLinks.classList.remove('active');
-            menuToggle.classList.remove('active');
-            menuToggle.setAttribute('aria-expanded', 'false');
-        };
+        const menuIsOpen = () => menuToggle.getAttribute('aria-expanded') === 'true';
+        const closeMenu = () => menuToggle.setAttribute('aria-expanded', 'false');
 
         menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            menuToggle.classList.toggle('active');
-            menuToggle.setAttribute('aria-expanded', menuToggle.classList.contains('active'));
+            menuToggle.setAttribute('aria-expanded', String(!menuIsOpen()));
         });
 
-        // Close menu when a link is clicked
-        document.querySelectorAll('.nav-links a').forEach(link => {
+        navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', closeMenu);
         });
 
         document.addEventListener('keydown', event => {
-            if (event.key === 'Escape' && navLinks.classList.contains('active')) {
+            if (event.key === 'Escape' && menuIsOpen()) {
                 closeMenu();
                 menuToggle.focus();
             }
         });
 
-        window.matchMedia('(min-width: 901px)').addEventListener('change', closeMenu);
+        mobileMenu.addEventListener('change', closeMenu);
+        menuToggle.closest('header').classList.add('menu-ready');
     </script>
 </body>
 
