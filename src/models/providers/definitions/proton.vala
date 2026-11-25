@@ -165,7 +165,7 @@ namespace ProtonPlus.Models.Providers {
                     source_type = SourceType.GITHUB,
                     provider_id = "proton-anime",
                     title = "Proton-Anime",
-                    description = N_ ("GE-Proton fork for anime games. Optional XXMI mods may put your account at risk in online games."),
+                    description = N_ ("GE-Proton fork with fixes for anime gacha games and their launchers."),
                     endpoint = "https://api.github.com/repos/MrLGamer/proton-anime/releases",
                     repository_url = "https://github.com/MrLGamer/proton-anime",
                     sort_priority = 10,
