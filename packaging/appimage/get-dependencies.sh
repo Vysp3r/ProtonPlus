@@ -2,43 +2,44 @@
 
 set -eu
 
-echo "Installing AppImage build dependencies..."
-echo "---------------------------------------------------------------"
-pacman -Syu --noconfirm \
-    git \
-    meson \
-    ninja \
-    vala \
-    gcc \
-    pkgconf \
-    gtk4 \
-    libadwaita \
-    json-glib \
-    libsoup3 \
-    libgee \
-    libarchive \
-    gettext \
-    desktop-file-utils \
-    appstream \
-    libxml2 \
-    bluez-libs \
-    libnm \
-    glib-networking \
-    libproxy \
-    patchelf \
-    sdl3
+mode=${1:---stock-only}
+case "$mode" in
+    --stock-only|--try-debloated) ;;
+    *)
+        printf 'Usage: %s [--stock-only|--try-debloated]\n' "$0" >&2
+        exit 2
+        ;;
+esac
+
+# Reinstall the requested packages from the Arch repositories, even when the
+# image already has the same versions. Keep this inventory for the file check.
+set -- base-devel curl wget git meson ninja vala gcc pkgconf glib2 cairo gtk4 libadwaita \
+    json-glib libsoup3 libgee libarchive gettext desktop-file-utils appstream \
+    libxml2 bluez-libs libnm glib-networking libproxy mesa patchelf sdl3 \
+    libx11 libxrandr libxss pulseaudio pulseaudio-alsa xorg-server-xvfb zsync
+
+echo "Installing stock AppImage build dependencies..."
+pacman -Syu --noconfirm "$@" || exit 1
+pacman -Qk "$@" || exit 1
+
+if [ "$mode" = --stock-only ]; then
+    exit 0
+fi
+
+if [ -n "${PROTONPLUS_APPIMAGE_HELPER_URL:-}" ]; then
+    if ! curl --fail --location --retry 3 --output /usr/local/bin/get-debloated-pkgs \
+        "$PROTONPLUS_APPIMAGE_HELPER_URL" ||
+        ! chmod +x /usr/local/bin/get-debloated-pkgs; then
+        echo "Could not prepare the optional AppImage dependency helper." >&2
+        exit 75
+    fi
+fi
 
 if command -v get-debloated-pkgs >/dev/null 2>&1; then
-    # The stock packages above also work when the optional GitHub release is unavailable.
-    if [ -z "${SOURCE:-}" ] && command -v curl >/dev/null 2>&1; then
-        package_list=https://api.github.com/repos/pkgforge-dev/archlinux-pkgs-debloated/releases/latest
-        if ! headers=$(curl --fail --silent --head --max-time 10 "$package_list") ||
-            printf '%s\n' "$headers" | grep -Eiq '^x-ratelimit-remaining:[[:space:]]*0[[:space:]]*$'; then
-            printf '%s\n' 'Optional AppImage dependency packages are unavailable. Using stock Arch packages.'
-            exit 0
-        fi
+    echo "Installing optional debloated packages..."
+    if get-debloated-pkgs --add-common --prefer-nano; then
+        exit 0
     fi
-    echo "Installing debloated packages..."
-    echo "---------------------------------------------------------------"
-    get-debloated-pkgs --add-common --prefer-nano
+    echo "Optional AppImage dependencies failed. Discard this build environment." >&2
+    exit 75
 fi

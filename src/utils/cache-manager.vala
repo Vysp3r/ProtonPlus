@@ -77,7 +77,7 @@ namespace ProtonPlus.Utils {
                 return false;
             }
             bool success = true;
-            if (FileUtils.test (Globals.CACHE_PATH, FileTest.IS_DIR)) {
+            if (FileUtils.test (Globals.CACHE_PATH, FileTest.IS_DIR | FileTest.IS_SYMLINK)) {
                 if (!yield Utils.Filesystem.delete_directory (Globals.CACHE_PATH))
                     success = false;
             }

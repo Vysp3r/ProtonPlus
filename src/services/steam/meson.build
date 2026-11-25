@@ -3,6 +3,7 @@ sources += files(
     'steam-configuration-service.vala',
     'steam-game-launch-service.vala',
     'steam-lifecycle.vala',
+    'steam-key-repair.vala',
     'steam-restart-backend.vala',
     'steam-restart-manager.vala',
     'steam-restart-orchestrator.vala',

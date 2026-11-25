@@ -48,15 +48,42 @@ for Flatpak. With no arguments, either command opens the graphical app.
 protonplus version
 protonplus help
 protonplus list [launcher_id]
+protonplus search [--json] [query]
+protonplus outdated [--json] [launcher_id]
+protonplus sync [launcher_id]
+protonplus cleanup
 protonplus install <launcher_id> <runner_id> [latest]
-protonplus uninstall <launcher_id> <runner_id|all> [all]
-protonplus update <all|launcher_id> [runner_id]
+protonplus uninstall <launcher_id> <runner_id> [all]
+protonplus uninstall <launcher_id> all
+protonplus update <launcher_id> [runner_id]
+protonplus update all
 ```
 
 Start with `list` to find launcher IDs, then use `list <launcher_id>` to find
 the runner IDs, versions, and display names of installed tools grouped by
 category. Older installations without a recorded tag show `—` in the Version
 column. The list covers releases that ProtonPlus can match to a provider.
+`list`, `help`, `version`, `search`, and `outdated` are read-only.
+
+- `search` finds available runners for detected launchers. It matches words
+  case-insensitively across the package ID, name, and description. Omit the
+  query to list the catalog.
+- `outdated` checks the upstream release for each installed `Latest` variant
+  and for managed TinkerGame installations. Pinned releases are excluded. Omit
+  the launcher ID to check all detected launchers. A failed check is reported
+  on stderr and returns a nonzero exit status, with successful results still
+  available on stdout.
+- `sync` refreshes the release metadata cache for one launcher or all detected
+  launchers. It reports provider and cache write failures on stderr.
+- `cleanup` clears cached release metadata, downloaded archives, and partial
+  downloads. It waits for cache operations and leaves installed tools intact.
+
+`search --json` and `outdated --json` emit an object with `schema_version` (1)
+and a `packages` array. Each package has `id` (`<launcher_id>/<runner_id>`),
+`launcher_id`, `runner_id`, `tool_target_id`, and `name`. Search adds `category`
+and `description`. Update results add `installed_version`, `latest_version`,
+and `variant_id`. An unknown installed version or variant is `null`. A runner
+with several outdated variants can have several rows with the same package ID.
 
 ```sh
 protonplus list
@@ -102,3 +129,26 @@ Actions artifacts, and other hosts use their original endpoints.
 Changing the mirror discards partial downloads from the previous endpoint.
 Validated archives remain reusable. ProtonPlus still checks the size and
 digest whenever the provider supplies them.
+
+### Repair shared Steam compatibility tool keys
+
+To inspect a Steam installation, run `protonplus steam-key-repair steam-system preview`.
+Use the corresponding launcher ID for Steam Flatpak or Snap. The preview lists
+duplicate keys, their claimants, affected AppIDs, and pending ProtonPlus edits.
+AppID 0 is Steam's global default. Games that inherit the default follow it
+unless you add a per-game assignment.
+
+Exit Steam completely before applying the repair. Copy the preview token and
+select a directory the preview says can retain the key. For example:
+
+```sh
+protonplus steam-key-repair steam-system apply TOKEN 'Shared Key' 'Default Latest' \
+  '0=Alternate Latest' '12345=Alternate Latest'
+```
+
+Each optional assignment sends one AppID to a rekeyed directory. Omitted
+assignments continue to use the historical key or inherit the global default.
+Repair one shared key at a time and run a fresh preview before repairing the
+next. A conflicting external tool or pending edit must be resolved before
+applying. If an operation stops partway through, exit Steam and run
+`protonplus steam-key-repair steam-system resume` for the same target.

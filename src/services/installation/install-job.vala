@@ -380,7 +380,7 @@ namespace ProtonPlus.Services {
             return provider_tool != null ? effective_directory_name (provider_tool) : "";
         }
 
-        private Models.Variant? selected_variant () {
+        internal Models.Variant? selected_variant () {
             if (selected_variant_id != null && selected_variant_id != "") {
                 foreach (var variant in release.variants) {
                     if (variant.id == selected_variant_id)

@@ -127,6 +127,7 @@ namespace AppTests.UpdateTransactionTest {
         Test.add_func ("/update-transaction/latest-lookup-failures-are-propagated", test_latest_lookup_failures_are_propagated);
         Test.add_func ("/update-transaction/failed-lookup-can-retry-exact-update", test_failed_lookup_can_retry_exact_update);
         Test.add_func ("/update-transaction/latest-identity-controls-update-detection", test_latest_identity_controls_update_detection);
+        Test.add_func ("/update-transaction/latest-actions-release-identity-and-legacy-tag", test_latest_actions_release_identity);
         Test.add_func ("/update-transaction/latest-restores-installed-variant", test_latest_restores_installed_variant);
         Test.add_func ("/update-transaction/sarek-packaging-transition", test_sarek_packaging_transition);
         Test.add_func ("/update-transaction/latest-incompatible-restored-variant-is-skipped", test_latest_incompatible_restored_variant_is_skipped);
@@ -762,7 +763,8 @@ namespace AppTests.UpdateTransactionTest {
                     assert (recorder.receipts[0].resource_key == Filename.canonicalize (directory, null));
                     var installed = ProtonPlus.Utils.VDF.CompatibilityToolLoader.from_path (directory);
                     assert (installed.internal_title == "historical-steam-key");
-                    assert (installed.display_title == "Proton-Wineland Latest");
+                    var display_title = alternate ? "Proton-Wineland Latest (x86_64_wow64)" : "Proton-Wineland Latest";
+                    assert (installed.display_title == display_title);
                     assert (ProtonPlus.Utils.Filesystem.get_file_content (
                         Path.build_filename (directory, "user_settings.py")) == "keep settings");
                     metadata = ProtonPlus.Utils.Metadata.load (directory);
@@ -888,6 +890,35 @@ namespace AppTests.UpdateTransactionTest {
 
         assert (delete_directory (current_root));
         assert (delete_directory (stale_root));
+    }
+
+    private void test_latest_actions_release_identity () {
+        var root = create_temp_directory ();
+        var release = new Release (
+            "42", "", "", new Models.Assets.Asset ("runner.zip", "https://fixtures.invalid/actions.zip"),
+            "", 0, "latest-run-id", "", Release.Kind.GITHUB_ACTION
+        );
+        var runner = static_runner (root, release);
+        var directory = Path.build_filename (root, "Fixture Runner Latest");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (directory));
+        var metadata = new ProtonPlus.Utils.Metadata ();
+        metadata.tag = "42";
+        var coordinator = new FixtureCoordinator ();
+
+        foreach (var id in new string[] { "latest-run-id", "", "older-run-id" }) {
+            if (id == "older-run-id") {
+                create_file (Path.build_filename (directory, "version"), "123 42\n");
+                create_file (Path.build_filename (directory, "proton"), "CURRENT_PREFIX_VERSION=\"42\"\n");
+            }
+            metadata.release_id = id;
+            assert (metadata.save (directory));
+            var result = update_specific_runner_with_coordinator (runner, coordinator);
+            if (id == "older-run-id")
+                assert (result == ReturnCode.FILESYSTEM_ERROR && coordinator.install_calls == 1);
+            else
+                assert (result == ReturnCode.NOTHING_TO_UPDATE && coordinator.install_calls == 0);
+        }
+        assert (delete_directory (root));
     }
 
     private void test_sarek_packaging_transition () {

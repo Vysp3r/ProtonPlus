@@ -6,6 +6,37 @@ ARCH=$(uname -m)
 REPOSITORY=${GITHUB_REPOSITORY:-Vysp3r/ProtonPlus}
 APPIMAGE_APPDIR=${PROTONPLUS_APPIMAGE_APPDIR:-./AppDir}
 APPIMAGE_LOCALE_SOURCE=${PROTONPLUS_APPIMAGE_LOCALE_SOURCE:-/usr/share/locale}
+VERIFY_ENVIRONMENT=${1:-}
+
+set -- /usr/lib/gio/modules/libgiognomeproxy.so \
+    /usr/lib/gio/modules/libgiognutls.so \
+    /usr/lib/gio/modules/libgiolibproxy.so
+
+verify_linkage() {
+    for binary do
+        if [ ! -f "$binary" ] || [ ! -r "$binary" ] || [ ! -s "$binary" ]; then
+            printf 'Missing or unreadable AppImage input: %s\n' "$binary" >&2
+            return 1
+        fi
+        if ! linkage=$(LC_ALL=C ldd -r "$binary" 2>&1) ||
+            printf '%s\n' "$linkage" | grep -Eq 'not found|undefined symbol'; then
+            printf 'Unusable linkage for %s\n%s\n' "$binary" "$linkage" >&2
+            return 1
+        fi
+    done
+}
+
+if [ "$VERIFY_ENVIRONMENT" = --verify-environment ]; then
+    for tool in bash gcc valac meson ninja pkg-config glib-compile-resources \
+        glib-compile-schemas msgfmt desktop-file-validate patchelf ldd zsyncmake quick-sharun; do
+        if ! command -v "$tool" >/dev/null 2>&1; then
+            printf 'Required AppImage tool missing: %s\n' "$tool" >&2
+            exit 1
+        fi
+    done
+    pacman -Qo "$@"
+    verify_linkage "$@"
+fi
 
 # Stock Mesa links LLVM. Allow the larger bundle when the smaller Mesa package
 # could not be installed.
@@ -23,6 +54,10 @@ meson compile -C build-appimage
 meson install -C build-appimage
 
 VERSION=$(bash packaging/set-version.sh --print-version)
+if [ "$VERIFY_ENVIRONMENT" = --verify-environment ]; then
+    verify_linkage /usr/bin/protonplus
+    test "$(GSETTINGS_BACKEND=memory /usr/bin/protonplus version)" = "ProtonPlus $VERSION"
+fi
 export ARCH VERSION
 export OUTPATH=./dist
 export ADD_HOOKS="self-updater.bg.hook"
@@ -34,11 +69,7 @@ export GTK_CLASS_FIX=1
 export DEPLOY_P11KIT=1
 
 # Deploy dependencies
-quick-sharun \
-    /usr/bin/protonplus \
-    /usr/lib/gio/modules/libgiognomeproxy.so \
-    /usr/lib/gio/modules/libgiognutls.so \
-    /usr/lib/gio/modules/libgiolibproxy.so
+quick-sharun /usr/bin/protonplus "$@"
 
 # Quick-Sharun matches catalogs against the lowercase executable name and
 # removes ProtonPlus' case-sensitive gettext domain during locale debloating.

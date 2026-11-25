@@ -1,4 +1,16 @@
 namespace ProtonPlus.Services {
+    public class AvailableToolUpdate : Object {
+        public string installed_version { get; private set; }
+        public Models.Release release { get; private set; }
+        public string variant_id { get; private set; }
+
+        internal AvailableToolUpdate (string installed_version, InstallJob job) {
+            this.installed_version = installed_version;
+            release = job.release;
+            variant_id = job.selected_variant_identity ();
+        }
+    }
+
     /// Application-level coordinator for install, update, and removal jobs.
     /// Workflow selection and observable lifecycle ownership stay here; the
     /// detailed filesystem transactions live in dedicated workflows.
@@ -37,16 +49,68 @@ namespace ProtonPlus.Services {
             return Path.build_filename (Posix.realpath (parent) ?? parent, Path.get_basename (canonical));
         }
 
+        [CCode (cname = "flock", cheader_filename = "sys/file.h")]
+        private static extern int flock (int fd, int operation);
+
+        private const int LOCK_SHARED = 1;
+        private const int LOCK_EXCLUSIVE = 2;
+        private const int LOCK_NONBLOCKING = 4;
+        private Gee.HashMap<InstallJob, int> steam_tool_locks = new Gee.HashMap<InstallJob, int> ();
+
+        // Lock the directory inode so launchers sharing the same physical
+        // target also share the guard, even in separate ProtonPlus processes.
+        internal static int lock_steam_tool_root (string root, bool exclusive) {
+            var fd = Posix.open (root, Posix.O_RDONLY | Posix.O_DIRECTORY | Posix.O_CLOEXEC);
+            if (fd < 0)
+                return -1;
+            if (flock (fd, (exclusive ? LOCK_EXCLUSIVE : LOCK_SHARED) | LOCK_NONBLOCKING) != 0
+                || (!exclusive && FileUtils.test (Path.build_filename (root, SteamKeyRepair.JOURNAL),
+                    FileTest.EXISTS | FileTest.IS_SYMLINK))) {
+                Posix.close (fd);
+                return -1;
+            }
+            return fd;
+        }
+
+        internal void run_steam_key_repair (string root, SteamKeyRepairOperation operation) throws Error {
+            var physical_root = Posix.realpath (root) ?? root;
+            foreach (var path in active_operations.keys) {
+                if (path == physical_root || path.has_prefix (physical_root + "/"))
+                    throw new IOError.BUSY (_ ("A compatibility tool operation is already in progress for this target."));
+            }
+            var fd = lock_steam_tool_root (root, true);
+            if (fd < 0)
+                throw new IOError.BUSY (_ ("The Steam tool directory could not be locked for repair."));
+            try {
+                operation ();
+            } finally {
+                Posix.close (fd);
+            }
+        }
+
         private bool reserve_operation (InstallJob job) {
             var key = operation_target (job.install_location);
             if (active_operations.has_key (key) || Utils.DownloadManager.instance.has_active_installation_at (job.install_location))
                 return false;
+            var group = job.tool.group;
+            if (group.launcher.tool_target_family_id == Models.Launchers.Steam.FAMILY_ID) {
+                var root = group.launcher.get_primary_managed_tool_directory (group);
+                if (FileUtils.test (root, FileTest.IS_DIR)) {
+                    var fd = lock_steam_tool_root (root, false);
+                    if (fd < 0)
+                        return false;
+                    steam_tool_locks.set (job, fd);
+                }
+            }
             active_operations.set (key, job);
             return true;
         }
 
         private void release_operation (InstallJob job, string key) {
             assert (active_operations.get (key) == job);
+            int fd;
+            if (steam_tool_locks.unset (job, out fd))
+                Posix.close (fd);
             var keys = new Gee.ArrayList<string> ();
             foreach (var entry in active_operations.entries)
                 if (entry.value == job)
@@ -169,18 +233,17 @@ namespace ProtonPlus.Services {
         // standard workflow owns legacy recovery and replacement mechanics.
         public async ReturnCode update_specific_runner (Models.Tools.ProviderTool runner) {
             runner.group.refresh_installed_state ();
-            var found = false;
             var updated = false;
-            Models.InstalledToolEntry? legacy_backup = null;
             var inventory = runner.group.installed_tool_inventory;
             var skipped_linked_tool = inventory.has_linked_latest_installation (runner);
-            foreach (var entry in runner.group.get_installed_tool_snapshot ()) {
-                if (is_legacy_latest_backup (entry, runner))
-                    legacy_backup = entry;
-                if (!is_latest_installation (entry, runner))
-                    continue;
-                found = true;
-                var code = yield update_provider_at (runner, entry.path, false, inventory.get_latest_variant (entry, runner));
+            bool restore_backup;
+            var entries = get_provider_update_entries (runner, out restore_backup);
+            foreach (var entry in entries) {
+                var directory = restore_backup ? latest_directory_for_backup (entry) : entry.path;
+                var job = create_provider_update_job (runner, directory, inventory.get_latest_variant (entry, runner));
+                var code = yield run_provider_update (runner, job, restore_backup);
+                if (restore_backup && code != ReturnCode.RUNNER_UPDATED && code != ReturnCode.NOTHING_TO_UPDATE)
+                    return code;
                 if (code == ReturnCode.RUNNER_UPDATED)
                     updated = true;
                 else if (code == ReturnCode.SYMLINKED_TOOL_DIRECTORY)
@@ -188,24 +251,36 @@ namespace ProtonPlus.Services {
                 else if (code != ReturnCode.NOTHING_TO_UPDATE && code != ReturnCode.INCOMPATIBLE_VARIANT)
                     return code;
             }
-            if (!found && legacy_backup != null) {
-                var directory = legacy_backup.path.substring (0, legacy_backup.path.length - " Backup".length);
-                var code = yield update_provider_at (runner, directory, true, inventory.get_latest_variant (legacy_backup, runner));
-                if (code != ReturnCode.RUNNER_UPDATED && code != ReturnCode.NOTHING_TO_UPDATE)
-                    return code;
-                found = true;
-                updated = code == ReturnCode.RUNNER_UPDATED;
-            }
             if (skipped_linked_tool)
                 return ReturnCode.SYMLINKED_TOOL_DIRECTORY;
-            if (!found)
+            if (entries.size == 0)
                 return ReturnCode.RUNNER_NOT_INSTALLED;
             return updated ? ReturnCode.RUNNER_UPDATED : ReturnCode.NOTHING_TO_UPDATE;
         }
 
-        private async ReturnCode update_provider_at (
-            Models.Tools.ProviderTool runner, string directory, bool restore_backup = false,
-            Models.Variant? installed_variant = null
+        private Gee.List<Models.InstalledToolEntry> get_provider_update_entries (
+            Models.Tools.ProviderTool runner, out bool restore_backup
+        ) {
+            var entries = new Gee.ArrayList<Models.InstalledToolEntry> ();
+            Models.InstalledToolEntry? legacy_backup = null;
+            foreach (var entry in runner.group.get_installed_tool_snapshot ()) {
+                if (is_latest_installation (entry, runner))
+                    entries.add (entry);
+                else if (is_legacy_latest_backup (entry, runner))
+                    legacy_backup = entry;
+            }
+            restore_backup = entries.size == 0 && legacy_backup != null;
+            if (restore_backup)
+                entries.add ((!) legacy_backup);
+            return entries;
+        }
+
+        private string latest_directory_for_backup (Models.InstalledToolEntry entry) {
+            return entry.path.substring (0, entry.path.length - " Backup".length);
+        }
+
+        private InstallJob create_provider_update_job (
+            Models.Tools.ProviderTool runner, string directory, Models.Variant? installed_variant
         ) {
             var release = new Models.Release (runner.title, "", "", new Models.Assets.Asset ("", ""), "");
             var job = new InstallJob (release, runner, InstallJob.Mode.LATEST, directory);
@@ -213,7 +288,7 @@ namespace ProtonPlus.Services {
             // named nondefault slot adds a selection absent from old receipts.
             if (installed_variant != null && !installed_variant.is_default)
                 job.set_selected_variant (installed_variant.name, null, installed_variant.id);
-            return yield run_provider_update (runner, job, restore_backup);
+            return job;
         }
 
         private async ReturnCode run_provider_update (
@@ -403,11 +478,65 @@ namespace ProtonPlus.Services {
                 return yield update_specific_runner (runner);
             if (tool is Models.Tools.TinkerGame) {
                 // The workflow discovers the latest release and verifies local ownership.
-                var release = new Models.Release (tool.title, "", "", new Models.Assets.Asset ("", ""),
-                    "", 0, "", "", Models.Release.Kind.TINKER_GAME);
-                return yield new InstallJob (release, tool).update ();
+                return yield create_tinker_game_update_job (tool).update ();
             }
             return ReturnCode.UNSUPPORTED_OPERATION;
+        }
+
+        private InstallJob create_tinker_game_update_job (Models.Tool tool) {
+            var release = new Models.Release (tool.title, "", "", new Models.Assets.Asset ("", ""),
+                "", 0, "", "", Models.Release.Kind.TINKER_GAME);
+            return new InstallJob (release, tool);
+        }
+
+        // The caller supplies a fresh inventory. This path only inspects
+        // candidates and never reserves an operation or restores a backup.
+        public async ReturnCode find_available_updates (Models.Tool tool, out Gee.List<AvailableToolUpdate> updates) {
+            var available = new Gee.ArrayList<AvailableToolUpdate> ();
+            updates = available;
+            if (tool is Models.Tools.TinkerGame) {
+                var job = create_tinker_game_update_job (tool);
+                var code = yield tinker_game_workflow.check_available_update (job, false);
+                if (code == ReturnCode.UPDATE_AVAILABLE)
+                    available.add (new AvailableToolUpdate (Utils.Metadata.load (job.install_location).tag, job));
+                return code;
+            }
+
+            var runner = tool as Models.Tools.ProviderTool;
+            if (runner == null)
+                return ReturnCode.UNSUPPORTED_OPERATION;
+            bool restore_backup;
+            var entries = get_provider_update_entries (runner, out restore_backup);
+            if (entries.is_empty)
+                return ReturnCode.NOTHING_TO_UPDATE;
+            var catalog = runner.release_catalog;
+            if (catalog == null)
+                return ReturnCode.INVALID_CONFIGURATION;
+            var lookup = yield catalog.fetch_latest_eligible_release ();
+            if (!lookup.succeeded)
+                return lookup.code;
+            if (!lookup.has_release)
+                return ReturnCode.NOTHING_TO_UPDATE;
+            if (restore_backup) {
+                var validation = StandardArchiveWorkflow.check_legacy_latest_backup (latest_directory_for_backup (entries[0]));
+                if (validation != ReturnCode.RUNNER_INSTALLED)
+                    return validation;
+            }
+            var release = lookup.require_release ();
+            var inventory = runner.group.installed_tool_inventory;
+            var failure = ReturnCode.NOTHING_TO_UPDATE;
+            foreach (var entry in entries) {
+                var job = create_provider_update_job (runner, entry.path, inventory.get_latest_variant (entry, runner));
+                var code = standard_archive_workflow.check_provider_update (job, release);
+                if (code == ReturnCode.UPDATE_AVAILABLE)
+                    available.add (new AvailableToolUpdate (Utils.Metadata.load (entry.path).tag, job));
+                else if (code != ReturnCode.NOTHING_TO_UPDATE && code != ReturnCode.INCOMPATIBLE_VARIANT &&
+                    code != ReturnCode.SYMLINKED_TOOL_DIRECTORY && failure == ReturnCode.NOTHING_TO_UPDATE)
+                    failure = code;
+            }
+            if (failure != ReturnCode.NOTHING_TO_UPDATE)
+                return failure;
+            return available.is_empty ? ReturnCode.NOTHING_TO_UPDATE : ReturnCode.UPDATE_AVAILABLE;
         }
 
         private bool is_latest_installation (

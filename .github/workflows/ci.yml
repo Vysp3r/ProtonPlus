@@ -116,11 +116,6 @@ jobs:
       fail-fast: false
       matrix:
         arch: ${{ fromJSON(needs.source.outputs.architectures) }}
-    container:
-      image: ghcr.io/pkgforge-dev/archlinux:latest
-      volumes:
-        # The runner already provides its Docker socket to the job container.
-        - /usr/bin/docker:/usr/local/bin/docker:ro
     env:
       VERSION: ${{ needs.source.outputs.version }}
       ARCH: ${{ matrix.arch }}

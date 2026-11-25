@@ -1,6 +1,6 @@
 namespace ProtonPlus.Utils {
     public class Metadata : Object {
-        private const string FILENAME = ".protonplus";
+        internal const string FILENAME = ".protonplus";
 
         public string runner_endpoint { get; set; default = ""; }
         public string runner_title { get; set; default = ""; }

@@ -5,9 +5,47 @@ namespace ProtonPlus.CLI {
     private const string CMD_INSTALL = "install";
     private const string CMD_UNINSTALL = "uninstall";
     private const string CMD_UPDATE = "update";
+    private const string CMD_SEARCH = "search";
+    private const string CMD_OUTDATED = "outdated";
+    private const string CMD_SYNC = "sync";
+    private const string CMD_CLEANUP = "cleanup";
+
+    private const string CMD_STEAM_KEY_REPAIR = "steam-key-repair";
+    private const string STEAM_KEY_REPAIR_USAGE = "steam-key-repair <steam_launcher_id> {preview | apply <preview_token> <key> <owner_directory> [<appid>=<directory> ...] | resume}";
 
     private const string OPT_LATEST = "latest";
     private const string OPT_ALL = "all";
+    private const string OPT_JSON = "--json";
+
+    private const string SEARCH_USAGE = "search [--json] [query]";
+    private const string OUTDATED_USAGE = "outdated [--json] [launcher_id]";
+    private const string SYNC_USAGE = "sync [launcher_id]";
+    private const string INSTALL_USAGE = "install <launcher_id> <runner_id> [latest]";
+    private const string UNINSTALL_USAGE = "uninstall <launcher_id> {all | <runner_id> [all]}";
+    private const string UPDATE_USAGE = "update {all | <launcher_id> [runner_id]}";
+
+    public static bool changes_installed_tools (string command) {
+        return command == CMD_INSTALL || command == CMD_UNINSTALL || command == CMD_UPDATE;
+    }
+
+    public static string? invalid_tool_command_usage (string[] args) {
+        if (args.length < 2)
+            return null;
+
+        switch (args[1]) {
+        case CMD_INSTALL:
+            return args.length == 4 || (args.length == 5 && args[4] == OPT_LATEST)
+                ? null : INSTALL_USAGE;
+        case CMD_UNINSTALL:
+            return args.length == 4 || (args.length == 5 && args[3] != OPT_ALL && args[4] == OPT_ALL)
+                ? null : UNINSTALL_USAGE;
+        case CMD_UPDATE:
+            return args.length == 3 || (args.length == 4 && args[2] != OPT_ALL)
+                ? null : UPDATE_USAGE;
+        default:
+            return null;
+        }
+    }
 
     public interface CliOutputSink : Object {
         public abstract void write_stdout (string text);
@@ -122,6 +160,10 @@ namespace ProtonPlus.CLI {
                 widths[i] = int.max (widths[i], display_width (cells[i]));
         }
 
+        public bool is_empty () {
+            return rows.is_empty;
+        }
+
         private static int display_width (string value) {
             var width = 0;
             var index = 0;
@@ -203,8 +245,19 @@ namespace ProtonPlus.CLI {
                 return 0;
             }
 
-            if (command != CMD_LIST && command != CMD_INSTALL &&
-                command != CMD_UNINSTALL && command != CMD_UPDATE) {
+            if (command == CMD_CLEANUP)
+                return yield handle_cleanup (args);
+
+            if (command == CMD_STEAM_KEY_REPAIR)
+                return yield handle_steam_key_repair (args);
+
+            var invalid_usage = invalid_tool_command_usage (args);
+            if (invalid_usage != null)
+                return usage_error (invalid_usage);
+
+            var changes_tools = changes_installed_tools (command);
+            if (!changes_tools && command != CMD_LIST && command != CMD_SEARCH &&
+                command != CMD_OUTDATED && command != CMD_SYNC) {
                 output.error (_ ("Error: Unknown command '%s'\n"), command);
                 print_usage ();
                 return 1;
@@ -212,19 +265,25 @@ namespace ProtonPlus.CLI {
 
             if (command == CMD_INSTALL || command == CMD_UPDATE)
                 progress_updated_handler_id = Utils.DownloadManager.instance.progress_updated.connect (on_progress_updated);
-            if (command == CMD_INSTALL || command == CMD_UNINSTALL || command == CMD_UPDATE) {
+            if (changes_tools) {
                 steam_restart_recording_failed_handler_id = Services.InstallationService.instance.steam_restart_recording_failed.connect ((job, message) => {
                     output.warning (_ ("Warning: %s\n"), message);
                 });
             }
 
             try {
-                if (!yield load_launchers ())
+                if (!yield load_launchers (!changes_tools))
                     return 1;
 
                 switch (command) {
                     case CMD_LIST:
                         return handle_list (args);
+                    case CMD_SEARCH:
+                        return handle_search (args);
+                    case CMD_OUTDATED:
+                        return yield handle_outdated (args);
+                    case CMD_SYNC:
+                        return yield handle_sync (args);
                     case CMD_INSTALL:
                         return yield handle_install (args);
                     case CMD_UNINSTALL:
@@ -237,6 +296,105 @@ namespace ProtonPlus.CLI {
             } finally {
                 disconnect_runtime_signals ();
             }
+        }
+
+        private async int handle_steam_key_repair (string[] args) {
+            if (args.length < 4 || (args[3] == "apply" ? args.length < 7
+                : args.length != 4 || (args[3] != "preview" && args[3] != "resume")))
+                return usage_error (STEAM_KEY_REPAIR_USAGE);
+            if (!yield load_launchers (true))
+                return 1;
+            var steam = find_launcher (args[2]) as Models.Launchers.Steam;
+            if (steam == null) {
+                output.error (_ ("Select a Steam launcher for this repair.\n"));
+                return 1;
+            }
+            try {
+                var sessions = Services.SteamSessionService.instance;
+                var manager = new Services.SteamRestartManager (sessions, new Services.SteamRestartStateStore ());
+                var configuration = new Services.SteamConfigurationService (sessions, manager);
+                var repair = new Services.SteamKeyRepair (steam, sessions, manager, configuration);
+                switch (args[3]) {
+                case "preview":
+                    print_steam_key_preview (repair, repair.preview ());
+                    return 0;
+                case "apply":
+                    var assignments = new Gee.HashMap<string, string> ();
+                    for (var i = 7; i < args.length; i++) {
+                        var pair = args[i].split ("=", 2);
+                        if (pair.length != 2 || assignments.has_key (pair[0]))
+                            return usage_error (STEAM_KEY_REPAIR_USAGE);
+                        assignments.set (pair[0], pair[1]);
+                    }
+                    repair.apply (args[4], args[5], args[6], assignments);
+                    break;
+                case "resume":
+                    repair.resume ();
+                    break;
+                }
+                output.info (_ ("Steam compatibility key repair completed.\n"));
+                return 0;
+            } catch (Error e) {
+                output.error (_ ("Steam compatibility key repair: %s\n"), e.message);
+                return 1;
+            }
+        }
+
+        private void print_steam_key_preview (Services.SteamKeyRepair repair, Services.SteamKeyRepairPreview preview) {
+            if (preview.recovery_available) {
+                output.info (_ ("An interrupted repair is available. Exit Steam and run this command with resume.\n"));
+                return;
+            }
+            var keys = new Gee.TreeMap<string, int> ();
+            foreach (var claim in preview.claims) {
+                var key = claim.key.ascii_down ();
+                keys.set (key, (keys.has_key (key) ? keys.get (key) : 0) + 1);
+            }
+            var reported = new Gee.HashSet<string> ();
+            foreach (var claim in preview.claims) {
+                var key = claim.key;
+                if (keys.get (key.ascii_down ()) < 2 || !reported.add (key.ascii_down ()))
+                    continue;
+                output.info (_ ("\nShared Steam key %s\n"), Shell.quote (key));
+                foreach (var slot in preview.claims) {
+                    if (slot.key.ascii_down () != key.ascii_down ())
+                        continue;
+                    if (slot.replacement == "") {
+                        output.info (_ ("  %s (external or ownership uncertain)\n"), Shell.quote (slot.path));
+                        continue;
+                    }
+                    var dir = Path.get_basename (slot.path);
+                    output.info (_ ("  %s (fresh key %s)\n"), Shell.quote (dir), Shell.quote (slot.replacement));
+                    var conflict = repair.owner_conflict (preview, key, dir);
+                    if (conflict == null)
+                        output.info (_ ("    Can retain the historical key.\n"));
+                    else
+                        output.info (_ ("    Cannot retain the historical key: %s\n"), conflict);
+                }
+                var appids = new Gee.TreeSet<uint> ((a, b) => a < b ? -1 : a == b ? 0 : 1);
+                preview.mappings.foreach ((appid, value) => {
+                    if (value.ascii_down () == key.ascii_down ())
+                        appids.add (appid);
+                });
+                foreach (var appid in appids) {
+                    if (appid == 0)
+                        output.info (_ ("  AppID 0 (global default, also used by games that inherit it)\n"));
+                    else
+                        output.info (_ ("  AppID %u\n"), appid);
+                }
+                foreach (var record in preview.pending) {
+                    var intent = record.receipt.configuration_intent;
+                    if (intent != null && intent.operation == Models.SteamConfigurationOperation.COMPATIBILITY_MAPPING
+                        && (preview.affects (intent, key)
+                            || (!intent.desired_present && intent.field_id != "0" && preview.mappings.get (0) == key)))
+                        output.info (_ ("  Pending ProtonPlus edit for AppID %s: %s\n"),
+                            intent.field_id, intent.desired_present ? Shell.quote (intent.desired) : _ ("inherit default"));
+                }
+            }
+            if (reported.is_empty)
+                output.info (_ ("No duplicate Steam compatibility keys were found.\n"));
+            else
+                output.info (_ ("\nPreview token %s\n"), preview.token);
         }
 
         private void disconnect_runtime_signals () {
@@ -264,7 +422,7 @@ namespace ProtonPlus.CLI {
             var found = false;
             var table = new Table ({ _ ("Runner ID"), _ ("Version"), _ ("Name") });
             foreach (var group in launcher.groups) {
-                group.refresh_installed_state ();
+                group.refresh_installed_state (false);
                 var installed = group.get_installed_tool_snapshot ();
                 var group_found = false;
                 foreach (var tool in group.tools) {
@@ -298,11 +456,208 @@ namespace ProtonPlus.CLI {
             return 0;
         }
 
-        private async int handle_install (string[] args) {
-            if (!validate_args (args, 4, "protonplus install <launcher_id> <runner_id> [latest]")) {
+        private int handle_search (string[] args) {
+            bool json;
+            string? query;
+            if (!parse_query_args (args, SEARCH_USAGE, out json, out query))
+                return 1;
+
+            var terms = (query ?? "").casefold ().split_set (" \t\r\n");
+            var table = new Table ({ _ ("Package ID"), _ ("Name") });
+            var packages = new Json.Array ();
+            foreach (var launcher in launchers) {
+                foreach (var group in launcher.groups) {
+                    foreach (var tool in group.tools) {
+                        if (!is_available_in_catalog (tool))
+                            continue;
+                        var package_id = get_package_id (tool);
+                        var searchable = "%s\n%s\n%s".printf (package_id, tool.title, tool.description).casefold ();
+                        if (!matches_search_terms (searchable, terms))
+                            continue;
+                        if (json) {
+                            var package = make_package (tool);
+                            package.set_string_member ("category", group.id);
+                            package.set_string_member ("description", tool.description);
+                            packages.add_object_element (package);
+                        } else {
+                            table.add ({ package_id, tool.title });
+                        }
+                    }
+                }
+            }
+            if (json)
+                print_packages (packages);
+            else if (table.is_empty ())
+                output.info (_ ("No matching runners\n"));
+            else
+                table.print (output, false);
+            return 0;
+        }
+
+        private bool matches_search_terms (string text, string[] terms) {
+            foreach (var term in terms)
+                if (term != "" && !text.contains (term))
+                    return false;
+            return true;
+        }
+
+        private bool is_available_in_catalog (Models.Tool tool) {
+            return tool.is_visible_in_catalog (Globals.SETTINGS) &&
+                !(tool is Models.Tools.SteamTinkerLaunch) &&
+                (!(tool is Models.Tools.TinkerGame) || Services.TinkerGameWorkflow.is_supported_on (tool.group.launcher));
+        }
+
+        private async int handle_outdated (string[] args) {
+            bool json;
+            string? launcher_id;
+            if (!parse_query_args (args, OUTDATED_USAGE, out json, out launcher_id))
+                return 1;
+            var scope = get_launcher_scope (launcher_id, !json);
+            if (scope == null)
+                return 1;
+
+            var table = new Table ({ _ ("Package ID"), _ ("Installed"), _ ("Available"), _ ("Variant") });
+            var packages = new Json.Array ();
+            var failed = false;
+            foreach (var tool in collect_latest_runners (scope, false)) {
+                Gee.List<Services.AvailableToolUpdate> updates;
+                var code = yield Services.InstallationService.instance.find_available_updates (tool, out updates);
+                foreach (var update in updates) {
+                    var latest = update.release.source_tag != "" ? update.release.source_tag : update.release.title;
+                    if (json) {
+                        var package = make_package (tool);
+                        set_optional_string (package, "installed_version", update.installed_version);
+                        package.set_string_member ("latest_version", latest);
+                        set_optional_string (package, "variant_id", update.variant_id);
+                        packages.add_object_element (package);
+                    } else {
+                        table.add ({ get_package_id (tool), update.installed_version != "" ? update.installed_version : "—",
+                            latest, update.variant_id != "" ? update.variant_id : "—" });
+                    }
+                }
+                if (code != ReturnCode.UPDATE_AVAILABLE && code != ReturnCode.NOTHING_TO_UPDATE) {
+                    output.error (_ ("Error: Could not check %s: %s\n"), get_package_id (tool), get_return_code_message (code));
+                    failed = true;
+                }
+            }
+            if (json)
+                print_packages (packages);
+            else if (!table.is_empty ())
+                table.print (output, false);
+            else if (!failed)
+                output.info (_ ("No updates available\n"));
+            return failed ? 1 : 0;
+        }
+
+        private async int handle_sync (string[] args) {
+            if (args.length > 3 || (args.length == 3 && args[2].has_prefix ("--")))
+                return usage_error (SYNC_USAGE);
+            var scope = get_launcher_scope (args.length == 3 ? args[2] : null);
+            if (scope == null)
+                return 1;
+
+            var seen = new Gee.HashSet<string> ();
+            var refreshed = new Gee.HashMap<Models.Providers.ProviderDefinition, Models.ReleaseCatalog> ();
+            var failed = false;
+            foreach (var launcher in scope) {
+                foreach (var group in launcher.groups) {
+                    foreach (var tool in group.tools) {
+                        var catalog = tool.release_catalog;
+                        if (catalog == null || !is_available_in_catalog (tool) || !seen.add (tool.id))
+                            continue;
+                        var provider = tool as Models.Tools.ProviderTool;
+                        var previous = provider != null ? refreshed.get (provider.definition) : null;
+                        var result = yield catalog.sync (previous);
+                        if (!result.succeeded) {
+                            output.error (_ ("Error: Could not sync %s: %s\n"), get_package_id (tool),
+                                get_return_code_message (result.code));
+                            failed = true;
+                        } else if (provider != null && previous == null) {
+                            refreshed.set (provider.definition, catalog);
+                        }
+                    }
+                }
+            }
+            if (!failed)
+                output.success (_ ("Release cache is up to date\n"));
+            return failed ? 1 : 0;
+        }
+
+        private async int handle_cleanup (string[] args) {
+            if (args.length != 2)
+                return usage_error (CMD_CLEANUP);
+            if (FileUtils.test (Globals.CACHE_PATH, FileTest.EXISTS | FileTest.IS_SYMLINK) &&
+                !yield Utils.CacheManager.clear_cache ()) {
+                output.error (_ ("Error: Could not clear the cache\n"));
                 return 1;
             }
+            output.success (_ ("Cache cleared\n"));
+            return 0;
+        }
 
+        private bool parse_query_args (string[] args, string usage, out bool json, out string? argument) {
+            json = false;
+            argument = null;
+            for (var i = 2; i < args.length; i++) {
+                if (args[i] == OPT_JSON && !json) {
+                    json = true;
+                } else if (argument == null && !args[i].has_prefix ("--")) {
+                    argument = args[i];
+                } else {
+                    usage_error (usage);
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private int usage_error (string usage) {
+            output.error (_ ("Usage: %s\n"), "protonplus " + usage);
+            return 1;
+        }
+
+        private Gee.LinkedList<Models.Launcher>? get_launcher_scope (string? launcher_id, bool show_available = true) {
+            if (launcher_id == null)
+                return launchers;
+            var launcher = find_launcher (launcher_id, show_available);
+            if (launcher == null)
+                return null;
+            var scope = new Gee.LinkedList<Models.Launcher> ();
+            scope.add (launcher);
+            return scope;
+        }
+
+        private string get_package_id (Models.Tool tool) {
+            return "%s/%s".printf (get_launcher_id (tool.group.launcher), get_runner_id (tool));
+        }
+
+        private Json.Object make_package (Models.Tool tool) {
+            var package = new Json.Object ();
+            package.set_string_member ("id", get_package_id (tool));
+            package.set_string_member ("launcher_id", get_launcher_id (tool.group.launcher));
+            package.set_string_member ("tool_target_id", tool.group.launcher.tool_target_id);
+            package.set_string_member ("runner_id", get_runner_id (tool));
+            package.set_string_member ("name", tool.title);
+            return package;
+        }
+
+        private void set_optional_string (Json.Object object, string name, string value) {
+            if (value == "")
+                object.set_null_member (name);
+            else
+                object.set_string_member (name, value);
+        }
+
+        private void print_packages (Json.Array packages) {
+            var root = new Json.Object ();
+            root.set_int_member ("schema_version", 1);
+            root.set_array_member ("packages", packages);
+            var node = new Json.Node (Json.NodeType.OBJECT);
+            node.set_object (root);
+            output_sink.write_stdout (Json.to_string (node, false) + "\n");
+        }
+
+        private async int handle_install (string[] args) {
             var launcher = find_launcher (args[2]);
             if (launcher == null) {
                 return 1;
@@ -331,10 +686,6 @@ namespace ProtonPlus.CLI {
         }
 
         private async int handle_uninstall (string[] args) {
-            if (!validate_args (args, 4, "protonplus uninstall <launcher_id> <runner_id|all> [all]")) {
-                return 1;
-            }
-
             var launcher = find_launcher (args[2]);
             if (launcher == null) {
                 return 1;
@@ -362,10 +713,6 @@ namespace ProtonPlus.CLI {
         }
 
         private async int handle_update (string[] args) {
-            if (!validate_args (args, 3, "protonplus update <all|launcher_id> [runner_id]")) {
-                return 1;
-            }
-
             if (args[2] == OPT_ALL) {
                 return yield update_all ();
             }
@@ -620,13 +967,15 @@ namespace ProtonPlus.CLI {
             }
         }
 
-        private Gee.LinkedList<Models.Tool> collect_latest_runners (Gee.LinkedList<Models.Launcher> scope) {
+        private Gee.LinkedList<Models.Tool> collect_latest_runners (
+            Gee.LinkedList<Models.Launcher> scope, bool migrate_legacy_metadata = true
+        ) {
             var latest_runners = new Gee.LinkedList<Models.Tool> ();
             var collected_runner_ids = new Gee.HashSet<string> ();
 
             foreach (var launcher in scope) {
                 foreach (var group in launcher.groups) {
-                    group.refresh_installed_state ();
+                    group.refresh_installed_state (migrate_legacy_metadata);
                     foreach (var tool in Services.InstallationService.instance.get_update_candidates (group)) {
                         if (collected_runner_ids.add (tool.id))
                             latest_runners.add (tool);
@@ -663,12 +1012,12 @@ namespace ProtonPlus.CLI {
             return code;
         }
 
-        private async bool load_launchers () {
+        private async bool load_launchers (bool read_only) {
             if (fixture_launchers != null) {
                 launchers = (!) fixture_launchers;
                 return true;
             }
-            var success = yield Models.Launcher.get_all (out launchers);
+            var success = yield Models.Launcher.get_all (read_only, out launchers);
             if (!success || launchers == null) {
                 output.error (_ ("Error: Failed to load launchers\n"));
                 return false;
@@ -688,14 +1037,15 @@ namespace ProtonPlus.CLI {
             return result.code;
         }
 
-        private Models.Launcher? find_launcher (string launcher_id) {
+        private Models.Launcher? find_launcher (string launcher_id, bool show_available = true) {
             foreach (var launcher in launchers) {
                 if (matches_launcher_id (launcher, launcher_id)) {
                     return launcher;
                 }
             }
             output.error (_ ("Error: Launcher '%s' not found\n"), launcher_id);
-            print_available_launchers ();
+            if (show_available)
+                print_available_launchers ();
             return null;
         }
 
@@ -782,35 +1132,31 @@ namespace ProtonPlus.CLI {
             return provider_tool;
         }
 
-        private bool validate_args (string[] args, int min_required, string usage) {
-            if (args.length < min_required) {
-                output.error (_ ("Usage: %s\n"), usage);
-                return false;
-            }
-            return true;
+        protected virtual string? read_selection_input () {
+            return stdin.read_line ();
         }
 
-        protected virtual int read_user_selection (string prompt, int max) {
+        private int read_user_selection (string prompt, int max) {
             output.info ("\n%s: ", prompt);
             output.flush_stdout ();
-            var input = stdin.read_line ();
+            var input = read_selection_input ()?.strip () ?? "";
 
-            if (input == null || input.strip () == "") {
+            if (input == "") {
                 return -1;
             }
 
-            var val = int.parse (input);
-            if (val == 0 && input.strip () != "0") {
+            int selection;
+            unowned string remainder;
+            if (!int.try_parse (input, out selection, out remainder, 10) || remainder != "") {
                 output.error (_ ("Error: Invalid input, please enter a number\n"));
                 return -1;
             }
 
-            var index = val - 1;
-            if (index < 0 || index >= max) {
+            if (selection <= 0 || selection > max) {
                 output.error (_ ("Error: Selection out of range\n"));
                 return -1;
             }
-            return index;
+            return selection - 1;
         }
 
         private void print_usage () {
@@ -821,9 +1167,14 @@ namespace ProtonPlus.CLI {
             table.add ({ "version", _ ("Show version") });
             table.add ({ "help", _ ("Show this help") });
             table.add ({ "list [launcher_id]", _ ("List launchers or installed runners") });
-            table.add ({ "install <launcher_id> <runner_id> [latest]", _ ("Install runner") });
-            table.add ({ "uninstall <launcher_id> <runner_id|all> [all]", _ ("Uninstall runner") });
-            table.add ({ "update <all|launcher_id> [runner_id]", _ ("Update runner") });
+            table.add ({ SEARCH_USAGE, _ ("Search available runners") });
+            table.add ({ OUTDATED_USAGE, _ ("List available runner updates") });
+            table.add ({ SYNC_USAGE, _ ("Refresh cached release metadata") });
+            table.add ({ CMD_CLEANUP, _ ("Clear cached releases and downloads") });
+            table.add ({ INSTALL_USAGE, _ ("Install runner") });
+            table.add ({ UNINSTALL_USAGE, _ ("Uninstall runner") });
+            table.add ({ UPDATE_USAGE, _ ("Update runner") });
+            table.add ({ STEAM_KEY_REPAIR_USAGE, _ ("Preview or resolve shared Steam compatibility keys") });
             table.print (output);
         }
 

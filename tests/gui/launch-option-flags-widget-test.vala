@@ -357,6 +357,60 @@ void check_typed_arguments_and_resolution () {
     ProtonPlus.Globals.GAMESCOPE_INSTALLED = false;
 }
 
+void check_custom_wrapper_draft () {
+    ProtonPlus.Globals.GAMESCOPE_INSTALLED = true;
+    var editor = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.Box ();
+    editor.set_capability_context (new LaunchCommandCapabilityContext ({ LaunchOptionCapability.GAMESCOPE }));
+    var field = (Adw.EntryRow) find_widget (editor, (widget) => widget is Adw.EntryRow
+        && ((Adw.EntryRow) widget).title == "Custom wrapper");
+    assert (field != null && field.visible);
+
+    string program = "\"/tmp/Goverlay Config/bgmod\"";
+    editor.set_text ("");
+    editor.set_preview_sources ({ "First", "Second <fixture>" }, { "--tag --tag", "LOCAL=1 %command% --second" });
+    field.text = program + " %command% %command%";
+    assert (field.has_css_class ("error") && !editor.writing_allowed);
+    field.text = program + " %command%";
+    assert (!field.has_css_class ("error") && editor.writing_allowed);
+    var first = editor.prepare_write_for_source ("--tag --tag");
+    var second = editor.prepare_write_for_source ("LOCAL=1 %command% --second");
+    assert (first.launch_line == program + " %command% --tag --tag");
+    assert (second.launch_line == "LOCAL=1 " + program + " %command% --second");
+    assert (find_widget (editor, (widget) => widget is Gtk.Label
+        && ((Gtk.Label) widget).get_text ().contains (first.launch_line)
+        && ((Gtk.Label) widget).get_text ().contains (second.launch_line)) != null);
+
+    editor.set_preview_sources ({ "First", "Conflicting <fixture>" }, { "--tag --tag", "/tmp/different %command%" });
+    assert (!editor.writing_allowed);
+    assert (find_widget (editor, (widget) => widget is Adw.ExpanderRow
+        && (((Adw.ExpanderRow) widget).subtitle ?? "").contains ("Conflicting <fixture>")) != null);
+
+    var nested = "gamescope -r 60 -- " + program + " %command% -r 75";
+    editor.set_text (nested);
+    assert (field.text == program && !editor.is_dirty);
+    var frame_limit = (Adw.ActionRow) find_widget (editor, (widget) => widget is Adw.ActionRow
+        && ((Adw.ActionRow) widget).title == "Frame limit" && widget.tooltip_text == "Caps the frame rate inside Gamescope.");
+    assert (frame_limit != null);
+    var fps = (Gtk.Entry) find_widget (frame_limit, (widget) => widget is Gtk.Entry);
+    assert (fps != null && fps.text == "60");
+    fps.text = "90";
+    assert (editor.prepare_write ().launch_line == nested.replace ("-r 60", "-r 90"));
+    field.text = "";
+    assert (editor.prepare_write ().launch_line == "gamescope -r 90 -- %command% -r 75");
+    editor.clear ();
+    field.text = program;
+    assert (editor.prepare_write ().launch_line == program + " %command%");
+
+    editor.set_capability_context (new LaunchCommandCapabilityContext ({ LaunchOptionCapability.GAME_PERFORMANCE }));
+    editor.set_text ("/tmp/wrapper --label game-performance %command%");
+    var performance = (Adw.ActionRow) find_widget (editor, (widget) => widget is Adw.ActionRow
+        && ((Adw.ActionRow) widget).title == "CachyOS game-performance profile");
+    assert (performance != null);
+    var toggle = (Gtk.Switch) find_widget (performance, (widget) => widget is Gtk.Switch);
+    assert (toggle != null && !toggle.active);
+    ProtonPlus.Globals.GAMESCOPE_INSTALLED = false;
+}
+
 int main (string[] args) {
     Environment.set_variable ("GSETTINGS_BACKEND", "memory", true);
     if (!Gtk.init_check ())
@@ -368,6 +422,7 @@ int main (string[] args) {
     check_catalog_driven_controls ();
     check_launch_options_draft ();
     check_typed_arguments_and_resolution ();
+    check_custom_wrapper_draft ();
     string[] ids = { "vkd3d-config", "amd-radv-perftest", "amd-radv-debug", "amd-aco-debug" };
     LaunchOptionCustomPairs[] editors = {
         new LaunchOptionVKD3DConfig (), new LaunchOptionRadvPerftest (),

@@ -3,16 +3,12 @@ description: Build and check an AppImage in a clean container.
 runs:
   using: composite
   steps:
-    - name: Prepare container
-      uses: pkgforge-dev/anylinux-setup-action@v1
-
-    - name: Build AppImage
+    - name: Build stock AppImage
       shell: bash
       run: |
-        tar -xf "ProtonPlus-$VERSION-source.tar.gz"
-        cd "ProtonPlus-$VERSION"
-        /bin/sh packaging/appimage/get-dependencies.sh
-        ./packaging/appimage/build.sh
+        tar -xf "ProtonPlus-$VERSION-source.tar.gz" \
+          "ProtonPlus-$VERSION/packaging/appimage/build-container.sh"
+        sh "ProtonPlus-$VERSION/packaging/appimage/build-container.sh" --stock-only
 
     - name: Check update metadata and launch in a clean container
       shell: bash

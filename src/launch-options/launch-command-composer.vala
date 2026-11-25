@@ -148,6 +148,7 @@ namespace ProtonPlus.LaunchOptions {
             var wrapper_arguments = new HashMap<string, ArrayList<string>> ();
             var environments = new ArrayList<LaunchEnvironmentAssignment> ();
             var game_arguments = new ArrayList<string> ();
+            string custom_wrapper = "";
 
             foreach (var selection in selections) {
                 var metadata = catalog.lookup (selection.option_id);
@@ -186,6 +187,20 @@ namespace ProtonPlus.LaunchOptions {
                     validate_no_additional_arguments (diagnostics, selection);
                 } else if (semantics.kind == LaunchOptionSemanticKind.WRAPPER_ARGUMENT) {
                     append_wrapper_argument (diagnostics, selection, semantics, wrapper_arguments);
+                    validate_no_additional_arguments (diagnostics, selection);
+                } else if (semantics.kind == LaunchOptionSemanticKind.CUSTOM_WRAPPER) {
+                    var values = selection.get_values ();
+                    string input;
+                    if (values.length != 1)
+                        input = "";
+                    else if (selection.values_are_serialized)
+                        input = values[0].dup ();
+                    else
+                        input = Shell.quote (values[0]);
+                    var diagnostic = LaunchCustomWrapperInput.read (input, out custom_wrapper);
+                    if (diagnostic != null || custom_wrapper == "")
+                        add (diagnostics, LaunchCommandCompositionDiagnosticCode.EMPTY_OR_UNSAFE_ARGUMENT,
+                            selection.option_id, diagnostic ?? _("Enter a custom wrapper path."));
                     validate_no_additional_arguments (diagnostics, selection);
                 } else if (semantics.kind == LaunchOptionSemanticKind.GAME_ARGUMENT) {
                     if (semantics.emission_mode == LaunchOptionEmissionMode.DYNAMIC_GAME_ARGUMENTS) {
@@ -243,7 +258,7 @@ namespace ProtonPlus.LaunchOptions {
             for (var index = 0; index < game_arguments.size; index++)
                 game_argument_values[index] = game_arguments[index];
             var plan = new LaunchCommandPlan (environment_values, wrapper_values,
-                game_argument_values, request.retain_placeholder_for_arguments_only);
+                game_argument_values, request.retain_placeholder_for_arguments_only, custom_wrapper);
             var build_result = builder.build (plan);
             if (!build_result.is_valid) {
                 foreach (var error in build_result.errors)

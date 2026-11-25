@@ -10,10 +10,58 @@ namespace AppTests.FilesystemTest {
         Test.add_func ("/filesystem/delete-root-symlink-preserves-target", test_delete_root_symlink_preserves_target);
         Test.add_func ("/filesystem/clear-cache-root-symlink-preserves-target", test_clear_cache_root_symlink_preserves_target);
         Test.add_func ("/filesystem/copy-preserves-symlinks", test_copy_preserves_symlinks);
+        Test.add_func ("/filesystem/copy-rejects-symlink-roots", test_copy_rejects_symlink_roots);
+        Test.add_func ("/filesystem/competing-file-publications", test_competing_file_publications);
         Test.add_func ("/filesystem/move-conflict-completes", test_move_conflict_completes);
         Test.add_func ("/filesystem/extract-through-symlinked-ancestor", test_extract_through_symlinked_ancestor);
         Test.add_func ("/filesystem/extract-rejects-archive-symlink-traversal", test_extract_rejects_archive_symlink_traversal);
         Test.add_func ("/filesystem/extract-canonicalization-failure-is-clean", test_extract_canonicalization_failure_is_clean);
+    }
+
+    private void test_competing_file_publications () {
+        var loop = new MainLoop ();
+        competing_file_publications.begin ((obj, result) => {
+            competing_file_publications.end (result);
+            loop.quit ();
+        });
+        loop.run ();
+    }
+
+    private async void competing_file_publications () {
+        var root = create_temp_directory ();
+        var first = Path.build_filename (root, "first");
+        var second = Path.build_filename (root, "second");
+        var destination = Path.build_filename (root, "archive");
+        ProtonPlus.Utils.Filesystem.create_file (first, "first");
+        ProtonPlus.Utils.Filesystem.create_file (second, "second");
+
+        var first_outcome = ProtonPlus.Utils.Filesystem.FilePublication.IO_FAILURE;
+        var second_outcome = ProtonPlus.Utils.Filesystem.FilePublication.IO_FAILURE;
+        var completed = 0;
+        ProtonPlus.Utils.Filesystem.move_file_atomic_if_absent.begin (first, destination, (obj, result) => {
+            first_outcome = ProtonPlus.Utils.Filesystem.move_file_atomic_if_absent.end (result);
+            if (++completed == 2)
+                competing_file_publications.callback ();
+        });
+        ProtonPlus.Utils.Filesystem.move_file_atomic_if_absent.begin (second, destination, (obj, result) => {
+            second_outcome = ProtonPlus.Utils.Filesystem.move_file_atomic_if_absent.end (result);
+            if (++completed == 2)
+                competing_file_publications.callback ();
+        });
+        yield;
+
+        var first_won = first_outcome == ProtonPlus.Utils.Filesystem.FilePublication.PUBLISHED;
+        var winning_source = first_won ? first : second;
+        var losing_source = first_won ? second : first;
+        assert ((first_won ? second_outcome : first_outcome) ==
+                ProtonPlus.Utils.Filesystem.FilePublication.DESTINATION_PRESENT);
+        assert (first_won || second_outcome == ProtonPlus.Utils.Filesystem.FilePublication.PUBLISHED);
+        assert (!FileUtils.test (winning_source, FileTest.EXISTS));
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (destination) == Path.get_basename (winning_source));
+        assert (ProtonPlus.Utils.Filesystem.get_file_content (losing_source) == Path.get_basename (losing_source));
+        assert ((yield ProtonPlus.Utils.Filesystem.move_file_atomic_if_absent (winning_source, destination)) ==
+                ProtonPlus.Utils.Filesystem.FilePublication.IO_FAILURE);
+        assert (yield ProtonPlus.Utils.Filesystem.delete_directory (root));
     }
 
     private void test_cache_operation_lock () {
@@ -316,6 +364,28 @@ namespace AppTests.FilesystemTest {
         assert (!move_succeeded);
         assert (ProtonPlus.Utils.Filesystem.get_file_content (source_file) == "source");
         assert (ProtonPlus.Utils.Filesystem.get_file_content (target_file) == "target");
+        assert (delete_directory (root));
+    }
+
+    private void test_copy_rejects_symlink_roots () {
+        var root = create_temp_directory ();
+        var source = Path.build_filename (root, "source");
+        var destination = Path.build_filename (root, "destination");
+        var link = Path.build_filename (root, "link");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (source));
+        assert (ProtonPlus.Utils.Filesystem.create_directory (destination));
+        ProtonPlus.Utils.Filesystem.create_file (Path.build_filename (source, "fixture"), "fixture");
+        assert (Posix.symlink (source, link) == 0);
+
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*Source is not a directory:*");
+        assert (!copy_directory (link, destination));
+        Test.assert_expected_messages ();
+        Test.expect_message (null, LogLevelFlags.LEVEL_WARNING, "*Destination is not a directory:*");
+        assert (!copy_directory (source, link));
+        Test.assert_expected_messages ();
+
+        assert (FileUtils.test (link, FileTest.IS_SYMLINK));
+        assert (!FileUtils.test (Path.build_filename (destination, "fixture"), FileTest.EXISTS));
         assert (delete_directory (root));
     }
 

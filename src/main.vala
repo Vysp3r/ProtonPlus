@@ -12,18 +12,17 @@ namespace ProtonPlus {
         }
 
         if (args.length > 1) {
-            Globals.load ();
+            var changes_tools = CLI.changes_installed_tools (args[1]) && CLI.invalid_tool_command_usage (args) == null;
+            Globals.load (changes_tools);
             Globals.setupLanguage ();
-            ProtonPlus.Services.InstallationService.instance.configure_compatibility_process_guard (
-                new ProtonPlus.Services.CompatibilityProcessGuard.for_package (Globals.IS_FLATPAK)
-            );
-
-            var migration_manager = new ProtonPlus.Services.Migrations.Manager ();
-            migration_manager.check_and_migrate_sync (Config.APP_VERSION);
 
             ProtonPlus.Services.SteamLifecycle? steam_lifecycle = null;
-            var command = args[1];
-            if (command == "install" || command == "uninstall" || command == "update") {
+            if (changes_tools) {
+                ProtonPlus.Services.InstallationService.instance.configure_compatibility_process_guard (
+                    new ProtonPlus.Services.CompatibilityProcessGuard.for_package (Globals.IS_FLATPAK)
+                );
+                var migration_manager = new ProtonPlus.Services.Migrations.Manager ();
+                migration_manager.check_and_migrate_sync (Config.APP_VERSION);
                 steam_lifecycle = new ProtonPlus.Services.SteamLifecycle ();
             }
             var cli = new CLI.Handler ();
@@ -36,8 +35,6 @@ namespace ProtonPlus {
             loop.run ();
             if (steam_lifecycle != null)
                 steam_lifecycle.stop ();
-            else
-                ProtonPlus.Services.InstallationService.instance.reset_lifecycle_configuration ();
             return result;
         }
 

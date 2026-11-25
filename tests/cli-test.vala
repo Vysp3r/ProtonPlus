@@ -11,14 +11,20 @@ namespace AppTests.CliTest {
 
     private class StaticReleaseSource : Object, ReleaseSource {
         private Release release;
+        private ReturnCode? failure;
+        public int requests { get; private set; default = 0; }
 
-        public StaticReleaseSource (Release release) {
+        public StaticReleaseSource (Release release, ReturnCode? failure = null) {
             this.release = release;
+            this.failure = failure;
         }
 
         public async ReleasePageResult fetch_page (
             ProviderDefinition definition, int requested_page, int limit
         ) {
+            requests++;
+            if (failure != null)
+                return ReleasePageResult.failure ((!) failure);
             var releases = new Gee.LinkedList<Release> ();
             releases.add (release);
             return ReleasePageResult.success (new ReleasePage (releases, requested_page + 1, false));
@@ -116,7 +122,7 @@ namespace AppTests.CliTest {
     private class FixtureHandler : ProtonPlus.CLI.Handler {
         private FixtureJobBehavior behavior;
         public InstallJob? last_job { get; private set; default = null; }
-        public int[] selections = {};
+        public string[] selections = {};
         private int selection_index = 0;
 
         public FixtureHandler (Gee.LinkedList<Launcher> launchers,
@@ -126,8 +132,8 @@ namespace AppTests.CliTest {
             this.behavior = behavior;
         }
 
-        protected override int read_user_selection (string prompt, int max) {
-            return selection_index < selections.length ? selections[selection_index++] : -1;
+        protected override string? read_selection_input () {
+            return selection_index < selections.length ? selections[selection_index++] : null;
         }
 
         protected override InstallJob create_install_job (
@@ -144,12 +150,18 @@ namespace AppTests.CliTest {
 
     public void register_tests () {
         Test.add_func ("/cli/exit-codes", test_exit_codes);
+        Test.add_func ("/cli/rejects-malformed-tool-commands", test_rejects_malformed_tool_commands);
+        Test.add_func ("/cli/rejects-malformed-release-selection", test_rejects_malformed_release_selection);
         Test.add_func ("/cli/niche-provider-requires-opt-in", test_niche_provider_requires_opt_in);
         Test.add_func ("/cli/sarek-release-build-selection", test_sarek_release_build_selection);
         Test.add_func ("/cli/list-managed-releases", test_list_managed_releases);
         Test.add_func ("/cli/list-lutris-runners", test_list_lutris_runners);
         Test.add_func ("/cli/list-legacy-and-partial-identities", test_list_legacy_and_partial_identities);
+        Test.add_func ("/cli/list-preserves-legacy-receipt", test_list_preserves_legacy_receipt);
         Test.add_func ("/cli/list-invalid-records", test_list_invalid_records);
+        Test.add_func ("/cli/search-json", test_search_json);
+        Test.add_func ("/cli/outdated-json", test_outdated_json);
+        Test.add_func ("/cli/sync-and-cleanup", test_sync_and_cleanup);
         Test.add_func ("/cli/uninstall-inventory-path", test_uninstall_uses_inventory_path);
         Test.add_func ("/cli/bulk-update-restores-backup-only-installation", test_bulk_update_restores_backup_only_installation);
         Test.add_func ("/cli/bulk-update-retains-backup-beside-primary", test_bulk_update_retains_backup_beside_primary);
@@ -208,7 +220,8 @@ namespace AppTests.CliTest {
         string title,
         Release value,
         VariantCompatibility? compatibility = null,
-        Category category = Category.PROTON
+        Category category = Category.PROTON,
+        ReturnCode? failure = null
     ) {
         var definition = new ProviderDefinition (new ProviderConfig () {
             category = category,
@@ -223,7 +236,7 @@ namespace AppTests.CliTest {
             install_layouts = { InstallLayout.template ("default", "$release_name") }
         });
         var runner = new ProviderTool.with_catalog (
-            definition, new StaticReleaseSource (value), group,
+            definition, new StaticReleaseSource (value, failure), group,
             InstallLayout.template ("default", "$release_name")
         );
         group.tools.add (runner);
@@ -391,7 +404,7 @@ namespace AppTests.CliTest {
                 new CompatibilityProcessGuard (new EmptyCompatibilityProcessQuery ()));
             var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
             var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.CANCEL_DOWNLOAD, output);
-            handler.selections = { 0, 1 };
+            handler.selections = { "1", "2" };
             assert (run_cli ({ "protonplus", "install", launcher.instance_id, runner.provider_id }, handler) == 1);
             assert (handler.last_job.selected_variant_id == "non-async");
             assert (handler.last_job.selected_asset.download_url == releases[4].variants[1].download_url);
@@ -655,6 +668,31 @@ namespace AppTests.CliTest {
         }
     }
 
+    private void test_list_preserves_legacy_receipt () {
+        var root = temporary_directory ();
+        try {
+            ProviderTool runner;
+            var launcher = setup_launcher (root, "fixture-legacy", "Fixture Legacy",
+                release ("v1", "v1", "https://fixtures.invalid/legacy.zip"), out runner);
+            var path = seed_latest_state (runner, "Fixture Legacy Latest", "v1");
+            var legacy = new Utils.Metadata ();
+            legacy.runner_endpoint = runner.endpoint;
+            legacy.runner_title = runner.title;
+            legacy.tag = "v1";
+            assert (legacy.save (path));
+            var receipt = Path.build_filename (path, ".protonplus");
+            var original = Utils.Filesystem.get_file_content (receipt);
+
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            assert (run_cli ({ "protonplus", "list", launcher.instance_id },
+                new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, output)) == 0);
+            assert (compact_columns (output.stdout_text).contains ("  fixture-legacy  v1  Fixture Legacy Latest\n"));
+            assert (Utils.Filesystem.get_file_content (receipt) == original);
+        } finally {
+            assert (delete_directory (root));
+        }
+    }
+
     private void test_list_invalid_records () {
         var root = temporary_directory ();
         try {
@@ -711,6 +749,194 @@ namespace AppTests.CliTest {
             assert (!output.stdout_text.contains ("\nFixture:\n"));
             assert (output.stderr_text == "");
         } finally {
+            assert (delete_directory (root));
+        }
+    }
+
+    private Json.Array read_json_packages (string text) {
+        try {
+            var parser = new Json.Parser ();
+            parser.load_from_data (text, -1);
+            var root = parser.get_root ().get_object ();
+            assert (root.get_int_member ("schema_version") == 1);
+            return root.get_array_member ("packages");
+        } catch (Error error) {
+            Test.message ("Invalid package JSON: %s", error.message);
+            assert_not_reached ();
+        }
+    }
+
+    private void test_search_json () {
+        var root = temporary_directory ();
+        try {
+            ProviderTool runner;
+            var latest = release ("v2", "v2", "https://fixtures.invalid/runner.zip");
+            var launcher = setup_launcher (root, "fixture-search", "Fixture Runner", latest, out runner);
+            runner.description = "A game-specific build";
+            add_runner (launcher, runner.group, "unrelated", "Unrelated", latest);
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, output);
+            assert (run_cli ({ "protonplus", "search", "--json", "RUNNER specific" }, handler) == 0);
+            var packages = read_json_packages (output.stdout_text);
+            assert (packages.get_length () == 1);
+            var package = packages.get_object_element (0);
+            assert (package.get_string_member ("id") == launcher.instance_id + "/fixture-search");
+            assert (package.get_string_member ("tool_target_id") == launcher.tool_target_id);
+            assert (package.get_string_member ("description") == runner.description);
+            assert (output.stderr_text == "");
+        } finally {
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_outdated_json () {
+        var root = temporary_directory ();
+        var previous_cache = Globals.CACHE_PATH;
+        Globals.CACHE_PATH = Path.build_filename (root, "cache");
+        try {
+            ProviderTool runner;
+            var latest = release ("Release two", "v2", "https://fixtures.invalid/runner.zip");
+            var launcher = setup_launcher (root, "fixture-rolling", "Fixture Rolling", latest, out runner);
+            var backup = seed_latest_state (runner, runner.title + " Latest Backup", "v1");
+            var receipt = Path.build_filename (backup, ".protonplus");
+            var original = Utils.Filesystem.get_file_content (receipt);
+            var pinned = add_runner (launcher, runner.group, "fixture-pinned", "Fixture Pinned", latest);
+            seed_latest_state (pinned, "pinned-v1", "v1");
+            var current = add_runner (launcher, runner.group, "fixture-current", "Fixture Current", latest);
+            var current_path = seed_latest_state (current, current.title + " Latest", "");
+            Utils.Filesystem.create_file (Path.build_filename (current_path, "version"), "revision v2\n");
+            Utils.Filesystem.create_file (Path.build_filename (current_path, "proton"), "CURRENT_PREFIX_VERSION=\"v2\"\n");
+            var offline = add_runner (launcher, runner.group, "fixture-offline", "Fixture Offline",
+                latest, null, Category.PROTON, ReturnCode.CONNECTION_ISSUE);
+            seed_latest_installation (offline, "v1");
+
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, output);
+            assert (run_cli ({ "protonplus", "outdated", launcher.instance_id, "--json" }, handler) == 1);
+            var packages = read_json_packages (output.stdout_text);
+            assert (packages.get_length () == 1);
+            var package = packages.get_object_element (0);
+            assert (package.get_string_member ("runner_id") == runner.provider_id);
+            assert (package.get_string_member ("installed_version") == "v1");
+            assert (package.get_string_member ("latest_version") == "v2");
+            assert (package.get_string_member ("variant_id") == "default");
+            assert (output.stderr_text.contains (offline.provider_id));
+            assert (Utils.Metadata.load (current_path).tag == "");
+            assert (Utils.Filesystem.get_file_content (receipt) == original);
+            assert (!FileUtils.test (backup.substring (0, backup.length - " Backup".length), FileTest.EXISTS));
+            assert (!FileUtils.test (Globals.CACHE_PATH, FileTest.EXISTS));
+        } finally {
+            Globals.CACHE_PATH = previous_cache;
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_sync_and_cleanup () {
+        var root = temporary_directory ();
+        var previous_cache = Globals.CACHE_PATH;
+        Globals.CACHE_PATH = Path.build_filename (root, "cache");
+        try {
+            ProviderTool runner;
+            var latest = release ("Release two", "v2", "https://fixtures.invalid/runner.zip");
+            var launcher = setup_launcher (root, "fixture-sync", "Fixture Sync", latest, out runner);
+            var installed = seed_latest_state (runner, runner.title + " Latest", "v1");
+            var receipt = Path.build_filename (installed, ".protonplus");
+            var original = Utils.Filesystem.get_file_content (receipt);
+            var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+            var launchers = launcher_list (launcher);
+            var second_launcher = new FixtureLutrisLauncher (Path.build_filename (root, "lutris"));
+            var second_group = new Group ("Fixture", "", "/runners/wine", second_launcher, "fixture");
+            var second_source = new StaticReleaseSource (latest);
+            var second_tool = new ProviderTool.with_catalog (runner.definition, second_source, second_group,
+                InstallLayout.template ("default", "$release_name"));
+            second_group.tools = new Gee.LinkedList<Tool> ();
+            second_group.tools.add (second_tool);
+            second_launcher.groups = { second_group };
+            launchers.add (second_launcher);
+            var handler = new FixtureHandler (launchers, FixtureJobBehavior.NORMAL, output);
+
+            assert (run_cli ({ "protonplus", "cleanup" }, handler) == 0);
+            assert (!FileUtils.test (Globals.CACHE_PATH, FileTest.EXISTS));
+            assert (run_cli ({ "protonplus", "sync", launcher.instance_id }, handler) == 0);
+            var snapshot = Path.build_filename (Globals.CACHE_PATH, runner.id.replace ("/", "_") + ".json");
+            assert (Utils.Filesystem.get_file_content (snapshot).contains ("Release two"));
+            var second_snapshot = Path.build_filename (Globals.CACHE_PATH, second_tool.id.replace ("/", "_") + ".json");
+            assert (!FileUtils.test (second_snapshot, FileTest.EXISTS));
+            assert (run_cli ({ "protonplus", "sync" }, handler) == 0);
+            assert (Utils.Filesystem.get_file_content (second_snapshot).contains ("Release two"));
+            assert (second_source.requests == 0);
+            assert (Posix.symlink (installed, Path.build_filename (Globals.CACHE_PATH, "linked-fixture")) == 0);
+            assert (run_cli ({ "protonplus", "cleanup" }, handler) == 0);
+            assert (!FileUtils.test (snapshot, FileTest.EXISTS));
+            assert (!FileUtils.test (second_snapshot, FileTest.EXISTS));
+            assert (Utils.Filesystem.get_file_content (receipt) == original);
+            assert (output.stderr_text == "");
+        } finally {
+            Globals.CACHE_PATH = previous_cache;
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_rejects_malformed_tool_commands () {
+        var root = temporary_directory ();
+        try {
+            ProviderTool runner;
+            var latest = release ("v1", "v1", "https://fixtures.invalid/runner.zip");
+            var launcher = setup_launcher (root, "fixture-command", "Fixture Command", latest, out runner);
+            var installed = seed_latest_state (runner, runner.title + " Latest", "v1");
+            var launcher_id = launcher.instance_id;
+            var provider_id = runner.provider_id;
+            string[] commands = {
+                "install %s %s newest".printf (launcher_id, provider_id),
+                "install %s %s latest extra".printf (launcher_id, provider_id),
+                "uninstall %s all %s".printf (launcher_id, provider_id),
+                "uninstall %s %s al".printf (launcher_id, provider_id),
+                "uninstall %s %s all extra".printf (launcher_id, provider_id),
+                "update all %s".printf (provider_id),
+                "update %s %s extra".printf (launcher_id, provider_id)
+            };
+            configure_fixture_services (new RecordingSteamChange (), root);
+            foreach (var command in commands) {
+                var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+                var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.CANCEL_DOWNLOAD, output);
+                assert (run_cli (("protonplus " + command).split (" "), handler) == 1);
+                assert (output.stdout_text == "" && output.stderr_text.contains ("Usage:"));
+                assert (handler.last_job == null);
+                assert (FileUtils.test (installed, FileTest.IS_DIR));
+            }
+        } finally {
+            InstallationService.reset_lifecycle_configuration_for_tests ();
+            SteamConfigurationService.reset_configuration ();
+            assert (delete_directory (root));
+        }
+    }
+
+    private void test_rejects_malformed_release_selection () {
+        var root = temporary_directory ();
+        try {
+            ProviderTool runner;
+            var latest = release ("v1", "v1", "https://fixtures.invalid/runner.zip");
+            var launcher = setup_launcher (root, "fixture-release", "Fixture Release", latest, out runner);
+            var installed = seed_latest_state (runner, runner.title + " Latest", "v1");
+            configure_fixture_services (new RecordingSteamChange (), root);
+            string[] args = { "protonplus", "uninstall", launcher.instance_id, runner.provider_id };
+            foreach (var selection in new string[] { "1wrong", "1 2", "4294967297", "0", "-2147483648" }) {
+                var output = new ProtonPlus.CLI.RecordingCliOutputSink ();
+                var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, output);
+                handler.selections = { selection };
+                assert (run_cli (args, handler) == 1);
+                assert (output.stderr_text != "");
+                assert (handler.last_job == null);
+                assert (FileUtils.test (installed, FileTest.IS_DIR));
+            }
+
+            var handler = new FixtureHandler (launcher_list (launcher));
+            handler.selections = { " 01 " };
+            assert (run_cli (args, handler) == 0);
+            assert (!FileUtils.test (installed, FileTest.EXISTS));
+        } finally {
+            InstallationService.reset_lifecycle_configuration_for_tests ();
+            SteamConfigurationService.reset_configuration ();
             assert (delete_directory (root));
         }
     }

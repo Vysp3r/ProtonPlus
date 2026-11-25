@@ -251,8 +251,11 @@ namespace ProtonPlus.Models {
                 : entry.directory_name;
             foreach (var title in latest_titles (entry, tool)) {
                 var latest = "%s Latest".printf (title);
-                if (name == latest || name.has_prefix ("%s-".printf (latest)))
+                if (name == latest || (entry.variant_id != "" && name.has_prefix (latest + "-")))
                     return true;
+                foreach (var variant in tool.variants)
+                    if (name == tool.get_directory_name (latest, variant))
+                        return true;
             }
             return false;
         }
@@ -341,13 +344,12 @@ namespace ProtonPlus.Models {
             clear_tool_states ();
         }
 
-        // The sole explicit operation that performs discovery, identity
-        // resolution, legacy migration, and compatibility-tool usage checks.
-        public void refresh () {
+        // Read-only callers can resolve legacy receipts without rewriting them.
+        public void refresh (bool migrate_legacy_metadata = true) {
             entries.clear ();
             linked_directory_names.clear ();
             discover_entries ();
-            resolve_entries ();
+            resolve_entries (migrate_legacy_metadata);
             is_stale = false;
             refresh_generation++;
         }
@@ -410,7 +412,7 @@ namespace ProtonPlus.Models {
             ));
         }
 
-        private void resolve_entries () {
+        private void resolve_entries (bool migrate_legacy_metadata) {
             clear_tool_states ();
             if (group.tools == null)
                 return;
@@ -433,7 +435,7 @@ namespace ProtonPlus.Models {
 
                 var provider_tool = tool as Tools.ProviderTool;
                 if (provider_tool != null)
-                    resolve_provider_tool (provider_tool);
+                    resolve_provider_tool (provider_tool, migrate_legacy_metadata);
             }
         }
 
@@ -453,7 +455,7 @@ namespace ProtonPlus.Models {
             }
         }
 
-        private void resolve_provider_tool (Tools.ProviderTool tool) {
+        private void resolve_provider_tool (Tools.ProviderTool tool, bool migrate_legacy_metadata) {
             for (var index = 0; index < entries.size; index++) {
                 var entry = entries[index];
                 if (entry.has_persisted_identity () && persisted_identity_matches_tool (entry, tool)) {
@@ -469,7 +471,7 @@ namespace ProtonPlus.Models {
                 if (!legacy_metadata_match_is_unambiguous (entry))
                     continue;
 
-                var resolved_entry = migrate_legacy_identity (index, tool);
+                var resolved_entry = migrate_legacy_metadata ? migrate_legacy_identity (index, tool) : entry;
                 // A failed migration leaves the legacy match usable, but does
                 // not fabricate stable identity in the cached snapshot.
                 set_tool_state (tool, resolved_entry, usage_identifier_for (resolved_entry));

@@ -142,6 +142,7 @@ namespace AppTests.ReleaseIdentityTest {
 
         Globals.CACHE_PATH = previous_cache_path;
         assert (ProtonPlus.Utils.Filesystem.delete_file (Path.build_filename (root, "fixture-system_fixture_fixture-provider.json")));
+        assert (FileUtils.remove (root + ".downloads.lock") == 0);
         assert (DirUtils.remove (root) == 0);
     }
 
@@ -179,6 +180,7 @@ namespace AppTests.ReleaseIdentityTest {
 
         Globals.CACHE_PATH = previous_cache_path;
         assert (ProtonPlus.Utils.Filesystem.delete_file (stable_path));
+        assert (FileUtils.remove (root + ".downloads.lock") == 0);
         assert (DirUtils.remove (root) == 0);
     }
 }

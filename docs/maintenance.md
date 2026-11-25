@@ -62,10 +62,11 @@ native targets are `ubuntu26.04`, `fedora45`, and `archlinux`. The package
 builder uses Docker or Podman. Set `PROTONPLUS_CONTAINER_ENGINE=podman` to
 select Podman explicitly.
 
-Build an AppImage with `make package TARGET=appimage` in the prepared
-Arch-based environment. The [dependency script](../packaging/appimage/get-dependencies.sh)
-prepares that environment. If optional smaller packages are unavailable, the
-build uses stock Arch packages and may produce a larger AppImage.
+The [AppImage container build](testing.md#generated-and-packaging-checks) uses stock Arch
+dependencies by default, as CI does. Its optional debloated build retries
+with stock dependencies in a fresh container if the helper fails.
+For a prepared Arch environment, build directly with
+`make package TARGET=appimage`.
 
 ## Prepare a release
 

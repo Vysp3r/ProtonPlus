@@ -112,6 +112,8 @@ namespace ProtonPlus.LaunchOptions {
         public ArrayList<LaunchOptionShellToken> opaque_tokens { get; private set; }
         public ArrayList<LaunchCommandParseDiagnostic> diagnostics { get; private set; }
         public bool is_structurally_safe { get; set; default = true; }
+        public int custom_wrapper_index { get; internal set; default = -1; }
+        public bool has_unrecognized_prefix { get; internal set; }
 
         public LaunchCommandParseResult (string original_input, ArrayList<LaunchOptionShellToken> tokens) {
             Object (original_input: original_input);
@@ -228,11 +230,23 @@ namespace ProtonPlus.LaunchOptions {
                     "Launch options contain more than one %command% boundary.");
 
             var pre_boundary_end = boundary >= 0 ? boundary : result.tokens.size;
-            parse_wrappers (result, pre_boundary_end, wrapper_consumed);
+            parse_wrappers (result, pre_boundary_end, boundary >= 0, wrapper_consumed);
+
+            var environment_end = pre_boundary_end;
+            if (boundary >= 0) {
+                string key, value;
+                environment_end = 0;
+                while (environment_end < boundary && !result.tokens[environment_end].is_opaque
+                       && split_environment_assignment (result.tokens[environment_end].raw, out key, out value)) {
+                    environment_end++;
+                }
+            }
 
             var has_pre_boundary_modifier = has_environment_or_wrapper (result, pre_boundary_end);
             for (var index = 0; index < result.tokens.size; index++) {
                 var token = result.tokens[index];
+                if (token.is_opaque && index < boundary)
+                    result.has_unrecognized_prefix = true;
                 if (token.is_opaque || index == boundary || is_boundary (result, index))
                     continue;
                 if (wrapper_consumed[index])
@@ -241,7 +255,7 @@ namespace ProtonPlus.LaunchOptions {
                 bool after_boundary = boundary >= 0 && index > boundary;
                 string key = "";
                 string value = "";
-                if (!after_boundary && split_environment_assignment (token.value, out key, out value)) {
+                if (index < environment_end && split_environment_assignment (token.value, out key, out value)) {
                     var occurrence = find_environment_occurrence (result, index, key, value);
                     if (occurrence != null)
                         result.occurrences.add (occurrence);
@@ -249,6 +263,19 @@ namespace ProtonPlus.LaunchOptions {
                         result.unrecognized_tokens.add (new LaunchCommandUnrecognizedToken (
                             token, index, LaunchCommandUnrecognizedKind.UNKNOWN_ENVIRONMENT_ASSIGNMENT));
                     continue;
+                }
+
+                if (index < boundary) {
+                    if (index == boundary - 1 && !result.has_unrecognized_prefix
+                        && result.command_boundary_indexes.size == 1
+                        && LaunchCustomWrapperInput.is_literal_path (token)) {
+                        result.custom_wrapper_index = index;
+                        result.occurrences.add (new LaunchCommandOptionOccurrence (
+                            LaunchCustomWrapperInput.OPTION_ID, LaunchOptionSemanticKind.CUSTOM_WRAPPER,
+                            tokens_for_indexes (result, { index }), { index }, token.value, false, true));
+                        continue;
+                    }
+                    result.has_unrecognized_prefix = true;
                 }
 
                 var game_occurrence = find_game_argument_occurrence (result, index);
@@ -268,7 +295,7 @@ namespace ProtonPlus.LaunchOptions {
                     : LaunchCommandUnrecognizedKind.UNKNOWN_TOKEN));
             }
 
-            parse_composites (result, pre_boundary_end);
+            parse_composites (result, environment_end);
 
             if (boundary < 0 && (has_pre_boundary_modifier || result.wrappers.size > 0))
                 add_diagnostic (result, LaunchCommandParseDiagnosticCode.MISSING_COMMAND_BOUNDARY,
@@ -290,9 +317,16 @@ namespace ProtonPlus.LaunchOptions {
             return result;
         }
 
-        void parse_wrappers (LaunchCommandParseResult result, int end, bool[] consumed) {
+        void parse_wrappers (LaunchCommandParseResult result, int end, bool has_boundary, bool[] consumed) {
             var index = 0;
+            var delimiter_scan_end = end;
             while (index < end) {
+                // The words following a user executable belong to an unknown
+                // invocation. A catalog name there may just be an argument.
+                if (has_boundary && LaunchCustomWrapperInput.is_literal_path (result.tokens[index])) {
+                    delimiter_scan_end = index;
+                    break;
+                }
                 var matched = find_wrapper_at (result, index, end);
                 if (matched == null) {
                     index++;
@@ -342,7 +376,7 @@ namespace ProtonPlus.LaunchOptions {
                         "Wrapper '%s' requires '%s' before %%command%%.".printf (definition.id, definition.delimiter), index);
             }
 
-            for (var scan_index = 0; scan_index < end; scan_index++) {
+            for (var scan_index = 0; scan_index < delimiter_scan_end; scan_index++) {
                 if (!consumed[scan_index] && result.tokens[scan_index].value == "--")
                     add_diagnostic (result, LaunchCommandParseDiagnosticCode.MISPLACED_WRAPPER_DELIMITER,
                         "A wrapper delimiter is not owned by a delimited wrapper.", scan_index);

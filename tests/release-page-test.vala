@@ -13,6 +13,7 @@ namespace AppTests.ReleasePageTest {
         private HashMap<int, ReleasePage> pages = new HashMap<int, ReleasePage> ();
         public ArrayList<int> requested_pages { get; private set; default = new ArrayList<int> (); }
         public ReturnCode response_code { get; set; default = ReturnCode.RELEASES_LOADED; }
+        public int deferred_page { get; set; default = -1; }
 
         public void set_page (int page, ReleasePage release_page) {
             pages.set (page, release_page);
@@ -24,6 +25,10 @@ namespace AppTests.ReleasePageTest {
             int limit
         ) {
             requested_pages.add (requested_page);
+            if (requested_page == deferred_page) {
+                Idle.add (fetch_page.callback);
+                yield;
+            }
             if (response_code != ReturnCode.RELEASES_LOADED)
                 return ReleasePageResult.failure (response_code);
             var page = pages.get (requested_page);
@@ -79,6 +84,7 @@ namespace AppTests.ReleasePageTest {
 
     public void register_tests () {
         Test.add_func ("/release-catalog/pagination-and-persistence", test_pagination_and_persistence);
+        Test.add_func ("/release-catalog/overlapping-pagination-preserves-snapshot", test_overlapping_pagination_preserves_snapshot);
         Test.add_func ("/release-catalog/latest-discovery-is-stateless", test_latest_discovery_is_stateless);
         Test.add_func ("/release-catalog/automatic-update-skips-github-unstable-releases", test_automatic_update_skips_github_unstable_releases);
         Test.add_func ("/release-catalog/github-actions-scans-filtered-pages", test_github_actions_scanning);
@@ -92,6 +98,7 @@ namespace AppTests.ReleasePageTest {
         Test.add_func ("/release-catalog/stale-variants-refresh", test_stale_variants_refresh);
         Test.add_func ("/release-catalog/stale-compatibility-refreshes", test_stale_compatibility_refreshes);
         Test.add_func ("/release-catalog/forced-refresh-is-atomic", test_forced_refresh_is_atomic);
+        Test.add_func ("/release-catalog/empty-refresh-keeps-pagination", test_empty_refresh_keeps_pagination);
         Test.add_func ("/release-catalog/load-more-failure-preserves-state", test_load_more_failure_preserves_state);
         Test.add_func ("/release-catalog/latest-empty-and-failure-are-distinct", test_latest_empty_and_failure_are_distinct);
         Test.add_func ("/release-catalog/latest-version-uses-first-release", test_latest_version_uses_first_release);
@@ -244,6 +251,37 @@ namespace AppTests.ReleasePageTest {
         assert (source.requested_pages.size == 2 && source.requested_pages[0] == 1 && source.requested_pages[1] == 2);
 
         var snapshot = load_snapshot (new ReleaseCatalogCache ("pagination-tool", "Fixture provider"));
+        assert (snapshot != null && snapshot.releases.size == 2 && snapshot.page == 3 && !snapshot.has_more);
+    }
+
+    private void test_overlapping_pagination_preserves_snapshot () {
+        var source = new FixtureReleaseSource ();
+        var first = new LinkedList<Release> ();
+        first.add (release ("v2", "2"));
+        source.set_page (1, new ReleasePage (first, 2, true));
+        var second = new LinkedList<Release> ();
+        second.add (release ("v1", "1"));
+        source.set_page (2, new ReleasePage (second, 3, false));
+        source.deferred_page = 2;
+        var id = "overlapping-pagination-tool";
+        var value = catalog (id, definition (), source);
+        assert (load (value, false).succeeded);
+
+        var loop = new MainLoop ();
+        value.load_more.begin ((obj, result) => {
+            var loaded = value.load_more.end (result);
+            assert (loaded.succeeded && loaded.releases.size == 1);
+        });
+        value.load_more.begin ((obj, result) => {
+            var loaded = value.load_more.end (result);
+            assert (loaded.succeeded && loaded.releases.is_empty);
+            loop.quit ();
+        });
+        loop.run ();
+
+        assert (source.requested_pages.size == 2 && source.requested_pages[1] == 2);
+        assert (value.releases.size == 2 && value.page == 3 && !value.has_more && !value.loading);
+        var snapshot = load_snapshot (new ReleaseCatalogCache (id, "Fixture provider"));
         assert (snapshot != null && snapshot.releases.size == 2 && snapshot.page == 3 && !snapshot.has_more);
     }
 
@@ -582,6 +620,25 @@ namespace AppTests.ReleasePageTest {
         var failed = catalog ("failed-initial-tool", definition (), failed_source);
         var failed_initial = load (failed, false);
         assert (failed_initial.code == ReturnCode.REQUEST_FAILED && failed.releases.size == 0 && failed.last_updated == "");
+    }
+
+    private void test_empty_refresh_keeps_pagination () {
+        var source = new FixtureReleaseSource ();
+        var first = new LinkedList<Release> ();
+        first.add (release ("v3", "3"));
+        source.set_page (1, new ReleasePage (first, 2, true));
+        var second = new LinkedList<Release> ();
+        second.add (release ("v2", "2"));
+        source.set_page (2, new ReleasePage (second, 3, true));
+        var value = catalog ("refresh-empty-tool", definition (), source);
+        assert (load (value, false).succeeded);
+        assert (load_more (value).succeeded);
+        var timestamp = value.last_updated;
+
+        source.set_page (1, new ReleasePage (new LinkedList<Release> (), 2, false));
+        var refreshed = load (value, true);
+        assert (refreshed.succeeded && refreshed.releases.size == 2);
+        assert (value.page == 3 && value.has_more && value.last_updated == timestamp);
     }
 
     private void test_load_more_failure_preserves_state () {

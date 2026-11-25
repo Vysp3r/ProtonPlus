@@ -6,7 +6,8 @@ namespace ProtonPlus.Services {
         public string extension { get; private set; }
         public string cache_archive_path { get; private set; }
         public Models.Assets.Asset asset { get; private set; }
-        public bool from_cache { get; private set; }
+        public bool from_cache { get { return cached_entry_fd >= 0; } }
+        internal int cached_entry_fd = -1;
         public bool cache_published { get; set; default = false; }
         public string staging_root { get; set; default = ""; }
 
@@ -15,15 +16,18 @@ namespace ProtonPlus.Services {
             string archive_path,
             string extension,
             string cache_archive_path,
-            Models.Assets.Asset asset,
-            bool from_cache
+            Models.Assets.Asset asset
         ) {
             this.operation_path = operation_path;
             this.archive_path = archive_path;
             this.extension = extension;
             this.cache_archive_path = cache_archive_path;
             this.asset = asset;
-            this.from_cache = from_cache;
+        }
+
+        ~ArchiveOperation () {
+            if (cached_entry_fd >= 0)
+                Posix.close (cached_entry_fd);
         }
     }
 
@@ -51,26 +55,16 @@ namespace ProtonPlus.Services {
             var archive_key = Checksum.compute_for_string (ChecksumType.SHA256, job.selected_asset.download_url);
             var cache_archive_path = Path.build_filename (archive_cache_path, "%s%s".printf (archive_key, extension));
             var operation_archive_path = Path.build_filename (operation_path, "archive%s".printf (extension));
-            var cache_available = FileUtils.test (cache_archive_path, FileTest.IS_REGULAR);
-            if (cache_available && !yield archive_matches_asset (cache_archive_path, job.selected_asset)) {
-                debug ("Discarding archive cache entry that failed integrity validation: %s", cache_archive_path);
-                if (!Utils.Filesystem.delete_file (cache_archive_path)) {
-                    yield cleanup_path (operation_path);
-                    return ReturnCode.FILESYSTEM_ERROR;
-                }
-                cache_available = false;
-            }
             var created = new ArchiveOperation (
-                operation_path,
-                operation_archive_path,
-                extension,
-                cache_archive_path,
-                job.selected_asset,
-                cache_available
+                operation_path, operation_archive_path, extension, cache_archive_path, job.selected_asset
             );
 
             job.step = InstallJob.Step.DOWNLOADING;
-            if (!cache_available) {
+            if (!yield copy_cached_archive (created)) {
+                yield cleanup (created);
+                return ReturnCode.FILESYSTEM_ERROR;
+            }
+            if (!created.from_cache) {
                 string? download_error;
                 var downloaded = yield job.download_archive (job.selected_asset.download_url, operation_archive_path, out download_error);
                 if (!downloaded) {
@@ -83,9 +77,6 @@ namespace ProtonPlus.Services {
                     yield cleanup (created);
                     return ReturnCode.DOWNLOAD_FAILED;
                 }
-            } else if (!yield Utils.Filesystem.copy_file (cache_archive_path, operation_archive_path)) {
-                yield cleanup (created);
-                return ReturnCode.FILESYSTEM_ERROR;
             }
             if (job.canceled) {
                 yield cleanup (created);
@@ -96,33 +87,101 @@ namespace ProtonPlus.Services {
             return ReturnCode.RUNNER_INSTALLED;
         }
 
+        [CCode (cname = "flock", cheader_filename = "sys/file.h")]
+        private static extern int flock (int fd, int operation);
+        private const int LOCK_EX = 2;
+        private const int LOCK_NB = 4;
+
+        // InstallationService holds the shared cache-clear lock for the whole
+        // attempt. Only a cache clear may remove these per-key lock files.
+        private async int lock_archive (string path) {
+            var fd = Posix.open (path + ".lock", Posix.O_CREAT | Posix.O_RDWR | Posix.O_CLOEXEC | Posix.O_NOFOLLOW, 0600);
+            if (fd < 0)
+                return -1;
+            while (flock (fd, LOCK_EX | LOCK_NB) != 0) {
+                if (Posix.errno != Posix.EWOULDBLOCK && Posix.errno != Posix.EINTR) {
+                    Posix.close (fd);
+                    return -1;
+                }
+                Timeout.add (10, () => {
+                    lock_archive.callback ();
+                    return Source.REMOVE;
+                });
+                yield;
+            }
+            return fd;
+        }
+
+        private async bool copy_cached_archive (ArchiveOperation operation) {
+            var path = operation.cache_archive_path;
+            var lock_fd = yield lock_archive (path);
+            if (lock_fd < 0)
+                return false;
+
+            try {
+                Posix.Stat info;
+                if (Posix.lstat (path, out info) != 0)
+                    return Posix.errno == Posix.ENOENT;
+                if (!yield archive_matches_asset (path, operation.asset)) {
+                    debug ("Discarding archive cache entry that failed integrity validation: %s", path);
+                    return Utils.Filesystem.delete_file (path);
+                }
+
+                // Keep the inode alive across extraction so a replacement
+                // cannot reuse its identity even after the original is unlinked.
+                operation.cached_entry_fd = Posix.open (
+                    path, Posix.O_RDONLY | Posix.O_CLOEXEC | Posix.O_NOFOLLOW | Posix.O_NONBLOCK
+                );
+                return operation.from_cache && (yield Utils.Filesystem.copy_file (path, operation.archive_path));
+            } finally {
+                Posix.close (lock_fd);
+            }
+        }
+
         /// Publish only after the owning workflow has validated extraction.
         public async bool publish_archive (ArchiveOperation operation) {
             if (operation.from_cache || operation.cache_published)
                 return true;
 
-            if (yield Utils.Filesystem.move_file_atomic_if_absent (
-                operation.archive_path, operation.cache_archive_path
-            )) {
-                operation.cache_published = true;
-                return true;
+            var path = operation.cache_archive_path;
+            var lock_fd = yield lock_archive (path);
+            if (lock_fd < 0)
+                return false;
+            try {
+                var outcome = yield Utils.Filesystem.move_file_atomic_if_absent (operation.archive_path, path);
+                if (outcome == Utils.Filesystem.FilePublication.DESTINATION_PRESENT) {
+                    if (yield archive_matches_asset (path, operation.asset))
+                        return true;
+                    if (!Utils.Filesystem.delete_file (path))
+                        return false;
+                    outcome = yield Utils.Filesystem.move_file_atomic_if_absent (operation.archive_path, path);
+                }
+                operation.cache_published = outcome == Utils.Filesystem.FilePublication.PUBLISHED;
+                return operation.cache_published;
+            } finally {
+                Posix.close (lock_fd);
             }
+        }
 
-            if (yield archive_matches_asset (operation.cache_archive_path, operation.asset))
-                return true;
-
-            if (FileUtils.test (operation.cache_archive_path, FileTest.EXISTS) &&
-                !Utils.Filesystem.delete_file (operation.cache_archive_path))
+        private async bool discard_cached_copy (ArchiveOperation operation) {
+            var path = operation.cache_archive_path;
+            var lock_fd = yield lock_archive (path);
+            if (lock_fd < 0)
                 return false;
 
-            if (yield Utils.Filesystem.move_file_atomic_if_absent (
-                operation.archive_path, operation.cache_archive_path
-            )) {
-                operation.cache_published = true;
-                return true;
+            try {
+                Posix.Stat cached, current;
+                if (Posix.fstat (operation.cached_entry_fd, out cached) != 0)
+                    return false;
+                if (Posix.lstat (path, out current) != 0)
+                    return Posix.errno == Posix.ENOENT;
+                if (current.st_dev != cached.st_dev || current.st_ino != cached.st_ino)
+                    return true;
+                debug ("Discarding archive cache entry after validation failure: %s", path);
+                return Utils.Filesystem.delete_file (path);
+            } finally {
+                Posix.close (lock_fd);
             }
-
-            return yield archive_matches_asset (operation.cache_archive_path, operation.asset);
         }
 
         public async ReturnCode complete_attempt (
@@ -131,12 +190,8 @@ namespace ProtonPlus.Services {
             bool discard_cached_archive = false
         ) {
             var result = code;
-            if (discard_cached_archive && operation.from_cache &&
-                FileUtils.test (operation.cache_archive_path, FileTest.IS_REGULAR)) {
-                debug ("Discarding archive cache entry after validation failure: %s", operation.cache_archive_path);
-                if (!Utils.Filesystem.delete_file (operation.cache_archive_path))
-                    result = ReturnCode.FILESYSTEM_ERROR;
-            }
+            if (discard_cached_archive && operation.from_cache && !yield discard_cached_copy (operation))
+                result = ReturnCode.FILESYSTEM_ERROR;
             yield cleanup (operation);
             return result;
         }

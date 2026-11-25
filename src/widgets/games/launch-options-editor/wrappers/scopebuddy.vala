@@ -2,6 +2,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
     using Adw;
 
     public class Scopebuddy : Base {
+        protected override string backend_id { get { return "scopebuddy"; } }
 
         LaunchOptionTile fullscreen_tile { get; set; }
         LaunchOptionTile auto_hdr_tile { get; set; }
@@ -59,7 +60,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
 
             resolution_field = new LaunchOptionResolutionField (_("Resolution"), _("Sets the ScopeBuddy output resolution."), true, true);
             resolution_field.draft_changed.connect (() => this.changed ());
-            launch_option_handlers.add (resolution_field);
             register_option ("scopebuddy-resolution", resolution_field, resolution_field);
 
             args_field = new LaunchOptionEntryField (

@@ -17,6 +17,7 @@ namespace AppTests.LaunchCommandWriterTest {
         Test.add_func ("/launch-command-writer/prepare-source-is-per-game", test_prepare_source_is_per_game);
         Test.add_func ("/launch-command-writer/bulk-additions-preserve-custom-source", test_bulk_additions_preserve_custom_source);
         Test.add_func ("/launch-command-writer/wrapper-edit-retains-untouched-arguments", test_wrapper_edit_retains_untouched_arguments);
+        Test.add_func ("/launch-command-writer/wrapper-edit-preserves-duplicates-and-order", test_wrapper_edit_preserves_duplicates_and_order);
         Test.add_func ("/launch-command-writer/clear-remains-a-replacement-session", test_clear_remains_a_replacement_session);
         Test.add_func ("/launch-command-writer/edit-state-preserves-clear-intent", test_edit_state_preserves_clear_intent);
         Test.add_func ("/launch-command-writer/custom-arguments-replace-unrecognized-arguments", test_custom_arguments_replace_unrecognized_arguments);
@@ -25,7 +26,11 @@ namespace AppTests.LaunchCommandWriterTest {
         Test.add_func ("/launch-command-writer/pre-command-custom-argument-keeps-its-slot", test_pre_command_custom_argument_keeps_its_slot);
         Test.add_func ("/launch-command-writer/custom-argument-anchors-are-source-local", test_custom_argument_anchors_are_source_local);
         Test.add_func ("/launch-command-writer/intentional-custom-duplicates-survive", test_intentional_custom_duplicates_survive);
+        Test.add_func ("/launch-command-writer/append-arguments-before-trailing-comment", test_append_arguments_before_trailing_comment);
         Test.add_func ("/launch-command-writer/current-options-preview-and-validation", test_current_options_preview_and_validation);
+        Test.add_func ("/launch-command-writer/custom-wrapper-lifecycle", test_custom_wrapper_lifecycle);
+        Test.add_func ("/launch-command-writer/custom-wrapper-preserves-backends", test_custom_wrapper_preserves_backends);
+        Test.add_func ("/launch-command-writer/custom-wrapper-batch", test_custom_wrapper_batch);
     }
 
     private LaunchCommandWriteResult write (string source, LaunchCommandSelection[] selections,
@@ -324,6 +329,20 @@ namespace AppTests.LaunchCommandWriterTest {
         assert (extra.launch_line == "gamescope --label='new & safe' -r 60 -f -- %command% --game");
     }
 
+    private void test_wrapper_edit_preserves_duplicates_and_order () {
+        var source = "gamemoderun mangohud 'gamemoderun' %command% --tag";
+        var edited = write (source, {
+            new LaunchCommandSelection ("gamemode"),
+            new LaunchCommandSelection ("performance-overlay"),
+            new LaunchCommandSelection ("launch-backend", {}, "gamescope")
+        }, { "launch-backend" }, {
+            LaunchOptionCapability.GAMEMODE, LaunchOptionCapability.MANGOHUD, LaunchOptionCapability.GAMESCOPE
+        });
+
+        assert (edited.writing_allowed);
+        assert (edited.launch_line == "gamemoderun mangohud 'gamemoderun' gamescope -- %command% --tag");
+    }
+
     private class MutableSelectionSource : Object, ILaunchCommandSelectionSource {
         public string option_id { get; set; }
         public LaunchCommandSelection? selection;
@@ -512,5 +531,89 @@ namespace AppTests.LaunchCommandWriterTest {
         );
         assert (merged.writing_allowed);
         assert (merged.launch_line == "gamemoderun %command% --tag --tag");
+    }
+
+    private void test_append_arguments_before_trailing_comment () {
+        var source = "%command% '# literal' --tag=#exact # keep this comment";
+        var console = new LaunchCommandSelection ("developer-console");
+        var writer = new LaunchCommandWriter ();
+        var capabilities = new LaunchCommandCapabilityContext ();
+        var merged = writer.prepare_source (source, { console }, { "developer-console" }, {}, capabilities);
+        assert (merged.writing_allowed);
+        assert (merged.launch_line == "%command% '# literal' --tag=#exact -console # keep this comment");
+
+        var appended = writer.prepare_source (source,
+            { new LaunchCommandSelection ("custom-game-arguments", { "--extra" }) },
+            { "custom-game-arguments" }, {}, capabilities, false, false, true);
+        assert (appended.writing_allowed);
+        assert (appended.launch_line == "%command% '# literal' --tag=#exact --extra # keep this comment");
+
+        var compound = write ("%command% && echo trailer # keep this comment", { console }, { "developer-console" });
+        assert (compound.status == LaunchCommandWriteStatus.BLOCKED_UNSAFE_SOURCE);
+    }
+
+    private LaunchCommandSelection custom_wrapper (string input) {
+        return new LaunchCommandSelection ("custom-wrapper", { input }, "", {}, true);
+    }
+
+    private void test_custom_wrapper_lifecycle () {
+        var source = "\"/tmp/Goverlay Config/bgmod\"";
+        var selection = custom_wrapper (source + " %command%");
+        assert (write ("", { selection }, { "custom-wrapper" }).launch_line == source + " %command%");
+        assert (write ("--tag --tag", { selection }, { "custom-wrapper" }).launch_line
+            == source + " %command% --tag --tag");
+        assert (write ("%command% '/tmp/game data'", { selection }, { "custom-wrapper" }).launch_line
+            == source + " %command% '/tmp/game data'");
+        assert (write (source + " %command% --arg", {}, { "custom-wrapper" }).launch_line == "--arg");
+        assert (write (source + " %command% --arg", { custom_wrapper ("./replacement") }, { "custom-wrapper" }).launch_line
+            == "./replacement %command% --arg");
+        assert (write ("$(opaque) %command% --old", { selection }, { "custom-wrapper" }, {}, true).launch_line
+            == source + " %command%");
+
+        foreach (var invalid in new string[] {
+            "/tmp/bgmod %command% %command%", "%command% /tmp/bgmod", "'/tmp/%command%/bgmod'",
+            "/tmp/bgmod --flag", "/tmp/bgmod | next", "/tmp/*/bgmod", "'/tmp/unclosed"
+        }) {
+            assert (!write ("", { custom_wrapper (invalid) }, { "custom-wrapper" }).writing_allowed);
+        }
+    }
+
+    private void test_custom_wrapper_preserves_backends () {
+        var capabilities = new LaunchOptionCapability[] { LaunchOptionCapability.PROTON, LaunchOptionCapability.GAMESCOPE };
+        var original = "gamescope --label='safe value' -r 60 -- %command% -r 75";
+        var nested = "gamescope --label='safe value' -r 60 -- '/tmp/bg mod' %command% -r 75";
+        var added = write (original, { custom_wrapper ("'/tmp/bg mod'") }, { "custom-wrapper" }, capabilities);
+        assert (added.writing_allowed && added.launch_line == nested);
+
+        var logging = new LaunchCommandSelection ("proton-debug-log");
+        assert (write (nested, { logging }, { "proton-debug-log" }, capabilities).launch_line == "PROTON_LOG=1 " + nested);
+        var backend_edit = write (nested, {
+            new LaunchCommandSelection ("launch-backend", {}, "gamescope"),
+            new LaunchCommandSelection ("gamescope-frame-limit", { "90" })
+        }, { "gamescope-frame-limit" }, capabilities);
+        assert (backend_edit.writing_allowed && backend_edit.launch_line == nested.replace ("-r 60", "-r 90"));
+        assert (write (nested, {}, { "custom-wrapper" }, capabilities).launch_line == original);
+
+        var unknown = "gamescope -- /tmp/wrapper MODE=one --label gamemoderun %command% --tag";
+        var preserved = write (unknown, { logging }, { "proton-debug-log" }, capabilities);
+        assert (preserved.writing_allowed && preserved.launch_line == "PROTON_LOG=1 " + unknown);
+        var blocked = write (unknown, { custom_wrapper ("/tmp/new") }, { "custom-wrapper" }, capabilities);
+        assert (blocked.status == LaunchCommandWriteStatus.BLOCKED_CUSTOM_WRAPPER_CONFLICT);
+
+        var scopebuddy = write ("scb -r 90 -- %command% --tag", { custom_wrapper ("/tmp/bgmod") }, { "custom-wrapper" });
+        assert (scopebuddy.writing_allowed && scopebuddy.launch_line == "scb -r 90 -- /tmp/bgmod %command% --tag");
+    }
+
+    private void test_custom_wrapper_batch () {
+        var writer = new LaunchCommandWriter ();
+        var selection = custom_wrapper ("\"/tmp/bg mod\"");
+        var capabilities = new LaunchCommandCapabilityContext ();
+        var from_arguments = writer.prepare_source ("--tag --tag", { selection }, { "custom-wrapper" }, {}, capabilities, false, false, true);
+        assert (from_arguments.launch_line == "\"/tmp/bg mod\" %command% --tag --tag");
+        var same = "CUSTOM=1 '/tmp/bg mod' %command% --game";
+        var already_set = writer.prepare_source (same, { selection }, { "custom-wrapper" }, {}, capabilities, false, false, true);
+        assert (already_set.writing_allowed && !already_set.requires_persistence && already_set.launch_line == same);
+        var different = writer.prepare_source ("/tmp/different %command%", { selection }, { "custom-wrapper" }, {}, capabilities, false, false, true);
+        assert (!different.writing_allowed && different.status == LaunchCommandWriteStatus.BLOCKED_CUSTOM_WRAPPER_CONFLICT);
     }
 }

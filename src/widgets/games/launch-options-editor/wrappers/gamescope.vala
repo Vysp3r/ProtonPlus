@@ -2,6 +2,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
     using Adw;
 
     public class Gamescope : Base {
+        protected override string backend_id { get { return "gamescope"; } }
 
         LaunchOptionTile fullscreen_tile { get; set; }
         LaunchOptionTile hdr_tile { get; set; }

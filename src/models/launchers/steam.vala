@@ -339,8 +339,6 @@ namespace ProtonPlus.Models.Launchers {
         private List<Game> scan_library_entries (Utils.VDF.VdfEntry libraryfolders,
             SteamCompatibilityToolDiscovery discovery, Gee.ArrayList<string> library_roots) {
             var games = new List<Game> ();
-            var name_regex = /\"name\"\s+\"([^\"]+)\"/;
-            var dir_regex = /\"installdir\"\s+\"([^\"]+)\"/;
             var excluded_appids = new Gee.HashSet<string> ();
             excluded_appids.add_all_array ({
                 "2230260", "1826330", "1161040", "1070560", "1628350", "228980", "4183110", "3086180", "250820"
@@ -370,16 +368,12 @@ namespace ProtonPlus.Models.Launchers {
                     if (!FileUtils.test (manifest_path, FileTest.IS_REGULAR))
                         continue;
                     var manifest_content = Utils.Filesystem.get_file_content (manifest_path);
-
-                    MatchInfo name_match;
-                    if (!name_regex.match (manifest_content, 0, out name_match))
+                    var manifest = Utils.VDF.VdfParser.parse_document (manifest_content);
+                    var app_state = manifest?.root.get_child ("AppState");
+                    var name = app_state?.get_child ("name")?.value ?? "";
+                    var install_name = app_state?.get_child ("installdir")?.value ?? "";
+                    if (name == "" || install_name == "")
                     continue;
-                    var name = name_match.fetch (1);
-
-                    MatchInfo dir_match;
-                    if (!dir_regex.match (manifest_content, 0, out dir_match))
-                    continue;
-                    var install_name = dir_match.fetch (1);
                     var install_path = Path.build_filename (steamapps_path, "common", install_name);
 
                     string steam_tool_internal_title;
@@ -441,6 +435,38 @@ namespace ProtonPlus.Models.Launchers {
                 }
                 ((!) game).awacy_lookup_complete = true;
             }
+        }
+
+        internal Gee.List<CompatibilityTool> scan_compatibility_tool_claims () {
+            return scan_compatibility_tools (true).claims;
+        }
+
+        private SteamCompatibilityToolDiscovery scan_compatibility_tools (bool collect_claims) {
+            var discovery = compatibility_tool_discovery.new_scan ();
+            discovery.collect_claims = collect_claims;
+            discovery.discover_launcher_roots (get_managed_compatibility_tools_root ());
+            foreach (var path in new string[] {
+                Path.build_filename (directory, "config", "libraryfolders.vdf"),
+                Path.build_filename (directory, "steamapps", "libraryfolders.vdf")
+            }) {
+                if (!FileUtils.test (path, FileTest.IS_REGULAR))
+                    continue;
+                var document = Utils.VDF.VdfParser.parse_document (Utils.Filesystem.get_file_content (path));
+                var folders = document?.root.get_child ("libraryfolders");
+                if (folders == null)
+                    continue;
+                scan_library_entries (folders, discovery, new Gee.ArrayList<string> ());
+                break;
+            }
+            return discovery;
+        }
+
+        internal void publish_repaired_mappings (HashTable<uint, string> mappings,
+            ProtonPlus.Services.SteamConfigurationService configuration) {
+            library_state_revision++;
+            compatibility_tool_discovery = scan_compatibility_tools (false);
+            publish_game_mappings (mappings, configuration);
+            publish_discovered_compatibility_tools ();
         }
 
         public void refresh_compatibility_tools () {
@@ -720,9 +746,10 @@ namespace ProtonPlus.Models.Launchers {
             return mappings;
         }
 
-        private void publish_game_mappings (HashTable<uint, string> mappings) {
+        private void publish_game_mappings (HashTable<uint, string> mappings,
+            ProtonPlus.Services.SteamConfigurationService? configuration = null) {
             compatibility_tool_hashtable = mappings;
-            var configuration = ProtonPlus.Services.SteamConfigurationService.instance;
+            configuration = configuration ?? ProtonPlus.Services.SteamConfigurationService.instance;
             if (configuration != null)
                 configuration.overlay_launcher_effective_state (this);
             default_compatibility_tool = compatibility_tool_hashtable.get (0) ?? "";

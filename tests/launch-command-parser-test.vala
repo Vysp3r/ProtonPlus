@@ -11,10 +11,26 @@ namespace AppTests.LaunchCommandParserTest {
         Test.add_func ("/launch-command-parser/raw-preservation", test_raw_preservation);
         Test.add_func ("/launch-command-parser/custom-argument-import", test_custom_argument_import);
         Test.add_func ("/launch-command-parser/catalog-parse-validation", test_catalog_parse_validation);
+        Test.add_func ("/launch-command-parser/custom-wrapper-ownership", test_custom_wrapper_ownership);
     }
 
     private LaunchCommandParseResult parse (string input) {
         return new LaunchCommandParser ().parse (input);
+    }
+
+    private void test_custom_wrapper_ownership () {
+        var nested = parse ("FOO=one gamescope -r 60 -- \"/tmp/bg mod\" %command% '/tmp/game path'");
+        assert (nested.diagnostics.size == 0);
+        assert (nested.wrappers[0].delimiter_index == 4);
+        assert (nested.custom_wrapper_index == 5);
+        assert (nested.tokens[5].raw == "\"/tmp/bg mod\"");
+        var arguments = nested.get_custom_game_arguments ();
+        assert (arguments.size == 2 && arguments[0].raw == "FOO=one" && arguments[1].raw == "'/tmp/game path'");
+
+        var ambiguous = parse ("/tmp/wrapper MODE=one --label gamemoderun -- %command%");
+        assert (ambiguous.custom_wrapper_index == -1 && ambiguous.has_unrecognized_prefix);
+        assert (ambiguous.wrappers.is_empty && ambiguous.occurrences.is_empty && ambiguous.diagnostics.is_empty);
+        assert (parse ("%command% \"/tmp/bg mod\"").custom_wrapper_index == -1);
     }
 
     private void test_empty_and_arguments () {

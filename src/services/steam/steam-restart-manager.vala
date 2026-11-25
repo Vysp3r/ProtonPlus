@@ -54,6 +54,20 @@ namespace ProtonPlus.Services {
             stop_observation ();
         }
 
+        internal SteamRestartStateLoadResult read_persisted_changes () {
+            return state_store.load ();
+        }
+
+        internal void with_configuration_lock (SteamKeyRepairOperation operation) throws Error {
+            if (!begin_state_transaction (false))
+                throw new IOError.BUSY (_ ("Steam restart state could not be locked or read."));
+            try {
+                operation ();
+            } finally {
+                end_state_transaction ();
+            }
+        }
+
         private void refresh_pending_state () {
             if (transaction_depth == 0 && begin_state_transaction (false))
                 end_state_transaction ();
@@ -160,18 +174,42 @@ namespace ProtonPlus.Services {
         }
 
         public SteamRestartRecordResult record (SteamChangeReceipt receipt) {
+            return record_with_snapshot (receipt, null);
+        }
+
+        internal SteamRestartRecordResult record_repair_configuration (
+            SteamChangeReceipt receipt, SteamSessionSnapshot snapshot
+        ) {
+            // The repair owns the state lock and has confirmed Steam stopped.
+            // Avoid reconciling unrelated intents while its journal is active.
+            assert (transaction_depth > 0 && is_confirmed_stopped (snapshot));
+            return record_locked (receipt, snapshot, false);
+        }
+
+        internal SteamRestartRecordResult record_configuration (
+            SteamChangeReceipt receipt, SteamSessionSnapshot snapshot
+        ) {
+            // The configuration service uses this observation to choose
+            // between writing immediately and durably staging its intent.
+            return record_with_snapshot (receipt, snapshot);
+        }
+
+        private SteamRestartRecordResult record_with_snapshot (
+            SteamChangeReceipt receipt, SteamSessionSnapshot? snapshot
+        ) {
             if (!begin_state_transaction ())
                 return SteamRestartRecordResult.PERSISTENCE_FAILED;
             try {
-                return record_locked (receipt);
+                return record_locked (receipt, snapshot ?? session_service.inspect (receipt.target));
             } finally {
                 end_state_transaction ();
             }
         }
 
-        private SteamRestartRecordResult record_locked (SteamChangeReceipt receipt) {
-            var snapshot = session_service.inspect (receipt.target);
-            reconcile_snapshot (receipt.target, snapshot);
+        private SteamRestartRecordResult record_locked (SteamChangeReceipt receipt, SteamSessionSnapshot snapshot,
+            bool reconcile = true) {
+            if (reconcile)
+                reconcile_snapshot (receipt.target, snapshot);
             if (is_confirmed_stopped (snapshot))
                 return SteamRestartRecordResult.ALREADY_SATISFIED;
 
@@ -237,18 +275,10 @@ namespace ProtonPlus.Services {
                 if (old_intent.desired_present == new_intent.desired_present
                     && old_intent.desired == new_intent.desired)
                     return SteamRestartRecordResult.UNCHANGED;
-                var baseline = old_intent.baseline;
-                /* New-format records deliberately omit the raw baseline.  The
-                 * request was read from disk, so it safely restores it for
-                 * this process after its fingerprint has been checked. */
-                if (baseline == "" && old_intent.baseline_fingerprint
-                    == SteamConfigurationIntent.fingerprint (new_intent.baseline, new_intent.baseline_present))
-                    baseline = new_intent.baseline;
                 var merged = new SteamConfigurationIntent (new_intent.file, new_intent.operation,
-                    new_intent.path, new_intent.field_id, baseline, new_intent.desired,
+                    new_intent.path, new_intent.field_id, "", new_intent.desired,
                     old_intent.baseline_present, new_intent.desired_present, old_intent.baseline_fingerprint);
-                if (merged.desired_present == merged.baseline_present
-                    && merged.desired == merged.baseline) {
+                if (merged.matches_baseline (merged.desired, merged.desired_present)) {
                     var removed = new Gee.ArrayList<SteamRestartPendingRecord> ();
                     removed.add (existing);
                     /* v2 state written by the earlier implementation could

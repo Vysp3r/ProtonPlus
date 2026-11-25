@@ -3,6 +3,8 @@ namespace ProtonPlus.Models {
      * of their files or installation lifecycle. Roots are constructor-
      * injectable so tests never inspect real Steam, /usr, or Flatpak data. */
     public class SteamCompatibilityToolDiscovery : Object {
+        internal bool collect_claims = false;
+        internal Gee.ArrayList<CompatibilityTool> claims = new Gee.ArrayList<CompatibilityTool> ();
         private Launcher.InstallationTypes installation_type;
         private string system_root;
         private string system_inspection_root;
@@ -41,6 +43,7 @@ namespace ProtonPlus.Models {
         }
 
         public void clear () {
+            claims.clear ();
             tools_by_internal_title.clear ();
             precedence_by_internal_title.clear ();
             internal_title_by_logical_location.clear ();
@@ -65,6 +68,8 @@ namespace ProtonPlus.Models {
             );
             if (!steam_library_tool_is_usable (tool, appid))
                 return;
+            if (collect_claims)
+                claims.add (tool);
             add_tool (tool, 300, appid);
         }
 
@@ -228,12 +233,35 @@ namespace ProtonPlus.Models {
             bool externally_managed,
             int precedence
         ) {
-            foreach_directory_child (inspection_root, (name, inspection_path) => {
+            var scan_root = collect_claims ? Posix.realpath (inspection_root) ?? inspection_root : inspection_root;
+            foreach_directory_child (scan_root, (name, inspection_path) => {
                 add_tool_path (
                     Path.build_filename (path_root, name), inspection_path,
                     externally_managed, precedence
                 );
             });
+            if (collect_claims)
+                collect_linked_claims (scan_root);
+        }
+
+        private void collect_linked_claims (string root) {
+            if (!is_directory_without_following (root))
+                return;
+            try {
+                var enumerator = File.new_for_path (root).enumerate_children (
+                    "standard::name,standard::type", FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
+                FileInfo? info;
+                while ((info = enumerator.next_file ()) != null) {
+                    if (info.get_file_type () != FileType.SYMBOLIC_LINK)
+                        continue;
+                    var path = Path.build_filename (root, info.get_name ());
+                    var resolved = Posix.realpath (path);
+                    if (resolved != null && is_directory_without_following (resolved))
+                        claims.add_all (ProtonPlus.Utils.VDF.CompatibilityToolLoader.read_claims (path, resolved, true));
+                }
+            } catch (Error e) {
+                debug ("Could not inspect compatibility tool links in %s: %s", root, e.message);
+            }
         }
 
         private void add_tool_path (
@@ -243,9 +271,11 @@ namespace ProtonPlus.Models {
             int precedence,
             CompatibilityToolRuntimeKind runtime_kind = CompatibilityToolRuntimeKind.UNKNOWN
         ) {
-            var tool = ProtonPlus.Utils.VDF.CompatibilityToolLoader.try_from_paths (
-                path, inspection_path, externally_managed
-            );
+            if (collect_claims) {
+                claims.add_all (ProtonPlus.Utils.VDF.CompatibilityToolLoader.read_claims (path, inspection_path, externally_managed));
+                return;
+            }
+            var tool = ProtonPlus.Utils.VDF.CompatibilityToolLoader.try_from_paths (path, inspection_path, externally_managed);
             if (tool == null)
                 return;
             if (runtime_kind != CompatibilityToolRuntimeKind.UNKNOWN)

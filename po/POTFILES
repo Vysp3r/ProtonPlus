@@ -102,6 +102,7 @@ src/services/proton-autogen-game-launch-service.vala
 src/services/steam/steam-change-recorder.vala
 src/services/steam/steam-configuration-service.vala
 src/services/steam/steam-game-launch-service.vala
+src/services/steam/steam-key-repair.vala
 src/services/steam/steam-lifecycle.vala
 src/services/steam/steam-restart-backend.vala
 src/services/steam/steam-restart-manager.vala
