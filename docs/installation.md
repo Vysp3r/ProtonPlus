@@ -61,9 +61,6 @@ their own schedules.
 | Void Linux | [Official package](https://github.com/void-linux/void-packages/blob/master/srcpkgs/protonplus/template) | [xJayMorex](https://github.com/xJayMorex) |
 | Gentoo | [Overlay](https://github.com/amielke/amielke-overlay/tree/master/games-util/protonplus) | [amielke](https://github.com/amielke) |
 
-[Meta Package Manager](https://mpm.run/managers/protonplus/) integrates with the
-ProtonPlus CLI to manage compatibility tools.
-
 ## Build from source
 
 The contribution guide covers build dependencies and commands for both native

@@ -136,6 +136,9 @@ protonplus uninstall steam-system proton-ge
 To remove TinkerGame or SteamTinkerLaunch, pass its runner ID explicitly.
 Commands that change installed tools reject unexpected arguments before starting.
 
+[Meta Package Manager](https://mpm.run/managers/protonplus/) integrates with the
+ProtonPlus CLI to manage compatibility tools.
+
 ## Preferences
 
 - Choose a theme (system, Adwaita, Breeze, SteamOS, or OLED), language,
