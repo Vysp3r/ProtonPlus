@@ -33,8 +33,19 @@ namespace ProtonPlus.Services {
 
     /// Shares only cache/workspace mechanics.  Extraction and promotion stay
     /// in their respective workflows because their transaction shapes differ.
-    internal class ArchiveWorkflowSupport : Object {
-        public async ReturnCode prepare_archive (
+    public class ArchiveWorkflowSupport : Object {
+        public static string get_cache_archive_path (string cache_root, string provider_id,
+            Models.Release release, string url, string extension) {
+            // URLs may be reused when a release is replaced. A URL-only entry
+            // has no revision provenance, even if its archive size still matches.
+            var fallback = release.upstream_release_id == ""
+                ? (release.source_tag != "" ? release.source_tag : release.title) : "";
+            var identity = new Variant ("(ssss)", provider_id, release.upstream_release_id, fallback, url);
+            var key = Checksum.compute_for_string (ChecksumType.SHA256, identity.print (false));
+            return Path.build_filename (cache_root, "archives", key + extension);
+        }
+
+        internal async ReturnCode prepare_archive (
             InstallJob job,
             string operation_prefix,
             out ArchiveOperation? operation
@@ -44,16 +55,15 @@ namespace ProtonPlus.Services {
             if (extension == null)
                 return ReturnCode.UNSUPPORTED_EXTENSION;
 
-            var archive_cache_path = Path.build_filename (Globals.CACHE_PATH, "archives");
-            if (!yield Utils.Filesystem.create_directory_async (archive_cache_path))
+            var cache_archive_path = get_cache_archive_path (
+                Globals.CACHE_PATH, job.tool.provider_id, job.release, job.selected_asset.download_url, extension);
+            if (!yield Utils.Filesystem.create_directory_async (Path.get_dirname (cache_archive_path)))
                 return ReturnCode.FILESYSTEM_ERROR;
 
             var operation_path = Utils.Filesystem.create_temporary_directory (Globals.CACHE_PATH, operation_prefix);
             if (operation_path == "")
                 return ReturnCode.FILESYSTEM_ERROR;
 
-            var archive_key = Checksum.compute_for_string (ChecksumType.SHA256, job.selected_asset.download_url);
-            var cache_archive_path = Path.build_filename (archive_cache_path, "%s%s".printf (archive_key, extension));
             var operation_archive_path = Path.build_filename (operation_path, "archive%s".printf (extension));
             var created = new ArchiveOperation (
                 operation_path, operation_archive_path, extension, cache_archive_path, job.selected_asset
@@ -139,7 +149,7 @@ namespace ProtonPlus.Services {
         }
 
         /// Publish only after the owning workflow has validated extraction.
-        public async bool publish_archive (ArchiveOperation operation) {
+        internal async bool publish_archive (ArchiveOperation operation) {
             if (operation.from_cache || operation.cache_published)
                 return true;
 
@@ -184,7 +194,7 @@ namespace ProtonPlus.Services {
             }
         }
 
-        public async ReturnCode complete_attempt (
+        internal async ReturnCode complete_attempt (
             ReturnCode code,
             ArchiveOperation operation,
             bool discard_cached_archive = false

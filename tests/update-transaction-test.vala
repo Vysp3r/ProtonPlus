@@ -268,11 +268,11 @@ namespace AppTests.UpdateTransactionTest {
         assert (ProtonPlus.Utils.Filesystem.get_file_content (path) == content);
     }
 
-    private void cache_archive (string cache, string url, string fixture_name = "runner.zip.base64") {
-        var archive_dir = Path.build_filename (cache, "archives");
-        assert (ProtonPlus.Utils.Filesystem.create_directory (archive_dir));
-        var archive = Path.build_filename (archive_dir,
-            "%s.zip".printf (Checksum.compute_for_string (ChecksumType.SHA256, url)));
+    private void cache_archive (string cache, ProviderTool runner, Release release,
+        string fixture_name = "runner.zip.base64", string? variant_url = null) {
+        var archive = ArchiveWorkflowSupport.get_cache_archive_path (
+            cache, runner.provider_id, release, variant_url ?? release.asset.download_url, ".zip");
+        assert (ProtonPlus.Utils.Filesystem.create_directory (Path.get_dirname (archive)));
         try {
             FileUtils.set_data (archive, Base64.decode (ProtonPlus.Utils.Filesystem.get_file_content (
                 Path.build_filename ("fixtures", "archives", fixture_name)
@@ -371,7 +371,7 @@ namespace AppTests.UpdateTransactionTest {
                 assert (metadata.save (installation));
                 if (linked)
                     assert (Posix.symlink ("../external-installation", location) == 0);
-                cache_archive (Globals.CACHE_PATH, release_url);
+                cache_archive (Globals.CACHE_PATH, runner, release);
                 var job = new InstallJob (release, runner, InstallJob.Mode.LATEST);
                 var variant = release.variants[0];
                 job.set_selected_variant (variant.name, variant.resolved_asset (), variant.id);
@@ -419,9 +419,9 @@ namespace AppTests.UpdateTransactionTest {
         ulong handler = 0;
         try {
             var url = "https://fixtures.invalid/completion.zip";
-            cache_archive (Globals.CACHE_PATH, url);
             var release = new Release ("v2", "", "", new Models.Assets.Asset ("runner.zip", url), "", 0, "v2", "v2");
             var runner = static_runner (root, release);
+            cache_archive (Globals.CACHE_PATH, runner, release);
             var directory = Path.build_filename (root, "runner");
             assert (ProtonPlus.Utils.Filesystem.create_directory (directory));
             var metadata = new ProtonPlus.Utils.Metadata ();
@@ -695,9 +695,9 @@ namespace AppTests.UpdateTransactionTest {
             assert (failure.is_update && failure.step == InstallJob.Step.CHECKING_RELEASE && failure.retry_supported);
 
             var url = "https://fixtures.invalid/download-retry-update.zip";
-            cache_archive (Globals.CACHE_PATH, url);
             var release = new Release ("v2", "", "", new Models.Assets.Asset ("runner.zip", url), "", 0, "v2", "v2");
             release.variants.add (new Models.Variant ("standard", "default", "", true, url, null, release.asset));
+            cache_archive (Globals.CACHE_PATH, runner, release);
             source.recovered_release = release;
             service.retry_download.begin (failure, (obj, result) => {
                 assert (service.retry_download.end (result));
@@ -753,8 +753,8 @@ namespace AppTests.UpdateTransactionTest {
                         metadata.variant_id = variant.id;
                     }
                     assert (metadata.save (directory));
-                    cache_archive (Globals.CACHE_PATH, alternate ? alternate_url : default_url,
-                        "wrapped-manifest-runner.zip.base64");
+                    cache_archive (Globals.CACHE_PATH, runner, release, "wrapped-manifest-runner.zip.base64",
+                        variant.resolved_asset ().download_url);
                     var recorder = new RecordingSteamChange ();
                     InstallationService.instance.configure_steam_change_recorder (recorder);
 
@@ -1190,18 +1190,7 @@ namespace AppTests.UpdateTransactionTest {
         incompatible_metadata.launcher_id = launcher.tool_target_id;
         assert (incompatible_metadata.save (incompatible_directory));
 
-        var archive_cache = Path.build_filename (
-            cache, "archives", "%s.zip".printf (Checksum.compute_for_string (ChecksumType.SHA256, compatible_url))
-        );
-        assert (ProtonPlus.Utils.Filesystem.create_directory (Path.get_dirname (archive_cache)));
-        try {
-            FileUtils.set_data (archive_cache, Base64.decode (ProtonPlus.Utils.Filesystem.get_file_content (
-                Path.build_filename ("fixtures", "archives", "runner.zip.base64")
-            ).strip ()));
-        } catch (FileError e) {
-            critical ("Could not seed cached archive: %s", e.message);
-            assert_not_reached ();
-        }
+        cache_archive (cache, compatible_runner, compatible_release);
 
         var previous_capabilities = Globals.CPU_CAPABILITIES;
         Globals.CPU_CAPABILITIES = new CpuCapabilities (CpuArchitecture.X86_64, X86_64Level.V2);
@@ -1296,7 +1285,7 @@ namespace AppTests.UpdateTransactionTest {
             faugus_group.tools.add (faugus_duplicate);
             assert (update_runner.id == faugus_duplicate.id);
             seed_latest_installation (update_runner, "v1");
-            cache_archive (cache, update_url);
+            cache_archive (cache, update_runner, update_release);
 
             var current_url = "https://fixtures.invalid/background-current.zip";
             var current_release = new Release (

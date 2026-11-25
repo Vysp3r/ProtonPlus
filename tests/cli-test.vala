@@ -267,11 +267,10 @@ namespace AppTests.CliTest {
         return launchers;
     }
 
-    private void cache_archive (string cache, string url) {
-        var archive_dir = Path.build_filename (cache, "archives");
-        assert (Utils.Filesystem.create_directory (archive_dir));
-        var path = Path.build_filename (archive_dir,
-            "%s.zip".printf (Checksum.compute_for_string (ChecksumType.SHA256, url)));
+    private void cache_archive (string cache, ProviderTool runner, Release release) {
+        var path = ArchiveWorkflowSupport.get_cache_archive_path (
+            cache, runner.provider_id, release, release.asset.download_url, ".zip");
+        assert (Utils.Filesystem.create_directory (Path.get_dirname (path)));
         try {
             FileUtils.set_data (path, Base64.decode (Utils.Filesystem.get_file_content (
                 Path.build_filename ("fixtures", "archives", "runner.zip.base64")
@@ -1136,10 +1135,11 @@ namespace AppTests.CliTest {
 
         try {
             var install_url = "https://fixtures.invalid/install.zip";
+            var install_release = release ("v2", "v2", install_url);
             ProviderTool install_runner;
             var install_launcher = setup_launcher (Path.build_filename (root, "install"),
-                "fixture-install", "Fixture Install", release ("v2", "v2", install_url), out install_runner);
-            cache_archive (Globals.CACHE_PATH, install_url);
+                "fixture-install", "Fixture Install", install_release, out install_runner);
+            cache_archive (Globals.CACHE_PATH, install_runner, install_release);
             var install_recorder = new RecordingSteamChange ();
             configure_fixture_services (install_recorder, root);
             var install_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
@@ -1169,11 +1169,12 @@ namespace AppTests.CliTest {
                 install_launcher, ((!) uninstall_handler.last_job).install_location);
 
             var update_url = "https://fixtures.invalid/update.zip";
+            var update_release = release ("v2", "v2", update_url);
             ProviderTool update_runner;
             var update_launcher = setup_launcher (Path.build_filename (root, "update"),
-                "fixture-update", "Fixture Update", release ("v2", "v2", update_url), out update_runner);
+                "fixture-update", "Fixture Update", update_release, out update_runner);
             seed_latest_installation (update_runner, "v1");
-            cache_archive (Globals.CACHE_PATH, update_url);
+            cache_archive (Globals.CACHE_PATH, update_runner, update_release);
             InstallationService.reset_lifecycle_configuration_for_tests ();
             SteamConfigurationService.reset_configuration ();
             var update_recorder = new RecordingSteamChange ();
@@ -1218,10 +1219,11 @@ namespace AppTests.CliTest {
             assert (update_recorder.receipts.size == 1);
 
             var failed_url = "https://fixtures.invalid/failed.zip";
+            var failed_release = release ("v2", "v2", failed_url);
             ProviderTool failed_runner;
             var failed_launcher = setup_launcher (Path.build_filename (root, "failed"),
-                "fixture-failed", "Fixture Failed", release ("v2", "v2", failed_url), out failed_runner);
-            cache_archive (Globals.CACHE_PATH, failed_url);
+                "fixture-failed", "Fixture Failed", failed_release, out failed_runner);
+            cache_archive (Globals.CACHE_PATH, failed_runner, failed_release);
             var failed_output = new ProtonPlus.CLI.RecordingCliOutputSink ();
             var failed_handler = new FixtureHandler (launcher_list (failed_launcher),
                 FixtureJobBehavior.FAIL_PROMOTION, failed_output);
@@ -1231,10 +1233,11 @@ namespace AppTests.CliTest {
             assert (update_recorder.receipts.size == 1);
 
             var persistence_url = "https://fixtures.invalid/persistence.zip";
+            var persistence_release = release ("v2", "v2", persistence_url);
             ProviderTool persistence_runner;
             var persistence_launcher = setup_launcher (Path.build_filename (root, "persistence"),
-                "fixture-persistence", "Fixture Persistence", release ("v2", "v2", persistence_url), out persistence_runner);
-            cache_archive (Globals.CACHE_PATH, persistence_url);
+                "fixture-persistence", "Fixture Persistence", persistence_release, out persistence_runner);
+            cache_archive (Globals.CACHE_PATH, persistence_runner, persistence_release);
             InstallationService.reset_lifecycle_configuration_for_tests ();
             SteamConfigurationService.reset_configuration ();
             var persistence_recorder = new RecordingSteamChange ();
@@ -1256,10 +1259,11 @@ namespace AppTests.CliTest {
             SteamConfigurationService.reset_configuration ();
             assert (SteamConfigurationService.instance == null);
             var teardown_url = "https://fixtures.invalid/teardown.zip";
+            var teardown_release = release ("v2", "v2", teardown_url);
             ProviderTool teardown_runner;
             var teardown_launcher = setup_launcher (Path.build_filename (root, "teardown"),
-                "fixture-teardown", "Fixture Teardown", release ("v2", "v2", teardown_url), out teardown_runner);
-            cache_archive (Globals.CACHE_PATH, teardown_url);
+                "fixture-teardown", "Fixture Teardown", teardown_release, out teardown_runner);
+            cache_archive (Globals.CACHE_PATH, teardown_runner, teardown_release);
             assert (run_cli ({ "protonplus", "install", teardown_launcher.instance_id,
                 teardown_runner.provider_id, "latest" }, new FixtureHandler (launcher_list (teardown_launcher))) == 0);
             assert (persistence_recorder.receipts.size == 1);

@@ -305,9 +305,9 @@ namespace AppTests.TinkerGameTest {
                 // Seed a validated fixture archive for the next revision so bulk
                 // updates exercise the production job without network access.
                 var next = new FixtureJob (tool, archive, "fixture-2");
-                var archive_key = Checksum.compute_for_string (ChecksumType.SHA256, next.release.asset.download_url);
-                assert (yield Utils.Filesystem.copy_file (archive,
-                    Path.build_filename (Globals.CACHE_PATH, "archives", archive_key + ".zip")));
+                var archive_path = ArchiveWorkflowSupport.get_cache_archive_path (
+                    Globals.CACHE_PATH, tool.provider_id, next.release, next.selected_asset.download_url, ".zip");
+                assert (yield Utils.Filesystem.copy_file (archive, archive_path));
                 if (scenario == 19) {
                     var launchers = new List<Launcher> ();
                     launchers.append (launcher);
