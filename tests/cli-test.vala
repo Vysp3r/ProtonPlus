@@ -150,6 +150,7 @@ namespace AppTests.CliTest {
 
     public void register_tests () {
         Test.add_func ("/cli/exit-codes", test_exit_codes);
+        Test.add_func ("/cli/invalid-arguments-prevent-mutations", test_invalid_arguments_prevent_mutations);
         Test.add_func ("/cli/niche-provider-requires-opt-in", test_niche_provider_requires_opt_in);
         Test.add_func ("/cli/sarek-release-build-selection", test_sarek_release_build_selection);
         Test.add_func ("/cli/list-managed-releases", test_list_managed_releases);
@@ -438,6 +439,36 @@ namespace AppTests.CliTest {
         assert (run_cli ({ "protonplus", "unknown" }, null, unknown_output) == 1);
         assert (unknown_output.stderr_text.contains ("Unknown command 'unknown'"));
         assert (unknown_output.stdout_text.contains ("Usage:"));
+    }
+
+    private void test_invalid_arguments_prevent_mutations () {
+        var root = temporary_directory ();
+        try {
+            ProviderTool runner;
+            var launcher = setup_launcher (root, "fixture-runner", "Fixture Runner",
+                release ("v2", "v2", "https://fixtures.invalid/runner.zip"), out runner);
+            var installed = seed_latest_state (runner, runner.title + " Latest", "v1");
+            assert_rejected_mutation (launcher, { "protonplus", "install" });
+            assert_rejected_mutation (launcher, { "protonplus", "install", launcher.instance_id, runner.provider_id, "latset" });
+            assert_rejected_mutation (launcher, { "protonplus", "uninstall", launcher.instance_id, "all", "--dry-run" });
+            assert_rejected_mutation (launcher, { "protonplus", "update", "all", "--dry-run" });
+            assert_rejected_mutation (launcher, { "protonplus", "update", launcher.instance_id, runner.provider_id, "extra" });
+            assert (CLI.changes_installed_tools ({ "protonplus", "update", "all" }));
+            assert (CLI.changes_installed_tools ({ "protonplus", "uninstall", launcher.instance_id, runner.provider_id, "all" }));
+            assert (CLI.changes_installed_tools ({ "protonplus", "install", launcher.instance_id, runner.provider_id, "latest" }));
+            assert (Utils.Metadata.load (installed).tag == "v1");
+        } finally {
+            assert (delete_directory (root));
+        }
+    }
+
+    private void assert_rejected_mutation (Launcher launcher, string[] args) {
+        assert (!CLI.changes_installed_tools (args));
+        var output = new CLI.RecordingCliOutputSink ();
+        var handler = new FixtureHandler (launcher_list (launcher), FixtureJobBehavior.NORMAL, output);
+        assert (run_cli (args, handler) == 1);
+        assert (output.stderr_text.contains ("Usage:"));
+        assert (output.stdout_text == "");
     }
 
     // Identity assertions ignore padding; alignment is checked separately below.
