@@ -313,9 +313,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             preview_source_labels.add ("");
             preview_sources.add (loaded_source);
             gpu_vendor_group.reset_controls ();
-            launch_option_handlers.load_from_string (launch_options);
             var parsed = new LaunchCommandParser (catalog).parse (launch_options);
+            launch_option_handlers.load_from_parse_result (parsed);
             advanced_options_group.load_custom_arguments (parsed);
+            game_arguments_group.load_from_parse_result (parsed);
             wrapper_group.normalize_selection ();
             wrapper_group.load_raw_arguments (parsed);
             gpu_vendor_group.normalize_dependencies ();
@@ -536,6 +537,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var results = new Gee.ArrayList<LaunchCommandWriteResult> ();
             var results_by_source = new Gee.HashMap<string, LaunchCommandWriteResult> ();
             LaunchCommandWriteResult? blocked_result = null;
+            string blocked_label = "";
             can_clear = has_draft_options;
             has_changes_to_write = false;
             foreach (var source in preview_sources) {
@@ -547,8 +549,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 results.add (candidate);
                 can_clear |= source != "";
                 has_changes_to_write |= candidate.requires_persistence;
-                if (!candidate.writing_allowed && blocked_result == null)
+                if (!candidate.writing_allowed && blocked_result == null) {
                     blocked_result = candidate;
+                    blocked_label = preview_source_labels[results.size - 1];
+                }
             }
             writing_allowed = blocked_result == null;
 
@@ -565,6 +569,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 reason = _("Use Clear Launch Options to replace a command that cannot be merged safely.");
             else if (reason == "" && result.writer_diagnostics.size > 0)
                 reason = result.writer_diagnostics[0];
+            if (result.status == LaunchCommandWriteStatus.BLOCKED_CUSTOM_WRAPPER_CONFLICT
+                && preview_sources.size > 1 && blocked_label != "")
+                reason = _("%s — %s").printf (blocked_label, reason);
             if (!result.writing_allowed && reason == "")
                 reason = _("Review the selected launch options before applying changes.");
 

@@ -10,7 +10,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             Object (
                 title: title,
                 subtitle: _("Show the exact command that will be saved to Steam."),
-                expanded: false
+                expanded: false,
+                use_markup: false
             );
             add_css_class ("launch-options-preview");
             set_tooltip_text (subtitle);

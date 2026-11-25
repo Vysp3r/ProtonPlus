@@ -12,7 +12,8 @@ namespace ProtonPlus.LaunchOptions {
         BLOCKED_UNSAFE_SOURCE,
         BLOCKED_INVALID_SELECTIONS,
         INCOMPLETE_ADAPTER_COVERAGE,
-        CAPABILITY_CONTEXT_REQUIRED
+        CAPABILITY_CONTEXT_REQUIRED,
+        BLOCKED_CUSTOM_WRAPPER_CONFLICT
     }
 
     public class LaunchCommandWriteResult : Object {
@@ -120,6 +121,10 @@ namespace ProtonPlus.LaunchOptions {
                 return blocked;
             }
 
+            var wrapper_id = LaunchCustomWrapperInput.OPTION_ID;
+            if (!request.explicit_clear && changed.contains (wrapper_id) && request.parsed.has_unrecognized_prefix)
+                return wrapper_conflict (request.parsed, _("This game's existing launch prefix cannot be merged with a custom wrapper."));
+
             if (!request.explicit_clear && !safe_to_merge (request.parsed, changed)) {
                 var blocked = new LaunchCommandWriteResult (LaunchCommandWriteStatus.BLOCKED_UNSAFE_SOURCE, request.parsed);
                 blocked.writer_diagnostics.add ("Custom shell content cannot be merged safely.");
@@ -166,12 +171,29 @@ namespace ProtonPlus.LaunchOptions {
                 return replacement;
             }
 
+            var wrapper_index = request.parsed.custom_wrapper_index;
+            var custom_wrapper = wrapper_index >= 0 ? request.parsed.tokens[wrapper_index].raw : "";
+            if (changed.contains (wrapper_id)) {
+                var selected_wrapper = composed.plan.custom_wrapper;
+                if (request.preserve_unedited_custom_arguments && wrapper_index >= 0) {
+                    var selected_words = new LaunchOptionShellTokenizer ().tokenize (selected_wrapper);
+                    if (selected_words.size != 1 || selected_words[0].value != request.parsed.tokens[wrapper_index].value)
+                        return wrapper_conflict (request.parsed, _("This game already has a different custom wrapper. Edit the game individually to replace it."));
+                    changed.remove (wrapper_id);
+                    if (changed.size == 0)
+                        return new LaunchCommandWriteResult (LaunchCommandWriteStatus.UNCHANGED_PRISTINE_SOURCE,
+                            request.parsed, true, false, request.parsed.original_input);
+                } else {
+                    custom_wrapper = selected_wrapper;
+                }
+            }
+
             /* Dynamic custom arguments are merged from their source anchors.
              * Exclude them from the generated semantic skeleton so raw values
              * such as FOO=bar or an unknown wrapper cannot be reclassified and
              * hide otherwise managed game arguments during the second parse. */
             var generated_composition = composer.compose (new LaunchCommandCompositionRequest (
-                without_dynamic_game_arguments (request.selections),
+                managed_merge_selections (request.selections),
                 request.capabilities ?? new LaunchCommandCapabilityContext (),
                 request.retain_placeholder_for_arguments_only
             ));
@@ -181,14 +203,22 @@ namespace ProtonPlus.LaunchOptions {
             );
             var launch_line = only_dynamic_game_arguments_changed (changed)
                 ? merge_custom_arguments_in_source (request.parsed, custom_arguments)
-                : merge (request.parsed, generated, changed, custom_arguments, request.selections);
+                : merge (request.parsed, generated, changed, custom_arguments, request.selections, custom_wrapper);
             var result = new LaunchCommandWriteResult (
                 request.parsed.original_input == "" ? LaunchCommandWriteStatus.FRESH_MANAGED_OUTPUT
                                                      : LaunchCommandWriteStatus.SOURCE_PRESERVING_MANAGED_MERGE,
                 request.parsed, true, launch_line != request.parsed.original_input, launch_line);
-            foreach (var id in request.modified_option_ids) result.modified_option_ids.add (id);
+            foreach (var id in request.modified_option_ids) {
+                if (changed.contains (id)) result.modified_option_ids.add (id);
+            }
             foreach (var diagnostic in composed.diagnostics) result.composition_diagnostics.add (diagnostic);
             record_spans (result, request.parsed, changed);
+            return result;
+        }
+
+        LaunchCommandWriteResult wrapper_conflict (LaunchCommandParseResult parsed, string message) {
+            var result = new LaunchCommandWriteResult (LaunchCommandWriteStatus.BLOCKED_CUSTOM_WRAPPER_CONFLICT, parsed);
+            result.writer_diagnostics.add (message);
             return result;
         }
 
@@ -223,15 +253,15 @@ namespace ProtonPlus.LaunchOptions {
             return false;
         }
 
-        LaunchCommandSelection[] without_dynamic_game_arguments (
+        LaunchCommandSelection[] managed_merge_selections (
             LaunchCommandSelection[] selections
         ) {
             var filtered = new ArrayList<LaunchCommandSelection> ();
             foreach (var selection in selections) {
                 var metadata = catalog.lookup (selection.option_id);
-                if (metadata != null && metadata.semantics != null
-                    && metadata.semantics.kind == LaunchOptionSemanticKind.GAME_ARGUMENT
-                    && metadata.semantics.emission_mode == LaunchOptionEmissionMode.DYNAMIC_GAME_ARGUMENTS)
+                var mode = metadata?.semantics?.emission_mode;
+                if (mode == LaunchOptionEmissionMode.DYNAMIC_GAME_ARGUMENTS
+                    || mode == LaunchOptionEmissionMode.DYNAMIC_WRAPPER_EXECUTABLE)
                     continue;
                 filtered.add (selection);
             }
@@ -244,6 +274,14 @@ namespace ProtonPlus.LaunchOptions {
             var only_custom_arguments_changed = only_dynamic_game_arguments_changed (changed);
             if (only_custom_arguments_changed && has_custom_argument_source (parsed))
                 return true;
+
+            if (parsed.has_unrecognized_prefix && has_changed_wrapper (changed) && parsed.wrappers.size > 0) {
+                var first_wrapper = parsed.wrappers[0].executable_indexes[0];
+                foreach (var token in parsed.unrecognized_tokens) {
+                    if (token.kind == LaunchCommandUnrecognizedKind.UNKNOWN_TOKEN && token.token_index > first_wrapper)
+                        return false;
+                }
+            }
             for (var index = 0; index < parsed.tokens.size; index++) {
                 if (parsed.tokens[index].is_opaque
                     && !parsed.is_preserved_game_argument_index (index))
@@ -363,7 +401,7 @@ namespace ProtonPlus.LaunchOptions {
 
         string merge (LaunchCommandParseResult source, LaunchCommandParseResult generated,
                       HashSet<string> changed, CustomArgumentReplacements custom_arguments,
-                      LaunchCommandSelection[] selections) {
+                      LaunchCommandSelection[] selections, string custom_wrapper) {
             var source_boundary = source.command_boundary_indexes.size == 1
                 ? source.command_boundary_indexes[0] : -1;
             var generated_boundary = generated.command_boundary_indexes.size == 1
@@ -389,41 +427,29 @@ namespace ProtonPlus.LaunchOptions {
             }
             append_generated_region (output, generated, 0, generated_boundary, changed, emitted, Region.ENVIRONMENT);
 
-            /* A safe, unrecognized pre-command word may be a user-provided
-             * wrapper such as `game-performance`. It is editable through the
-             * custom-argument list, so keep it source-anchored while managed
-             * environments and wrappers are changed around it. */
-            if (source_boundary >= 0) {
-                for (var index = 0; index < source_boundary; index++) {
-                    if (!source.is_custom_game_argument_index (index)
-                        || unrecognized_environment_at (source, index)
-                        || is_wrapper_token_at (source, index))
-                        continue;
-                    append_source_custom_argument (
-                        output, source, index, custom_arguments, replace_unrecognized_arguments
-                    );
-                }
+            bool rebuild_wrappers = has_changed_wrapper (changed);
+            // Keep source words on the same side of each wrapper and its delimiter.
+            for (var index = 0; index < source_boundary; index++) {
+                if (index == source.custom_wrapper_index || unrecognized_environment_at (source, index))
+                    continue;
+                var is_wrapper_token = is_wrapper_token_at (source, index);
+                if (is_wrapper_token && rebuild_wrappers)
+                    continue;
+                if (source.is_custom_game_argument_index (index))
+                    append_source_custom_argument (output, source, index, custom_arguments, replace_unrecognized_arguments);
+                else if (is_wrapper_token)
+                    output.add (source.tokens[index].raw);
             }
 
-            bool rebuild_wrappers = has_changed_wrapper (changed);
-            if (!rebuild_wrappers) {
-                for (var index = 0; index < source.tokens.size; index++) {
-                    if (source_boundary >= 0 && index >= source_boundary) break;
-                    if (!is_wrapper_token_at (source, index)) continue;
-                    if (source.is_custom_game_argument_index (index))
-                        append_source_custom_argument (
-                            output, source, index, custom_arguments, replace_unrecognized_arguments
-                        );
-                    else
-                        output.add (source.tokens[index].raw);
-                }
-            } else {
+            if (rebuild_wrappers) {
                 append_merged_wrappers (
                     output, source, generated, changed, emitted,
                     custom_arguments, replace_unrecognized_arguments, selections
                 );
             }
 
+            if (custom_wrapper != "")
+                output.add (custom_wrapper);
             bool needs_boundary = output.size > 0 || generated_boundary >= 0
                 || (source_boundary == 0 && !has_changed_game_arguments (changed));
             if (needs_boundary) output.add ("%command%");
@@ -489,6 +515,8 @@ namespace ProtonPlus.LaunchOptions {
         }
 
         Region output_role_at (LaunchCommandParseResult parsed, int index) {
+            if (index == parsed.custom_wrapper_index)
+                return Region.WRAPPER;
             var occurrence = occurrence_at (parsed, index);
             if (occurrence != null) {
                 if (occurrence.semantic_kind == LaunchOptionSemanticKind.GAME_ARGUMENT)

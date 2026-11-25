@@ -6,6 +6,19 @@ the only serializer used by preview and Apply. Unknown source tokens stay raw,
 in their original order and spelling, and an explicit Clear still replaces the
 whole source.
 
+## Custom wrappers
+
+Under **Game arguments**, enter an absolute executable path or a relative path
+starting with `./` or `../` in **Custom wrapper**. Quote paths with spaces.
+You can also paste a command such as `"/path with spaces/bgmod" %command%`.
+ProtonPlus supplies one `%command%` and places the wrapper immediately before
+it, inside any selected Gamescope or ScopeBuddy backend. Game arguments stay
+after `%command%`.
+
+With several games selected, each game's preview uses its own launch options.
+If different source commands already contain different custom wrappers, edit
+the conflicting game individually before applying a shared wrapper.
+
 ## Adding or changing a control
 
 `LaunchOptionCatalog` in [`src/launch-options/`](../src/launch-options/) owns

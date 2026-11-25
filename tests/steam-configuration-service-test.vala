@@ -1,5 +1,6 @@
 namespace AppTests.SteamConfigurationServiceTest {
     using GLib;
+    using ProtonPlus.LaunchOptions;
     using ProtonPlus.Models;
     using ProtonPlus.Services;
 
@@ -476,6 +477,60 @@ namespace AppTests.SteamConfigurationServiceTest {
         }
     }
 
+    private void test_custom_wrapper_round_trip () {
+        var root = temporary_root ();
+        string config, localconfig;
+        prepare_text_files (root, out config, out localconfig);
+        var userdata = Path.build_filename (root, "userdata", "1");
+        var shortcut_path = Path.build_filename (userdata, "config", "shortcuts.vdf");
+        create_shortcut_file (shortcut_path, 9, "--shortcut");
+        var launcher = steam (root);
+        launcher.profile = new SteamProfile (launcher, "Fixture", "76561197960265729", userdata);
+        var game = new Games.Steam (42, "Fixture", "Fixture", 0, root, launcher);
+        var shortcut = new Games.Steam.non_steam (9, "Fixture shortcut", "--shortcut", "Default", launcher);
+        var target = launcher.get_steam_restart_target ();
+        var backend = new SessionFixture ();
+        set_running (backend, target);
+        SteamRestartManager manager;
+        var service = service_for (root, backend, out manager);
+
+        var path = "\"/tmp/Goverlay Config/bgmod\"";
+        var writer = new LaunchCommandWriter ();
+        var selections = new LaunchCommandSelection[] { new LaunchCommandSelection ("custom-wrapper", { path }, "", {}, true) };
+        var capabilities = new LaunchCommandCapabilityContext ();
+        var regular_write = writer.prepare_source ("", selections, { "custom-wrapper" }, {}, capabilities);
+        var shortcut_write = writer.prepare_source ("--shortcut", selections, { "custom-wrapper" }, {}, capabilities);
+        assert (regular_write.launch_line == path + " %command%");
+        assert (shortcut_write.launch_line == path + " %command% --shortcut");
+        assert (service.change_game_launch_options (game, regular_write.launch_line, localconfig).result == SteamConfigurationMutationResult.STAGED);
+        assert (service.change_game_launch_options (shortcut, shortcut_write.launch_line, localconfig).result == SteamConfigurationMutationResult.STAGED);
+        assert (read (localconfig) == LOCALCONFIG);
+
+        var restored = service_for (root, backend, out manager);
+        var staged_profile = new SteamProfile (launcher, "Fixture", "76561197960265729", userdata);
+        staged_profile.non_steam_games.append (shortcut);
+        restored.overlay_profile_effective_state (staged_profile);
+        assert (staged_profile.launch_options_hashtable.get (42) == regular_write.launch_line);
+        assert (shortcut.launch_options == shortcut_write.launch_line);
+
+        backend.native_query = new NativeProcessQuery (true);
+        assert (restored.reconcile_target (target).result == SteamConfigurationMutationResult.CHANGED);
+        var reloaded = new SteamProfile (launcher, "Fixture", "76561197960265729", userdata);
+        var loop = new MainLoop ();
+        reloaded.load_extra_data.begin ((object, result) => {
+            assert (reloaded.load_extra_data.end (result));
+            loop.quit ();
+        });
+        loop.run ();
+        var parser = new LaunchCommandParser ();
+        var paths = new string[] { reloaded.launch_options_hashtable.get (42), reloaded.non_steam_games.first ().data.launch_options };
+        assert (paths[0] == regular_write.launch_line && paths[1] == shortcut_write.launch_line);
+        foreach (var launch_line in paths) {
+            var parsed = parser.parse (launch_line);
+            assert (parsed.custom_wrapper_index == 0 && parsed.tokens[0].raw == path);
+        }
+    }
+
     private void test_persistence_failure_preserves_configuration_state () {
         var root = temporary_root (); string config; string localconfig;
         prepare_text_files (root, out config, out localconfig);
@@ -760,6 +815,7 @@ namespace AppTests.SteamConfigurationServiceTest {
         Test.add_func ("/steam-configuration/missing-and-unconfigured-entry-points-do-not-write", test_missing_and_unconfigured_entry_points_do_not_write);
         Test.add_func ("/steam-configuration/launch-options-raw-values-and-absence", test_launch_options_preserve_raw_values_and_absence);
         Test.add_func ("/steam-configuration/non-steam-launch-options-stage-and-reconcile", test_non_steam_launch_options_stage_and_reconcile_exactly);
+        Test.add_func ("/steam-configuration/custom-wrapper-round-trip", test_custom_wrapper_round_trip);
         Test.add_func ("/steam-configuration/persistence-failure-preserves-configuration-state", test_persistence_failure_preserves_configuration_state);
         Test.add_func ("/steam-configuration/all-persisted-intents-overlay-after-reload", test_all_persisted_intents_overlay_after_service_reload);
         Test.add_func ("/steam-configuration/reopened-manager-manual-stop-and-new-session", test_reopened_manager_applies_after_manual_stop_and_verifies_new_session);

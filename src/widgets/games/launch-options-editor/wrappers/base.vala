@@ -13,6 +13,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         protected Gee.List<ILaunchOption> _children;
 
         public bool active { get; set; }
+        protected virtual string backend_id { get { return ""; } }
 
         protected Base (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
             this.launch_option_handlers = launch_option_handlers;
@@ -49,13 +50,47 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                 presentation_registry.register (id, widget, option, false);
         }
 
-        internal int get_wrapper_end_index (string[] tokens, int wrapper_index, bool[] consumed) {
-            var command_index = get_token_index (tokens, "%command%");
-            if (command_index > wrapper_index && command_index > 0 && tokens[command_index - 1] == "--") {
-                consumed[command_index - 1] = true;
-                return command_index - 1;
+        internal void load_from_parse_result (LaunchCommandParseResult parsed, string[] tokens, bool[] consumed) {
+            if (backend_id == "") {
+                parse_tokens (tokens, consumed);
+                return;
             }
 
+            active = false;
+            foreach (var invocation in parsed.wrappers) {
+                if (invocation.wrapper_id != backend_id)
+                    continue;
+
+                var owned_indexes = new Gee.HashSet<int> ();
+                foreach (var index in invocation.executable_indexes)
+                    owned_indexes.add (index);
+                owned_indexes.add_all (invocation.argument_indexes);
+                if (invocation.delimiter_index >= 0)
+                    owned_indexes.add (invocation.delimiter_index);
+                foreach (var occurrence in parsed.occurrences) {
+                    if (occurrence.wrapper_id == backend_id && occurrence.semantic_kind == LaunchOptionSemanticKind.COMPOSITE_DYNAMIC)
+                        foreach (var index in occurrence.token_indexes)
+                            owned_indexes.add (index);
+                }
+
+                var backend_tokens = new Gee.ArrayList<string> ();
+                for (var index = 0; index < tokens.length; index++) {
+                    if (owned_indexes.contains (index)) {
+                        backend_tokens.add (tokens[index]);
+                        consumed[index] = true;
+                    }
+                }
+                parse_tokens (backend_tokens.to_array (), new bool[backend_tokens.size]);
+                break;
+            }
+        }
+
+        internal int get_wrapper_end_index (string[] tokens, int wrapper_index, bool[] consumed) {
+            var last = tokens.length - 1;
+            if (last > wrapper_index && tokens[last] == "--") {
+                consumed[last] = true;
+                return last;
+            }
             return tokens.length;
         }
 
@@ -65,15 +100,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                     if (tokens[index] == candidate)
                         return index;
                 }
-            }
-
-            return -1;
-        }
-
-        internal int get_token_index (string[] tokens, string token) {
-            for (var index = 0; index < tokens.length; index++) {
-                if (tokens[index] == token)
-                    return index;
             }
 
             return -1;

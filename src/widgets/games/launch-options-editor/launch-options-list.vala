@@ -53,11 +53,32 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         public bool load_from_string (string launch_options) {
+            return load_from_parse_result (new LaunchCommandParser ().parse (launch_options));
+        }
+
+        internal bool load_from_parse_result (LaunchCommandParseResult parsed) {
             this.clear_all ();
-            var tokens = get_launch_option_tokens (launch_options);
+            var tokens = new string[parsed.tokens.size];
             var consumed = new bool[tokens.length];
-            foreach (var option in this._options)
-                option.parse_tokens (tokens, consumed);
+            for (var index = 0; index < tokens.length; index++) {
+                tokens[index] = parsed.tokens[index].is_opaque ? "" : parsed.tokens[index].value;
+                consumed[index] = parsed.tokens[index].is_opaque || index == parsed.custom_wrapper_index;
+            }
+            if (parsed.command_boundary_indexes.size == 1) {
+                foreach (var token in parsed.unrecognized_tokens) {
+                    if (token.kind == LaunchCommandUnrecognizedKind.UNKNOWN_TOKEN) {
+                        tokens[token.token_index] = "";
+                        consumed[token.token_index] = true;
+                    }
+                }
+            }
+            foreach (var option in this._options) {
+                var wrapper = option as Wrappers.Base;
+                if (wrapper != null)
+                    wrapper.load_from_parse_result (parsed, tokens, consumed);
+                else
+                    option.parse_tokens (tokens, consumed);
+            }
 
             foreach (var option in this._options) {
                 if (option.is_advanced && option.is_active ())

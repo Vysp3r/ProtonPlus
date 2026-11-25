@@ -58,4 +58,50 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             LaunchOptionInputFeedback.update (this, validation_label, read_arguments (out arguments));
         }
     }
+
+    class LaunchCustomWrapperField : Adw.EntryRow, ILaunchOption, ILaunchCommandSelectionSource {
+        public LaunchLineType line_type { get; set; default = LaunchLineType.WRAPPER; }
+        public bool is_advanced { get; set; }
+        public string option_id { get; set; default = LaunchCustomWrapperInput.OPTION_ID; }
+
+        public LaunchCustomWrapperField (LaunchOptionMetadata metadata) {
+            Object (title: metadata.title);
+            Utils.TextInputMetadataPolicy.apply (this, Utils.TextInputFieldKind.COMMAND);
+            var description = metadata.description;
+            tooltip_text = description;
+            changed.connect (() => {
+                var diagnostic = get_diagnostic ();
+                if (diagnostic == null)
+                    remove_css_class ("error");
+                else
+                    add_css_class ("error");
+                tooltip_text = diagnostic ?? description;
+                update_property (Gtk.AccessibleProperty.DESCRIPTION, tooltip_text, -1);
+            });
+        }
+
+        public void load_from_parse_result (LaunchCommandParseResult parsed) {
+            var index = parsed.custom_wrapper_index;
+            text = index >= 0 ? parsed.tokens[index].raw : "";
+        }
+
+        public LaunchCommandSelection? get_selection () {
+            string executable;
+            var diagnostic = LaunchCustomWrapperInput.read (text, out executable);
+            return diagnostic == null && executable != ""
+                ? new LaunchCommandSelection (option_id, { executable }, "", {}, true) : null;
+        }
+
+        public string? get_diagnostic () {
+            string executable;
+            return LaunchCustomWrapperInput.read (text, out executable);
+        }
+
+        public string get_invalid_value () { return text; }
+        public bool is_active () { return text.strip () != ""; }
+        public void clear () { text = ""; }
+        public void add_child (ILaunchOption child) {}
+        public void parse_tokens (string[] tokens, bool[] consumed) {}
+        public void append_command_segments (Gee.LinkedList<string> segments) {}
+    }
 }
