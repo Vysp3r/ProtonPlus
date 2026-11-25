@@ -77,19 +77,25 @@ namespace ProtonPlus.Models {
         }
 
         public async ReleaseCatalogSnapshot? load () {
+            return yield load_snapshot (true);
+        }
+
+        internal async ReleaseCatalogSnapshot? load_snapshot (bool migrate_legacy) {
             var cache_file = get_cache_file ();
             var legacy_cache_file = get_legacy_cache_file ();
             var loading_legacy_cache = false;
-
-            if (!FileUtils.test (cache_file, FileTest.EXISTS)) {
-                if (!FileUtils.test (legacy_cache_file, FileTest.EXISTS))
-                    return null;
-
-                cache_file = legacy_cache_file;
-                loading_legacy_cache = true;
+            string json;
+            try {
+                try {
+                    json = yield read_contents (cache_file);
+                } catch (IOError.NOT_FOUND error) {
+                    json = yield read_contents (legacy_cache_file);
+                    loading_legacy_cache = true;
+                }
+            } catch (Error error) {
+                return null;
             }
 
-            var json = Utils.Filesystem.get_file_content (cache_file);
             if (json == "")
                 return null;
 
@@ -117,7 +123,7 @@ namespace ProtonPlus.Models {
             if (releases_array.get_length () > 0 && releases.is_empty)
                 return null;
 
-            if (loading_legacy_cache || FileUtils.test (legacy_cache_file, FileTest.EXISTS))
+            if (migrate_legacy && (loading_legacy_cache || FileUtils.test (legacy_cache_file, FileTest.EXISTS)))
                 yield write_cache (json, true);
 
             return new ReleaseCatalogSnapshot (
@@ -126,6 +132,12 @@ namespace ProtonPlus.Models {
                 root_obj.get_boolean_member_with_default ("has_more", false),
                 root_obj.get_string_member_with_default ("last_updated", "")
             );
+        }
+
+        private async string read_contents (string path) throws Error {
+            uint8[] contents;
+            yield File.new_for_path (path).load_contents_async (null, out contents, null);
+            return Utils.bytes_to_string (contents);
         }
 
         private string get_cache_file () {

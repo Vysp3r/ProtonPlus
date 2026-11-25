@@ -3,9 +3,13 @@
 ## Manage tools
 
 1. Select your launcher, then open **Tools**.
-2. Choose a tool category, open a tool, and select a release or variant to install.
-3. Use the installed, used, and unused filters to review the tools you have.
-4. Open an installed release to update or remove it, visit its upstream page, or migrate games where supported.
+2. In **Browse**, scroll through the launcher's category sections. Expand a tool
+   to see its releases and choose a build where available.
+3. Switch to **Installed** to see each installed version in its category. Use
+   the inline **Update** button when a newer build is available. The row's
+   actions offer removal, upstream links, and game migration where supported.
+4. Select **Update Tools** to update eligible builds across all categories for
+   the selected launcher.
 
 The header shows download and update progress. You can cancel downloads there.
 ProtonPlus sends a desktop notification when an operation finishes while the

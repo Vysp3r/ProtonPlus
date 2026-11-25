@@ -3,11 +3,12 @@ namespace ProtonPlus.Widgets.Tools {
         Utils.ControllerActivationHandler, ReleaseRowJobSignalTarget {
         private enum ControllerFocusLane {
             ROW,
+            BUILD,
             PRIMARY_ACTION,
             MORE_ACTIONS
         }
 
-        public signal void changelog_requested (Services.InstallJob job);
+        public signal void changelog_requested (Services.InstallJob job, Models.Release release);
         public signal void games_requested (Services.InstallJob job);
         public signal void variant_selected ();
 
@@ -17,6 +18,10 @@ namespace ProtonPlus.Widgets.Tools {
         protected ReleaseRowRetryAction retry_action { get; private set; default = ReleaseRowRetryAction.NONE; }
 
         Gtk.Box input_box;
+        Gtk.Box build_control;
+        Gtk.DropDown build_picker;
+        Gee.List<Models.Variant> build_choices;
+        bool syncing_build_picker;
         Gtk.Button primary_button;
         Gtk.Button cancel_button;
         Gtk.Button progress_button;
@@ -36,7 +41,6 @@ namespace ProtonPlus.Widgets.Tools {
         SimpleAction open_folder_action;
         SimpleAction delete_action;
         SimpleAction migrate_action;
-        SimpleAction variant_action;
         weak Gtk.Widget? controller_up_target;
         weak Gtk.Widget? controller_row_up_target;
         weak Gtk.Widget? controller_action_up_target;
@@ -47,30 +51,41 @@ namespace ProtonPlus.Widgets.Tools {
         bool release_action_available;
         Models.InstalledToolEntry? installed_entry;
         bool release_details_available;
+        Models.Release? installed_release_details;
+        Models.Release? pending_installed_release_details;
+        bool show_tool_title;
+        bool show_inline_update;
+        bool update_checked;
+        string? checked_update_version;
         string? operation_error_message = null;
 
         public ReleaseRow (
             Services.InstallJob job,
             bool release_action_available = true,
             Models.InstalledToolEntry? installed_entry = null,
-            bool release_details_available = true
+            bool release_details_available = true,
+            bool show_tool_title = false,
+            Models.Release? installed_release_details = null
         ) {
             Object (
                 title: Markup.escape_text (installed_entry?.display_title ?? release_display_title (job)),
                 subtitle: release_display_timestamp (job),
-                subtitle_lines: 1,
-                title_lines: 1,
+                subtitle_lines: 0,
+                title_lines: 0,
                 activatable: true
             );
             this.job = job;
             this.release_action_available = release_action_available;
             this.installed_entry = installed_entry;
             this.release_details_available = release_details_available;
+            this.installed_release_details = installed_release_details;
+            this.show_tool_title = show_tool_title;
             add_css_class ("tools-release-row");
 
             activated.connect (activate_row);
 
             create_primary_button ();
+            create_build_picker ();
             create_progress_button ();
             create_cancel_button ();
             create_actions_menu ();
@@ -79,11 +94,12 @@ namespace ProtonPlus.Widgets.Tools {
             action_button_size_group.add_widget (primary_button);
             action_button_size_group.add_widget (actions_button);
 
-            input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) {
+            input_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 4) {
                 margin_end = 12,
                 valign = Gtk.Align.CENTER
             };
             input_box.add_css_class ("tools-release-row-input-box");
+            input_box.append (build_control);
             input_box.append (primary_button);
             input_box.append (progress_button);
             input_box.append (cancel_button);
@@ -104,6 +120,61 @@ namespace ProtonPlus.Widgets.Tools {
             primary_button.add_css_class ("flat");
             primary_button.add_css_class ("tools-release-install-button");
             primary_button.clicked.connect (primary_button_clicked);
+        }
+
+        void create_build_picker () {
+            var label = new Gtk.Label (_("Build")) {
+                xalign = 0,
+                css_classes = { "dim-label" }
+            };
+            build_picker = BuildDropdown.create ();
+            build_picker.notify["selected"].connect (build_selected);
+            build_control = new Gtk.Box (Gtk.Orientation.VERTICAL, 2) { valign = Gtk.Align.CENTER };
+            build_control.append (label);
+            build_control.append (build_picker);
+            load_build_choices ();
+        }
+
+        void load_build_choices () {
+            build_choices = new Gee.LinkedList<Models.Variant> ();
+            var provider = job.tool as Models.Tools.ProviderTool;
+            if (installed_entry == null && provider != null && provider.definition.has_release_variant_sets)
+                build_choices = Models.VariantSelector.available_variants (job.release, Globals.CPU_CAPABILITIES);
+            var names = new Gtk.StringList (null);
+            foreach (var build in build_choices)
+                names.append (Utils.safe_translate (build.name));
+
+            syncing_build_picker = true;
+            build_picker.model = names;
+            syncing_build_picker = false;
+        }
+
+        void refresh_build_picker (ReleaseRowPresentation presentation) {
+            build_control.visible = build_choices.size > 1 && !presentation.busy;
+            build_picker.sensitive = !action_request_in_progress;
+            var selected_index = Gtk.INVALID_LIST_POSITION;
+            for (var index = 0; index < build_choices.size; index++) {
+                if (build_choices[index].id == job.selected_variant_id) {
+                    selected_index = (uint) index;
+                    break;
+                }
+            }
+            syncing_build_picker = true;
+            build_picker.selected = selected_index;
+            syncing_build_picker = false;
+        }
+
+        void build_selected () {
+            if (syncing_build_picker || row_disposed || action_request_in_progress || is_busy_state (job.state))
+                return;
+            var build = Models.VariantSelector.variant_at_display_index (build_choices, (int) build_picker.selected);
+            if (build == null || build.id == job.selected_variant_id)
+                return;
+
+            job.set_selected_variant (build.name, build.resolved_asset (), build.id);
+            new Models.ToolVariantPreferences (Globals.SETTINGS).save (job.tool, build.name);
+            set_release_action_available (true);
+            variant_selected ();
         }
 
         void create_progress_button () {
@@ -184,11 +255,6 @@ namespace ProtonPlus.Widgets.Tools {
 
         void create_actions_menu () {
             var action_group = new SimpleActionGroup ();
-            variant_action = new SimpleAction.stateful (
-                "variant", VariantType.STRING, new Variant.string (job.selected_variant_id ?? "")
-            );
-            variant_action.activate.connect (variant_action_activated);
-            action_group.add_action (variant_action);
             migrate_action = register_action (action_group, "migrate");
             migrate_action.activate.connect (request_migration);
             changelog_action = register_action (action_group, "changelog");
@@ -224,28 +290,6 @@ namespace ProtonPlus.Widgets.Tools {
             actions_popover.map.connect (actions_popover_mapped);
             actions_button.set_popover (actions_popover);
             Window.register_popover_for_controller (actions_popover, actions_button);
-        }
-
-        Gee.LinkedList<Models.Variant> available_release_variants () {
-            var provider = job.tool as Models.Tools.ProviderTool;
-            if (installed_entry != null || provider == null || !provider.definition.has_release_variant_sets)
-                return new Gee.LinkedList<Models.Variant> ();
-            return Models.VariantSelector.available_variants (job.release, Globals.CPU_CAPABILITIES);
-        }
-
-        void variant_action_activated (Variant? parameter) {
-            if (row_disposed || action_request_in_progress || is_busy_state (job.state) || parameter == null)
-                return;
-            foreach (var variant in available_release_variants ()) {
-                if (variant.id != parameter.get_string ())
-                    continue;
-                job.set_selected_variant (variant.name, variant.resolved_asset (), variant.id);
-                new Models.ToolVariantPreferences (Globals.SETTINGS).save (job.tool, variant.name);
-                set_release_action_available (true);
-                actions_button.popdown ();
-                variant_selected ();
-                return;
-            }
         }
 
         void changelog_action_activated (Variant? parameter) {
@@ -306,7 +350,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         void request_release_details () {
             if (!row_disposed && release_details_available)
-                changelog_requested (job);
+                changelog_requested (job, installed_release_details ?? job.release);
         }
 
         void activate_row () {
@@ -321,10 +365,11 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void open_release_page_action_activated (Variant? parameter) {
+            var release = installed_release_details ?? job.release;
             if (action_request_in_progress || row_disposed ||
-                job.release.page_url == "")
+                release.page_url == "")
                 return;
-            Utils.System.open_uri (job.release.page_url);
+            Utils.System.open_uri (release.page_url);
         }
 
         void progress_button_clicked () {
@@ -353,7 +398,14 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void actions_popover_closed () {
-            if (!row_disposed && actions_button.get_mapped () &&
+            if (row_disposed)
+                return;
+            if (pending_installed_release_details != null) {
+                var release = (!) pending_installed_release_details;
+                pending_installed_release_details = null;
+                set_installed_release_details (release);
+            }
+            if (actions_button.get_mapped () &&
                 actions_button.is_visible () && actions_button.is_sensitive ())
                 actions_button.grab_focus ();
         }
@@ -415,6 +467,8 @@ namespace ProtonPlus.Widgets.Tools {
                 return false;
 
             var action = find_action_ancestor ((!) focused);
+            if (action == build_picker)
+                return ((Gtk.Widget) build_picker).activate ();
             if (action == actions_button) {
                 actions_button.popup ();
                 return true;
@@ -456,6 +510,8 @@ namespace ProtonPlus.Widgets.Tools {
 
         ControllerFocusLane controller_focus_lane (Gtk.Widget focused) {
             var action = find_action_ancestor (focused);
+            if (action == build_picker)
+                return ControllerFocusLane.BUILD;
             if (action == actions_button)
                 return ControllerFocusLane.MORE_ACTIONS;
             if (action != null)
@@ -465,6 +521,10 @@ namespace ProtonPlus.Widgets.Tools {
 
         bool focus_controller_lane (ControllerFocusLane lane) {
             switch (lane) {
+            case ControllerFocusLane.BUILD:
+                if (focus_controller_target (build_picker))
+                    return true;
+                break;
             case ControllerFocusLane.PRIMARY_ACTION:
                 var primary_action = find_focusable_primary_action ();
                 if (focus_controller_target (primary_action))
@@ -485,7 +545,7 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         Gtk.Widget? find_focusable_primary_action () {
-            var action = find_focusable_action (null, true);
+            var action = find_focusable_action (build_picker, true);
             return action != actions_button ? action : null;
         }
 
@@ -536,6 +596,8 @@ namespace ProtonPlus.Widgets.Tools {
             } else {
                 if (focused == this)
                     return grab_focus ();
+                if (action == primary_button && focus_controller_target (build_picker))
+                    return true;
                 if (action != null)
                     return grab_focus ();
             }
@@ -560,15 +622,16 @@ namespace ProtonPlus.Widgets.Tools {
                 child = forward
                     ? input_box.get_first_child ()
                     : input_box.get_last_child ();
-            else
-                child = forward
-                    ? current.get_next_sibling ()
-                    : current.get_prev_sibling ();
+            else {
+                var slot = current == build_picker ? (Gtk.Widget) build_control : current;
+                child = forward ? slot.get_next_sibling () : slot.get_prev_sibling ();
+            }
 
             while (child != null) {
-                if (child.get_mapped () && child.is_visible () &&
-                    child.is_sensitive () && child.get_can_focus ())
-                    return child;
+                var target = child == build_control ? (Gtk.Widget) build_picker : child;
+                if (target.get_mapped () && target.is_visible () &&
+                    target.is_sensitive () && target.get_can_focus ())
+                    return target;
                 child = forward
                     ? child.get_next_sibling ()
                     : child.get_prev_sibling ();
@@ -580,7 +643,7 @@ namespace ProtonPlus.Widgets.Tools {
             Gtk.Widget? current = focused;
             while (current != null && current != input_box) {
                 if (current.get_parent () == input_box)
-                    return current;
+                    return current == build_control ? (Gtk.Widget) build_picker : current;
                 current = current.get_parent ();
             }
             return null;
@@ -655,7 +718,7 @@ namespace ProtonPlus.Widgets.Tools {
         public void release_row_job_release_changed () {
             if (row_disposed)
                 return;
-            set_title (Markup.escape_text (installed_entry?.display_title ?? release_display_title (job)));
+            load_build_choices ();
             retry_action = ReleaseRowRetryAction.NONE;
             operation_error_message = null;
             actions_button.update_property (
@@ -697,13 +760,84 @@ namespace ProtonPlus.Widgets.Tools {
             );
         }
 
-        public static string release_display_title (Services.InstallJob job) {
-            if (job.steam_tinker_launch_context != null)
-                return _("Latest");
-            var title = job.release.title != "" ? job.release.title : job.title;
-            return job.mode == Services.InstallJob.Mode.LATEST
-                ? _("Latest")
-                : title;
+        public static string release_display_title (Services.InstallJob job, Models.Release? release_details = null) {
+            var context = job.steam_tinker_launch_context;
+            if (context != null)
+                return latest_title (context.local_date != "" ? context.local_date : context.latest_date);
+            var release = release_details ?? job.release;
+            if (job.mode == Services.InstallJob.Mode.LATEST)
+                return latest_title (release_version (release));
+            return release.title != "" ? release.title : job.title;
+        }
+
+        static string release_version (Models.Release release) {
+            return release.source_tag != "" ? release.source_tag : release.title;
+        }
+
+        static string latest_title (string version) {
+            return version != "" ? _("Latest (%s)").printf (version) : _("Latest");
+        }
+
+        string? find_available_latest_version (Models.InstalledToolEntry installed) {
+            if (update_checked)
+                return checked_update_version;
+            var catalog = job.tool.release_catalog;
+            var candidate = installed_entry == null ? job.release :
+                catalog != null && catalog.releases.size > 0 ? catalog.releases[0] : null;
+            if (candidate == null || (installed.tag == "" && installed.release_id == ""))
+                return null;
+            var version = release_version (candidate);
+            if (installed.tag == version || installed.tag == candidate.title ||
+                (installed.release_id != "" && installed.release_id == candidate.upstream_release_id))
+                return null;
+            var chosen = Models.VariantSelector.resolve_installation_variant (
+                candidate, installed.variant_id != "" ? installed.variant_id : job.selected_variant_id,
+                job.selected_variant_name, Globals.CPU_CAPABILITIES
+            ).variant;
+            return chosen?.resolved_asset ()?.is_archive () == true ? version : null;
+        }
+
+        string? install_explanation () {
+            switch (job.mode) {
+            case Services.InstallJob.Mode.LATEST:
+                return _("Eligible for ProtonPlus updates.");
+            case Services.InstallJob.Mode.TINKER_GAME:
+                return _("ProtonPlus updates this installation in place.");
+            case Services.InstallJob.Mode.STEAM_TINKER_LAUNCH:
+                return _("Update this installation from its Release Actions.");
+            default:
+                return (job.tool is Models.Tools.ProviderTool) ? _("Stays on this version.") : null;
+            }
+        }
+
+        internal void set_checked_update (Models.Release? release) {
+            update_checked = true;
+            checked_update_version = release != null ? release_version (release) : null;
+            refresh_presentation ();
+        }
+
+        internal bool needs_cached_release_details () {
+            return !row_disposed && installed_entry != null && !release_details_available;
+        }
+
+        internal void apply_cached_release_details (Gee.Iterable<Models.Release> releases) {
+            if (!needs_cached_release_details () || get_parent () == null)
+                return;
+            var inventory = job.tool.group.installed_tool_inventory;
+            var release = inventory.find_installed_release (job.tool, (!) installed_entry, releases);
+            if (release == null)
+                return;
+            // Keep the selected menu item intact if a disk read finishes while the menu is open.
+            if (actions_popover.get_visible ())
+                pending_installed_release_details = release;
+            else
+                set_installed_release_details (release);
+        }
+
+        void set_installed_release_details (Models.Release release) {
+            installed_release_details = release;
+            release_details_available = true;
+            refresh_presentation ();
         }
 
         public static string release_display_timestamp (Services.InstallJob job) {
@@ -751,6 +885,7 @@ namespace ProtonPlus.Widgets.Tools {
             cancel_button.set_visible (presentation.show_cancel);
             cancel_button.set_sensitive (presentation.cancel_enabled);
             update_cancel_accessibility ();
+            refresh_build_picker (presentation);
             rebuild_actions_menu (presentation);
             update_progress_pulse (presentation);
             refresh_status_text ();
@@ -795,12 +930,11 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void rebuild_actions_menu (ReleaseRowPresentation presentation) {
-            variant_action.set_enabled (!action_request_in_progress && !is_busy_state (job.state));
-            variant_action.set_state (new Variant.string (job.selected_variant_id ?? ""));
+            var release = installed_release_details ?? job.release;
             changelog_action.set_enabled (!action_request_in_progress);
             games_action.set_enabled (!action_request_in_progress);
             open_release_page_action.set_enabled (
-                release_details_available && job.release.page_url != "" && !action_request_in_progress
+                release_details_available && release.page_url != "" && !action_request_in_progress
             );
             update_action.set_enabled (
                 presentation.show_update_action && !action_request_in_progress
@@ -816,7 +950,7 @@ namespace ProtonPlus.Widgets.Tools {
             var details_section = new Menu ();
             if (release_details_available)
                 details_section.append (_("_Changelog"), "release.changelog");
-            if (release_details_available && job.release.page_url != "") {
+            if (release_details_available && release.page_url != "") {
                 details_section.append (
                     _("Open Release Page"), "release.open-release-page"
                 );
@@ -828,17 +962,6 @@ namespace ProtonPlus.Widgets.Tools {
             }
             if (details_section.get_n_items () > 0)
                 menu.append_section (null, details_section);
-
-            var variants = available_release_variants ();
-            if (variants.size > 1) {
-                var builds = new Menu ();
-                foreach (var variant in variants) {
-                    var item = new MenuItem (Utils.safe_translate (variant.name), null);
-                    item.set_action_and_target_value ("release.variant", new Variant.string (variant.id));
-                    builds.append_item (item);
-                }
-                menu.append_submenu (_("Build"), builds);
-            }
 
             var management_section = new Menu ();
             if (has_legacy_installation ()) {
@@ -891,10 +1014,50 @@ namespace ProtonPlus.Widgets.Tools {
             var details = new Gee.ArrayList<string> ();
             var presentation = current_presentation ();
             var provider = job.tool as Models.Tools.ProviderTool;
+            var title = installed_entry?.display_title ?? release_display_title (job);
+            string? available_version = null;
+            if (job.mode == Services.InstallJob.Mode.LATEST && provider != null) {
+                var inventory = job.tool.group.installed_tool_inventory;
+                var installed = installed_entry ?? inventory.get_installation_for_path (job.install_location);
+                if (installed != null && inventory.is_latest_installation (installed, provider)) {
+                    var installed_release = installed.tag == "" ? inventory.find_installed_release (job.tool, installed) : null;
+                    title = latest_title (installed_release != null ? release_version (installed_release) : installed.tag);
+                    available_version = find_available_latest_version (installed);
+                } else if (presentation.installed) {
+                    title = latest_title ("");
+                }
+            } else if (job.steam_tinker_launch_context != null) {
+                var context = (!) job.steam_tinker_launch_context;
+                if (context.local_date != "")
+                    title = latest_title (context.local_date);
+                if (presentation.update_available && context.latest_date != "" && context.local_date != context.latest_date)
+                    available_version = context.latest_date;
+            } else if (installed_entry != null && job.mode == Services.InstallJob.Mode.TINKER_GAME) {
+                var catalog = job.tool.release_catalog;
+                if (update_checked)
+                    available_version = checked_update_version;
+                else if (catalog != null && catalog.releases.size > 0 && installed_entry.release_id != "" &&
+                    installed_entry.release_id != catalog.releases[0].upstream_release_id)
+                    available_version = release_version (catalog.releases[0]);
+            }
+            if (show_tool_title && (job.mode == Services.InstallJob.Mode.LATEST || job.steam_tinker_launch_context != null))
+                title = _("%s — %s").printf (job.tool.title, title);
+            set_title (Markup.escape_text (title));
+            show_inline_update = show_tool_title && presentation.show_update_action &&
+                available_version != null && available_version != "";
+            if (show_inline_update) {
+                var label = _("Update to %s").printf ((!) available_version);
+                primary_button.label = _("Update");
+                primary_button.tooltip_text = label;
+                primary_button.update_property (Gtk.AccessibleProperty.LABEL, label, -1);
+                primary_button.visible = true;
+            }
+
             if (job.selected_variant_name != null &&
                 (installed_entry != null || (provider != null && provider.definition.has_release_variant_sets)))
                 details.add (Utils.safe_translate ((!) job.selected_variant_name));
-            if (installed_entry != null && installed_entry.tag != "" && installed_entry.tag != installed_entry.display_title)
+            if (installed_entry != null && job.mode != Services.InstallJob.Mode.LATEST &&
+                installed_entry.tag != "" && installed_entry.tag != installed_entry.display_title)
                 details.add (installed_entry.tag);
             if (installed_entry != null && installed_entry.directory_name != installed_entry.display_title &&
                 installed_entry.directory_name != installed_entry.tag)
@@ -911,7 +1074,7 @@ namespace ProtonPlus.Widgets.Tools {
             case Services.InstallJob.State.UPDATE_AVAILABLE:
                 if (presentation.installed)
                     details.add (_("Installed"));
-                if (installed_entry == null)
+                if (installed_entry == null && available_version == null)
                     details.add (_("Update available"));
                 break;
             case Services.InstallJob.State.UP_TO_DATE:
@@ -933,6 +1096,8 @@ namespace ProtonPlus.Widgets.Tools {
 
             if (presentation.unavailable)
                 details.add (_("Unavailable for the selected variant"));
+            if (available_version != null && available_version != "")
+                details.add (_("Update available: %s").printf (available_version));
 
             var current_usage_count = usage_count ();
             if (presentation.in_use) {
@@ -943,16 +1108,20 @@ namespace ProtonPlus.Widgets.Tools {
 
             var status = string.joinv (" · ", details.to_array ());
             var date = release_display_timestamp (job);
-            set_subtitle (Markup.escape_text (
-                date != "" && status != ""
-                    ? "%s · %s".printf (date, status)
-                    : date != "" ? date : status
-            ));
+            var subtitle = date != "" && status != "" ? "%s · %s".printf (date, status)
+                : date != "" ? date : status;
+            if (presentation.primary_action == ReleaseRowPrimaryAction.INSTALL ||
+                presentation.primary_action == ReleaseRowPrimaryAction.RETRY) {
+                var explanation = install_explanation ();
+                if (explanation != null)
+                    subtitle = subtitle != "" ? "%s\n%s".printf (subtitle, explanation) : explanation;
+            }
+            set_subtitle (Markup.escape_text (subtitle));
             set_tooltip_text (operation_error_message);
             update_property (
                 Gtk.AccessibleProperty.DESCRIPTION,
-                status != ""
-                    ? (release_details_available ? _("%s. Open Release Details") : _("%s. Open Tool Actions")).printf (status)
+                subtitle != ""
+                    ? (release_details_available ? _("%s. Open Release Details") : _("%s. Open Tool Actions")).printf (subtitle)
                     : (release_details_available ? _("Open Release Details") : _("Tool Actions")),
                 -1
             );
@@ -1064,6 +1233,10 @@ namespace ProtonPlus.Widgets.Tools {
         void primary_button_clicked () {
             if (action_request_in_progress || row_disposed)
                 return;
+            if (show_inline_update) {
+                request_update ();
+                return;
+            }
             job.refresh_state ();
             switch (current_presentation ().primary_action) {
             case ReleaseRowPrimaryAction.INSTALL:
@@ -1223,7 +1396,7 @@ namespace ProtonPlus.Widgets.Tools {
 
         public void refresh_usage_pill () {
             if (!row_disposed)
-                refresh_status_text ();
+                refresh_presentation ();
         }
 
         bool is_busy_state (Services.InstallJob.State state) {

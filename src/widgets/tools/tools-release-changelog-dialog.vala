@@ -1,17 +1,16 @@
 namespace ProtonPlus.Widgets.Tools {
     public class ReleaseChangelogDialog : Adw.Dialog {
-        public ReleaseChangelogDialog (Services.InstallJob job) {
+        public ReleaseChangelogDialog (Services.InstallJob job, Models.Release release) {
             Object (title: _("Changelog for %s").printf (job.title));
 
             var window_title = new Adw.WindowTitle (
-                _("Changelog"), ReleaseRow.release_display_title (job)
+                _("Changelog"), ReleaseRow.release_display_title (job, release)
             );
             var header_bar = new Adw.HeaderBar ();
             header_bar.set_title_widget (window_title);
 
             Gtk.Widget content;
-            if (job.release.description == null ||
-                job.release.description.strip () == "") {
+            if (release.description == null || release.description.strip () == "") {
                 content = new Adw.StatusPage () {
                     title = _("No Changelog Available"),
                     icon_name = "help-browser-symbolic",
@@ -19,7 +18,7 @@ namespace ProtonPlus.Widgets.Tools {
                 };
             } else {
                 var changelog = new ReleaseChangelog ();
-                changelog.set_markdown (job.release.description);
+                changelog.set_markdown (release.description);
                 content = changelog;
             }
 

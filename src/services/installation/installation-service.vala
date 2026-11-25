@@ -1,11 +1,13 @@
 namespace ProtonPlus.Services {
     public class AvailableToolUpdate : Object {
         public string installed_version { get; private set; }
+        public string install_location { get; private set; }
         public Models.Release release { get; private set; }
         public string variant_id { get; private set; }
 
         internal AvailableToolUpdate (string installed_version, InstallJob job) {
             this.installed_version = installed_version;
+            install_location = job.install_location;
             release = job.release;
             variant_id = job.selected_variant_identity ();
         }

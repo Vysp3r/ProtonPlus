@@ -394,8 +394,12 @@ commands.
 
 ### Tools presentation
 
-`tools-page.vala` coordinates the Tools view. Releases expand inline in
-`tools-releases-box.vala`, where the actions menu stays with the release toolbar.
+`tools-page.vala` presents the selected launcher's categories in one scrollable
+view. Browse groups available tools by category, while Installed shows build
+rows in categories with installations. The shared toolbar updates eligible
+builds across the selected launcher. `tools-group-box.vala` displays each
+category section and attaches `tools-releases-box.vala` to the expanded tool
+row. The tool row carries the release toolbar's actions menu.
 Expansion and request generations each have one owner. Successful loads and
 refreshes share completion logic for inventory refresh and row cleanup.
 `ToolVariantPreferences` owns saved variants and legacy-key fallback.

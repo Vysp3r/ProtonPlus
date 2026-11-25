@@ -155,14 +155,15 @@ namespace ProtonPlus.Models {
             return owner;
         }
 
-        public Release? find_installed_release (Tool tool, InstalledToolEntry entry) {
-            var catalog = tool.release_catalog;
-            if (catalog == null)
+        public Release? find_installed_release (Tool tool, InstalledToolEntry entry,
+            Gee.Iterable<Release>? releases = null) {
+            var candidates = releases ?? tool.release_catalog?.releases;
+            if (candidates == null)
                 return null;
 
             var provider = tool as Tools.ProviderTool;
             Release? match = null;
-            foreach (var release in catalog.releases) {
+            foreach (var release in candidates) {
                 bool matched;
                 if (entry.release_id != "")
                     matched = entry.release_id == release.upstream_release_id;
@@ -214,13 +215,18 @@ namespace ProtonPlus.Models {
         // installation target.  This deliberately performs no discovery or
         // manifest parsing.
         public string? get_usage_identifier_for_path (string path) {
+            var entry = get_installation_for_path (path);
+            return entry != null ? usage_identifier_for (entry) : null;
+        }
+
+        public InstalledToolEntry? get_installation_for_path (string path) {
             if (path == "")
                 return null;
 
             var target_path = Filename.canonicalize (path, null);
             foreach (var entry in entries) {
                 if (Filename.canonicalize (entry.path, null) == target_path)
-                    return usage_identifier_for (entry);
+                    return entry;
             }
             return null;
         }
