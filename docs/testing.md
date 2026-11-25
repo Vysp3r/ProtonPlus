@@ -173,6 +173,14 @@ At minimum, consider:
 If a real GUI, launcher, packaging environment, or hardware variant was not
 available, say so. Compilation is not a substitute for that evidence.
 
+### Tools category layout
+
+Run **Tools presentation** to exercise Browse and Installed with single- and
+multi-category launcher fixtures. The suite checks section order, toolbar
+wrapping, installed versions, inline updates, the empty state, and keyboard
+and controller focus across sections. Set `PROTONPLUS_UI_SNAPSHOTS` to an
+existing directory to capture the Browse and Installed views.
+
 ### External Games integrations
 
 Run **Games presentation** and the focused GLib suites in the test map.

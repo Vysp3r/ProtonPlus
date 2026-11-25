@@ -11,7 +11,7 @@
       Install and update compatibility tools for Steam and other Linux game launchers. Browse installed games, launch them with their saved settings, and preview Steam launch options before applying them.
     </p>
     <ul>
-      <li>Manage Proton, Wine, DXVK, VKD3D, and related compatibility tools</li>
+      <li>Browse Proton, Wine, DXVK, VKD3D, and related tools by category and view installed builds for the selected launcher</li>
       <li>Manage tools for Steam, Faugus Launcher, Lutris, Heroic Games Launcher, Bottles, and WineZGUI</li>
       <li>Manage Proton builds and game profiles for Proton-Autogen</li>
       <li>Edit compatibility tools and launch options for one or more Steam games</li>
