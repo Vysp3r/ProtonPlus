@@ -149,15 +149,14 @@ namespace ProtonPlus.Widgets.Tools {
             toolbar_content = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
             toolbar_content.append (view_options);
             toolbar_content.append (refresh_button);
-            toolbar_content.notify["orientation"].connect (update_section_navigation);
             refresh_button.notify["sensitive"].connect (update_section_navigation);
             toolbar = new Adw.BreakpointBin () { child = toolbar_content };
             var wrap = new Adw.Breakpoint (new Adw.BreakpointCondition.length (
                 Adw.BreakpointConditionLengthType.MAX_WIDTH, 0, Adw.LengthUnit.PX
             ));
-            var vertical = Value (typeof (Gtk.Orientation));
-            vertical.set_enum (Gtk.Orientation.VERTICAL);
-            wrap.add_setter (toolbar_content, "orientation", vertical);
+            // Breakpoint setters on the bin can crash during teardown with libadwaita 1.7.
+            wrap.apply.connect (() => set_toolbar_orientation (Gtk.Orientation.VERTICAL));
+            wrap.unapply.connect (() => set_toolbar_orientation (Gtk.Orientation.HORIZONTAL));
             toolbar_wrap = wrap;
             toolbar.add_breakpoint ((owned) wrap);
             toolbar.map.connect (update_toolbar_breakpoint);
@@ -244,21 +243,27 @@ namespace ProtonPlus.Widgets.Tools {
         }
 
         void update_toolbar_breakpoint () {
-            int options_width, update_width, options_height, update_height;
+            int options_width, update_width;
             view_options.measure (Gtk.Orientation.HORIZONTAL, -1, out options_width, null, null, null);
             refresh_button.measure (Gtk.Orientation.HORIZONTAL, -1, out update_width, null, null, null);
-            view_options.measure (Gtk.Orientation.VERTICAL, -1, out options_height, null, null, null);
-            refresh_button.measure (Gtk.Orientation.VERTICAL, -1, out update_height, null, null, null);
-            var gap = toolbar_content.spacing;
             toolbar.width_request = int.max (options_width, update_width);
-            toolbar.height_request = int.max (options_height, update_height);
             toolbar_wrap.condition = new Adw.BreakpointCondition.length (
-                Adw.BreakpointConditionLengthType.MAX_WIDTH, options_width + update_width + gap - 1,
+                Adw.BreakpointConditionLengthType.MAX_WIDTH, options_width + update_width + toolbar_content.spacing - 1,
                 Adw.LengthUnit.PX
             );
-            var height = Value (typeof (int));
-            height.set_int (options_height + update_height + gap);
-            toolbar_wrap.add_setter (toolbar, "height-request", height);
+            update_toolbar_height ();
+        }
+
+        void set_toolbar_orientation (Gtk.Orientation orientation) {
+            toolbar_content.orientation = orientation;
+            update_toolbar_height ();
+            update_section_navigation ();
+        }
+
+        void update_toolbar_height () {
+            int height;
+            toolbar_content.measure (Gtk.Orientation.VERTICAL, -1, out height, null, null, null);
+            toolbar.height_request = height;
         }
 
         Gtk.Widget? first_section_target () {
