@@ -704,6 +704,8 @@ void check_tools_views_and_latest (string root) {
     var dxvk_row = dxvk_box.get_section_focus () as Adw.ExpanderRow;
     assert (proton_row != null && wine_row != null && dxvk_row != null);
     assert (!proton_row.expanded && !wine_row.expanded && !dxvk_row.expanded);
+    settle ();
+    snapshot (window, "tools-browse-categories");
     assert (page.controller_focus_direction (update_all, Utils.ControllerNavigationDirection.DOWN));
     assert (focus_is_within (proton_row));
     assert (proton_box.controller_focus_direction (proton_row, Utils.ControllerNavigationDirection.DOWN));
@@ -713,7 +715,6 @@ void check_tools_views_and_latest (string root) {
     assert (dxvk_box.controller_focus_direction (dxvk_row, Utils.ControllerNavigationDirection.UP));
     assert (focus_is_within (wine_row));
     check_tab_between_sections (page, proton_row, wine_row);
-    snapshot (window, "tools-browse-categories");
 
     // Force the responsive layout at a width below the controls' combined minimum.
     var viewport = (Adw.Clamp) window.content;
@@ -761,12 +762,12 @@ void check_tools_views_and_latest (string root) {
     var proton_build = rows[0];
     var dxvk_build = dxvk_box.get_section_focus () as Widgets.Tools.ReleaseRow;
     assert (dxvk_build != null && dxvk_build.get_mapped () && dxvk_build.subtitle.contains ("2.0"));
+    snapshot (window, "tools-installed-categories");
     assert (proton_build.controller_focus_direction (proton_build, Utils.ControllerNavigationDirection.DOWN));
     assert (focus_is_within (dxvk_build));
     assert (dxvk_build.controller_focus_direction (dxvk_build, Utils.ControllerNavigationDirection.UP));
     assert (focus_is_within (proton_build));
     check_tab_between_sections (page, proton_build, dxvk_build);
-    snapshot (window, "tools-installed-categories");
 
     browse.active = true;
     assert (proton_box.expand_tool (tool));
