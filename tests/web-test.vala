@@ -9,6 +9,11 @@ namespace AppTests.WebTest {
             var name = scenario;
             Test.add_data_func ("/web/persistent/" + name, () => { run_persistent_test (name); });
         }
+        foreach (var scenario in new string[] { "tls-read-resume", "tls-eof-resume", "not-connected-resume" }) {
+            var name = scenario;
+            Test.add_data_func ("/web/download-" + name, () => { run_recovery_test (name); });
+            Test.add_data_func ("/web/persistent/" + name, () => { run_persistent_test (name); });
+        }
         foreach (var scenario in new string[] { "valid", "stale", "malformed", "missing-body", "missing-metadata", "size", "identity", "weak", "encoding", "version", "symlink", "concurrent", "expiry", "clear", "count-limit", "byte-limit" }) {
             var name = scenario;
             Test.add_data_func ("/web/partial-cache/" + name, () => { run_cache_test (name); });
@@ -127,8 +132,22 @@ namespace AppTests.WebTest {
         }
     }
 
+    private Error? get_body_read_error (string scenario) {
+        switch (scenario) {
+            case "tls-read-resume":
+                return new TlsError.MISC ("Interrupted TLS body read");
+            case "tls-eof-resume":
+                return new TlsError.EOF ("TLS connection closed unexpectedly");
+            case "not-connected-resume":
+                return new IOError.NOT_CONNECTED ("Socket is no longer connected");
+            default:
+                return null;
+        }
+    }
+
     private async void recovery_test_async (string scenario) {
         string payload = "complete archive";
+        var policy = new ProtonPlus.Utils.Web.DownloadPolicy ();
         var server = new Soup.Server ("server-header", "ProtonPlus Test", null);
         int requests = 0;
         int64 first_request_at = 0;
@@ -229,7 +248,14 @@ namespace AppTests.WebTest {
         }
         var destination = Path.build_filename (root, "archive");
         string? error_message;
-        var downloaded = yield ProtonPlus.Utils.Web.download (
+        var body_read_error = get_body_read_error (scenario);
+        if (body_read_error != null) {
+            policy.before_body_read = (offset) => {
+                if (requests == 1 && offset == 5)
+                    throw body_read_error.copy ();
+            };
+        }
+        var downloaded = yield ProtonPlus.Utils.Web.download_with_recovery (
             "%s%s".printf (server.get_uris ().data.to_string (), scenario == "redirect" ? "redirect" : "archive"), destination, cancellable,
             (percent, progress, speed, remaining) => {
                 if (check_rate && percent && progress == 100) {
@@ -259,7 +285,7 @@ namespace AppTests.WebTest {
                             });
                     }
                 }
-            }, out error_message
+            }, null, null, policy, out error_message
         );
         manager.speed_limit_bps = previous_limit;
         if (check_rate)
@@ -293,7 +319,7 @@ namespace AppTests.WebTest {
             assert (error_message == null);
             assert (requests == (scenario == "unknown-size" ? 1 : scenario == "repeated-drop" || scenario == "range-rejected" ? 3 : 2));
         }
-        if (scenario == "resume" || scenario == "repeated-drop")
+        if (scenario == "resume" || scenario == "repeated-drop" || body_read_error != null)
             assert (saw_resume_progress);
         if (downloaded || scenario == "existing-file") {
             string contents;
@@ -416,12 +442,21 @@ namespace AppTests.WebTest {
             var url = server.get_uris ().data.to_string () + (scenario == "redirect" ? "source" : "asset");
             var destination = Path.build_filename (root, "archive");
             var policy = new ProtonPlus.Utils.Web.DownloadPolicy () { max_attempts = 1 };
+            var body_read_error = get_body_read_error (scenario);
+            if (body_read_error != null) {
+                policy.before_body_read = (offset) => {
+                    if (requests == 1 && offset == 5)
+                        throw body_read_error.copy ();
+                };
+            }
             ProtonPlus.Utils.PartialDownloadCache.Lease? lease = ProtonPlus.Utils.PartialDownloadCache.acquire (cache, url);
             var partial_path = lease.path;
             metadata_during_transfer = Path.build_filename (Path.get_dirname (partial_path), "metadata");
             string? error;
             assert (!yield ProtonPlus.Utils.Web.download_with_recovery (url, destination, null, null, null, lease, policy, out error));
             assert (error != null);
+            if (body_read_error != null)
+                assert (error == body_read_error.message);
             assert (FileUtils.test (partial_path, FileTest.IS_REGULAR));
             if (lease != null) lease.release ();
             lease = null;
@@ -457,7 +492,8 @@ namespace AppTests.WebTest {
                             Timeout.add (200, () => { cancel.cancel (); return Source.REMOVE; });
                     }
                 }, lease, policy, out error);
-            bool success = scenario == "resume" || scenario == "ignored" || scenario == "changed" || scenario == "416" || scenario == "redirect";
+            bool success = body_read_error != null || scenario == "resume" || scenario == "ignored" ||
+                scenario == "changed" || scenario == "416" || scenario == "redirect";
             assert (result == success);
             assert (reconnected);
             if (success) {
