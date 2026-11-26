@@ -58,8 +58,11 @@ namespace ProtonPlus.Models.Games {
                 if (!probed_custom && !probe_failed)
                     return title;
             }
-            var diagnostic = probe_failed ? _("Runner probe failed") :
-                choices != null ? Services.LutrisConfigurationService.runner_diagnostic (record, tool) : null;
+            string? diagnostic = null;
+            if (probe_failed)
+                diagnostic = _("Runner probe failed");
+            else if (choices != null)
+                diagnostic = Services.LutrisConfigurationService.runner_diagnostic (record, tool);
             return diagnostic == null ? title : _("%s (%s)").printf (title, diagnostic);
         }
 

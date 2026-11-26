@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-26 18:41-0500\n"
+"POT-Creation-Date: 2026-11-26 18:52-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2683,11 +2683,11 @@ msgstr ""
 msgid "Custom"
 msgstr ""
 
-#: src/models/games/lutris.vala:61
+#: src/models/games/lutris.vala:63
 msgid "Runner probe failed"
 msgstr ""
 
-#: src/models/games/lutris.vala:63
+#: src/models/games/lutris.vala:66
 #: src/services/installation/download-failure.vala:44
 #: src/services/installation/standard-archive-workflow.vala:493
 #: src/widgets/games/games-collection.vala:26
@@ -2696,12 +2696,12 @@ msgstr ""
 msgid "%s (%s)"
 msgstr ""
 
-#: src/models/games/lutris.vala:90
+#: src/models/games/lutris.vala:93
 #, c-format
 msgid "Runner probe failed: %s"
 msgstr ""
 
-#: src/models/games/lutris.vala:105
+#: src/models/games/lutris.vala:108
 #, c-format
 msgid "Inherit Lutris default (%s)"
 msgstr ""
