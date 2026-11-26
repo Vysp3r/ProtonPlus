@@ -65,7 +65,7 @@ namespace ProtonPlus.LaunchOptions {
         public LaunchOptionCapability capability { get; construct; }
         public string[] keys { get; construct; }
         public string? option_id { get; construct; }
-        public string[] binaries { get; construct; }
+        public string[] binaries { get; private set; default = {}; }
         public string? source_path { get; construct; }
         public string? executable_path { get; construct; }
         public string? required_directory { get; construct; }
@@ -76,9 +76,11 @@ namespace ProtonPlus.LaunchOptions {
             LaunchOptionCapability capability, string key, string option_id = "", string[] binaries = {},
             string? required_directory = null
         ) {
-            Object (capability: capability, option_id: option_id, binaries: binaries, source_path: "proton",
+            Object (capability: capability, option_id: option_id, source_path: "proton",
                 required_directory: required_directory, requires_proton: true,
                 keys: option_id == "" ? new string[] { key } : LaunchOptionCatalog.build_environment_keys (option_id));
+            // A GObject string-vector property expects a NULL sentinel. Copy by the Vala array length.
+            this.binaries = binaries;
         }
         public LaunchOptionToolFeatureRule.for_script (
             LaunchOptionCapability capability, string key, string source_path, bool requires_proton = true, bool integration_table = false

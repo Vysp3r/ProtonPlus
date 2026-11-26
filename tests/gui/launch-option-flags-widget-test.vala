@@ -687,10 +687,12 @@ void check_command_preview_height () {
     assert (label != null);
 
     label.set_markup (LaunchOptionsList.build_command_preview_markup ("game-performance %command%"));
-    int label_height, preview_height;
+    int label_height, scrollbar_height, preview_height;
     label.measure (Gtk.Orientation.VERTICAL, 360, null, out label_height, null, null);
+    scroller.get_vscrollbar ().measure (Gtk.Orientation.VERTICAL, -1, null, out scrollbar_height, null, null);
     scroller.measure (Gtk.Orientation.VERTICAL, 360, null, out preview_height, null, null);
-    assert (preview_height == label_height);
+    assert (preview_height == int.max (label_height, scrollbar_height)
+        && preview_height < scroller.max_content_height);
 
     label.set_text (string.nfill (1500, 'x'));
     label.measure (Gtk.Orientation.VERTICAL, 360, null, out label_height, null, null);

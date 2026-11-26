@@ -16,7 +16,7 @@ foreach gui_test : [
     {
         'target': 'launch-option-flags-widget-test',
         'name': 'Launch option flag widgets',
-        'environment': ['GSK_RENDERER=cairo'],
+        'environment': [],
     },
     {
         'target': 'tools-presentation-test',
