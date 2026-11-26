@@ -4,11 +4,14 @@ namespace ProtonPlus.Utils {
         const int PROXY_MODE_MANUAL = 1;
         public enum DownloadPhase { DOWNLOADING, WAITING, RECONNECTING }
         public delegate void recovery_callback (DownloadPhase phase, int attempt, int delay_seconds);
+        public delegate void before_body_read_callback (int64 offset) throws Error;
 
         public class DownloadPolicy : Object {
             public int max_attempts { get; set; default = 32; }
             public int recovery_seconds { get; set; default = 600; }
             public int backoff_cap_seconds { get; set; default = 30; }
+            // A per-download fault injection seam for the recovery fixtures.
+            public before_body_read_callback? before_body_read;
         }
 
         private static Soup.Session? download_session;
@@ -240,9 +243,10 @@ namespace ProtonPlus.Utils {
 
         private static bool is_transient_network_error (Error error) {
             return error is IOError.TIMED_OUT || error is IOError.CONNECTION_CLOSED ||
-                error is IOError.PARTIAL_INPUT || error is IOError.HOST_UNREACHABLE ||
-                error is IOError.NETWORK_UNREACHABLE || error is IOError.CONNECTION_REFUSED ||
-                error is IOError.HOST_NOT_FOUND || error is ResolverError.TEMPORARY_FAILURE;
+                error is IOError.NOT_CONNECTED || error is IOError.PARTIAL_INPUT ||
+                error is IOError.HOST_UNREACHABLE || error is IOError.NETWORK_UNREACHABLE ||
+                error is IOError.CONNECTION_REFUSED || error is IOError.HOST_NOT_FOUND ||
+                error is ResolverError.TEMPORARY_FAILURE;
         }
 
         private static int retry_after_seconds (Soup.MessageHeaders headers) {
@@ -300,6 +304,7 @@ namespace ProtonPlus.Utils {
             progress_callback? progress_callback,
             recovery_callback? recovery,
             int attempt,
+            before_body_read_callback? before_body_read,
             out string? error_message
         ) throws Error {
             error_message = null;
@@ -411,9 +416,12 @@ namespace ProtonPlus.Utils {
                     int64 transfer_started_us = get_monotonic_time ();
                     Bytes chunk;
                     try {
+                        if (before_body_read != null)
+                            before_body_read (state.offset);
                         chunk = yield input_stream.read_bytes_async (chunk_size, Priority.DEFAULT, cancellable);
                     } catch (Error e) {
-                        state.retryable = is_transient_network_error (e);
+                        // GIO reports TLS record decoding failures as MISC and abrupt closes as EOF.
+                        state.retryable = is_transient_network_error (e) || e is TlsError.MISC || e is TlsError.EOF;
                         throw e;
                     }
 
@@ -530,7 +538,7 @@ namespace ProtonPlus.Utils {
                     retain = false;
                     try {
                         succeeded = yield download_once (url, file, state, transfer_cancel, progress_callback,
-                                                        recovery, attempt, out error_message);
+                                                        recovery, attempt, limits.before_body_read, out error_message);
                         if (succeeded && partial != null) {
                             // The workflow still validates size/digest and extraction before publication.
                             yield file.move_async (File.new_for_path (path), FileCopyFlags.NONE, Priority.DEFAULT, transfer_cancel, null);
