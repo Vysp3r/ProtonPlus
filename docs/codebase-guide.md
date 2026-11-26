@@ -233,9 +233,11 @@ expired redirected URL is never persisted as an asset identity.
 - Backoff grows over delays of 1, 2, 4, 8, 16, and 30 seconds. Numeric or
   HTTP-date `Retry-After` can extend the wait. A wait beyond the deadline ends
   the operation.
-- Transient socket or DNS errors and HTTP 408, 429, 500, 502, 503, and 504
-  are recoverable. Other HTTP statuses, TLS, filesystem, and validation
-  failures are terminal.
+- Transient socket or DNS errors (including `G_IO_ERROR_NOT_CONNECTED`), HTTP
+  408, 429, 500, 502, 503, and 504, and `G_TLS_ERROR_MISC` or `G_TLS_ERROR_EOF`
+  while reading an accepted download body are recoverable.
+  TLS errors during request setup, other HTTP statuses, filesystem failures,
+  and validation failures are terminal.
 
 #### Progress
 
