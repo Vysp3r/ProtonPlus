@@ -632,8 +632,14 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 }
                 var backend_reason = backend_available || eligibility.reason != "" ? ""
                     : _("Select %s as the launch backend to edit this option.").printf (metadata.subsection);
-                var detail = diagnostic ?? (incompatible && checking_tool_capabilities
-                    ? _("Checking compatibility tool support…") : presentations.describe (metadata, eligibility, backend_reason));
+                // Vala 0.56.18 frees the fallback too soon when ?? wraps a string conditional.
+                string detail;
+                if (diagnostic != null)
+                    detail = diagnostic;
+                else if (incompatible && checking_tool_capabilities)
+                    detail = _("Checking compatibility tool support…");
+                else
+                    detail = presentations.describe (metadata, eligibility, backend_reason);
                 if (control != null) {
                     control.eligibility = eligibility;
                     control.apply_metadata (detail);
