@@ -7,6 +7,10 @@ namespace ProtonPlus.Models {
         // physical storage location and may intentionally be shared.
         public string tool_target_family_id { get; private set; }
         public string tool_target_id { get; private set; }
+        internal Services.LutrisConfigurationService[] lutris_libraries = {};
+        internal Gee.Map<string, SteamRestartTarget> shared_steam_targets =
+            new Gee.HashMap<string, SteamRestartTarget> ();
+        internal Gee.Set<string> shared_tool_roots = new Gee.HashSet<string> ();
         public string title;
         public string icon_path;
         public string directory;
@@ -147,14 +151,24 @@ namespace ProtonPlus.Models {
             };
         }
 
+        internal static async Launcher[] detect_candidates_async () {
+            Launcher[] candidates = {};
+            SourceFunc resume = detect_candidates_async.callback;
+            new Thread<void> ("launcher-detection", () => {
+                candidates = detect_candidates ();
+                Idle.add ((owned) resume);
+            });
+            yield;
+            return candidates;
+        }
+
         public static async bool get_all (bool read_only, out Gee.LinkedList<Launcher> launchers) {
             var _launchers = new Gee.LinkedList<Launcher> ();
             var definitions = new ProviderRegistry ();
 
-            foreach (var launcher in detect_candidates ()) {
-                if (launcher.installed) {
+            foreach (var launcher in yield detect_candidates_async ()) {
+                if (launcher.installed)
                     _launchers.add (launcher);
-                }
             }
 
             launchers = (owned) _launchers;
@@ -163,12 +177,12 @@ namespace ProtonPlus.Models {
                 return true;
 
             if (read_only)
-                return initialize_launcher_groups (launchers, definitions);
+                return yield initialize_launcher_groups (launchers, definitions);
             return yield initialize_launchers (launchers, definitions);
         }
 
         public static async bool initialize_launchers (Gee.LinkedList<Launcher> launchers, ProviderRegistry definitions) {
-            if (!initialize_launcher_groups (launchers, definitions))
+            if (!yield initialize_launcher_groups (launchers, definitions))
                 return false;
 
             foreach (var launcher in launchers) {
@@ -192,7 +206,7 @@ namespace ProtonPlus.Models {
             return true;
         }
 
-        private static bool initialize_launcher_groups (
+        private static async bool initialize_launcher_groups (
             Gee.LinkedList<Launcher> launchers, ProviderRegistry definitions
         ) {
             foreach (var launcher in launchers) {
@@ -239,7 +253,46 @@ namespace ProtonPlus.Models {
                 launcher.groups = launcher_groups.to_array ();
             }
 
+            SourceFunc resume = initialize_launcher_groups.callback;
+            new Thread<void> ("launcher-tool-storage", () => {
+                bind_shared_tool_storage (launchers);
+                Idle.add ((owned) resume);
+            });
+            yield;
             return true;
+        }
+
+        internal static string physical_tool_path (string path) {
+            return Posix.realpath (path) ?? Filename.canonicalize (path);
+        }
+
+        private static void bind_shared_tool_storage (Gee.LinkedList<Launcher> launchers) {
+            Services.LutrisConfigurationService[] libraries = {};
+            foreach (var launcher in launchers) {
+                var lutris = launcher as Launchers.Lutris;
+                if (lutris != null)
+                    libraries += lutris.configuration;
+            }
+            if (libraries.length == 0)
+                return;
+
+            foreach (var launcher in launchers) {
+                launcher.lutris_libraries = libraries;
+                foreach (var other in launchers) {
+                    if (launcher.tool_target_id == other.tool_target_id)
+                        continue;
+                    var steam = other.get_steam_restart_target ();
+                    foreach (var group in other.groups) {
+                        foreach (var directory in other.get_managed_tool_directories (group)) {
+                            var root = physical_tool_path (directory);
+                            if (steam != null)
+                                launcher.shared_steam_targets.set (root, steam);
+                            if (launcher is Launchers.Lutris || other is Launchers.Lutris)
+                                launcher.shared_tool_roots.add (root);
+                        }
+                    }
+                }
+            }
         }
 
         private static Category[]? get_categories_for_launcher (Launcher launcher) {

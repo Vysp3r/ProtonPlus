@@ -29,8 +29,7 @@ finish-args:
   - --filesystem=~/.var/app/com.heroicgameslauncher.hgl/config/heroic
   - --filesystem=~/.var/app/com.usebottles.bottles/data/bottles
   - --filesystem=~/.var/app/com.valvesoftware.Steam/data/Steam
-  - --filesystem=~/.var/app/net.lutris.Lutris/data/lutris
-  - --filesystem=~/.var/app/net.lutris.Lutris/config/lutris
+  - --filesystem=~/.var/app/net.lutris.Lutris
   - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/config/faugus-launcher
   - --filesystem=~/.var/app/io.github.Faugus.faugus-launcher/data/faugus-launcher
   - --filesystem=~/.var/app/io.github.fastrizwaan.WineZGUI/data/winezgui

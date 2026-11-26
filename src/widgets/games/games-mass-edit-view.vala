@@ -200,7 +200,7 @@ namespace ProtonPlus.Widgets.Games {
                 if (runner == null)
                     continue;
                 var is_current = items.length == 1 && runner.internal_title == items[0].game.compatibility_tool;
-                if (!runner.is_available && !is_current)
+                if (!runner.is_available && !is_current && !(runner_only && runner.availability_diagnostic != null))
                     continue;
                 if (!runner_only && Models.Launchers.Steam.is_steam_linux_runtime (runner.display_title, runner.internal_title)
                     && !all_steam_linux_runtime_compatible && !(single_steam_game && is_current))
@@ -314,6 +314,25 @@ namespace ProtonPlus.Widgets.Games {
             refresh_capability_context ();
         }
 
+        private async bool confirm_lutris_conversion () {
+            var dialog = new Adw.AlertDialog (_("Convert the Wine prefix?"),
+                _("The next Lutris launch with Proton will convert this existing Wine prefix. The conversion cannot be undone."));
+            dialog.add_response ("cancel", _("Cancel"));
+            dialog.add_response ("convert", _("Apply Runner Change"));
+            dialog.set_close_response ("cancel");
+            dialog.set_default_response ("cancel");
+            dialog.set_response_appearance ("convert", Adw.ResponseAppearance.DESTRUCTIVE);
+            bool confirmed = false;
+            SourceFunc resume = confirm_lutris_conversion.callback;
+            dialog.response.connect ((response) => {
+                confirmed = response == "convert";
+                Idle.add ((owned) resume);
+            });
+            Window.present_dialog_for_controller (dialog, this);
+            yield;
+            return confirmed;
+        }
+
         bool should_change_tool (Models.CompatibilityTool? selected_tool) {
             if (runner_only || single_steam_game)
                 return selected_tool != null && selected_tool.internal_title != items[0].game.compatibility_tool;
@@ -327,6 +346,8 @@ namespace ProtonPlus.Widgets.Games {
             if (tool_enabled) {
                 if (selected_tool == null)
                     tool_error = _("Choose a compatibility tool.");
+                else if (selected_tool.availability_diagnostic != null)
+                    tool_error = selected_tool.availability_diagnostic;
                 else if (!selected_tool.is_assignable || !selected_tool.is_available)
                     tool_error = _("Choose an available compatibility tool.");
                 else
@@ -434,7 +455,19 @@ namespace ProtonPlus.Widgets.Games {
             foreach (var item in selected_items) {
                 var compatibility_applied = true;
                 if (change_tool) {
-                    var success = yield item.game.change_compatibility_tool_async (((!) selected_tool).internal_title, request);
+                    var runner_id = ((!) selected_tool).internal_title;
+                    var success = yield item.game.change_compatibility_tool_async (runner_id, request);
+                    var lutris = item.game as Models.Games.Lutris;
+                    while (!success && lutris != null && lutris.pending_conversion != null) {
+                        if (request.is_cancelled () || generation != load_generation || get_root () == null)
+                            return;
+                        var confirmation = lutris.pending_conversion;
+                        if (!yield confirm_lutris_conversion ())
+                            return;
+                        if (request.is_cancelled () || generation != load_generation || get_root () == null)
+                            return;
+                        success = yield lutris.confirm_runner_change (runner_id, confirmation, request);
+                    }
                     if (request.is_cancelled () || generation != load_generation || get_root () == null)
                         return;
                     if (!success) {

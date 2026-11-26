@@ -1,6 +1,8 @@
 namespace ProtonPlus.Widgets.Tools {
     public class RemoveDialog : Adw.AlertDialog {
         Services.InstallJob job;
+        Services.LutrisRemovalReview? review;
+        bool dismissed;
 
         public RemoveDialog (Services.InstallJob job) {
             this.job = job;
@@ -33,14 +35,38 @@ namespace ProtonPlus.Widgets.Tools {
             set_close_response ("cancel");
 
             response.connect (response_changed);
+            closed.connect (() => { dismissed = true; });
+            inspect_dependencies.begin ();
+        }
+
+        async void inspect_dependencies () {
+            if (!Services.InstallationService.has_lutris_removal_scope (job))
+                return;
+            var body = get_body ();
+            set_response_enabled ("delete", false);
+            set_body (_("Checking Lutris runner usage…"));
+            review = yield Services.InstallationService.instance.inspect_lutris_removal (job);
+            if (dismissed)
+                return;
+            var affected = review.affected_games;
+            var failure = review.error;
+            if (failure != null) {
+                set_body (failure);
+                return;
+            }
+            if (affected != null)
+                body = _("%s\n\nThese Lutris games use this runner. Choose a different runner for them before playing again.\n%s")
+                    .printf (body, affected);
+            set_body (body);
+            set_response_enabled ("delete", true);
         }
 
         void response_changed (string response) {
             if (response != "delete")
                 return;
 
-            job.remove.begin (true, (obj, res) => {
-                var code = job.remove.end (res);
+            job.remove_with_lutris_review.begin (review, (obj, res) => {
+                var code = job.remove_with_lutris_review.end (res);
                 if (code != ReturnCode.RUNNER_REMOVED) {
                     var dialog = new Main.ErrorDialog (
                         _ ("Failed to Delete %s").printf (job.title),

@@ -265,6 +265,10 @@ namespace ProtonPlus.Services {
             return yield InstallationService.instance.remove (this, notify_removal);
         }
 
+        internal async ReturnCode remove_with_lutris_review (LutrisRemovalReview? review) {
+            return yield InstallationService.instance.remove (this, true, review);
+        }
+
         // Small overridable I/O seams keep transaction characterization tests
         // local without making InstallJob own a filesystem transaction.
         public virtual async bool download_archive (string url, string path, out string? error_message) {
@@ -430,6 +434,14 @@ namespace ProtonPlus.Services {
                 var backup = inventory.get_latest_installation (provider_tool, selected_variant (), true);
                 if (backup != null) {
                     install_location = backup.path.substring (0, backup.path.length - " Backup".length);
+                    return;
+                }
+            }
+            if (mode == Mode.VERSIONED && tool.group.launcher is Models.Launchers.Lutris) {
+                var installed = tool.group.installed_tool_inventory.find_versioned_installation (
+                    provider_tool, release, selected_variant ());
+                if (installed != null) {
+                    install_location = installed.path;
                     return;
                 }
             }

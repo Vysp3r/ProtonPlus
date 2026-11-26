@@ -950,7 +950,7 @@ namespace ProtonPlus.CLI {
             if (success)
                 output.success (_ ("Successfully uninstalled %s\n"), entry.display_title);
             else
-                output.error (_ ("Error: Uninstallation failed: %s\n"), get_return_code_message (code));
+                output.error (_ ("Error: Uninstallation failed: %s\n"), job.error_message ?? get_return_code_message (code));
             return success ? 0 : 1;
         }
 

@@ -155,6 +155,27 @@ namespace ProtonPlus.Models {
             return owner;
         }
 
+        internal InstalledToolEntry? find_versioned_installation (Tools.ProviderTool tool, Release release, Variant? variant) {
+            var canonical = Path.build_filename (group.launcher.get_primary_managed_tool_directory (group),
+                tool.get_directory_name (release.title, variant));
+            var variant_id = variant?.id ?? tool.variants.first_match ((candidate) => candidate.is_default)?.id;
+            var releases = new Gee.ArrayList<Release> ();
+            releases.add (release);
+            InstalledToolEntry? found = null;
+            int matches = 0;
+            foreach (var entry in get_installations_for_tool (tool)) {
+                if (is_latest_installation (entry, tool) ||
+                    find_installed_release (tool, entry, releases) == null ||
+                    find_installed_variant (tool, entry, release)?.id != variant_id)
+                    continue;
+                if (entry.path == canonical)
+                    return entry;
+                found = entry;
+                matches++;
+            }
+            return matches == 1 ? found : null;
+        }
+
         public Release? find_installed_release (Tool tool, InstalledToolEntry entry,
             Gee.Iterable<Release>? releases = null) {
             var candidates = releases ?? tool.release_catalog?.releases;
@@ -410,6 +431,10 @@ namespace ProtonPlus.Models {
             }
 
             var metadata = Utils.Metadata.load (path);
+            var lutris = group.launcher as Launchers.Lutris;
+            if (lutris != null && !lutris.owns_tool_storage_entry (
+                group, Launcher.physical_tool_path (Path.get_dirname (path)), metadata.launcher_id))
+                return;
             entries.add (new InstalledToolEntry (
                 path, directory_name, internal_title, display_title,
                 metadata.runner_endpoint, metadata.runner_title, metadata.tag,
