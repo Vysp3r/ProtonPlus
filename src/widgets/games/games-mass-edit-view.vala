@@ -335,11 +335,14 @@ namespace ProtonPlus.Widgets.Games {
             if (compatibility_tool_row != null)
                 compatibility_tool_row.subtitle = tool_error ?? "";
 
-            var blocker = tool_error ?? (launch_options_editor.visible
-                ? launch_options_editor.preview_field.blocking_reason : "");
-            var dependency_action = tool_error == null && launch_options_editor.visible
+            var compatibility_warning = launch_options_editor.visible ? launch_options_editor.compatibility_warning : "";
+            var blocker = tool_error ?? compatibility_warning;
+            if (blocker == "" && launch_options_editor.visible)
+                blocker = launch_options_editor.preview_field.blocking_reason;
+            var incompatibility = tool_error != null || compatibility_warning != "";
+            var dependency_action = !incompatibility && launch_options_editor.visible
                 ? launch_options_editor.dependency_action_label : "";
-            apply_blocker.update (blocker, dependency_action, apply_request == null);
+            apply_blocker.update (blocker, dependency_action, apply_request == null, incompatibility);
 
             clear_button.sensitive = apply_request == null && launch_options_editor.can_clear;
             var launch_options_changed = launch_options_editor.has_changes_to_write
@@ -574,7 +577,7 @@ namespace ProtonPlus.Widgets.Games {
             if (publish_initial || (tools.length == 0 && wrapper_roots.length == 0)) {
                 var initial = capability_resolver.resolve (runtimes, all_steam, components, vendor);
                 if (publish_initial)
-                    launch_options_editor.set_capability_context (initial);
+                    launch_options_editor.set_capability_context (initial, tools.length > 0 || wrapper_roots.length > 0);
                 if (tools.length == 0 && wrapper_roots.length == 0)
                     return initial;
             }
@@ -619,11 +622,15 @@ namespace ProtonPlus.Widgets.Games {
             action.set_parent (this);
         }
 
-        public void update (string text, string action_label, bool action_enabled) {
+        public void update (string text, string action_label, bool action_enabled, bool error) {
             message.label = text;
             action.label = action_label;
             action.sensitive = action_enabled;
             action.visible = action_label != "";
+            if (error)
+                add_css_class ("launch-options-blocker-error");
+            else
+                remove_css_class ("launch-options-blocker-error");
             visible = text != "";
         }
 

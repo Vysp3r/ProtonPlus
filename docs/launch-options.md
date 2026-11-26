@@ -131,10 +131,11 @@ for runtime values and defaults.
 - `PROTON_DXVK_LOWLATENCY=1` and `PROTON_VKD3D_LOWLATENCY=1` require
   support from the installed build. The DX12 implementation requires Reflex
   markers or waitable swapchains and excludes Intel GPUs and frame generation.
-- `LOW_LATENCY_LAYER=1` exposes `VK_AMD_anti_lag`. Set
+- `LOW_LATENCY_LAYER=1` exposes `VK_AMD_anti_lag` in builds that include
+  the layer, such as Proton-CachyOS and GE-Proton11-14. Set
   `LOW_LATENCY_LAYER_REFLEX=1` to switch to `VK_NV_low_latency2`. The game
-  must use the corresponding API. Proton-CachyOS also advertises
-  `DXVK_NVAPI_VKREFLEX=1` for its NVIDIA Vulkan layer.
+  must use the corresponding API. Both builds also expose
+  `DXVK_NVAPI_VKREFLEX=1` for the separate NVIDIA Vulkan layer.
 - For AMD Reflex compatibility, try `DXVK_NVAPI_ALLOW_OTHER_DRIVERS=1`
   first. The hide-AMD, forced-NVAPI, and NVIDIA spoof presets conflict with
   FSR 4 and MLFG because they can break those paths.

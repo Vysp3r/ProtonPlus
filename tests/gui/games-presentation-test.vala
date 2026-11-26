@@ -477,6 +477,98 @@ void check_saved_launch_options (string path, string alpha, string bravo) throws
     assert (apps.get_child ("2")?.get_child ("LaunchOptions")?.value == bravo);
 }
 
+void check_launch_option_runtime_switch (string root) throws Error {
+    var model = new ListStore (typeof (Models.CompatibilityTool));
+    var paths = new Gee.ArrayList<string> ();
+    string[] tools = { "Proton-CachyOS fixture", "GE-Proton fixture", "Plain Proton fixture" };
+    foreach (var title in tools) {
+        var path = Path.build_filename (root, title);
+        assert (DirUtils.create (path, 0700) == 0);
+        paths.add (path);
+        FileUtils.set_contents (Path.build_filename (path, "proton"), title == tools[2]
+            ? "import os\n" : "self.check_environment('LOW_LATENCY_LAYER', 'lowlatencylayer')\n");
+        model.append (new Models.CompatibilityTool (title, title, path, Models.CompatibilityToolRuntimeKind.PROTON));
+    }
+
+    var steam = new Models.Launchers.Steam (Models.Launcher.InstallationTypes.SNAP);
+    steam.directory = root;
+    var game = new Models.Games.Steam.non_steam (100, "Fixture game", "", tools[0], steam);
+    game.is_native = false;
+    var view = new MassEditView (new Gtk.MenuButton ());
+    var expression = new Gtk.PropertyExpression (typeof (Models.CompatibilityTool), null, "display-title");
+    view.load ({ new GameListItem (game) }, model, expression, false, false);
+    var window = new Adw.Window () { default_width = 850, default_height = 650, content = view };
+    window.present ();
+    var editor = find_widget (view, widget => widget is LaunchOptionsEditor.Box) as LaunchOptionsEditor.Box;
+    var selector = find_widget (view, widget => widget is CompatibilityToolRow) as CompatibilityToolRow;
+    var warning = find_widget (view, widget => widget.has_css_class ("launch-options-blocker"));
+    var apply = find_widget (view, widget => widget is Gtk.Button
+        && ((Gtk.Button) widget).label == "Apply Changes") as Gtk.Button;
+    assert (editor != null && selector != null && warning != null && apply != null);
+    assert (((Models.CompatibilityTool) selector.selected_item).internal_title == tools[0]);
+    uint ge_index = Gtk.INVALID_LIST_POSITION;
+    uint plain_index = Gtk.INVALID_LIST_POSITION;
+    for (uint i = 0; i < selector.model.get_n_items (); i++) {
+        var tool = (Models.CompatibilityTool) selector.model.get_item (i);
+        if (tool.internal_title == tools[1])
+            ge_index = i;
+        if (tool.internal_title == tools[2])
+            plain_index = i;
+    }
+    assert (ge_index != Gtk.INVALID_LIST_POSITION && plain_index != Gtk.INVALID_LIST_POSITION);
+
+    var option = "Vulkan Anti-Lag 2 layer";
+    const string command = "LOW_LATENCY_LAYER=1 %command%";
+    var supported = "Requires a Proton build with the Vulkan low-latency layer.";
+    const string unavailable = "The selected Proton build does not expose the low-latency Vulkan layer.";
+    var row = find_widget (editor, widget => widget is Adw.ActionRow && ((Adw.ActionRow) widget).title == option) as Adw.ActionRow;
+    assert (row != null);
+    editor.set_text (command);
+    wait_for_layout (() => row.subtitle.contains (supported));
+    assert (row.subtitle.contains (supported));
+    editor.set_text ("");
+    var add = find_widget (view, widget => widget is Gtk.Button
+        && ((Gtk.Button) widget).label == "Add launch option") as Gtk.Button;
+    assert (add != null);
+    add.clicked ();
+    wait_for_layout (() => window.visible_dialog != null && window.visible_dialog.get_mapped ());
+    var choice = find_widget (window.visible_dialog, widget => widget is Adw.ActionRow
+        && ((Adw.ActionRow) widget).title == option);
+    assert (choice != null && choice.activate ());
+    wait_for_layout (() => window.visible_dialog == null);
+    assert (row.visible && !warning.visible && apply.sensitive);
+
+    selector.selected = ge_index;
+    assert (!warning.has_css_class ("launch-options-blocker-error"));
+    wait_for_layout (() => row.subtitle.contains (supported));
+    assert (row.visible && row.subtitle.contains (supported) && !warning.visible && apply.sensitive);
+    assert (editor.prepare_write ().launch_line == command);
+
+    selector.selected = plain_index;
+    wait_for_layout (() => warning.has_css_class ("launch-options-blocker-error"));
+    assert (row.visible && row.subtitle.contains (unavailable) && row.has_css_class ("launch-option-incompatible"));
+    assert (warning.visible && warning.has_css_class ("launch-options-blocker-error") && !apply.sensitive);
+    assert (((Gtk.Label) warning.get_first_child ()).label == "“Vulkan Anti-Lag 2 layer” is unavailable with the selected compatibility tool.");
+    var remove_option = find_widget (row, widget => widget is Gtk.Button
+        && widget.tooltip_text == "Remove Vulkan Anti-Lag 2 layer") as Gtk.Button;
+    assert (remove_option != null && remove_option.sensitive);
+    remove_option.clicked ();
+    assert (!row.visible && !warning.visible && apply.sensitive);
+
+    editor.set_text (command);
+    selector.selected = ge_index;
+    wait_for_layout (() => row.subtitle.contains (supported));
+    selector.selected = plain_index;
+    wait_for_layout (() => warning.has_css_class ("launch-options-blocker-error"));
+    assert (row.visible && warning.visible && warning.has_css_class ("launch-options-blocker-error"));
+    assert (apply.sensitive && editor.prepare_write ().launch_line == command && game.launch_options == "");
+    window.destroy ();
+    foreach (var path in paths) {
+        assert (FileUtils.remove (Path.build_filename (path, "proton")) == 0);
+        assert (DirUtils.remove (path) == 0);
+    }
+}
+
 void check_steam_compatibility_editor (string parent) throws Error {
     var root = Path.build_filename (parent, "steam-editor");
     var config = Path.build_filename (root, "config", "config.vdf");
@@ -1563,6 +1655,7 @@ int main (string[] args) {
     check_selection_scope_and_scoped_retry (root);
     try {
         check_steam_compatibility_editor (root);
+        check_launch_option_runtime_switch (root);
         check_proton_autogen_game_edit (root);
         check_lutris_library_states (root);
         check_faugus_library_and_editor (root);

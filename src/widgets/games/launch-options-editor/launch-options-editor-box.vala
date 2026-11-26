@@ -31,6 +31,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         Gee.ArrayList<LaunchOptionPresentation> automatic_dependencies;
         LaunchOptionPresentation? dependency_to_configure;
         internal string dependency_action_label { get; private set; default = ""; }
+        internal string compatibility_warning { get; private set; default = ""; }
+        bool checking_tool_capabilities;
 
         Gtk.Button add_button;
         Gtk.Label empty_label;
@@ -409,8 +411,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 source != loaded_source && !removed_options.contains ("custom-game-arguments"));
         }
 
-        public void set_capability_context (LaunchCommandCapabilityContext? context) {
+        public void set_capability_context (LaunchCommandCapabilityContext? context,
+                                            bool checking_tool_capabilities = false) {
             capability_context = context;
+            this.checking_tool_capabilities = checking_tool_capabilities;
             refreshing_controls = true;
             game_arguments_group.set_capability_context (context);
             refreshing_controls = false;
@@ -546,8 +550,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     capability_context, true);
                 if (!eligibility.may_activate) {
                     if (edit_state.is_option_modified (selection.option_id)) {
-                        diagnostics.add (eligibility.reason);
-                        fields?.set (selection.option_id, eligibility.reason);
+                        var reason = checking_tool_capabilities && eligibility.kind == LaunchOptionEligibilityKind.UNAVAILABLE_RUNTIME
+                            ? _("Checking compatibility tool support…") : eligibility.reason;
+                        diagnostics.add (reason);
+                        fields?.set (selection.option_id, reason);
                     }
                     continue;
                 }
@@ -591,6 +597,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         void refresh_current_options () {
             var has_options = false;
+            uint incompatible_count = 0;
+            string incompatible_title = "";
+            var incompatible_draft = false;
             foreach (var metadata in catalog.get_ordered ()) {
                 var id = metadata.id;
                 var row = current_rows.get (id);
@@ -612,9 +621,19 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 row.visible = configured || active || (draft_options.contains (id) && editable);
                 remove_buttons.get (id).visible = row.visible;
                 var diagnostic = field_diagnostics.get (id);
+                var incompatible = row.visible && eligibility.kind == LaunchOptionEligibilityKind.UNAVAILABLE_RUNTIME;
+                if (incompatible && !checking_tool_capabilities) {
+                    incompatible_count++;
+                    incompatible_title = metadata.title;
+                    incompatible_draft |= modified;
+                    row.add_css_class ("launch-option-incompatible");
+                } else {
+                    row.remove_css_class ("launch-option-incompatible");
+                }
                 var backend_reason = backend_available || eligibility.reason != "" ? ""
                     : _("Select %s as the launch backend to edit this option.").printf (metadata.subsection);
-                var detail = diagnostic ?? presentations.describe (metadata, eligibility, backend_reason);
+                var detail = diagnostic ?? (incompatible && checking_tool_capabilities
+                    ? _("Checking compatibility tool support…") : presentations.describe (metadata, eligibility, backend_reason));
                 if (control != null) {
                     control.eligibility = eligibility;
                     control.apply_metadata (detail);
@@ -649,6 +668,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 row.tooltip_text = subtitle;
                 has_options |= row.visible;
             }
+            if (incompatible_count == 0 || (!writing_allowed && !incompatible_draft))
+                compatibility_warning = "";
+            else if (incompatible_count == 1)
+                compatibility_warning = _("“%s” is unavailable with the selected compatibility tool.").printf (incompatible_title);
+            else
+                compatibility_warning = ngettext ("%u launch option is unavailable with the selected compatibility tools.",
+                    "%u launch options are unavailable with the selected compatibility tools.", incompatible_count).printf (incompatible_count);
             empty_label.visible = !has_options;
             if (has_options)
                 current_group.remove_css_class ("launch-options-empty");

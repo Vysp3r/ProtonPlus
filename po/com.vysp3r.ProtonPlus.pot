@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-26 17:07-0500\n"
+"POT-Creation-Date: 2026-11-26 17:26-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,7 +160,7 @@ msgid "Runner ID"
 msgstr ""
 
 #: src/cli/cli.vala:439 src/cli/cli.vala:887
-#: src/widgets/games/games-mass-edit-view.vala:302
+#: src/widgets/games/games-mass-edit-view.vala:299
 msgid "Version"
 msgstr ""
 
@@ -1975,15 +1975,11 @@ msgstr ""
 
 #: src/launch-options/launch-option-catalog.vala:1785
 #: src/launch-options/launch-option-catalog.vala:1786
-#: src/launch-options/launch-option-catalog.vala:1787
-#: src/launch-options/launch-option-catalog.vala:1788
-#: src/launch-options/launch-option-catalog.vala:1789
 msgid "Proton-CachyOS"
 msgstr ""
 
 #: src/launch-options/launch-option-catalog.vala:1785
 #: src/launch-options/launch-option-catalog.vala:1786
-#: src/launch-options/launch-option-catalog.vala:1787
 msgid "Requires a compatible Proton-CachyOS build."
 msgstr ""
 
@@ -1998,11 +1994,21 @@ msgid ""
 msgstr ""
 
 #: src/launch-options/launch-option-catalog.vala:1787
-msgid "Proton-CachyOS Vulkan Anti-Lag 2 layer"
+msgid "Vulkan Anti-Lag 2 layer"
 msgstr ""
 
 #: src/launch-options/launch-option-catalog.vala:1787
 msgid "Exposes Anti-Lag 2 to Vulkan games that support it."
+msgstr ""
+
+#: src/launch-options/launch-option-catalog.vala:1787
+#: src/launch-options/launch-option-catalog.vala:1788
+#: src/launch-options/launch-option-catalog.vala:1789
+msgid "Vulkan low latency"
+msgstr ""
+
+#: src/launch-options/launch-option-catalog.vala:1787
+msgid "Requires a Proton build with the Vulkan low-latency layer."
 msgstr ""
 
 #: src/launch-options/launch-option-catalog.vala:1788
@@ -2014,7 +2020,7 @@ msgid "Exposes Vulkan Reflex to games that support it."
 msgstr ""
 
 #: src/launch-options/launch-option-catalog.vala:1789
-msgid "Proton-CachyOS NVIDIA Reflex Vulkan layer"
+msgid "NVIDIA Reflex Vulkan layer"
 msgstr ""
 
 #: src/launch-options/launch-option-catalog.vala:1789
@@ -2023,7 +2029,9 @@ msgid ""
 msgstr ""
 
 #: src/launch-options/launch-option-catalog.vala:1789
-msgid "Requires an NVIDIA GPU and a compatible Proton-CachyOS build."
+msgid ""
+"Requires an NVIDIA GPU and a Proton build with the DXVK-NVAPI Vulkan Reflex "
+"layer."
 msgstr ""
 
 #. Hardware & drivers
@@ -2626,7 +2634,7 @@ msgstr ""
 #: src/models/games/faugus.vala:40 src/models/games/lutris.vala:49
 #: src/models/games/lutris.vala:54 src/models/launchers/proton-autogen.vala:118
 #: src/models/launchers/steam.vala:502
-#: src/widgets/games/games-mass-edit-view.vala:239
+#: src/widgets/games/games-mass-edit-view.vala:236
 #, c-format
 msgid "%s (Unavailable)"
 msgstr ""
@@ -2649,7 +2657,7 @@ msgstr ""
 
 #: src/models/games/heroic.vala:25 src/models/games/lutris.vala:35
 #: src/widgets/games/games-collection.vala:72
-#: src/widgets/games/games-mass-edit-view.vala:212
+#: src/widgets/games/games-mass-edit-view.vala:209
 #: src/widgets/games/games-page.vala:304
 msgid "Native"
 msgstr ""
@@ -3272,7 +3280,7 @@ msgid "Another Lutris configuration change is in progress."
 msgstr ""
 
 #: src/services/lutris/lutris-configuration-service.vala:400
-#: src/widgets/games/games-mass-edit-view.vala:396
+#: src/widgets/games/games-mass-edit-view.vala:392
 msgid "This tool is no longer available. Choose a different tool."
 msgstr ""
 
@@ -3831,66 +3839,66 @@ msgstr ""
 msgid "Change compatibility tool"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:282
+#: src/widgets/games/games-mass-edit-view.vala:279
 msgid "Compatibility tool"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:293
+#: src/widgets/games/games-mass-edit-view.vala:290
 #, c-format
 msgid "Launch option changes apply to %d game."
 msgid_plural "Launch option changes apply to %d games."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/games/games-mass-edit-view.vala:300
+#: src/widgets/games/games-mass-edit-view.vala:297
 msgid "Wine or Proton version"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:332
+#: src/widgets/games/games-mass-edit-view.vala:329
 msgid "Choose a compatibility tool."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:334
+#: src/widgets/games/games-mass-edit-view.vala:331
 msgid "Choose an available compatibility tool."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:426
+#: src/widgets/games/games-mass-edit-view.vala:422
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:428
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:626
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:856
+#: src/widgets/games/games-mass-edit-view.vala:424
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:645
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:882
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:69
 #: src/widgets/tools/tools-release-row.vala:1044
 #, c-format
 msgid "%s — %s"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:429
+#: src/widgets/games/games-mass-edit-view.vala:425
 msgid "Launch options cannot be applied"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:430
+#: src/widgets/games/games-mass-edit-view.vala:426
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:446
+#: src/widgets/games/games-mass-edit-view.vala:442
 msgid "The change could not be saved."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:447
+#: src/widgets/games/games-mass-edit-view.vala:443
 msgid "Could Not Change the Runner"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:489
+#: src/widgets/games/games-mass-edit-view.vala:485
 msgid "Batch Update Failed"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:490
+#: src/widgets/games/games-mass-edit-view.vala:486
 msgid ""
 "Some games could not be updated. Their tool or configuration may have "
 "changed or become unavailable."
@@ -4146,7 +4154,7 @@ msgid ""
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/groups/common-options-group.vala:15
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:249
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:251
 msgid "Common options"
 msgstr ""
 
@@ -4354,69 +4362,87 @@ msgstr ""
 msgid "Add custom argument"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:84
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:86
 msgid "Launch options"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:86
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:88
 #: src/widgets/games/launch-options-editor/launch-options-list.vala:20
 msgid "No launch options configured yet."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:90
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:239
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:92
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:241
 msgid "Add launch option"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:166
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:168
 #, c-format
 msgid "Remove %s"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:220
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:222
 msgid "Search launch options"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:279
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:281
 msgid "No matching launch options."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:559
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:554
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:636
+msgid "Checking compatibility tool support…"
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:565
 msgid "This launch option cannot be enabled here."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:616
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:634
 #, c-format
 msgid "Select %s as the launch backend to edit this option."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:667
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:673
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:674
+#, c-format
+msgid "“%s” is unavailable with the selected compatibility tool."
+msgstr ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:676
+#, c-format
+msgid "%u launch option is unavailable with the selected compatibility tools."
+msgid_plural ""
+"%u launch options are unavailable with the selected compatibility tools."
+msgstr[0] ""
+msgstr[1] ""
+
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:693
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:699
 msgid "Varies by game"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:774
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:800
 msgid "Add required options"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:776
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:802
 #, c-format
 msgid "Configure %s"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:848
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:874
 #, c-format
 msgid "%u launch option has unmet requirements."
 msgid_plural "%u launch options have unmet requirements."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:852
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:878
 msgid ""
 "Use Clear Launch Options to replace a command that cannot be merged safely."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:858
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:884
 msgid "Review the selected launch options before applying changes."
 msgstr ""
 
