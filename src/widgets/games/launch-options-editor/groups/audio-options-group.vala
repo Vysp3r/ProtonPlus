@@ -16,17 +16,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.title = _ ("Audio options");
             this.description = _ ("Audio-related launch options.");
 
-            pulse_latency_tile = create_spin_tile (
-                _ ("PulseAudio latency"),
-                _ ("Enables low latency mode in PulseAudio which can reduce audio latency in some games (60, 90, 120)."),
-                _ ("MSEC"),
-                30, 360,
-                90,
-                 "PULSE_LATENCY_MSEC=",
-                 false,
-                 LaunchLineType.ENVIRONMENT,
-                 "pulse-latency"
-            );
+            pulse_latency_tile = create_spin_tile ("pulse-latency", _("ms"), 30, 360, 90);
 
             string[] winealsa_channel_display_opts = {
                 _ ("Disabled"),

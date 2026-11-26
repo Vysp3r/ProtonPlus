@@ -4,11 +4,10 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
     using Adw;
 
     class LaunchOptionSpinTile : ActionRow, ILaunchOption {
-        public Gtk.Switch toggle { get; private set; }
         public Gtk.Entry value_entry { get; private set; }
-        Gtk.Box value_box;
         public signal void draft_changed ();
 
+        bool has_value;
         int lower_value;
         int upper_value;
         int default_value;
@@ -17,18 +16,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         private Gee.List<ILaunchOption> _children;
         private string env_prefix;
 
-        public LaunchOptionSpinTile (string title, string subtitle, string value_label, double lower, double upper, int default_value, string env_prefix) {
+        public LaunchOptionSpinTile (string title, string subtitle, string value_label, int lower, int upper, int default_value, string env_prefix) {
             Object (title: title, subtitle: subtitle);
             this._children = new Gee.ArrayList<ILaunchOption> ();
             this.env_prefix = env_prefix;
             subtitle_lines = 0;
             this.set_tooltip_text (subtitle);
 
-            lower_value = (int) lower;
-            upper_value = (int) upper;
+            lower_value = lower;
+            upper_value = upper;
             this.default_value = default_value;
 
-            value_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+            var value_box = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
             value_box.set_valign (Gtk.Align.CENTER);
 
             var value_caption = new Gtk.Label (value_label);
@@ -40,23 +39,20 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             value_entry.set_width_chars (5);
             value_entry.set_max_width_chars (5);
             value_entry.set_halign (Gtk.Align.START);
-            value_entry.set_text (default_value.to_string ());
             value_entry.set_tooltip_text (subtitle);
+            value_entry.update_property (Gtk.AccessibleProperty.LABEL, title, -1);
 
             value_box.append (value_caption);
             value_box.append (value_entry);
 
-            toggle = new Gtk.Switch ();
-            toggle.set_valign (Gtk.Align.CENTER);
-            toggle.set_tooltip_text (subtitle);
-
             add_suffix (value_box);
-            add_suffix (toggle);
-            activatable_widget = toggle;
+            activatable_widget = value_entry;
 
             value_entry.changed.connect (value_changed);
-            toggle.notify["active"].connect (value_changed);
-            refresh_value_state ();
+        }
+
+        public void use_default_value () {
+            set_value (default_value);
         }
 
         public void set_value (int value) {
@@ -76,12 +72,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         void value_changed () {
+            // Keep an emptied field active so validation can prompt for a value.
+            has_value |= value_entry.text != "";
             refresh_value_state ();
             draft_changed ();
         }
 
         void refresh_value_state () {
-            value_box.visible = is_active ();
             var diagnostic = get_validation_diagnostic ();
             if (diagnostic == null)
                 value_entry.remove_css_class ("error");
@@ -91,8 +88,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         public void clear () {
-            this.toggle.set_active (false);
-            this.set_value (this.default_value);
+            has_value = false;
+            value_entry.text = "";
+            refresh_value_state ();
 
             foreach (var child in this._children) {
                 child.clear ();
@@ -100,7 +98,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         public bool is_active () {
-            return this.toggle.get_active ();
+            return has_value;
         }
 
         public void parse_tokens (string[] tokens, bool[] consumed) {
@@ -112,7 +110,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     string val_str = tokens[i].replace (this.env_prefix, "");
                     int val_int;
                     if (int.try_parse (val_str, out val_int)) {
-                        this.toggle.set_active (true);
                         this.set_value (val_int);
                         consumed[i] = true;
                         break;

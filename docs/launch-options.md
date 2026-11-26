@@ -6,6 +6,11 @@ the only serializer used by preview and Apply. Unknown source tokens stay raw,
 in their original order and spelling, and an explicit Clear still replaces the
 whole source.
 
+The [launch-option verification matrix](launch-option-matrix.md) records
+upstream values, defaults, and release evidence for providers and companion
+tools. Use it when deciding which catalog entries to emit and which
+capabilities the installed build must supply.
+
 ## Custom wrappers
 
 Under **Game arguments**, enter an absolute executable path or a relative path
@@ -18,6 +23,13 @@ after `%command%`.
 With several games selected, each game's preview uses its own launch options.
 If different source commands already contain different custom wrappers, edit
 the conflicting game individually before applying a shared wrapper.
+
+For native games on native Steam, **Native game wrapper** offers installed
+TinkerGame and SteamTinkerLaunch executables. ProtonPlus uses a managed
+installation for the selected Steam instance when available, then looks for
+the legacy SteamTinkerLaunch installation or a command on the host PATH.
+New named wrappers use absolute paths and run inside the display backend.
+A batch needs an executable path shared by the selected games.
 
 ## Adding or changing a control
 
@@ -48,16 +60,16 @@ concrete installation path. If the mapping is absent, stale, or points to a
 missing installation, keep only generic Proton capabilities; never infer the
 default from list order, a provider name, or the newest-looking version.
 When ProtonPlus runs in Flatpak while controlling native Steam, the tool's
-launcher path remains the host `/usr/...` path, while bounded documentation and
-launcher probes use its `/run/host/usr/...` inspection path. Never persist or
+launcher path remains the host `/usr/...` path, while bounded build probes use its `/run/host/usr/...` inspection path. Never persist or
 pass the inspection alias to a host-side command.
 
-Each rule declares a capability and one or more exact source/documentation
-markers. The resolver checks a bounded set of files in each installed tool and
-grants the capability only when every selected tool advertises it. This makes
-mass edit an intersection: an option supported by only some selected versions is
-not offered. Active older options remain visible and removable, so persisted
-launch commands stay backward compatible.
+Each rule declares a capability and the markers to check in the installed
+files. Proton options use environment reads in the launcher or an integration
+script. Driver options check the relevant bundled DXVK, VKD3D-Proton, or Wine
+binary. Standalone compatibility tools are checked in their own installed
+scripts or executables. The probes skip documentation and launcher comments.
+Mass edit requires a common supported setting across the selected builds.
+Saved options remain visible and removable, including earlier spellings.
 
 Do not infer custom features from a provider ID, display title, or version-name
 pattern. To add a future custom-Proton feature:
@@ -70,15 +82,27 @@ pattern. To add a future custom-Proton feature:
 4. Test a supporting tool fixture, a non-supporting fixture, and a mixed-tool
    intersection. Also test writer output and dependencies/conflicts.
 
-The probe currently reads `proton`, `README.md`, `CHANGELOG.md`,
-`user_settings.sample.py`, `docs/FSR4.md`, and `docs/EM-ADDITIONS.md`. Extend
-this bounded list when an upstream moves authoritative feature declarations;
-do not recursively scan an installed Proton tree.
+The probe uses bounded, known installation paths. It runs off the GTK thread
+and rechecks the selected tools before displaying the results.
 
 ## Current source-backed options
 
-The catalog uses the switches below. Upstream behavior was reviewed on
-2026-08-04. Check upstream again before changing a default.
+The [verification matrix](launch-option-matrix.md) records upstream sources
+for runtime values and defaults.
+
+### Shared runtime controls
+
+- On supported builds, disable ESync, FSync, or NTSync independently. The
+  WineD3D fallback and the Direct3D 10/11 disable switches are separate.
+- DXVK and VKD3D-Proton have independent GPU filters, log settings, frame
+  limiters, and shader-cache controls. The current DXVK limiter uses
+  `DXVK_CONFIG` with `dxvk.maxFrameRate`. An existing compound
+  `DXVK_CONFIG` stays intact and must be edited directly before adding a
+  conflicting frame-limiter assignment.
+- FSR 4 and OptiScaler accept pinned versions documented by the installed
+  build. An unset control inherits runtime defaults. Explicit off values
+  are available for options such as Wayland, ML frame generation, and
+  Proton-HEVC defaults.
 
 ### HDR
 
@@ -86,7 +110,8 @@ The catalog uses the switches below. Upstream behavior was reviewed on
   automatically. On builds that advertise `DXVK_NO_HDR=1`, that switch
   disables automatic HDR and conflicts with explicit enable options.
 - `PROTON_ENABLE_HDR=1` is available for builds that still advertise it.
-  Proton-GE's native Wayland path can break Steam Overlay and affect Steam Input.
+  Newer Proton-GE uses automatic HDR detection. The legacy switch still has
+  an effect in builds that read it, with behavior that varies by release.
 - `ENABLE_HDR_WSI=1` is for proprietary NVIDIA drivers older than 595.
   Gamescope uses `--hdr-enabled`.
 
@@ -114,17 +139,50 @@ The catalog uses the switches below. Upstream behavior was reviewed on
   first. The hide-AMD, forced-NVAPI, and NVIDIA spoof presets conflict with
   FSR 4 and MLFG because they can break those paths.
 
+### Gamescope and ScopeBuddy
+
+- Nested refresh rate emits `-r` in Hz. Frame limit emits
+  `--framerate-limit` in FPS. The existing `*-frame-limit` IDs retain their
+  original `-r` meaning for saved commands.
+- Gamescope exposes internal and output resolution separately, along with
+  scaling mode and filter, output selection, cursor behavior, HDR luminance
+  and inverse tone mapping. MangoApp uses `--mangoapp` and requires the
+  `mangoapp` executable. [Gamescope command-line options](https://github.com/ValveSoftware/gamescope/blob/3.16.17/src/main.cpp)
+- ScopeBuddy accepts a profile filename through `SCB_CONF` and an application
+  config ID through `SCB_APPID`. ScopeBuddy loads the profile and then any
+  matching `AppID/<id>.conf`. Environment-only mode sets `SCB_NOSCOPE=1`.
+  Automatic refresh and frame limiting use `SCB_AUTO_REFRESH` and
+  `SCB_AUTO_FRAME_LIMIT`. [ScopeBuddy launcher](https://github.com/OpenGamingCollective/ScopeBuddy/blob/main/bin/scopebuddy)
+- ScopeBuddy's append mode places configured Gamescope arguments first and
+  explicit launch arguments last. Fallback mode uses the configured arguments
+  when the launch supplies none. `SCB_DEBUG=1` writes the resolved command to
+  `scopebuddy.log` in the ScopeBuddy config directory. Both display backends
+  retain an additional arguments field. [ScopeBuddy launcher](https://github.com/OpenGamingCollective/ScopeBuddy/blob/main/bin/scopebuddy)
+
+### Wine ALSA and AMD Vulkan drivers
+
+- The Wine ALSA driver shipped by the inspected GE-Proton and CachyOS builds
+  reads `WINEALSA_CHANNELS` and `WINEALSA_SPATIAL`. The GE-Proton11-1 release
+  notes spell the latter `WINEALSA_SPACIAL`. Saved assignments with either
+  spelling are recognized. [GE-Proton11-1 patch](https://github.com/GloriousEggroll/proton-ge-custom/blob/GE-Proton11-1/patches/proton/winealsa-override-channel-count.patch) · [CachyOS Wine driver](https://github.com/CachyOS/wine-cachyos/blob/cd14106e4fc0f96006005b07985e49cc1517e9c0/dlls/winealsa.drv/alsa.c)
+- The AMD Vulkan driver selector requires an AMD GPU and AMDVLK's switchable
+  graphics layer for native Steam.
+
 ### Overlays, capture, and performance profiles
 
 - `MANGOHUD=1` works for Vulkan. Use the `mangohud` wrapper for OpenGL
   or MangoApp with Gamescope.
-- `OBS_VKCAPTURE=1` requires native obs-vkcapture or both Flatpak
-  extensions, `com.obsproject.Studio.Plugin.OBSVkCapture` and
-  `org.freedesktop.Platform.VulkanLayer.OBSVkCapture`. For NVIDIA, enable
-  modesetting and use driver 515.43.04 or newer.
-- `game-performance %command%` uses the CachyOS helper to temporarily
-  select the performance power and gaming sched_ext profiles. It conflicts
-  with GameMode.
+- `OBS_VKCAPTURE=1` enables Vulkan capture. The `obs-gamecapture` wrapper
+  supports Vulkan and OpenGL. The editor checks for the native capture layer
+  and wrapper separately. Flatpak Steam uses
+  `org.freedesktop.Platform.VulkanLayer.OBSVkCapture`. Flatpak OBS itself uses
+  `com.obsproject.Studio.Plugin.OBSVkCapture`. For NVIDIA, enable modesetting
+  and use driver 515.43.04 or newer.
+- `game-performance %command%` temporarily requests the performance power
+  profile. The gaming sched_ext profile also requires CachyOS's
+  power-profiles-daemon integration and a running `scx_loader`. Set
+  `GAME_PERFORMANCE_SCREENSAVER_ON=1` to allow the screensaver to activate
+  during play. The helper conflicts with GameMode.
 
 ### Upstream references
 

@@ -65,7 +65,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             if (!Globals.GAMESCOPE_INSTALLED && !Globals.SCOPEBUDDY_INSTALLED)
                 switcher.visible = false;
 
-            this.set_header_suffix (switcher);
+            this.add (switcher);
             this.add (stack);
 
             gamescope.notify["active"].connect (() => {
@@ -124,20 +124,18 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 none.active = true;
                 gamescope.active = false;
                 scopebuddy.active = false;
-                gamescope.selection_change ();
-                scopebuddy.selection_change ();
+                gamescope.clear ();
+                scopebuddy.clear ();
             } else if (current_wrapper == "gamescope") {
                 gamescope.active = true;
                 none.active = false;
                 scopebuddy.active = false;
-                none.selection_change ();
-                scopebuddy.selection_change ();
+                scopebuddy.clear ();
             } else if (current_wrapper == "scopebuddy") {
                 scopebuddy.active = true;
                 none.active = false;
                 gamescope.active = false;
-                none.selection_change ();
-                gamescope.selection_change ();
+                gamescope.clear ();
             }
 
             refreshing_controls = false;
@@ -177,9 +175,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             none.active = true;
             gamescope.active = false;
             scopebuddy.active = false;
-            none.selection_change ();
-            gamescope.selection_change ();
-            scopebuddy.selection_change ();
+            gamescope.clear ();
+            scopebuddy.clear ();
             stack.set_visible_child_name ("none");
             refreshing_controls = false;
         }

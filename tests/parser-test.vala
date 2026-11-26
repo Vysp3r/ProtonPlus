@@ -82,13 +82,25 @@ namespace AppTests.ParserTest {
     }
 
     private void test_launch_option_command_preview_markup () {
+        var source = "  VAR=\"hello world\"\t%command%  'é & tea' <unsafe> <unsafe>\n";
         var markup = ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionsList
-            .build_command_preview_markup ("VAR=\"hello world\" %command% <unsafe>");
+            .build_command_preview_markup (source);
+        var dark_markup = ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionsList
+            .build_command_preview_markup (source, true);
 
         assert (markup.contains ("<tt>"));
-        assert (!markup.contains ("foreground="));
-        assert (markup.contains ("VAR=&quot;hello world&quot;"));
+        assert (markup.contains ("foreground='#0550ae'>VAR=&quot;hello world&quot;</span>"));
+        assert (markup.contains ("foreground='#a40e26'>%command%</span>"));
+        assert (dark_markup.contains ("foreground='#79c0ff'"));
         assert (markup.contains ("&lt;unsafe&gt;"));
+        try {
+            string preview;
+            Pango.parse_markup (markup, -1, 0, null, out preview, null);
+            assert (preview == source);
+        } catch (Error error) {
+            Test.message (error.message);
+            assert_not_reached ();
+        }
 
         var labeled = ProtonPlus.Widgets.Games.LaunchOptionsEditor.LaunchOptionsList
             .build_labeled_command_preview_markup (
@@ -140,7 +152,8 @@ namespace AppTests.ParserTest {
         assert (proton_log.semantics.kind == LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT);
         assert (proton_log.semantics.placeholder_policy == LaunchPlaceholderPolicy.REQUIRED);
         assert (proton_log.semantics.environment_key == "PROTON_LOG");
-        assert (proton_log.semantics.fixed_tokens[0] == "PROTON_LOG=1");
+        assert (proton_log.semantics.emission_mode == LaunchOptionEmissionMode.DYNAMIC_ENVIRONMENT_VALUE);
+        assert (proton_log.semantics.implicit_value == "1");
 
         var dxvk_limit = catalog.lookup ("dxvk-frame-limit");
         assert (dxvk_limit.semantics.support == LaunchOptionSupport.UNSUPPORTED);

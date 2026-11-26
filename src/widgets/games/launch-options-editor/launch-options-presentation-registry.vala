@@ -27,35 +27,21 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 widgets.add (widget);
         }
 
-        public void apply_metadata (bool searching, string? diagnostic = null) {
+        public void apply_metadata (string subtitle) {
             foreach (var widget in widgets) {
                 var row = widget as Adw.PreferencesRow;
                 if (row == null)
                     continue;
 
                 row.title = metadata.title;
-                var context = metadata.subsection != "" ? metadata.subsection : LaunchOptionCatalog.category_title (metadata.category);
-                var detail = metadata.description;
-                if (searching)
-                    detail = "%s — %s".printf (context, detail);
-                if (metadata.expertise == LaunchOptionExpertise.ADVANCED)
-                    detail = "%s • %s".printf (detail, _("Advanced"));
-                else if (metadata.expertise == LaunchOptionExpertise.EXPERIMENTAL)
-                    detail = "%s • %s".printf (detail, _("Experimental"));
-                if (metadata.applicability != "")
-                    detail = "%s • %s".printf (detail, metadata.applicability);
-                if (metadata.dependencies.length > 0)
-                    detail = "%s • %s".printf (detail, _("Requires related option"));
-                if (eligibility != null && eligibility.reason != "")
-                    detail = "%s • %s".printf (detail, eligibility.reason);
-                if (diagnostic != null)
-                    detail = diagnostic;
                 var action_row = widget as Adw.ActionRow;
                 if (action_row != null)
-                    action_row.subtitle = detail;
+                    action_row.subtitle = subtitle;
                 var expander_row = widget as Adw.ExpanderRow;
                 if (expander_row != null)
-                    expander_row.subtitle = detail;
+                    expander_row.subtitle = subtitle;
+                if (action_row != null || expander_row != null)
+                    row.tooltip_text = subtitle;
             }
         }
     }
@@ -69,6 +55,36 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             this.catalog = catalog;
             by_id = new Gee.HashMap<string, LaunchOptionPresentation> ();
             registered_selection_sources = new Gee.ArrayList<ILaunchCommandSelectionSource> ();
+        }
+
+        public string describe (LaunchOptionMetadata metadata, LaunchOptionEligibility? eligibility,
+                                string backend_reason = "", bool searching = false) {
+            var details = new Gee.ArrayList<string> ();
+            var needs_context = searching || metadata.category == LaunchOptionCategory.HARDWARE
+                || (metadata.semantics != null && "launch-backend" in metadata.semantics.dependencies);
+            var context = needs_context ? metadata.subsection : "";
+            if (searching && context == "")
+                context = LaunchOptionCatalog.category_title (metadata.category);
+            details.add (context == "" ? metadata.description
+                : _("%s — %s").printf (context, metadata.description));
+            var reason = eligibility?.reason ?? "";
+            if (eligibility?.kind == LaunchOptionEligibilityKind.VARIANT_SELECTABLE_WITH_WARNING
+                && metadata.applicability != "")
+                reason = metadata.applicability;
+            if (reason != "")
+                details.add (reason);
+            else if (metadata.applicability != "")
+                details.add (metadata.applicability);
+            if (backend_reason != "")
+                details.add (backend_reason);
+            foreach (var dependency in metadata.dependencies) {
+                var required = catalog.lookup (dependency);
+                if (required != null)
+                    details.add (_("Requires %s.").printf (required.title));
+            }
+            if (metadata.expertise == LaunchOptionExpertise.EXPERIMENTAL)
+                details.add (_("Experimental."));
+            return string.joinv (" ", details.to_array ());
         }
 
         public void register (string id, Gtk.Widget? widget, ILaunchOption? option, bool movable = true) {
@@ -216,7 +232,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                         || presentation.eligibility.may_modify
                         || (active && presentation.eligibility.keep_visible_when_active);
                 var diagnostic = diagnostics != null ? diagnostics.get (presentation.metadata.id) : null;
-                presentation.apply_metadata (searching, diagnostic);
+                presentation.apply_metadata (diagnostic ?? describe (presentation.metadata,
+                    presentation.eligibility, "", searching));
             }
         }
 

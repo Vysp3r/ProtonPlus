@@ -5,7 +5,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
     public class DxvkOptionsGroup : BaseOptionsGroup {
         LaunchOptionTile dxvk_async_tile { get; private set; }
-        LaunchOptionTile dxvk_log_level_none_tile { get; private set; }
         LaunchOptionSpinTile dxvk_frame_rate_tile { get; private set; }
         LaunchOptionTile cachyos_dxvk_low_latency_tile { get; private set; }
         LaunchOptionTile cachyos_vulkan_low_latency_tile { get; private set; }
@@ -20,28 +19,24 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
             dxvk_async_tile = create_tile ("dxvk-async");
 
-            dxvk_log_level_none_tile = create_tile ("dxvk-log-level");
 
-            dxvk_frame_rate_tile = create_spin_tile (
-                                                     _("DXVK frame limit"),
-                                                     _("Caps the frame rate using DXVK's built-in frame limiter."),
-                                                     _("FPS"),
-                                                     0,
-                                                     360,
-                                                     60,
-                                                     "DXVK_FRAME_RATE=",
-                                                     false,
-                                                     LaunchLineType.ENVIRONMENT,
-                                                     "dxvk-frame-limit"
-            );
+            dxvk_frame_rate_tile = create_spin_tile ("dxvk-frame-limit", _("FPS"), 0, 360, 60);
 
             cachyos_dxvk_low_latency_tile = create_tile ("cachyos-dxvk-low-latency");
             cachyos_vulkan_low_latency_tile = create_tile ("cachyos-vulkan-low-latency");
             cachyos_vulkan_reflex_tile = create_tile ("cachyos-vulkan-reflex");
             cachyos_vulkan_reflex_layer_tile = create_tile ("cachyos-vulkan-reflex-layer");
-            this.add (dxvk_log_level_none_tile);
             this.add (dxvk_async_tile);
             this.add (dxvk_frame_rate_tile);
+            add (create_environment_combo ("dxvk-log-level"));
+            add (create_environment_field ("dxvk-config-frame-limit"));
+            add (create_environment_field ("dxvk-device-filter"));
+            add (create_environment_combo ("proton-sarek", { _("Off"), _("On") }));
+            add (create_tile ("proton-fsr4-indicator"));
+            add (create_tile ("proton-wineland-upscaler"));
+            add (create_environment_field ("dxvk-log-directory"));
+            add (create_tile ("dxvk-disable-shader-cache"));
+            add (create_environment_field ("dxvk-shader-cache-directory"));
             this.add (cachyos_dxvk_low_latency_tile);
             this.add (cachyos_vulkan_low_latency_tile);
             this.add (cachyos_vulkan_reflex_tile);

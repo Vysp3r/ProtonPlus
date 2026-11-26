@@ -4,10 +4,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
     public class MoreOptionsGroup : BaseOptionsGroup {
 
         LaunchOptionTile vkbasalt_tile { get; private set; }
-        LaunchOptionTile wined3d_tile { get; private set; }
+        LaunchOptionEnvCombo wined3d_tile { get; private set; }
         LaunchOptionTile ntsync_tile { get; private set; }
         LaunchOptionTile local_shader_cache_tile { get; private set; }
-        LaunchOptionTile prefer_sdl_tile { get; private set; }
         LaunchOptionTile no_steaminput_tile { get; private set; }
         LaunchOptionTile wine_vk_use_sync2_tile { get; private set; }
         LaunchOptionTile wine_sync_use_futex_waitv_tile { get; private set; }
@@ -20,10 +19,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.description = _("Extra graphics settings and launch behaviors.");
 
             vkbasalt_tile = create_tile ("vkbasalt", true);
-            wined3d_tile = create_tile ("wined3d", true);
+            wined3d_tile = create_environment_combo ("wined3d", { _("Off"), _("On") });
             ntsync_tile = create_tile ("ntsync-mode", true);
             local_shader_cache_tile = create_tile ("per-game-shader-cache", true);
-            prefer_sdl_tile = create_tile ("prefer-sdl");
             no_steaminput_tile = create_tile ("bypass-steam-input");
             wine_vk_use_sync2_tile = create_tile ("vulkan-sync2");
             wine_sync_use_futex_waitv_tile = create_tile ("futex-waitv");
@@ -33,7 +31,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.add (wined3d_tile);
             this.add (ntsync_tile);
             this.add (local_shader_cache_tile);
-            this.add (prefer_sdl_tile);
+            add (create_environment_combo ("prefer-sdl", { _("Off"), _("On") }));
+            add (create_environment_combo ("proton-pipewire", { _("Off"), _("On") }));
             this.add (no_steaminput_tile);
             this.add (wine_vk_use_sync2_tile);
             this.add (wine_sync_use_futex_waitv_tile);
@@ -42,7 +41,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
         public override bool has_advanced_active () {
             return vkbasalt_tile.toggle.get_active ()
-                   || wined3d_tile.toggle.get_active ()
+                   || wined3d_tile.is_active ()
                    || ntsync_tile.toggle.get_active ()
                    || local_shader_cache_tile.toggle.get_active ();
         }

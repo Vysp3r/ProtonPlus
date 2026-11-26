@@ -35,9 +35,31 @@ namespace ProtonPlus.LaunchOptions {
 
     public class LaunchCommandCapabilityContext : Object {
         LaunchOptionCapability[] _capabilities;
+        internal bool is_mass_edit { get; private set; }
+
+        Gee.Map<string, string>? environment_keys;
+        Gee.Map<string, string>? wrapper_executables;
 
         public LaunchCommandCapabilityContext (LaunchOptionCapability[] capabilities = {}) {
             _capabilities = capabilities;
+        }
+
+        internal LaunchCommandCapabilityContext.with_resolved_values (
+            LaunchOptionCapability[] capabilities, owned Gee.Map<string, string> environment_keys,
+            owned Gee.Map<string, string>? wrapper_executables = null, bool is_mass_edit = false
+        ) {
+            this (capabilities);
+            this.environment_keys = (owned) environment_keys;
+            this.wrapper_executables = (owned) wrapper_executables;
+            this.is_mass_edit = is_mass_edit;
+        }
+
+        internal string? environment_key_for (string option_id) {
+            return environment_keys == null ? null : environment_keys.get (option_id);
+        }
+
+        internal string? wrapper_executable_for (string wrapper_id) {
+            return wrapper_executables == null ? null : wrapper_executables.get (wrapper_id);
         }
 
         public bool has (LaunchOptionCapability capability) {
@@ -98,12 +120,14 @@ namespace ProtonPlus.LaunchOptions {
     public class LaunchCommandCompositionDiagnostic : Object {
         public LaunchCommandCompositionDiagnosticCode code { get; construct; }
         public string option_id { get; construct; }
+        public string related_option_id { get; construct; }
         public string message { get; construct; }
 
         public LaunchCommandCompositionDiagnostic (
-            LaunchCommandCompositionDiagnosticCode code, string option_id, string message
+            LaunchCommandCompositionDiagnosticCode code, string option_id, string message,
+            string related_option_id = ""
         ) {
-            Object (code: code, option_id: option_id, message: message);
+            Object (code: code, option_id: option_id, message: message, related_option_id: related_option_id);
         }
     }
 
@@ -183,7 +207,7 @@ namespace ProtonPlus.LaunchOptions {
                         selection.get_additional_wrapper_arguments (), wrapper_arguments);
                     validate_no_values (diagnostics, selection, semantics);
                 } else if (semantics.kind == LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT) {
-                    append_environment (diagnostics, selection, semantics, environments);
+                    append_environment (diagnostics, selection, semantics, environments, request.capabilities);
                     validate_no_additional_arguments (diagnostics, selection);
                 } else if (semantics.kind == LaunchOptionSemanticKind.WRAPPER_ARGUMENT) {
                     append_wrapper_argument (diagnostics, selection, semantics, wrapper_arguments);
@@ -227,7 +251,7 @@ namespace ProtonPlus.LaunchOptions {
                 }
             }
 
-            validate_relationships (diagnostics, selections, selected_ids, selected_wrappers, request.capabilities);
+            validate_relationships (diagnostics, selections, selected_wrappers, request.capabilities);
             validate_environment_keys (diagnostics, environments);
             if (diagnostics.size > 0)
                 return invalid (diagnostics);
@@ -245,7 +269,10 @@ namespace ProtonPlus.LaunchOptions {
                             arguments[index] = stored_arguments[index];
                     }
                 }
-                wrappers.add (new LaunchWrapperInvocation (definition.id, definition.executable_tokens,
+                var executable = request.capabilities.wrapper_executable_for (definition.id);
+                var executable_tokens = executable == null ? definition.executable_tokens
+                    : new string[] { shell_word (executable) };
+                wrappers.add (new LaunchWrapperInvocation (definition.id, executable_tokens,
                     arguments, definition.delimiter, (int) definition.nesting_priority));
             }
             var environment_values = new LaunchEnvironmentAssignment[environments.size];
@@ -277,8 +304,11 @@ namespace ProtonPlus.LaunchOptions {
                     "Structural parsing found content that cannot be safely managed.");
             var ids = new HashSet<string> ();
             var all_ids = new HashSet<string> ();
-            foreach (var occurrence in parsed.occurrences)
-                all_ids.add (occurrence.option_id);
+            foreach (var occurrence in parsed.occurrences) {
+                var semantics = catalog.lookup (occurrence.option_id)?.semantics;
+                if (semantics != null && !semantics.is_feature_disabled (occurrence.environment_value))
+                    all_ids.add (occurrence.option_id);
+            }
             var environment_keys = new HashSet<string> ();
             var conflict_groups = new HashSet<string> ();
             foreach (var occurrence in parsed.occurrences) {
@@ -300,15 +330,16 @@ namespace ProtonPlus.LaunchOptions {
                 if (capabilities != null)
                     validate_capabilities (diagnostics, occurrence.option_id,
                         semantics.get_required_capabilities (), capabilities);
+                if (semantics.is_feature_disabled (occurrence.environment_value))
+                    continue;
                 foreach (var dependency in semantics.dependencies) {
                     if (!all_ids.contains (dependency))
-                        add (diagnostics, LaunchCommandCompositionDiagnosticCode.MISSING_DEPENDENCY, occurrence.option_id,
-                            "Parsed option '%s' requires '%s'.".printf (occurrence.option_id, dependency));
+                        add_missing_dependency (diagnostics, metadata, dependency);
                 }
                 foreach (var conflict in semantics.conflicts) {
                     if (all_ids.contains (conflict))
                         add (diagnostics, LaunchCommandCompositionDiagnosticCode.EXPLICIT_OPTION_CONFLICT, occurrence.option_id,
-                            "Parsed option '%s' conflicts with '%s'.".printf (occurrence.option_id, conflict));
+                            _("“%s” conflicts with “%s”.").printf (metadata.title, option_title (conflict)));
                 }
                 if (semantics.conflict_group != "") {
                     if (conflict_groups.contains (semantics.conflict_group))
@@ -346,25 +377,31 @@ namespace ProtonPlus.LaunchOptions {
 
         void validate_relationships (
             ArrayList<LaunchCommandCompositionDiagnostic> diagnostics,
-            LaunchCommandSelection[] selections, HashSet<string> selected_ids,
+            LaunchCommandSelection[] selections,
             HashMap<string, LaunchWrapperDefinition> selected_wrappers,
             LaunchCommandCapabilityContext capabilities
         ) {
+            var active_ids = new HashSet<string> ();
+            foreach (var selection in selections) {
+                var semantics = catalog.lookup (selection.option_id)?.semantics;
+                var values = selection.get_values ();
+                if (semantics != null && (values.length != 1 || !semantics.is_feature_disabled (values[0])))
+                    active_ids.add (selection.option_id);
+            }
             var groups = new HashSet<string> ();
             foreach (var selection in selections) {
                 var metadata = catalog.lookup (selection.option_id);
-                if (metadata == null || metadata.semantics == null)
+                if (metadata == null || metadata.semantics == null || !active_ids.contains (selection.option_id))
                     continue;
                 var semantics = metadata.semantics;
                 foreach (var dependency in semantics.dependencies) {
-                    if (!selected_ids.contains (dependency))
-                        add (diagnostics, LaunchCommandCompositionDiagnosticCode.MISSING_DEPENDENCY, selection.option_id,
-                            "Launch option '%s' requires '%s'.".printf (selection.option_id, dependency));
+                    if (!active_ids.contains (dependency))
+                        add_missing_dependency (diagnostics, metadata, dependency);
                 }
                 foreach (var conflict in semantics.conflicts) {
-                    if (selected_ids.contains (conflict))
+                    if (active_ids.contains (conflict))
                         add (diagnostics, LaunchCommandCompositionDiagnosticCode.EXPLICIT_OPTION_CONFLICT, selection.option_id,
-                            "Launch option '%s' conflicts with '%s'.".printf (selection.option_id, conflict));
+                            _("“%s” conflicts with “%s”.").printf (metadata.title, option_title (conflict)));
                 }
                 if (semantics.conflict_group != "") {
                     if (groups.contains (semantics.conflict_group))
@@ -403,16 +440,20 @@ namespace ProtonPlus.LaunchOptions {
 
         void append_environment (ArrayList<LaunchCommandCompositionDiagnostic> diagnostics,
             LaunchCommandSelection selection, LaunchOptionSemantics semantics,
-            ArrayList<LaunchEnvironmentAssignment> environments) {
+            ArrayList<LaunchEnvironmentAssignment> environments, LaunchCommandCapabilityContext capabilities) {
             if (semantics.emission_mode == LaunchOptionEmissionMode.FIXED_TOKENS) {
                 validate_no_values (diagnostics, selection, semantics);
-                foreach (var token in semantics.fixed_tokens) {
+                var key = capabilities.environment_key_for (selection.option_id);
+                foreach (var fixed_token in semantics.fixed_tokens) {
+                    var token = key == null ? fixed_token : key + "=1";
                     if (!safe (diagnostics, selection.option_id, token)) continue;
-                    environments.add (new LaunchEnvironmentAssignment (semantics.environment_key, token));
+                    environments.add (new LaunchEnvironmentAssignment (key ?? semantics.environment_key, token));
                 }
                 return;
             }
             var values = selection.get_values ();
+            if (values.length == 0 && semantics.implicit_value != "")
+                values = { semantics.implicit_value };
             if (values.length == 0) {
                 add (diagnostics, LaunchCommandCompositionDiagnosticCode.MISSING_DYNAMIC_VALUE, selection.option_id,
                     "Launch option '%s' requires a value.".printf (selection.option_id)); return;
@@ -422,6 +463,11 @@ namespace ProtonPlus.LaunchOptions {
                     "Launch option '%s' requires exactly one value.".printf (selection.option_id)); return;
             }
             var raw_value = values[0];
+            if (!semantics.accepts_value_format (raw_value)) {
+                add (diagnostics, LaunchCommandCompositionDiagnosticCode.UNSUPPORTED_SELECTABLE_VALUE, selection.option_id,
+                    "Launch option '%s' has an invalid value.".printf (selection.option_id));
+                return;
+            }
             var selectable = true;
             if (semantics.value_separator != "" && semantics.selectable_values.length > 0) {
                 foreach (var member in raw_value.split (semantics.value_separator)) {
@@ -443,8 +489,11 @@ namespace ProtonPlus.LaunchOptions {
             }
             bool safe_value = safe (diagnostics, selection.option_id, raw_value);
             if (!selectable || !safe_value) return;
-            environments.add (new LaunchEnvironmentAssignment (semantics.environment_key,
-                "%s=%s".printf (semantics.environment_key, shell_word (raw_value))));
+            if (semantics.environment_value_prefix != "")
+                raw_value = semantics.environment_value_prefix + " = " + raw_value;
+            var output_key = capabilities.environment_key_for (selection.option_id) ?? semantics.environment_key;
+            environments.add (new LaunchEnvironmentAssignment (output_key,
+                "%s=%s".printf (output_key, shell_word (raw_value))));
         }
 
         void append_wrapper_argument (ArrayList<LaunchCommandCompositionDiagnostic> diagnostics,
@@ -455,9 +504,21 @@ namespace ProtonPlus.LaunchOptions {
                 validate_no_values (diagnostics, selection, semantics);
                 foreach (var token in semantics.fixed_tokens) output.add (token);
             } else if (semantics.parse_shape != null) {
-                append_shape (diagnostics, selection.option_id, selection.get_values (), semantics.parse_shape, output);
+                var values = selection.get_values ();
+                foreach (var value in values)
+                    if (!valid_selectable (diagnostics, selection.option_id, value, semantics.selectable_values))
+                        return;
+                append_shape (diagnostics, selection.option_id, values, semantics.parse_shape, output);
             } else {
-                foreach (var token in selection.get_values ()) output.add (token);
+                foreach (var token in selection.get_values ()) {
+                    var words = new LaunchOptionShellTokenizer ().tokenize (token);
+                    if (words.size != 1 || words[0].is_opaque || words[0].raw != token || words[0].value == "--") {
+                        add (diagnostics, LaunchCommandCompositionDiagnosticCode.EMPTY_OR_UNSAFE_ARGUMENT,
+                            selection.option_id, _("Enter complete wrapper arguments without a command delimiter."));
+                        continue;
+                    }
+                    output.add (token);
+                }
                 if (output.size == 0)
                     add (diagnostics, LaunchCommandCompositionDiagnosticCode.MISSING_DYNAMIC_VALUE, selection.option_id,
                         "Launch option '%s' requires at least one argument.".printf (selection.option_id));
@@ -533,6 +594,14 @@ namespace ProtonPlus.LaunchOptions {
                     "Launch option '%s' has an invalid wrapper selection.".printf (option_id)); return;
             }
             var definition = catalog.lookup_wrapper (wrapper_id);
+            if (definition.uses_installed_path) {
+                var executable = capabilities.wrapper_executable_for (wrapper_id);
+                if (executable == null || !Path.is_absolute (executable) || !safe (diagnostics, option_id, executable)) {
+                    add (diagnostics, LaunchCommandCompositionDiagnosticCode.INVALID_WRAPPER_SELECTION,
+                        option_id, _("The selected native game wrapper has no installed executable path."));
+                    return;
+                }
+            }
             if (selected.has_key (wrapper_id))
                 add (diagnostics, LaunchCommandCompositionDiagnosticCode.DUPLICATE_WRAPPER, option_id,
                     "Wrapper '%s' was selected more than once.".printf (wrapper_id));
@@ -624,6 +693,20 @@ namespace ProtonPlus.LaunchOptions {
             }
             output.add (raw);
         }
+        string option_title (string id) {
+            return catalog.lookup (id)?.title ?? id;
+        }
+
+        void add_missing_dependency (ArrayList<LaunchCommandCompositionDiagnostic> diagnostics,
+                                     LaunchOptionMetadata metadata, string dependency) {
+            var message = dependency == "launch-backend" && metadata.subsection != ""
+                ? _("“%s” requires %s as the launch backend.").printf (metadata.title, metadata.subsection)
+                : _("“%s” requires “%s”.").printf (metadata.title, option_title (dependency));
+            diagnostics.add (new LaunchCommandCompositionDiagnostic (
+                LaunchCommandCompositionDiagnosticCode.MISSING_DEPENDENCY, metadata.id, message, dependency
+            ));
+        }
+
         void add (ArrayList<LaunchCommandCompositionDiagnostic> diagnostics, LaunchCommandCompositionDiagnosticCode code, string id, string message) {
             diagnostics.add (new LaunchCommandCompositionDiagnostic (code, id, message));
         }
@@ -640,8 +723,7 @@ namespace ProtonPlus.LaunchOptions {
                 unichar character = value.get_char (index);
                 if (!(character.isalnum () || character == '_' || character == '.' || character == '/' || character == ':' || character == '-' || character == '+')) { plain = false; break; }
             }
-            if (plain) return value;
-            return "'%s'".printf (value.replace ("'", "'\\\"'\\\"'"));
+            return plain ? value : Shell.quote (value);
         }
     }
 }

@@ -1,43 +1,13 @@
 namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
-using Adw;
-using Gtk;
-
-    public class LaunchOptionAmdIcd : LaunchOptionCustomPairs {
-
+    public class LaunchOptionAmdIcd : LaunchOptionEnvCombo {
         public LaunchOptionAmdIcd () {
-            string[] keys = { "driver" };
-
-            string[] display_opts = {
-                _ ("System Default"),
-                "Mesa RADV (RADV)",
-                "AMD Proprietary (AMDVLK)"
-            };
-
-            string[] value_opts = { "", "RADV", "AMDVLK" };
-
-            var tooltips = new HashTable<string, string> (str_hash, str_equal);
-            tooltips.insert ("driver", _ ("Switch between open-source Mesa driver and official AMDVLK driver."));
-
             base (
-                    _ ("AMD Vulkan ICD Driver"),
-                    _ ("Select preferred Vulkan driver implementation"),
-                    _ ("Force Vulkan Driver"),
-                    _ ("Override system-wide Vulkan driver preference for this game"),
-                    keys,
-                    display_opts,
-                    value_opts,
-                    tooltips,
-                    ",",
-                    "AMD_ICD"
+                "AMD_VULKAN_ICD",
+                _("Vulkan driver"),
+                _("Chooses the AMD Vulkan driver through the installed switchable graphics layer."),
+                { _("System Default"), "Mesa RADV", "AMDVLK" },
+                { "", "RADV", "AMDVLK" }
             );
-        }
-
-        public override void append_command_segments (Gee.LinkedList<string> segments) {
-            string val = this.value;
-            if (val != "") {
-                string driver_name = val.replace ("driver=", "");
-                segments.add (this.environment_variable_prefix + driver_name);
-            }
         }
     }
 }

@@ -4,58 +4,41 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
     public class Gamescope : Base {
         protected override string backend_id { get { return "gamescope"; } }
 
-        LaunchOptionTile fullscreen_tile { get; set; }
-        LaunchOptionTile hdr_tile { get; set; }
-        LaunchOptionTile vrr_tile { get; set; }
-        LaunchOptionSpinTile framerate_tile { get; set; }
-        LaunchOptionResolutionField resolution_field { get; set; }
-        LaunchOptionEntryField args_field { get; set; }
+        LaunchOptionEntryField args_field;
         Gtk.Widget cached_page;
 
         public Gamescope (LaunchOptionsList launch_option_handlers, LaunchOptionPresentationRegistry? presentation_registry = null) {
             base (launch_option_handlers, presentation_registry);
-            cached_page = null;
-        }
-
-        public void selection_change () {
-            fullscreen_tile.toggle.set_active (false);
-            hdr_tile.toggle.set_active (false);
-            vrr_tile.toggle.set_active (false);
-            framerate_tile.toggle.set_active (false);
-            framerate_tile.set_value (60);
-            resolution_field.reset ();
-            args_field.set_text ("");
         }
 
         public Gtk.Widget create_page () {
-            if (cached_page != null) {
+            if (cached_page != null)
                 return cached_page;
-            }
 
             var group = new Adw.PreferencesGroup ();
-
-            fullscreen_tile = create_tile ("gamescope-fullscreen", true);
-
-            hdr_tile = create_tile ("gamescope-hdr", true);
-
-            vrr_tile = create_tile ("gamescope-vrr", true);
-
-            framerate_tile = new LaunchOptionSpinTile (_("Frame limit"), _("Caps the frame rate inside Gamescope."), _("FPS"), 30, 360, 60, "-r ");
-            register_option ("gamescope-frame-limit", framerate_tile, framerate_tile);
-            framerate_tile.draft_changed.connect (() => this.changed ());
-
-            resolution_field = new LaunchOptionResolutionField (_("Resolution"), _("Sets the Gamescope output resolution."), false, false);
-            register_option ("gamescope-resolution", resolution_field, resolution_field);
-            resolution_field.draft_changed.connect (() => this.changed ());
-
-            group.add (fullscreen_tile);
-            group.add (hdr_tile);
-            group.add (vrr_tile);
-            group.add (framerate_tile);
-            group.add (resolution_field);
-
-            this.add_child (framerate_tile);
-            this.add_child (resolution_field);
+            group.add (create_tile ("gamescope-fullscreen", true));
+            group.add (create_resolution_tile ("gamescope-resolution"));
+            group.add (create_resolution_tile ("gamescope-internal-resolution"));
+            group.add (create_number_tile ("gamescope-frame-limit", _("Hz")));
+            group.add (create_number_tile ("gamescope-fps-limit", _("FPS")));
+            group.add (create_choice_tile ("gamescope-scaler", {
+                _("Default"), _("Automatic"), _("Integer"), _("Fit"), _("Fill"), _("Stretch")
+            }));
+            group.add (create_choice_tile ("gamescope-filter", {
+                _("Default"), _("Linear"), _("Nearest"), "FSR", "NIS", _("Pixel")
+            }));
+            group.add (create_number_tile ("gamescope-sharpness", "", 20, 0));
+            group.add (create_value_field ("gamescope-prefer-output"));
+            group.add (create_number_tile ("gamescope-display-index", "", int.MAX, 0));
+            group.add (create_tile ("gamescope-force-grab-cursor"));
+            group.add (create_number_tile ("gamescope-hide-cursor-delay", _("ms"), int.MAX, 0));
+            group.add (create_tile ("gamescope-vrr", true));
+            group.add (create_tile ("gamescope-hdr", true));
+            group.add (create_number_tile ("gamescope-hdr-sdr-nits", _("nits"), int.MAX, 400));
+            group.add (create_tile ("gamescope-hdr-itm"));
+            group.add (create_number_tile ("gamescope-hdr-itm-sdr-nits", _("nits"), 1000, 100));
+            group.add (create_number_tile ("gamescope-hdr-itm-target-nits", _("nits"), 10000, 1000));
+            group.add (create_tile ("gamescope-mangoapp"));
 
             args_field = new LaunchOptionEntryField (
                 _("Additional Gamescope arguments"),
@@ -85,62 +68,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             args_field.set_text ("");
         }
 
-        public override void parse_tokens (string[] tokens, bool[] consumed) {
-            var wrapper_index = get_first_present_index (tokens, { "gamescope" });
-            if (wrapper_index < 0) {
-                this.active = false;
-                return;
-            }
-
-            this.active = true;
-            consumed[wrapper_index] = true;
-
-            var end_index = get_wrapper_end_index (tokens, wrapper_index, consumed);
-            resolution_field.parse_tokens (tokens, consumed);
-
-            for (var index = wrapper_index + 1; index < end_index; index++) {
-                var token = tokens[index];
-
-                if (consumed[index])
-                    continue;
-
-                if (token == "-f") {
-                    fullscreen_tile.toggle.set_active (true);
-                    consumed[index] = true;
-                    continue;
-                }
-
-                if (token == "--hdr-enabled") {
-                    hdr_tile.toggle.set_active (true);
-                    consumed[index] = true;
-                    continue;
-                }
-
-                if (token == "--adaptive-sync") {
-                    vrr_tile.toggle.set_active (true);
-                    consumed[index] = true;
-                    continue;
-                }
-
-                if (token == "-r" && index + 1 < end_index) {
-                    int framerate;
-                    if (int.try_parse (tokens[index + 1], out framerate)) {
-                        framerate_tile.toggle.set_active (true);
-                        framerate_tile.set_value (framerate);
-                        consumed[index] = true;
-                        consumed[index + 1] = true;
-                        index++;
-                        continue;
-                    }
-                }
-
-                consumed[index] = true;
-            }
-
-            foreach (var child in this._children) {
-                child.parse_tokens (tokens, consumed);
-            }
-        }
+        public override void parse_tokens (string[] tokens, bool[] consumed) {}
 
         public override void append_command_segments (Gee.LinkedList<string> segments) {
             if (!this.is_active ())

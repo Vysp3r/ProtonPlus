@@ -27,8 +27,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             HashTable<string, string>? tooltips = null, bool allow_custom = true) {
             Object (
                     title : switch_title,
-                    subtitle : switch_subtitle,
-                    show_enable_switch: true
+                    subtitle : switch_subtitle
             );
 
             this.options_display = options_display;
@@ -76,10 +75,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 return false;
             });
             add_custom_row.add_controller (key_controller);
-
-            this.notify["enable-expansion"].connect (() => {
-                refresh_custom_input ();
-            });
         }
 
         public void init_predefined_keys (string[] predefined_keys) {
@@ -137,7 +132,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         protected string get_pending_custom_key () {
-            return allow_custom && enable_expansion ? add_custom_row.text.strip ().down () : "";
+            return allow_custom ? add_custom_row.text.strip ().down () : "";
         }
 
         protected string get_default_custom_value () {
@@ -199,10 +194,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
 
         protected virtual void trigger_changed_if_ready () {
             this.changed ();
-        }
-
-        public virtual bool is_active () {
-            return this.enable_expansion;
         }
     }
 }

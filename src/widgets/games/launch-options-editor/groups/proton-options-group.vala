@@ -4,10 +4,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
     public class ProtonOptionsGroup : BaseOptionsGroup {
 
         LaunchOptionTile proton_priority_high_tile { get; private set; }
-        LaunchOptionTile proton_use_wow64_tile { get; private set; }
-        LaunchOptionTile proton_force_large_address_aware_tile { get; private set; }
-        LaunchOptionTile proton_logs_tile { get; private set; }
-        LaunchOptionTile proton_optiscaler_tile { get; private set; }
         LaunchOptionTile proton_discord_bridge_tile { get; private set; }
         LaunchOptionTile proton_use_d7vk_tile { get; private set; }
         LaunchOptionDllOverrides dll_overrides_pair_editor { get; private set; }
@@ -19,10 +15,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.description = _("Extra Proton settings and launch behaviors.");
 
             proton_priority_high_tile = create_tile ("high-process-priority");
-            proton_use_wow64_tile = create_tile ("wow64");
-            proton_force_large_address_aware_tile = create_tile ("large-address-aware");
-            proton_logs_tile = create_tile ("proton-debug-log");
-            proton_optiscaler_tile = create_tile ("optiscaler");
             proton_discord_bridge_tile = create_tile ("discord-bridge");
             proton_use_d7vk_tile = create_tile ("d7vk");
 
@@ -33,12 +25,40 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             });
 
             this.add (proton_priority_high_tile);
-            this.add (proton_use_wow64_tile);
-            this.add (proton_force_large_address_aware_tile);
-            this.add (proton_logs_tile);
-            this.add (proton_optiscaler_tile);
+            add (create_environment_combo ("large-address-aware", { _("Off"), _("On") }));
+            add (create_environment_field ("proton-debug-log"));
+            add (create_environment_field ("proton-log-directory"));
+            add (create_tile ("proton-esync"));
+            add (create_tile ("proton-fsync"));
+            add (create_tile ("proton-no-d3d11"));
+            add (create_tile ("proton-no-d3d10"));
+            add (create_tile ("proton-disable-nvapi"));
             this.add (proton_discord_bridge_tile);
             this.add (proton_use_d7vk_tile);
+            add (create_environment_combo ("wow64", { _("Off"), _("On") }));
+            add (create_environment_field ("optiscaler"));
+            add (create_environment_combo ("proton-hevc-defaults", { _("Off"), _("On") }));
+            add (create_environment_field ("proton-hevc-renderer"));
+            add (create_environment_combo ("proton-tkg-nvapi", { _("On"), _("Off") }));
+            add (create_environment_combo ("proton-tkg-winedbg", { _("On"), _("Off") }));
+            add (create_environment_combo ("proton-tkg-pulse", { _("Off"), _("On") }));
+            add (create_environment_combo ("proton-tkg-d3d9", { _("Off"), _("On") }));
+            add (create_environment_combo ("proton-tkg-winetricks", { _("Off"), _("On") }));
+            foreach (var id in new string[] {
+                "proton-anime-xxmi", "proton-anime-gimi", "proton-anime-srmi", "proton-anime-zzmi",
+                "proton-anime-himi", "proton-anime-wwmi", "proton-anime-efmi", "proton-anime-reshade",
+                "proton-anime-reshade-path", "proton-anime-hsr-fps", "proton-anime-gi-fps",
+                "proton-anime-nte-timeout", "proton-anime-wuwa-engine",
+                "boxtron-sierra-game", "roberta-scummvm-command", "roberta-screen"
+            })
+                add (create_environment_field (id));
+            add (create_tile ("proton-anime-kuro"));
+            add (create_tile ("proton-anime-nte"));
+            add (create_environment_combo ("luxtorpeda-confirm", { _("Ask for confirmation"), _("Skip confirmation") }));
+            add (create_environment_combo ("luxtorpeda-logging", { _("Off"), _("On") }));
+            add (create_tile ("luxtorpeda-cloud"));
+            add (create_environment_combo ("rosemary-glibc", { _("Automatic"), _("Host"), _("Bundled") }));
+            add (create_tile ("rosemary-trace"));
             this.add (dll_overrides_pair_editor);
 
             launch_option_handlers.add (dll_overrides_pair_editor);

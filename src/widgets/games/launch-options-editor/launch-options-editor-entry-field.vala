@@ -47,6 +47,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                     return _("Remove %command% from the additional arguments.");
                 if (word.is_opaque)
                     return _("Use complete arguments with matching quotes and no shell operators or expansions.");
+                if (word.value == "--")
+                    return _("Remove the command delimiter from the additional arguments.");
                 values.add (word.raw);
             }
             arguments = values.to_array ();
@@ -57,6 +59,104 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             string[] arguments;
             LaunchOptionInputFeedback.update (this, validation_label, read_arguments (out arguments));
         }
+    }
+
+    class LaunchOptionEnvironmentField : Adw.EntryRow, ILaunchOption, ILaunchCommandSelectionSource {
+        public LaunchLineType line_type { get; set; default = LaunchLineType.ENVIRONMENT; }
+        public bool is_advanced { get; set; default = true; }
+        public string option_id { get; set; }
+        LaunchOptionSemantics semantics;
+
+        public LaunchOptionEnvironmentField (LaunchOptionMetadata metadata) {
+            Object (title: metadata.title, use_markup: false);
+            option_id = metadata.id;
+            semantics = metadata.semantics;
+            Utils.TextInputMetadataPolicy.apply (this, semantics.value_pattern == ""
+                ? Utils.TextInputFieldKind.PATH_OR_IDENTIFIER : Utils.TextInputFieldKind.NUMERIC);
+            tooltip_text = metadata.description;
+            changed.connect (() => {
+                var diagnostic = get_diagnostic ();
+                tooltip_text = diagnostic ?? metadata.description;
+                if (diagnostic == null)
+                    remove_css_class ("error");
+                else
+                    add_css_class ("error");
+                update_property (Gtk.AccessibleProperty.DESCRIPTION, tooltip_text, -1);
+            });
+        }
+
+        public void load_from_parse_result (LaunchCommandParseResult parsed) {
+            foreach (var occurrence in parsed.occurrences) {
+                if (occurrence.option_id != option_id || occurrence.is_legacy)
+                    continue;
+                text = semantics.decode_environment_value (occurrence.environment_value) ?? "";
+                return;
+            }
+        }
+
+        public LaunchCommandSelection? get_selection () {
+            return is_active () && get_diagnostic () == null
+                ? new LaunchCommandSelection (option_id, { text }) : null;
+        }
+
+        public string? get_diagnostic () {
+            if (!is_active ())
+                return null;
+            if (text.contains ("%command%"))
+                return _("Remove %command% from this value.");
+            if (!semantics.accepts_value_format (text))
+                return _("Enter a value in the format described for this option.");
+            return null;
+        }
+
+        public string get_invalid_value () { return text; }
+        public bool is_active () { return text != ""; }
+        public void clear () { text = ""; }
+        public void add_child (ILaunchOption child) {}
+        public void parse_tokens (string[] tokens, bool[] consumed) {}
+        public void append_command_segments (Gee.LinkedList<string> segments) {}
+    }
+
+    class LaunchOptionWrapperValueField : Adw.EntryRow, ILaunchOption, ILaunchCommandSelectionSource {
+        public LaunchLineType line_type { get; set; }
+        public bool is_advanced { get; set; }
+        public string option_id { get; set; }
+
+        public LaunchOptionWrapperValueField (LaunchOptionMetadata metadata) {
+            Object (title: metadata.title);
+            option_id = metadata.id;
+            line_type = metadata.serialization_type;
+            tooltip_text = metadata.description;
+            changed.connect (() => {
+                var diagnostic = get_diagnostic ();
+                tooltip_text = diagnostic ?? metadata.description;
+                if (diagnostic == null)
+                    remove_css_class ("error");
+                else
+                    add_css_class ("error");
+                update_property (Gtk.AccessibleProperty.DESCRIPTION, tooltip_text, -1);
+            });
+        }
+
+        public LaunchCommandSelection? get_selection () {
+            return is_active () && get_diagnostic () == null
+                ? new LaunchCommandSelection (option_id, { text.strip () }) : null;
+        }
+
+        public string? get_diagnostic () {
+            if (text.contains ("%command%"))
+                return _("Remove %command% from this value.");
+            if (line_type == LaunchLineType.WRAPPER_ARGUMENT && text.strip ().has_prefix ("-"))
+                return _("Enter a value without a command-line flag.");
+            return null;
+        }
+
+        public string get_invalid_value () { return text; }
+        public bool is_active () { return text.strip () != ""; }
+        public void clear () { text = ""; }
+        public void add_child (ILaunchOption child) {}
+        public void parse_tokens (string[] tokens, bool[] consumed) {}
+        public void append_command_segments (Gee.LinkedList<string> segments) {}
     }
 
     class LaunchCustomWrapperField : Adw.EntryRow, ILaunchOption, ILaunchCommandSelectionSource {

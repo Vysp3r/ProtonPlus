@@ -4,7 +4,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
     public class CommonOptionsGroup : BaseOptionsGroup {
         LaunchOptionTile mangohud_tile { get; private set; }
         LaunchOptionTile steam_deck_tile { get; private set; }
-        LaunchOptionTile wayland_tile { get; private set; }
         LaunchOptionTile gamemode_tile { get; private set; }
         LaunchOptionTile game_performance_tile { get; private set; }
         LaunchOptionTile mangohud_vulkan_tile { get; private set; }
@@ -21,7 +20,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
             steam_deck_tile = create_tile ("desktop-game-profile");
 
-            wayland_tile = create_tile ("native-wayland");
 
             gamemode_tile = create_tile ("gamemode");
 
@@ -33,11 +31,16 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
 
             this.add (mangohud_tile);
             this.add (steam_deck_tile);
-            this.add (wayland_tile);
             this.add (gamemode_tile);
             this.add (game_performance_tile);
             this.add (mangohud_vulkan_tile);
             this.add (obs_vkcapture_tile);
+            add (create_environment_combo ("native-wayland", { _("Off"), _("On") }));
+            add (create_environment_field ("mangohud-config"));
+            add (create_environment_field ("mangohud-config-file"));
+            add (create_environment_field ("vkbasalt-config-file"));
+            add (create_tile ("game-performance-screensaver"));
+            this.add (create_tile ("obs-gamecapture"));
         }
     }
 }

@@ -36,6 +36,11 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             this.add (cachyos_vkd3d_low_latency_tile);
             this.add (vkd3d_config_editor);
             this.add (vkd3d_log_level_editor);
+            add (create_environment_field ("vkd3d-device-filter"));
+            add (create_environment_field ("vkd3d-device-index"));
+            add (create_environment_field ("vkd3d-frame-limit"));
+            add (create_environment_field ("vkd3d-log-file"));
+            add (create_environment_field ("vkd3d-shader-cache-path"));
 
             launch_option_handlers.add (vkd3d_config_editor);
             launch_option_handlers.add (vkd3d_log_level_editor);

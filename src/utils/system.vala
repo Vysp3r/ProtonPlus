@@ -539,6 +539,18 @@ printf '%s\n' "$instances" | awk -v app="$1" -v runtime="$runtime_dir" '
             return result.exit_status == 0 && result.stdout != "" && !result.stdout.contains ("which: no");
         }
 
+        internal static string? find_host_executable (string name) {
+            if (!Globals.IS_FLATPAK) {
+                var executable = Environment.find_program_in_path (name);
+                return executable == null ? null : Filename.canonicalize (executable);
+            }
+
+            var result = run_command_sync_result ("which %s".printf (Shell.quote (name)));
+            var executable = result.stdout.strip ();
+            return result.exit_status == 0 && Path.is_absolute (executable) && !executable.contains ("\n")
+                ? executable : null;
+        }
+
         public static GpuVendor get_gpu_vendor_from_pci_devices (string pci_devices) {
             foreach (var line in pci_devices.split ("\n")) {
                 // Display controller PCI classes range from 0x0300 to 0x03ff.

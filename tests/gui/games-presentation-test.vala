@@ -439,12 +439,42 @@ class GamesSteamSession : Object, Services.SteamSessionBackend {
 }
 
 Gtk.Button steam_editor_button (ProtonPlus.Widgets.Games.Box page, string text) {
-    var presentation = page.get_header_presentation ();
-    assert (presentation != null);
-    var button = find_widget (presentation.end_actions[0], widget => widget is Gtk.Button &&
+    var button = find_widget (page, widget => widget is Gtk.Button && widget.get_mapped () &&
         (((Gtk.Button) widget).label == text || widget.get_tooltip_text () == text)) as Gtk.Button;
     assert (button != null);
     return button;
+}
+
+void pick_launch_option (Adw.Window window, ProtonPlus.Widgets.Games.Box page,
+    string query, string title, string excluded_title) {
+    var add = steam_editor_button (page, "Add launch option");
+    assert (add.grab_focus () && ((Gtk.Widget) add).activate ());
+    wait_for_layout (() => window.visible_dialog != null && window.visible_dialog.get_mapped ());
+    var dialog = window.visible_dialog;
+    var search = find_widget (dialog, widget => widget is Gtk.SearchEntry) as Gtk.SearchEntry;
+    assert (search != null);
+    WidgetMatches match = widget => widget is Adw.ActionRow && widget.get_mapped ()
+        && ((Adw.ActionRow) widget).title == title;
+    search.text = query;
+    wait_for_layout (() => find_widget (dialog, match) != null
+        && find_widget (dialog, widget => widget is Adw.ActionRow && widget.get_mapped ()
+            && ((Adw.ActionRow) widget).title == excluded_title) == null);
+    var choice = find_widget (dialog, match);
+    if (choice == null || !choice.grab_focus () || !choice.activate ())
+        error ("Could not select launch option '%s' in the picker.", title);
+    wait_for_layout (() => window.visible_dialog == null);
+    assert (window.visible_dialog == null);
+}
+
+void check_saved_launch_options (string path, string alpha, string bravo) throws Error {
+    string contents;
+    FileUtils.get_contents (path, out contents);
+    var document = Utils.VDF.VdfParser.parse_document (contents);
+    var apps = document?.root.get_child ("UserLocalConfigStore")?.get_child ("Software")
+        ?.get_child ("Valve")?.get_child ("Steam")?.get_child ("apps");
+    assert (apps != null);
+    assert (apps.get_child ("1")?.get_child ("LaunchOptions")?.value == alpha);
+    assert (apps.get_child ("2")?.get_child ("LaunchOptions")?.value == bravo);
 }
 
 void check_steam_compatibility_editor (string parent) throws Error {
@@ -459,19 +489,20 @@ void check_steam_compatibility_editor (string parent) throws Error {
             "1" { "name" "removed-proton" "config" "" "priority" "250" }
         } } } } }
     """;
-    const string launch_contents = """
+    var bravo_source = "BRAVO=\"keep spacing\" %command% --tag --tag --long=" + string.nfill (2400, 'x');
+    var launch_contents = """
         "UserLocalConfigStore" { "Software" { "Valve" { "Steam" { "apps" {
-            "1" { "LaunchOptions" "ALPHA=1 %command%" }
-            "2" { "LaunchOptions" "BRAVO=2 %command%" }
+            "1" { "LaunchOptions" "PROTON_ENABLE_HDR=1 ALPHA=1 %%command%%" }
+        "2" { "LaunchOptions" %s }
         } } } } }
-    """;
+    """.printf (Utils.VDF.VdfDocument.quote (bravo_source));
     FileUtils.set_contents (config, config_contents);
     FileUtils.set_contents (login, """"users" { "76561197960265729" { "PersonaName" "Fixture" } }""");
     FileUtils.set_contents (localconfig, launch_contents);
 
     var backend = new GamesSteamSession () { root = root };
-    var lifecycle = new Services.SteamLifecycle (new Services.SteamSessionService (backend),
-        new Services.SteamRestartStateStore (Path.build_filename (root, "restart-state.json")));
+    var restart_store = new Services.SteamRestartStateStore (Path.build_filename (root, "restart-state.json"));
+    var lifecycle = new Services.SteamLifecycle (new Services.SteamSessionService (backend), restart_store);
     var launcher = new DeferredSteamLibrary (Models.Launcher.InstallationTypes.SNAP, root) { defer_load = true };
     launcher.load_profile_library.begin ();
     launcher.complete ();
@@ -483,7 +514,16 @@ void check_steam_compatibility_editor (string parent) throws Error {
     bravo.name = long_name;
     launcher.update_game_compatibility_tool_mapping (alpha.appid, "removed-proton");
     alpha.apply_effective_compatibility_tool ("removed-proton");
-    launcher.register_compatibility_tool (new Models.CompatibilityTool ("Fixture Proton", "fixture-proton"));
+    var tool_path = Path.build_filename (root, "fixture-proton");
+    var dxvk = Path.build_filename (tool_path, "files", "lib", "wine", "dxvk", "x86_64-windows");
+    assert (DirUtils.create_with_parents (dxvk, 0700) == 0);
+    var binary = new StringBuilder ("MZ");
+    binary.append_c ('\0');
+    binary.append ("DXVK_HDR");
+    binary.append_c ('\0');
+    FileUtils.set_contents (Path.build_filename (dxvk, "dxgi.dll"), binary.str, (ssize_t) binary.len);
+    launcher.register_compatibility_tool (new Models.CompatibilityTool ("Fixture Proton", "fixture-proton",
+        tool_path, Models.CompatibilityToolRuntimeKind.PROTON));
 
     var page = new ProtonPlus.Widgets.Games.Box ();
     var viewport = new Adw.Clamp () {
@@ -528,29 +568,157 @@ void check_steam_compatibility_editor (string parent) throws Error {
     assert (wide_title != null && wide_title.grab_focus () && wide_title.controller_activate (wide_title));
     wait_for_layout (() => find_widget (page, picker) != null);
     var choice = find_widget (page, picker) as CompatibilityToolRow;
-    assert (choice != null && choice.title == "Compatibility version");
+    assert (choice != null && choice.title == "Version");
+    var compatibility_group = choice.get_ancestor (typeof (Adw.PreferencesGroup)) as Adw.PreferencesGroup;
+    assert (compatibility_group != null && compatibility_group.title == "Compatibility tool");
     var header_title = page.get_header_presentation ().title_widget;
     assert (find_widget (header_title, widget => widget is Gtk.Label && ((Gtk.Label) widget).label == "Alpha") != null);
     assert (((Models.CompatibilityTool) choice.get_selected_item ()).internal_title == "removed-proton");
-    assert (page.get_controller_initial_focus () == choice);
+    var add_option = steam_editor_button (page, "Add launch option");
+    assert (page.get_controller_initial_focus () == add_option);
     assert (find_widget (page, bulk_switch) == null);
     WidgetMatches technical_details = widget => widget is Adw.ExpanderRow &&
         ((Adw.ExpanderRow) widget).title == "Technical details";
     assert (find_widget (page, technical_details) == null);
     var apply = steam_editor_button (page, "Apply Changes");
-    assert (!apply.sensitive);
+    var reset = steam_editor_button (page, "Reset Changes");
+    assert (!apply.sensitive && !reset.sensitive);
     choice.selected = 0;
-    assert (apply.sensitive);
+    assert (apply.sensitive && reset.sensitive);
     choice.selected = choice.model.get_n_items () - 1;
-    assert (!apply.sensitive);
-    steam_editor_button (page, "Clear Launch Options").clicked ();
+    assert (!apply.sensitive && !reset.sensitive);
+    var preview = steam_editor_button (page, "Command preview") as Gtk.ToggleButton;
+    assert (preview != null && !preview.active);
+    var clear_options = steam_editor_button (page, "Clear Launch Options");
+    var current_options = find_widget (page, widget => widget is Adw.PreferencesGroup && widget.get_mapped () &&
+        ((Adw.PreferencesGroup) widget).title == "Launch options") as Adw.PreferencesGroup;
+    assert (current_options != null && current_options.header_suffix == add_option);
+    var arguments = find_widget (current_options, widget => widget is Adw.ExpanderRow &&
+        ((Adw.ExpanderRow) widget).title == "Custom game arguments") as LaunchOptionsEditor.LaunchOptionArgumentList;
+    assert (arguments != null && !arguments.expanded);
+    assert (arguments.get_parent ().get_ancestor (typeof (Adw.ExpanderRow)) == null);
+    var original_arguments = new Variant.strv (arguments.get_raw_arguments ());
+    wait_for_layout (() => {
+        Graphene.Rect group_allocation, options_allocation;
+        if (!compatibility_group.compute_bounds (page, out group_allocation))
+            return false;
+        if (!current_options.compute_bounds (page, out options_allocation))
+            return false;
+        return group_allocation.size.height > 0
+            && group_allocation.origin.y + group_allocation.size.height <= options_allocation.origin.y;
+    });
+    Graphene.Rect compatibility_bounds, options_bounds, clear_bounds, reset_bounds, preview_bounds, apply_bounds;
+    assert (compatibility_group.compute_bounds (page, out compatibility_bounds));
+    assert (current_options.compute_bounds (page, out options_bounds));
+    assert (clear_options.compute_bounds (page, out clear_bounds));
+    assert (reset.compute_bounds (page, out reset_bounds));
+    assert (preview.compute_bounds (page, out preview_bounds));
+    assert (apply.compute_bounds (page, out apply_bounds));
+    assert (compatibility_bounds.origin.y + compatibility_bounds.size.height <= options_bounds.origin.y);
+    assert (Math.fabs (preview_bounds.origin.x - options_bounds.origin.x) <= 1);
+    assert (clear_bounds.origin.x - preview_bounds.origin.x - preview_bounds.size.width > 6);
+    assert (Math.fabs (reset_bounds.origin.x - clear_bounds.origin.x - clear_bounds.size.width - 6) <= 1);
+    assert (Math.fabs (apply_bounds.origin.x - reset_bounds.origin.x - reset_bounds.size.width - 6) <= 1);
+    assert (clear_options.sensitive);
+    choice.selected = 0;
+    clear_options.clicked ();
+    assert (!clear_options.sensitive && reset.sensitive && apply.sensitive);
+    reset.clicked ();
+    assert (clear_options.sensitive && !reset.sensitive && !apply.sensitive);
+    assert (((Models.CompatibilityTool) choice.get_selected_item ()).internal_title == "removed-proton");
+    assert (find_widget (page, widget => widget is Gtk.Label &&
+        ((Gtk.Label) widget).get_text () == "PROTON_ENABLE_HDR=1 ALPHA=1 %command%") != null);
+    assert (original_arguments.equal (new Variant.strv (arguments.get_raw_arguments ())));
+    var legacy = steam_editor_button (page, "Remove Legacy custom-Proton HDR");
+    assert (legacy.get_mapped () && legacy.is_sensitive ());
+    legacy.clicked ();
+    assert (apply.sensitive && !preview.active);
+    preview.active = true;
+    assert (find_widget (page, widget => widget is Gtk.Label &&
+        ((Gtk.Label) widget).get_text () == "ALPHA=1 %command%") != null);
+    assert (apply.get_mapped () && apply.grab_focus () && page.get_width () == 850);
+    for (uint index = 0; index < choice.model.get_n_items (); index++) {
+        if (((Models.CompatibilityTool) choice.model.get_item (index)).internal_title == "fixture-proton")
+            choice.selected = index;
+    }
+    assert (((Models.CompatibilityTool) choice.get_selected_item ()).internal_title == "fixture-proton");
+    pick_launch_option (window, page, "Wine DLL overrides", "Wine DLL overrides", "Skip launcher");
+    var dlls = find_widget (page, widget => widget is Adw.ExpanderRow && widget.get_mapped () &&
+        ((Adw.ExpanderRow) widget).title == "Wine DLL overrides") as Adw.ExpanderRow;
+    assert (dlls != null && !dlls.expanded && !dlls.show_enable_switch);
+    assert (dlls.get_parent ().get_ancestor (typeof (Adw.ExpanderRow)) == null);
+    assert (find_widget (dlls, widget => widget != dlls && widget is Adw.ExpanderRow) == null);
+    var dll_remove = steam_editor_button (page, "Remove Wine DLL overrides");
+    assert (dll_remove.get_ancestor (typeof (Adw.ExpanderRow)) == dlls);
+    dlls.expanded = true;
+    var dll_name = find_widget (dlls, widget => widget is Adw.EntryRow &&
+        ((Adw.EntryRow) widget).title == "Custom DLL name") as Adw.EntryRow;
+    assert (dll_name != null);
+    dll_name.text = "fixture_dll";
+    dlls.expanded = false;
+    assert (find_widget (page, widget => widget is Gtk.Label && ((Gtk.Label) widget).get_text ().contains ("fixture_dll=")) != null);
+    dll_remove.clicked ();
+    assert (!dlls.visible);
+    assert (arguments.get_mapped () && !arguments.expanded);
+    var argument_add = steam_editor_button (page, "Add custom argument");
+    var arguments_remove = steam_editor_button (page, "Remove Custom game arguments");
+    assert (argument_add.get_parent () == arguments_remove.get_parent ());
+    assert (find_widget (arguments, widget => widget is Adw.ActionRow
+        && ((Adw.ActionRow) widget).title == "Add custom argument") == null);
+    argument_add.clicked ();
+    var argument = find_widget (arguments, widget => widget is Adw.EntryRow
+        && ((Adw.EntryRow) widget).title == "Argument" && ((Adw.EntryRow) widget).text == "") as Adw.EntryRow;
+    assert (arguments.expanded && argument != null);
+    wait_for_layout (() => window.get_focus ()?.get_ancestor (typeof (Adw.EntryRow)) == argument);
+    assert (window.get_focus ()?.get_ancestor (typeof (Adw.EntryRow)) == argument);
+    var argument_remove = find_widget (argument, widget => widget is Gtk.Button
+        && widget.get_tooltip_text () == "Remove argument") as Gtk.Button;
+    assert (argument_remove != null);
+    argument_remove.clicked ();
+    arguments.expanded = false;
+    assert (original_arguments.equal (new Variant.strv (arguments.get_raw_arguments ())));
+    pick_launch_option (window, page, "PulseAudio latency", "PulseAudio latency", "Skip launcher");
+    var latency = find_widget (page, widget => widget is Adw.ActionRow && widget.get_mapped () &&
+        ((Adw.ActionRow) widget).title == "PulseAudio latency");
+    assert (latency != null && latency.get_ancestor (typeof (Adw.ExpanderRow)) == null);
+    var latency_entry = find_widget (latency, widget => widget is Gtk.Entry && widget.get_mapped ()) as Gtk.Entry;
+    assert (latency_entry != null && latency_entry.text == "90");
+    wait_for_layout (() => window.get_focus ()?.get_ancestor (typeof (Gtk.Entry)) == latency_entry);
+    assert (window.get_focus ()?.get_ancestor (typeof (Gtk.Entry)) == latency_entry);
+    assert (find_widget (latency, widget => widget is Gtk.Switch) == null);
+    var latency_remove = steam_editor_button (page, "Remove PulseAudio latency");
+    assert (latency_remove.get_ancestor (typeof (Adw.ActionRow)) == latency);
+    latency_remove.clicked ();
+    assert (!latency.visible);
+    pick_launch_option (window, page, "DXVK_HDR", "DXVK HDR", "Skip launcher");
+    var hdr_row = find_widget (page, widget => widget is Adw.ActionRow && widget.get_mapped () &&
+        ((Adw.ActionRow) widget).title == "DXVK HDR");
+    assert (hdr_row != null);
+    var hdr_remove = steam_editor_button (page, "Remove DXVK HDR");
+    assert (find_widget (hdr_row, widget => widget is Gtk.Switch && widget.get_mapped ()) == null);
+    assert (hdr_remove.get_ancestor (typeof (Adw.ActionRow)) == hdr_row);
+    assert (hdr_row.get_ancestor (typeof (Adw.ExpanderRow)) == null);
+    assert (!current_options.has_css_class ("launch-options-empty"));
+    var alpha_command = "ALPHA=1 DXVK_HDR=1 %command%";
+    assert (find_widget (page, widget => widget is Gtk.Label && widget.get_mapped () &&
+        ((Gtk.Label) widget).get_text () == alpha_command) != null);
     assert (apply.sensitive);
     apply.clicked ();
     wait_for_layout (() => page.get_header_presentation () == null);
-    assert (alpha.compatibility_tool == "removed-proton" && alpha.launch_options == "");
-    assert (lifecycle.restarts.pending_count () == 1);
-    assert (lifecycle.restarts.get_pending_changes ()[0].receipt.kind ==
-        Models.SteamChangeKind.STEAM_GAME_LAUNCH_OPTIONS_CHANGED);
+    assert (alpha.compatibility_tool == "fixture-proton" && alpha.launch_options == alpha_command);
+    assert (bravo.launch_options == bravo_source);
+    var saved = restart_store.load ();
+    assert (saved.error == null && saved.records.size == 2);
+    var staged_command = false;
+    foreach (var record in saved.records) {
+        if (record.receipt.kind == Models.SteamChangeKind.STEAM_GAME_LAUNCH_OPTIONS_CHANGED) {
+            var intent = record.receipt.configuration_intent;
+            assert (intent != null && intent.field_id == "1" && intent.desired == alpha_command);
+            staged_command = true;
+        }
+    }
+    assert (staged_command);
+    check_saved_launch_options (localconfig, "PROTON_ENABLE_HDR=1 ALPHA=1 %command%", bravo_source);
 
     viewport.maximum_size = 430;
     viewport.tightening_threshold = 430;
@@ -569,6 +737,15 @@ void check_steam_compatibility_editor (string parent) throws Error {
     compatibility = find_widget (row, compatibility_text);
     assert (compatibility != null && compatibility.get_first_child () is Gtk.Label);
     assert (!compatibility.get_focusable () && !compatibility.get_first_child ().get_focusable ());
+    var title = find_widget (row, widget => widget is Gtk.Label && ((Gtk.Label) widget).label == alpha.name);
+    var actions = find_widget (row, widget => widget is GameActions && widget.get_mapped ());
+    assert (title != null && actions != null);
+    Graphene.Rect title_bounds, compatibility_bounds_compact, action_bounds;
+    assert (title.compute_bounds (row, out title_bounds));
+    assert (compatibility.get_first_child ().compute_bounds (row, out compatibility_bounds_compact));
+    assert (actions.compute_bounds (row, out action_bounds));
+    assert (title_bounds.origin.x == compatibility_bounds_compact.origin.x);
+    assert (title_bounds.origin.x == action_bounds.origin.x);
     assert (row.controller_activate (row));
     wait_for_layout (() => find_widget (page, picker) != null);
     choice = find_widget (page, picker) as CompatibilityToolRow;
@@ -577,7 +754,8 @@ void check_steam_compatibility_editor (string parent) throws Error {
     choice.selected = 0;
     steam_editor_button (page, "Apply Changes").clicked ();
     wait_for_layout (() => page.get_header_presentation () == null);
-    assert (alpha.compatibility_tool == "Default" && bravo.launch_options == "BRAVO=2 %command%");
+    assert (alpha.compatibility_tool == "Default" && alpha.launch_options == alpha_command);
+    assert (bravo.launch_options == bravo_source);
     assert (lifecycle.restarts.pending_count () == 2);
 
     var collection = find_widget (page, widget => widget is GameRow && widget.get_mapped () &&
@@ -594,7 +772,11 @@ void check_steam_compatibility_editor (string parent) throws Error {
     assert (page.controller_navigate_back ());
     wait_for_layout (() => page.get_header_presentation () == null);
 
-    for (var opt_in = 0; opt_in < 2; opt_in++) {
+    var target = launcher.get_steam_restart_target ();
+    var alpha_batch_command = alpha_command + " -skip-launcher";
+    var bravo_batch_command = bravo_source + " -skip-launcher";
+    string contents;
+    for (var opt_in = 0; opt_in < 3; opt_in++) {
         var select_all = find_widget (page, widget => widget is Gtk.CheckButton && widget.get_mapped () &&
             widget.get_tooltip_text () == "Select all visible games") as Gtk.CheckButton;
         assert (select_all != null);
@@ -609,10 +791,51 @@ void check_steam_compatibility_editor (string parent) throws Error {
         assert (find_widget (page.get_header_presentation ().title_widget, widget =>
             widget is Gtk.MenuButton && ((Gtk.MenuButton) widget).label == "2 games selected") != null);
         apply = steam_editor_button (page, "Apply Changes");
-        assert (!apply.sensitive);
+        reset = steam_editor_button (page, "Reset Changes");
+        clear_options = steam_editor_button (page, "Clear Launch Options");
+        assert (!apply.sensitive && !reset.sensitive);
         if (opt_in == 0) {
-            steam_editor_button (page, "Clear Launch Options").clicked ();
+            assert (find_widget (page, widget => widget.get_mapped () && widget is Gtk.Label &&
+                ((Gtk.Label) widget).get_text () == "Launch option changes apply to 2 games.") != null);
+            pick_launch_option (window, page, "Skip launcher", "Skip launcher", "Custom wrapper");
+            assert (apply.sensitive && reset.sensitive);
+            steam_editor_button (page, "Remove Skip launcher").clicked ();
+            assert (!apply.sensitive && !reset.sensitive);
+            pick_launch_option (window, page, "Skip launcher", "Skip launcher", "Custom wrapper");
+            preview = steam_editor_button (page, "Command preview") as Gtk.ToggleButton;
+            assert (preview != null && !preview.active);
+            preview.active = true;
+            var expected_preview = "Alpha\n" + alpha_batch_command + "\n\n" + long_name +
+                "\n" + bravo_batch_command;
+            WidgetMatches preview_text = widget => widget is Gtk.Label && widget.get_mapped ()
+                && ((Gtk.Label) widget).get_text () == expected_preview;
+            wait_for_layout (() => find_widget (page, preview_text) != null);
+            var preview_label = find_widget (page, preview_text);
+            assert (preview_label != null);
+            var preview_scroll = preview_label.get_ancestor (typeof (Gtk.ScrolledWindow)) as Gtk.ScrolledWindow;
+            assert (preview_scroll != null);
+            var adjustment = preview_scroll.vadjustment;
+            wait_for_layout (() => adjustment.upper > adjustment.page_size && adjustment.page_size > 0);
+            assert (adjustment.upper > adjustment.page_size && adjustment.page_size > 0);
+            assert (preview_scroll.get_height () <= 144);
+            int minimum, natural;
+            page.measure (Gtk.Orientation.HORIZONTAL, -1, out minimum, out natural, null, null);
+            assert (minimum <= 430 && page.get_width () <= 430);
+            assert (apply.get_mapped () && apply.grab_focus ());
+        } else if (opt_in == 1) {
+            clear_options.clicked ();
+            assert (!clear_options.sensitive && reset.sensitive);
+            reset.clicked ();
+            assert (clear_options.sensitive && !apply.sensitive && !reset.sensitive);
+            clear_options.clicked ();
         } else {
+            assert (!clear_options.sensitive);
+            var empty_options = find_widget (page, widget => widget.get_mapped () && widget is Gtk.Label &&
+                ((Gtk.Label) widget).get_text () == "No launch options configured yet.");
+            assert (empty_options != null);
+            var options_group = empty_options.get_ancestor (typeof (Adw.PreferencesGroup));
+            assert (options_group != null && options_group.has_css_class ("launch-options-empty"));
+            assert (find_widget (options_group, widget => widget is Gtk.ListBox && widget.has_css_class ("boxed-list")) != null);
             change_tool.active = true;
             choice = find_widget (page, picker) as CompatibilityToolRow;
             assert (choice != null && choice.model.get_n_items () == 2);
@@ -621,19 +844,30 @@ void check_steam_compatibility_editor (string parent) throws Error {
         assert (apply.sensitive);
         apply.clicked ();
         wait_for_layout (() => page.get_header_presentation () == null);
-        var expected = opt_in == 0 ? "Default" : "fixture-proton";
+        var expected = opt_in < 2 ? "Default" : "fixture-proton";
         assert (alpha.compatibility_tool == expected && bravo.compatibility_tool == expected);
-        assert (alpha.launch_options == "" && bravo.launch_options == "");
+        assert (alpha.launch_options == (opt_in == 0 ? alpha_batch_command : ""));
+        assert (bravo.launch_options == (opt_in == 0 ? bravo_batch_command : ""));
+        if (opt_in == 0) {
+            assert (lifecycle.configuration.reconcile_target (target).result ==
+                Services.SteamConfigurationMutationResult.STAGED);
+            FileUtils.get_contents (config, out contents);
+            assert (contents == config_contents);
+            FileUtils.get_contents (localconfig, out contents);
+            assert (contents == launch_contents);
+            backend.running = false;
+            assert (lifecycle.configuration.reconcile_target (target).result ==
+                Services.SteamConfigurationMutationResult.CHANGED);
+            check_saved_launch_options (localconfig, alpha_batch_command, bravo_batch_command);
+            backend.running = true;
+            assert (lifecycle.configuration.verify_target_after_session (target));
+        }
     }
 
-    string contents;
-    FileUtils.get_contents (config, out contents);
-    assert (contents == config_contents);
-    FileUtils.get_contents (localconfig, out contents);
-    assert (contents == launch_contents);
+    check_saved_launch_options (localconfig, alpha_batch_command, bravo_batch_command);
     assert (lifecycle.restarts.pending_count () == 4);
     backend.running = false;
-    assert (lifecycle.configuration.reconcile_target (launcher.get_steam_restart_target ()).result ==
+    assert (lifecycle.configuration.reconcile_target (target).result ==
         Services.SteamConfigurationMutationResult.CHANGED);
     FileUtils.get_contents (config, out contents);
     assert (contents.contains ("fixture-proton") && !contents.contains ("removed-proton"));

@@ -6,6 +6,7 @@ namespace AppTests.SystemPathTest {
         public Gee.HashSet<string> commands = new Gee.HashSet<string> ();
         public Gee.HashMap<string, int> command_calls = new Gee.HashMap<string, int> ();
         public CommandResult flatpaks;
+        public Gee.HashMap<string, string> manifests = new Gee.HashMap<string, string> ();
         public int flatpak_calls { get; private set; default = 0; }
 
         public FixtureComponentDetectionBackend (CommandResult flatpaks) {
@@ -15,6 +16,11 @@ namespace AppTests.SystemPathTest {
         public bool has_command (string name) {
             command_calls.set (name, command_calls.get (name) + 1);
             return commands.contains (name);
+        }
+
+        public bool has_vulkan_manifest (string relative_path, string? marker = null) {
+            var manifest = manifests.get (relative_path);
+            return manifest != null && (marker == null || manifest.contains (marker));
         }
 
         public CommandResult list_flatpaks () {
@@ -142,11 +148,22 @@ exec "$@"
         backend.commands.add ("protontricks");
         backend.commands.add ("gamemoderun");
         backend.commands.add ("obs-gamecapture");
+        backend.commands.add ("mangoapp");
         backend.commands.add ("scopebuddy");
         var components = new InstalledComponents (false, backend);
 
-        assert (components.protontricks && components.gamemode && components.obs_vkcapture);
-        assert (components.scopebuddy && !backend.command_calls.has_key ("scb"));
+        assert (components.protontricks && components.gamemode && components.obs_gamecapture);
+        assert (!components.obs_vkcapture && !components.amd_vulkan_switcher);
+        backend.command_calls.clear ();
+        backend.commands.remove ("obs-gamecapture");
+        backend.manifests.set ("implicit_layer.d/obs_vkcapture_64.json", "");
+        backend.manifests.set ("implicit_layer.d/amd_icd64.json", "VK_LAYER_AMD_switchable_graphics_64");
+        var vulkan_components = new InstalledComponents (false, backend);
+        assert (vulkan_components.obs_vkcapture && vulkan_components.amd_vulkan_switcher);
+        assert (!vulkan_components.obs_gamecapture);
+        assert (components.scopebuddy && components.scopebuddy_command == "scopebuddy"
+            && !backend.command_calls.has_key ("scb"));
+        assert (components.mangoapp);
         assert (!components.mangohud && !components.gamescope && !components.game_performance);
         assert (!components.vkbasalt && !components.has_flatpak (MANGOHUD_ID));
         assert (backend.flatpak_calls == 0);
@@ -223,7 +240,7 @@ esac
         var backend = new FixtureComponentDetectionBackend (new CommandResult ("", "", 0));
         backend.commands.add ("scb");
         var components = new InstalledComponents (false, backend);
-        assert (components.scopebuddy);
+        assert (components.scopebuddy && components.scopebuddy_command == "scb");
         assert (backend.command_calls.get ("scopebuddy") == 1);
         assert (backend.command_calls.get ("scb") == 1);
     }

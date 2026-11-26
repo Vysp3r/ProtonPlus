@@ -235,7 +235,7 @@ namespace AppTests.LaunchCommandComposerTest {
         var hdr = compose ({
             new LaunchCommandSelection ("dxvk-hdr"),
             new LaunchCommandSelection ("dxvk-no-hdr")
-        }, { LaunchOptionCapability.DXVK, LaunchOptionCapability.PROTON_AUTO_HDR_CONTROL });
+        }, { LaunchOptionCapability.PROTON_DXVK_HDR, LaunchOptionCapability.PROTON_AUTO_HDR_CONTROL });
         assert (!hdr.is_valid);
         assert_code (hdr, LaunchCommandCompositionDiagnosticCode.EXPLICIT_OPTION_CONFLICT);
 
