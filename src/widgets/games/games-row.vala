@@ -503,7 +503,7 @@ namespace ProtonPlus.Widgets.Games {
 
         public GameRow (GameVerticalFocusRequest vertical_focus,
             GameActivationRequest activation_request) {
-            Object (orientation: Gtk.Orientation.VERTICAL, spacing: 4);
+            Object (orientation: Gtk.Orientation.VERTICAL);
             this.vertical_focus = vertical_focus;
             this.activation_request = activation_request;
             set_focusable (true);
@@ -531,21 +531,22 @@ namespace ProtonPlus.Widgets.Games {
             context_label.set_visible (false);
             compatibility = new GameCompatibilityCell () { hexpand = true };
 
-            var title_line = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
-            title_line.append (select_check_button);
-            title_line.append (title_label);
             navigation_image = new Gtk.Image.from_icon_name ("go-next-symbolic") {
                 tooltip_text = _("Modify Game")
             };
+            var title_line = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 8);
+            title_line.append (title_label);
             title_line.append (navigation_image);
 
             actions = new GameActions (vertical_focus, focus_selection);
-            actions.set_margin_start (30);
 
-            append (title_line);
-            append (context_label);
-            append (compatibility);
-            append (actions);
+            var content = new Gtk.Grid () { column_spacing = 8, row_spacing = 4 };
+            content.attach (select_check_button, 0, 0);
+            content.attach (title_line, 1, 0);
+            content.attach (context_label, 1, 1);
+            content.attach (compatibility, 1, 2);
+            content.attach (actions, 1, 3);
+            append (content);
         }
 
         static Gtk.Label compact_label () {
@@ -576,7 +577,6 @@ namespace ProtonPlus.Widgets.Games {
             context_label.set_tooltip_text (context);
             context_label.set_visible (context != null);
             select_check_button.set_visible (item.game.launcher.supports_bulk_game_edit);
-            compatibility.set_margin_start (item.game.launcher.supports_bulk_game_edit ? 30 : 0);
             compatibility.bind (item);
             actions.bind (item);
             update_accessibility (false);

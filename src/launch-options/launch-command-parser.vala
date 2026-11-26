@@ -323,11 +323,11 @@ namespace ProtonPlus.LaunchOptions {
             while (index < end) {
                 // The words following a user executable belong to an unknown
                 // invocation. A catalog name there may just be an argument.
-                if (has_boundary && LaunchCustomWrapperInput.is_literal_path (result.tokens[index])) {
+                var matched = find_wrapper_at (result, index, end);
+                if (matched == null && has_boundary && LaunchCustomWrapperInput.is_literal_path (result.tokens[index])) {
                     delimiter_scan_end = index;
                     break;
                 }
-                var matched = find_wrapper_at (result, index, end);
                 if (matched == null) {
                     index++;
                     continue;
@@ -414,7 +414,7 @@ namespace ProtonPlus.LaunchOptions {
                 invocation.argument_indexes.add (source_index);
             result.occurrences.add (new LaunchCommandOptionOccurrence (
                 match.entry.id, match.entry.semantics.kind, tokens, match.indexes,
-                normalized_values (result, match.indexes, match.entry.semantics.parse_shape), false,
+                match.normalized_value, false,
                 match.entry.semantics.managed_emission, "", "", invocation.wrapper_id));
         }
 
@@ -426,8 +426,12 @@ namespace ProtonPlus.LaunchOptions {
                 if (semantics == null)
                     continue;
                 bool canonical = semantics.kind == LaunchOptionSemanticKind.ENVIRONMENT_ASSIGNMENT
-                    && semantics.environment_key == key && environment_matches_canonical (semantics, result.tokens[index].value);
-                bool legacy = environment_matches_legacy (semantics, result.tokens[index].value, key);
+                    && semantics.environment_key == key && environment_matches_canonical (semantics, result.tokens[index].value, value);
+                if (!canonical && key in LaunchOptionCatalog.build_environment_keys (entry.id)) {
+                    canonical = semantics.emission_mode == LaunchOptionEmissionMode.DYNAMIC_ENVIRONMENT_VALUE
+                        ? semantics.decode_environment_value (value) != null : value == "1";
+                }
+                bool legacy = !canonical && environment_matches_legacy (semantics, result.tokens[index].value, key);
                 if (!canonical && !legacy)
                     continue;
                 return new LaunchCommandOptionOccurrence (
@@ -437,9 +441,9 @@ namespace ProtonPlus.LaunchOptions {
             return null;
         }
 
-        bool environment_matches_canonical (LaunchOptionSemantics semantics, string token) {
+        bool environment_matches_canonical (LaunchOptionSemantics semantics, string token, string value) {
             if (semantics.emission_mode == LaunchOptionEmissionMode.DYNAMIC_ENVIRONMENT_VALUE)
-                return true;
+                return semantics.decode_environment_value (value) != null;
             foreach (var fixed in semantics.fixed_tokens) {
                 if (fixed == token)
                     return true;
@@ -485,8 +489,6 @@ namespace ProtonPlus.LaunchOptions {
                 if (environment_output == null || argument_output == null || argument_output.parse_shape == null)
                     continue;
                 var environment_index = find_fixed_token (result, end, environment_output.fixed_tokens);
-                if (environment_index < 0)
-                    continue;
                 bool matched_arguments = false;
                 foreach (var invocation in result.wrappers) {
                     if (invocation.wrapper_id != argument_output.wrapper_id)
@@ -495,14 +497,15 @@ namespace ProtonPlus.LaunchOptions {
                     if (argument_indexes == null)
                         continue;
                     var all_indexes = new ArrayList<int> ();
-                    all_indexes.add (environment_index);
+                    if (environment_index >= 0)
+                        all_indexes.add (environment_index);
                     foreach (var source_index in argument_indexes)
                         all_indexes.add (source_index);
                     all_indexes.sort ((first, second) => first - second);
                     result.occurrences.add (new LaunchCommandOptionOccurrence (
                         entry.id, semantics.kind, tokens_for_indexes (result, all_indexes.to_array ()),
                         all_indexes.to_array (), normalized_values (result, argument_indexes, argument_output.parse_shape),
-                        false, semantics.managed_emission, environment_output.environment_key, "", invocation.wrapper_id));
+                        false, semantics.managed_emission, environment_index >= 0 ? environment_output.environment_key : "", "", invocation.wrapper_id));
                     remove_unrecognized_indexes (result, all_indexes);
                     foreach (var source_index in argument_indexes)
                         invocation.unknown_argument_indexes.remove (source_index);
@@ -511,12 +514,15 @@ namespace ProtonPlus.LaunchOptions {
                 /* A composite may deliberately have an environment-only
                  * automatic mode.  This is declared through the selectable
                  * logical value, rather than a writer-side option exception. */
-                bool has_owner_arguments = false;
+                bool has_partial_resolution = false;
                 foreach (var invocation in result.wrappers) {
-                    if (invocation.wrapper_id == semantics.wrapper_id && invocation.argument_indexes.size > 0)
-                        has_owner_arguments = true;
+                    if (invocation.wrapper_id != semantics.wrapper_id)
+                        continue;
+                    foreach (var index in invocation.unknown_argument_indexes)
+                        has_partial_resolution |= result.tokens[index].value in argument_output.parse_shape.tokens;
                 }
-                if (!matched_arguments && !has_owner_arguments && "auto" in semantics.selectable_values) {
+                if (environment_index >= 0 && !matched_arguments && !has_partial_resolution
+                    && "auto" in semantics.selectable_values) {
                     var automatic_indexes = new ArrayList<int> ();
                     automatic_indexes.add (environment_index);
                     result.occurrences.add (new LaunchCommandOptionOccurrence (
@@ -607,6 +613,11 @@ namespace ProtonPlus.LaunchOptions {
             foreach (var definition in catalog.get_wrappers ()) {
                 if (matches_tokens (result, index, end, definition.executable_tokens))
                     return new WrapperMatch (definition, definition.executable_tokens.length, false);
+                if (definition.uses_installed_path && index < end && !result.tokens[index].is_opaque) {
+                    var executable = result.tokens[index].value;
+                    if (Path.is_absolute (executable) && Path.get_basename (executable) == definition.executable_tokens[0])
+                        return new WrapperMatch (definition, 1, false);
+                }
                 if (definition.executable_tokens.length == 1) {
                     foreach (var alias in definition.parse_aliases) {
                         if (index < end && !result.tokens[index].is_opaque && result.tokens[index].value == alias)
@@ -631,28 +642,94 @@ namespace ProtonPlus.LaunchOptions {
                 if (arities.length != shape.tokens.length)
                     continue;
                 var indexes = new ArrayList<int> ();
+                var values = new ArrayList<string> ();
                 var cursor = index;
                 bool matches = true;
                 for (var part = 0; part < shape.tokens.length; part++) {
-                    if (cursor >= end || result.tokens[cursor].is_opaque || result.tokens[cursor].value != shape.tokens[part]) {
+                    if (cursor >= end || result.tokens[cursor].is_opaque) {
+                        matches = false;
+                        break;
+                    }
+                    var flag = shape.tokens[part];
+                    var word = result.tokens[cursor].value;
+                    var attached = arities[part] == 1 ? attached_wrapper_value (flag, word) : null;
+                    if (attached == null && !matches_wrapper_flag (flag, word)) {
                         matches = false;
                         break;
                     }
                     indexes.add (cursor++);
                     for (var value = 0; value < arities[part]; value++) {
-                        if (cursor >= end || result.tokens[cursor].is_opaque) {
+                        string argument;
+                        if (attached != null) {
+                            argument = attached;
+                        } else if (cursor < end && !result.tokens[cursor].is_opaque) {
+                            indexes.add (cursor);
+                            argument = result.tokens[cursor++].value;
+                        } else {
                             matches = false;
                             break;
                         }
-                        indexes.add (cursor++);
+                        if (!matches_wrapper_value (flag, argument, semantics.selectable_values)) {
+                            matches = false;
+                            break;
+                        }
+                        values.add (argument);
                     }
                     if (!matches)
                         break;
                 }
                 if (matches)
-                    return new WrapperArgumentMatch (entry, indexes.to_array ());
+                    return new WrapperArgumentMatch (entry, indexes.to_array (), string.joinv (",", values.to_array ()));
             }
             return null;
+        }
+
+        string? long_wrapper_flag (string flag) {
+            switch (flag) {
+                case "-w": return "--nested-width";
+                case "-h": return "--nested-height";
+                case "-W": return "--output-width";
+                case "-H": return "--output-height";
+                case "-S": return "--scaler";
+                case "-F": return "--filter";
+                case "-O": return "--prefer-output";
+                case "-C": return "--hide-cursor-delay";
+                case "--sharpness": return "--fsr-sharpness";
+                default: return null;
+            }
+        }
+
+        bool matches_wrapper_flag (string flag, string word) {
+            return LaunchOptionParseShape.matches_rate_flag (flag, word) || long_wrapper_flag (flag) == word;
+        }
+
+        string? attached_wrapper_value (string flag, string word) {
+            if (LaunchOptionParseShape.is_rate_flag (flag))
+                return LaunchOptionParseShape.attached_rate_value (flag, word);
+
+            var equals_index = word.index_of_char ('=');
+            if (word.has_prefix ("--") && equals_index >= 0 && matches_wrapper_flag (flag, word.substring (0, equals_index)))
+                return word.substring (equals_index + 1);
+            if (flag.length == 2 && word.has_prefix (flag) && word.length > 2)
+                return word.substring (2);
+            return null;
+        }
+
+        bool matches_wrapper_value (string flag, string value, string[] allowed_values) {
+            if (value == "" || value.has_prefix ("--") || (allowed_values.length > 0 && !(value in allowed_values)))
+                return false;
+            int number;
+            switch (flag) {
+                case "-r":
+                case "--framerate-limit":
+                case "-w":
+                case "-h":
+                case "-W":
+                case "-H":
+                    return int.try_parse (value, out number);
+                default:
+                    return !value.has_prefix ("-");
+            }
         }
 
         bool split_environment_assignment (string token, out string key, out string value) {
@@ -747,8 +824,10 @@ namespace ProtonPlus.LaunchOptions {
         public int[] indexes;
         public int length { get { return indexes.length; } }
 
-        public WrapperArgumentMatch (LaunchOptionMetadata entry, int[] indexes) {
-            Object (entry: entry);
+        public string normalized_value { get; construct; }
+
+        public WrapperArgumentMatch (LaunchOptionMetadata entry, int[] indexes, string normalized_value) {
+            Object (entry: entry, normalized_value: normalized_value);
             this.indexes = indexes;
         }
     }

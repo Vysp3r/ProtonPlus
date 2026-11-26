@@ -69,9 +69,35 @@
     padding: 4px 8px;
 }
 
+.launch-options-empty list.boxed-list {
+    box-shadow: none;
+}
+
+.launch-options-blocker {
+    color: @window_fg_color;
+    background-color: alpha(@warning_bg_color, 0.10);
+    border: 1px solid alpha(@warning_bg_color, 0.25);
+    border-radius: 8px;
+    padding: 8px 12px;
+}
+
+.launch-options-blocker.launch-options-blocker-error {
+    background-color: alpha(@error_bg_color, 0.10);
+    border-color: alpha(@error_bg_color, 0.32);
+}
+
+.launch-option-incompatible .subtitle {
+    color: @error_color;
+}
+
 .launch-options-preview-surface {
     background-color: alpha(@window_fg_color, 0.04);
     border-radius: 8px;
+}
+
+/* Keep the scrollbar's minimum height from reserving space below short commands. */
+.launch-options-preview-surface scrollbar.vertical slider {
+    min-height: 16px;
 }
 
 .launch-options-preview-empty {

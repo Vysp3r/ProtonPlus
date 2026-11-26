@@ -175,7 +175,7 @@ namespace ProtonPlus.LaunchOptions {
             var custom_wrapper = wrapper_index >= 0 ? request.parsed.tokens[wrapper_index].raw : "";
             if (changed.contains (wrapper_id)) {
                 var selected_wrapper = composed.plan.custom_wrapper;
-                if (request.preserve_unedited_custom_arguments && wrapper_index >= 0) {
+                if (request.preserve_unedited_custom_arguments && wrapper_index >= 0 && selected_wrapper != "") {
                     var selected_words = new LaunchOptionShellTokenizer ().tokenize (selected_wrapper);
                     if (selected_words.size != 1 || selected_words[0].value != request.parsed.tokens[wrapper_index].value)
                         return wrapper_conflict (request.parsed, _("This game already has a different custom wrapper. Edit the game individually to replace it."));
@@ -198,12 +198,27 @@ namespace ProtonPlus.LaunchOptions {
                 request.retain_placeholder_for_arguments_only
             ));
             var generated = parser.parse (generated_composition.launch_line);
+            foreach (var occurrence in request.parsed.occurrences) {
+                var owner = occurrence.wrapper_id;
+                if (occurrence.environment_key != "" && owner != ""
+                    && wrapper_selection_changed (owner, changed)
+                    && wrapper_invocation (request.parsed, owner) != null
+                    && wrapper_invocation (generated, owner) == null)
+                    changed.add (occurrence.option_id);
+            }
             var custom_arguments = collect_custom_argument_replacements (
                 request.parsed, request.selections, changed, request.preserve_unedited_custom_arguments
             );
             var launch_line = only_dynamic_game_arguments_changed (changed)
                 ? merge_custom_arguments_in_source (request.parsed, custom_arguments)
                 : merge (request.parsed, generated, changed, custom_arguments, request.selections, custom_wrapper);
+            var duplicate = duplicate_changed_environment_key (parser.parse (launch_line), changed);
+            if (duplicate != null) {
+                var blocked = new LaunchCommandWriteResult (
+                    LaunchCommandWriteStatus.BLOCKED_INVALID_SELECTIONS, request.parsed);
+                blocked.writer_diagnostics.add (_("The existing launch options already use %s. Edit that assignment before adding this option.").printf (duplicate));
+                return blocked;
+            }
             var result = new LaunchCommandWriteResult (
                 request.parsed.original_input == "" ? LaunchCommandWriteStatus.FRESH_MANAGED_OUTPUT
                                                      : LaunchCommandWriteStatus.SOURCE_PRESERVING_MANAGED_MERGE,
@@ -214,6 +229,24 @@ namespace ProtonPlus.LaunchOptions {
             foreach (var diagnostic in composed.diagnostics) result.composition_diagnostics.add (diagnostic);
             record_spans (result, request.parsed, changed);
             return result;
+        }
+
+        string? duplicate_changed_environment_key (LaunchCommandParseResult parsed, HashSet<string> changed) {
+            var used = new HashSet<string> ();
+            var duplicates = new HashSet<string> ();
+            foreach (var token in parsed.unrecognized_tokens) {
+                if (token.kind == LaunchCommandUnrecognizedKind.UNKNOWN_ENVIRONMENT_ASSIGNMENT)
+                    used.add (environment_key (token.token.value));
+            }
+            foreach (var occurrence in parsed.occurrences) {
+                if (occurrence.environment_key != "" && !used.add (occurrence.environment_key))
+                    duplicates.add (occurrence.environment_key);
+            }
+            foreach (var occurrence in parsed.occurrences) {
+                if (changed.contains (occurrence.option_id) && duplicates.contains (occurrence.environment_key))
+                    return occurrence.environment_key;
+            }
+            return null;
         }
 
         LaunchCommandWriteResult wrapper_conflict (LaunchCommandParseResult parsed, string message) {
@@ -564,14 +597,25 @@ namespace ProtonPlus.LaunchOptions {
                                      LaunchCommandSelection[] selections) {
             var invocations = new ArrayList<LaunchCommandWrapperInvocation> ();
             foreach (var invocation in source.wrappers) {
-                if (!wrapper_changed (invocation.wrapper_id, changed) ||
-                    wrapper_invocation (generated, invocation.wrapper_id) != null)
+                if (!wrapper_selection_changed (invocation.wrapper_id, changed) ||
+                    wrapper_invocation (generated, invocation.wrapper_id) != null) {
                     invocations.add (invocation);
+                    continue;
+                }
+
+                var group = catalog.lookup_wrapper (invocation.wrapper_id).mutual_exclusion_group;
+                foreach (var candidate in generated.wrappers) {
+                    if (group != "" && group == catalog.lookup_wrapper (candidate.wrapper_id).mutual_exclusion_group
+                        && wrapper_invocation (source, candidate.wrapper_id) == null && !invocations.contains (candidate)) {
+                        invocations.add (candidate);
+                        break;
+                    }
+                }
             }
 
             // Give new wrappers a catalog position without reordering source wrappers.
             foreach (var invocation in generated.wrappers) {
-                if (wrapper_invocation (source, invocation.wrapper_id) != null)
+                if (wrapper_invocation (source, invocation.wrapper_id) != null || invocations.contains (invocation))
                     continue;
                 var priority = catalog.lookup_wrapper (invocation.wrapper_id).nesting_priority;
                 var insert_at = 0;
@@ -590,8 +634,9 @@ namespace ProtonPlus.LaunchOptions {
 
                 var id = invocation.wrapper_id;
                 var replacement = wrapper_invocation (generated, id);
-                // The editor loads the first invocation of a repeated wrapper.
-                if (replacement != null && wrapper_changed (id, changed) && edited.add (id)) {
+                // A replacement uses the first invocation loaded by the editor.
+                // A removal without a replacement can affect every occurrence.
+                if (wrapper_changed (id, changed) && (replacement == null || edited.add (id))) {
                     append_edited_wrapper (
                         output, source, invocation, generated, replacement,
                         changed, custom_arguments, replace_custom_arguments, selections
@@ -607,12 +652,12 @@ namespace ProtonPlus.LaunchOptions {
 
         void append_edited_wrapper (
             ArrayList<string> output, LaunchCommandParseResult source, LaunchCommandWrapperInvocation invocation,
-            LaunchCommandParseResult generated, LaunchCommandWrapperInvocation replacement, HashSet<string> changed,
+            LaunchCommandParseResult generated, LaunchCommandWrapperInvocation? replacement, HashSet<string> changed,
             CustomArgumentReplacements custom_arguments, bool replace_custom_arguments, LaunchCommandSelection[] selections
         ) {
             var edited_arguments = new HashMap<string, ArrayList<string>> ();
             var edited_order = new ArrayList<string> ();
-            foreach (var index in replacement.argument_indexes) {
+            foreach (var index in replacement?.argument_indexes ?? new ArrayList<int> ()) {
                 var occurrence = occurrence_at (generated, index);
                 if (occurrence == null || !changed.contains (occurrence.option_id))
                     continue;
@@ -703,6 +748,22 @@ namespace ProtonPlus.LaunchOptions {
                     emitted.add (key);
                 }
             }
+        }
+
+        bool wrapper_selection_changed (string wrapper_id, HashSet<string> changed) {
+            foreach (var id in changed) {
+                var semantics = catalog.lookup (id)?.semantics;
+                if (semantics == null)
+                    continue;
+                if (semantics.kind == LaunchOptionSemanticKind.WRAPPER_SELECTOR
+                    && wrapper_id in semantics.selectable_wrapper_ids)
+                    return true;
+                if ((semantics.kind == LaunchOptionSemanticKind.PREFIX_WRAPPER
+                        || semantics.kind == LaunchOptionSemanticKind.DELIMITED_WRAPPER)
+                    && semantics.wrapper_id == wrapper_id)
+                    return true;
+            }
+            return false;
         }
 
         bool wrapper_changed (string wrapper_id, HashSet<string> changed) {

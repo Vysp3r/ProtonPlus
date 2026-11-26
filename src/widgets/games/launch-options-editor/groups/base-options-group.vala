@@ -45,25 +45,53 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             return tile;
         }
 
+        internal LaunchOptionEnvironmentField create_environment_field (string id) {
+            var metadata = catalog.lookup (id);
+            assert (metadata != null);
+            var field = new LaunchOptionEnvironmentField (metadata);
+            field.changed.connect (() => changed ());
+            launch_option_handlers.add (field);
+            register_option (id, field, field);
+            return field;
+        }
+
+        internal LaunchOptionEnvCombo create_environment_combo (string id, string[] labels = {}) {
+            var metadata = catalog.lookup (id);
+            assert (metadata != null);
+            var choices = metadata.semantics.selectable_values;
+            assert (labels.length == 0 || labels.length == choices.length);
+            var display = new string[choices.length + 1];
+            var values = new string[choices.length + 1];
+            display[0] = _("Default");
+            values[0] = "";
+            for (var index = 0; index < choices.length; index++) {
+                display[index + 1] = labels.length == 0 ? choices[index] : labels[index];
+                values[index + 1] = choices[index];
+            }
+            var combo = new LaunchOptionEnvCombo (metadata.semantics.environment_key,
+                metadata.title, metadata.description, display, values);
+            combo.changed.connect (() => changed ());
+            launch_option_handlers.add (combo);
+            register_option (id, combo, combo);
+            return combo;
+        }
+
         internal LaunchOptionSpinTile create_spin_tile (
-            string title,
-            string subtitle,
+            string id,
             string value_label,
-            double lower,
-            double upper,
-            int default_value,
-            string env_prefix,
-            bool is_advanced = false,
-            LaunchLineType type = LaunchLineType.ENVIRONMENT,
-            string id = ""
+            int lower,
+            int upper,
+            int default_value
         ) {
-            var tile = new LaunchOptionSpinTile (title, subtitle, value_label, lower, upper, default_value, env_prefix);
-            tile.line_type = type;
+            var metadata = catalog.lookup (id);
+            assert (metadata != null);
+            var tile = new LaunchOptionSpinTile (metadata.title, metadata.description, value_label,
+                lower, upper, default_value, metadata.raw_tokens[0]);
+            tile.line_type = metadata.serialization_type;
             tile.draft_changed.connect (() => this.changed ());
 
             this.launch_option_handlers.add (tile);
-            if (id != "" && presentation_registry != null)
-                presentation_registry.register (id, tile, tile, presentation_movable);
+            register_option (id, tile, tile);
 
             return tile;
         }

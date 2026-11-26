@@ -229,6 +229,74 @@ Gtk.Widget? find_widget (Gtk.Widget widget, WidgetMatch match) {
     return null;
 }
 
+void check_runtime_control_values () {
+    var editor = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.Box ();
+    editor.set_capability_context (new LaunchCommandCapabilityContext ({
+        LaunchOptionCapability.PROTON_OPTISCALER, LaunchOptionCapability.DXVK_FRAME_CONFIG,
+        LaunchOptionCapability.AMD, LaunchOptionCapability.PROTON_FSR4, LaunchOptionCapability.PROTON_MLFG
+    }));
+    var source = "PROTON_USE_OPTISCALER='v0.9.0' PROTON_FSR4_UPGRADE=4.0.3 PROTON_MLFG_UPGRADE=0 "
+        + "DXVK_CONFIG=\"dxvk.maxFrameRate=60\" %command% --custom";
+    editor.set_text (source);
+    var optiscaler = (Adw.EntryRow) find_widget (editor, widget => widget is Adw.EntryRow
+        && ((Adw.EntryRow) widget).title == "OptiScaler integration");
+    var fsr = (Adw.EntryRow) find_widget (editor, widget => widget is Adw.EntryRow
+        && ((Adw.EntryRow) widget).title == "FSR 4 upgrade");
+    var limit = (Adw.EntryRow) find_widget (editor, widget => widget is Adw.EntryRow
+        && ((Adw.EntryRow) widget).title == "DXVK frame limiter");
+    var mlfg = (LaunchOptionEnvCombo) find_widget (editor, widget => widget is LaunchOptionEnvCombo
+        && ((LaunchOptionEnvCombo) widget).environment_variable == "PROTON_MLFG_UPGRADE");
+    assert (optiscaler != null && optiscaler.text == "v0.9.0");
+    assert (fsr != null && fsr.text == "4.0.3");
+    assert (limit != null && limit.text == "60");
+    assert (mlfg != null && mlfg.value == "0");
+    assert (editor.prepare_write ().launch_line == source);
+    limit.text = "-144";
+    var written = editor.prepare_write ();
+    assert (written.writing_allowed && written.launch_line.contains ("DXVK_CONFIG='dxvk.maxFrameRate = -144'"));
+    assert (written.launch_line.contains ("PROTON_USE_OPTISCALER='v0.9.0' PROTON_FSR4_UPGRADE=4.0.3 PROTON_MLFG_UPGRADE=0"));
+}
+
+void check_inline_combo () {
+    var editor = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.Box ();
+    var supported = new LaunchCommandCapabilityContext ({ LaunchOptionCapability.PROTON_WOW64 });
+    var first = "PROTON_USE_WOW64='1' %command% --first";
+    var second = "OTHER='keep spacing' %command% --second";
+    editor.set_capability_context (supported);
+    editor.set_text (first);
+    var window = new Adw.Window () { content = editor };
+    window.present ();
+
+    var combo = find_widget (editor, widget => widget is LaunchOptionEnvCombo
+        && ((LaunchOptionEnvCombo) widget).environment_variable == "PROTON_USE_WOW64") as LaunchOptionEnvCombo;
+    assert (combo != null && combo.get_mapped () && combo.activatable && combo.value == "1");
+    assert (combo.get_ancestor (typeof (Adw.ExpanderRow)) == null);
+    assert (editor.prepare_write ().launch_line == first);
+    var remove = find_widget (combo, widget => widget is Gtk.Button
+        && widget.tooltip_text == "Remove WoW64 mode") as Gtk.Button;
+    assert (remove != null && remove.get_mapped ());
+
+    var popover = find_widget (combo, widget => widget is Gtk.Popover) as Gtk.Popover;
+    assert (popover != null);
+    combo.activate ();
+    assert (popover.visible);
+    editor.set_capability_context (new LaunchCommandCapabilityContext ({ LaunchOptionCapability.PROTON }));
+    assert (!combo.activatable && !popover.visible && remove.is_sensitive ());
+    combo.activate ();
+    assert (!popover.visible && editor.prepare_write ().launch_line == first);
+    remove.clicked ();
+    assert (!combo.visible && editor.prepare_write ().launch_line == "--first");
+
+    editor.set_capability_context (supported);
+    editor.set_text ("");
+    editor.set_preview_sources ({ "First", "Second" }, { first, second });
+    assert (combo.visible && combo.activatable && combo.subtitle.contains ("Varies by game"));
+    combo.value = "0";
+    assert (editor.prepare_write_for_source (first).launch_line == "PROTON_USE_WOW64=0 %command% --first");
+    assert (editor.prepare_write_for_source (second).launch_line == "OTHER='keep spacing' PROTON_USE_WOW64=0 %command% --second");
+    window.destroy ();
+}
+
 void check_launch_options_draft () {
     var steam = new ProtonPlus.Models.Launchers.Steam (ProtonPlus.Models.Launcher.InstallationTypes.SYSTEM);
     var first = new ProtonPlus.Models.Games.Steam.non_steam (100, "First <fixture>",
@@ -244,11 +312,12 @@ void check_launch_options_draft () {
         new ProtonPlus.Widgets.Games.GameListItem (first),
         new ProtonPlus.Widgets.Games.GameListItem (second)
     }, model, expression, false, true);
+    var window = new Adw.Window () { content = view };
+    window.present ();
 
-    var actions = view.header_presentation.end_actions[0];
-    var apply = (Gtk.Button) find_widget (actions, (widget) => widget is Gtk.Button
+    var apply = (Gtk.Button) find_widget (view, (widget) => widget is Gtk.Button
         && ((Gtk.Button) widget).label == "Apply Changes");
-    var clear = (Gtk.Button) find_widget (actions, (widget) => widget is Gtk.Button
+    var clear = (Gtk.Button) find_widget (view, (widget) => widget is Gtk.Button
         && widget.tooltip_text == "Clear Launch Options");
     assert (apply != null && clear != null);
     assert (!apply.sensitive && clear.sensitive);
@@ -256,27 +325,36 @@ void check_launch_options_draft () {
         find_widget (view, (widget) => widget is ProtonPlus.Widgets.Games.LaunchOptionsEditor.Box);
     assert (editor != null);
     var latency = (Adw.ActionRow) find_widget (editor, (widget) => widget is Adw.ActionRow
-        && ((Adw.ActionRow) widget).title == "PulseAudio latency");
+        && ((Adw.ActionRow) widget).title == "PulseAudio latency"
+        && find_widget (widget, child => child is Gtk.Entry) != null);
     assert (latency != null);
-    var latency_switch = (Gtk.Switch) find_widget (latency, (widget) => widget is Gtk.Switch);
     var latency_entry = (Gtk.Entry) find_widget (latency, (widget) => widget is Gtk.Entry);
-    assert (latency_entry != null && latency_switch != null);
+    assert (latency_entry != null && find_widget (latency, widget => widget is Gtk.Switch) == null);
+    var remove_latency = find_widget (latency, widget => widget is Gtk.Button
+        && widget.get_tooltip_text () == "Remove PulseAudio latency") as Gtk.Button;
+    assert (remove_latency != null);
 
-    latency_switch.active = true;
     latency_entry.text = "123";
     assert (apply.sensitive);
     var first_write = editor.prepare_write_for_source (first.launch_options);
     var second_write = editor.prepare_write_for_source (second.launch_options);
     assert (first_write.launch_line == "FIRST='quoted one' PULSE_LATENCY_MSEC=123 %command% --first --first");
     assert (second_write.launch_line == "SECOND=\"quoted two\" PULSE_LATENCY_MSEC=123 %command% --second");
-    assert (find_widget (editor, (widget) => widget is Gtk.Label
+    var preview = (Gtk.ToggleButton) find_widget (view, widget => widget is Gtk.ToggleButton
+        && ((Gtk.ToggleButton) widget).label == "Command preview");
+    assert (preview != null && !preview.active);
+    assert (find_widget (view, widget => widget is Gtk.Label
         && ((Gtk.Label) widget).get_text ().contains (first_write.launch_line)
         && ((Gtk.Label) widget).get_text ().contains (second_write.launch_line)) != null);
 
-    latency_entry.text = "invalid";
+    latency_entry.text = "";
     assert (latency_entry.has_css_class ("error"));
     assert (latency.subtitle.contains ("30") && latency.subtitle.contains ("360"));
-    assert (!apply.sensitive && !editor.writing_allowed);
+    assert (!apply.sensitive && !editor.writing_allowed && !preview.active);
+    var blocker = find_widget (view, widget => widget.has_css_class ("launch-options-blocker"));
+    var blocker_message = blocker?.get_first_child () as Gtk.Label;
+    assert (blocker_message != null && blocker.visible && blocker_message.label.contains ("First <fixture>"));
+    assert (!blocker_message.use_markup && !blocker.is_ancestor (editor));
     var tool_switch = (Adw.SwitchRow) find_widget (view, (widget) => widget is Adw.SwitchRow
         && ((Adw.SwitchRow) widget).title == "Change compatibility tool");
     var tool_row = (ProtonPlus.Widgets.Games.CompatibilityToolRow) find_widget (view,
@@ -285,7 +363,8 @@ void check_launch_options_draft () {
     tool_switch.active = true;
     tool_row.selected = 0;
     assert (!apply.sensitive);
-    latency_switch.active = false;
+    remove_latency.clicked ();
+    assert (!latency.visible && !latency_entry.has_css_class ("error"));
     assert (apply.sensitive);
     tool_switch.active = false;
     assert (!apply.sensitive);
@@ -296,9 +375,145 @@ void check_launch_options_draft () {
     assert (cleared.requires_persistence && cleared.launch_line == "");
     assert (first.launch_options == "FIRST='quoted one' %command% --first --first");
     assert (second.launch_options == "SECOND=\"quoted two\" %command% --second");
-    latency_switch.active = true;
     latency_entry.text = "101";
     assert (editor.prepare_write_for_source (first.launch_options).launch_line == "PULSE_LATENCY_MSEC=101 %command%");
+
+    var saved = "FIRST='quoted one' PULSE_LATENCY_MSEC='90' %command% --first --first";
+    editor.set_text (saved);
+    assert (latency.visible && latency_entry.text == "90");
+    assert (editor.prepare_write ().launch_line == saved);
+    remove_latency.clicked ();
+    assert (editor.prepare_write ().launch_line == first.launch_options);
+
+    editor.set_capability_context (new LaunchCommandCapabilityContext ({
+        LaunchOptionCapability.AMD, LaunchOptionCapability.LOW_LATENCY_LAYER
+    }));
+    editor.set_text (first.launch_options);
+    editor.set_preview_sources ({ "First <fixture>", "Second fixture" },
+        { first.launch_options, second.launch_options });
+    var add_option = find_widget (view, widget => widget is Gtk.Button
+        && ((Gtk.Button) widget).label == "Add launch option") as Gtk.Button;
+    assert (add_option != null);
+    add_option.clicked ();
+    assert (window.visible_dialog != null);
+    var reflex_option = find_widget (window.visible_dialog, widget => widget is Adw.ActionRow
+        && ((Adw.ActionRow) widget).title == "AMD Reflex preset: allow DXVK-NVAPI");
+    assert (reflex_option != null && reflex_option.activate ());
+    assert (!apply.sensitive && !editor.writing_allowed);
+    var message = "“AMD Reflex preset: allow DXVK-NVAPI” requires “Use Reflex in the Vulkan low-latency layer”.";
+    assert (blocker.visible && blocker_message.label.contains (message));
+    var add_dependencies = find_widget (blocker, widget => widget is Gtk.Button
+        && ((Gtk.Button) widget).label == "Add required options") as Gtk.Button;
+    assert (add_dependencies != null && add_dependencies.visible);
+    add_dependencies.clicked ();
+    assert (!blocker.visible && !add_dependencies.visible && apply.sensitive && editor.writing_allowed);
+    first_write = editor.prepare_write_for_source (first.launch_options);
+    second_write = editor.prepare_write_for_source (second.launch_options);
+    foreach (var result in new LaunchCommandWriteResult[] { first_write, second_write }) {
+        assert (result.writing_allowed && result.launch_line.contains ("LOW_LATENCY_LAYER=1")
+            && result.launch_line.contains ("LOW_LATENCY_LAYER_REFLEX=1")
+            && result.launch_line.contains ("DXVK_NVAPI_ALLOW_OTHER_DRIVERS=1"));
+    }
+    assert (first_write.launch_line.has_prefix ("FIRST='quoted one' ")
+        && first_write.launch_line.has_suffix (" %command% --first --first"));
+    assert (second_write.launch_line.has_prefix ("SECOND=\"quoted two\" ")
+        && second_write.launch_line.has_suffix (" %command% --second"));
+
+    editor.set_capability_context (new LaunchCommandCapabilityContext ({
+        LaunchOptionCapability.AMD, LaunchOptionCapability.LOW_LATENCY_LAYER,
+        LaunchOptionCapability.GAME_PERFORMANCE
+    }));
+    var grouped_options = "DXVK_NVAPI_ALLOW_OTHER_DRIVERS=1 PROTON_FORCE_NVAPI=1 GAME_PERFORMANCE_SCREENSAVER_ON=1 ";
+    var first_grouped = grouped_options + first.launch_options;
+    var second_grouped = grouped_options + second.launch_options;
+    editor.set_text (first_grouped);
+    editor.set_preview_sources ({ "First <fixture>", "Second fixture" }, { first_grouped, second_grouped });
+    latency_entry.text = "120";
+    assert (blocker.visible && blocker_message.label == "3 launch options have unmet requirements.");
+    assert (add_dependencies.visible && add_dependencies.label == "Add required options");
+    add_dependencies.clicked ();
+    assert (!blocker.visible && apply.sensitive);
+    foreach (var source in new string[] { first_grouped, second_grouped }) {
+        var result = editor.prepare_write_for_source (source);
+        assert (result.writing_allowed && result.launch_line.contains ("game-performance %command%"));
+        assert (result.launch_line.split ("LOW_LATENCY_LAYER=1").length == 2);
+        assert (result.launch_line.split ("LOW_LATENCY_LAYER_REFLEX=1").length == 2);
+        assert (result.launch_line.contains ("PULSE_LATENCY_MSEC=120"));
+    }
+
+    editor.set_capability_context (new LaunchCommandCapabilityContext ({
+        LaunchOptionCapability.AMD, LaunchOptionCapability.PROTON_FSR4, LaunchOptionCapability.PROTON_MLFG,
+        LaunchOptionCapability.GAME_PERFORMANCE
+    }));
+    editor.set_text ("GAME_PERFORMANCE_SCREENSAVER_ON=1 " + first.launch_options);
+    var mlfg = find_widget (view, widget => widget is LaunchOptionEnvCombo
+        && ((LaunchOptionEnvCombo) widget).environment_variable == "PROTON_MLFG_UPGRADE") as LaunchOptionEnvCombo;
+    var fsr = find_widget (view, widget => widget is Adw.EntryRow
+        && ((Adw.EntryRow) widget).title == "FSR 4 upgrade") as Adw.EntryRow;
+    assert (mlfg != null && fsr != null);
+    mlfg.value = "1";
+    assert (blocker.visible && blocker_message.label == "2 launch options have unmet requirements.");
+    assert (add_dependencies.visible && add_dependencies.label == "Add required options");
+    add_dependencies.clicked ();
+    assert (add_dependencies.visible && add_dependencies.label == "Configure FSR 4 upgrade");
+    add_dependencies.clicked ();
+    var fsr_row = fsr.get_ancestor (typeof (Adw.ExpanderRow)) as Adw.ExpanderRow;
+    assert (fsr_row != null && fsr_row.visible && fsr_row.expanded);
+    assert (fsr.text == "" && !apply.sensitive);
+    fsr.text = "1";
+    assert (!add_dependencies.visible && apply.sensitive);
+    window.destroy ();
+}
+
+void check_launch_option_blocker_layout () {
+    var display = Gdk.Display.get_default ();
+    var css = ProtonPlus.Utils.ThemeManager.load_stylesheet ("style");
+    Gtk.StyleContext.add_provider_for_display (display, css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+    var view = new ProtonPlus.Widgets.Games.MassEditView (new Gtk.MenuButton ());
+    var blocker = find_widget (view, widget => widget.has_css_class ("launch-options-blocker"));
+    assert (blocker != null && !blocker.visible);
+    var message = blocker.get_first_child () as Gtk.Label;
+    var action = message?.get_next_sibling () as Gtk.Button;
+    assert (message != null && message.xalign == 0 && action != null);
+    action.label = "Add required options";
+    action.visible = true;
+    blocker.visible = true;
+
+    var viewport = new Adw.Clamp () {
+        maximum_size = 1500, tightening_threshold = 1500, width_request = 1500, child = view
+    };
+    var window = new Adw.Window () { default_width = 1500, default_height = 640, content = viewport };
+    window.present ();
+    foreach (int width in new int[] { 1500, 430 }) {
+        viewport.maximum_size = width;
+        viewport.tightening_threshold = width;
+        viewport.width_request = width;
+        float left_edge = -1;
+        foreach (var text in new string[] { "2 launch options have unmet requirements.",
+            "“AMD Reflex preset: allow DXVK-NVAPI” requires “Use Reflex in the Vulkan low-latency layer”." }) {
+            message.label = text;
+            var loop = new MainLoop ();
+            Timeout.add (200, () => { loop.quit (); return Source.REMOVE; });
+            loop.run ();
+            Graphene.Rect message_bounds, action_bounds;
+            assert (message.get_mapped () && action.get_mapped ());
+            assert (message.compute_bounds (blocker, out message_bounds));
+            assert (action.compute_bounds (blocker, out action_bounds));
+            if (left_edge < 0)
+                left_edge = message_bounds.origin.x;
+            assert (message_bounds.origin.x == left_edge);
+            if (width == 1500)
+                assert (message_bounds.origin.x + message_bounds.size.width <= action_bounds.origin.x);
+            else {
+                assert (blocker.get_width () <= width);
+                assert (message_bounds.origin.y + message_bounds.size.height <= action_bounds.origin.y);
+            }
+        }
+    }
+    assert (blocker.child_focus (Gtk.DirectionType.TAB_FORWARD));
+    window.destroy ();
+    Gtk.StyleContext.remove_provider_for_display (display, css);
 }
 
 void check_typed_arguments_and_resolution () {
@@ -324,6 +539,24 @@ void check_typed_arguments_and_resolution () {
     additional.text = "--output 'space name'";
     assert (editor.writing_allowed);
 
+    editor.set_text ("gamescope --custom 'value' -r '120' --framerate-limit='60' -- %command%");
+    var refresh = find_widget (editor, widget => widget is Adw.ActionRow
+        && ((Adw.ActionRow) widget).title == "Nested refresh rate"
+        && find_widget (widget, child => child is Gtk.Entry) != null);
+    var fps = find_widget (editor, widget => widget is Adw.ActionRow
+        && ((Adw.ActionRow) widget).title == "Frame limit"
+        && find_widget (widget, child => child is Gtk.Entry) != null);
+    assert (refresh != null && fps != null);
+    var refresh_input = (Gtk.Entry) find_widget (refresh, widget => widget is Gtk.Entry);
+    var fps_input = (Gtk.Entry) find_widget (fps, widget => widget is Gtk.Entry);
+    assert (refresh_input != null && refresh_input.text == "120");
+    assert (fps_input != null && fps_input.text == "60");
+    assert (find_widget (refresh, widget => widget is Gtk.Switch) == null);
+    assert (refresh.get_ancestor (typeof (Adw.ExpanderRow)) == null);
+    fps_input.text = "45";
+    assert (editor.prepare_write ().launch_line
+        == "gamescope --custom 'value' -r '120' --framerate-limit 45 -- %command%");
+
     editor.set_text ("");
     assert (!editor.can_clear);
     editor.set_preview_sources ({ "First", "Second" }, { "--first --first", "%command% '--second value'" });
@@ -345,6 +578,32 @@ void check_typed_arguments_and_resolution () {
     ProtonPlus.Globals.GAMESCOPE_INSTALLED = false;
 }
 
+void check_scopebuddy_controls () {
+    ProtonPlus.Globals.SCOPEBUDDY_INSTALLED = true;
+    var editor = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.Box ();
+    editor.set_capability_context (new LaunchCommandCapabilityContext ({ LaunchOptionCapability.SCOPEBUDDY }));
+    editor.set_text ("SCB_CONF=\"Desk Mode.conf\" SCB_APPENDMODE=1 SCB_DEBUG=1 scb --example='keep me' -- %command%");
+
+    var profile = (Adw.EntryRow) find_widget (editor, widget => widget is Adw.EntryRow
+        && ((Adw.EntryRow) widget).title == "Configuration profile");
+    var merge = (Adw.ComboRow) find_widget (editor, widget => widget is Adw.ComboRow
+        && ((Adw.ComboRow) widget).title == "Config argument merge");
+    var extra = (Adw.EntryRow) find_widget (editor, widget => widget is Adw.EntryRow
+        && ((Adw.EntryRow) widget).title == "Additional ScopeBuddy arguments");
+    assert (profile != null && profile.text == "Desk Mode.conf");
+    assert (merge != null && merge.selected == 2);
+    assert (extra != null && extra.text == "--example='keep me'");
+    assert (!editor.is_dirty);
+
+    profile.text = "Monitor.conf";
+    merge.selected = 1;
+    assert (editor.prepare_write ().launch_line
+        == "SCB_DEBUG=1 SCB_CONF=Monitor.conf SCB_APPENDMODE=0 scb --example='keep me' -- %command%");
+    extra.text = "--";
+    assert (!editor.writing_allowed);
+    ProtonPlus.Globals.SCOPEBUDDY_INSTALLED = false;
+}
+
 void check_custom_wrapper_draft () {
     ProtonPlus.Globals.GAMESCOPE_INSTALLED = true;
     var editor = new ProtonPlus.Widgets.Games.LaunchOptionsEditor.Box ();
@@ -364,24 +623,22 @@ void check_custom_wrapper_draft () {
     var second = editor.prepare_write_for_source ("LOCAL=1 %command% --second");
     assert (first.launch_line == program + " %command% --tag --tag");
     assert (second.launch_line == "LOCAL=1 " + program + " %command% --second");
-    assert (find_widget (editor, (widget) => widget is Gtk.Label
-        && ((Gtk.Label) widget).get_text ().contains (first.launch_line)
-        && ((Gtk.Label) widget).get_text ().contains (second.launch_line)) != null);
 
     editor.set_preview_sources ({ "First", "Conflicting <fixture>" }, { "--tag --tag", "/tmp/different %command%" });
     assert (!editor.writing_allowed);
-    assert (find_widget (editor, (widget) => widget is Adw.ExpanderRow
-        && (((Adw.ExpanderRow) widget).subtitle ?? "").contains ("Conflicting <fixture>")) != null);
+    assert (editor.prepare_write_for_source ("/tmp/different %command%").status
+        == LaunchCommandWriteStatus.BLOCKED_CUSTOM_WRAPPER_CONFLICT);
 
     var nested = "gamescope -r 60 -- " + program + " %command% -r 75";
     editor.set_text (nested);
     assert (field.text == program && !editor.is_dirty);
-    var frame_limit = (Adw.ActionRow) find_widget (editor, (widget) => widget is Adw.ActionRow
-        && ((Adw.ActionRow) widget).title == "Frame limit" && widget.tooltip_text == "Caps the frame rate inside Gamescope.");
-    assert (frame_limit != null);
-    var fps = (Gtk.Entry) find_widget (frame_limit, (widget) => widget is Gtk.Entry);
-    assert (fps != null && fps.text == "60");
-    fps.text = "90";
+    var refresh_rate = (Adw.ActionRow) find_widget (editor, (widget) => widget is Adw.ActionRow
+        && ((Adw.ActionRow) widget).title == "Nested refresh rate"
+        && ((Adw.ActionRow) widget).subtitle.contains ("Gamescope — "));
+    assert (refresh_rate != null);
+    var rate_entry = (Gtk.Entry) find_widget (refresh_rate, (widget) => widget is Gtk.Entry);
+    assert (rate_entry != null && rate_entry.text == "60");
+    rate_entry.text = "90";
     assert (editor.prepare_write ().launch_line == nested.replace ("-r 60", "-r 90"));
     field.text = "";
     assert (editor.prepare_write ().launch_line == "gamescope -r 90 -- %command% -r 75");
@@ -392,11 +649,56 @@ void check_custom_wrapper_draft () {
     editor.set_capability_context (new LaunchCommandCapabilityContext ({ LaunchOptionCapability.GAME_PERFORMANCE }));
     editor.set_text ("/tmp/wrapper --label game-performance %command%");
     var performance = (Adw.ActionRow) find_widget (editor, (widget) => widget is Adw.ActionRow
-        && ((Adw.ActionRow) widget).title == "CachyOS game-performance profile");
-    assert (performance != null);
-    var toggle = (Gtk.Switch) find_widget (performance, (widget) => widget is Gtk.Switch);
-    assert (toggle != null && !toggle.active);
+        && ((Adw.ActionRow) widget).title == "CachyOS game-performance");
+    assert (performance != null && !performance.visible);
+    var performance_command = "GAME_PERFORMANCE_SCREENSAVER_ON=1 game-performance %command%";
+    editor.set_text (performance_command);
+    var screensaver = (Adw.ActionRow) find_widget (editor, widget => widget is Adw.ActionRow
+        && ((Adw.ActionRow) widget).title == "Allow the screensaver during play");
+    assert (performance.visible && screensaver != null && screensaver.visible);
+    assert (performance.subtitle.has_prefix ("Temporarily requests the performance power profile"));
+    assert (screensaver.subtitle == "Allows the screensaver to activate normally during play. Requires CachyOS game-performance.");
+    assert (screensaver.tooltip_text == screensaver.subtitle);
+    assert (editor.prepare_write ().launch_line == performance_command);
     ProtonPlus.Globals.GAMESCOPE_INSTALLED = false;
+
+    editor.set_text ("PROTON_PRIORITY_HIGH='1' TEST_ENV=original %command% --custom");
+    var priority = (Adw.ActionRow) find_widget (editor, (widget) => widget is Adw.ActionRow
+        && ((Adw.ActionRow) widget).title == "High process priority");
+    assert (priority != null && priority.visible);
+    var remove = find_widget (priority, widget => widget is Gtk.Button && widget.tooltip_text == "Remove High process priority") as Gtk.Button;
+    assert (remove != null);
+    var window = new Adw.Window () { content = editor };
+    window.present ();
+    remove.clicked ();
+    assert (!priority.visible);
+    assert (editor.prepare_write ().launch_line == "TEST_ENV=original %command% --custom");
+    window.destroy ();
+}
+
+void check_command_preview_height () {
+    var display = Gdk.Display.get_default ();
+    var css = ProtonPlus.Utils.ThemeManager.load_stylesheet ("style");
+    Gtk.StyleContext.add_provider_for_display (display, css, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION);
+    var view = new ProtonPlus.Widgets.Games.MassEditView (new Gtk.MenuButton ());
+    var scroller = find_widget (view, widget => widget.has_css_class ("launch-options-preview-surface")) as Gtk.ScrolledWindow;
+    assert (scroller != null);
+    var label = find_widget (scroller, widget => widget is Gtk.Label) as Gtk.Label;
+    assert (label != null);
+
+    label.set_markup (LaunchOptionsList.build_command_preview_markup ("game-performance %command%"));
+    int label_height, scrollbar_height, preview_height;
+    label.measure (Gtk.Orientation.VERTICAL, 360, null, out label_height, null, null);
+    scroller.get_vscrollbar ().measure (Gtk.Orientation.VERTICAL, -1, null, out scrollbar_height, null, null);
+    scroller.measure (Gtk.Orientation.VERTICAL, 360, null, out preview_height, null, null);
+    assert (preview_height == int.max (label_height, scrollbar_height)
+        && preview_height < scroller.max_content_height);
+
+    label.set_text (string.nfill (1500, 'x'));
+    label.measure (Gtk.Orientation.VERTICAL, 360, null, out label_height, null, null);
+    scroller.measure (Gtk.Orientation.VERTICAL, 360, null, out preview_height, null, null);
+    assert (preview_height == scroller.max_content_height && preview_height < label_height);
+    Gtk.StyleContext.remove_provider_for_display (display, css);
 }
 
 int main (string[] args) {
@@ -409,8 +711,13 @@ int main (string[] args) {
     check_release_install_button ();
     check_catalog_driven_controls ();
     check_launch_options_draft ();
+    check_launch_option_blocker_layout ();
+    check_runtime_control_values ();
+    check_inline_combo ();
     check_typed_arguments_and_resolution ();
+    check_scopebuddy_controls ();
     check_custom_wrapper_draft ();
+    check_command_preview_height ();
     string[] ids = { "vkd3d-config", "amd-radv-perftest", "amd-radv-debug", "amd-aco-debug" };
     LaunchOptionCustomPairs[] editors = {
         new LaunchOptionVKD3DConfig (), new LaunchOptionRadvPerftest (),

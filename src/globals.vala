@@ -12,10 +12,14 @@ namespace ProtonPlus.Globals {
     public static bool MANGOHUD_INSTALLED;
     public static bool MANGOHUD_FLATPAK_INSTALLED;
     public static bool GAMESCOPE_INSTALLED;
+    public static bool MANGOAPP_INSTALLED;
     public static bool SCOPEBUDDY_INSTALLED;
+    public static string? SCOPEBUDDY_COMMAND;
     public static bool GAMEMODE_INSTALLED;
     public static bool GAME_PERFORMANCE_INSTALLED;
     public static bool OBS_VKCAPTURE_INSTALLED;
+    public static bool OBS_GAMECAPTURE_INSTALLED;
+    public static bool AMD_VULKAN_SWITCHER_INSTALLED;
     public static bool OBS_VKCAPTURE_FLATPAK_INSTALLED;
     public static bool OBS_VKCAPTURE_FLATPAK_PLUGIN_INSTALLED;
     public static bool VKBASALT_INSTALLED;
@@ -127,9 +131,12 @@ namespace ProtonPlus.Globals {
         Globals.MANGOHUD_INSTALLED = components.mangohud;
         Globals.MANGOHUD_FLATPAK_INSTALLED = components.has_flatpak ("org.freedesktop.Platform.VulkanLayer.MangoHud");
         Globals.GAMESCOPE_INSTALLED = components.gamescope;
+        Globals.MANGOAPP_INSTALLED = components.mangoapp;
         Globals.GAMEMODE_INSTALLED = components.gamemode;
         Globals.GAME_PERFORMANCE_INSTALLED = components.game_performance;
         Globals.OBS_VKCAPTURE_INSTALLED = components.obs_vkcapture;
+        Globals.OBS_GAMECAPTURE_INSTALLED = components.obs_gamecapture;
+        Globals.AMD_VULKAN_SWITCHER_INSTALLED = components.amd_vulkan_switcher;
         Globals.OBS_VKCAPTURE_FLATPAK_INSTALLED = components.has_flatpak (
             "org.freedesktop.Platform.VulkanLayer.OBSVkCapture"
         );
@@ -137,6 +144,7 @@ namespace ProtonPlus.Globals {
             "com.obsproject.Studio.Plugin.OBSVkCapture"
         );
         Globals.SCOPEBUDDY_INSTALLED = components.scopebuddy;
+        Globals.SCOPEBUDDY_COMMAND = components.scopebuddy_command;
         Globals.VKBASALT_INSTALLED = components.vkbasalt;
 
         Globals.CACHE_PATH = Path.build_filename (Environment.get_user_cache_dir (), "ProtonPlus");

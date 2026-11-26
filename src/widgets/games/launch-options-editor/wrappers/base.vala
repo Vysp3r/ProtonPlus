@@ -7,6 +7,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
         protected unowned LaunchOptionsList launch_option_handlers;
         protected unowned LaunchOptionPresentationRegistry? presentation_registry;
         LaunchOptionCatalog catalog;
+        Gee.HashMap<string, ILaunchOption> parsed_controls = new Gee.HashMap<string, ILaunchOption> ();
         public signal void changed ();
         public bool is_advanced { get; set; }
         public LaunchLineType line_type { get; set; }
@@ -39,10 +40,88 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
             });
 
             this.add_child (tile);
+            parsed_controls.set (id, tile);
             if (presentation_registry != null)
                 presentation_registry.register (id, tile, tile, false);
 
             return tile;
+        }
+
+        internal LaunchOptionSpinTile create_number_tile (string id, string unit, int maximum = int.MAX, int initial = 60) {
+            var metadata = catalog.lookup (id);
+            var tile = new LaunchOptionSpinTile (
+                metadata.title, metadata.description, unit, 0, maximum, initial, metadata.raw_tokens[0] + " "
+            );
+            tile.line_type = metadata.serialization_type;
+            tile.draft_changed.connect (() => changed ());
+            add_child (tile);
+            parsed_controls.set (id, tile);
+            register_option (id, tile, tile);
+            return tile;
+        }
+
+        internal LaunchOptionResolutionField create_resolution_tile (
+            string id, bool include_auto = false, bool is_scopebuddy = false
+        ) {
+            var metadata = catalog.lookup (id);
+            var field = new LaunchOptionResolutionField (metadata.title, metadata.description, include_auto, is_scopebuddy);
+            field.draft_changed.connect (() => changed ());
+            add_child (field);
+            parsed_controls.set (id, field);
+            register_option (id, field, field);
+            return field;
+        }
+
+        internal LaunchOptionEnvCombo create_choice_tile (string id, string[] labels) {
+            var metadata = catalog.lookup (id);
+            var values = new Gee.ArrayList<string> ();
+            values.add ("");
+            values.add_all_array (metadata.semantics.selectable_values);
+            var tile = new LaunchOptionEnvCombo (metadata.semantics.environment_key,
+                metadata.title, metadata.description, labels, values.to_array ());
+            tile.line_type = metadata.serialization_type;
+            tile.changed.connect (() => changed ());
+            add_child (tile);
+            parsed_controls.set (id, tile);
+            register_option (id, tile, tile);
+            return tile;
+        }
+
+        internal LaunchOptionWrapperValueField create_value_field (string id) {
+            var field = new LaunchOptionWrapperValueField (catalog.lookup (id));
+            field.changed.connect (() => changed ());
+            add_child (field);
+            parsed_controls.set (id, field);
+            register_option (id, field, field);
+            return field;
+        }
+
+        void load_control (LaunchCommandOptionOccurrence occurrence) {
+            var control = parsed_controls.get (occurrence.option_id);
+            if (control == null)
+                return;
+
+            if (control is LaunchOptionTile) {
+                ((LaunchOptionTile) control).toggle.set_active (true);
+            } else if (control is LaunchOptionEnvCombo) {
+                ((LaunchOptionEnvCombo) control).value = occurrence.environment_key != ""
+                    ? occurrence.environment_value : occurrence.normalized_value;
+            } else if (control is LaunchOptionWrapperValueField) {
+                ((LaunchOptionWrapperValueField) control).text = occurrence.environment_key != ""
+                    ? occurrence.environment_value : occurrence.normalized_value;
+            } else if (control is LaunchOptionSpinTile) {
+                ((LaunchOptionSpinTile) control).value_entry.text = occurrence.normalized_value;
+            } else if (control is LaunchOptionResolutionField) {
+                var resolution = (LaunchOptionResolutionField) control;
+                var dimensions = occurrence.normalized_value.split (",");
+                if (occurrence.environment_key != "") {
+                    resolution.set_auto ();
+                } else if (dimensions.length == 2) {
+                    int width, height = 0;
+                    if (int.try_parse (dimensions[0], out width) && int.try_parse (dimensions[1], out height))
+                        resolution.set_resolution (width, height);
+                }
+            }
         }
 
         protected void register_option (string id, Gtk.Widget widget, ILaunchOption? option = null) {
@@ -61,48 +140,26 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Wrappers {
                 if (invocation.wrapper_id != backend_id)
                     continue;
 
-                var owned_indexes = new Gee.HashSet<int> ();
+                active = true;
                 foreach (var index in invocation.executable_indexes)
-                    owned_indexes.add (index);
-                owned_indexes.add_all (invocation.argument_indexes);
+                    consumed[index] = true;
+                foreach (var index in invocation.argument_indexes)
+                    consumed[index] = true;
                 if (invocation.delimiter_index >= 0)
-                    owned_indexes.add (invocation.delimiter_index);
+                    consumed[invocation.delimiter_index] = true;
                 foreach (var occurrence in parsed.occurrences) {
-                    if (occurrence.wrapper_id == backend_id && occurrence.semantic_kind == LaunchOptionSemanticKind.COMPOSITE_DYNAMIC)
-                        foreach (var index in occurrence.token_indexes)
-                            owned_indexes.add (index);
-                }
-
-                var backend_tokens = new Gee.ArrayList<string> ();
-                for (var index = 0; index < tokens.length; index++) {
-                    if (owned_indexes.contains (index)) {
-                        backend_tokens.add (tokens[index]);
+                    if (occurrence.wrapper_id != backend_id || occurrence.is_legacy)
+                        continue;
+                    var first = occurrence.token_indexes[0];
+                    if (!invocation.argument_indexes.contains (first)
+                        && occurrence.environment_key == "")
+                        continue;
+                    load_control (occurrence);
+                    foreach (var index in occurrence.token_indexes)
                         consumed[index] = true;
-                    }
                 }
-                parse_tokens (backend_tokens.to_array (), new bool[backend_tokens.size]);
                 break;
             }
-        }
-
-        internal int get_wrapper_end_index (string[] tokens, int wrapper_index, bool[] consumed) {
-            var last = tokens.length - 1;
-            if (last > wrapper_index && tokens[last] == "--") {
-                consumed[last] = true;
-                return last;
-            }
-            return tokens.length;
-        }
-
-        internal int get_first_present_index (string[] tokens, string[] candidates) {
-            for (var index = 0; index < tokens.length; index++) {
-                foreach (var candidate in candidates) {
-                    if (tokens[index] == candidate)
-                        return index;
-                }
-            }
-
-            return -1;
         }
 
         public void add_child (ILaunchOption child) {

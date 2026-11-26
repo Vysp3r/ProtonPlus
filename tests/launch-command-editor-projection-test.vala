@@ -61,7 +61,7 @@ namespace AppTests.LaunchCommandEditorProjectionTest {
     private void test_candidates () {
         var projection = new LaunchCommandEditorProjection ();
         projection.update ("", sources ({ new LaunchCommandSelection ("ntsync-mode") }),
-            new ArrayList<string> (), capabilities ({ LaunchOptionCapability.PROTON }));
+            new ArrayList<string> (), capabilities ({ LaunchOptionCapability.PROTON_NTSYNC }));
         assert (projection.managed_candidate == "PROTON_NO_NTSYNC=1 %command%");
 
         projection.update ("", sources ({ new LaunchCommandSelection ("dll-overrides", { "d3d11=n;dxgi=n,b" }) }),

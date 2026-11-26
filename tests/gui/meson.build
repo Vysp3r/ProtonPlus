@@ -22,6 +22,7 @@ foreach gui_test : [
         'target': 'tools-presentation-test',
         'name': 'Tools presentation',
         'environment': ['PROTONPLUS_TEST_FIXTURES=' + (meson.project_source_root() / 'tests' / 'fixtures')],
+        'requires_exclusive_display': true,
     },
     {
         'target': 'games-presentation-test',
@@ -33,6 +34,7 @@ foreach gui_test : [
         'target': 'help-presentation-test',
         'name': 'Help presentation',
         'environment': ['GSK_RENDERER=cairo', 'LC_ALL=C'],
+        'requires_exclusive_display': true,
     },
 ]
     gui_test_exe = executable(
@@ -49,9 +51,8 @@ foreach gui_test : [
             args: ['-a'] + gui_test.get('xvfb_args', []) + [gui_test_exe],
             env: ['GDK_BACKEND=x11'] + gui_test_env)
     else
-        # Help checks focus restoration. Other GUI tests can steal focus
-        # when they share the desktop display.
+        # Focus-sensitive suites need exclusive access to a shared display.
         test(gui_test['name'], gui_test_exe, env: gui_test_env,
-            is_parallel: gui_test['target'] != 'help-presentation-test')
+            is_parallel: not gui_test.get('requires_exclusive_display', false))
     endif
 endforeach

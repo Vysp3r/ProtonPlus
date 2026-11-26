@@ -3,7 +3,13 @@ namespace ProtonPlus.Widgets.Games {
         public signal void back_requested ();
 
         Gtk.Button clear_button;
+        Gtk.Button reset_button;
         Gtk.Button apply_button;
+        LaunchOptionsBlocker apply_blocker;
+        Gtk.Label batch_scope;
+        Gtk.Box launch_action_buttons;
+        Gtk.Box header_actions;
+        Gtk.Box launch_action_area;
         Gtk.MenuButton selection_button;
         Gtk.Label game_title;
         public Header.Presentation header_presentation { get; private set; }
@@ -18,9 +24,11 @@ namespace ProtonPlus.Widgets.Games {
         string? compatibility_tool_diagnostic;
         bool runner_only;
         bool single_steam_game;
+        uint initial_tool_selection;
         uint load_generation;
         Cancellable? apply_request;
         LaunchOptions.LaunchOptionCapabilityResolver capability_resolver;
+        uint capability_generation;
         Gee.HashMap<string, Models.CompatibilityTool> compatibility_tools_by_id;
         Utils.GpuVendor gpu_vendor = Utils.GpuVendor.UNKNOWN;
         ulong header_back_handler = 0;
@@ -43,6 +51,11 @@ namespace ProtonPlus.Widgets.Games {
                 -1
             );
             clear_button.clicked.connect (clear_button_clicked);
+
+            reset_button = new Gtk.Button.from_icon_name ("edit-undo-symbolic") { sensitive = false };
+            reset_button.tooltip_text = _("Reset Changes");
+            reset_button.update_property (Gtk.AccessibleProperty.LABEL, reset_button.tooltip_text, -1);
+            reset_button.clicked.connect (reset_changes);
 
             apply_button = new Gtk.Button.with_label (_("Apply Changes"));
             apply_button.add_css_class ("suggested-action");
@@ -69,6 +82,10 @@ namespace ProtonPlus.Widgets.Games {
 
             content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
             content_box.append (compatibility_tool_group);
+            batch_scope = new Gtk.Label (null) {
+                xalign = 0, wrap = true, css_classes = { "dim-label" }
+            };
+            content_box.append (batch_scope);
             content_box.append (launch_options_editor);
 
             content_clamp = new Adw.Clamp ();
@@ -85,9 +102,24 @@ namespace ProtonPlus.Widgets.Games {
             scrolled_window.set_vexpand (true);
             scrolled_window.set_child (content_clamp);
 
-            var action_buttons = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
-            action_buttons.append (clear_button);
-            action_buttons.append (apply_button);
+            var preview = launch_options_editor.preview_field;
+            apply_blocker = new LaunchOptionsBlocker ();
+            apply_blocker.action.clicked.connect (launch_options_editor.resolve_missing_dependency);
+            launch_action_buttons = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6) {
+                hexpand = true, halign = Gtk.Align.END
+            };
+            launch_action_buttons.append (clear_button);
+            launch_action_buttons.append (reset_button);
+            launch_action_buttons.append (apply_button);
+            var footer_buttons = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
+            footer_buttons.append (preview.button);
+            footer_buttons.append (launch_action_buttons);
+            var actions = new Gtk.Box (Gtk.Orientation.VERTICAL, 6) {
+                margin_top = 8, margin_bottom = 8
+            };
+            actions.append (apply_blocker);
+            actions.append (preview);
+            actions.append (footer_buttons);
             game_title = new Gtk.Label (null) {
                 css_classes = { "title" },
                 ellipsize = Pango.EllipsizeMode.END,
@@ -100,9 +132,16 @@ namespace ProtonPlus.Widgets.Games {
             header_back_handler = header_presentation.back_requested.connect (() => {
                 back_requested ();
             });
-            header_presentation.add_end_action (action_buttons);
+            header_actions = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 0) { visible = false };
+            header_presentation.add_end_action (header_actions);
 
             append (scrolled_window);
+            launch_action_area = new Gtk.Box (Gtk.Orientation.VERTICAL, 0);
+            launch_action_area.append (new Gtk.Separator (Gtk.Orientation.HORIZONTAL));
+            launch_action_area.append (new Adw.Clamp () {
+                maximum_size = 975, margin_start = 12, margin_end = 12, child = actions
+            });
+            append (launch_action_area);
         }
 
         public override void dispose () {
@@ -116,6 +155,8 @@ namespace ProtonPlus.Widgets.Games {
         public Gtk.Widget get_controller_initial_focus () {
             if (selection_button.visible)
                 return selection_button;
+            if (launch_options_editor.visible)
+                return launch_options_editor.get_initial_focus ();
             if (compatibility_tool_row.visible)
                 return compatibility_tool_row;
             return compatibility_tool_apply_row;
@@ -214,6 +255,7 @@ namespace ProtonPlus.Widgets.Games {
                     }
                 }
             }
+            initial_tool_selection = compatibility_tool_row.selected;
 
             string[] preview_labels = {};
             string[] preview_sources = {};
@@ -234,8 +276,19 @@ namespace ProtonPlus.Widgets.Games {
             launch_options_editor.set_text (sources_match ? common_source : "");
             launch_options_editor.set_preview_sources (preview_labels, preview_sources);
 
+            compatibility_tool_group.title = has_steam_launch_options ? Markup.escape_text (_("Compatibility tool")) : "";
             launch_options_editor.visible = has_steam_launch_options;
-            clear_button.visible = has_steam_launch_options;
+            launch_action_area.visible = has_steam_launch_options;
+            header_actions.visible = !has_steam_launch_options;
+            var button_parent = (Gtk.Box) apply_button.get_parent ();
+            var button_destination = has_steam_launch_options ? launch_action_buttons : header_actions;
+            if (button_parent != button_destination) {
+                button_parent.remove (apply_button);
+                button_destination.append (apply_button);
+            }
+            batch_scope.visible = preview_sources.length > 1;
+            batch_scope.label = ngettext ("Launch option changes apply to %d game.",
+                "Launch option changes apply to %d games.", preview_sources.length).printf (preview_sources.length);
 
             compatibility_tool_apply_row.set_visible (!runner_only && !single_steam_game);
             compatibility_tool_apply_row.active = false;
@@ -243,7 +296,7 @@ namespace ProtonPlus.Widgets.Games {
             if (runner_only)
                 compatibility_tool_row.title = _("Wine or Proton version");
             else if (single_steam_game)
-                compatibility_tool_row.title = _("Compatibility version");
+                compatibility_tool_row.title = _("Version");
 
             compatibility_tool_row.notify["selected-item"].connect (() => {
                 compatibility_tool_diagnostic = null;
@@ -282,13 +335,33 @@ namespace ProtonPlus.Widgets.Games {
             if (compatibility_tool_row != null)
                 compatibility_tool_row.subtitle = tool_error ?? "";
 
+            var compatibility_warning = launch_options_editor.visible ? launch_options_editor.compatibility_warning : "";
+            var blocker = tool_error ?? compatibility_warning;
+            if (blocker == "" && launch_options_editor.visible)
+                blocker = launch_options_editor.preview_field.blocking_reason;
+            var incompatibility = tool_error != null || compatibility_warning != "";
+            var dependency_action = !incompatibility && launch_options_editor.visible
+                ? launch_options_editor.dependency_action_label : "";
+            apply_blocker.update (blocker, dependency_action, apply_request == null, incompatibility);
+
             clear_button.sensitive = apply_request == null && launch_options_editor.can_clear;
+            var launch_options_changed = launch_options_editor.has_changes_to_write
+                || (!launch_options_editor.writing_allowed && launch_options_editor.is_dirty);
+            reset_button.sensitive = apply_request == null && (launch_options_changed || tool_enabled);
             apply_button.sensitive = apply_request == null && tool_error == null && (runner_only || launch_options_editor.writing_allowed)
                 && (tool_enabled || launch_options_editor.has_changes_to_write);
         }
 
         void clear_button_clicked () {
             launch_options_editor.clear ();
+        }
+
+        void reset_changes () {
+            compatibility_tool_diagnostic = null;
+            compatibility_tool_apply_row.active = false;
+            compatibility_tool_row.selected = initial_tool_selection;
+            launch_options_editor.reset ();
+            refresh_capability_context ();
         }
 
         async void apply_button_clicked () {
@@ -326,7 +399,10 @@ namespace ProtonPlus.Widgets.Games {
             var launch_writes = new Gee.HashMap<Models.Games.Steam, LaunchOptions.LaunchCommandWriteResult> ();
 
             if (launch_options_editor.is_dirty && launch_options_editor.visible) {
-                refresh_capability_context ();
+                var context = yield resolve_launch_option_capabilities ();
+                if (generation != load_generation || request.is_cancelled ())
+                    return;
+                launch_options_editor.set_capability_context (context);
                 /* A batch selection is an intent.  Each Steam game keeps its
                  * own source command and is prepared before any persistent
                  * compatibility-tool or VDF write can occur. */
@@ -417,20 +493,40 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         void refresh_capability_context () {
-            if (items != null && launch_options_editor.visible)
-                launch_options_editor.set_capability_context (resolve_launch_option_capabilities ());
+            var generation = ++capability_generation;
+            if (items != null && launch_options_editor.visible) {
+                resolve_launch_option_capabilities.begin (true, (obj, result) => {
+                    var context = resolve_launch_option_capabilities.end (result);
+                    if (generation == capability_generation && launch_options_editor.visible) {
+                        launch_options_editor.set_capability_context (context);
+                        refresh ();
+                    }
+                });
+            }
             refresh ();
         }
 
-        LaunchOptions.LaunchCommandCapabilityContext resolve_launch_option_capabilities () {
+        async LaunchOptions.LaunchCommandCapabilityContext resolve_launch_option_capabilities (bool publish_initial = false) {
             var runtimes = new Models.CompatibilityToolRuntimeKind[items.length];
             var selected_tools = new Gee.ArrayList<Models.CompatibilityTool> ();
             var all_tools_known = true;
             var runtime_index = 0;
             var all_steam = items.length > 0;
+            var obs_vkcapture = items.length > 0;
+            var obs_gamecapture = items.length > 0;
+            var native_steam = items.length > 0;
+            var steam_tool_roots = new Gee.HashSet<string> ();
             foreach (var item in items) {
-                if (!(item.game is Models.Games.Steam))
-                    all_steam = false;
+                var steam = item.game.launcher as Models.Launchers.Steam;
+                all_steam &= item.game is Models.Games.Steam;
+                native_steam &= steam?.installation_type == Models.Launcher.InstallationTypes.SYSTEM;
+                if (steam != null && steam.installation_type == Models.Launcher.InstallationTypes.SYSTEM)
+                    steam_tool_roots.add (steam.get_managed_compatibility_tools_root ());
+                var flatpak_capture = steam?.installation_type == Models.Launcher.InstallationTypes.FLATPAK
+                    && Globals.OBS_VKCAPTURE_FLATPAK_INSTALLED;
+                var host_capture = steam?.installation_type == Models.Launcher.InstallationTypes.SYSTEM;
+                obs_vkcapture &= flatpak_capture || (host_capture && Globals.OBS_VKCAPTURE_INSTALLED);
+                obs_gamecapture &= flatpak_capture || (host_capture && Globals.OBS_GAMECAPTURE_INSTALLED);
             }
 
             var selected_tool = compatibility_tool_row?.get_selected_item () as Models.CompatibilityTool;
@@ -440,7 +536,7 @@ namespace ProtonPlus.Widgets.Games {
                 foreach (var item in items) {
                     var effective = resolve_effective_tool (item, proposed);
                     runtimes[runtime_index++] = capability_resolver.runtime_for_tool (effective ?? proposed);
-                    if (effective == null || effective.path.strip () == "")
+                    if (effective == null || effective.inspection_path.strip () == "")
                         all_tools_known = false;
                     else
                         selected_tools.add (effective);
@@ -455,7 +551,7 @@ namespace ProtonPlus.Widgets.Games {
                     var current = compatibility_tools_by_id.get (item.game.compatibility_tool);
                     var effective = resolve_effective_tool (item, current);
                     runtimes[runtime_index++] = capability_resolver.runtime_for_tool (effective ?? current);
-                    if (effective == null || effective.path.strip () == "")
+                    if (effective == null || effective.inspection_path.strip () == "")
                         all_tools_known = false;
                     else
                         selected_tools.add (effective);
@@ -467,13 +563,33 @@ namespace ProtonPlus.Widgets.Games {
                 Globals.GAMEMODE_INSTALLED, Globals.GAMESCOPE_INSTALLED,
                 Globals.SCOPEBUDDY_INSTALLED, Globals.VKBASALT_INSTALLED,
                 Globals.GAME_PERFORMANCE_INSTALLED,
-                Globals.OBS_VKCAPTURE_INSTALLED
-                    || (Globals.OBS_VKCAPTURE_FLATPAK_INSTALLED
-                        && Globals.OBS_VKCAPTURE_FLATPAK_PLUGIN_INSTALLED)
+                obs_vkcapture, obs_gamecapture,
+                native_steam && Globals.AMD_VULKAN_SWITCHER_INSTALLED,
+                native_steam && Globals.MANGOAPP_INSTALLED, Globals.SCOPEBUDDY_COMMAND ?? ""
             );
             Models.CompatibilityTool[] tools = all_tools_known
                 ? selected_tools.to_array () : new Models.CompatibilityTool[0];
-            return capability_resolver.resolve (runtimes, all_steam, components, gpu_vendor, tools);
+            var vendor = gpu_vendor;
+            var native_wrapper_candidates = native_steam && all_steam;
+            foreach (var runtime in runtimes)
+                native_wrapper_candidates &= runtime == Models.CompatibilityToolRuntimeKind.NATIVE;
+            var wrapper_roots = native_wrapper_candidates ? steam_tool_roots.to_array () : new string[0];
+            if (publish_initial || (tools.length == 0 && wrapper_roots.length == 0)) {
+                var initial = capability_resolver.resolve (runtimes, all_steam, components, vendor);
+                if (publish_initial)
+                    launch_options_editor.set_capability_context (initial, tools.length > 0 || wrapper_roots.length > 0);
+                if (tools.length == 0 && wrapper_roots.length == 0)
+                    return initial;
+            }
+            SourceFunc callback = resolve_launch_option_capabilities.callback;
+            LaunchOptions.LaunchCommandCapabilityContext context = null;
+            new Thread<void> ("launch-option-capabilities", () => {
+                var resolver = new LaunchOptions.LaunchOptionCapabilityResolver ();
+                context = resolver.resolve (runtimes, all_steam, components, vendor, tools, wrapper_roots);
+                Idle.add ((owned) callback, Priority.DEFAULT);
+            });
+            yield;
+            return context;
         }
 
         Models.CompatibilityTool? resolve_effective_tool (
@@ -485,6 +601,113 @@ namespace ProtonPlus.Widgets.Games {
 
             var steam = item.game.launcher as Models.Launchers.Steam;
             return steam?.resolve_effective_compatibility_tool (selected.internal_title);
+        }
+    }
+
+    class LaunchOptionsBlocker : Gtk.Widget {
+        const int SPACING = 8;
+        const int INLINE_MESSAGE_WIDTH = 240;
+
+        Gtk.Label message;
+        public Gtk.Button action { get; private set; }
+
+        public LaunchOptionsBlocker () {
+            Object (visible: false, accessible_role: Gtk.AccessibleRole.GROUP);
+            add_css_class ("launch-options-blocker");
+            message = new Gtk.Label (null) {
+                xalign = 0, wrap = true, wrap_mode = Pango.WrapMode.WORD_CHAR
+            };
+            action = new Gtk.Button () { can_shrink = true, visible = false };
+            message.set_parent (this);
+            action.set_parent (this);
+        }
+
+        public void update (string text, string action_label, bool action_enabled, bool error) {
+            message.label = text;
+            action.label = action_label;
+            action.sensitive = action_enabled;
+            action.visible = action_label != "";
+            if (error)
+                add_css_class ("launch-options-blocker-error");
+            else
+                remove_css_class ("launch-options-blocker-error");
+            visible = text != "";
+        }
+
+        public override Gtk.SizeRequestMode get_request_mode () {
+            return Gtk.SizeRequestMode.HEIGHT_FOR_WIDTH;
+        }
+
+        bool stack_action (int width, int action_width) {
+            return action.visible && width >= 0 && width < INLINE_MESSAGE_WIDTH + SPACING + action_width;
+        }
+
+        public override void measure (Gtk.Orientation orientation, int for_size, out int minimum,
+            out int natural, out int minimum_baseline, out int natural_baseline) {
+            minimum_baseline = natural_baseline = -1;
+            if (!action.visible) {
+                message.measure (orientation, for_size, out minimum, out natural, null, null);
+                return;
+            }
+
+            int action_min, action_width;
+            action.measure (Gtk.Orientation.HORIZONTAL, -1, out action_min, out action_width, null, null);
+            if (orientation == Gtk.Orientation.HORIZONTAL) {
+                message.measure (orientation, -1, out minimum, out natural, null, null);
+                minimum = int.max (minimum, action_min);
+                natural += SPACING + action_width;
+                return;
+            }
+
+            var stacked = stack_action (for_size, action_width);
+            var message_width = stacked || for_size < 0 ? for_size : for_size - SPACING - action_width;
+            int action_min_height, action_height;
+            action.measure (orientation, stacked ? int.min (for_size, action_width) : action_width,
+                out action_min_height, out action_height, null, null);
+            message.measure (orientation, message_width, out minimum, out natural, null, null);
+            minimum = stacked ? minimum + SPACING + action_min_height : int.max (minimum, action_min_height);
+            natural = stacked ? natural + SPACING + action_height : int.max (natural, action_height);
+        }
+
+        public override void size_allocate (int width, int height, int baseline) {
+            if (!action.visible) {
+                message.allocate (width, height, -1, null);
+                return;
+            }
+
+            int action_width, action_height;
+            action.measure (Gtk.Orientation.HORIZONTAL, -1, null, out action_width, null, null);
+            var stacked = stack_action (width, action_width);
+            action_width = int.min (width, action_width);
+            action.measure (Gtk.Orientation.VERTICAL, action_width, null, out action_height, null, null);
+
+            var rtl = get_direction () == Gtk.TextDirection.RTL;
+            var message_x = rtl && !stacked ? action_width + SPACING : 0;
+            var action_at_right = stacked ? rtl : !rtl;
+            var action_x = action_at_right ? width - action_width : 0;
+            var action_y = stacked ? height - action_height : (height - action_height) / 2;
+            allocate_child (message, stacked ? width : width - SPACING - action_width,
+                stacked ? int.max (0, action_y - SPACING) : height, message_x, 0);
+            allocate_child (action, action_width, action_height, action_x, action_y);
+        }
+
+        void allocate_child (Gtk.Widget child, int width, int height, int x, int y) {
+            Graphene.Point offset = { x, y };
+            child.allocate (width, height, -1, new Gsk.Transform ().translate (offset));
+        }
+
+        public override void snapshot (Gtk.Snapshot snapshot) {
+            snapshot_child (message, snapshot);
+            if (action.visible)
+                snapshot_child (action, snapshot);
+        }
+
+        public override void dispose () {
+            if (message.get_parent () == this)
+                message.unparent ();
+            if (action.get_parent () == this)
+                action.unparent ();
+            base.dispose ();
         }
     }
 }

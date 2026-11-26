@@ -62,12 +62,9 @@ using Gtk;
                 row.selected = 0;
 
             if (raw_value == null || raw_value == "") {
-                this.enable_expansion = false;
                 is_updating = false;
                 return;
             }
-
-            this.enable_expansion = true;
 
             bool is_flag_list = (options_values.length > 1 && options_values[1] == "1");
             string[] parts = raw_value.split (this.separator);
@@ -107,9 +104,6 @@ using Gtk;
         }
 
         private string get_formatted_value () {
-            if (!this.enable_expansion)
-                return "";
-
             string[] final_parts = {};
             bool is_flag_list = (options_values.length > 1 && options_values[1] == "1");
             if (rows_map != null) {
@@ -164,6 +158,10 @@ using Gtk;
 
         public void clear () {
             this.value = "";
+        }
+
+        public bool is_active () {
+            return value != "";
         }
 
         public virtual void append_command_segments (Gee.LinkedList<string> segments) {

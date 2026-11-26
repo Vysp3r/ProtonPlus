@@ -2,9 +2,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
     using Adw;
 
     public class GpuVendorAmdOptionsGroup : BaseOptionsGroup {
-        LaunchOptionTile amd_fsr4_upgrade_tile { get; set; }
+        LaunchOptionEnvironmentField amd_fsr4_upgrade_tile { get; set; }
         LaunchOptionTile amd_fsr4_rdna3_upgrade_tile { get; set; }
-        LaunchOptionTile amd_mlfg_upgrade_tile { get; set; }
+        LaunchOptionEnvCombo amd_mlfg_upgrade_tile { get; set; }
         LaunchOptionTile amd_mlfg_rdna3_workaround_tile { get; set; }
         LaunchOptionTile amd_reflex_allow_other_drivers_tile { get; set; }
         LaunchOptionTile amd_reflex_dxgi_spoof_tile { get; set; }
@@ -29,8 +29,8 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             amd_anti_lag_tile = create_tile ("amd-anti-lag");
             amd_prime_tile = create_tile ("amd-discrete-gpu");
             amd_hide_apu_tile = create_tile ("amd-hide-apu");
-            amd_fsr4_upgrade_tile = create_tile ("amd-fsr4");
-            amd_fsr4_upgrade_tile.toggle.notify["active"].connect (() => {
+            amd_fsr4_upgrade_tile = create_environment_field ("amd-fsr4");
+            amd_fsr4_upgrade_tile.changed.connect (() => {
                 amd_fsr4_upgrade_toggle_changed ();
             });
 
@@ -39,7 +39,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
                 amd_fsr4_rdna3_upgrade_toggle_changed ();
             });
 
-            amd_mlfg_upgrade_tile = create_tile ("amd-mlfg");
+            amd_mlfg_upgrade_tile = create_environment_combo ("amd-mlfg", { _("Off"), _("On") });
             amd_mlfg_rdna3_workaround_tile = create_tile ("amd-mlfg-rdna3-workaround");
             amd_reflex_allow_other_drivers_tile = create_tile ("amd-reflex-allow-other-drivers");
             amd_reflex_dxgi_spoof_tile = create_tile ("amd-reflex-dxgi-spoof");
@@ -61,7 +61,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             radv_perf_editor.changed.connect ((row) => {
                 this.changed ();
             });
-            amd_icd_editor.changed.connect ((row) => {
+            amd_icd_editor.changed.connect (() => {
                 this.changed ();
             });
             aco_debug_editor.changed.connect ((row) => {
@@ -110,11 +110,15 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             refreshing_controls = false;
         }
 
+        bool fsr4_upgrade_enabled () {
+            return amd_fsr4_upgrade_tile.is_active () && amd_fsr4_upgrade_tile.text != "0";
+        }
+
         void amd_fsr4_upgrade_toggle_changed () {
             if (refreshing_controls)
                 return;
 
-            if (amd_fsr4_upgrade_tile.toggle.get_active () && amd_fsr4_rdna3_upgrade_tile.toggle.get_active ()) {
+            if (fsr4_upgrade_enabled () && amd_fsr4_rdna3_upgrade_tile.toggle.get_active ()) {
                 refreshing_controls = true;
                 amd_fsr4_rdna3_upgrade_tile.toggle.set_active (false);
                 refreshing_controls = false;
@@ -127,9 +131,9 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
             if (refreshing_controls)
                 return;
 
-            if (amd_fsr4_rdna3_upgrade_tile.toggle.get_active () && amd_fsr4_upgrade_tile.toggle.get_active ()) {
+            if (amd_fsr4_rdna3_upgrade_tile.toggle.get_active () && fsr4_upgrade_enabled ()) {
                 refreshing_controls = true;
-                amd_fsr4_upgrade_tile.toggle.set_active (false);
+                amd_fsr4_upgrade_tile.clear ();
                 refreshing_controls = false;
             }
 
@@ -137,13 +141,13 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         }
 
         internal void normalize_amd_fsr_upgrade_dependencies () {
-            if (!amd_fsr4_upgrade_tile.toggle.get_active () || !amd_fsr4_rdna3_upgrade_tile.toggle.get_active ())
+            if (!fsr4_upgrade_enabled () || !amd_fsr4_rdna3_upgrade_tile.toggle.get_active ())
                 return;
 
             var was_refreshing = refreshing_controls;
             refreshing_controls = true;
             amd_fsr4_rdna3_upgrade_tile.toggle.set_active (false);
-            amd_mlfg_upgrade_tile.toggle.set_active (false);
+            amd_mlfg_upgrade_tile.clear ();
             amd_mlfg_rdna3_workaround_tile.toggle.set_active (false);
             amd_reflex_allow_other_drivers_tile.toggle.set_active (false);
             amd_reflex_dxgi_spoof_tile.toggle.set_active (false);
@@ -155,7 +159,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor.Groups {
         internal void reset_controls () {
             refreshing_controls = true;
             amd_anti_lag_tile.toggle.set_active (false);
-            amd_fsr4_upgrade_tile.toggle.set_active (false);
+            amd_fsr4_upgrade_tile.clear ();
             amd_fsr4_rdna3_upgrade_tile.toggle.set_active (false);
             amd_prime_tile.toggle.set_active (false);
             amd_hide_apu_tile.toggle.set_active (false);

@@ -64,7 +64,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         public bool is_advanced { get; set; default = true; }
 
         Gee.ArrayList<LaunchOptionArgumentRow> rows;
-        Adw.ActionRow add_action_row;
         bool refreshing;
         string loaded_source = "";
 
@@ -73,25 +72,17 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             set_tooltip_text (subtitle);
             rows = new Gee.ArrayList<LaunchOptionArgumentRow> ();
 
-            add_action_row = new Adw.ActionRow () {
-                title = _("Add custom argument"),
-                subtitle = _("Add one argument per list entry.")
-            };
-            add_action_row.set_tooltip_text (add_action_row.subtitle);
-            add_action_row.set_focusable (false);
             var add_button = new Gtk.Button.from_icon_name ("list-add-symbolic") {
                 valign = Gtk.Align.CENTER,
                 css_classes = { "flat" }
             };
-            add_button.set_tooltip_text (add_action_row.title);
+            add_button.set_tooltip_text (_("Add custom argument"));
             add_button.update_property (
                 Gtk.AccessibleProperty.LABEL, _("Add custom argument"), -1
             );
             add_button.clicked.connect (add_empty_argument);
-            add_action_row.add_suffix (add_button);
-            add_action_row.add_css_class ("property");
-            add_action_row.visible = true;
-            add_action_row_to_end ();
+            bind_property ("enable-expansion", add_button, "sensitive", BindingFlags.SYNC_CREATE);
+            add_suffix (add_button);
         }
 
         public void load_from_parse_result (LaunchCommandParseResult parsed) {
@@ -101,7 +92,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
             var indexes = parsed.get_custom_game_argument_indexes ();
             foreach (var index in indexes)
                 append_argument (parsed.tokens[index].raw, index);
-            expanded = rows.size > 0;
+            expanded = false;
             refreshing = false;
         }
 
@@ -138,9 +129,7 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
         }
 
         void add_empty_argument () {
-            remove (add_action_row);
             var row = append_argument ("", -1);
-            add_action_row_to_end ();
             expanded = true;
             row.grab_focus ();
         }
@@ -173,10 +162,6 @@ namespace ProtonPlus.Widgets.Games.LaunchOptionsEditor {
                 remove (row);
             }
             rows.clear ();
-        }
-
-        void add_action_row_to_end () {
-            add_row (add_action_row);
         }
 
         public void add_child (ILaunchOption child) {}
