@@ -206,6 +206,13 @@ namespace ProtonPlus.Models {
             }
         }
 
+        internal async ReleaseLookupResult fetch_release_by_tag (string tag, Cancellable cancellable) {
+            var github = release_source as ProtonPlus.Providers.Sources.GitHubReleaseSource;
+            if (github == null)
+                return ReleaseLookupResult.failure (ReturnCode.UNSUPPORTED_OPERATION);
+            return yield github.fetch_tag (definition, tag, cancellable);
+        }
+
         public static bool cache_timestamp_is_fresh (string last_updated, DateTime now) {
             if (last_updated == "")
                 return false;

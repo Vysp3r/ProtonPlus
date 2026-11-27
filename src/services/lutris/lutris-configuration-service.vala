@@ -107,6 +107,7 @@ namespace ProtonPlus.Services {
         public string accessible_prefix = "";
         public string? custom_path;
         public string? runner_default;
+        public LutrisGameConfig? wine_defaults;
         public string? config_error;
         public string arch = "";
         public bool proton_compatible;
@@ -118,6 +119,87 @@ namespace ProtonPlus.Services {
                 directory == other.directory && config_id == other.config_id &&
                 database == other.database && database_id == other.database_id &&
                 slug == other.slug && installed_at == other.installed_at && config_path == other.config_path;
+        }
+    }
+
+    public class LutrisGraphicsVersions : Object {
+        public string component { get; private set; }
+        public string key { get; private set; }
+        public string? saved { get; internal set; }
+        public string? inherited { get; internal set; }
+        public bool enabled { get; internal set; }
+        public bool editable { get; internal set; }
+        private Gee.ArrayList<string> available = new Gee.ArrayList<string> ();
+        public Gee.List<string> versions { owned get { return available.read_only_view; } }
+
+        internal LutrisGraphicsVersions (string component) {
+            this.component = component;
+            key = component + "_version";
+        }
+
+        internal void add_version (string version) {
+            available.add (version);
+        }
+
+        internal void sort_versions () {
+            available.sort ((a, b) => strcmp (b.collate_key_for_filename (), a.collate_key_for_filename ()));
+        }
+    }
+
+    public class LutrisInheritedEnvironmentValue : Object {
+        public string value { get; private set; }
+        public bool from_wine_runner { get; private set; }
+
+        internal LutrisInheritedEnvironmentValue (string value, bool from_wine_runner) {
+            this.value = value;
+            this.from_wine_runner = from_wine_runner;
+        }
+    }
+
+    public class LutrisGameOptions : Object {
+        public const string COMMAND_PREFIX = "prefix_command";
+        public const string ENVIRONMENT = "env";
+        internal const string DISABLE_RUNTIME = "disable_runtime";
+        internal const string PREFER_SYSTEM_LIBS = "prefer_system_libs";
+        internal const string GAMESCOPE = "gamescope";
+        internal const string GAMESCOPE_HDR = "gamescope_hdr";
+        internal const string GAMESCOPE_WINDOW_MODE = "gamescope_window_mode";
+        internal const string GAMESCOPE_GAME_RESOLUTION = "gamescope_game_res";
+        internal const string GAMESCOPE_OUTPUT_RESOLUTION = "gamescope_output_res";
+        internal const string GAMESCOPE_FRAME_LIMIT = "gamescope_fps_limiter";
+        internal const string GAMESCOPE_FLAGS = "gamescope_flags";
+        internal static string[] toggle_keys () {
+            return { "dxvk", "vkd3d", "esync", "fsync" };
+        }
+        internal static string[] system_toggle_keys () {
+            return { "mangohud", "gamemode", DISABLE_RUNTIME, PREFER_SYSTEM_LIBS, GAMESCOPE, GAMESCOPE_HDR };
+        }
+        internal static string[] gamescope_setting_keys () {
+            return { GAMESCOPE_WINDOW_MODE, GAMESCOPE_GAME_RESOLUTION, GAMESCOPE_OUTPUT_RESOLUTION,
+                GAMESCOPE_FRAME_LIMIT, GAMESCOPE_FLAGS };
+        }
+
+        internal Gee.HashMap<string, string?> toggles = new Gee.HashMap<string, string?> ();
+        internal Gee.HashMap<string, string?> inherited_toggles = new Gee.HashMap<string, string?> ();
+        internal Gee.HashMap<string, string?> gamescope_settings = new Gee.HashMap<string, string?> ();
+        internal Gee.HashMap<string, string?> inherited_gamescope_settings = new Gee.HashMap<string, string?> ();
+        internal Gee.HashMap<string, LutrisInheritedEnvironmentValue> inherited_environment =
+            new Gee.HashMap<string, LutrisInheritedEnvironmentValue> ();
+        public string? environment { get; internal set; }
+        public bool environment_inheritance_complete { get; internal set; }
+        public string? command_prefix { get; internal set; }
+        public string? inherited_prefix { get; internal set; }
+        public bool command_prefix_editable { get; internal set; }
+        public LutrisSystemTools system_tools { get; internal set; }
+
+        public bool has_toggle (string key) { return toggles.has_key (key); }
+        public string? get_toggle (string key) { return toggles.get (key); }
+        public string? get_inherited_toggle (string key) { return inherited_toggles.get (key); }
+        public bool has_gamescope_setting (string key) { return gamescope_settings.has_key (key); }
+        public string? get_gamescope_setting (string key) { return gamescope_settings.get (key); }
+        public string? get_inherited_gamescope_setting (string key) { return inherited_gamescope_settings.get (key); }
+        public LutrisInheritedEnvironmentValue? get_inherited_environment (string key) {
+            return inherited_environment.get (key);
         }
     }
 
@@ -338,6 +420,7 @@ namespace ProtonPlus.Services {
                 };
                 load_config (record, paths.config, record.runner == "wine" ? defaults : null);
                 if (record.runner == "wine") {
+                    record.wine_defaults = defaults;
                     record.runner_default = defaults?.get_setting ("wine", "version");
                     record.custom_path = record.config?.get_setting ("wine", "custom_wine_path") ??
                         defaults?.get_setting ("wine", "custom_wine_path");
@@ -446,6 +529,268 @@ namespace ProtonPlus.Services {
 
         internal const string LATEST = "ge-proton";
 
+        internal LutrisGameOptions read_game_options (LutrisGameRecord record, bool probe_tools = false) {
+            var options = new LutrisGameOptions ();
+            unowned var yaml = record.config.yaml;
+            foreach (var key in LutrisGameOptions.toggle_keys ()) {
+                var saved = yaml.get_toggle ("wine", key);
+                var inherited = record.wine_defaults == null ? -1 : record.wine_defaults.yaml.get_toggle ("wine", key);
+                if (!yaml.toggle_editable ("wine", key) || inherited == -2)
+                    continue;
+                options.toggles[key] = toggle_string (saved);
+                options.inherited_toggles[key] = inherited == -1 && key != "fsync" ? "true" : toggle_string (inherited);
+            }
+
+            options.command_prefix = yaml.get ("system", LutrisGameOptions.COMMAND_PREFIX);
+            options.command_prefix_editable = yaml.setting_editable ("system", LutrisGameOptions.COMMAND_PREFIX) &&
+                (options.command_prefix == null || (!options.command_prefix.contains ("\n") &&
+                    !options.command_prefix.contains ("\r")));
+            LutrisGameConfig? defaults = null;
+            bool system_defaults_readable = true;
+            try {
+                defaults = new LutrisGameConfig (Path.build_filename (resolve_paths ().config, "system.yml"));
+            } catch (IOError.NOT_FOUND error) {
+                // No system overrides were saved.
+            } catch (Error error) {
+                system_defaults_readable = false;
+                debug ("Could not read Lutris system defaults: %s", error.message);
+            }
+            if (probe_tools) {
+                try {
+                    options.system_tools = backend.get_system_tools (flatpak);
+                } catch (Error error) {
+                    debug ("Could not check Lutris system tools: %s", error.message);
+                }
+            }
+            foreach (var key in LutrisGameOptions.system_toggle_keys ()) {
+                var inherited = record.wine_defaults == null ? -1 : record.wine_defaults.yaml.get_toggle ("system", key);
+                if (inherited == -1 && defaults != null)
+                    inherited = defaults.yaml.get_toggle ("system", key);
+                if (!yaml.toggle_editable ("system", key) || inherited == -2)
+                    continue;
+                if (inherited == -1) {
+                    if (key == "gamemode") {
+                        if ((options.system_tools & LutrisSystemTools.CHECKED) != 0)
+                            inherited = (options.system_tools & LutrisSystemTools.GAMEMODE) != 0 ? 1 : 0;
+                    } else {
+                        inherited = key == LutrisGameOptions.PREFER_SYSTEM_LIBS ? 1 : 0;
+                    }
+                }
+                options.toggles[key] = toggle_string (yaml.get_toggle ("system", key));
+                options.inherited_toggles[key] = toggle_string (inherited);
+            }
+            options.inherited_prefix = record.wine_defaults?.get_setting ("system", LutrisGameOptions.COMMAND_PREFIX) ??
+                defaults?.get_setting ("system", LutrisGameOptions.COMMAND_PREFIX);
+            foreach (var key in LutrisGameOptions.gamescope_setting_keys ()) {
+                if (!yaml.setting_editable ("system", key))
+                    continue;
+                var current = yaml.get ("system", key);
+                // Keep existing values that cannot be represented in these controls.
+                if (current != null && (current.contains ("\n") || current.contains ("\r") ||
+                    (key == LutrisGameOptions.GAMESCOPE_WINDOW_MODE && !(current in new string[] { "-f", "", "-b" }))))
+                    continue;
+                options.gamescope_settings[key] = current;
+                unowned var runner_defaults = record.wine_defaults?.yaml;
+                unowned var system_defaults = defaults?.yaml;
+                if (runner_defaults != null && runner_defaults.has_setting ("system", key))
+                    options.inherited_gamescope_settings[key] = runner_defaults.get ("system", key);
+                else if (system_defaults != null && system_defaults.has_setting ("system", key))
+                    options.inherited_gamescope_settings[key] = system_defaults.get ("system", key);
+                else if (system_defaults_readable && key == LutrisGameOptions.GAMESCOPE_WINDOW_MODE)
+                    options.inherited_gamescope_settings[key] = "-f";
+            }
+            options.environment = read_environment (yaml);
+            if (probe_tools && options.environment != null)
+                read_inherited_environment (options, record.wine_defaults, defaults, system_defaults_readable);
+            return options;
+        }
+
+        private static string? toggle_string (int value) {
+            return value == 1 ? "true" : value == 0 ? "false" : null;
+        }
+
+        private static bool component_enabled (LutrisGameRecord record, string component,
+            Gee.Map<string, string?>? edits = null) {
+            var inherited = record.wine_defaults == null ? -1 : record.wine_defaults.yaml.get_toggle ("wine", component);
+            if (edits != null && edits.has_key (component)) {
+                var requested = edits.get (component);
+                return requested == null ? inherited != 0 : requested == "true";
+            }
+            var saved = record.config == null ? -1 : record.config.yaml.get_toggle ("wine", component);
+            var effective = saved == -1 ? inherited : saved;
+            return effective == -1 || effective == 1;
+        }
+
+        internal static bool valid_env_name (string name) {
+            return Regex.match_simple ("^[A-Za-z_][A-Za-z0-9_]*\\z", name);
+        }
+
+        internal static string? gamescope_setting_error (string key, string? value) {
+            if (value == null || value == "")
+                return null;
+            if (key == LutrisGameOptions.GAMESCOPE_WINDOW_MODE)
+                return value in new string[] { "-f", "-b" } ? null : _("Choose a Gamescope window mode.");
+            if (key == LutrisGameOptions.GAMESCOPE_FLAGS) {
+                if (value.contains ("\n") || value.contains ("\r"))
+                    return _("Gamescope flags must fit on one line.");
+                try {
+                    string[] arguments;
+                    Shell.parse_argv (value, out arguments);
+                } catch (ShellError.BAD_QUOTING error) {
+                    return _("Check the quotes and escapes in Gamescope flags.");
+                } catch (ShellError error) {
+                    // Whitespace is accepted as an empty argument list.
+                }
+                return null;
+            }
+            if (key == LutrisGameOptions.GAMESCOPE_FRAME_LIMIT)
+                return positive_gamescope_number (value) ? null : _("Enter a positive Gamescope frame limit in FPS.");
+            var dimensions = value.down ().split ("x");
+            return dimensions.length == 2 && positive_gamescope_number (dimensions[0]) &&
+                positive_gamescope_number (dimensions[1]) ? null : _("Enter a Gamescope resolution as width × height, for example 1920x1080.");
+        }
+
+        private static bool positive_gamescope_number (string text) {
+            int number = 0;
+            return Regex.match_simple ("^[0-9]+\\z", text) && int.try_parse (text, out number) && number > 0;
+        }
+
+        private static void read_inherited_environment (LutrisGameOptions options, LutrisGameConfig? runner,
+            LutrisGameConfig? system, bool system_readable) {
+            var runner_env = runner == null ? null : read_environment_mapping (runner.yaml);
+            if (runner != null && runner_env == null)
+                return;
+            var system_env = system == null ? null : read_environment_mapping (system.yaml);
+            options.environment_inheritance_complete = system_readable && (system == null || system_env != null);
+            if (system_env != null) {
+                foreach (var key in system_env.get_members ())
+                    options.inherited_environment[key] = new LutrisInheritedEnvironmentValue (
+                        system_env.get_string_member (key), false);
+            }
+            if (runner_env != null) {
+                foreach (var key in runner_env.get_members ())
+                    options.inherited_environment[key] = new LutrisInheritedEnvironmentValue (
+                        runner_env.get_string_member (key), true);
+            }
+        }
+
+        private static Json.Object? read_environment_mapping (LutrisYaml yaml) {
+            var mapping = yaml.get_environment ();
+            if (mapping == null)
+                return null;
+            var parser = new Json.Parser ();
+            try {
+                parser.load_from_data (mapping);
+            } catch (Error error) {
+                return null;
+            }
+            return parser.get_root ().get_object ();
+        }
+
+        private static string? read_environment (LutrisYaml yaml) {
+            var object = read_environment_mapping (yaml);
+            if (object == null)
+                return null;
+            var text = new StringBuilder ();
+            foreach (var name in object.get_members ()) {
+                var value = object.get_string_member (name);
+                if (!valid_env_name (name) || value.contains ("\n") || value.contains ("\r"))
+                    return null;
+                if (text.len != 0)
+                    text.append_c ('\n');
+                text.append ("%s=%s".printf (name, value));
+            }
+            return text.str;
+        }
+
+        private static string patch_environment (string source, string input) throws Error {
+            var builder = new Json.Builder ();
+            builder.begin_object ();
+            var names = new Gee.HashSet<string> ();
+            var expected = new StringBuilder ();
+            var line_number = 0;
+            foreach (var line in input.split ("\n")) {
+                line_number++;
+                if (line == "")
+                    continue;
+                var equals = line.index_of_char ('=');
+                if (equals <= 0 || line.contains ("\r"))
+                    throw new IOError.INVALID_DATA (_("Enter an environment variable as NAME=value on line %d.").printf (line_number));
+                var name = line.substring (0, equals);
+                if (!valid_env_name (name) || !names.add (name))
+                    throw new IOError.INVALID_DATA (_("Use a valid, unique environment variable name on line %d.").printf (line_number));
+                builder.set_member_name (name);
+                builder.add_string_value (line.substring (equals + 1));
+                if (expected.len != 0)
+                    expected.append_c ('\n');
+                expected.append (line);
+            }
+            builder.end_object ();
+            var generator = new Json.Generator ();
+            generator.set_root (builder.get_root ());
+            var yaml = LutrisYaml.parse (source);
+            var updated = yaml?.set_environment (names.is_empty ? null : generator.to_data (null));
+            var validated = updated == null ? null : LutrisYaml.parse (updated);
+            if (validated == null || read_environment (validated) != expected.str)
+                throw new IOError.INVALID_DATA (_("The Lutris environment variables could not be saved."));
+            return (!) updated;
+        }
+
+        internal static string? ge_proton_release_tag (string version) {
+            if (!Regex.match_simple ("^GE-Proton[0-9]+-[0-9]+(-x86_64|-aarch64)?\\z", version))
+                return null;
+            return version.has_suffix ("-x86_64") || version.has_suffix ("-aarch64")
+                ? version.substring (0, version.last_index_of_char ('-')) : version;
+        }
+
+        internal static string? repairable_runner (LutrisGameRecord record, Gee.List<Models.CompatibilityTool>? choices) {
+            var version = effective_runner (record, record.config?.get_setting ("wine", "version"), choices);
+            var latest = find_runner (choices, LATEST);
+            if (ge_proton_release_tag (version) == null || !record.proton_compatible ||
+                latest == null || !latest.is_available || find_runner (choices, version) != null)
+                return null;
+            return version;
+        }
+
+        internal void validate_runner_repair (LutrisGameRecord expected, string version) throws Error {
+            var current = revalidate (expected);
+            if (repairable_runner (current, runners_for (current)) != version)
+                throw new IOError.NOT_FOUND (_("The Lutris runner assignment or availability changed. Reopen the editor and try again."));
+        }
+
+        internal Gee.List<LutrisGraphicsVersions> graphics_versions (LutrisGameRecord record) throws Error {
+            var result = new Gee.ArrayList<LutrisGraphicsVersions> ();
+            var runtime = resolve_paths ().runtime;
+            foreach (var component in new string[] { "dxvk", "vkd3d" }) {
+                var choices = new LutrisGraphicsVersions (component);
+                choices.saved = record.config?.get_setting ("wine", choices.key);
+                choices.inherited = record.wine_defaults?.get_setting ("wine", choices.key);
+                choices.enabled = component_enabled (record, component);
+                choices.editable = record.config != null && record.config.yaml.setting_editable ("wine", choices.key) &&
+                    (record.wine_defaults == null || record.wine_defaults.yaml.has_scalar ("wine", choices.key));
+                var directory = File.new_for_path (Path.build_filename (runtime, component));
+                try {
+                    var entries = directory.enumerate_children ("standard::name,standard::type",
+                        FileQueryInfoFlags.NOFOLLOW_SYMLINKS);
+                    FileInfo? entry;
+                    while ((entry = entries.next_file ()) != null) {
+                        var name = entry.get_name ();
+                        if (entry.get_file_type () == FileType.DIRECTORY && name.validate () &&
+                            !name.has_prefix (".") && !name.has_suffix (" Backup"))
+                            choices.add_version (name);
+                    }
+                    choices.sort_versions ();
+                } catch (IOError.NOT_FOUND error) {
+                    // Lutris has not created this runtime directory yet.
+                } catch (Error error) {
+                    choices.editable = false;
+                    debug ("Could not read Lutris %s versions: %s", component, error.message);
+                }
+                result.add (choices);
+            }
+            return result.read_only_view;
+        }
+
         internal static Models.CompatibilityTool? find_runner (
             Gee.List<Models.CompatibilityTool>? candidates, string id
         ) {
@@ -513,14 +858,14 @@ namespace ProtonPlus.Services {
 
         internal static bool can_edit (LutrisGameRecord record) {
             return record.runner == "wine" && !record.shared_config && record.config != null &&
-                record.config.writable && record.config.yaml.version_editable ();
+                record.config.writable && record.config.yaml.setting_editable ("wine", "version");
         }
 
-        internal void save_version (LutrisGameRecord expected, string? version, Cancellable? cancellable,
-            string? confirmed_conversion = null) throws Error {
+        internal void save_settings (LutrisGameRecord expected, bool change_runner, string? version,
+            Gee.Map<string, string?>? runner_settings, Gee.Map<string, string?>? system_settings,
+            Cancellable? cancellable, string? confirmed_conversion = null) throws Error {
             var current = revalidate (expected);
             // Lock the existing configuration directory across ProtonPlus processes.
-            // This leaves no lock file in Lutris's library.
             var lock_fd = Posix.open (Path.get_dirname (current.config_path),
                 Posix.O_RDONLY | Posix.O_CLOEXEC | Posix.O_DIRECTORY | Posix.O_NOFOLLOW);
             if (lock_fd < 0)
@@ -529,28 +874,30 @@ namespace ProtonPlus.Services {
                 if (flock (lock_fd, 2 | 4) != 0)
                     throw new IOError.BUSY (_("Another Lutris configuration change is in progress."));
                 require_closed ();
-                var candidates = runners_for (current);
+                var check_runner = change_runner || (runner_settings != null && !runner_settings.is_empty);
+                var candidates = check_runner ? runners_for (current) : null;
+                if (!change_runner)
+                    version = current.config.get_setting ("wine", "version");
                 var effective = effective_runner (current, version, candidates);
                 var tool = find_runner (candidates, effective);
-                if (version != null && (effective != version || (tool != null && !tool.is_assignable)))
+                if (change_runner && version != null && (effective != version || (tool != null && !tool.is_assignable)))
                     throw new IOError.NOT_FOUND (_("This tool is no longer available. Choose a different tool."));
-                require_usable_runner (current, tool);
-                var updated = current.config.yaml.set_version (version);
-                LutrisYaml? updated_yaml = null;
-                if (updated != null)
-                    updated_yaml = LutrisYaml.parse (updated);
-                if (updated_yaml == null || updated_yaml.get ("wine", "version") != version)
-                    throw new IOError.INVALID_DATA (_("The Lutris game configuration is invalid."));
-                // Probe work can take time. Check the process and source again
-                // immediately before the etag-guarded atomic replacement.
-                require_closed ();
-                current = revalidate (expected);
-                if (effective != effective_runner (current, version, candidates) ||
-                    (effective == "custom" && current.custom_path != tool?.path))
-                    throw new IOError.WRONG_ETAG (_("The Lutris runner changed. Reopen the editor and try again."));
-                require_usable_runner (current, tool);
+                if (check_runner) {
+                    current = revalidate (expected);
+                    if (effective != effective_runner (current, version, candidates) ||
+                        (effective == "custom" && current.custom_path != tool?.path))
+                        throw new IOError.WRONG_ETAG (_("The Lutris runner changed. Reopen the editor and try again."));
+                    require_usable_runner (current, tool);
+                }
+                var updated = current.config.text;
+                if (change_runner)
+                    updated = patch_setting (updated, "wine", "version", version);
+                if (runner_settings != null && !runner_settings.is_empty)
+                    updated = patch_runner_options (current, updated, tool.runtime_kind, runner_settings);
+                if (system_settings != null && !system_settings.is_empty)
+                    updated = patch_system_options (current, updated, system_settings);
                 cancellable?.set_error_if_cancelled ();
-                if (updated != current.config.text && tool.runtime_kind == Models.CompatibilityToolRuntimeKind.PROTON &&
+                if (change_runner && updated != current.config.text && tool.runtime_kind == Models.CompatibilityToolRuntimeKind.PROTON &&
                     is_wine_only_prefix (current.prefix)) {
                     var confirmation = "%s\n%s\n%s\n%s".printf (
                         Posix.realpath (current.prefix) ?? current.prefix, effective, tool.installation_path, current.config.etag);
@@ -558,6 +905,7 @@ namespace ProtonPlus.Services {
                         throw new LutrisRunnerChangeError.CONFIRM_CONVERSION (confirmation);
                 }
                 if (updated != current.config.text) {
+                    require_closed ();
                     var file = File.new_for_path (current.config_path);
                     file.replace_contents (updated.data, current.config.etag, false,
                         FileCreateFlags.NONE, null, cancellable);
@@ -565,6 +913,76 @@ namespace ProtonPlus.Services {
             } finally {
                 Posix.close (lock_fd);
             }
+        }
+
+        private string patch_runner_options (LutrisGameRecord record, string source,
+            Models.CompatibilityToolRuntimeKind runtime, Gee.Map<string, string?> edits) throws Error {
+            var wine = runtime == Models.CompatibilityToolRuntimeKind.WINE;
+            var updated = source;
+            var pending_versions = 0;
+            foreach (var key in edits.keys) {
+                if (key == "dxvk_version" || key == "vkd3d_version") {
+                    pending_versions++;
+                    continue;
+                }
+                if (!(key in LutrisGameOptions.toggle_keys ()) || (key == "vkd3d" && !wine))
+                    throw new IOError.NOT_SUPPORTED (_("The selected runner does not support this Lutris option."));
+                updated = patch_setting (updated, "wine", key, edits.get (key), true);
+            }
+            if (pending_versions == 0)
+                return updated;
+            if (!wine)
+                throw new IOError.NOT_SUPPORTED (_("DXVK and VKD3D versions can be changed for Wine runners only."));
+            foreach (var choices in graphics_versions (record)) {
+                if (!edits.has_key (choices.key))
+                    continue;
+                var value = edits.get (choices.key);
+                if (!component_enabled (record, choices.component, edits) || !choices.editable ||
+                    (value != null && !(value in choices.versions)))
+                    throw new IOError.NOT_FOUND (_("The selected %s version is no longer available.")
+                        .printf (choices.component.up ()));
+                updated = patch_setting (updated, "wine", choices.key, value);
+            }
+            return updated;
+        }
+
+        private string patch_system_options (LutrisGameRecord record, string source, Gee.Map<string, string?> edits) throws Error {
+            var options = read_game_options (record);
+            var disable_key = LutrisGameOptions.DISABLE_RUNTIME;
+            var disable_runtime = edits.has_key (disable_key) ? edits.get (disable_key) : options.get_toggle (disable_key);
+            if (edits.has_key (LutrisGameOptions.PREFER_SYSTEM_LIBS) &&
+                (disable_runtime ?? options.get_inherited_toggle (disable_key)) == "true")
+                throw new IOError.NOT_SUPPORTED (_("Enable the Lutris Runtime before changing the library preference."));
+            var updated = source;
+            foreach (var key in edits.keys) {
+                var value = edits.get (key);
+                if (key in LutrisGameOptions.system_toggle_keys () && options.has_toggle (key)) {
+                    updated = patch_setting (updated, "system", key, value, true);
+                } else if (options.has_gamescope_setting (key)) {
+                    var error = gamescope_setting_error (key, value);
+                    if (error != null)
+                        throw new IOError.INVALID_DATA (error);
+                    updated = patch_setting (updated, "system", key, value);
+                } else if (key == LutrisGameOptions.COMMAND_PREFIX && options.command_prefix_editable &&
+                    (value == null || (!value.contains ("\n") && !value.contains ("\r")))) {
+                    updated = patch_setting (updated, "system", key, value);
+                } else if (key == LutrisGameOptions.ENVIRONMENT && options.environment != null) {
+                    updated = patch_environment (updated, value ?? "");
+                } else {
+                    throw new IOError.INVALID_DATA (_("The Lutris system option cannot be edited."));
+                }
+            }
+            return updated;
+        }
+
+        private static string patch_setting (string source, string section, string key, string? value,
+            bool boolean = false) throws Error {
+            var yaml = LutrisYaml.parse (source);
+            var updated = yaml?.set_setting (section, key, value, boolean);
+            var validated = updated != null ? LutrisYaml.parse (updated) : null;
+            if (validated == null || (boolean ? toggle_string (validated.get_toggle (section, key)) : validated.get (section, key)) != value)
+                throw new IOError.INVALID_DATA (_("The Lutris game configuration is invalid."));
+            return (!) updated;
         }
 
         private static void require_usable_runner (LutrisGameRecord record, Models.CompatibilityTool? tool) throws Error {

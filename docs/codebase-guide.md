@@ -388,7 +388,7 @@ widgets.
 
 | Service directory | Library and persistence |
 | --- | --- |
-| `src/services/lutris/` | Reads installed games from SQLite and resolves per-game YAML. Play uses the numeric game ID. Eligible Wine games write or remove only the `wine.version` override. |
+| `src/services/lutris/` | Reads installed games from SQLite and resolves per-game YAML. Play uses the numeric game ID. The Wine game editor saves runner and system overrides in the game YAML and can restore a missing pinned GE-Proton release through the normal installation workflow. |
 | `src/services/faugus/` | Reads saved games by `gameid`. Runner changes update the selected entry in the game library. Reset stores Faugus's `Default` value. Both installations share the native Steam tool target. |
 | `src/services/heroic/` | Reads local installed metadata and game settings. Play uses the launcher instance, store, and application ID. Runner settings are read-only. |
 | `src/services/bottles/` | Uses the selected Bottles CLI to list registered programs and launch them by bottle and program selector. Program and prefix folders come from accessible host paths. Runner settings are read-only. |

@@ -10,6 +10,12 @@ namespace ProtonPlus.Models.Games {
         private Gee.List<CompatibilityTool>? choices;
         private bool probed_custom;
         private uint runner_request;
+        public Gee.List<Services.LutrisGraphicsVersions>? graphics_versions { get; private set; }
+        public Services.LutrisGameOptions? game_options { get; private set; }
+
+        public string? repairable_runner {
+            owned get { return Services.LutrisConfigurationService.repairable_runner (record, choices); }
+        }
 
         public int64 id { get { return record.id; } }
         public override bool has_game_directory { get { return installdir != ""; } }
@@ -48,6 +54,10 @@ namespace ProtonPlus.Models.Games {
             return Services.LutrisConfigurationService.effective_runner (record, null, choices);
         }
 
+        internal string get_inherited_runner_title () {
+            return describe_runner (inherited_runner ());
+        }
+
         private string describe_runner (string version) {
             var tool = Services.LutrisConfigurationService.find_runner (choices, version);
             var title = tool?.display_title ??
@@ -62,8 +72,28 @@ namespace ProtonPlus.Models.Games {
             if (probe_failed)
                 diagnostic = _("Runner probe failed");
             else if (choices != null)
-                diagnostic = Services.LutrisConfigurationService.runner_diagnostic (record, tool);
+                diagnostic = describe_runner_problem (version, tool);
             return diagnostic == null ? title : _("%s (%s)").printf (title, diagnostic);
+        }
+
+        private string? describe_runner_problem (string version, CompatibilityTool? tool) {
+            var tag = Services.LutrisConfigurationService.ge_proton_release_tag (version);
+            if (tool == null && tag != null) {
+                if (!record.proton_compatible)
+                    return _("Proton requires a compatible 64-bit prefix");
+                var latest = Services.LutrisConfigurationService.find_runner (choices, Services.LutrisConfigurationService.LATEST);
+                if (latest != null && !latest.is_available)
+                    return _("Install umu in the selected Lutris environment.");
+                if (latest != null && latest.is_assignable && version == tag)
+                    return _("Lutris can download this pinned release when you launch the game.");
+            }
+            return Services.LutrisConfigurationService.runner_diagnostic (record, tool);
+        }
+
+        internal CompatibilityToolRuntimeKind get_runner_kind (string? version) {
+            var effective = Services.LutrisConfigurationService.effective_runner (record, version, choices);
+            var tool = Services.LutrisConfigurationService.find_runner (choices, effective);
+            return tool != null && tool.is_available ? tool.runtime_kind : CompatibilityToolRuntimeKind.UNKNOWN;
         }
 
         public override async Gee.List<CompatibilityTool>? load_game_tool_choices () {
@@ -73,6 +103,8 @@ namespace ProtonPlus.Models.Games {
             var expected = record;
             var request = ++runner_request;
             Gee.List<CompatibilityTool>? loaded = null;
+            Gee.List<Services.LutrisGraphicsVersions>? graphics = null;
+            Services.LutrisGameOptions? options = null;
             Services.LutrisGameRecord? current = null;
             string? failure = null;
             SourceFunc resume = load_game_tool_choices.callback;
@@ -80,6 +112,12 @@ namespace ProtonPlus.Models.Games {
                 try {
                     current = configuration.revalidate (expected, false);
                     loaded = configuration.runners_for (current);
+                    options = configuration.read_game_options (current, true);
+                    try {
+                        graphics = configuration.graphics_versions (current);
+                    } catch (Error error) {
+                        debug ("Could not read Lutris graphics versions: %s", error.message);
+                    }
                 } catch (Error error) {
                     failure = error.message;
                 }
@@ -97,6 +135,8 @@ namespace ProtonPlus.Models.Games {
                 return null;
             record = current;
             choices = loaded;
+            graphics_versions = graphics;
+            game_options = options;
             probed_custom = loaded != null;
             probe_failed = false;
             override_version = record.config?.get_setting ("wine", "version");
@@ -104,9 +144,8 @@ namespace ProtonPlus.Models.Games {
             var result = new Gee.ArrayList<CompatibilityTool> ();
             var inherited = inherited_runner ();
             var inherit_tool = Services.LutrisConfigurationService.find_runner (choices, inherited);
-            result.add (new CompatibilityTool (
-                _("Inherit Lutris default (%s)").printf (describe_runner (inherited)), "Default") {
-                availability_diagnostic = Services.LutrisConfigurationService.runner_diagnostic (record, inherit_tool)
+            result.add (new CompatibilityTool (_("Lutris default"), "Default") {
+                availability_diagnostic = describe_runner_problem (inherited, inherit_tool)
             });
             if (loaded != null) {
                 foreach (var tool in loaded) {
@@ -124,8 +163,10 @@ namespace ProtonPlus.Models.Games {
                 }
             }
             if (override_version != null && !result.any_match ((tool) => tool.internal_title == override_version)) {
+                var tool = Services.LutrisConfigurationService.find_runner (choices, override_version);
                 result.add (new CompatibilityTool (describe_runner (override_version), override_version) {
-                    is_assignable = false
+                    is_assignable = false, is_available = false,
+                    availability_diagnostic = describe_runner_problem (override_version, tool)
                 });
             }
             return result;
@@ -136,14 +177,15 @@ namespace ProtonPlus.Models.Games {
         }
 
         public override async bool change_compatibility_tool_async (string compat_tool, Cancellable? cancellable = null) {
-            return yield save_runner (compat_tool, cancellable, null);
+            return yield save_settings (true, compat_tool, null, cancellable);
         }
 
         public async bool confirm_runner_change (string compat_tool, string confirmation, Cancellable? cancellable) {
-            return yield save_runner (compat_tool, cancellable, confirmation);
+            return yield save_settings (true, compat_tool, null, cancellable, confirmation);
         }
 
-        private async bool save_runner (string compat_tool, Cancellable? cancellable, string? confirmation) {
+        public async bool save_settings (bool change_runner, string compat_tool, Gee.Map<string, string?>? runner_settings,
+            Cancellable? cancellable, string? confirmation = null, Gee.Map<string, string?>? system_settings = null) {
             if (saving)
                 return false;
             pending_conversion = null;
@@ -155,14 +197,14 @@ namespace ProtonPlus.Models.Games {
             string? failure = null;
             bool saved = false;
             string? required_confirmation = null;
-            SourceFunc resume = save_runner.callback;
+            SourceFunc resume = save_settings.callback;
             new Thread<void> ("lutris-write", () => {
                 try {
-                    configuration.save_version (expected, version, cancellable, confirmation);
+                    configuration.save_settings (expected, change_runner, version, runner_settings, system_settings,
+                        cancellable, confirmation);
                     saved = true;
                     var records = configuration.read_library (expected.id);
-                    if (records.size == 1 && expected.matches (records[0]) &&
-                        records[0].config?.get_setting ("wine", "version") == version)
+                    if (records.size == 1 && expected.matches (records[0]))
                         updated = records[0];
                 } catch (Services.LutrisRunnerChangeError.CONFIRM_CONVERSION error) {
                     required_confirmation = error.message;
@@ -177,12 +219,43 @@ namespace ProtonPlus.Models.Games {
             if (saved) {
                 if (updated != null)
                     record = updated;
-                override_version = version;
-                compatibility_tool = compat_tool;
+                if (change_runner) {
+                    override_version = version;
+                    compatibility_tool = compat_tool;
+                }
             } else {
                 edit_error = failure;
             }
             return saved;
+        }
+
+        public async void validate_runner_repair (string version) throws Error {
+            Error? failure = null;
+            var expected = record;
+            SourceFunc resume = validate_runner_repair.callback;
+            new Thread<void> ("lutris-repair", () => {
+                try {
+                    configuration.validate_runner_repair (expected, version);
+                } catch (Error error) {
+                    failure = error;
+                }
+                Idle.add ((owned) resume);
+            });
+            yield;
+            if (failure != null)
+                throw (!) failure;
+            if (record != expected)
+                throw new IOError.WRONG_ETAG (_("The Lutris runner assignment or availability changed. Reopen the editor and try again."));
+        }
+
+        internal bool runner_is_available (string version) {
+            var tool = Services.LutrisConfigurationService.find_runner (choices, version);
+            return !probe_failed && tool != null && tool.runtime_kind == CompatibilityToolRuntimeKind.PROTON &&
+                Services.LutrisConfigurationService.runner_diagnostic (record, tool) == null;
+        }
+
+        internal bool uses_runner (string version) {
+            return Services.LutrisConfigurationService.effective_runner (record, override_version, choices) == version;
         }
 
         public override async Subprocess? launch_external () throws Error {

@@ -28,5 +28,36 @@ namespace ProtonPlus.Providers.Sources {
                 limit
             );
         }
+
+        internal async Models.ReleaseLookupResult fetch_tag (Models.Providers.ProviderDefinition definition, string tag,
+            Cancellable cancellable) {
+            var response = yield Utils.Web.get_request (
+                "%s/tags/%s".printf (definition.endpoint, Uri.escape_string (tag, null, false)),
+                Utils.Web.GetRequestType.GITHUB, cancellable
+            );
+            if (response.status_code == 404)
+                return Models.ReleaseLookupResult.empty ();
+            if (response.code != ReturnCode.VALID_REQUEST)
+                return Models.ReleaseLookupResult.failure (response.code);
+
+            return parse_tag (definition, tag, response.body ?? "");
+        }
+
+        public static Models.ReleaseLookupResult parse_tag (Models.Providers.ProviderDefinition definition, string tag,
+            string body) {
+            var parser = new Json.Parser ();
+            try {
+                parser.load_from_data (body);
+            } catch (Error error) {
+                return Models.ReleaseLookupResult.failure (ReturnCode.INVALID_DATA);
+            }
+            var root = parser.get_root ();
+            if (root == null || root.get_node_type () != Json.NodeType.OBJECT)
+                return Models.ReleaseLookupResult.failure (ReturnCode.INVALID_DATA);
+            var object = root.get_object ();
+            var release = object.get_string_member_with_default ("tag_name", "") == tag
+                ? GitHubCompatibleReleaseParser.parse_release (definition, object, true) : null;
+            return release == null ? Models.ReleaseLookupResult.empty () : Models.ReleaseLookupResult.found (release);
+        }
     }
 }

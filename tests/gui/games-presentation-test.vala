@@ -1087,6 +1087,10 @@ void check_proton_autogen_game_edit (string root) throws Error {
 }
 
 class PresentationLutrisBackend : Object, Services.LutrisBackend {
+    public Services.LutrisSystemTools get_system_tools (bool flatpak) {
+        return Services.LutrisSystemTools.CHECKED | Services.LutrisSystemTools.MANGOHUD;
+    }
+
     public bool is_closed (bool flatpak) {
         return true;
     }
@@ -1094,6 +1098,7 @@ class PresentationLutrisBackend : Object, Services.LutrisBackend {
     public Gee.List<Models.CompatibilityTool> get_runners (bool flatpak, string? custom_path) {
         var tools = new Gee.ArrayList<Models.CompatibilityTool> ();
         tools.add (new Models.CompatibilityTool ("Fixture Wine", "wine-fixture", "", Models.CompatibilityToolRuntimeKind.WINE));
+        tools.add (new Models.CompatibilityTool ("Fixture Proton", "proton-fixture", "", Models.CompatibilityToolRuntimeKind.PROTON));
         return tools;
     }
 
@@ -1174,7 +1179,9 @@ void check_lutris_library_states (string root) throws Error {
     var games_dir = Path.build_filename (data, "games");
     var config = Path.build_filename (games_dir, "editable.yml");
     assert (DirUtils.create_with_parents (games_dir, 0700) == 0);
-    FileUtils.set_contents (config, "# Keep this comment in the game config\nwine:\n  version: missing\n  dxvk: false\n");
+    var saved_config = "# Keep this comment in the game config\nwine:\n  version: missing\n  dxvk: false\n" +
+        "system:\n  env: {EXISTING: \"  a=b # literal  \", DXVK_LOG_LEVEL: \"none\"}\n";
+    FileUtils.set_contents (config, saved_config);
     assert (db.exec ("UPDATE games SET configpath = 'editable' WHERE id = 10") == Sqlite.OK);
     launcher.load_profile_library.begin ();
     launcher.complete ();
@@ -1186,26 +1193,227 @@ void check_lutris_library_states (string root) throws Error {
         list.activate (0);
     wait_for_layout (() => page.get_header_presentation () != null);
     var choice = find_widget (page, (widget) => widget is CompatibilityToolRow && widget.get_mapped ()) as CompatibilityToolRow;
-    assert (choice != null && choice.title == "Wine or Proton version");
-    assert (choice.model.get_n_items () == 3);
+    assert (choice != null && choice.title == "Version");
+    var runner_group = choice.get_ancestor (typeof (Adw.PreferencesGroup)) as Adw.PreferencesGroup;
+    assert (runner_group != null && runner_group.title == "Runner options");
+    assert (choice.model.get_n_items () == 4);
     assert (((Models.CompatibilityTool) choice.get_selected_item ()).internal_title == "missing");
-    assert (find_widget (page, (widget) => widget is Adw.SwitchRow && widget.get_mapped ()) == null);
-    var presentation = page.get_header_presentation ();
-    var apply = find_widget (presentation.end_actions[0], (widget) => widget is Gtk.Button &&
+    assert (find_widget (page, (widget) => widget is Adw.SwitchRow && widget.get_mapped () &&
+        ((Adw.SwitchRow) widget).title == "Change compatibility tool") == null);
+    var prefix = find_widget (page, widget => widget is Adw.SwitchRow &&
+        ((Adw.SwitchRow) widget).title == "Override command prefix");
+    assert (prefix != null && !prefix.get_mapped ());
+    var system_advanced = prefix.get_ancestor (typeof (Adw.ExpanderRow)) as Adw.ExpanderRow;
+    assert (system_advanced != null && system_advanced.title == "Runtime and command prefix" && !system_advanced.expanded);
+    var apply = find_widget (page, (widget) => widget is Gtk.Button && widget.get_mapped () &&
         ((Gtk.Button) widget).label == "Apply Changes") as Gtk.Button;
     assert (apply != null && !apply.sensitive);
+    var reset = find_widget (page, widget => widget is Gtk.Button &&
+        widget.tooltip_text == "Reset Changes") as Gtk.Button;
+    var clear = find_widget (page, widget => widget is Gtk.Button &&
+        widget.tooltip_text == "Clear Environment Variables") as Gtk.Button;
+    assert (clear.get_mapped () && reset.get_mapped () && clear.sensitive && !reset.sensitive);
+    assert (find_widget (page, widget => widget is Gtk.ToggleButton && widget.get_mapped () &&
+        ((Gtk.ToggleButton) widget).label == "Command preview") == null);
+    clear.clicked ();
+    assert (apply.sensitive && reset.sensitive && !clear.sensitive);
+    string updated;
+    FileUtils.get_contents (config, out updated);
+    assert (updated == saved_config);
+    reset.clicked ();
+    assert (!apply.sensitive && clear.sensitive && !reset.sensitive);
+    uint wine = Gtk.INVALID_LIST_POSITION;
+    uint proton = Gtk.INVALID_LIST_POSITION;
+    uint inherited = Gtk.INVALID_LIST_POSITION;
     for (uint i = 0; i < choice.model.get_n_items (); i++) {
-        if (((Models.CompatibilityTool) choice.model.get_item (i)).internal_title == "wine-fixture") {
-            choice.selected = i;
-            break;
-        }
+        var id = ((Models.CompatibilityTool) choice.model.get_item (i)).internal_title;
+        if (id == "wine-fixture")
+            wine = i;
+        else if (id == "proton-fixture")
+            proton = i;
+        else if (id == "Default")
+            inherited = i;
     }
+    assert (wine != Gtk.INVALID_LIST_POSITION && proton != Gtk.INVALID_LIST_POSITION && inherited != Gtk.INVALID_LIST_POSITION);
+    choice.selected = inherited;
+    assert (((Models.CompatibilityTool) choice.selected_item).display_title == "Lutris default");
+    assert (choice.subtitle.contains ("GE-Proton (Latest)"));
+    choice.selected = wine;
+    assert (choice.subtitle == "");
+    var dxvk = find_widget (page, (widget) => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "Enable DXVK") as Adw.ComboRow;
+    assert (dxvk.get_ancestor (typeof (Adw.PreferencesGroup)) == runner_group);
+    var dxvk_options = dxvk.get_ancestor (typeof (Adw.ExpanderRow)) as Adw.ExpanderRow;
+    assert (dxvk_options != null && dxvk_options.title == "DXVK" && dxvk_options.subtitle == "Off");
+    assert (!dxvk_options.expanded && !dxvk.get_mapped ());
+    dxvk_options.expanded = true;
+    var vkd3d = find_widget (page, (widget) => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "Enable VKD3D") as Adw.ComboRow;
+    var vkd3d_options = vkd3d.get_ancestor (typeof (Adw.ExpanderRow)) as Adw.ExpanderRow;
+    assert (vkd3d_options != null && vkd3d_options.title == "VKD3D");
+    var dxvk_version = find_widget (page, (widget) => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "DXVK version");
+    var environment = find_widget (page, (widget) => widget is Adw.ExpanderRow &&
+        ((Adw.ExpanderRow) widget).title == "Environment variables") as Adw.ExpanderRow;
+    environment.expanded = true;
+    assert (find_widget (environment, widget => widget is Adw.ComboRow) == null);
+    assert (find_widget (environment, widget => widget is Gtk.Entry &&
+        ((Gtk.Entry) widget).text == "DXVK_LOG_LEVEL") != null);
+    var runtime = find_widget (page, widget => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "Disable Lutris Runtime") as Adw.ComboRow;
+    var libraries = find_widget (page, widget => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "Prefer system libraries");
+    var mangohud = find_widget (page, widget => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "MangoHud") as Adw.ComboRow;
+    var gamemode = find_widget (page, widget => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "Feral GameMode") as Adw.ComboRow;
+    var esync = find_widget (runner_group, widget => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "Enable Esync") as Adw.ComboRow;
+    var runner_advanced = esync.get_ancestor (typeof (Adw.ExpanderRow)) as Adw.ExpanderRow;
+    assert (runner_advanced != null && runner_advanced.title == "Synchronization" && !runner_advanced.expanded);
+    assert (!esync.get_mapped () && !runtime.get_mapped ());
+    runner_advanced.expanded = true;
+    system_advanced.expanded = true;
+    assert (esync.get_mapped () && prefix.get_mapped () && runtime.get_mapped ());
+    assert (mangohud.subtitle == "Available in this Lutris installation");
+    assert (gamemode.subtitle == "Unavailable in this Lutris installation");
+    assert (libraries.visible);
+    runtime.selected = 1;
+    assert (!libraries.visible);
+    runtime.selected = 0;
+    assert (libraries.visible);
+    assert (dxvk.visible && vkd3d.visible && !dxvk_version.visible && environment.visible);
+    var browse = find_widget (environment, widget => widget is Gtk.Button &&
+        widget.tooltip_text == "Browse launch options") as Gtk.Button;
+    assert (browse != null && browse.get_mapped () && browse.sensitive);
+    browse.clicked ();
+    wait_for_layout (() => window.visible_dialog != null && window.visible_dialog.get_mapped ());
+    assert (find_widget (window.visible_dialog, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "DXVK log level") == null);
+    window.visible_dialog.close ();
+    wait_for_layout (() => window.visible_dialog == null);
+
+    dxvk.selected = 1;
+    assert (dxvk_version.visible);
+    assert (dxvk_options.subtitle == "On · Lutris default");
+    var log_name = find_widget (environment, widget => widget is Gtk.Entry && ((Gtk.Entry) widget).text == "DXVK_LOG_LEVEL");
+    var log_value = find_widget (log_name.get_parent (), widget => widget is Gtk.Entry &&
+        ((Gtk.Entry) widget).placeholder_text == "Value") as Gtk.Entry;
+    log_value.text = "info";
+    environment.expanded = false;
+    assert (browse.get_mapped ());
+    browse.clicked ();
+    wait_for_layout (() => window.visible_dialog != null && window.visible_dialog.get_mapped ());
+    var browser = window.visible_dialog;
+    foreach (var title in new string[] { "Proton debug log", "MangoHud Vulkan environment mode", "WineD3D fallback",
+        "Disable ESync", "Disable FSync", "Steam command placeholder (%command%)", "DirectX 12 renderer" })
+        assert (find_widget (browser, widget => widget is Adw.ActionRow &&
+            ((Adw.ActionRow) widget).title == title) == null);
+    assert (find_widget (browser, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "MangoHud settings") != null);
+    var search = find_widget (browser, widget => widget is Gtk.SearchEntry) as Gtk.SearchEntry;
+    search.text = "PROTON_LOG";
+    wait_for_layout (() => find_widget (browser, widget => widget is Gtk.Label && widget.get_mapped () &&
+        ((Gtk.Label) widget).label == "No matching launch options.") != null);
+    search.text = "DXVK_LOG_LEVEL";
+    var dxvk_log_option = find_widget (browser, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "DXVK log level");
+    wait_for_layout (() => dxvk_log_option != null && dxvk_log_option.get_mapped () &&
+        find_widget (browser, widget => widget is Adw.ActionRow && widget.get_mapped () &&
+            ((Adw.ActionRow) widget).title == "MangoHud settings") == null);
+    WidgetMatches already_added = widget => widget is Gtk.Image &&
+        ((Gtk.Image) widget).icon_name == "object-select-symbolic" && widget.tooltip_text == "Already added";
+    assert (find_widget (dxvk_log_option, already_added) != null);
+    assert (dxvk_log_option.activate ());
+    wait_for_layout (() => window.visible_dialog == null && environment.expanded &&
+        window.get_focus ()?.get_ancestor (typeof (Gtk.Entry)) == log_value);
+    assert (log_value.text == "info");
+    choice.selected = proton;
+    assert (dxvk.visible && !vkd3d.visible && !dxvk_version.visible && environment.visible);
+    var proton_dxvk = find_widget (runner_group, widget => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "DXVK") as Adw.ComboRow;
+    assert (!dxvk_options.visible && !vkd3d_options.visible && proton_dxvk.visible && proton_dxvk.selected == 1);
+    assert (proton_dxvk.subtitle.contains ("bundled with Proton"));
+    proton_dxvk.selected = 2;
+    assert (dxvk.selected == 2);
+    proton_dxvk.selected = 1;
+    assert (runtime.visible && libraries.visible && mangohud.visible && gamemode.visible);
+    browse.clicked ();
+    wait_for_layout (() => window.visible_dialog != null && window.visible_dialog.get_mapped ());
+    browser = window.visible_dialog;
+    assert (find_widget (browser, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "WineD3D fallback") == null);
+    search = find_widget (browser, widget => widget is Gtk.SearchEntry) as Gtk.SearchEntry;
+    search.text = "PROTON_LOG";
+    var proton_log_option = find_widget (browser, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "Proton debug log") as Adw.ActionRow;
+    assert (proton_log_option != null);
+    assert (find_widget (proton_log_option, already_added) == null);
+    assert (((Gtk.Widget) proton_log_option).activate ());
+    wait_for_layout (() => window.visible_dialog == null && find_widget (environment, widget => widget is Gtk.Entry &&
+        ((Gtk.Entry) widget).text == "PROTON_LOG") != null);
+    browse.clicked ();
+    wait_for_layout (() => window.visible_dialog != null && window.visible_dialog.get_mapped ());
+    var added_proton_log = find_widget (window.visible_dialog, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "Proton debug log");
+    assert (added_proton_log != null && find_widget (added_proton_log, already_added) != null);
+    window.visible_dialog.close ();
+    wait_for_layout (() => window.visible_dialog == null);
+    choice.selected = wine;
+    assert (vkd3d.visible && dxvk_version.visible);
+    dxvk.selected = 2;
+    var add_variable = find_widget (environment, widget => widget is Gtk.Button &&
+        widget.tooltip_text == "Add variable") as Gtk.Button;
+    assert (find_widget (environment, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "Add variable") == null);
+    environment.expanded = false;
+    assert (add_variable.get_mapped ());
+    add_variable.clicked ();
+    assert (environment.expanded);
+    assert (!apply.sensitive);
+    var name = find_widget (environment, widget => widget is Gtk.Entry &&
+        ((Gtk.Entry) widget).placeholder_text == "Name" && ((Gtk.Entry) widget).text == "") as Gtk.Entry;
+    assert (name != null);
+    assert (window.get_focus ()?.get_ancestor (typeof (Gtk.Entry)) == name);
+    name.text = "EXISTING";
+    assert (!apply.sensitive);
+    name.text = "EXTRA";
+    var value = find_widget (name.get_parent (), widget => widget is Gtk.Entry &&
+        ((Gtk.Entry) widget).placeholder_text == "Value") as Gtk.Entry;
+    value.text = "word=two";
+    esync.selected = 2;
+    runner_advanced.expanded = false;
+    runtime.selected = 1;
+    system_advanced.expanded = false;
     assert (apply.sensitive);
     apply.clicked ();
     wait_for_layout (() => page.get_header_presentation () == null);
-    string updated;
     FileUtils.get_contents (config, out updated);
-    assert (updated == "# Keep this comment in the game config\nwine:\n  version: \"wine-fixture\"\n  dxvk: false\n");
+    assert (updated.has_prefix ("# Keep this comment in the game config\nwine:\n"));
+    assert (updated.contains ("version: \"wine-fixture\"") && updated.contains ("dxvk: false"));
+    assert (updated.contains ("esync: false") && updated.contains ("disable_runtime: true"));
+    assert (updated.contains ("\"EXISTING\":\"  a=b # literal  \""));
+    assert (updated.contains ("\"DXVK_LOG_LEVEL\":\"info\""));
+    assert (updated.contains ("\"PROTON_LOG\":\"1\""));
+    assert (updated.contains ("\"EXTRA\":\"word=two\""));
+
+    if (table != null)
+        table.activate (0);
+    else
+        list.activate (0);
+    wait_for_layout (() => page.get_header_presentation () != null);
+    environment.expanded = true;
+    assert (find_widget (environment, widget => widget is Gtk.Entry && ((Gtk.Entry) widget).text == "word=two") != null);
+    var extra = find_widget (environment, widget => widget is Gtk.Entry && ((Gtk.Entry) widget).text == "EXTRA");
+    var remove_variable = find_widget (extra.get_parent (), widget => widget is Gtk.Button &&
+        widget.tooltip_text == "Remove environment variable") as Gtk.Button;
+    remove_variable.clicked ();
+    assert (find_widget (environment, widget => widget is Gtk.Entry && ((Gtk.Entry) widget).text == "EXTRA") == null);
+    clear.clicked ();
+    apply.clicked ();
+    wait_for_layout (() => page.get_header_presentation () == null);
+    FileUtils.get_contents (config, out updated);
+    assert (updated.contains ("version: \"wine-fixture\"") && !updated.contains ("env:"));
 
     var empty_launcher = new Models.Launchers.HeroicGamesLauncher (
         Models.Launcher.InstallationTypes.SYSTEM, root, root);
@@ -1649,6 +1857,15 @@ int main (string[] args) {
         root = DirUtils.make_tmp ("protonplus-games-presentation-XXXXXX");
     } catch (Error e) {
         error ("%s", e.message);
+    }
+    if ("--lutris" in args) {
+        try {
+            check_lutris_library_states (root);
+        } catch (Error error) {
+            GLib.error ("%s", error.message);
+        }
+        assert (DirUtils.remove (root) == 0);
+        return 0;
     }
     check_binding_selection_and_activation (root);
     check_pending_focus_cleanup (root);

@@ -197,6 +197,9 @@ src/widgets/games/launch-options-editor/wrappers/base.vala
 src/widgets/games/launch-options-editor/wrappers/gamescope.vala
 src/widgets/games/launch-options-editor/wrappers/none.vala
 src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala
+src/widgets/games/lutris-environment-browser.vala
+src/widgets/games/lutris-environment-editor.vala
+src/widgets/games/lutris-options-view.vala
 src/widgets/header/header-box.vala
 src/widgets/header/header-downloads-indicator.vala
 src/widgets/header/header-launchers-button.vala
