@@ -464,7 +464,8 @@ namespace AppTests.LutrisTest {
             var default_path = Path.build_filename (fixture.data, "runners", "wine.yml");
             assert (DirUtils.create_with_parents (Path.get_dirname (default_path), 0700) == 0);
             FileUtils.set_contents (default_path, "wine: {version: wine-test}\n");
-            assert (choices (game)[0].display_title.contains ("Wine test"));
+            var inherited = choices (game)[0];
+            assert (inherited.display_title == "Lutris default" && inherited.availability_diagnostic == null);
             assert (game.get_game_tool_title () == "GE-Proton (Latest)");
             fixture.backend.explicit_latest = false;
             assert (choices (game) != null);
