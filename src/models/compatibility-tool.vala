@@ -17,6 +17,8 @@ namespace ProtonPlus.Models {
          * inspection_path is the corresponding path visible to ProtonPlus. */
         public string path { get; set; default = ""; }
         public string inspection_path { get; set; default = ""; }
+        public string installation_path { get; internal set; default = ""; }
+        public string? availability_diagnostic { get; set; }
         public bool externally_managed { get; set; default = false; }
         public bool is_available { get; set; default = true; }
         public bool is_assignable { get; set; default = true; }

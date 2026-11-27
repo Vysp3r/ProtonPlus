@@ -466,8 +466,12 @@ namespace ProtonPlus.Widgets.Preferences {
             };
             system_page.add (detected_launchers_group);
 
-            foreach (var launcher in Models.Launcher.detect_candidates ()) {
-                detected_launchers_group.add (create_status_row (
+            populate_detected_launchers.begin (detected_launchers_group);
+        }
+
+        private async void populate_detected_launchers (Adw.PreferencesGroup group) {
+            foreach (var launcher in yield Models.Launcher.detect_candidates_async ()) {
+                group.add (create_status_row (
                     "%s (%s)".printf (launcher.title, launcher.get_installation_type_title ()),
                     launcher.installed
                 ));

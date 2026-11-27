@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-26 17:26-0500\n"
+"POT-Creation-Date: 2026-11-26 18:52-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -181,8 +181,8 @@ msgstr ""
 msgid "No matching runners\n"
 msgstr ""
 
-#: src/cli/cli.vala:535 src/widgets/preferences/preferences-dialog.vala:480
-#: src/widgets/preferences/preferences-dialog.vala:483
+#: src/cli/cli.vala:535 src/widgets/preferences/preferences-dialog.vala:484
+#: src/widgets/preferences/preferences-dialog.vala:487
 #: src/widgets/tools/tools-group-box.vala:698
 #: src/widgets/tools/tools-page.vala:132
 #: src/widgets/tools/tools-release-row.vala:1072
@@ -668,176 +668,176 @@ msgid ""
 "adding this option."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:322
+#: src/launch-options/launch-option-capability-resolver.vala:324
 msgid "This option is unsupported and cannot be newly enabled."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:329
+#: src/launch-options/launch-option-capability-resolver.vala:331
 msgid "This legacy option is preserved but cannot be newly enabled."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:333
+#: src/launch-options/launch-option-capability-resolver.vala:335
 msgid "Compatibility-tool capabilities are not known yet."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:351
+#: src/launch-options/launch-option-capability-resolver.vala:353
 msgid "Requires an installed native game wrapper."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:352
+#: src/launch-options/launch-option-capability-resolver.vala:354
 msgid "Requires an available launch backend."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:357
+#: src/launch-options/launch-option-capability-resolver.vala:359
 msgid "Support must be confirmed for every selected compatibility tool."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:363
+#: src/launch-options/launch-option-capability-resolver.vala:365
 msgid "Requires a compatible Proton variant."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:380
+#: src/launch-options/launch-option-capability-resolver.vala:382
 msgid "The selected launch backend is not supported."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:467
+#: src/launch-options/launch-option-capability-resolver.vala:469
 msgid "Requires an AMD GPU."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:468
+#: src/launch-options/launch-option-capability-resolver.vala:470
 msgid "Requires an NVIDIA GPU."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:469
+#: src/launch-options/launch-option-capability-resolver.vala:471
 msgid "Requires an Intel GPU."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:470
+#: src/launch-options/launch-option-capability-resolver.vala:472
 msgid "Requires the mangoapp executable."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:471
+#: src/launch-options/launch-option-capability-resolver.vala:473
 msgid "Requires an installed TinkerGame executable."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:472
+#: src/launch-options/launch-option-capability-resolver.vala:474
 msgid "Requires an installed SteamTinkerLaunch executable."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:473
+#: src/launch-options/launch-option-capability-resolver.vala:475
 msgid "Requires MangoHud, which is not available."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:474
+#: src/launch-options/launch-option-capability-resolver.vala:476
 msgid "Requires GameMode, which is not available."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:475
+#: src/launch-options/launch-option-capability-resolver.vala:477
 msgid "Requires the CachyOS game-performance command, which is not available."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:476
+#: src/launch-options/launch-option-capability-resolver.vala:478
 #: src/launch-options/launch-option-catalog.vala:1718
 msgid "Requires the obs-gamecapture command."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:477
+#: src/launch-options/launch-option-capability-resolver.vala:479
 msgid "Requires the AMD Vulkan switchable graphics layer."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:478
+#: src/launch-options/launch-option-capability-resolver.vala:480
 msgid "Requires obs-vkcapture, which is not available."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:479
+#: src/launch-options/launch-option-capability-resolver.vala:481
 msgid "Requires Gamescope, which is not available."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:480
+#: src/launch-options/launch-option-capability-resolver.vala:482
 msgid "Requires ScopeBuddy, which is not available."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:481
+#: src/launch-options/launch-option-capability-resolver.vala:483
 msgid "Requires vkBasalt, which is not available."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:482
+#: src/launch-options/launch-option-capability-resolver.vala:484
 msgid "Requires DXVK from the selected compatibility tool."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:483
+#: src/launch-options/launch-option-capability-resolver.vala:485
 msgid "Requires VKD3D-Proton from the selected compatibility tool."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:484
-#: src/launch-options/launch-option-capability-resolver.vala:500
+#: src/launch-options/launch-option-capability-resolver.vala:486
+#: src/launch-options/launch-option-capability-resolver.vala:502
 msgid "Not supported by the selected compatibility tool."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:485
+#: src/launch-options/launch-option-capability-resolver.vala:487
 msgid "The selected Proton build does not expose the DXVK HDR switch."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:486
-msgid "The selected Proton build does not expose Wine ALSA channel overrides."
-msgstr ""
-
-#: src/launch-options/launch-option-capability-resolver.vala:487
-msgid ""
-"The selected Proton builds need a common Wine ALSA spatial downmix switch."
-msgstr ""
-
 #: src/launch-options/launch-option-capability-resolver.vala:488
-msgid ""
-"The selected Proton build does not expose legacy PROTON_ENABLE_HDR support."
+msgid "The selected Proton build does not expose Wine ALSA channel overrides."
 msgstr ""
 
 #: src/launch-options/launch-option-capability-resolver.vala:489
 msgid ""
-"The selected Proton build does not expose automatic-HDR opt-out support."
+"The selected Proton builds need a common Wine ALSA spatial downmix switch."
 msgstr ""
 
 #: src/launch-options/launch-option-capability-resolver.vala:490
-msgid "The selected Proton build does not expose PROTON_FSR4_UPGRADE support."
+msgid ""
+"The selected Proton build does not expose legacy PROTON_ENABLE_HDR support."
 msgstr ""
 
 #: src/launch-options/launch-option-capability-resolver.vala:491
 msgid ""
-"The selected Proton build does not expose the legacy RDNA3 FSR 4 switch."
+"The selected Proton build does not expose automatic-HDR opt-out support."
 msgstr ""
 
 #: src/launch-options/launch-option-capability-resolver.vala:492
-msgid "The selected Proton build does not expose PROTON_MLFG_UPGRADE support."
+msgid "The selected Proton build does not expose PROTON_FSR4_UPGRADE support."
 msgstr ""
 
 #: src/launch-options/launch-option-capability-resolver.vala:493
-msgid "The selected Proton build does not expose its DXVK low-latency option."
+msgid ""
+"The selected Proton build does not expose the legacy RDNA3 FSR 4 switch."
 msgstr ""
 
 #: src/launch-options/launch-option-capability-resolver.vala:494
+msgid "The selected Proton build does not expose PROTON_MLFG_UPGRADE support."
+msgstr ""
+
+#: src/launch-options/launch-option-capability-resolver.vala:495
+msgid "The selected Proton build does not expose its DXVK low-latency option."
+msgstr ""
+
+#: src/launch-options/launch-option-capability-resolver.vala:496
 msgid ""
 "The selected Proton build does not expose its VKD3D-Proton low-latency "
 "option."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:495
+#: src/launch-options/launch-option-capability-resolver.vala:497
 msgid "The selected Proton build does not expose the low-latency Vulkan layer."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:496
+#: src/launch-options/launch-option-capability-resolver.vala:498
 msgid "The selected Proton build does not expose its Vulkan Reflex layer."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:497
+#: src/launch-options/launch-option-capability-resolver.vala:499
 msgid ""
 "The selected Proton build does not expose a per-game shader cache switch."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:498
+#: src/launch-options/launch-option-capability-resolver.vala:500
 msgid "The selected Proton build does not expose a D7VK switch."
 msgstr ""
 
-#: src/launch-options/launch-option-capability-resolver.vala:499
+#: src/launch-options/launch-option-capability-resolver.vala:501
 msgid "The selected Proton build does not expose an OptiScaler switch."
 msgstr ""
 
@@ -2631,8 +2631,7 @@ msgstr ""
 msgid "Linux Native"
 msgstr ""
 
-#: src/models/games/faugus.vala:40 src/models/games/lutris.vala:49
-#: src/models/games/lutris.vala:54 src/models/launchers/proton-autogen.vala:118
+#: src/models/games/faugus.vala:40 src/models/launchers/proton-autogen.vala:118
 #: src/models/launchers/steam.vala:502
 #: src/widgets/games/games-mass-edit-view.vala:236
 #, c-format
@@ -2640,13 +2639,12 @@ msgid "%s (Unavailable)"
 msgstr ""
 
 #: src/models/games/faugus.vala:46 src/models/games/heroic.vala:31
-#: src/models/games/lutris.vala:40
+#: src/models/games/lutris.vala:44
 #, c-format
 msgid "Inherited (%s)"
 msgstr ""
 
 #: src/models/games/faugus.vala:47 src/models/games/heroic.vala:31
-#: src/models/games/lutris.vala:41
 msgid "Inherited"
 msgstr ""
 
@@ -2655,55 +2653,78 @@ msgstr ""
 msgid "Inherit Faugus default (%s)"
 msgstr ""
 
-#: src/models/games/heroic.vala:25 src/models/games/lutris.vala:35
+#: src/models/games/heroic.vala:25 src/models/games/lutris.vala:36
 #: src/widgets/games/games-collection.vala:72
 #: src/widgets/games/games-mass-edit-view.vala:209
 #: src/widgets/games/games-page.vala:304
 msgid "Native"
 msgstr ""
 
-#: src/models/games/heroic.vala:27 src/models/games/lutris.vala:37
+#: src/models/games/heroic.vala:27 src/models/games/lutris.vala:38
 msgid "Configuration unavailable"
 msgstr ""
 
-#: src/models/games/lutris.vala:47
+#: src/models/games/lutris.vala:42
+#, c-format
+msgid "%s (uses %s)"
+msgstr ""
+
+#: src/models/games/lutris.vala:54 src/services/lutris/lutris-backend.vala:239
+msgid "GE-Proton (Latest)"
+msgstr ""
+
+#: src/models/games/lutris.vala:57
 #, c-format
 msgid "Custom (%s)"
 msgstr ""
 
-#: src/models/games/lutris.vala:47
+#: src/models/games/lutris.vala:57
 #: src/widgets/games/launch-options-editor/launch-options-editor-resolution-field.vala:39
 msgid "Custom"
 msgstr ""
 
-#: src/models/games/lutris.vala:101
+#: src/models/games/lutris.vala:63
+msgid "Runner probe failed"
+msgstr ""
+
+#: src/models/games/lutris.vala:66
+#: src/services/installation/download-failure.vala:44
+#: src/services/installation/standard-archive-workflow.vala:493
+#: src/widgets/games/games-collection.vala:26
+#: src/widgets/games/games-page.vala:499
+#, c-format
+msgid "%s (%s)"
+msgstr ""
+
+#: src/models/games/lutris.vala:93
+#, c-format
+msgid "Runner probe failed: %s"
+msgstr ""
+
+#: src/models/games/lutris.vala:108
 #, c-format
 msgid "Inherit Lutris default (%s)"
 msgstr ""
 
-#: src/models/games/lutris.vala:102
-msgid "Inherit Lutris default"
-msgstr ""
-
-#: src/models/launcher.vala:297
+#: src/models/launcher.vala:350
 msgid "Vulkan-based implementation of Direct3D 8, 9, 10 and 11 for Linux/Wine."
 msgstr ""
 
-#: src/models/launcher.vala:299
+#: src/models/launcher.vala:352
 msgid ""
 "Variant of Wine's VKD3D which aims to implement the full Direct3D 12 API on "
 "top of Vulkan."
 msgstr ""
 
-#: src/models/launcher.vala:301
+#: src/models/launcher.vala:354
 msgid "Compatibility tools by Valve for running Windows software on Linux."
 msgstr ""
 
-#: src/models/launcher.vala:303
+#: src/models/launcher.vala:356
 msgid "Compatibility tools for running Windows software on Linux."
 msgstr ""
 
-#: src/models/launcher.vala:392 src/models/providers/definitions/dxvk.vala:50
+#: src/models/launcher.vala:445 src/models/providers/definitions/dxvk.vala:50
 #: src/widgets/games/launch-options-editor/groups/base-options-group.vala:65
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:25
 #: src/widgets/games/launch-options-editor/wrappers/gamescope.vala:28
@@ -2724,6 +2745,10 @@ msgstr ""
 
 #: src/models/launchers/faugus-launcher.vala:138
 msgid "Grant ProtonPlus access, restart it, and try the installation again:"
+msgstr ""
+
+#: src/models/launchers/lutris.vala:75
+msgid "Lutris tool directories changed. Restart ProtonPlus and try again."
 msgstr ""
 
 #: src/models/launchers/proton-autogen.vala:71
@@ -2939,89 +2964,97 @@ msgid ""
 "Beta software. Review migrated settings before playing."
 msgstr ""
 
-#: src/return-code.vala:37
+#: src/return-code.vala:39
 msgid "The request could not be completed."
 msgstr ""
 
-#: src/return-code.vala:39
+#: src/return-code.vala:41
 msgid "The required data is invalid or incomplete."
 msgstr ""
 
-#: src/return-code.vala:41
+#: src/return-code.vala:43
 msgid "The download failed."
 msgstr ""
 
-#: src/return-code.vala:43
+#: src/return-code.vala:45
 msgid "A filesystem operation failed."
 msgstr ""
 
-#: src/return-code.vala:45
+#: src/return-code.vala:47
 msgid "This compatibility tool is already being processed."
 msgstr ""
 
-#: src/return-code.vala:47
+#: src/return-code.vala:49
 msgid "This compatibility tool is already installed."
 msgstr ""
 
-#: src/return-code.vala:49
+#: src/return-code.vala:51
 msgid "This compatibility tool is not installed."
 msgstr ""
 
-#: src/return-code.vala:51
+#: src/return-code.vala:53
 msgid "This compatibility tool is not configured correctly."
 msgstr ""
 
-#: src/return-code.vala:53
+#: src/return-code.vala:55
 msgid "This operation is not supported for this compatibility tool."
 msgstr ""
 
-#: src/return-code.vala:57
+#: src/return-code.vala:59
 msgid "Unable to reach the API."
 msgstr ""
 
-#: src/return-code.vala:59
+#: src/return-code.vala:61
 msgid "API limit reached."
 msgstr ""
 
-#: src/return-code.vala:61
+#: src/return-code.vala:63
 msgid "Invalid access token."
 msgstr ""
 
-#: src/return-code.vala:63
+#: src/return-code.vala:65
 msgid "A secure connection could not be established."
 msgstr ""
 
-#: src/return-code.vala:65
+#: src/return-code.vala:67
 msgid "This archive format is not supported."
 msgstr ""
 
-#: src/return-code.vala:67
+#: src/return-code.vala:69
 msgid "The archive could not be extracted."
 msgstr ""
 
-#: src/return-code.vala:69
+#: src/return-code.vala:71
 msgid "The selected variant is not compatible with this system."
 msgstr ""
 
-#: src/return-code.vala:71
+#: src/return-code.vala:73
 msgid ""
 "ProtonPlus cannot replace a compatibility tool directory that is a symbolic "
 "link."
 msgstr ""
 
-#: src/return-code.vala:73
+#: src/return-code.vala:75
+msgid "A Lutris game uses this runner."
+msgstr ""
+
+#: src/return-code.vala:77
+msgid "Could not check the Lutris library."
+msgstr ""
+
+#: src/return-code.vala:79
 msgid ""
 "A compatibility tool is currently in use. Close the running game and try "
 "again."
 msgstr ""
 
-#: src/return-code.vala:75
+#: src/return-code.vala:81
 msgid ""
 "Running compatibility tools could not be checked. Try again before changing "
 "an installed tool."
 msgstr ""
 
-#: src/return-code.vala:77
+#: src/return-code.vala:83
 msgid "The operation could not be completed."
 msgstr ""
 
@@ -3101,14 +3134,6 @@ msgstr ""
 msgid "Invalid Heroic metadata in %s."
 msgstr ""
 
-#: src/services/installation/download-failure.vala:44
-#: src/services/installation/standard-archive-workflow.vala:478
-#: src/widgets/games/games-collection.vala:26
-#: src/widgets/games/games-page.vala:499
-#, c-format
-msgid "%s (%s)"
-msgstr ""
-
 #: src/services/installation/download-failure.vala:56
 msgid "Update failed"
 msgstr ""
@@ -3165,7 +3190,14 @@ msgstr ""
 msgid "The Steam tool directory could not be locked for repair."
 msgstr ""
 
-#: src/services/installation/installation-service.vala:788
+#: src/services/installation/installation-service.vala:266
+#, c-format
+msgid ""
+"Choose a different runner for these Lutris games, then retry removal:\n"
+"%s"
+msgstr ""
+
+#: src/services/installation/installation-service.vala:897
 msgid ""
 "The compatibility tool changed, but the Steam restart reminder could not be "
 "saved."
@@ -3178,7 +3210,7 @@ msgid "Extraction failed"
 msgstr ""
 
 #: src/services/installation/standard-archive-workflow.vala:73
-#: src/services/installation/standard-archive-workflow.vala:134
+#: src/services/installation/standard-archive-workflow.vala:137
 #: src/services/installation/steam-tinker-launch-workflow.vala:62
 #: src/services/installation/steam-tinker-launch-workflow.vala:109
 msgid "Moving failed"
@@ -3188,11 +3220,11 @@ msgstr ""
 msgid "Failed to save compatibility tool metadata"
 msgstr ""
 
-#: src/services/installation/standard-archive-workflow.vala:502
+#: src/services/installation/standard-archive-workflow.vala:517
 msgid "Failed to update compatibilitytool.vdf"
 msgstr ""
 
-#: src/services/installation/standard-archive-workflow.vala:518
+#: src/services/installation/standard-archive-workflow.vala:533
 msgid "The compatibility tool manifest is invalid or incomplete"
 msgstr ""
 
@@ -3236,71 +3268,114 @@ msgstr ""
 msgid "The TinkerGame archive is invalid or incomplete."
 msgstr ""
 
-#: src/services/lutris/lutris-backend.vala:106
-#: src/services/lutris/lutris-backend.vala:121
-#: src/services/lutris/lutris-backend.vala:133
-#: src/services/lutris/lutris-backend.vala:137
+#: src/services/lutris/lutris-backend.vala:159
+#: src/services/lutris/lutris-backend.vala:200
+#: src/services/lutris/lutris-backend.vala:227
+#: src/services/lutris/lutris-backend.vala:231
 msgid "Could not query the selected Lutris installation."
 msgstr ""
 
-#: src/services/lutris/lutris-backend.vala:145
-msgid "GE-Proton (Latest)"
+#: src/services/lutris/lutris-backend.vala:241
+msgid "umu is required"
+msgstr ""
+
+#: src/services/lutris/lutris-backend.vala:242
+#: src/services/lutris/lutris-configuration-service.vala:469
+#: src/services/lutris/lutris-configuration-service.vala:471
+msgid "Runner is missing"
 msgstr ""
 
 #. Relative database paths depend on the working directory Lutris
 #. started in. Require a path that identifies the same database.
-#: src/services/lutris/lutris-configuration-service.vala:36
+#: src/services/lutris/lutris-configuration-service.vala:41
 #, c-format
 msgid "Lutris uses an unsupported path override for %s."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:127
-#: src/services/lutris/lutris-configuration-service.vala:136
-#: src/services/lutris/lutris-configuration-service.vala:141
-#: src/services/lutris/lutris-configuration-service.vala:406
+#: src/services/lutris/lutris-configuration-service.vala:140
+#: src/services/lutris/lutris-configuration-service.vala:149
+#: src/services/lutris/lutris-configuration-service.vala:154
+#: src/services/lutris/lutris-configuration-service.vala:371
+#: src/services/lutris/lutris-configuration-service.vala:543
 msgid "The Lutris game configuration is invalid."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:134
+#: src/services/lutris/lutris-configuration-service.vala:147
 msgid "The Lutris game configuration changed. Reopen the editor and try again."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:377
+#: src/services/lutris/lutris-configuration-service.vala:191
+#, c-format
+msgid ""
+"Could not check Lutris runner usage. Restore access to the Lutris library "
+"and try again.\n"
+"%s"
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:425
+msgid "Lutris Flatpak"
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:425
+msgid "Lutris System"
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:428
+#: src/widgets/header/header-downloads-indicator.vala:279
+#: src/widgets/header/header-launchers-button.vala:126
+#, c-format
+msgid "%s · %s"
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:473
+msgid "Proton requires a compatible 64-bit prefix"
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:510
 msgid ""
 "The Lutris game configuration changed or is read-only. Reload the Games list "
 "and try again."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:393
+#: src/services/lutris/lutris-configuration-service.vala:527
 msgid "The Lutris game configuration is read-only."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:396
+#: src/services/lutris/lutris-configuration-service.vala:530
 msgid "Another Lutris configuration change is in progress."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:400
-#: src/widgets/games/games-mass-edit-view.vala:392
+#: src/services/lutris/lutris-configuration-service.vala:536
+#: src/widgets/games/games-mass-edit-view.vala:413
 msgid "This tool is no longer available. Choose a different tool."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:424
+#: src/services/lutris/lutris-configuration-service.vala:550
+msgid "The Lutris runner changed. Reopen the editor and try again."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:573
+#, c-format
+msgid "This tool is no longer available. %s."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:585
 msgid "Close the selected Lutris installation before saving."
 msgstr ""
 
 #. Native and Flatpak Lutris share a GApplication ID. If the other
 #. client owns it, GLib could hand the game ID to the wrong library.
-#: src/services/lutris/lutris-configuration-service.vala:431
+#: src/services/lutris/lutris-configuration-service.vala:592
 msgid "Close the other Lutris installation before launching this game."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:434
+#: src/services/lutris/lutris-configuration-service.vala:595
 msgid ""
 "The selected Lutris game changed or its ID is no longer unique. Reload the "
 "Games list and try again."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:442
+#: src/services/lutris/lutris-configuration-service.vala:608
 msgid "Could not read the Lutris game database."
 msgstr ""
 
@@ -3854,51 +3929,76 @@ msgstr[1] ""
 msgid "Wine or Proton version"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:329
+#: src/widgets/games/games-mass-edit-view.vala:318
+msgid "Convert the Wine prefix?"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:319
+msgid ""
+"The next Lutris launch with Proton will convert this existing Wine prefix. "
+"The conversion cannot be undone."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:320
+#: src/widgets/header/header-downloads-indicator.vala:423
+#: src/widgets/header/header-downloads-indicator.vala:425
+#: src/widgets/tools/steam-tinker-launch-release-row.vala:125
+#: src/widgets/tools/tools-release-row.vala:243
+#: src/widgets/tools/tools-release-row.vala:320
+#: src/widgets/tools/tools-remove-dialog.vala:28 src/widgets/window.vala:179
+#: src/widgets/window.vala:398
+msgid "Cancel"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:321
+msgid "Apply Runner Change"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:348
 msgid "Choose a compatibility tool."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:331
+#: src/widgets/games/games-mass-edit-view.vala:352
 msgid "Choose an available compatibility tool."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:422
+#: src/widgets/games/games-mass-edit-view.vala:443
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:424
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:645
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:882
+#: src/widgets/games/games-mass-edit-view.vala:445
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:651
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:888
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:69
 #: src/widgets/tools/tools-release-row.vala:1044
 #, c-format
 msgid "%s — %s"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:425
+#: src/widgets/games/games-mass-edit-view.vala:446
 msgid "Launch options cannot be applied"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:426
+#: src/widgets/games/games-mass-edit-view.vala:447
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:442
+#: src/widgets/games/games-mass-edit-view.vala:475
 msgid "The change could not be saved."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:443
+#: src/widgets/games/games-mass-edit-view.vala:476
 msgid "Could Not Change the Runner"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:485
+#: src/widgets/games/games-mass-edit-view.vala:518
 msgid "Batch Update Failed"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:486
+#: src/widgets/games/games-mass-edit-view.vala:519
 msgid ""
 "Some games could not be updated. Their tool or configuration may have "
 "changed or become unavailable."
@@ -4390,7 +4490,7 @@ msgid "No matching launch options."
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:554
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:636
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:640
 msgid "Checking compatibility tool support…"
 msgstr ""
 
@@ -4403,12 +4503,12 @@ msgstr ""
 msgid "Select %s as the launch backend to edit this option."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:674
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:680
 #, c-format
 msgid "“%s” is unavailable with the selected compatibility tool."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:676
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:682
 #, c-format
 msgid "%u launch option is unavailable with the selected compatibility tools."
 msgid_plural ""
@@ -4416,33 +4516,33 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:693
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:699
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:705
 msgid "Varies by game"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:800
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:806
 msgid "Add required options"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:802
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:808
 #, c-format
 msgid "Configure %s"
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:874
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:880
 #, c-format
 msgid "%u launch option has unmet requirements."
 msgid_plural "%u launch options have unmet requirements."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:878
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:884
 msgid ""
 "Use Clear Launch Options to replace a command that cannot be merged safely."
 msgstr ""
 
-#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:884
+#: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:890
 msgid "Review the selected launch options before applying changes."
 msgstr ""
 
@@ -4836,12 +4936,6 @@ msgstr ""
 msgid "Limit: %s/s"
 msgstr ""
 
-#: src/widgets/header/header-downloads-indicator.vala:279
-#: src/widgets/header/header-launchers-button.vala:126
-#, c-format
-msgid "%s · %s"
-msgstr ""
-
 #: src/widgets/header/header-downloads-indicator.vala:287
 msgid "Copy Details"
 msgstr ""
@@ -4856,16 +4950,6 @@ msgstr ""
 
 #: src/widgets/header/header-downloads-indicator.vala:345
 msgid "The original operation is unavailable. Check the tool and try again."
-msgstr ""
-
-#: src/widgets/header/header-downloads-indicator.vala:423
-#: src/widgets/header/header-downloads-indicator.vala:425
-#: src/widgets/tools/steam-tinker-launch-release-row.vala:125
-#: src/widgets/tools/tools-release-row.vala:243
-#: src/widgets/tools/tools-release-row.vala:320
-#: src/widgets/tools/tools-remove-dialog.vala:26 src/widgets/window.vala:179
-#: src/widgets/window.vala:398
-msgid "Cancel"
 msgstr ""
 
 #: src/widgets/header/header-downloads-indicator.vala:488
@@ -6017,8 +6101,8 @@ msgstr ""
 msgid "Detected Launchers"
 msgstr ""
 
-#: src/widgets/preferences/preferences-dialog.vala:480
 #: src/widgets/preferences/preferences-dialog.vala:484
+#: src/widgets/preferences/preferences-dialog.vala:488
 msgid "Not installed"
 msgstr ""
 
@@ -6666,32 +6750,46 @@ msgstr ""
 msgid "Last updated: %s"
 msgstr ""
 
-#: src/widgets/tools/tools-remove-dialog.vala:8
+#: src/widgets/tools/tools-remove-dialog.vala:10
 #, c-format
 msgid "Delete %s?"
 msgstr ""
 
-#: src/widgets/tools/tools-remove-dialog.vala:10
+#: src/widgets/tools/tools-remove-dialog.vala:12
 msgid "It will be permanently deleted."
 msgstr ""
 
-#: src/widgets/tools/tools-remove-dialog.vala:19
+#: src/widgets/tools/tools-remove-dialog.vala:21
 #, c-format
 msgid "Used by %i game."
 msgid_plural "Used by %i games."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/tools/tools-remove-dialog.vala:27
+#: src/widgets/tools/tools-remove-dialog.vala:29
 msgid "Delete"
 msgstr ""
 
-#: src/widgets/tools/tools-remove-dialog.vala:46
+#: src/widgets/tools/tools-remove-dialog.vala:47
+msgid "Checking Lutris runner usage…"
+msgstr ""
+
+#: src/widgets/tools/tools-remove-dialog.vala:58
+#, c-format
+msgid ""
+"%s\n"
+"\n"
+"These Lutris games use this runner. Choose a different runner for them "
+"before playing again.\n"
+"%s"
+msgstr ""
+
+#: src/widgets/tools/tools-remove-dialog.vala:72
 #, c-format
 msgid "Failed to Delete %s"
 msgstr ""
 
-#: src/widgets/tools/tools-remove-dialog.vala:47
+#: src/widgets/tools/tools-remove-dialog.vala:73
 msgid ""
 "ProtonPlus encountered an issue while trying to remove this compatibility "
 "tool from your system."

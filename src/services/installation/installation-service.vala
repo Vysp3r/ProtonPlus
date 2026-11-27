@@ -95,8 +95,11 @@ namespace ProtonPlus.Services {
             if (active_operations.has_key (key) || Utils.DownloadManager.instance.has_active_installation_at (job.install_location))
                 return false;
             var group = job.tool.group;
-            if (group.launcher.tool_target_family_id == Models.Launchers.Steam.FAMILY_ID) {
-                var root = group.launcher.get_primary_managed_tool_directory (group);
+            var steam_owned = group.launcher.tool_target_family_id == Models.Launchers.Steam.FAMILY_ID;
+            var root = steam_owned ? group.launcher.get_primary_managed_tool_directory (group) :
+                Path.get_dirname (job.install_location);
+            if (steam_owned ||
+                group.launcher.shared_steam_targets.has_key (Models.Launcher.physical_tool_path (root))) {
                 if (FileUtils.test (root, FileTest.IS_DIR)) {
                     var fd = lock_steam_tool_root (root, false);
                     if (fd < 0)
@@ -176,11 +179,101 @@ namespace ProtonPlus.Services {
                 ((!) _instance).reset_lifecycle_configuration ();
         }
 
-        public async ReturnCode remove (InstallJob job, bool notify_removal) {
+        internal static bool has_lutris_removal_scope (InstallJob job) {
+            var group = job.tool.group;
+            var launcher = group.launcher;
+            if (group.id == "dxvk" || group.id == "vkd3d" || !(job.tool is Models.Tools.ProviderTool))
+                return false;
+            return launcher is Models.Launchers.Lutris || launcher.lutris_libraries.length > 0;
+        }
+
+        public async LutrisRemovalReview inspect_lutris_removal (InstallJob job) {
+            var group = job.tool.group;
+            var launcher = group.launcher;
+            var own_lutris = launcher as Models.Launchers.Lutris;
+            var libraries = launcher.lutris_libraries;
+            if (libraries.length == 0 && own_lutris != null)
+                libraries = { own_lutris.configuration };
+            var destination = job.install_location;
+            var report = new LutrisRemovalReview (destination);
+            if (!has_lutris_removal_scope (job))
+                return report;
+
+            SourceFunc resume = inspect_lutris_removal.callback;
+            new Thread<void> ("lutris-runner-usage", () => {
+                report.path = Models.Launcher.physical_tool_path (destination);
+                if (own_lutris != null || launcher.tool_target_family_id == Models.Launchers.Steam.FAMILY_ID ||
+                    launcher.shared_tool_roots.contains (Path.get_dirname (report.path))) {
+                    foreach (var library in libraries) {
+                        try {
+                            library.collect_runner_usage (report);
+                        } catch (Error error) {
+                            report.failure = error.message;
+                            break;
+                        }
+                    }
+                }
+                Idle.add ((owned) resume);
+            });
+            yield;
+            return report;
+        }
+
+        internal async ReturnCode validate_install_destination (InstallJob job) {
+            var lutris = job.tool.group.launcher as Models.Launchers.Lutris;
+            if (lutris != null) {
+                var failure = yield lutris.validate_tool_destination (job.tool.group);
+                if (failure != null) {
+                    job.error_message = failure;
+                    return ReturnCode.FILESYSTEM_ERROR;
+                }
+            }
+            return (yield preserves_target_ownership (job)) ? ReturnCode.RUNNER_INSTALLED : ReturnCode.RUNNER_ALREADY_INSTALLED;
+        }
+
+        internal static async bool preserves_target_ownership (InstallJob job, string? location = null) {
+            var group = job.tool.group;
+            var launcher = group.launcher;
+            var lutris = launcher as Models.Launchers.Lutris;
+            if (lutris == null && launcher.shared_tool_roots.is_empty)
+                return true;
+            var path = location ?? job.install_location;
+            bool allowed = true;
+            SourceFunc resume = preserves_target_ownership.callback;
+            new Thread<void> ("tool-ownership", () => {
+                var root = Models.Launcher.physical_tool_path (Path.get_dirname (path));
+                Posix.Stat info = {};
+                if ((lutris != null || launcher.shared_tool_roots.contains (root)) &&
+                    Posix.lstat (path, out info) == 0 && Posix.S_ISDIR (info.st_mode)) {
+                    var owner = Utils.Metadata.load (path).launcher_id;
+                    allowed = lutris != null ? lutris.owns_tool_storage_entry (group, root, owner) :
+                        owner == "" || owner == launcher.tool_target_id;
+                }
+                Idle.add ((owned) resume);
+            });
+            yield;
+            return allowed;
+        }
+
+        private Gee.Map<InstallJob, LutrisRemovalReview> confirmed_removals =
+            new Gee.HashMap<InstallJob, LutrisRemovalReview> ();
+
+        internal async ReturnCode check_final_removal_dependencies (InstallJob job) {
+            var review = yield inspect_lutris_removal (job);
+            if (review.allows (confirmed_removals.get (job)))
+                return ReturnCode.RUNNER_INSTALLED;
+            job.error_message = review.error ??
+                _("Choose a different runner for these Lutris games, then retry removal:\n%s").printf (review.affected_games ?? "");
+            return review.failure != null ? ReturnCode.LIBRARY_INSPECTION_FAILED : ReturnCode.LUTRIS_RUNNER_REQUIRED;
+        }
+
+        public async ReturnCode remove (InstallJob job, bool notify_removal, LutrisRemovalReview? review = null) {
             if (!reserve_operation (job))
                 return ReturnCode.OPERATION_IN_PROGRESS;
             var key = operation_target (job.install_location);
             job.begin_operation ();
+            if (review != null)
+                confirmed_removals.set (job, review);
             job.state = InstallJob.State.BUSY_REMOVING;
             try {
                 var workflow = select_workflow (job);
@@ -208,6 +301,7 @@ namespace ProtonPlus.Services {
                 }
                 return code;
             } finally {
+                confirmed_removals.unset (job);
                 job.finish_operation ();
                 release_operation (job, key);
             }
@@ -304,7 +398,12 @@ namespace ProtonPlus.Services {
             job.state = InstallJob.State.BUSY_UPDATING;
             try {
                 if (restore_backup) {
-                    var code = yield standard_archive_workflow.restore_legacy_latest_backup (runner, job.install_location);
+                    var code = yield validate_install_destination (job);
+                    if (code != ReturnCode.RUNNER_INSTALLED)
+                        return code;
+                    if (!yield preserves_target_ownership (job, "%s Backup".printf (job.install_location)))
+                        return ReturnCode.UNSUPPORTED_OPERATION;
+                    code = yield standard_archive_workflow.restore_legacy_latest_backup (runner, job.install_location);
                     if (code != ReturnCode.RUNNER_INSTALLED) {
                         complete_download (job, code, DownloadOperation.PROVIDER_UPDATE);
                         return code;
@@ -564,6 +663,9 @@ namespace ProtonPlus.Services {
             if (!reserve_resolved_target (job))
                 return ReturnCode.OPERATION_IN_PROGRESS;
             var workflow = select_workflow (job);
+            var destination_code = yield validate_install_destination (job);
+            if (destination_code != ReturnCode.RUNNER_INSTALLED)
+                return destination_code;
             var validation = workflow.validate_install (job, replace_existing);
             if (validation != ReturnCode.RUNNER_INSTALLED)
                 return validation;
@@ -772,8 +874,15 @@ namespace ProtonPlus.Services {
 
         private void record_successful_change (InstallJob job, Models.SteamChangeKind kind) {
             var recorder = steam_change_recorder;
-            var target = job.tool.group.launcher.get_steam_restart_target ();
-            if (recorder == null || target == null || !job.mark_steam_change_recorded (kind))
+            var launcher = job.tool.group.launcher;
+            if (recorder == null)
+                return;
+            var target = launcher.get_steam_restart_target ();
+            if (target == null && !launcher.shared_steam_targets.is_empty) {
+                var root = Path.get_dirname (operation_target (job.install_location));
+                target = launcher.shared_steam_targets.get (root);
+            }
+            if (target == null || !job.mark_steam_change_recorded (kind))
                 return;
             var resource_key = Filename.canonicalize (job.install_location, null);
             var receipt = new Models.SteamChangeReceipt (

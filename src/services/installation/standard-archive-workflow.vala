@@ -97,6 +97,9 @@ namespace ProtonPlus.Services {
                 return yield archive_support.complete_attempt (ReturnCode.FILESYSTEM_ERROR, archive);
             }
 
+            var destination_code = yield InstallationService.instance.validate_install_destination (job);
+            if (destination_code != ReturnCode.RUNNER_INSTALLED)
+                return yield archive_support.complete_attempt (destination_code, archive);
             var destination_exists = FileUtils.test (job.install_location, FileTest.EXISTS) ||
                 FileUtils.test (job.install_location, FileTest.IS_SYMLINK);
             if (destination_exists && replace_existing) {
@@ -169,11 +172,20 @@ namespace ProtonPlus.Services {
             job.step = InstallJob.Step.REMOVING;
             if (!FileUtils.test (job.install_location, FileTest.IS_DIR))
                 return ReturnCode.RUNNER_REMOVED;
+            var dependencies = yield InstallationService.instance.check_final_removal_dependencies (job);
+            if (dependencies != ReturnCode.RUNNER_INSTALLED)
+                return dependencies;
+            if (!yield InstallationService.preserves_target_ownership (job))
+                return ReturnCode.UNSUPPORTED_OPERATION;
             var guard_code = yield InstallationService.instance.check_final_process_state (
                 job, CompatibilityProcessOperationKind.REMOVAL, true
             );
             if (guard_code != ReturnCode.RUNNER_INSTALLED)
                 return guard_code;
+            if (job.canceled)
+                return ReturnCode.EXTRACTION_FAILED;
+            if (FileUtils.test (job.install_location, FileTest.IS_SYMLINK))
+                return ReturnCode.UNSUPPORTED_OPERATION;
             var provider = job.tool as Models.Tools.ProviderTool;
             if (provider != null && provider.definition.managed_steam_manifest &&
                 !Models.InstalledToolInventory.owns_managed_installation (provider, job.install_location))
@@ -368,6 +380,9 @@ namespace ProtonPlus.Services {
             bool backfill_metadata;
             var comparison = compare_latest_release (job, out backfill_metadata);
             if (backfill_metadata) {
+                var validation = yield InstallationService.instance.validate_install_destination (job);
+                if (validation != ReturnCode.RUNNER_INSTALLED)
+                    return validation;
                 var metadata = Utils.Metadata.load (job.install_location);
                 var release = job.release;
                 if (!persist_runner_identity (

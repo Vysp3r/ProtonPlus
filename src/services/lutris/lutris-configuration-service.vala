@@ -1,6 +1,8 @@
 namespace ProtonPlus.Services {
     internal class LutrisPaths : Object {
         public string database;
+        public string wine;
+        public string runtime;
         public string config;
 
         public LutrisPaths (string data, string legacy_config) throws Error {
@@ -21,11 +23,14 @@ namespace ProtonPlus.Services {
             }
             var default_database = Path.build_filename (data, "pga.db");
             // Python's ConfigParser does not consult DEFAULT for a missing section.
-            database = settings.has_group ("lutris")
-                ? setting_path (settings, "pga_path", default_database) : default_database;
+            database = setting_path (settings, "pga_path", default_database);
+            wine = Path.build_filename (setting_path (settings, "runner_dir", Path.build_filename (data, "runners")), "wine");
+            runtime = setting_path (settings, "runtime_dir", Path.build_filename (data, "runtime"));
         }
 
         private static string setting_path (KeyFile settings, string key, string fallback) throws Error {
+            if (!settings.has_group ("lutris"))
+                return fallback;
             var raw = read_setting (settings, key);
             if (raw == null || raw == "")
                 return fallback;
@@ -82,6 +87,10 @@ namespace ProtonPlus.Services {
 
     }
 
+    internal errordomain LutrisRunnerChangeError {
+        CONFIRM_CONVERSION
+    }
+
     internal class LutrisGameRecord : Object {
         public int64 id;
         public string name;
@@ -97,6 +106,10 @@ namespace ProtonPlus.Services {
         public string prefix = "";
         public string accessible_prefix = "";
         public string? custom_path;
+        public string? runner_default;
+        public string? config_error;
+        public string arch = "";
+        public bool proton_compatible;
         public bool shared_config;
         public LutrisGameConfig? config;
 
@@ -163,6 +176,48 @@ namespace ProtonPlus.Services {
         }
     }
 
+    public class LutrisRemovalReview : Object {
+        internal string path;
+        internal string? failure;
+        internal Gee.HashMap<string, string> games = new Gee.HashMap<string, string> ();
+
+        internal LutrisRemovalReview (string path) {
+            this.path = path;
+        }
+
+        public string? error {
+            owned get {
+                if (failure != null)
+                    return _("Could not check Lutris runner usage. Restore access to the Lutris library and try again.\n%s")
+                        .printf (failure);
+                return null;
+            }
+        }
+
+        public string? affected_games {
+            owned get {
+                if (games.is_empty)
+                    return null;
+                var names = new Gee.ArrayList<string> ();
+                names.add_all (games.values);
+                names.sort ((a, b) => a.collate (b));
+                return string.joinv ("\n", names.to_array ());
+            }
+        }
+
+        internal bool allows (LutrisRemovalReview? confirmed) {
+            if (failure != null)
+                return false;
+            if (confirmed != null && (confirmed.failure != null || confirmed.path != path))
+                return false;
+            if (games.is_empty)
+                return true;
+            if (confirmed == null)
+                return false;
+            return games.keys.all_match ((key) => confirmed.games.get (key) == games.get (key));
+        }
+    }
+
     public class LutrisConfigurationService : Object {
         private const string GAME_QUERY = """
             WITH config_uses AS (SELECT configpath, count(*) AS uses FROM games GROUP BY configpath),
@@ -176,8 +231,11 @@ namespace ProtonPlus.Services {
             WHERE g.installed = 1 AND typeof(g.id) = 'integer'
             """;
         private string home;
-        private string data;
-        private string legacy_config;
+        private string data_home;
+        private string config_home;
+        internal string data { get; private set; }
+        internal string legacy_config { get; private set; }
+        internal string previous_data { get; private set; }
         private bool flatpak;
         private bool through_host;
         private LutrisBackend backend;
@@ -186,15 +244,21 @@ namespace ProtonPlus.Services {
         private static extern int flock (int fd, int operation);
 
         public LutrisConfigurationService (bool flatpak, string home, string data_home, string config_home,
-            LutrisBackend? backend = null, bool through_host = false) {
+            LutrisBackend? backend = null, bool through_host = false,
+            string? flatpak_data_home = null, string? flatpak_config_home = null) {
             this.flatpak = flatpak;
             this.home = home;
+            this.data_home = data_home;
+            this.config_home = config_home;
             this.through_host = through_host;
-            this.backend = backend ?? new HostLutrisBackend ();
+            this.backend = backend ?? new HostLutrisBackend (data_home, config_home, through_host);
             var app = Path.build_filename (home, ".var", "app", HostLutrisBackend.APP_ID);
-            data = flatpak ? Path.build_filename (app, "data", "lutris") : Path.build_filename (data_home, "lutris");
-            legacy_config = flatpak ? Path.build_filename (app, "config", "lutris")
-                : Path.build_filename (config_home, "lutris");
+            var app_data = Path.build_filename (app, "data");
+            var app_config = Path.build_filename (app, "config");
+            data = Path.build_filename (flatpak ? flatpak_data_home ?? app_data : data_home, "lutris");
+            legacy_config = Path.build_filename (flatpak ? flatpak_config_home ?? app_config : config_home, "lutris");
+            previous_data = flatpak ? Path.build_filename (app_data, "lutris")
+                : Path.build_filename (home, ".local", "share", "lutris");
         }
 
         internal static LutrisConfigurationService for_installation (bool flatpak) {
@@ -203,7 +267,13 @@ namespace ProtonPlus.Services {
             var config_home = Globals.IS_FLATPAK
                 ? host_xdg_dir ("HOST_XDG_CONFIG_HOME", Path.build_filename (home, ".config"))
                 : Environment.get_user_config_dir ();
-            return new LutrisConfigurationService (flatpak, home, data_home, config_home, null, Globals.IS_FLATPAK);
+            string? flatpak_data_home = null;
+            string? flatpak_config_home = null;
+            if (flatpak)
+                HostLutrisBackend.read_flatpak_profile_homes (Globals.IS_FLATPAK, home,
+                    out flatpak_data_home, out flatpak_config_home);
+            return new LutrisConfigurationService (flatpak, home, data_home, config_home, null, Globals.IS_FLATPAK,
+                flatpak_data_home, flatpak_config_home);
         }
 
         internal static string native_data_home () {
@@ -217,10 +287,14 @@ namespace ProtonPlus.Services {
             return path != null && Path.is_absolute (path) ? path : fallback;
         }
 
-        internal Gee.List<LutrisGameRecord> read_library (int64 id = 0) throws Error {
-            var paths = new LutrisPaths (data, legacy_config);
+        internal LutrisPaths resolve_paths () throws Error {
+            return new LutrisPaths (data, legacy_config);
+        }
+
+        internal Gee.List<LutrisGameRecord> read_library (int64 id = 0, bool for_dependencies = false) throws Error {
+            var paths = resolve_paths ();
             var db_path = Posix.realpath (paths.database);
-            if (db_path == null && Posix.errno == Posix.ENOENT)
+            if (db_path == null && Posix.errno == Posix.ENOENT && !for_dependencies)
                 return new Gee.ArrayList<LutrisGameRecord> ();
             if (db_path == null || !FileUtils.test (db_path, FileTest.IS_REGULAR))
                 throw library_error ();
@@ -230,13 +304,24 @@ namespace ProtonPlus.Services {
             if (Sqlite.Database.open_v2 (db_path, out db, Sqlite.OPEN_READONLY) != Sqlite.OK)
                 throw library_error ();
             Sqlite.Statement rows;
-            var query = GAME_QUERY + (id > 0 ? " AND g.id = ?1" : "") + " ORDER BY g.id";
+            var query = for_dependencies
+                ? """SELECT id, name, runner, directory, configpath, 1, slug, installed_at
+                     FROM games WHERE installed = 1 AND runner = 'wine' ORDER BY id"""
+                : GAME_QUERY + (id > 0 ? " AND g.id = ?1" : "") + " ORDER BY g.id";
             if (db.prepare_v2 (query, -1, out rows) != Sqlite.OK)
                 throw library_error ();
             if (id > 0)
                 rows.bind_int64 (1, id);
             var records = new Gee.ArrayList<LutrisGameRecord> ();
-            var inherited_custom_path = inherited_setting (paths, "custom_wine_path");
+            LutrisGameConfig? defaults = null;
+            string? defaults_error = null;
+            try {
+                defaults = new LutrisGameConfig (Path.build_filename (paths.config, "runners", "wine.yml"));
+            } catch (IOError.NOT_FOUND error) {
+                // An absent runner config uses Lutris's built-in defaults.
+            } catch (Error error) {
+                defaults_error = error.message;
+            }
             int state;
             while ((state = rows.step ()) == Sqlite.ROW) {
                 var record = new LutrisGameRecord () {
@@ -251,8 +336,14 @@ namespace ProtonPlus.Services {
                     slug = rows.column_text (6) ?? "",
                     installed_at = rows.column_int64 (7)
                 };
-                load_config (record, paths.config);
-                record.custom_path = record.config?.get_setting ("wine", "custom_wine_path") ?? inherited_custom_path;
+                load_config (record, paths.config, record.runner == "wine" ? defaults : null);
+                if (record.runner == "wine") {
+                    record.runner_default = defaults?.get_setting ("wine", "version");
+                    record.custom_path = record.config?.get_setting ("wine", "custom_wine_path") ??
+                        defaults?.get_setting ("wine", "custom_wine_path");
+                    record.config_error = record.config_error ?? defaults_error;
+                    record.proton_compatible = supports_proton (record);
+                }
                 records.add (record);
             }
             if (state != Sqlite.DONE)
@@ -260,23 +351,27 @@ namespace ProtonPlus.Services {
             return records;
         }
 
-        private void load_config (LutrisGameRecord record, string root) {
+        private void load_config (LutrisGameRecord record, string root, LutrisGameConfig? defaults) {
             record.game_directory = accessible_directory (expand_path (record.directory));
             if (record.config_id != "" && record.config_id != "." && record.config_id != ".." &&
                 !record.config_id.contains ("/")) {
-                var games_root = Posix.realpath (Path.build_filename (root, "games"));
-                if (games_root != null) {
-                    var path = Path.build_filename (games_root, record.config_id + ".yml");
-                    record.config_path = path;
-                    try {
-                        record.config = new LutrisGameConfig (path);
-                    } catch (Error error) {
-                        debug ("Could not read Lutris configuration for ID %lld: %s", record.id, error.message);
-                    }
+                var root_path = Path.build_filename (root, "games");
+                var games_root = Posix.realpath (root_path) ?? root_path;
+                var path = Path.build_filename (games_root, record.config_id + ".yml");
+                record.config_path = path;
+                try {
+                    record.config = new LutrisGameConfig (path);
+                } catch (IOError.NOT_FOUND error) {
+                    // Lutris reads a missing game file as an empty override.
+                } catch (Error error) {
+                    record.config_error = error.message;
+                    debug ("Could not read Lutris configuration for ID %lld: %s", record.id, error.message);
                 }
+            } else if (record.config_id != "") {
+                record.config_error = _("The Lutris game configuration is invalid.");
             }
             unowned LutrisYaml? yaml = record.config?.yaml;
-            var exe = expand_path (yaml?.get ("game", "exe"));
+            var exe = expand_path (yaml?.get ("game", "exe") ?? defaults?.get_setting ("game", "exe"));
             if (exe == "" && record.runner != "wine")
                 exe = expand_path (yaml?.get ("game", "main_file"));
             if (exe != "" && !Path.is_absolute (exe) && record.game_directory != "")
@@ -284,7 +379,9 @@ namespace ProtonPlus.Services {
             if (record.game_directory == "" && Path.is_absolute (exe))
                 record.game_directory = accessible_directory (Path.get_dirname (exe));
             if (record.runner == "wine") {
-                var prefix = expand_path (yaml?.get ("game", "prefix"));
+                record.arch = yaml?.get ("game", "arch") ?? defaults?.get_setting ("game", "arch") ?? "";
+                var configured_prefix = yaml?.get ("game", "prefix") ?? defaults?.get_setting ("game", "prefix");
+                var prefix = expand_path (configured_prefix ?? Environment.get_variable ("WINEPREFIX"));
                 if (prefix == "" && Path.is_absolute (exe)) {
                     for (var parent = Path.get_dirname (exe); parent != "/"; parent = Path.get_dirname (parent)) {
                         if (FileUtils.test (Path.build_filename (parent, "system.reg"), FileTest.IS_REGULAR)) {
@@ -306,6 +403,32 @@ namespace ProtonPlus.Services {
             return path;
         }
 
+        internal void collect_runner_usage (LutrisRemovalReview review) throws Error {
+            var records = read_library (0, true);
+            Gee.List<Models.CompatibilityTool>? shared_candidates = null;
+            foreach (var record in records) {
+                if (record.config_error != null)
+                    throw new IOError.INVALID_DATA ("%s: %s".printf (record.name, record.config_error));
+                if (shared_candidates == null)
+                    shared_candidates = installed_runners ();
+                var saved = record.config?.get_setting ("wine", "version");
+                var effective = effective_runner (record, saved, shared_candidates);
+                var candidates = effective == "custom" ? runners_for (record) : shared_candidates;
+                var tool = find_runner (candidates, effective);
+                if (tool == null)
+                    continue;
+                var root = tool.installation_path;
+                var executable = tool.path != "" ? Posix.realpath (tool.path) : null;
+                if (root != review.path && executable != review.path &&
+                    (executable == null || !executable.has_prefix (review.path + "/")))
+                    continue;
+                var instance = flatpak ? _("Lutris Flatpak") : _("Lutris System");
+                var key = "%s\n%s\n%lld\n%s".printf (
+                    flatpak ? "flatpak" : "system", record.database, record.id, record.config_path);
+                review.games.set (key, _("%s · %s").printf (record.name, instance));
+            }
+        }
+
         internal static string accessible_directory (string path) {
             return Path.is_absolute (path) && FileUtils.test (path, FileTest.IS_DIR) &&
                 Posix.access (path, Posix.R_OK | Posix.X_OK) == 0 ? path : "";
@@ -316,40 +439,49 @@ namespace ProtonPlus.Services {
         }
 
         internal Gee.List<Models.CompatibilityTool> runners_for (LutrisGameRecord record) throws Error {
-            var candidates = backend.get_runners (flatpak, record.custom_path);
-            var result = new Gee.ArrayList<Models.CompatibilityTool> ();
-            var proton_allowed = supports_proton (record);
-            foreach (var tool in candidates) {
-                if (tool.runtime_kind != Models.CompatibilityToolRuntimeKind.PROTON || proton_allowed)
-                    result.add (tool);
-            }
-            return result;
+            if (record.config_error != null)
+                throw new IOError.INVALID_DATA (record.config_error);
+            return backend.get_runners (flatpak, record.custom_path);
         }
 
-        internal string? inherited_runner () {
-            try {
-                return inherited_setting (new LutrisPaths (data, legacy_config), "version");
-            } catch (Error error) {
-                return null;
-            }
+        internal const string LATEST = "ge-proton";
+
+        internal static Models.CompatibilityTool? find_runner (
+            Gee.List<Models.CompatibilityTool>? candidates, string id
+        ) {
+            return candidates == null ? null : candidates.first_match ((tool) => tool.internal_title == id);
         }
 
-        private static string? inherited_setting (LutrisPaths paths, string key) {
-            try {
-                var config = new LutrisGameConfig (Path.build_filename (paths.config, "runners", "wine.yml"));
-                return config.yaml.get ("wine", key);
-            } catch (Error error) {
-                return null;
-            }
+        internal static string effective_runner (LutrisGameRecord record, string? version,
+            Gee.List<Models.CompatibilityTool>? candidates) {
+            // 0.5.22 treats a saved ge-proton as inheritance. 0.5.23
+            // honors it as an explicit selection.
+            var latest = find_runner (candidates, LATEST);
+            var explicit_latest = latest == null || latest.is_assignable;
+            if (version != null && version != "" && (version != LATEST || explicit_latest))
+                return version;
+            var inherited = record.runner_default;
+            return inherited != null && inherited != "" ? inherited : LATEST;
+        }
+
+        internal static string? runner_diagnostic (LutrisGameRecord record, Models.CompatibilityTool? tool) {
+            if (tool == null)
+                return _("Runner is missing");
+            if (!tool.is_available)
+                return tool.availability_diagnostic ?? _("Runner is missing");
+            if (tool.runtime_kind == Models.CompatibilityToolRuntimeKind.PROTON && !record.proton_compatible)
+                return _("Proton requires a compatible 64-bit prefix");
+            return null;
         }
 
         private static bool supports_proton (LutrisGameRecord record) {
-            if (record.config?.get_setting ("game", "arch") == "win32")
+            if (record.arch == "win32")
                 return false;
             if (record.prefix != "" && !Path.is_absolute (record.prefix))
                 return false;
             if (record.prefix == "")
-                return false;
+                return Globals.CPU_CAPABILITIES == null ||
+                    Globals.CPU_CAPABILITIES.architecture != Models.CpuArchitecture.X86_32;
             var registry = Path.build_filename (record.prefix, "system.reg");
             if (!FileUtils.test (registry, FileTest.EXISTS))
                 return accessible_directory (record.prefix) != "" ||
@@ -361,9 +493,10 @@ namespace ProtonPlus.Services {
                 return false;
             var line = new char[256];
             for (var i = 0; i < 5 && stream.gets (line) != null; i++) {
-                if (((string) line).contains ("win32"))
+                var header = ((string) line).strip ();
+                if (header == "#arch=win32")
                     return false;
-                if (((string) line).contains ("win64"))
+                if (header == "#arch=win64")
                     return true;
             }
             return false;
@@ -383,7 +516,8 @@ namespace ProtonPlus.Services {
                 record.config.writable && record.config.yaml.version_editable ();
         }
 
-        internal void save_version (LutrisGameRecord expected, string? version, Cancellable? cancellable) throws Error {
+        internal void save_version (LutrisGameRecord expected, string? version, Cancellable? cancellable,
+            string? confirmed_conversion = null) throws Error {
             var current = revalidate (expected);
             // Lock the existing configuration directory across ProtonPlus processes.
             // This leaves no lock file in Lutris's library.
@@ -395,9 +529,12 @@ namespace ProtonPlus.Services {
                 if (flock (lock_fd, 2 | 4) != 0)
                     throw new IOError.BUSY (_("Another Lutris configuration change is in progress."));
                 require_closed ();
-                if (version != null && !runners_for (current).any_match ((tool) =>
-                    tool.internal_title == version && tool.is_available && tool.is_assignable))
+                var candidates = runners_for (current);
+                var effective = effective_runner (current, version, candidates);
+                var tool = find_runner (candidates, effective);
+                if (version != null && (effective != version || (tool != null && !tool.is_assignable)))
                     throw new IOError.NOT_FOUND (_("This tool is no longer available. Choose a different tool."));
+                require_usable_runner (current, tool);
                 var updated = current.config.yaml.set_version (version);
                 LutrisYaml? updated_yaml = null;
                 if (updated != null)
@@ -408,7 +545,18 @@ namespace ProtonPlus.Services {
                 // immediately before the etag-guarded atomic replacement.
                 require_closed ();
                 current = revalidate (expected);
+                if (effective != effective_runner (current, version, candidates) ||
+                    (effective == "custom" && current.custom_path != tool?.path))
+                    throw new IOError.WRONG_ETAG (_("The Lutris runner changed. Reopen the editor and try again."));
+                require_usable_runner (current, tool);
                 cancellable?.set_error_if_cancelled ();
+                if (updated != current.config.text && tool.runtime_kind == Models.CompatibilityToolRuntimeKind.PROTON &&
+                    is_wine_only_prefix (current.prefix)) {
+                    var confirmation = "%s\n%s\n%s\n%s".printf (
+                        Posix.realpath (current.prefix) ?? current.prefix, effective, tool.installation_path, current.config.etag);
+                    if (confirmed_conversion != confirmation)
+                        throw new LutrisRunnerChangeError.CONFIRM_CONVERSION (confirmation);
+                }
                 if (updated != current.config.text) {
                     var file = File.new_for_path (current.config_path);
                     file.replace_contents (updated.data, current.config.etag, false,
@@ -417,6 +565,19 @@ namespace ProtonPlus.Services {
             } finally {
                 Posix.close (lock_fd);
             }
+        }
+
+        private static void require_usable_runner (LutrisGameRecord record, Models.CompatibilityTool? tool) throws Error {
+            var diagnostic = runner_diagnostic (record, tool);
+            if (diagnostic != null)
+                throw new IOError.NOT_FOUND (_("This tool is no longer available. %s.").printf (diagnostic));
+        }
+
+        private static bool is_wine_only_prefix (string prefix) {
+            return Path.is_absolute (prefix) &&
+                FileUtils.test (Path.build_filename (prefix, "user.reg"), FileTest.EXISTS) &&
+                !FileUtils.test (Path.build_filename (prefix, "tracked_files"), FileTest.EXISTS) &&
+                !FileUtils.test (Path.build_filename (prefix, "version"), FileTest.EXISTS);
         }
 
         private void require_closed () throws Error {
@@ -433,8 +594,13 @@ namespace ProtonPlus.Services {
             if (records.size != 1 || !expected.matches (records[0]))
                 throw new IOError.NOT_FOUND (_("The selected Lutris game changed or its ID is no longer unique. Reload the Games list and try again."));
             var uri = "lutris:rungameid/%lld".printf (expected.id);
-            string[] argv = flatpak ? new string[] { "flatpak", "run", HostLutrisBackend.APP_ID, uri }
-                : new string[] { "lutris", uri };
+            string[] argv;
+            if (flatpak)
+                argv = { "flatpak", "run", HostLutrisBackend.APP_ID, uri };
+            else if (through_host)
+                argv = { "env", "XDG_DATA_HOME=" + data_home, "XDG_CONFIG_HOME=" + config_home, "lutris", uri };
+            else
+                argv = { "lutris", uri };
             return backend.spawn (HostLutrisBackend.on_host (argv, through_host));
         }
 

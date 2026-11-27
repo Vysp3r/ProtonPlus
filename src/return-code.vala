@@ -29,6 +29,8 @@ namespace ProtonPlus {
         INCOMPATIBLE_VARIANT,
         SYMLINKED_TOOL_DIRECTORY,
         UPDATE_AVAILABLE,
+        LUTRIS_RUNNER_REQUIRED,
+        LIBRARY_INSPECTION_FAILED
     }
 
     public string get_return_code_message (ReturnCode code) {
@@ -69,6 +71,10 @@ namespace ProtonPlus {
             return _ ("The selected variant is not compatible with this system.");
         case ReturnCode.SYMLINKED_TOOL_DIRECTORY:
             return _ ("ProtonPlus cannot replace a compatibility tool directory that is a symbolic link.");
+        case ReturnCode.LUTRIS_RUNNER_REQUIRED:
+            return _("A Lutris game uses this runner.");
+        case ReturnCode.LIBRARY_INSPECTION_FAILED:
+            return _("Could not check the Lutris library.");
         case ReturnCode.RUNNERS_IN_USE:
             return _ ("A compatibility tool is currently in use. Close the running game and try again.");
         case ReturnCode.PROCESS_INSPECTION_FAILED:
