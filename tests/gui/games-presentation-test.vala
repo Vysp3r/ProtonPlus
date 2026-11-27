@@ -1204,7 +1204,7 @@ void check_lutris_library_states (string root) throws Error {
         ((Adw.SwitchRow) widget).title == "Override command prefix");
     assert (prefix != null && !prefix.get_mapped ());
     var system_advanced = prefix.get_ancestor (typeof (Adw.ExpanderRow)) as Adw.ExpanderRow;
-    assert (system_advanced != null && system_advanced.title == "Advanced" && !system_advanced.expanded);
+    assert (system_advanced != null && system_advanced.title == "Runtime and command prefix" && !system_advanced.expanded);
     var apply = find_widget (page, (widget) => widget is Gtk.Button && widget.get_mapped () &&
         ((Gtk.Button) widget).label == "Apply Changes") as Gtk.Button;
     assert (apply != null && !apply.sensitive);
@@ -1243,8 +1243,14 @@ void check_lutris_library_states (string root) throws Error {
     var dxvk = find_widget (page, (widget) => widget is Adw.ComboRow &&
         ((Adw.ComboRow) widget).title == "Enable DXVK") as Adw.ComboRow;
     assert (dxvk.get_ancestor (typeof (Adw.PreferencesGroup)) == runner_group);
+    var dxvk_options = dxvk.get_ancestor (typeof (Adw.ExpanderRow)) as Adw.ExpanderRow;
+    assert (dxvk_options != null && dxvk_options.title == "DXVK" && dxvk_options.subtitle == "Off");
+    assert (!dxvk_options.expanded && !dxvk.get_mapped ());
+    dxvk_options.expanded = true;
     var vkd3d = find_widget (page, (widget) => widget is Adw.ComboRow &&
         ((Adw.ComboRow) widget).title == "Enable VKD3D") as Adw.ComboRow;
+    var vkd3d_options = vkd3d.get_ancestor (typeof (Adw.ExpanderRow)) as Adw.ExpanderRow;
+    assert (vkd3d_options != null && vkd3d_options.title == "VKD3D");
     var dxvk_version = find_widget (page, (widget) => widget is Adw.ComboRow &&
         ((Adw.ComboRow) widget).title == "DXVK version");
     var environment = find_widget (page, (widget) => widget is Adw.ExpanderRow &&
@@ -1264,7 +1270,7 @@ void check_lutris_library_states (string root) throws Error {
     var esync = find_widget (runner_group, widget => widget is Adw.ComboRow &&
         ((Adw.ComboRow) widget).title == "Enable Esync") as Adw.ComboRow;
     var runner_advanced = esync.get_ancestor (typeof (Adw.ExpanderRow)) as Adw.ExpanderRow;
-    assert (runner_advanced != null && runner_advanced.title == "Advanced" && !runner_advanced.expanded);
+    assert (runner_advanced != null && runner_advanced.title == "Synchronization" && !runner_advanced.expanded);
     assert (!esync.get_mapped () && !runtime.get_mapped ());
     runner_advanced.expanded = true;
     system_advanced.expanded = true;
@@ -1289,6 +1295,7 @@ void check_lutris_library_states (string root) throws Error {
 
     dxvk.selected = 1;
     assert (dxvk_version.visible);
+    assert (dxvk_options.subtitle == "On · Lutris default");
     var log_name = find_widget (environment, widget => widget is Gtk.Entry && ((Gtk.Entry) widget).text == "DXVK_LOG_LEVEL");
     var log_value = find_widget (log_name.get_parent (), widget => widget is Gtk.Entry &&
         ((Gtk.Entry) widget).placeholder_text == "Value") as Gtk.Entry;
@@ -1323,6 +1330,13 @@ void check_lutris_library_states (string root) throws Error {
     assert (log_value.text == "info");
     choice.selected = proton;
     assert (dxvk.visible && !vkd3d.visible && !dxvk_version.visible && environment.visible);
+    var proton_dxvk = find_widget (runner_group, widget => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "DXVK") as Adw.ComboRow;
+    assert (!dxvk_options.visible && !vkd3d_options.visible && proton_dxvk.visible && proton_dxvk.selected == 1);
+    assert (proton_dxvk.subtitle.contains ("bundled with Proton"));
+    proton_dxvk.selected = 2;
+    assert (dxvk.selected == 2);
+    proton_dxvk.selected = 1;
     assert (runtime.visible && libraries.visible && mangohud.visible && gamemode.visible);
     browse.clicked ();
     wait_for_layout (() => window.visible_dialog != null && window.visible_dialog.get_mapped ());

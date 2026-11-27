@@ -6,11 +6,14 @@ namespace ProtonPlus.Widgets.Games {
         public signal void changed ();
 
         private Adw.PreferencesGroup runner_group = new Adw.PreferencesGroup () { title = _("Runner options") };
-        private Adw.ExpanderRow runner_advanced = new Adw.ExpanderRow () { title = _("Advanced") };
+        private Adw.ExpanderRow dxvk_options = new Adw.ExpanderRow () { title = "DXVK", use_markup = false };
+        private Adw.ExpanderRow vkd3d_options = new Adw.ExpanderRow () { title = "VKD3D", use_markup = false };
+        private Adw.ComboRow? proton_dxvk;
+        private Adw.ExpanderRow runner_advanced = new Adw.ExpanderRow () { title = _("Synchronization") };
         private CompatibilityToolRow? version_row;
         private Adw.ActionRow repair_row;
         private Adw.PreferencesGroup system_group = new Adw.PreferencesGroup () { title = _("System options") };
-        private Adw.ExpanderRow system_advanced = new Adw.ExpanderRow () { title = _("Advanced") };
+        private Adw.ExpanderRow system_advanced = new Adw.ExpanderRow () { title = _("Runtime and command prefix") };
         private Adw.SwitchRow prefix_override = new Adw.SwitchRow () {
             title = _("Override command prefix"), use_markup = false
         };
@@ -60,18 +63,25 @@ namespace ProtonPlus.Widgets.Games {
                 if (is_sync_toggle (entry.key))
                     runner_advanced.remove (entry.value);
                 else
-                    runner_group.remove (entry.value);
+                    graphics_options (entry.key).remove (entry.value);
             }
-            foreach (var row in versions.values)
-                runner_group.remove (row);
+            foreach (var entry in versions.entries)
+                graphics_options (entry.key.component).remove (entry.value);
+            if (proton_dxvk != null) {
+                runner_group.remove (proton_dxvk);
+                proton_dxvk = null;
+            }
             foreach (var entry in system_toggles.entries) {
                 if (is_runtime_toggle (entry.key))
                     system_advanced.remove (entry.value);
                 else
                     system_group.remove (entry.value);
             }
-            if (runner_advanced.get_parent () != null)
+            if (runner_advanced.get_parent () != null) {
+                runner_group.remove (dxvk_options);
+                runner_group.remove (vkd3d_options);
                 runner_group.remove (runner_advanced);
+            }
             if (system_advanced.get_parent () != null) {
                 system_group.remove (environment);
                 system_group.remove (system_advanced);
@@ -89,6 +99,8 @@ namespace ProtonPlus.Widgets.Games {
                 return;
             }
             if (!preserve_expansion) {
+                dxvk_options.expanded = false;
+                vkd3d_options.expanded = false;
                 runner_advanced.expanded = false;
                 system_advanced.expanded = false;
             }
@@ -99,13 +111,26 @@ namespace ProtonPlus.Widgets.Games {
                     if (is_sync_toggle (key))
                         runner_advanced.add_row (row);
                     else
-                        runner_group.add (row);
+                        graphics_options (key).add_row (row);
                 }
                 if (game.graphics_versions != null)
                     foreach (var choices in game.graphics_versions)
                         if (choices.component == key && choices.editable)
                             add_version (choices);
             }
+            runner_group.add (dxvk_options);
+            var dxvk_toggle = toggles.get ("dxvk");
+            if (dxvk_toggle != null) {
+                proton_dxvk = new Adw.ComboRow () {
+                    title = "DXVK",
+                    subtitle = _("When enabled, uses the build bundled with Proton."),
+                    model = dxvk_toggle.model, visible = false
+                };
+                dxvk_toggle.bind_property ("selected", proton_dxvk, "selected",
+                    BindingFlags.BIDIRECTIONAL | BindingFlags.SYNC_CREATE);
+                runner_group.add (proton_dxvk);
+            }
+            runner_group.add (vkd3d_options);
             runner_group.add (runner_advanced);
             foreach (var key in LutrisGameOptions.system_toggle_keys ()) {
                 if (!baseline.has_toggle (key))
@@ -138,6 +163,10 @@ namespace ProtonPlus.Widgets.Games {
 
         private static bool is_runtime_toggle (string key) {
             return key == LutrisGameOptions.DISABLE_RUNTIME || key == LutrisGameOptions.PREFER_SYSTEM_LIBS;
+        }
+
+        private unowned Adw.ExpanderRow graphics_options (string component) {
+            return component == "dxvk" ? dxvk_options : vkd3d_options;
         }
 
         private Adw.ComboRow create_toggle (string key) {
@@ -219,7 +248,7 @@ namespace ProtonPlus.Widgets.Games {
             };
             row.set_data<uint> ("initial-selection", selected);
             versions.set (choices, row);
-            runner_group.add (row);
+            graphics_options (choices.component).add_row (row);
             row.notify["selected"].connect (() => changed ());
         }
 
@@ -229,10 +258,24 @@ namespace ProtonPlus.Widgets.Games {
             foreach (var entry in toggles.entries) {
                 entry.value.visible = wine || (proton && entry.key != "vkd3d");
             }
+            dxvk_options.visible = wine && toggles.has_key ("dxvk");
+            vkd3d_options.visible = wine && toggles.has_key ("vkd3d");
+            if (proton_dxvk != null)
+                proton_dxvk.visible = proton;
+            dxvk_options.subtitle = graphics_enabled ("dxvk", false) ? _("On") : _("Off");
+            vkd3d_options.subtitle = graphics_enabled ("vkd3d", false) ? _("On") : _("Off");
             runner_advanced.visible = (wine || proton) && (toggles.has_key ("esync") || toggles.has_key ("fsync"));
             foreach (var entry in versions.entries) {
-                var enabled = graphics_enabled (entry.key.component, entry.key.enabled);
-                entry.value.visible = wine && enabled;
+                var choices = entry.key;
+                var row = entry.value;
+                row.visible = wine && graphics_enabled (choices.component, choices.enabled);
+                if (row.visible) {
+                    var group = graphics_options (choices.component);
+                    var selected = row.selected_item as Gtk.StringObject;
+                    var version = row.selected == 0 ? choices.inherited ?? _("Lutris default") : selected?.string;
+                    group.subtitle = version != null ? _("%s · %s").printf (_("On"), version) : _("On");
+                    group.visible = true;
+                }
             }
             if (baseline == null || (!wine && !proton)) {
                 environment.set_browser_context (null);

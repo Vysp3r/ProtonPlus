@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-27 09:35-0500\n"
+"POT-Creation-Date: 2026-11-27 12:42-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2717,6 +2717,7 @@ msgid "Runner probe failed: %s"
 msgstr ""
 
 #: src/models/games/lutris.vala:147
+#: src/widgets/games/lutris-options-view.vala:275
 msgid "Lutris default"
 msgstr ""
 
@@ -3356,6 +3357,7 @@ msgid "Lutris System"
 msgstr ""
 
 #: src/services/lutris/lutris-configuration-service.vala:479
+#: src/widgets/games/lutris-options-view.vala:276
 #: src/widgets/header/header-downloads-indicator.vala:279
 #: src/widgets/header/header-launchers-button.vala:126
 #, c-format
@@ -4395,7 +4397,9 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:45
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:46
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:58
-#: src/widgets/games/lutris-options-view.vala:169
+#: src/widgets/games/lutris-options-view.vala:198
+#: src/widgets/games/lutris-options-view.vala:265
+#: src/widgets/games/lutris-options-view.vala:266
 msgid "Off"
 msgstr ""
 
@@ -4414,7 +4418,10 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:45
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:46
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:58
-#: src/widgets/games/lutris-options-view.vala:169
+#: src/widgets/games/lutris-options-view.vala:198
+#: src/widgets/games/lutris-options-view.vala:265
+#: src/widgets/games/lutris-options-view.vala:266
+#: src/widgets/games/lutris-options-view.vala:276
 msgid "On"
 msgstr ""
 
@@ -5049,111 +5056,116 @@ msgstr ""
 msgid "Runner options"
 msgstr ""
 
-#. Advanced Page
-#: src/widgets/games/lutris-options-view.vala:9
-#: src/widgets/games/lutris-options-view.vala:13
-#: src/widgets/preferences/preferences-dialog.vala:252
-msgid "Advanced"
-msgstr ""
-
 #: src/widgets/games/lutris-options-view.vala:12
-msgid "System options"
+msgid "Synchronization"
 msgstr ""
 
 #: src/widgets/games/lutris-options-view.vala:15
+msgid "System options"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:16
+msgid "Runtime and command prefix"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:18
 msgid "Override command prefix"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:17
+#: src/widgets/games/lutris-options-view.vala:20
 msgid "Command prefix"
 msgstr ""
 
 #: src/widgets/games/lutris-options-view.vala:126
+msgid "When enabled, uses the build bundled with Proton."
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:151
 #, c-format
 msgid "Inherited command prefix: %s"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:147
+#: src/widgets/games/lutris-options-view.vala:176
 msgid "Enable DXVK"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:148
+#: src/widgets/games/lutris-options-view.vala:177
 msgid "Enable VKD3D"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:149
+#: src/widgets/games/lutris-options-view.vala:178
 msgid "Enable Esync"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:150
+#: src/widgets/games/lutris-options-view.vala:179
 msgid "Enable Fsync"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:152
+#: src/widgets/games/lutris-options-view.vala:181
 #: src/widgets/preferences/preferences-dialog.vala:449
 msgid "MangoHud"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:156
+#: src/widgets/games/lutris-options-view.vala:185
 msgid "Feral GameMode"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:160
+#: src/widgets/games/lutris-options-view.vala:189
 msgid "Disable Lutris Runtime"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:161
+#: src/widgets/games/lutris-options-view.vala:190
 msgid ""
 "Controls Lutris libraries. umu manages Proton’s Steam Runtime separately."
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:163
+#: src/widgets/games/lutris-options-view.vala:192
 msgid "Prefer system libraries"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:168
+#: src/widgets/games/lutris-options-view.vala:197
 msgid "Inherit"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:168
+#: src/widgets/games/lutris-options-view.vala:197
 msgid "Inherit (On)"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:168
+#: src/widgets/games/lutris-options-view.vala:197
 msgid "Inherit (Off)"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:186
+#: src/widgets/games/lutris-options-view.vala:215
 msgid "Availability could not be checked"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:187
+#: src/widgets/games/lutris-options-view.vala:216
 msgid "Available in this Lutris installation"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:188
+#: src/widgets/games/lutris-options-view.vala:217
 msgid "Unavailable in this Lutris installation"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:204
+#: src/widgets/games/lutris-options-view.vala:233
 msgid "Inherit Lutris default"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:205
+#: src/widgets/games/lutris-options-view.vala:234
 #, c-format
 msgid "Inherit Lutris default (%s)"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:214
+#: src/widgets/games/lutris-options-view.vala:243
 #, c-format
 msgid "%s (Current setting)"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:217
+#: src/widgets/games/lutris-options-view.vala:246
 msgid "DXVK version"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:217
+#: src/widgets/games/lutris-options-view.vala:246
 msgid "VKD3D version"
 msgstr ""
 
@@ -6233,6 +6245,11 @@ msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:214
 msgid "Steam Profile"
+msgstr ""
+
+#. Advanced Page
+#: src/widgets/preferences/preferences-dialog.vala:252
+msgid "Advanced"
 msgstr ""
 
 #: src/widgets/preferences/preferences-dialog.vala:259
