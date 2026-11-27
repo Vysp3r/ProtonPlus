@@ -293,7 +293,8 @@ namespace ProtonPlus.Widgets.Games {
             launch_options_editor.set_text (sources_match ? common_source : "");
             launch_options_editor.set_preview_sources (preview_labels, preview_sources);
 
-            compatibility_tool_group.title = has_steam_launch_options ? Markup.escape_text (_("Compatibility tool")) : "";
+            compatibility_tool_group.title = has_steam_launch_options || lutris_game != null
+                ? Markup.escape_text (_("Compatibility tool")) : "";
             launch_options_editor.visible = has_steam_launch_options;
             launch_options_editor.preview_field.visible = has_steam_launch_options;
             launch_options_editor.preview_field.button.visible = has_steam_launch_options;
@@ -316,10 +317,10 @@ namespace ProtonPlus.Widgets.Games {
             compatibility_tool_apply_row.set_visible (!runner_only && !single_steam_game);
             compatibility_tool_apply_row.active = false;
             compatibility_tool_row.visible = runner_only || single_steam_game;
-            if (runner_only)
-                compatibility_tool_row.title = _("Wine or Proton version");
-            else if (single_steam_game)
+            if (single_steam_game || lutris_game != null)
                 compatibility_tool_row.title = _("Version");
+            else if (runner_only)
+                compatibility_tool_row.title = _("Wine or Proton version");
 
             compatibility_tool_row.notify["selected-item"].connect (() => {
                 compatibility_tool_diagnostic = null;

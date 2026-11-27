@@ -1193,7 +1193,9 @@ void check_lutris_library_states (string root) throws Error {
         list.activate (0);
     wait_for_layout (() => page.get_header_presentation () != null);
     var choice = find_widget (page, (widget) => widget is CompatibilityToolRow && widget.get_mapped ()) as CompatibilityToolRow;
-    assert (choice != null && choice.title == "Wine or Proton version");
+    assert (choice != null && choice.title == "Version");
+    var compatibility_group = choice.get_ancestor (typeof (Adw.PreferencesGroup)) as Adw.PreferencesGroup;
+    assert (compatibility_group != null && compatibility_group.title == "Compatibility tool");
     assert (choice.model.get_n_items () == 4);
     assert (((Models.CompatibilityTool) choice.get_selected_item ()).internal_title == "missing");
     assert (find_widget (page, (widget) => widget is Adw.SwitchRow && widget.get_mapped () &&

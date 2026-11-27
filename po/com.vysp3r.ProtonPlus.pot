@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-27 08:53-0500\n"
+"POT-Creation-Date: 2026-11-27 09:01-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,7 +160,7 @@ msgid "Runner ID"
 msgstr ""
 
 #: src/cli/cli.vala:439 src/cli/cli.vala:887
-#: src/widgets/games/games-mass-edit-view.vala:322
+#: src/widgets/games/games-mass-edit-view.vala:321
 msgid "Version"
 msgstr ""
 
@@ -3393,7 +3393,7 @@ msgid "Another Lutris configuration change is in progress."
 msgstr ""
 
 #: src/services/lutris/lutris-configuration-service.vala:775
-#: src/widgets/games/games-mass-edit-view.vala:511
+#: src/widgets/games/games-mass-edit-view.vala:512
 msgid "This tool is no longer available. Choose a different tool."
 msgstr ""
 
@@ -3967,7 +3967,7 @@ msgstr[1] ""
 
 #: src/widgets/games/games-mass-edit-view.vala:51
 #: src/widgets/games/games-mass-edit-view.vala:54
-#: src/widgets/games/games-mass-edit-view.vala:303
+#: src/widgets/games/games-mass-edit-view.vala:304
 msgid "Clear Launch Options"
 msgstr ""
 
@@ -3984,72 +3984,72 @@ msgid "Change compatibility tool"
 msgstr ""
 
 #: src/widgets/games/games-mass-edit-view.vala:89
-#: src/widgets/games/games-mass-edit-view.vala:387
+#: src/widgets/games/games-mass-edit-view.vala:388
 msgid "Install Exact Version"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:296
+#: src/widgets/games/games-mass-edit-view.vala:297
 msgid "Compatibility tool"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:303
+#: src/widgets/games/games-mass-edit-view.vala:304
 msgid "Clear Environment Variables"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:313
+#: src/widgets/games/games-mass-edit-view.vala:314
 #, c-format
 msgid "Launch option changes apply to %d game."
 msgid_plural "Launch option changes apply to %d games."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/games/games-mass-edit-view.vala:320
+#: src/widgets/games/games-mass-edit-view.vala:323
 msgid "Wine or Proton version"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:351
+#: src/widgets/games/games-mass-edit-view.vala:352
 msgid "Installing…"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:370
+#: src/widgets/games/games-mass-edit-view.vala:371
 msgid "Could not verify the installed Lutris runner."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:373
+#: src/widgets/games/games-mass-edit-view.vala:374
 #, c-format
 msgid ""
 "Lutris Flatpak could not use the installed runner. Check that its sandbox "
 "can access %s."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:374
+#: src/widgets/games/games-mass-edit-view.vala:375
 #, c-format
 msgid ""
 "Lutris could not use the runner installed at %s. Check the configured runner "
 "directory and umu."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:378
+#: src/widgets/games/games-mass-edit-view.vala:379
 msgid ""
 "The runner was installed. The game's assignment changed while the "
 "installation was in progress."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:383
+#: src/widgets/games/games-mass-edit-view.vala:384
 msgid "Could Not Repair the Lutris Runner"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:393
+#: src/widgets/games/games-mass-edit-view.vala:394
 msgid "Convert the Wine prefix?"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:394
+#: src/widgets/games/games-mass-edit-view.vala:395
 msgid ""
 "The next Lutris launch with Proton will convert this existing Wine prefix. "
 "The conversion cannot be undone."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:395
+#: src/widgets/games/games-mass-edit-view.vala:396
 #: src/widgets/header/header-downloads-indicator.vala:423
 #: src/widgets/header/header-downloads-indicator.vala:425
 #: src/widgets/tools/steam-tinker-launch-release-row.vala:125
@@ -4060,29 +4060,29 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:396
+#: src/widgets/games/games-mass-edit-view.vala:397
 msgid "Apply Runner Change"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:424
+#: src/widgets/games/games-mass-edit-view.vala:425
 #, c-format
 msgid "Restore %s"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:434
+#: src/widgets/games/games-mass-edit-view.vala:435
 msgid "Choose a compatibility tool."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:438
+#: src/widgets/games/games-mass-edit-view.vala:439
 msgid "Choose an available compatibility tool."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:541
+#: src/widgets/games/games-mass-edit-view.vala:542
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:543
+#: src/widgets/games/games-mass-edit-view.vala:544
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:651
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:888
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:69
@@ -4091,36 +4091,36 @@ msgstr ""
 msgid "%s — %s"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:544
+#: src/widgets/games/games-mass-edit-view.vala:545
 msgid "Launch options cannot be applied"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:545
+#: src/widgets/games/games-mass-edit-view.vala:546
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:562
-#: src/widgets/games/games-mass-edit-view.vala:630
+#: src/widgets/games/games-mass-edit-view.vala:563
+#: src/widgets/games/games-mass-edit-view.vala:631
 msgid "The change could not be saved."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:563
+#: src/widgets/games/games-mass-edit-view.vala:564
 msgid "Could Not Change the Runner"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:605
+#: src/widgets/games/games-mass-edit-view.vala:606
 msgid "Batch Update Failed"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:606
+#: src/widgets/games/games-mass-edit-view.vala:607
 msgid ""
 "Some games could not be updated. Their tool or configuration may have "
 "changed or become unavailable."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:632
+#: src/widgets/games/games-mass-edit-view.vala:633
 msgid "Could Not Save Lutris Settings"
 msgstr ""
 
