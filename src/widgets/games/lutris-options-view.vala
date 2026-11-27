@@ -152,7 +152,7 @@ namespace ProtonPlus.Widgets.Games {
             prefix_override.active = baseline.command_prefix != null;
             prefix_entry.text = baseline.command_prefix ?? "";
             prefix_entry.visible = prefix_override.visible && prefix_override.active;
-            environment.load (baseline.environment, preserve_expansion);
+            environment.load (baseline, preserve_expansion);
             refresh_runtime_options ();
             system_group.visible = !system_toggles.is_empty || prefix_override.visible || environment.visible;
         }
@@ -255,6 +255,8 @@ namespace ProtonPlus.Widgets.Games {
         public void set_runner_kind (Models.CompatibilityToolRuntimeKind kind) {
             var wine = kind == Models.CompatibilityToolRuntimeKind.WINE;
             var proton = kind == Models.CompatibilityToolRuntimeKind.PROTON;
+            var dxvk = graphics_enabled ("dxvk", false);
+            environment.set_runner_context (kind, dxvk);
             foreach (var entry in toggles.entries) {
                 entry.value.visible = wine || (proton && entry.key != "vkd3d");
             }
@@ -262,7 +264,7 @@ namespace ProtonPlus.Widgets.Games {
             vkd3d_options.visible = wine && toggles.has_key ("vkd3d");
             if (proton_dxvk != null)
                 proton_dxvk.visible = proton;
-            dxvk_options.subtitle = graphics_enabled ("dxvk", false) ? _("On") : _("Off");
+            dxvk_options.subtitle = dxvk ? _("On") : _("Off");
             vkd3d_options.subtitle = graphics_enabled ("vkd3d", false) ? _("On") : _("Off");
             runner_advanced.visible = (wine || proton) && (toggles.has_key ("esync") || toggles.has_key ("fsync"));
             foreach (var entry in versions.entries) {
@@ -288,7 +290,6 @@ namespace ProtonPlus.Widgets.Games {
                 capabilities += LaunchOptionCapability.PROTON;
             if ((baseline.system_tools & LutrisSystemTools.MANGOHUD) != 0)
                 capabilities += LaunchOptionCapability.MANGOHUD;
-            var dxvk = graphics_enabled ("dxvk", false);
             if (dxvk) {
                 capabilities += LaunchOptionCapability.DXVK;
                 capabilities += LaunchOptionCapability.DXVK_LOG_PATH;

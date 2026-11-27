@@ -146,6 +146,16 @@ namespace ProtonPlus.Services {
         }
     }
 
+    public class LutrisInheritedEnvironmentValue : Object {
+        public string value { get; private set; }
+        public bool from_wine_runner { get; private set; }
+
+        internal LutrisInheritedEnvironmentValue (string value, bool from_wine_runner) {
+            this.value = value;
+            this.from_wine_runner = from_wine_runner;
+        }
+    }
+
     public class LutrisGameOptions : Object {
         public const string COMMAND_PREFIX = "prefix_command";
         public const string ENVIRONMENT = "env";
@@ -160,7 +170,10 @@ namespace ProtonPlus.Services {
 
         internal Gee.HashMap<string, string?> toggles = new Gee.HashMap<string, string?> ();
         internal Gee.HashMap<string, string?> inherited_toggles = new Gee.HashMap<string, string?> ();
+        internal Gee.HashMap<string, LutrisInheritedEnvironmentValue> inherited_environment =
+            new Gee.HashMap<string, LutrisInheritedEnvironmentValue> ();
         public string? environment { get; internal set; }
+        public bool environment_inheritance_complete { get; internal set; }
         public string? command_prefix { get; internal set; }
         public string? inherited_prefix { get; internal set; }
         public bool command_prefix_editable { get; internal set; }
@@ -169,6 +182,9 @@ namespace ProtonPlus.Services {
         public bool has_toggle (string key) { return toggles.has_key (key); }
         public string? get_toggle (string key) { return toggles.get (key); }
         public string? get_inherited_toggle (string key) { return inherited_toggles.get (key); }
+        public LutrisInheritedEnvironmentValue? get_inherited_environment (string key) {
+            return inherited_environment.get (key);
+        }
     }
 
     internal class LutrisGameConfig : Object {
@@ -514,11 +530,13 @@ namespace ProtonPlus.Services {
                 (options.command_prefix == null || (!options.command_prefix.contains ("\n") &&
                     !options.command_prefix.contains ("\r")));
             LutrisGameConfig? defaults = null;
+            bool system_defaults_readable = true;
             try {
                 defaults = new LutrisGameConfig (Path.build_filename (resolve_paths ().config, "system.yml"));
             } catch (IOError.NOT_FOUND error) {
                 // No system overrides were saved.
             } catch (Error error) {
+                system_defaults_readable = false;
                 debug ("Could not read Lutris system defaults: %s", error.message);
             }
             if (probe_tools) {
@@ -548,6 +566,8 @@ namespace ProtonPlus.Services {
             options.inherited_prefix = record.wine_defaults?.get_setting ("system", LutrisGameOptions.COMMAND_PREFIX) ??
                 defaults?.get_setting ("system", LutrisGameOptions.COMMAND_PREFIX);
             options.environment = read_environment (yaml);
+            if (probe_tools && options.environment != null)
+                read_inherited_environment (options, record.wine_defaults, defaults, system_defaults_readable);
             return options;
         }
 
@@ -571,7 +591,26 @@ namespace ProtonPlus.Services {
             return Regex.match_simple ("^[A-Za-z_][A-Za-z0-9_]*\\z", name);
         }
 
-        private static string? read_environment (LutrisYaml yaml) {
+        private static void read_inherited_environment (LutrisGameOptions options, LutrisGameConfig? runner,
+            LutrisGameConfig? system, bool system_readable) {
+            var runner_env = runner == null ? null : read_environment_mapping (runner.yaml);
+            if (runner != null && runner_env == null)
+                return;
+            var system_env = system == null ? null : read_environment_mapping (system.yaml);
+            options.environment_inheritance_complete = system_readable && (system == null || system_env != null);
+            if (system_env != null) {
+                foreach (var key in system_env.get_members ())
+                    options.inherited_environment[key] = new LutrisInheritedEnvironmentValue (
+                        system_env.get_string_member (key), false);
+            }
+            if (runner_env != null) {
+                foreach (var key in runner_env.get_members ())
+                    options.inherited_environment[key] = new LutrisInheritedEnvironmentValue (
+                        runner_env.get_string_member (key), true);
+            }
+        }
+
+        private static Json.Object? read_environment_mapping (LutrisYaml yaml) {
             var mapping = yaml.get_environment ();
             if (mapping == null)
                 return null;
@@ -581,7 +620,13 @@ namespace ProtonPlus.Services {
             } catch (Error error) {
                 return null;
             }
-            var object = parser.get_root ().get_object ();
+            return parser.get_root ().get_object ();
+        }
+
+        private static string? read_environment (LutrisYaml yaml) {
+            var object = read_environment_mapping (yaml);
+            if (object == null)
+                return null;
             var text = new StringBuilder ();
             foreach (var name in object.get_members ()) {
                 var value = object.get_string_member (name);

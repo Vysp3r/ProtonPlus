@@ -7,11 +7,15 @@ namespace ProtonPlus.Widgets.Games {
 
         public Gtk.Entry variable_name { get; private set; }
         public Gtk.Entry variable_value { get; private set; }
+        private Gtk.Label overlap_note = new Gtk.Label (null) {
+            xalign = 0, wrap = true, visible = false, css_classes = { "dim-label" }
+        };
 
         public LutrisEnvironmentRow (string key, string value) {
-            var fields = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6) {
+            var content = new Gtk.Box (Gtk.Orientation.VERTICAL, 4) {
                 margin_start = 12, margin_end = 12, margin_top = 6, margin_bottom = 6
             };
+            var fields = new Gtk.Box (Gtk.Orientation.HORIZONTAL, 6);
             variable_name = make_field (_("Name"), key);
             variable_value = make_field (_("Value"), value);
             var remove_button = new Gtk.Button.from_icon_name ("user-trash-symbolic") {
@@ -23,11 +27,18 @@ namespace ProtonPlus.Widgets.Games {
             fields.append (variable_name);
             fields.append (variable_value);
             fields.append (remove_button);
-            child = fields;
+            content.append (fields);
+            content.append (overlap_note);
+            child = content;
             activatable = false;
             selectable = false;
             variable_name.changed.connect (() => changed ());
             variable_value.changed.connect (() => changed ());
+        }
+
+        public void set_overlap_note (string? note) {
+            overlap_note.label = note ?? "";
+            overlap_note.visible = note != null;
         }
 
         private static Gtk.Entry make_field (string label, string value) {
@@ -56,8 +67,16 @@ namespace ProtonPlus.Widgets.Games {
             subtitle = _("In Lutris, set Output debugging info to Inherit from environment to use this value."),
             visible = false
         };
+        private Adw.ActionRow inheritance_unavailable = new Adw.ActionRow () {
+            title = _("Some inherited values could not be read."),
+            visible = false
+        };
         private Gee.ArrayList<LutrisEnvironmentRow> rows = new Gee.ArrayList<LutrisEnvironmentRow> ();
+        private Gee.ArrayList<Adw.ActionRow> inherited_rows = new Gee.ArrayList<Adw.ActionRow> ();
+        private Gee.HashSet<string> unknown_inheritance = new Gee.HashSet<string> ();
         private LaunchCommandCapabilityContext? browser_context;
+        private Models.CompatibilityToolRuntimeKind runner_kind;
+        private bool dxvk_enabled;
         private uint load_generation;
         public string? validation_error { get; private set; }
         public bool can_clear { get { return visible && !rows.is_empty; } }
@@ -65,6 +84,7 @@ namespace ProtonPlus.Widgets.Games {
         public LutrisEnvironmentEditor () {
             Object (title: _("Environment variables"), subtitle: _("Removing an override restores any inherited value."));
             add_row (dxvk_hint);
+            add_row (inheritance_unavailable);
             browse_button.update_property (Gtk.AccessibleProperty.LABEL, browse_button.tooltip_text, -1);
             browse_button.clicked.connect (browse);
             add_suffix (browse_button);
@@ -78,19 +98,81 @@ namespace ProtonPlus.Widgets.Games {
             add_suffix (add_button);
         }
 
-        public void load (string? source, bool preserve_expansion) {
+        public void load (Services.LutrisGameOptions options, bool preserve_expansion) {
             load_generation++;
             remove_variables ();
+            foreach (var row in inherited_rows)
+                remove (row);
+            inherited_rows.clear ();
+            unknown_inheritance.clear ();
+            var source = options.environment;
             visible = source != null;
             if (!preserve_expansion)
                 expanded = false;
             if (source != null && source != "") {
                 foreach (var line in source.split ("\n")) {
                     var separator = line.index_of_char ('=');
-                    append_variable (line.substring (0, separator), line.substring (separator + 1));
+                    var key = line.substring (0, separator);
+                    append_variable (key, line.substring (separator + 1));
+                    var inherited = options.get_inherited_environment (key);
+                    if (inherited != null)
+                        append_inherited_row (key, inherited);
+                    else if (!options.environment_inheritance_complete)
+                        unknown_inheritance.add (key);
                 }
             }
             refresh ();
+        }
+
+        private void append_inherited_row (string key, Services.LutrisInheritedEnvironmentValue inherited) {
+            var value = inherited.value == "" ? _("Empty value") : inherited.value;
+            var row = new Adw.ActionRow () {
+                title = key,
+                subtitle = inherited.from_wine_runner ? _("Inherited from the Wine runner\n%s").printf (value) :
+                    _("Inherited from Lutris global settings\n%s").printf (value),
+                subtitle_lines = 2,
+                tooltip_text = value,
+                use_markup = false,
+                selectable = false,
+                visible = false
+            };
+            inherited_rows.add (row);
+            add_row (row);
+        }
+
+        public void set_runner_context (Models.CompatibilityToolRuntimeKind kind, bool use_dxvk) {
+            runner_kind = kind;
+            dxvk_enabled = use_dxvk;
+            foreach (var row in rows)
+                row.set_overlap_note (overlap_note_for (row.variable_name.text));
+        }
+
+        private string? overlap_note_for (string key) {
+            if (key == "MANGOHUD")
+                return _("Setting this to 1 can enable MangoHud for Vulkan even when the MangoHud switch is off.");
+            var proton = runner_kind == Models.CompatibilityToolRuntimeKind.PROTON;
+            if (!proton && runner_kind != Models.CompatibilityToolRuntimeKind.WINE)
+                return null;
+            switch (key) {
+                case "WINEESYNC":
+                    return _("This value takes precedence over the Lutris Esync setting for Wine.");
+                case "WINEFSYNC":
+                    return _("This value takes precedence over the Lutris Fsync setting for Wine.");
+                case "PROTON_NO_ESYNC":
+                    return proton ? _("This value takes precedence over the Lutris Esync setting for Proton.") : null;
+                case "PROTON_NO_FSYNC":
+                    return proton ? _("This value takes precedence over the Lutris Fsync setting for Proton.") : null;
+                case "PROTON_USE_WINED3D":
+                    if (proton)
+                        return dxvk_enabled ?
+                            _("Setting this to 1 makes Proton use WineD3D. Lutris also sets it to 1 when Vulkan is unavailable.") :
+                            _("Lutris sets this to 1 when DXVK is off.");
+                    return null;
+                case "PROTON_DXVK_D3D8":
+                    return proton ? _("This value controls Proton’s DXVK support for Direct3D 8.") : null;
+                default:
+                    return null;
+            }
         }
 
         public void set_browser_context (LaunchCommandCapabilityContext? context) {
@@ -135,6 +217,8 @@ namespace ProtonPlus.Widgets.Games {
         public void clear_variables () {
             remove_variables ();
             refresh ();
+            if (!inherited_rows.is_empty || inheritance_unavailable.visible)
+                expanded = true;
         }
 
         public string serialize () {
@@ -182,6 +266,7 @@ namespace ProtonPlus.Widgets.Games {
             var names = new Gee.HashSet<string> ();
             foreach (var row in rows) {
                 var key = row.variable_name.text;
+                row.set_overlap_note (overlap_note_for (key));
                 var valid = Services.LutrisConfigurationService.valid_env_name (key);
                 var duplicate = valid && !names.add (key);
                 var value = row.variable_value.text;
@@ -196,6 +281,9 @@ namespace ProtonPlus.Widgets.Games {
                 }
             }
             dxvk_hint.visible = contains_variable ("DXVK_LOG_LEVEL");
+            foreach (var row in inherited_rows)
+                row.visible = !names.contains (row.title);
+            inheritance_unavailable.visible = unknown_inheritance.any_match ((key) => !names.contains (key));
             variables_changed ();
         }
     }

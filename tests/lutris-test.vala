@@ -552,11 +552,14 @@ namespace AppTests.LutrisTest {
         var fixture = new Fixture ();
         try {
             fixture.add (7, "Game", "wine", "one");
-            FileUtils.set_contents (Path.build_filename (fixture.data, "system.yml"),
-                "system: {prefix_command: gamemoderun, mangohud: false, disable_runtime: true}\n");
+            var system_defaults = Path.build_filename (fixture.data, "system.yml");
+            var global_config = "system: {prefix_command: gamemoderun, mangohud: false, disable_runtime: true, " +
+                "env: {EMPTY: global, TOKEN: 'a=b # global'}}\n";
+            FileUtils.set_contents (system_defaults, global_config);
             var defaults = Path.build_filename (fixture.data, "runners", "wine.yml");
             assert (DirUtils.create_with_parents (Path.get_dirname (defaults), 0700) == 0);
-            FileUtils.set_contents (defaults, "system: {mangohud: true}\n");
+            var runner_config = "system: {mangohud: true, env: {EMPTY: ''}}\n";
+            FileUtils.set_contents (defaults, runner_config);
             var original = """
                 # Game comment
                 wine: {version: wine-test, vkd3d: false, esync: true}
@@ -575,6 +578,12 @@ namespace AppTests.LutrisTest {
             assert (game.game_options.command_prefix == null);
             assert (game.game_options.inherited_prefix == "gamemoderun");
             assert (game.game_options.environment == "EMPTY=\nTOKEN=a=b");
+            assert (game.game_options.environment_inheritance_complete);
+            var inherited = game.game_options.get_inherited_environment ("EMPTY");
+            assert (inherited != null && inherited.value == "" && inherited.from_wine_runner);
+            inherited = game.game_options.get_inherited_environment ("TOKEN");
+            assert (inherited != null && inherited.value == "a=b # global" && !inherited.from_wine_runner);
+            assert (game.game_options.get_inherited_environment ("UNKNOWN") == null);
             assert (game.game_options.get_toggle ("vkd3d") == "false");
             assert (game.game_options.get_inherited_toggle ("mangohud") == "true");
             assert (game.game_options.get_inherited_toggle ("gamemode") == "false");
@@ -627,6 +636,22 @@ namespace AppTests.LutrisTest {
             assert (game.game_options.environment == "");
             assert (game.game_options.command_prefix == null);
             assert (game.game_options.get_toggle ("mangohud") == null);
+            FileUtils.get_contents (system_defaults, out persisted);
+            assert (persisted == global_config);
+            FileUtils.get_contents (defaults, out persisted);
+            assert (persisted == runner_config);
+
+            FileUtils.set_contents (system_defaults, "system: {env: [unsupported]}\n");
+            assert (choices (game) != null);
+            assert (!game.game_options.environment_inheritance_complete);
+            inherited = game.game_options.get_inherited_environment ("EMPTY");
+            assert (inherited != null && inherited.from_wine_runner);
+
+            FileUtils.set_contents (system_defaults, global_config);
+            FileUtils.set_contents (defaults, "system: {env: [unsupported]}\n");
+            assert (choices (game) != null);
+            assert (!game.game_options.environment_inheritance_complete);
+            assert (game.game_options.get_inherited_environment ("TOKEN") == null);
         } finally {
             fixture.close ();
         }
