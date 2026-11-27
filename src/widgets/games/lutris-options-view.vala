@@ -6,6 +6,8 @@ namespace ProtonPlus.Widgets.Games {
         public signal void changed ();
 
         private Adw.PreferencesGroup runner_group = new Adw.PreferencesGroup () { title = _("Runner options") };
+        private CompatibilityToolRow? version_row;
+        private Adw.ActionRow repair_row;
         private Adw.PreferencesGroup system_group = new Adw.PreferencesGroup () { title = _("System options") };
         private Adw.SwitchRow prefix_override = new Adw.SwitchRow () {
             title = _("Override command prefix"), use_markup = false
@@ -26,8 +28,9 @@ namespace ProtonPlus.Widgets.Games {
             new Gee.HashMap<LutrisGraphicsVersions, Adw.ComboRow> ();
         private LutrisGameOptions? baseline;
 
-        public LutrisOptionsView () {
+        public LutrisOptionsView (Adw.ActionRow repair_row) {
             Object (orientation: Gtk.Orientation.VERTICAL, spacing: 12);
+            this.repair_row = repair_row;
             append (runner_group);
             append (system_group);
             system_group.add (prefix_override);
@@ -42,6 +45,18 @@ namespace ProtonPlus.Widgets.Games {
             environment.variables_changed.connect (() => changed ());
         }
 
+        public void set_version_row (CompatibilityToolRow? row) {
+            if (version_row != null) {
+                runner_group.remove (version_row);
+                runner_group.remove (repair_row);
+            }
+            version_row = row;
+            if (row != null) {
+                runner_group.add (row);
+                runner_group.add (repair_row);
+            }
+        }
+
         public void load (Models.Games.Lutris? game, bool preserve_expansion = false) {
             foreach (var row in toggles.values)
                 runner_group.remove (row);
@@ -54,9 +69,11 @@ namespace ProtonPlus.Widgets.Games {
             system_toggles.clear ();
 
             baseline = game?.game_options;
-            visible = baseline != null;
-            if (baseline == null)
+            visible = game != null;
+            if (baseline == null) {
+                system_group.visible = false;
                 return;
+            }
             foreach (var key in LutrisGameOptions.toggle_keys ()) {
                 if (baseline.has_toggle (key))
                     toggles.set (key, add_toggle (runner_group, key));
@@ -166,17 +183,13 @@ namespace ProtonPlus.Widgets.Games {
         public void set_runner_kind (Models.CompatibilityToolRuntimeKind kind) {
             var wine = kind == Models.CompatibilityToolRuntimeKind.WINE;
             var proton = kind == Models.CompatibilityToolRuntimeKind.PROTON;
-            var has_visible_runner_options = false;
             foreach (var entry in toggles.entries) {
                 entry.value.visible = wine || (proton && entry.key != "vkd3d");
-                has_visible_runner_options |= entry.value.visible;
             }
             foreach (var entry in versions.entries) {
                 var enabled = graphics_enabled (entry.key.component, entry.key.enabled);
                 entry.value.visible = wine && enabled;
-                has_visible_runner_options |= entry.value.visible;
             }
-            runner_group.visible = has_visible_runner_options;
             if (baseline == null || (!wine && !proton)) {
                 environment.set_browser_context (null);
                 return;

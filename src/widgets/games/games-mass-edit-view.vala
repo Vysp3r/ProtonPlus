@@ -91,8 +91,7 @@ namespace ProtonPlus.Widgets.Games {
             lutris_repair_row = new Adw.ActionRow () { visible = false, use_markup = false };
             lutris_repair_row.add_suffix (lutris_repair_button);
             lutris_repair_row.activatable_widget = lutris_repair_button;
-            compatibility_tool_group.add (lutris_repair_row);
-            lutris_options = new LutrisOptionsView () { visible = false };
+            lutris_options = new LutrisOptionsView (lutris_repair_row) { visible = false };
             content_box.append (lutris_options);
             lutris_options.changed.connect (refresh);
             batch_scope = new Gtk.Label (null) {
@@ -202,8 +201,9 @@ namespace ProtonPlus.Widgets.Games {
                     all_steam_linux_runtime_compatible = false;
             }
 
-            if (compatibility_tool_row != null)
+            if (compatibility_tool_row != null && lutris_game == null)
                 compatibility_tool_group.remove (compatibility_tool_row);
+            lutris_game = single_game as Models.Games.Lutris;
 
             var compatibility_tools = new Gee.ArrayList<Models.CompatibilityTool> ();
             compatibility_tools_by_id.clear ();
@@ -254,9 +254,11 @@ namespace ProtonPlus.Widgets.Games {
             }
 
             compatibility_tool_row = new CompatibilityToolRow (filtered_model, expression);
-            if (single_game is Models.Games.Lutris)
+            if (lutris_game != null)
                 compatibility_tool_row.use_markup = false;
-            compatibility_tool_group.add (compatibility_tool_row);
+            else
+                compatibility_tool_group.add (compatibility_tool_row);
+            lutris_options.set_version_row (lutris_game != null ? compatibility_tool_row : null);
 
             if (items.length == 1) {
                 var game = items[0].game;
@@ -271,7 +273,6 @@ namespace ProtonPlus.Widgets.Games {
                 }
             }
             initial_tool_selection = compatibility_tool_row.selected;
-            lutris_game = single_game as Models.Games.Lutris;
             lutris_options.load (lutris_game);
 
             string[] preview_labels = {};
@@ -293,8 +294,8 @@ namespace ProtonPlus.Widgets.Games {
             launch_options_editor.set_text (sources_match ? common_source : "");
             launch_options_editor.set_preview_sources (preview_labels, preview_sources);
 
-            compatibility_tool_group.title = has_steam_launch_options || lutris_game != null
-                ? Markup.escape_text (_("Compatibility tool")) : "";
+            compatibility_tool_group.title = has_steam_launch_options ? Markup.escape_text (_("Compatibility tool")) : "";
+            compatibility_tool_group.visible = lutris_game == null;
             launch_options_editor.visible = has_steam_launch_options;
             launch_options_editor.preview_field.visible = has_steam_launch_options;
             launch_options_editor.preview_field.button.visible = has_steam_launch_options;
