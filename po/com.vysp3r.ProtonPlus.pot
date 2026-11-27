@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-26 18:52-0500\n"
+"POT-Creation-Date: 2026-11-26 21:31-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -160,7 +160,7 @@ msgid "Runner ID"
 msgstr ""
 
 #: src/cli/cli.vala:439 src/cli/cli.vala:887
-#: src/widgets/games/games-mass-edit-view.vala:299
+#: src/widgets/games/games-mass-edit-view.vala:316
 msgid "Version"
 msgstr ""
 
@@ -2633,13 +2633,13 @@ msgstr ""
 
 #: src/models/games/faugus.vala:40 src/models/launchers/proton-autogen.vala:118
 #: src/models/launchers/steam.vala:502
-#: src/widgets/games/games-mass-edit-view.vala:236
+#: src/widgets/games/games-mass-edit-view.vala:249
 #, c-format
 msgid "%s (Unavailable)"
 msgstr ""
 
 #: src/models/games/faugus.vala:46 src/models/games/heroic.vala:31
-#: src/models/games/lutris.vala:44
+#: src/models/games/lutris.vala:50
 #, c-format
 msgid "Inherited (%s)"
 msgstr ""
@@ -2653,41 +2653,41 @@ msgstr ""
 msgid "Inherit Faugus default (%s)"
 msgstr ""
 
-#: src/models/games/heroic.vala:25 src/models/games/lutris.vala:36
+#: src/models/games/heroic.vala:25 src/models/games/lutris.vala:42
 #: src/widgets/games/games-collection.vala:72
-#: src/widgets/games/games-mass-edit-view.vala:209
+#: src/widgets/games/games-mass-edit-view.vala:222
 #: src/widgets/games/games-page.vala:304
 msgid "Native"
 msgstr ""
 
-#: src/models/games/heroic.vala:27 src/models/games/lutris.vala:38
+#: src/models/games/heroic.vala:27 src/models/games/lutris.vala:44
 msgid "Configuration unavailable"
 msgstr ""
 
-#: src/models/games/lutris.vala:42
+#: src/models/games/lutris.vala:48
 #, c-format
 msgid "%s (uses %s)"
 msgstr ""
 
-#: src/models/games/lutris.vala:54 src/services/lutris/lutris-backend.vala:239
+#: src/models/games/lutris.vala:60 src/services/lutris/lutris-backend.vala:239
 msgid "GE-Proton (Latest)"
 msgstr ""
 
-#: src/models/games/lutris.vala:57
+#: src/models/games/lutris.vala:63
 #, c-format
 msgid "Custom (%s)"
 msgstr ""
 
-#: src/models/games/lutris.vala:57
+#: src/models/games/lutris.vala:63
 #: src/widgets/games/launch-options-editor/launch-options-editor-resolution-field.vala:39
 msgid "Custom"
 msgstr ""
 
-#: src/models/games/lutris.vala:63
+#: src/models/games/lutris.vala:69
 msgid "Runner probe failed"
 msgstr ""
 
-#: src/models/games/lutris.vala:66
+#: src/models/games/lutris.vala:72
 #: src/services/installation/download-failure.vala:44
 #: src/services/installation/standard-archive-workflow.vala:493
 #: src/widgets/games/games-collection.vala:26
@@ -2696,14 +2696,35 @@ msgstr ""
 msgid "%s (%s)"
 msgstr ""
 
-#: src/models/games/lutris.vala:93
+#: src/models/games/lutris.vala:79
+#: src/services/lutris/lutris-configuration-service.vala:681
+msgid "Proton requires a compatible 64-bit prefix"
+msgstr ""
+
+#: src/models/games/lutris.vala:82
+msgid "Install umu in the selected Lutris environment."
+msgstr ""
+
+#: src/models/games/lutris.vala:84
+msgid "Lutris can download this pinned release when you launch the game."
+msgstr ""
+
+#: src/models/games/lutris.vala:127
 #, c-format
 msgid "Runner probe failed: %s"
 msgstr ""
 
-#: src/models/games/lutris.vala:108
+#: src/models/games/lutris.vala:144
+#: src/widgets/games/lutris-options-view.vala:113
 #, c-format
 msgid "Inherit Lutris default (%s)"
+msgstr ""
+
+#: src/models/games/lutris.vala:245
+#: src/services/lutris/lutris-configuration-service.vala:621
+msgid ""
+"The Lutris runner assignment or availability changed. Reopen the editor and "
+"try again."
 msgstr ""
 
 #: src/models/launcher.vala:350
@@ -2749,6 +2770,19 @@ msgstr ""
 
 #: src/models/launchers/lutris.vala:75
 msgid "Lutris tool directories changed. Restart ProtonPlus and try again."
+msgstr ""
+
+#: src/models/launchers/lutris.vala:96
+msgid "The selected runner is not a GE-Proton release."
+msgstr ""
+
+#: src/models/launchers/lutris.vala:105
+msgid "The GE-Proton provider is unavailable for this Lutris installation."
+msgstr ""
+
+#: src/models/launchers/lutris.vala:112
+#, c-format
+msgid "GE-Proton release %s could not be found."
 msgstr ""
 
 #: src/models/launchers/proton-autogen.vala:71
@@ -3280,8 +3314,8 @@ msgid "umu is required"
 msgstr ""
 
 #: src/services/lutris/lutris-backend.vala:242
-#: src/services/lutris/lutris-configuration-service.vala:469
-#: src/services/lutris/lutris-configuration-service.vala:471
+#: src/services/lutris/lutris-configuration-service.vala:677
+#: src/services/lutris/lutris-configuration-service.vala:679
 msgid "Runner is missing"
 msgstr ""
 
@@ -3292,19 +3326,19 @@ msgstr ""
 msgid "Lutris uses an unsupported path override for %s."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:140
-#: src/services/lutris/lutris-configuration-service.vala:149
-#: src/services/lutris/lutris-configuration-service.vala:154
-#: src/services/lutris/lutris-configuration-service.vala:371
-#: src/services/lutris/lutris-configuration-service.vala:543
+#: src/services/lutris/lutris-configuration-service.vala:184
+#: src/services/lutris/lutris-configuration-service.vala:193
+#: src/services/lutris/lutris-configuration-service.vala:198
+#: src/services/lutris/lutris-configuration-service.vala:416
+#: src/services/lutris/lutris-configuration-service.vala:835
 msgid "The Lutris game configuration is invalid."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:147
+#: src/services/lutris/lutris-configuration-service.vala:191
 msgid "The Lutris game configuration changed. Reopen the editor and try again."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:191
+#: src/services/lutris/lutris-configuration-service.vala:235
 #, c-format
 msgid ""
 "Could not check Lutris runner usage. Restore access to the Lutris library "
@@ -3312,70 +3346,97 @@ msgid ""
 "%s"
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:425
+#: src/services/lutris/lutris-configuration-service.vala:470
 msgid "Lutris Flatpak"
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:425
+#: src/services/lutris/lutris-configuration-service.vala:470
 msgid "Lutris System"
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:428
+#: src/services/lutris/lutris-configuration-service.vala:473
 #: src/widgets/header/header-downloads-indicator.vala:279
 #: src/widgets/header/header-launchers-button.vala:126
 #, c-format
 msgid "%s · %s"
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:473
-msgid "Proton requires a compatible 64-bit prefix"
+#: src/services/lutris/lutris-configuration-service.vala:581
+#, c-format
+msgid "Enter an environment variable as NAME=value on line %d."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:510
+#: src/services/lutris/lutris-configuration-service.vala:584
+#, c-format
+msgid "Use a valid, unique environment variable name on line %d."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:598
+msgid "The Lutris environment variables could not be saved."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:718
 msgid ""
 "The Lutris game configuration changed or is read-only. Reload the Games list "
 "and try again."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:527
+#: src/services/lutris/lutris-configuration-service.vala:735
 msgid "The Lutris game configuration is read-only."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:530
+#: src/services/lutris/lutris-configuration-service.vala:738
 msgid "Another Lutris configuration change is in progress."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:536
-#: src/widgets/games/games-mass-edit-view.vala:413
+#: src/services/lutris/lutris-configuration-service.vala:747
+#: src/widgets/games/games-mass-edit-view.vala:499
 msgid "This tool is no longer available. Choose a different tool."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:550
+#: src/services/lutris/lutris-configuration-service.vala:752
 msgid "The Lutris runner changed. Reopen the editor and try again."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:573
+#: src/services/lutris/lutris-configuration-service.vala:792
+msgid "The selected runner does not support this Lutris option."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:798
+msgid "DXVK and VKD3D versions can be changed for Wine runners only."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:805
+#, c-format
+msgid "The selected %s version is no longer available."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:823
+msgid "The Lutris system option cannot be edited."
+msgstr ""
+
+#: src/services/lutris/lutris-configuration-service.vala:842
 #, c-format
 msgid "This tool is no longer available. %s."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:585
+#: src/services/lutris/lutris-configuration-service.vala:854
 msgid "Close the selected Lutris installation before saving."
 msgstr ""
 
 #. Native and Flatpak Lutris share a GApplication ID. If the other
 #. client owns it, GLib could hand the game ID to the wrong library.
-#: src/services/lutris/lutris-configuration-service.vala:592
+#: src/services/lutris/lutris-configuration-service.vala:861
 msgid "Close the other Lutris installation before launching this game."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:595
+#: src/services/lutris/lutris-configuration-service.vala:864
 msgid ""
 "The selected Lutris game changed or its ID is no longer unique. Reload the "
 "Games list and try again."
 msgstr ""
 
-#: src/services/lutris/lutris-configuration-service.vala:608
+#: src/services/lutris/lutris-configuration-service.vala:877
 msgid "Could not read the Lutris game database."
 msgstr ""
 
@@ -3889,7 +3950,7 @@ msgid_plural "Modify %d selected games all at once"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/games/games-mass-edit-view.vala:37
+#: src/widgets/games/games-mass-edit-view.vala:41
 #: src/widgets/games/games-page.vala:650
 #, c-format
 msgid "%u game selected"
@@ -3897,49 +3958,86 @@ msgid_plural "%u games selected"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/games/games-mass-edit-view.vala:47
-#: src/widgets/games/games-mass-edit-view.vala:50
+#: src/widgets/games/games-mass-edit-view.vala:51
+#: src/widgets/games/games-mass-edit-view.vala:54
 msgid "Clear Launch Options"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:56
+#: src/widgets/games/games-mass-edit-view.vala:60
 msgid "Reset Changes"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:60
+#: src/widgets/games/games-mass-edit-view.vala:64
 msgid "Apply Changes"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:68
+#: src/widgets/games/games-mass-edit-view.vala:72
 msgid "Change compatibility tool"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:279
+#: src/widgets/games/games-mass-edit-view.vala:89
+#: src/widgets/games/games-mass-edit-view.vala:381
+msgid "Install Exact Version"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:296
 msgid "Compatibility tool"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:290
+#: src/widgets/games/games-mass-edit-view.vala:307
 #, c-format
 msgid "Launch option changes apply to %d game."
 msgid_plural "Launch option changes apply to %d games."
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/widgets/games/games-mass-edit-view.vala:297
+#: src/widgets/games/games-mass-edit-view.vala:314
 msgid "Wine or Proton version"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:318
+#: src/widgets/games/games-mass-edit-view.vala:345
+msgid "Installing…"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:364
+msgid "Could not verify the installed Lutris runner."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:367
+#, c-format
+msgid ""
+"Lutris Flatpak could not use the installed runner. Check that its sandbox "
+"can access %s."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:368
+#, c-format
+msgid ""
+"Lutris could not use the runner installed at %s. Check the configured runner "
+"directory and umu."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:372
+msgid ""
+"The runner was installed. The game's assignment changed while the "
+"installation was in progress."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:377
+msgid "Could Not Repair the Lutris Runner"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:387
 msgid "Convert the Wine prefix?"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:319
+#: src/widgets/games/games-mass-edit-view.vala:388
 msgid ""
 "The next Lutris launch with Proton will convert this existing Wine prefix. "
 "The conversion cannot be undone."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:320
+#: src/widgets/games/games-mass-edit-view.vala:389
 #: src/widgets/header/header-downloads-indicator.vala:423
 #: src/widgets/header/header-downloads-indicator.vala:425
 #: src/widgets/tools/steam-tinker-launch-release-row.vala:125
@@ -3950,24 +4048,29 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:321
+#: src/widgets/games/games-mass-edit-view.vala:390
 msgid "Apply Runner Change"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:348
+#: src/widgets/games/games-mass-edit-view.vala:418
+#, c-format
+msgid "Restore %s"
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:427
 msgid "Choose a compatibility tool."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:352
+#: src/widgets/games/games-mass-edit-view.vala:431
 msgid "Choose an available compatibility tool."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:443
+#: src/widgets/games/games-mass-edit-view.vala:529
 msgid ""
 "The selected launch options are incomplete or unsupported for these games."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:445
+#: src/widgets/games/games-mass-edit-view.vala:531
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:651
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:888
 #: src/widgets/games/launch-options-editor/launch-options-presentation-registry.vala:69
@@ -3976,32 +4079,37 @@ msgstr ""
 msgid "%s — %s"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:446
+#: src/widgets/games/games-mass-edit-view.vala:532
 msgid "Launch options cannot be applied"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:447
+#: src/widgets/games/games-mass-edit-view.vala:533
 msgid ""
 "No games were changed because the launch command could not be prepared "
 "safely."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:475
+#: src/widgets/games/games-mass-edit-view.vala:550
+#: src/widgets/games/games-mass-edit-view.vala:618
 msgid "The change could not be saved."
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:476
+#: src/widgets/games/games-mass-edit-view.vala:551
 msgid "Could Not Change the Runner"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:518
+#: src/widgets/games/games-mass-edit-view.vala:593
 msgid "Batch Update Failed"
 msgstr ""
 
-#: src/widgets/games/games-mass-edit-view.vala:519
+#: src/widgets/games/games-mass-edit-view.vala:594
 msgid ""
 "Some games could not be updated. Their tool or configuration may have "
 "changed or become unavailable."
+msgstr ""
+
+#: src/widgets/games/games-mass-edit-view.vala:620
+msgid "Could Not Save Lutris Settings"
 msgstr ""
 
 #: src/widgets/games/games-page.vala:73 src/widgets/games/games-page.vala:624
@@ -4277,6 +4385,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:45
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:46
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:58
+#: src/widgets/games/lutris-options-view.vala:98
 msgid "Off"
 msgstr ""
 
@@ -4295,6 +4404,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:45
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:46
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:58
+#: src/widgets/games/lutris-options-view.vala:98
 msgid "On"
 msgstr ""
 
@@ -4874,6 +4984,82 @@ msgstr ""
 
 #: src/widgets/games/launch-options-editor/wrappers/scopebuddy.vala:38
 msgid "Add ScopeBuddy arguments"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:7
+msgid "Runner options"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:8
+msgid "System options"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:10
+msgid "Override command prefix"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:12
+msgid "Command prefix"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:13
+msgid "Environment variables"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:37
+msgid ""
+"Enter one NAME=value per line. Removing an override restores any inherited "
+"value."
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:76
+#, c-format
+msgid "Inherited command prefix: %s"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:89
+msgid "Enable DXVK"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:90
+msgid "Enable VKD3D"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:91
+msgid "Enable Esync"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:92
+msgid "Enable Fsync"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:97
+msgid "Inherit"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:97
+msgid "Inherit (On)"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:97
+msgid "Inherit (Off)"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:112
+msgid "Inherit Lutris default"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:122
+#, c-format
+msgid "%s (Current setting)"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:125
+msgid "DXVK version"
+msgstr ""
+
+#: src/widgets/games/lutris-options-view.vala:125
+msgid "VKD3D version"
 msgstr ""
 
 #: src/widgets/header/header-box.vala:41 src/widgets/header/header-box.vala:44

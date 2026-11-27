@@ -18,44 +18,54 @@ namespace ProtonPlus.Providers.Sources {
                 if (object == null)
                     continue;
 
-                if (object.get_boolean_member_with_default ("draft", false) ||
-                    object.get_boolean_member_with_default ("prerelease", false))
-                    continue;
-
-                var tag_name = object.get_string_member_with_default ("tag_name", "");
-                if (!CatalogReleaseBuilder.is_eligible (definition, tag_name))
-                    continue;
-
-                var assets = parse_assets (object);
-                if (assets.size == 0)
-                    continue;
-
-                var variants = CatalogReleaseBuilder.create_variants (
-                    definition, tag_name, tag_name, assets
-                );
-                var primary_asset = CatalogReleaseBuilder.select_default_asset (
-                    assets, variants, definition.has_release_variant_sets
-                );
-                if (primary_asset == null)
-                    continue;
-
-                var release = new Models.Release (
-                    tag_name,
-                    object.get_string_member_with_default ("body", "").strip (),
-                    ReleaseSourceSupport.get_iso8601_date (object, "created_at"),
-                    primary_asset,
-                    object.get_string_member_with_default ("html_url", ""),
-                    primary_asset.download_size,
-                    object.has_member ("id") && object.get_int_member ("id") > 0 ? object.get_int_member ("id").to_string () : "",
-                    tag_name
-                );
-                ReleaseSourceSupport.add_variants (release, variants);
-                releases.add (release);
+                var release = parse_release (definition, object);
+                if (release != null)
+                    releases.add (release);
             }
 
             return Models.Tools.ReleasePageResult.success (
                 new Models.Tools.ReleasePage (releases, requested_page + 1, root_array.get_length () == limit)
             );
+        }
+
+        internal static Models.Release? parse_release (
+            Models.Providers.ProviderDefinition definition,
+            Json.Object object,
+            bool allow_available_variant = false
+        ) {
+            if (object.get_boolean_member_with_default ("draft", false) ||
+                object.get_boolean_member_with_default ("prerelease", false))
+                return null;
+
+            var tag_name = object.get_string_member_with_default ("tag_name", "");
+            if (!CatalogReleaseBuilder.is_eligible (definition, tag_name))
+                return null;
+
+            var assets = parse_assets (object);
+            if (assets.size == 0)
+                return null;
+
+            var variants = CatalogReleaseBuilder.create_variants (
+                definition, tag_name, tag_name, assets
+            );
+            var primary_asset = CatalogReleaseBuilder.select_default_asset (
+                assets, variants, allow_available_variant || definition.has_release_variant_sets
+            );
+            if (primary_asset == null)
+                return null;
+
+            var release = new Models.Release (
+                tag_name,
+                object.get_string_member_with_default ("body", "").strip (),
+                ReleaseSourceSupport.get_iso8601_date (object, "created_at"),
+                primary_asset,
+                object.get_string_member_with_default ("html_url", ""),
+                primary_asset.download_size,
+                object.has_member ("id") && object.get_int_member ("id") > 0 ? object.get_int_member ("id").to_string () : "",
+                tag_name
+            );
+            ReleaseSourceSupport.add_variants (release, variants);
+            return release;
         }
 
         private static LinkedList<Models.Assets.Asset> parse_assets (Json.Object release) {

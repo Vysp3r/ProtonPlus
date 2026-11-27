@@ -90,6 +90,41 @@ namespace ProtonPlus.Models.Launchers {
             return yield Utils.Filesystem.create_directory_async (target);
         }
 
+        internal async Services.InstallJob prepare_runner_repair (string version, Cancellable cancellable) throws Error {
+            var tag = Services.LutrisConfigurationService.ge_proton_release_tag (version);
+            if (tag == null)
+                throw new IOError.INVALID_ARGUMENT (_("The selected runner is not a GE-Proton release."));
+            Tools.ProviderTool? provider = null;
+            foreach (var group in groups) {
+                if (group.id == "proton") {
+                    provider = group.tools.first_match ((tool) => tool.provider_id == "proton-ge") as Tools.ProviderTool;
+                    break;
+                }
+            }
+            if (provider == null || provider.release_catalog == null)
+                throw new IOError.NOT_FOUND (_("The GE-Proton provider is unavailable for this Lutris installation."));
+
+            var lookup = yield provider.release_catalog.fetch_release_by_tag (tag, cancellable);
+            cancellable.set_error_if_cancelled ();
+            if (!lookup.succeeded)
+                throw new IOError.FAILED (get_return_code_message (lookup.code));
+            if (!lookup.has_release)
+                throw new IOError.NOT_FOUND (_("GE-Proton release %s could not be found.").printf (tag));
+            var release = lookup.require_release ();
+            var variants = VariantSelector.available_variants (release, Globals.CPU_CAPABILITIES);
+            var variant = variants.first_match ((entry) => version == tag ||
+                version == "%s-%s".printf (tag, entry.name));
+            if (variant == null)
+                throw new IOError.NOT_SUPPORTED (get_return_code_message (ReturnCode.INCOMPATIBLE_VARIANT));
+
+            // The saved ID must resolve on older Lutris releases as well,
+            // where directory names are used literally.
+            var target = Path.build_filename (get_primary_managed_tool_directory (provider.group), version);
+            var job = new Services.InstallJob (release, provider, Services.InstallJob.Mode.VERSIONED, target);
+            job.set_selected_variant (variant.name, variant.asset, variant.id);
+            return job;
+        }
+
         public override async bool load_game_library () {
             Gee.List<Services.LutrisGameRecord>? records = null;
             Gee.List<CompatibilityTool>? choices = null;

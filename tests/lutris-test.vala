@@ -468,6 +468,191 @@ namespace AppTests.LutrisTest {
         }
     }
 
+    private bool save_options (Games.Lutris game, bool change_runner, Gee.Map<string, string?>? edits,
+        Gee.Map<string, string?>? system = null, string runner = "Default") {
+        var loop = new MainLoop ();
+        bool saved = false;
+        game.save_settings.begin (change_runner, runner, edits, null, null, system, (source, result) => {
+            saved = game.save_settings.end (result);
+            loop.quit ();
+        });
+        loop.run ();
+        if (!saved && game.compatibility_edit_error != null)
+            Test.message ("%s", game.compatibility_edit_error);
+        return saved;
+    }
+
+    private void graphics_settings () throws Error {
+        var fixture = new Fixture (true);
+        try {
+            fixture.add (7, "Game", "wine", "one");
+            var runtime = Path.build_filename (fixture.home, "Custom Runtime");
+            FileUtils.set_contents (Path.build_filename (fixture.data, "lutris.conf"),
+                "[lutris]\nruntime_dir = %s\n".printf (runtime));
+            var dxvk = Path.build_filename (runtime, "dxvk");
+            assert (DirUtils.create_with_parents (Path.build_filename (dxvk, "dxvk-2.7"), 0700) == 0);
+            assert (DirUtils.create_with_parents (Path.build_filename (dxvk, "dxvk-2.7 Backup"), 0700) == 0);
+            assert (Posix.symlink (fixture.home, Path.build_filename (dxvk, "link")) == 0);
+            var vkd3d = Path.build_filename (runtime, "vkd3d", "vkd3d-proton-3.0");
+            assert (DirUtils.create_with_parents (vkd3d, 0700) == 0);
+            var defaults = Path.build_filename (fixture.data, "runners", "wine.yml");
+            assert (DirUtils.create_with_parents (Path.get_dirname (defaults), 0700) == 0);
+            FileUtils.set_contents (defaults, "wine: {version: wine-test, dxvk_version: \"v2.6\"}\n");
+            var original = "# Game settings\nwine: {version: proton-test, esync: true} # Runner choices\n";
+            FileUtils.set_contents (fixture.profile, original);
+            var launcher = new Launchers.Lutris (Launcher.InstallationTypes.FLATPAK, fixture.service);
+            assert (load (launcher));
+            var game = (Games.Lutris) launcher.games.nth_data (0);
+            assert (choices (game) != null);
+            var options = game.graphics_versions;
+            assert (options.size == 2 && options[0].inherited == "v2.6");
+            assert (options[0].versions.size == 1 && options[0].versions[0] == "dxvk-2.7");
+            assert (options[1].versions.size == 1 && options[1].versions[0] == "vkd3d-proton-3.0");
+            var edits = new Gee.HashMap<string, string?> ();
+            edits.set ("dxvk_version", "dxvk-2.7");
+            edits.set ("vkd3d_version", "missing");
+            assert (!save_options (game, true, edits));
+            string saved;
+            FileUtils.get_contents (fixture.profile, out saved);
+            assert (saved == original);
+
+            edits.set ("vkd3d_version", "vkd3d-proton-3.0");
+            assert (!save_options (game, false, edits));
+            fixture.backend.flatpak_closed = false;
+            assert (!save_options (game, true, edits));
+            fixture.backend.flatpak_closed = true;
+            assert (save_options (game, true, edits));
+            assert (game.compatibility_tool == "Default");
+            assert (choices (game) != null);
+            assert (game.graphics_versions[0].saved == "dxvk-2.7");
+            assert (game.graphics_versions[1].saved == "vkd3d-proton-3.0");
+            FileUtils.get_contents (fixture.profile, out saved);
+            assert (saved.has_prefix ("# Game settings\n"));
+            assert (saved.contains ("esync: true} # Runner choices"));
+
+            edits.set ("dxvk_version", null);
+            edits.set ("vkd3d_version", null);
+            assert (save_options (game, false, edits));
+            FileUtils.get_contents (fixture.profile, out saved);
+            assert (saved == "# Game settings\nwine: {esync: true} # Runner choices\n");
+        } finally {
+            fixture.close ();
+        }
+    }
+
+    private void common_options () throws Error {
+        var fixture = new Fixture ();
+        try {
+            fixture.add (7, "Game", "wine", "one");
+            FileUtils.set_contents (Path.build_filename (fixture.data, "system.yml"),
+                "system: {prefix_command: gamemoderun}\n");
+            var original = """
+                # Game comment
+                wine: {version: wine-test, vkd3d: false, esync: true}
+                system:
+                  env:
+                    EMPTY: ""
+                    TOKEN: "a=b"
+                  # Keep this system option
+                  terminal: true
+                """;
+            FileUtils.set_contents (fixture.profile, original);
+            var launcher = new Launchers.Lutris (Launcher.InstallationTypes.SYSTEM, fixture.service);
+            assert (load (launcher));
+            var game = (Games.Lutris) launcher.games.nth_data (0);
+            assert (choices (game) != null);
+            assert (game.game_options.command_prefix == null);
+            assert (game.game_options.inherited_prefix == "gamemoderun");
+            assert (game.game_options.environment == "EMPTY=\nTOKEN=a=b");
+            assert (game.game_options.get_toggle ("vkd3d") == "false");
+
+            var runner = new Gee.HashMap<string, string?> ();
+            var system = new Gee.HashMap<string, string?> ();
+            runner.set ("dxvk", "false");
+            runner.set ("vkd3d", "true");
+            system.set ("env", "TOKEN=one\nTOKEN=two");
+            assert (!save_options (game, true, runner, system, "proton-test"));
+            runner.unset ("vkd3d");
+            assert (!save_options (game, true, runner, system, "proton-test"));
+            string persisted;
+            FileUtils.get_contents (fixture.profile, out persisted);
+            assert (persisted == original);
+
+            runner.set ("esync", null);
+            runner.set ("fsync", "true");
+            system.set ("env", "EMPTY=\nTOKEN=a=b # literal\nNUMBER=007");
+            system.set ("prefix_command", "");
+            assert (save_options (game, true, runner, system, "proton-test"));
+            assert (choices (game) != null);
+            assert (game.game_options.get_toggle ("vkd3d") == "false");
+            assert (game.game_options.get_toggle ("dxvk") == "false");
+            assert (game.game_options.get_toggle ("esync") == null);
+            assert (game.game_options.get_toggle ("fsync") == "true");
+            assert (game.game_options.environment == "EMPTY=\nTOKEN=a=b # literal\nNUMBER=007");
+            assert (game.game_options.command_prefix == "");
+            FileUtils.get_contents (fixture.profile, out persisted);
+            assert (persisted.contains ("# Game comment"));
+            assert (persisted.contains ("# Keep this system option"));
+            assert (persisted.contains ("terminal: true"));
+
+            system.set ("env", "");
+            system.set ("prefix_command", null);
+            assert (save_options (game, false, null, system));
+            assert (choices (game) != null);
+            assert (game.game_options.environment == "");
+            assert (game.game_options.command_prefix == null);
+        } finally {
+            fixture.close ();
+        }
+    }
+
+    private bool validate_repair (Games.Lutris game, string version) {
+        var loop = new MainLoop ();
+        bool valid = false;
+        game.validate_runner_repair.begin (version, (source, result) => {
+            try {
+                game.validate_runner_repair.end (result);
+                valid = true;
+            } catch (Error error) {
+                Test.message ("%s", error.message);
+            }
+            loop.quit ();
+        });
+        loop.run ();
+        return valid;
+    }
+
+    private void runner_repair () throws Error {
+        var fixture = new Fixture ();
+        try {
+            fixture.add (7, "Game", "wine", "one");
+            var version = "GE-Proton11-7-x86_64";
+            FileUtils.set_contents (fixture.profile, "wine: {version: %s}\n".printf (version));
+            var launcher = new Launchers.Lutris (Launcher.InstallationTypes.SYSTEM, fixture.service);
+            assert (load (launcher));
+            var game = (Games.Lutris) launcher.games.nth_data (0);
+            assert (choices (game) != null);
+            assert (game.repairable_runner == version);
+            var definition = new ProtonPlus.Models.Providers.ProviderRegistry ().get_by_id ("proton-ge");
+            var response = """{"tag_name":"GE-Proton11-7","assets":[
+                {"name":"GE-Proton11-7-aarch64.tar.gz","browser_download_url":"https://example.test/arm.tar.gz"}]}""";
+            var lookup = ProtonPlus.Providers.Sources.GitHubReleaseSource.parse_tag (definition, "GE-Proton11-7", response);
+            assert (lookup.has_release);
+            assert (lookup.require_release ().variants.any_match ((variant) =>
+                variant.id == "aarch64" && variant.download_url != null));
+            assert (!ProtonPlus.Providers.Sources.GitHubReleaseSource.parse_tag (definition, "GE-Proton11-8", response).has_release);
+            assert (validate_repair (game, version));
+            assert (!validate_repair (game, "GE-Proton11-8"));
+            fixture.backend.latest_available = false;
+            assert (!validate_repair (game, version));
+            fixture.backend.latest_available = true;
+            FileUtils.set_contents (fixture.profile, "wine: {version: wine-test}\n");
+            assert (!validate_repair (game, version));
+        } finally {
+            fixture.close ();
+        }
+    }
+
     private class EmptyProcessBackend : Object, CompatibilityProcessQueryBackend {
         public async CompatibilityProcessInspectionResult inspect_processes () {
             return CompatibilityProcessInspectionResult.clear ();
@@ -767,6 +952,27 @@ def get_wine_path_for_version(version):
     }
 
     public void register_tests () {
+        Test.add_func ("/lutris/graphics-settings", () => {
+            try {
+                graphics_settings ();
+            } catch (Error error) {
+                GLib.error ("%s", error.message);
+            }
+        });
+        Test.add_func ("/lutris/runner-repair", () => {
+            try {
+                runner_repair ();
+            } catch (Error error) {
+                GLib.error ("%s", error.message);
+            }
+        });
+        Test.add_func ("/lutris/common-options", () => {
+            try {
+                common_options ();
+            } catch (Error error) {
+                GLib.error ("%s", error.message);
+            }
+        });
         Test.add_func ("/lutris/shared-steam-storage", () => {
             try {
                 shared_tool_ownership ();

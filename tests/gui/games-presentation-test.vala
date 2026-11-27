@@ -1094,6 +1094,7 @@ class PresentationLutrisBackend : Object, Services.LutrisBackend {
     public Gee.List<Models.CompatibilityTool> get_runners (bool flatpak, string? custom_path) {
         var tools = new Gee.ArrayList<Models.CompatibilityTool> ();
         tools.add (new Models.CompatibilityTool ("Fixture Wine", "wine-fixture", "", Models.CompatibilityToolRuntimeKind.WINE));
+        tools.add (new Models.CompatibilityTool ("Fixture Proton", "proton-fixture", "", Models.CompatibilityToolRuntimeKind.PROTON));
         return tools;
     }
 
@@ -1187,19 +1188,43 @@ void check_lutris_library_states (string root) throws Error {
     wait_for_layout (() => page.get_header_presentation () != null);
     var choice = find_widget (page, (widget) => widget is CompatibilityToolRow && widget.get_mapped ()) as CompatibilityToolRow;
     assert (choice != null && choice.title == "Wine or Proton version");
-    assert (choice.model.get_n_items () == 3);
+    assert (choice.model.get_n_items () == 4);
     assert (((Models.CompatibilityTool) choice.get_selected_item ()).internal_title == "missing");
-    assert (find_widget (page, (widget) => widget is Adw.SwitchRow && widget.get_mapped ()) == null);
+    assert (find_widget (page, (widget) => widget is Adw.SwitchRow && widget.get_mapped () &&
+        ((Adw.SwitchRow) widget).title == "Change compatibility tool") == null);
+    assert (find_widget (page, (widget) => widget is Adw.SwitchRow && widget.get_mapped () &&
+        ((Adw.SwitchRow) widget).title == "Override command prefix") != null);
     var presentation = page.get_header_presentation ();
     var apply = find_widget (presentation.end_actions[0], (widget) => widget is Gtk.Button &&
         ((Gtk.Button) widget).label == "Apply Changes") as Gtk.Button;
     assert (apply != null && !apply.sensitive);
+    uint wine = Gtk.INVALID_LIST_POSITION;
+    uint proton = Gtk.INVALID_LIST_POSITION;
     for (uint i = 0; i < choice.model.get_n_items (); i++) {
-        if (((Models.CompatibilityTool) choice.model.get_item (i)).internal_title == "wine-fixture") {
-            choice.selected = i;
-            break;
-        }
+        var id = ((Models.CompatibilityTool) choice.model.get_item (i)).internal_title;
+        if (id == "wine-fixture")
+            wine = i;
+        else if (id == "proton-fixture")
+            proton = i;
     }
+    assert (wine != Gtk.INVALID_LIST_POSITION && proton != Gtk.INVALID_LIST_POSITION);
+    choice.selected = wine;
+    var dxvk = find_widget (page, (widget) => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "Enable DXVK") as Adw.ComboRow;
+    var vkd3d = find_widget (page, (widget) => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "Enable VKD3D") as Adw.ComboRow;
+    var dxvk_version = find_widget (page, (widget) => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "DXVK version");
+    var environment = find_widget (page, (widget) => widget is Adw.ExpanderRow &&
+        ((Adw.ExpanderRow) widget).title == "Environment variables");
+    assert (dxvk.visible && vkd3d.visible && !dxvk_version.visible && environment.visible);
+    dxvk.selected = 1;
+    assert (dxvk_version.visible);
+    choice.selected = proton;
+    assert (dxvk.visible && !vkd3d.visible && !dxvk_version.visible && environment.visible);
+    choice.selected = wine;
+    assert (vkd3d.visible && dxvk_version.visible);
+    dxvk.selected = 2;
     assert (apply.sensitive);
     apply.clicked ();
     wait_for_layout (() => page.get_header_presentation () == null);
@@ -1649,6 +1674,15 @@ int main (string[] args) {
         root = DirUtils.make_tmp ("protonplus-games-presentation-XXXXXX");
     } catch (Error e) {
         error ("%s", e.message);
+    }
+    if ("--lutris" in args) {
+        try {
+            check_lutris_library_states (root);
+        } catch (Error error) {
+            GLib.error ("%s", error.message);
+        }
+        assert (DirUtils.remove (root) == 0);
+        return 0;
     }
     check_binding_selection_and_activation (root);
     check_pending_focus_cleanup (root);

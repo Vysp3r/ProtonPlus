@@ -17,6 +17,10 @@ namespace ProtonPlus.Widgets.Games {
         Gtk.ScrolledWindow scrolled_window { get; set; }
         CompatibilityToolRow compatibility_tool_row { get; set; }
         Adw.PreferencesGroup compatibility_tool_group { get; set; }
+        LutrisOptionsView lutris_options;
+        Adw.ActionRow lutris_repair_row;
+        Gtk.Button lutris_repair_button;
+        Models.Games.Lutris? lutris_game;
         Adw.SwitchRow compatibility_tool_apply_row { get; set; }
         LaunchOptionsEditor.Box launch_options_editor { get; set; }
         Gtk.Box content_box { get; set; }
@@ -82,6 +86,15 @@ namespace ProtonPlus.Widgets.Games {
 
             content_box = new Gtk.Box (Gtk.Orientation.VERTICAL, 12);
             content_box.append (compatibility_tool_group);
+            lutris_repair_button = new Gtk.Button.with_label (_("Install Exact Version")) { valign = Gtk.Align.CENTER };
+            lutris_repair_button.clicked.connect (() => repair_lutris_runner.begin ());
+            lutris_repair_row = new Adw.ActionRow () { visible = false, use_markup = false };
+            lutris_repair_row.add_suffix (lutris_repair_button);
+            lutris_repair_row.activatable_widget = lutris_repair_button;
+            compatibility_tool_group.add (lutris_repair_row);
+            lutris_options = new LutrisOptionsView () { visible = false };
+            content_box.append (lutris_options);
+            lutris_options.changed.connect (refresh);
             batch_scope = new Gtk.Label (null) {
                 xalign = 0, wrap = true, css_classes = { "dim-label" }
             };
@@ -241,6 +254,8 @@ namespace ProtonPlus.Widgets.Games {
             }
 
             compatibility_tool_row = new CompatibilityToolRow (filtered_model, expression);
+            if (single_game is Models.Games.Lutris)
+                compatibility_tool_row.use_markup = false;
             compatibility_tool_group.add (compatibility_tool_row);
 
             if (items.length == 1) {
@@ -256,6 +271,8 @@ namespace ProtonPlus.Widgets.Games {
                 }
             }
             initial_tool_selection = compatibility_tool_row.selected;
+            lutris_game = single_game as Models.Games.Lutris;
+            lutris_options.load (lutris_game);
 
             string[] preview_labels = {};
             string[] preview_sources = {};
@@ -314,6 +331,58 @@ namespace ProtonPlus.Widgets.Games {
             refresh_capability_context ();
         }
 
+        private async void repair_lutris_runner () {
+            var game = lutris_game;
+            var version = game?.repairable_runner;
+            if (game == null || version == null || apply_request != null)
+                return;
+            var launcher = (Models.Launchers.Lutris) game.launcher;
+            var item = items[0];
+            var generation = load_generation;
+            var request = new Cancellable ();
+            apply_request = request;
+            content_box.sensitive = false;
+            lutris_repair_button.label = _("Installing…");
+            refresh ();
+            try {
+                var job = yield launcher.prepare_runner_repair (version, request);
+                request.set_error_if_cancelled ();
+                yield game.validate_runner_repair (version);
+                request.set_error_if_cancelled ();
+                var cancellation_handler = request.cancelled.connect (() => job.canceled = true);
+                var result = yield job.install ();
+                request.disconnect (cancellation_handler);
+                request.set_error_if_cancelled ();
+                if (result != ReturnCode.RUNNER_INSTALLED && result != ReturnCode.RUNNER_ALREADY_INSTALLED)
+                    throw new IOError.FAILED (job.error_message ?? get_return_code_message (result));
+                var choices = yield game.load_game_tool_choices ();
+                request.set_error_if_cancelled ();
+                if (generation != load_generation || get_root () == null)
+                    return;
+                item.refresh_tool_title ();
+                if (choices == null)
+                    throw new IOError.FAILED (game.compatibility_edit_error ?? _("Could not verify the installed Lutris runner."));
+                if (!game.runner_is_available (version)) {
+                    var message = launcher.installation_type == Models.Launcher.InstallationTypes.FLATPAK
+                        ? _("Lutris Flatpak could not use the installed runner. Check that its sandbox can access %s.")
+                        : _("Lutris could not use the runner installed at %s. Check the configured runner directory and umu.");
+                    throw new IOError.NOT_FOUND (message.printf (job.install_location));
+                }
+                if (!game.uses_runner (version))
+                    throw new IOError.WRONG_ETAG (_("The runner was installed. The game's assignment changed while the installation was in progress."));
+                back_requested ();
+            } catch (Error error) {
+                if (!request.is_cancelled () && generation == load_generation && get_root () != null)
+                    Window.present_dialog_for_controller (new Main.ErrorDialog (
+                        _("Could Not Repair the Lutris Runner"), version, error.message), (Gtk.Window) get_root ());
+            } finally {
+                apply_request = null;
+                content_box.sensitive = true;
+                lutris_repair_button.label = _("Install Exact Version");
+                refresh ();
+            }
+        }
+
         private async bool confirm_lutris_conversion () {
             var dialog = new Adw.AlertDialog (_("Convert the Wine prefix?"),
                 _("The next Lutris launch with Proton will convert this existing Wine prefix. The conversion cannot be undone."));
@@ -342,6 +411,16 @@ namespace ProtonPlus.Widgets.Games {
         void refresh () {
             var selected_tool = compatibility_tool_row?.get_selected_item () as Models.CompatibilityTool;
             var tool_enabled = should_change_tool (selected_tool);
+            var selected_runner = selected_tool?.internal_title;
+            var repair = lutris_game?.repairable_runner;
+            lutris_repair_row.visible = repair != null && selected_runner == lutris_game.compatibility_tool;
+            if (repair != null)
+                lutris_repair_row.title = _("Restore %s").printf (repair);
+            var kind = lutris_game?.get_runner_kind (selected_runner == "Default" ? null : selected_runner) ??
+                Models.CompatibilityToolRuntimeKind.UNKNOWN;
+            lutris_options.set_runner_kind (kind);
+            var lutris_options_changed = lutris_game != null &&
+                (!lutris_options.runner_changes ().is_empty || !lutris_options.system_changes ().is_empty);
             string? tool_error = null;
             if (tool_enabled) {
                 if (selected_tool == null)
@@ -354,7 +433,7 @@ namespace ProtonPlus.Widgets.Games {
                     tool_error = compatibility_tool_diagnostic;
             }
             if (compatibility_tool_row != null)
-                compatibility_tool_row.subtitle = tool_error ?? "";
+                compatibility_tool_row.subtitle = tool_error ?? (lutris_game != null ? selected_tool?.availability_diagnostic : null) ?? "";
 
             var compatibility_warning = launch_options_editor.visible ? launch_options_editor.compatibility_warning : "";
             var blocker = tool_error ?? compatibility_warning;
@@ -368,9 +447,9 @@ namespace ProtonPlus.Widgets.Games {
             clear_button.sensitive = apply_request == null && launch_options_editor.can_clear;
             var launch_options_changed = launch_options_editor.has_changes_to_write
                 || (!launch_options_editor.writing_allowed && launch_options_editor.is_dirty);
-            reset_button.sensitive = apply_request == null && (launch_options_changed || tool_enabled);
+            reset_button.sensitive = apply_request == null && (launch_options_changed || tool_enabled || lutris_options_changed);
             apply_button.sensitive = apply_request == null && tool_error == null && (runner_only || launch_options_editor.writing_allowed)
-                && (tool_enabled || launch_options_editor.has_changes_to_write);
+                && (tool_enabled || lutris_options_changed || launch_options_editor.has_changes_to_write);
         }
 
         void clear_button_clicked () {
@@ -381,6 +460,7 @@ namespace ProtonPlus.Widgets.Games {
             compatibility_tool_diagnostic = null;
             compatibility_tool_apply_row.active = false;
             compatibility_tool_row.selected = initial_tool_selection;
+            lutris_options.load (lutris_game);
             launch_options_editor.reset ();
             refresh_capability_context ();
         }
@@ -406,6 +486,12 @@ namespace ProtonPlus.Widgets.Games {
             var selected_items = items;
             var selected_tool = compatibility_tool_row.get_selected_item () as Models.CompatibilityTool;
             var change_tool = should_change_tool (selected_tool);
+            if (lutris_game != null && selected_tool != null) {
+                yield apply_lutris_changes (lutris_game, selected_items[0], change_tool,
+                    selected_tool.internal_title, lutris_options.runner_changes (), lutris_options.system_changes (),
+                    request, generation);
+                return;
+            }
             if (change_tool) {
                 foreach (var item in selected_items) {
                     var steam = item.game.launcher as Models.Launchers.Steam;
@@ -457,17 +543,6 @@ namespace ProtonPlus.Widgets.Games {
                 if (change_tool) {
                     var runner_id = ((!) selected_tool).internal_title;
                     var success = yield item.game.change_compatibility_tool_async (runner_id, request);
-                    var lutris = item.game as Models.Games.Lutris;
-                    while (!success && lutris != null && lutris.pending_conversion != null) {
-                        if (request.is_cancelled () || generation != load_generation || get_root () == null)
-                            return;
-                        var confirmation = lutris.pending_conversion;
-                        if (!yield confirm_lutris_conversion ())
-                            return;
-                        if (request.is_cancelled () || generation != load_generation || get_root () == null)
-                            return;
-                        success = yield lutris.confirm_runner_change (runner_id, confirmation, request);
-                    }
                     if (request.is_cancelled () || generation != load_generation || get_root () == null)
                         return;
                     if (!success) {
@@ -523,6 +598,31 @@ namespace ProtonPlus.Widgets.Games {
             }
 
             back_requested ();
+        }
+
+        private async void apply_lutris_changes (Models.Games.Lutris game, GameListItem item, bool change_runner,
+            string runner_id, Gee.Map<string, string?> runner_settings, Gee.Map<string, string?> system_settings,
+            Cancellable request, uint generation) {
+            string? confirmation = null;
+            while (generation == load_generation && !request.is_cancelled () && get_root () != null) {
+                var saved = yield game.save_settings (change_runner, runner_id, runner_settings, request, confirmation, system_settings);
+                if (generation != load_generation || request.is_cancelled () || get_root () == null)
+                    return;
+                if (saved) {
+                    item.refresh_tool_title ();
+                    back_requested ();
+                    return;
+                }
+                confirmation = game.pending_conversion;
+                if (confirmation == null) {
+                    var detail = game.compatibility_edit_error ?? _("The change could not be saved.");
+                    Window.present_dialog_for_controller (new Main.ErrorDialog (
+                        _("Could Not Save Lutris Settings"), game.name, detail), (Gtk.Window) get_root ());
+                    return;
+                }
+                if (!yield confirm_lutris_conversion ())
+                    return;
+            }
         }
 
         void refresh_capability_context () {
