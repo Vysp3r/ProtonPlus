@@ -1,8 +1,19 @@
 namespace ProtonPlus.Services {
+    [Flags]
+    public enum LutrisSystemTools {
+        UNKNOWN = 0,
+        CHECKED = 1,
+        MANGOHUD = 2,
+        GAMEMODE = 4
+    }
+
     public interface LutrisBackend : Object {
         public abstract bool is_closed (bool flatpak) throws Error;
         public abstract Gee.List<Models.CompatibilityTool> get_runners (bool flatpak, string? custom_path) throws Error;
         public abstract Subprocess? spawn (string[] argv) throws Error;
+        public virtual LutrisSystemTools get_system_tools (bool flatpak) throws Error {
+            return LutrisSystemTools.UNKNOWN;
+        }
     }
 
     public class HostLutrisBackend : Object, LutrisBackend {
@@ -23,6 +34,13 @@ if launcher:
     for root in reversed((os.path.join(base, ".."), os.path.join(base, "../lib/lutris"))):
         if os.path.isfile(os.path.join(root, "lutris/__init__.py")):
             sys.path.insert(0, root)
+
+if len(sys.argv) > 2 and sys.argv[2] == "--system-tools":
+    from lutris.util import linux, system
+
+    print(1 + 2 * int(bool(system.can_find_executable("mangohud"))) +
+          4 * int(bool(linux.LINUX_SYSTEM.gamemode_available())))
+    sys.exit(0)
 
 from lutris import settings
 from lutris.exceptions import MissingExecutableError
@@ -201,8 +219,10 @@ print("closed")
         }
 
         private static string[] runner_probe_command (bool flatpak, string? custom_path, bool through_host,
-            string? data_home = null, string? config_home = null) {
+            string? data_home = null, string? config_home = null, bool system_tools = false) {
             string[] argv = { "python3", "-I", "-B", "-c", RUNNER_PROBE, custom_path ?? "" };
+            if (system_tools)
+                argv += "--system-tools";
             if (flatpak)
                 argv = prepend ({ "flatpak", "run", "--command=python3", Utils.System.FLATPAK_RUNNER_PROBE_OPTION,
                     APP_ID }, argv[1:argv.length]);
@@ -214,6 +234,15 @@ print("closed")
         public Gee.List<Models.CompatibilityTool> get_runners (bool flatpak, string? custom_path) throws Error {
             var argv = runner_probe_command (flatpak, custom_path, through_host, data_home, config_home);
             return parse_runner_probe (query_runner_probe (argv));
+        }
+
+        public LutrisSystemTools get_system_tools (bool flatpak) throws Error {
+            var argv = runner_probe_command (flatpak, null, through_host, data_home, config_home, true);
+            int tools;
+            if (!int.try_parse (query_runner_probe (argv).strip (), out tools) || tools < 1 || tools > 7 ||
+                (tools & (int) LutrisSystemTools.CHECKED) == 0)
+                throw new IOError.INVALID_DATA (_("Could not query the selected Lutris installation."));
+            return (LutrisSystemTools) tools;
         }
 
         protected virtual string query_runner_probe (string[] argv) throws Error {

@@ -224,10 +224,10 @@ gboolean lutris_yaml_setting_editable(LutrisYaml *yaml, const char *section, con
         !at(yaml, item)->event.data.scalar.anchor && !at(yaml, item + 1)->event.data.scalar.anchor);
 }
 
-int lutris_yaml_get_toggle(LutrisYaml *yaml, const char *setting)
+int lutris_yaml_get_toggle(LutrisYaml *yaml, const char *section, const char *setting)
 {
-    guint section = lookup(yaml, 2, "wine");
-    guint item = lookup(yaml, section ? section + 1 : 0, setting);
+    guint group = lookup(yaml, 2, section);
+    guint item = lookup(yaml, group ? group + 1 : 0, setting);
     if (!item)
         return -1;
     yaml_event_t *event = &at(yaml, item + 1)->event;
@@ -243,11 +243,11 @@ int lutris_yaml_get_toggle(LutrisYaml *yaml, const char *setting)
     return -2;
 }
 
-gboolean lutris_yaml_toggle_editable(LutrisYaml *yaml, const char *setting)
+gboolean lutris_yaml_toggle_editable(LutrisYaml *yaml, const char *section, const char *setting)
 {
-    guint group = lookup(yaml, 2, "wine");
+    guint group = lookup(yaml, 2, section);
     guint item = lookup(yaml, group ? group + 1 : 0, setting);
-    return section_editable(yaml, group) && lutris_yaml_get_toggle(yaml, setting) != -2 &&
+    return section_editable(yaml, group) && lutris_yaml_get_toggle(yaml, section, setting) != -2 &&
         (!item || (!at(yaml, item)->event.data.scalar.anchor && !at(yaml, item + 1)->event.data.scalar.anchor));
 }
 
@@ -520,7 +520,7 @@ char *lutris_yaml_set_setting(LutrisYaml *yaml, const char *section, const char 
     const char *value, gboolean boolean)
 {
     if (boolean) {
-        if (strcmp(section, "wine") || !lutris_yaml_toggle_editable(yaml, setting))
+        if (!lutris_yaml_toggle_editable(yaml, section, setting))
             return NULL;
     } else if (!lutris_yaml_setting_editable(yaml, section, setting)) {
         return NULL;

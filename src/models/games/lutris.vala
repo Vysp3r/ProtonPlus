@@ -108,7 +108,7 @@ namespace ProtonPlus.Models.Games {
                 try {
                     current = configuration.revalidate (expected, false);
                     loaded = configuration.runners_for (current);
-                    options = configuration.read_game_options (current);
+                    options = configuration.read_game_options (current, true);
                     try {
                         graphics = configuration.graphics_versions (current);
                     } catch (Error error) {

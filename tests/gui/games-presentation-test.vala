@@ -1087,6 +1087,10 @@ void check_proton_autogen_game_edit (string root) throws Error {
 }
 
 class PresentationLutrisBackend : Object, Services.LutrisBackend {
+    public Services.LutrisSystemTools get_system_tools (bool flatpak) {
+        return Services.LutrisSystemTools.CHECKED | Services.LutrisSystemTools.MANGOHUD;
+    }
+
     public bool is_closed (bool flatpak) {
         return true;
     }
@@ -1217,11 +1221,27 @@ void check_lutris_library_states (string root) throws Error {
         ((Adw.ComboRow) widget).title == "DXVK version");
     var environment = find_widget (page, (widget) => widget is Adw.ExpanderRow &&
         ((Adw.ExpanderRow) widget).title == "Environment variables");
+    var runtime = find_widget (page, widget => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "Disable Lutris Runtime") as Adw.ComboRow;
+    var libraries = find_widget (page, widget => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "Prefer system libraries");
+    var mangohud = find_widget (page, widget => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "MangoHud") as Adw.ComboRow;
+    var gamemode = find_widget (page, widget => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "Feral GameMode") as Adw.ComboRow;
+    assert (mangohud.subtitle == "Available in this Lutris installation");
+    assert (gamemode.subtitle == "Unavailable in this Lutris installation");
+    assert (libraries.visible);
+    runtime.selected = 1;
+    assert (!libraries.visible);
+    runtime.selected = 0;
+    assert (libraries.visible);
     assert (dxvk.visible && vkd3d.visible && !dxvk_version.visible && environment.visible);
     dxvk.selected = 1;
     assert (dxvk_version.visible);
     choice.selected = proton;
     assert (dxvk.visible && !vkd3d.visible && !dxvk_version.visible && environment.visible);
+    assert (runtime.visible && libraries.visible && mangohud.visible && gamemode.visible);
     choice.selected = wine;
     assert (vkd3d.visible && dxvk_version.visible);
     dxvk.selected = 2;

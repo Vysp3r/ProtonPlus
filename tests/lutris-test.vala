@@ -15,6 +15,12 @@ namespace AppTests.LutrisTest {
         public string proton_path = "";
         public string[] arguments = {};
         public string? last_custom_path;
+        public bool system_tools_checked_flatpak;
+
+        public LutrisSystemTools get_system_tools (bool flatpak) {
+            system_tools_checked_flatpak = flatpak;
+            return LutrisSystemTools.CHECKED | LutrisSystemTools.MANGOHUD;
+        }
 
         public bool is_closed (bool flatpak) {
             return flatpak ? flatpak_closed : native_closed;
@@ -505,6 +511,7 @@ namespace AppTests.LutrisTest {
             var game = (Games.Lutris) launcher.games.nth_data (0);
             assert (choices (game) != null);
             var options = game.graphics_versions;
+            assert (fixture.backend.system_tools_checked_flatpak);
             assert (options.size == 2 && options[0].inherited == "v2.6");
             assert (options[0].versions.size == 1 && options[0].versions[0] == "dxvk-2.7");
             assert (options[1].versions.size == 1 && options[1].versions[0] == "vkd3d-proton-3.0");
@@ -545,7 +552,10 @@ namespace AppTests.LutrisTest {
         try {
             fixture.add (7, "Game", "wine", "one");
             FileUtils.set_contents (Path.build_filename (fixture.data, "system.yml"),
-                "system: {prefix_command: gamemoderun}\n");
+                "system: {prefix_command: gamemoderun, mangohud: false, disable_runtime: true}\n");
+            var defaults = Path.build_filename (fixture.data, "runners", "wine.yml");
+            assert (DirUtils.create_with_parents (Path.get_dirname (defaults), 0700) == 0);
+            FileUtils.set_contents (defaults, "system: {mangohud: true}\n");
             var original = """
                 # Game comment
                 wine: {version: wine-test, vkd3d: false, esync: true}
@@ -565,9 +575,18 @@ namespace AppTests.LutrisTest {
             assert (game.game_options.inherited_prefix == "gamemoderun");
             assert (game.game_options.environment == "EMPTY=\nTOKEN=a=b");
             assert (game.game_options.get_toggle ("vkd3d") == "false");
+            assert (game.game_options.get_inherited_toggle ("mangohud") == "true");
+            assert (game.game_options.get_inherited_toggle ("gamemode") == "false");
+            assert (game.game_options.get_inherited_toggle ("disable_runtime") == "true");
+            assert (game.game_options.system_tools == (LutrisSystemTools.CHECKED | LutrisSystemTools.MANGOHUD));
 
             var runner = new Gee.HashMap<string, string?> ();
             var system = new Gee.HashMap<string, string?> ();
+            system.set ("prefer_system_libs", "false");
+            assert (!save_options (game, false, null, system));
+            system.set ("disable_runtime", "false");
+            system.set ("gamemode", "true");
+            system.set ("mangohud", "false");
             runner.set ("dxvk", "false");
             runner.set ("vkd3d", "true");
             system.set ("env", "TOKEN=one\nTOKEN=two");
@@ -590,6 +609,10 @@ namespace AppTests.LutrisTest {
             assert (game.game_options.get_toggle ("fsync") == "true");
             assert (game.game_options.environment == "EMPTY=\nTOKEN=a=b # literal\nNUMBER=007");
             assert (game.game_options.command_prefix == "");
+            assert (game.game_options.get_toggle ("mangohud") == "false");
+            assert (game.game_options.get_toggle ("gamemode") == "true");
+            assert (game.game_options.get_toggle ("disable_runtime") == "false");
+            assert (game.game_options.get_toggle ("prefer_system_libs") == "false");
             FileUtils.get_contents (fixture.profile, out persisted);
             assert (persisted.contains ("# Game comment"));
             assert (persisted.contains ("# Keep this system option"));
@@ -597,10 +620,12 @@ namespace AppTests.LutrisTest {
 
             system.set ("env", "");
             system.set ("prefix_command", null);
+            system.set ("mangohud", null);
             assert (save_options (game, false, null, system));
             assert (choices (game) != null);
             assert (game.game_options.environment == "");
             assert (game.game_options.command_prefix == null);
+            assert (game.game_options.get_toggle ("mangohud") == null);
         } finally {
             fixture.close ();
         }
@@ -860,6 +885,13 @@ namespace AppTests.LutrisTest {
                 "import os\nWINE_DIR = os.path.join(os.environ['HOME'], 'active-wine')\n");
             FileUtils.set_contents (Path.build_filename (package_path, "exceptions.py"),
                 "class MissingExecutableError(Exception): pass\n");
+            var util = Path.build_filename (package_path, "util");
+            FileUtils.set_contents (Path.build_filename (util, "system.py"),
+                "def can_find_executable(exe): return exe == 'mangohud'\n");
+            FileUtils.set_contents (Path.build_filename (util, "linux.py"),
+                "from types import SimpleNamespace\nLINUX_SYSTEM = SimpleNamespace(gamemode_available=lambda: False)\n");
+            assert (new ProbeBackend (fixture.home, true, false).get_system_tools (false) ==
+                (LutrisSystemTools.CHECKED | LutrisSystemTools.MANGOHUD));
             FileUtils.set_contents (Path.build_filename (modules, "proton.py"), """
 import os, re
 from types import SimpleNamespace

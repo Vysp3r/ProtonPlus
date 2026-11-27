@@ -149,8 +149,13 @@ namespace ProtonPlus.Services {
     public class LutrisGameOptions : Object {
         public const string COMMAND_PREFIX = "prefix_command";
         public const string ENVIRONMENT = "env";
+        internal const string DISABLE_RUNTIME = "disable_runtime";
+        internal const string PREFER_SYSTEM_LIBS = "prefer_system_libs";
         internal static string[] toggle_keys () {
             return { "dxvk", "vkd3d", "esync", "fsync" };
+        }
+        internal static string[] system_toggle_keys () {
+            return { "mangohud", "gamemode", DISABLE_RUNTIME, PREFER_SYSTEM_LIBS };
         }
 
         internal Gee.HashMap<string, string?> toggles = new Gee.HashMap<string, string?> ();
@@ -159,6 +164,7 @@ namespace ProtonPlus.Services {
         public string? command_prefix { get; internal set; }
         public string? inherited_prefix { get; internal set; }
         public bool command_prefix_editable { get; internal set; }
+        public LutrisSystemTools system_tools { get; internal set; }
 
         public bool has_toggle (string key) { return toggles.has_key (key); }
         public string? get_toggle (string key) { return toggles.get (key); }
@@ -491,13 +497,13 @@ namespace ProtonPlus.Services {
 
         internal const string LATEST = "ge-proton";
 
-        internal LutrisGameOptions read_game_options (LutrisGameRecord record) throws Error {
+        internal LutrisGameOptions read_game_options (LutrisGameRecord record, bool probe_tools = false) {
             var options = new LutrisGameOptions ();
             unowned var yaml = record.config.yaml;
             foreach (var key in LutrisGameOptions.toggle_keys ()) {
-                var saved = yaml.get_toggle (key);
-                var inherited = record.wine_defaults == null ? -1 : record.wine_defaults.yaml.get_toggle (key);
-                if (!yaml.toggle_editable (key) || inherited == -2)
+                var saved = yaml.get_toggle ("wine", key);
+                var inherited = record.wine_defaults == null ? -1 : record.wine_defaults.yaml.get_toggle ("wine", key);
+                if (!yaml.toggle_editable ("wine", key) || inherited == -2)
                     continue;
                 options.toggles[key] = toggle_string (saved);
                 options.inherited_toggles[key] = inherited == -1 && key != "fsync" ? "true" : toggle_string (inherited);
@@ -507,18 +513,40 @@ namespace ProtonPlus.Services {
             options.command_prefix_editable = yaml.setting_editable ("system", LutrisGameOptions.COMMAND_PREFIX) &&
                 (options.command_prefix == null || (!options.command_prefix.contains ("\n") &&
                     !options.command_prefix.contains ("\r")));
-            options.inherited_prefix = record.wine_defaults?.get_setting ("system", LutrisGameOptions.COMMAND_PREFIX);
-            if (options.inherited_prefix == null) {
+            LutrisGameConfig? defaults = null;
+            try {
+                defaults = new LutrisGameConfig (Path.build_filename (resolve_paths ().config, "system.yml"));
+            } catch (IOError.NOT_FOUND error) {
+                // No system overrides were saved.
+            } catch (Error error) {
+                debug ("Could not read Lutris system defaults: %s", error.message);
+            }
+            if (probe_tools) {
                 try {
-                    var path = Path.build_filename (resolve_paths ().config, "system.yml");
-                    var defaults = new LutrisGameConfig (path);
-                    options.inherited_prefix = defaults.get_setting ("system", LutrisGameOptions.COMMAND_PREFIX);
-                } catch (IOError.NOT_FOUND error) {
-                    // No system override was saved.
+                    options.system_tools = backend.get_system_tools (flatpak);
                 } catch (Error error) {
-                    debug ("Could not read Lutris system defaults: %s", error.message);
+                    debug ("Could not check Lutris system tools: %s", error.message);
                 }
             }
+            foreach (var key in LutrisGameOptions.system_toggle_keys ()) {
+                var inherited = record.wine_defaults == null ? -1 : record.wine_defaults.yaml.get_toggle ("system", key);
+                if (inherited == -1 && defaults != null)
+                    inherited = defaults.yaml.get_toggle ("system", key);
+                if (!yaml.toggle_editable ("system", key) || inherited == -2)
+                    continue;
+                if (inherited == -1) {
+                    if (key == "gamemode") {
+                        if ((options.system_tools & LutrisSystemTools.CHECKED) != 0)
+                            inherited = (options.system_tools & LutrisSystemTools.GAMEMODE) != 0 ? 1 : 0;
+                    } else {
+                        inherited = key == LutrisGameOptions.PREFER_SYSTEM_LIBS ? 1 : 0;
+                    }
+                }
+                options.toggles[key] = toggle_string (yaml.get_toggle ("system", key));
+                options.inherited_toggles[key] = toggle_string (inherited);
+            }
+            options.inherited_prefix = record.wine_defaults?.get_setting ("system", LutrisGameOptions.COMMAND_PREFIX) ??
+                defaults?.get_setting ("system", LutrisGameOptions.COMMAND_PREFIX);
             options.environment = read_environment (yaml);
             return options;
         }
@@ -529,12 +557,12 @@ namespace ProtonPlus.Services {
 
         private static bool component_enabled (LutrisGameRecord record, string component,
             Gee.Map<string, string?>? edits = null) {
-            var inherited = record.wine_defaults == null ? -1 : record.wine_defaults.yaml.get_toggle (component);
+            var inherited = record.wine_defaults == null ? -1 : record.wine_defaults.yaml.get_toggle ("wine", component);
             if (edits != null && edits.has_key (component)) {
                 var requested = edits.get (component);
                 return requested == null ? inherited != 0 : requested == "true";
             }
-            var saved = record.config == null ? -1 : record.config.yaml.get_toggle (component);
+            var saved = record.config == null ? -1 : record.config.yaml.get_toggle ("wine", component);
             var effective = saved == -1 ? inherited : saved;
             return effective == -1 || effective == 1;
         }
@@ -811,10 +839,17 @@ namespace ProtonPlus.Services {
 
         private string patch_system_options (LutrisGameRecord record, string source, Gee.Map<string, string?> edits) throws Error {
             var options = read_game_options (record);
+            var disable_key = LutrisGameOptions.DISABLE_RUNTIME;
+            var disable_runtime = edits.has_key (disable_key) ? edits.get (disable_key) : options.get_toggle (disable_key);
+            if (edits.has_key (LutrisGameOptions.PREFER_SYSTEM_LIBS) &&
+                (disable_runtime ?? options.get_inherited_toggle (disable_key)) == "true")
+                throw new IOError.NOT_SUPPORTED (_("Enable the Lutris Runtime before changing the library preference."));
             var updated = source;
             foreach (var key in edits.keys) {
                 var value = edits.get (key);
-                if (key == LutrisGameOptions.COMMAND_PREFIX && options.command_prefix_editable &&
+                if (key in LutrisGameOptions.system_toggle_keys () && options.has_toggle (key)) {
+                    updated = patch_setting (updated, "system", key, value, true);
+                } else if (key == LutrisGameOptions.COMMAND_PREFIX && options.command_prefix_editable &&
                     (value == null || (!value.contains ("\n") && !value.contains ("\r")))) {
                     updated = patch_setting (updated, "system", key, value);
                 } else if (key == LutrisGameOptions.ENVIRONMENT && options.environment != null) {
@@ -831,7 +866,7 @@ namespace ProtonPlus.Services {
             var yaml = LutrisYaml.parse (source);
             var updated = yaml?.set_setting (section, key, value, boolean);
             var validated = updated != null ? LutrisYaml.parse (updated) : null;
-            if (validated == null || (boolean ? toggle_string (validated.get_toggle (key)) : validated.get (section, key)) != value)
+            if (validated == null || (boolean ? toggle_string (validated.get_toggle (section, key)) : validated.get (section, key)) != value)
                 throw new IOError.INVALID_DATA (_("The Lutris game configuration is invalid."));
             return (!) updated;
         }
