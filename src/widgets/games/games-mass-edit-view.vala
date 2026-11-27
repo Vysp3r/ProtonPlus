@@ -441,8 +441,11 @@ namespace ProtonPlus.Widgets.Games {
                 else
                     tool_error = compatibility_tool_diagnostic;
             }
-            if (compatibility_tool_row != null)
-                compatibility_tool_row.subtitle = tool_error ?? (lutris_game != null ? selected_tool?.availability_diagnostic : null) ?? "";
+            if (compatibility_tool_row != null) {
+                compatibility_tool_row.subtitle = lutris_game != null && selected_runner == "Default"
+                    ? lutris_game.get_inherited_runner_title ()
+                    : tool_error ?? (lutris_game != null ? selected_tool?.availability_diagnostic : null) ?? "";
+            }
 
             var compatibility_warning = launch_options_editor.visible ? launch_options_editor.compatibility_warning : "";
             var blocker = tool_error ?? environment_error ?? compatibility_warning;

@@ -1200,8 +1200,11 @@ void check_lutris_library_states (string root) throws Error {
     assert (((Models.CompatibilityTool) choice.get_selected_item ()).internal_title == "missing");
     assert (find_widget (page, (widget) => widget is Adw.SwitchRow && widget.get_mapped () &&
         ((Adw.SwitchRow) widget).title == "Change compatibility tool") == null);
-    assert (find_widget (page, (widget) => widget is Adw.SwitchRow && widget.get_mapped () &&
-        ((Adw.SwitchRow) widget).title == "Override command prefix") != null);
+    var prefix = find_widget (page, widget => widget is Adw.SwitchRow &&
+        ((Adw.SwitchRow) widget).title == "Override command prefix");
+    assert (prefix != null && !prefix.get_mapped ());
+    var system_advanced = prefix.get_ancestor (typeof (Adw.ExpanderRow)) as Adw.ExpanderRow;
+    assert (system_advanced != null && system_advanced.title == "Advanced" && !system_advanced.expanded);
     var apply = find_widget (page, (widget) => widget is Gtk.Button && widget.get_mapped () &&
         ((Gtk.Button) widget).label == "Apply Changes") as Gtk.Button;
     assert (apply != null && !apply.sensitive);
@@ -1221,15 +1224,22 @@ void check_lutris_library_states (string root) throws Error {
     assert (!apply.sensitive && clear.sensitive && !reset.sensitive);
     uint wine = Gtk.INVALID_LIST_POSITION;
     uint proton = Gtk.INVALID_LIST_POSITION;
+    uint inherited = Gtk.INVALID_LIST_POSITION;
     for (uint i = 0; i < choice.model.get_n_items (); i++) {
         var id = ((Models.CompatibilityTool) choice.model.get_item (i)).internal_title;
         if (id == "wine-fixture")
             wine = i;
         else if (id == "proton-fixture")
             proton = i;
+        else if (id == "Default")
+            inherited = i;
     }
-    assert (wine != Gtk.INVALID_LIST_POSITION && proton != Gtk.INVALID_LIST_POSITION);
+    assert (wine != Gtk.INVALID_LIST_POSITION && proton != Gtk.INVALID_LIST_POSITION && inherited != Gtk.INVALID_LIST_POSITION);
+    choice.selected = inherited;
+    assert (((Models.CompatibilityTool) choice.selected_item).display_title == "Lutris default");
+    assert (choice.subtitle.contains ("GE-Proton (Latest)"));
     choice.selected = wine;
+    assert (choice.subtitle == "");
     var dxvk = find_widget (page, (widget) => widget is Adw.ComboRow &&
         ((Adw.ComboRow) widget).title == "Enable DXVK") as Adw.ComboRow;
     assert (dxvk.get_ancestor (typeof (Adw.PreferencesGroup)) == runner_group);
@@ -1251,6 +1261,14 @@ void check_lutris_library_states (string root) throws Error {
         ((Adw.ComboRow) widget).title == "MangoHud") as Adw.ComboRow;
     var gamemode = find_widget (page, widget => widget is Adw.ComboRow &&
         ((Adw.ComboRow) widget).title == "Feral GameMode") as Adw.ComboRow;
+    var esync = find_widget (runner_group, widget => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "Enable Esync") as Adw.ComboRow;
+    var runner_advanced = esync.get_ancestor (typeof (Adw.ExpanderRow)) as Adw.ExpanderRow;
+    assert (runner_advanced != null && runner_advanced.title == "Advanced" && !runner_advanced.expanded);
+    assert (!esync.get_mapped () && !runtime.get_mapped ());
+    runner_advanced.expanded = true;
+    system_advanced.expanded = true;
+    assert (esync.get_mapped () && prefix.get_mapped () && runtime.get_mapped ());
     assert (mangohud.subtitle == "Available in this Lutris installation");
     assert (gamemode.subtitle == "Unavailable in this Lutris installation");
     assert (libraries.visible);
@@ -1349,11 +1367,17 @@ void check_lutris_library_states (string root) throws Error {
     var value = find_widget (name.get_parent (), widget => widget is Gtk.Entry &&
         ((Gtk.Entry) widget).placeholder_text == "Value") as Gtk.Entry;
     value.text = "word=two";
+    esync.selected = 2;
+    runner_advanced.expanded = false;
+    runtime.selected = 1;
+    system_advanced.expanded = false;
     assert (apply.sensitive);
     apply.clicked ();
     wait_for_layout (() => page.get_header_presentation () == null);
     FileUtils.get_contents (config, out updated);
-    assert (updated.has_prefix ("# Keep this comment in the game config\nwine:\n  version: \"wine-fixture\"\n  dxvk: false\n"));
+    assert (updated.has_prefix ("# Keep this comment in the game config\nwine:\n"));
+    assert (updated.contains ("version: \"wine-fixture\"") && updated.contains ("dxvk: false"));
+    assert (updated.contains ("esync: false") && updated.contains ("disable_runtime: true"));
     assert (updated.contains ("\"EXISTING\":\"  a=b # literal  \""));
     assert (updated.contains ("\"DXVK_LOG_LEVEL\":\"info\""));
     assert (updated.contains ("\"PROTON_LOG\":\"1\""));

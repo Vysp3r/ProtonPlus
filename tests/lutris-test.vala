@@ -270,7 +270,7 @@ namespace AppTests.LutrisTest {
             var options = choices (game);
             assert (options.size == 4);
             assert (!options[3].is_assignable);
-            assert (options[0].display_title.contains ("Wine test") || options[0].display_title.contains ("wine-test"));
+            assert (options[0].display_title == "Lutris default");
             assert (fixture.backend.last_custom_path == "/custom/bin/wine");
 
             fixture.backend.native_closed = false;
@@ -427,12 +427,12 @@ namespace AppTests.LutrisTest {
             assert (load (launcher));
             var game = (Games.Lutris) launcher.games.nth_data (0);
             var options = choices (game);
-            assert (options[0].display_title.contains ("GE-Proton (Latest)"));
+            assert (options[0].display_title == "Lutris default");
             assert (options.any_match ((tool) => tool.internal_title == "ge-proton" && tool.is_assignable));
 
             fixture.backend.latest_available = false;
             options = choices (game);
-            assert (options[0].display_title.contains ("umu is required"));
+            assert (options[0].availability_diagnostic.contains ("umu is required"));
             assert (!save (game, "Default") && game.compatibility_edit_error.contains ("umu"));
             fixture.backend.latest_available = true;
             fixture.backend.probe_failed = true;

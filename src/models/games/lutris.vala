@@ -54,6 +54,10 @@ namespace ProtonPlus.Models.Games {
             return Services.LutrisConfigurationService.effective_runner (record, null, choices);
         }
 
+        internal string get_inherited_runner_title () {
+            return describe_runner (inherited_runner ());
+        }
+
         private string describe_runner (string version) {
             var tool = Services.LutrisConfigurationService.find_runner (choices, version);
             var title = tool?.display_title ??
@@ -140,8 +144,7 @@ namespace ProtonPlus.Models.Games {
             var result = new Gee.ArrayList<CompatibilityTool> ();
             var inherited = inherited_runner ();
             var inherit_tool = Services.LutrisConfigurationService.find_runner (choices, inherited);
-            result.add (new CompatibilityTool (
-                _("Inherit Lutris default (%s)").printf (describe_runner (inherited)), "Default") {
+            result.add (new CompatibilityTool (_("Lutris default"), "Default") {
                 availability_diagnostic = describe_runner_problem (inherited, inherit_tool)
             });
             if (loaded != null) {
