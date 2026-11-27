@@ -1180,7 +1180,7 @@ void check_lutris_library_states (string root) throws Error {
     var config = Path.build_filename (games_dir, "editable.yml");
     assert (DirUtils.create_with_parents (games_dir, 0700) == 0);
     var saved_config = "# Keep this comment in the game config\nwine:\n  version: missing\n  dxvk: false\n" +
-        "system:\n  env: {EXISTING: \"  a=b # literal  \"}\n";
+        "system:\n  env: {EXISTING: \"  a=b # literal  \", DXVK_LOG_LEVEL: \"none\"}\n";
     FileUtils.set_contents (config, saved_config);
     assert (db.exec ("UPDATE games SET configpath = 'editable' WHERE id = 10") == Sqlite.OK);
     launcher.load_profile_library.begin ();
@@ -1237,9 +1237,9 @@ void check_lutris_library_states (string root) throws Error {
     var environment = find_widget (page, (widget) => widget is Adw.ExpanderRow &&
         ((Adw.ExpanderRow) widget).title == "Environment variables") as Adw.ExpanderRow;
     environment.expanded = true;
-    var presets = find_widget (environment, widget => widget is Adw.ComboRow &&
-        ((Adw.ComboRow) widget).title == "Add preset") as Adw.ComboRow;
-    assert (presets.model.get_n_items () == 2);
+    assert (find_widget (environment, widget => widget is Adw.ComboRow) == null);
+    assert (find_widget (environment, widget => widget is Gtk.Entry &&
+        ((Gtk.Entry) widget).text == "DXVK_LOG_LEVEL") != null);
     var runtime = find_widget (page, widget => widget is Adw.ComboRow &&
         ((Adw.ComboRow) widget).title == "Disable Lutris Runtime") as Adw.ComboRow;
     var libraries = find_widget (page, widget => widget is Adw.ComboRow &&
@@ -1261,17 +1261,9 @@ void check_lutris_library_states (string root) throws Error {
     choice.selected = proton;
     assert (dxvk.visible && !vkd3d.visible && !dxvk_version.visible && environment.visible);
     assert (runtime.visible && libraries.visible && mangohud.visible && gamemode.visible);
-    assert (presets.model.get_n_items () == 3);
     choice.selected = wine;
     assert (vkd3d.visible && dxvk_version.visible);
     dxvk.selected = 2;
-    assert (presets.model.get_n_items () == 2);
-    presets.selected = 1;
-    var insert_preset = find_widget (presets, widget => widget is Gtk.Button &&
-        widget.tooltip_text == "Insert preset") as Gtk.Button;
-    assert (insert_preset.sensitive);
-    insert_preset.clicked ();
-    assert (!presets.visible);
     var add_variable = find_widget (environment, widget => widget is Gtk.Button &&
         widget.tooltip_text == "Add variable") as Gtk.Button;
     add_variable.clicked ();

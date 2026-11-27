@@ -163,7 +163,6 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         public void set_runner_kind (Models.CompatibilityToolRuntimeKind kind) {
-            environment.set_runner (kind);
             var wine = kind == Models.CompatibilityToolRuntimeKind.WINE;
             var proton = kind == Models.CompatibilityToolRuntimeKind.PROTON;
             var has_visible_runner_options = false;

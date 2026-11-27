@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-27 08:39-0500\n"
+"POT-Creation-Date: 2026-11-27 08:53-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -166,7 +166,7 @@ msgstr ""
 
 #: src/cli/cli.vala:439 src/cli/cli.vala:482 src/cli/cli.vala:839
 #: src/cli/cli.vala:887 src/cli/cli.vala:1203 src/cli/cli.vala:1211
-#: src/widgets/games/lutris-environment-editor.vala:15
+#: src/widgets/games/lutris-environment-editor.vala:13
 msgid "Name"
 msgstr ""
 
@@ -2432,7 +2432,7 @@ msgid ""
 msgstr ""
 
 #: src/launch-options/launch-option-catalog.vala:1836
-#: src/widgets/games/lutris-environment-editor.vala:53
+#: src/widgets/games/lutris-environment-editor.vala:46
 msgid "DXVK log level"
 msgstr ""
 
@@ -4998,55 +4998,43 @@ msgstr ""
 msgid "Add ScopeBuddy arguments"
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:16
+#: src/widgets/games/lutris-environment-editor.vala:14
 msgid "Value"
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:19
+#: src/widgets/games/lutris-environment-editor.vala:17
 msgid "Remove environment variable"
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:46
-msgid "Add preset"
-msgstr ""
-
-#: src/widgets/games/lutris-environment-editor.vala:49
-msgid "Insert preset"
-msgstr ""
-
-#: src/widgets/games/lutris-environment-editor.vala:51
-#: src/widgets/games/lutris-environment-editor.vala:78
+#: src/widgets/games/lutris-environment-editor.vala:44
+#: src/widgets/games/lutris-environment-editor.vala:60
 msgid "Add variable"
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:54
+#: src/widgets/games/lutris-environment-editor.vala:47
 msgid ""
 "In Lutris, set Output debugging info to Inherit from environment to use this "
 "value."
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:66
+#: src/widgets/games/lutris-environment-editor.vala:55
 msgid "Environment variables"
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:66
+#: src/widgets/games/lutris-environment-editor.vala:55
 msgid "Removing an override restores any inherited value."
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:172
+#: src/widgets/games/lutris-environment-editor.vala:142
 msgid "Enter a valid name for each environment variable."
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:174
+#: src/widgets/games/lutris-environment-editor.vala:144
 msgid "Each environment variable needs a unique name."
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:176
+#: src/widgets/games/lutris-environment-editor.vala:146
 msgid "Environment variable values must fit on one line."
-msgstr ""
-
-#: src/widgets/games/lutris-environment-editor.vala:198
-msgid "Choose a preset"
 msgstr ""
 
 #: src/widgets/games/lutris-options-view.vala:7
