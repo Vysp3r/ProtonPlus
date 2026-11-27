@@ -1295,6 +1295,9 @@ void check_lutris_library_states (string root) throws Error {
     wait_for_layout (() => dxvk_log_option != null && dxvk_log_option.get_mapped () &&
         find_widget (browser, widget => widget is Adw.ActionRow && widget.get_mapped () &&
             ((Adw.ActionRow) widget).title == "MangoHud settings") == null);
+    WidgetMatches already_added = widget => widget is Gtk.Image &&
+        ((Gtk.Image) widget).icon_name == "object-select-symbolic" && widget.tooltip_text == "Already added";
+    assert (find_widget (dxvk_log_option, already_added) != null);
     assert (dxvk_log_option.activate ());
     wait_for_layout (() => window.visible_dialog == null && environment.expanded &&
         window.get_focus ()?.get_ancestor (typeof (Gtk.Entry)) == log_value);
@@ -1312,9 +1315,17 @@ void check_lutris_library_states (string root) throws Error {
     var proton_log_option = find_widget (browser, widget => widget is Adw.ActionRow &&
         ((Adw.ActionRow) widget).title == "Proton debug log") as Adw.ActionRow;
     assert (proton_log_option != null);
+    assert (find_widget (proton_log_option, already_added) == null);
     assert (((Gtk.Widget) proton_log_option).activate ());
     wait_for_layout (() => window.visible_dialog == null && find_widget (environment, widget => widget is Gtk.Entry &&
         ((Gtk.Entry) widget).text == "PROTON_LOG") != null);
+    browse.clicked ();
+    wait_for_layout (() => window.visible_dialog != null && window.visible_dialog.get_mapped ());
+    var added_proton_log = find_widget (window.visible_dialog, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "Proton debug log");
+    assert (added_proton_log != null && find_widget (added_proton_log, already_added) != null);
+    window.visible_dialog.close ();
+    wait_for_layout (() => window.visible_dialog == null);
     choice.selected = wine;
     assert (vkd3d.visible && dxvk_version.visible);
     dxvk.selected = 2;

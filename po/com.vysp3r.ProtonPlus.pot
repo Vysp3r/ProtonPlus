@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-27 09:13-0500\n"
+"POT-Creation-Date: 2026-11-27 09:24-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5005,6 +5005,10 @@ msgstr ""
 msgid "Browse launch options"
 msgstr ""
 
+#: src/widgets/games/lutris-environment-browser.vala:59
+msgid "Already added"
+msgstr ""
+
 #: src/widgets/games/lutris-environment-editor.vala:16
 msgid "Value"
 msgstr ""
@@ -5031,15 +5035,15 @@ msgstr ""
 msgid "Removing an override restores any inherited value."
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:188
+#: src/widgets/games/lutris-environment-editor.vala:191
 msgid "Enter a valid name for each environment variable."
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:190
+#: src/widgets/games/lutris-environment-editor.vala:193
 msgid "Each environment variable needs a unique name."
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:192
+#: src/widgets/games/lutris-environment-editor.vala:195
 msgid "Environment variable values must fit on one line."
 msgstr ""
 

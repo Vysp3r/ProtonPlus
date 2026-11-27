@@ -14,7 +14,7 @@ namespace ProtonPlus.Widgets.Games {
         public string? selected_key { get; private set; }
         public string selected_value { get; private set; default = ""; }
 
-        public LutrisEnvironmentBrowser (LaunchCommandCapabilityContext context) {
+        public LutrisEnvironmentBrowser (LaunchCommandCapabilityContext context, Gee.Set<string> existing_keys) {
             Object (title: _("Browse launch options"), content_width: 520, content_height: 550);
 
             Utils.TextInputMetadataPolicy.apply (search, Utils.TextInputFieldKind.SEARCH);
@@ -52,7 +52,14 @@ namespace ProtonPlus.Widgets.Games {
                     title = option.title, subtitle = key + "\n" + option.description,
                     use_markup = false, activatable = true
                 };
-                row.add_suffix (new Gtk.Image.from_icon_name ("list-add-symbolic"));
+                var already_added = key in existing_keys;
+                var indicator = new Gtk.Image.from_icon_name (already_added ? "object-select-symbolic" : "list-add-symbolic");
+                if (already_added) {
+                    indicator.can_target = true;
+                    indicator.tooltip_text = _("Already added");
+                    row.update_property (Gtk.AccessibleProperty.DESCRIPTION, indicator.tooltip_text, -1);
+                }
+                row.add_suffix (indicator);
                 row.activated.connect (() => {
                     selected_key = key;
                     selected_value = value;

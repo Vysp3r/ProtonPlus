@@ -102,7 +102,10 @@ namespace ProtonPlus.Widgets.Games {
             if (browser_context == null || !get_mapped ())
                 return;
             var generation = load_generation;
-            var dialog = new LutrisEnvironmentBrowser (browser_context);
+            var existing_keys = new Gee.HashSet<string> ();
+            foreach (var row in rows)
+                existing_keys.add (row.variable_name.text);
+            var dialog = new LutrisEnvironmentBrowser (browser_context, existing_keys);
             weak LutrisEnvironmentBrowser current = dialog;
             dialog.closed.connect (() => {
                 var key = current.selected_key;
