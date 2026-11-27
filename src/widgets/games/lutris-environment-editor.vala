@@ -41,7 +41,10 @@ namespace ProtonPlus.Widgets.Games {
     internal class LutrisEnvironmentEditor : Adw.ExpanderRow {
         public signal void variables_changed ();
 
-        private Adw.ActionRow add_row_action = new Adw.ActionRow () { title = _("Add variable") };
+        private Gtk.Button add_button = new Gtk.Button.from_icon_name ("list-add-symbolic") {
+            css_classes = { "flat" }, valign = Gtk.Align.CENTER,
+            tooltip_text = _("Add variable")
+        };
         private Adw.ActionRow dxvk_hint = new Adw.ActionRow () {
             title = _("DXVK log level"),
             subtitle = _("In Lutris, set Output debugging info to Inherit from environment to use this value."),
@@ -54,19 +57,14 @@ namespace ProtonPlus.Widgets.Games {
         public LutrisEnvironmentEditor () {
             Object (title: _("Environment variables"), subtitle: _("Removing an override restores any inherited value."));
             add_row (dxvk_hint);
-            add_row (add_row_action);
-            var add_button = new Gtk.Button.from_icon_name ("list-add-symbolic") {
-                css_classes = { "flat" }, valign = Gtk.Align.CENTER,
-                tooltip_text = _("Add variable")
-            };
             add_button.update_property (Gtk.AccessibleProperty.LABEL, add_button.tooltip_text, -1);
             add_button.clicked.connect (() => {
                 var row = append_variable ("", "");
+                expanded = true;
                 refresh ();
                 row.variable_name.grab_focus ();
             });
-            add_row_action.add_suffix (add_button);
-            add_row_action.activatable_widget = add_button;
+            add_suffix (add_button);
         }
 
         public void load (string? source, bool preserve_expansion) {
@@ -115,7 +113,7 @@ namespace ProtonPlus.Widgets.Games {
             if (index < rows.size)
                 rows[index].variable_name.grab_focus ();
             else
-                add_row_action.activatable_widget.grab_focus ();
+                add_button.grab_focus ();
         }
 
         private void remove_variables () {

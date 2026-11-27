@@ -1268,11 +1268,17 @@ void check_lutris_library_states (string root) throws Error {
     dxvk.selected = 2;
     var add_variable = find_widget (environment, widget => widget is Gtk.Button &&
         widget.tooltip_text == "Add variable") as Gtk.Button;
+    assert (find_widget (environment, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "Add variable") == null);
+    environment.expanded = false;
+    assert (add_variable.get_mapped ());
     add_variable.clicked ();
+    assert (environment.expanded);
     assert (!apply.sensitive);
     var name = find_widget (environment, widget => widget is Gtk.Entry &&
         ((Gtk.Entry) widget).placeholder_text == "Name" && ((Gtk.Entry) widget).text == "") as Gtk.Entry;
     assert (name != null);
+    assert (window.get_focus ()?.get_ancestor (typeof (Gtk.Entry)) == name);
     name.text = "EXISTING";
     assert (!apply.sensitive);
     name.text = "EXTRA";
