@@ -567,7 +567,7 @@ namespace ProtonPlus.Services {
             return effective == -1 || effective == 1;
         }
 
-        private static bool valid_env_name (string name) {
+        internal static bool valid_env_name (string name) {
             return Regex.match_simple ("^[A-Za-z_][A-Za-z0-9_]*\\z", name);
         }
 

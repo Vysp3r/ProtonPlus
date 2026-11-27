@@ -10,12 +10,14 @@ namespace ProtonPlus.Widgets.Games {
             title = _("Override command prefix"), use_markup = false
         };
         private Adw.EntryRow prefix_entry = new Adw.EntryRow () { title = _("Command prefix") };
-        private Adw.ExpanderRow environment_row = new Adw.ExpanderRow () { title = _("Environment variables") };
-        private Gtk.TextView environment_editor = new Gtk.TextView () {
-            accepts_tab = false, wrap_mode = Gtk.WrapMode.NONE,
-            left_margin = 8, right_margin = 8, top_margin = 6, bottom_margin = 6,
-            monospace = true
-        };
+        private LutrisEnvironmentEditor environment = new LutrisEnvironmentEditor ();
+
+        public bool can_clear_environment { get { return environment.can_clear; } }
+        public string? environment_error { get { return environment.visible ? environment.validation_error : null; } }
+
+        public void clear_environment () {
+            environment.clear_variables ();
+        }
 
         private Gee.HashMap<string, Adw.ComboRow> toggles = new Gee.HashMap<string, Adw.ComboRow> ();
         private Gee.HashMap<string, Adw.ComboRow> system_toggles = new Gee.HashMap<string, Adw.ComboRow> ();
@@ -29,30 +31,17 @@ namespace ProtonPlus.Widgets.Games {
             append (system_group);
             system_group.add (prefix_override);
             system_group.add (prefix_entry);
-            system_group.add (environment_row);
-
-            var environment_content = new Gtk.Box (Gtk.Orientation.VERTICAL, 8) {
-                margin_start = 12, margin_end = 12, margin_top = 8, margin_bottom = 12
-            };
-            environment_content.append (new Gtk.Label (
-                _("Enter one NAME=value per line. Removing an override restores any inherited value.")) {
-                wrap = true, xalign = 0
-            });
-            var scroller = new Gtk.ScrolledWindow () {
-                child = environment_editor, min_content_height = 105, has_frame = true
-            };
-            environment_content.append (scroller);
-            environment_row.add_row (new Adw.PreferencesRow () { child = environment_content, activatable = false });
+            system_group.add (environment);
 
             prefix_override.notify["active"].connect (() => {
                 prefix_entry.visible = prefix_override.visible && prefix_override.active;
                 changed ();
             });
             prefix_entry.changed.connect (() => changed ());
-            environment_editor.buffer.changed.connect (() => changed ());
+            environment.variables_changed.connect (() => changed ());
         }
 
-        public void load (Models.Games.Lutris? game) {
+        public void load (Models.Games.Lutris? game, bool preserve_expansion = false) {
             foreach (var row in toggles.values)
                 runner_group.remove (row);
             foreach (var row in versions.values)
@@ -85,10 +74,8 @@ namespace ProtonPlus.Widgets.Games {
             prefix_override.active = baseline.command_prefix != null;
             prefix_entry.text = baseline.command_prefix ?? "";
             prefix_entry.visible = prefix_override.visible && prefix_override.active;
-            environment_row.visible = baseline.environment != null;
-            environment_row.expanded = false;
-            environment_editor.buffer.text = baseline.environment ?? "";
-            system_group.visible = !system_toggles.is_empty || prefix_override.visible || environment_row.visible;
+            environment.load (baseline.environment, preserve_expansion);
+            system_group.visible = !system_toggles.is_empty || prefix_override.visible || environment.visible;
         }
 
         private Adw.ComboRow add_toggle (Adw.PreferencesGroup group, string key) {
@@ -176,6 +163,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         public void set_runner_kind (Models.CompatibilityToolRuntimeKind kind) {
+            environment.set_runner (kind);
             var wine = kind == Models.CompatibilityToolRuntimeKind.WINE;
             var proton = kind == Models.CompatibilityToolRuntimeKind.PROTON;
             var has_visible_runner_options = false;
@@ -220,8 +208,8 @@ namespace ProtonPlus.Widgets.Games {
                 if (prefix != baseline.command_prefix)
                     edits.set (LutrisGameOptions.COMMAND_PREFIX, prefix);
             }
-            if (environment_row.visible) {
-                var text = environment_editor.buffer.text;
+            if (environment.visible) {
+                var text = environment.serialize ();
                 if (text != baseline.environment)
                     edits.set (LutrisGameOptions.ENVIRONMENT, text);
             }

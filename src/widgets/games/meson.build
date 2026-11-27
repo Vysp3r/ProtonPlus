@@ -8,6 +8,7 @@ sources += files(
     'games-extra-button.vala',
     'games-mass-edit-view.vala',
     'lutris-options-view.vala',
+    'lutris-environment-editor.vala',
     'games-mass-edit-button.vala',
     'games-tool-row.vala',
 )

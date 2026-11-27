@@ -295,10 +295,16 @@ namespace ProtonPlus.Widgets.Games {
 
             compatibility_tool_group.title = has_steam_launch_options ? Markup.escape_text (_("Compatibility tool")) : "";
             launch_options_editor.visible = has_steam_launch_options;
-            launch_action_area.visible = has_steam_launch_options;
-            header_actions.visible = !has_steam_launch_options;
+            launch_options_editor.preview_field.visible = has_steam_launch_options;
+            launch_options_editor.preview_field.button.visible = has_steam_launch_options;
+            var show_footer = has_steam_launch_options || lutris_game != null;
+            launch_action_area.visible = show_footer;
+            header_actions.visible = !show_footer;
+            var clear_label = lutris_game != null ? _("Clear Environment Variables") : _("Clear Launch Options");
+            clear_button.tooltip_text = clear_label;
+            clear_button.update_property (Gtk.AccessibleProperty.LABEL, clear_label, -1);
             var button_parent = (Gtk.Box) apply_button.get_parent ();
-            var button_destination = has_steam_launch_options ? launch_action_buttons : header_actions;
+            var button_destination = show_footer ? launch_action_buttons : header_actions;
             if (button_parent != button_destination) {
                 button_parent.remove (apply_button);
                 button_destination.append (apply_button);
@@ -419,6 +425,7 @@ namespace ProtonPlus.Widgets.Games {
             var kind = lutris_game?.get_runner_kind (selected_runner == "Default" ? null : selected_runner) ??
                 Models.CompatibilityToolRuntimeKind.UNKNOWN;
             lutris_options.set_runner_kind (kind);
+            var environment_error = lutris_game == null ? null : lutris_options.environment_error;
             var lutris_options_changed = lutris_game != null &&
                 (!lutris_options.runner_changes ().is_empty || !lutris_options.system_changes ().is_empty);
             string? tool_error = null;
@@ -436,31 +443,36 @@ namespace ProtonPlus.Widgets.Games {
                 compatibility_tool_row.subtitle = tool_error ?? (lutris_game != null ? selected_tool?.availability_diagnostic : null) ?? "";
 
             var compatibility_warning = launch_options_editor.visible ? launch_options_editor.compatibility_warning : "";
-            var blocker = tool_error ?? compatibility_warning;
+            var blocker = tool_error ?? environment_error ?? compatibility_warning;
             if (blocker == "" && launch_options_editor.visible)
                 blocker = launch_options_editor.preview_field.blocking_reason;
-            var incompatibility = tool_error != null || compatibility_warning != "";
+            var incompatibility = tool_error != null || environment_error != null || compatibility_warning != "";
             var dependency_action = !incompatibility && launch_options_editor.visible
                 ? launch_options_editor.dependency_action_label : "";
             apply_blocker.update (blocker, dependency_action, apply_request == null, incompatibility);
 
-            clear_button.sensitive = apply_request == null && launch_options_editor.can_clear;
+            clear_button.sensitive = apply_request == null && (lutris_game != null
+                ? lutris_options.can_clear_environment : launch_options_editor.can_clear);
             var launch_options_changed = launch_options_editor.has_changes_to_write
                 || (!launch_options_editor.writing_allowed && launch_options_editor.is_dirty);
             reset_button.sensitive = apply_request == null && (launch_options_changed || tool_enabled || lutris_options_changed);
-            apply_button.sensitive = apply_request == null && tool_error == null && (runner_only || launch_options_editor.writing_allowed)
+            apply_button.sensitive = apply_request == null && tool_error == null && environment_error == null &&
+                (runner_only || launch_options_editor.writing_allowed)
                 && (tool_enabled || lutris_options_changed || launch_options_editor.has_changes_to_write);
         }
 
         void clear_button_clicked () {
-            launch_options_editor.clear ();
+            if (lutris_game != null)
+                lutris_options.clear_environment ();
+            else
+                launch_options_editor.clear ();
         }
 
         void reset_changes () {
             compatibility_tool_diagnostic = null;
             compatibility_tool_apply_row.active = false;
             compatibility_tool_row.selected = initial_tool_selection;
-            lutris_options.load (lutris_game);
+            lutris_options.load (lutris_game, true);
             launch_options_editor.reset ();
             refresh_capability_context ();
         }

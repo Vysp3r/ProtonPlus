@@ -1179,7 +1179,9 @@ void check_lutris_library_states (string root) throws Error {
     var games_dir = Path.build_filename (data, "games");
     var config = Path.build_filename (games_dir, "editable.yml");
     assert (DirUtils.create_with_parents (games_dir, 0700) == 0);
-    FileUtils.set_contents (config, "# Keep this comment in the game config\nwine:\n  version: missing\n  dxvk: false\n");
+    var saved_config = "# Keep this comment in the game config\nwine:\n  version: missing\n  dxvk: false\n" +
+        "system:\n  env: {EXISTING: \"  a=b # literal  \"}\n";
+    FileUtils.set_contents (config, saved_config);
     assert (db.exec ("UPDATE games SET configpath = 'editable' WHERE id = 10") == Sqlite.OK);
     launcher.load_profile_library.begin ();
     launcher.complete ();
@@ -1198,10 +1200,23 @@ void check_lutris_library_states (string root) throws Error {
         ((Adw.SwitchRow) widget).title == "Change compatibility tool") == null);
     assert (find_widget (page, (widget) => widget is Adw.SwitchRow && widget.get_mapped () &&
         ((Adw.SwitchRow) widget).title == "Override command prefix") != null);
-    var presentation = page.get_header_presentation ();
-    var apply = find_widget (presentation.end_actions[0], (widget) => widget is Gtk.Button &&
+    var apply = find_widget (page, (widget) => widget is Gtk.Button && widget.get_mapped () &&
         ((Gtk.Button) widget).label == "Apply Changes") as Gtk.Button;
     assert (apply != null && !apply.sensitive);
+    var reset = find_widget (page, widget => widget is Gtk.Button &&
+        widget.tooltip_text == "Reset Changes") as Gtk.Button;
+    var clear = find_widget (page, widget => widget is Gtk.Button &&
+        widget.tooltip_text == "Clear Environment Variables") as Gtk.Button;
+    assert (clear.get_mapped () && reset.get_mapped () && clear.sensitive && !reset.sensitive);
+    assert (find_widget (page, widget => widget is Gtk.ToggleButton && widget.get_mapped () &&
+        ((Gtk.ToggleButton) widget).label == "Command preview") == null);
+    clear.clicked ();
+    assert (apply.sensitive && reset.sensitive && !clear.sensitive);
+    string updated;
+    FileUtils.get_contents (config, out updated);
+    assert (updated == saved_config);
+    reset.clicked ();
+    assert (!apply.sensitive && clear.sensitive && !reset.sensitive);
     uint wine = Gtk.INVALID_LIST_POSITION;
     uint proton = Gtk.INVALID_LIST_POSITION;
     for (uint i = 0; i < choice.model.get_n_items (); i++) {
@@ -1220,7 +1235,11 @@ void check_lutris_library_states (string root) throws Error {
     var dxvk_version = find_widget (page, (widget) => widget is Adw.ComboRow &&
         ((Adw.ComboRow) widget).title == "DXVK version");
     var environment = find_widget (page, (widget) => widget is Adw.ExpanderRow &&
-        ((Adw.ExpanderRow) widget).title == "Environment variables");
+        ((Adw.ExpanderRow) widget).title == "Environment variables") as Adw.ExpanderRow;
+    environment.expanded = true;
+    var presets = find_widget (environment, widget => widget is Adw.ComboRow &&
+        ((Adw.ComboRow) widget).title == "Add preset") as Adw.ComboRow;
+    assert (presets.model.get_n_items () == 2);
     var runtime = find_widget (page, widget => widget is Adw.ComboRow &&
         ((Adw.ComboRow) widget).title == "Disable Lutris Runtime") as Adw.ComboRow;
     var libraries = find_widget (page, widget => widget is Adw.ComboRow &&
@@ -1242,15 +1261,56 @@ void check_lutris_library_states (string root) throws Error {
     choice.selected = proton;
     assert (dxvk.visible && !vkd3d.visible && !dxvk_version.visible && environment.visible);
     assert (runtime.visible && libraries.visible && mangohud.visible && gamemode.visible);
+    assert (presets.model.get_n_items () == 3);
     choice.selected = wine;
     assert (vkd3d.visible && dxvk_version.visible);
     dxvk.selected = 2;
+    assert (presets.model.get_n_items () == 2);
+    presets.selected = 1;
+    var insert_preset = find_widget (presets, widget => widget is Gtk.Button &&
+        widget.tooltip_text == "Insert preset") as Gtk.Button;
+    assert (insert_preset.sensitive);
+    insert_preset.clicked ();
+    assert (!presets.visible);
+    var add_variable = find_widget (environment, widget => widget is Gtk.Button &&
+        widget.tooltip_text == "Add variable") as Gtk.Button;
+    add_variable.clicked ();
+    assert (!apply.sensitive);
+    var name = find_widget (environment, widget => widget is Gtk.Entry &&
+        ((Gtk.Entry) widget).placeholder_text == "Name" && ((Gtk.Entry) widget).text == "") as Gtk.Entry;
+    assert (name != null);
+    name.text = "EXISTING";
+    assert (!apply.sensitive);
+    name.text = "EXTRA";
+    var value = find_widget (name.get_parent (), widget => widget is Gtk.Entry &&
+        ((Gtk.Entry) widget).placeholder_text == "Value") as Gtk.Entry;
+    value.text = "word=two";
     assert (apply.sensitive);
     apply.clicked ();
     wait_for_layout (() => page.get_header_presentation () == null);
-    string updated;
     FileUtils.get_contents (config, out updated);
-    assert (updated == "# Keep this comment in the game config\nwine:\n  version: \"wine-fixture\"\n  dxvk: false\n");
+    assert (updated.has_prefix ("# Keep this comment in the game config\nwine:\n  version: \"wine-fixture\"\n  dxvk: false\n"));
+    assert (updated.contains ("\"EXISTING\":\"  a=b # literal  \""));
+    assert (updated.contains ("\"DXVK_LOG_LEVEL\":\"none\""));
+    assert (updated.contains ("\"EXTRA\":\"word=two\""));
+
+    if (table != null)
+        table.activate (0);
+    else
+        list.activate (0);
+    wait_for_layout (() => page.get_header_presentation () != null);
+    environment.expanded = true;
+    assert (find_widget (environment, widget => widget is Gtk.Entry && ((Gtk.Entry) widget).text == "word=two") != null);
+    var extra = find_widget (environment, widget => widget is Gtk.Entry && ((Gtk.Entry) widget).text == "EXTRA");
+    var remove_variable = find_widget (extra.get_parent (), widget => widget is Gtk.Button &&
+        widget.tooltip_text == "Remove environment variable") as Gtk.Button;
+    remove_variable.clicked ();
+    assert (find_widget (environment, widget => widget is Gtk.Entry && ((Gtk.Entry) widget).text == "EXTRA") == null);
+    clear.clicked ();
+    apply.clicked ();
+    wait_for_layout (() => page.get_header_presentation () == null);
+    FileUtils.get_contents (config, out updated);
+    assert (updated.contains ("version: \"wine-fixture\"") && !updated.contains ("env:"));
 
     var empty_launcher = new Models.Launchers.HeroicGamesLauncher (
         Models.Launcher.InstallationTypes.SYSTEM, root, root);
