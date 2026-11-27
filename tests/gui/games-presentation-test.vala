@@ -1258,11 +1258,63 @@ void check_lutris_library_states (string root) throws Error {
     runtime.selected = 0;
     assert (libraries.visible);
     assert (dxvk.visible && vkd3d.visible && !dxvk_version.visible && environment.visible);
+    var browse = find_widget (environment, widget => widget is Gtk.Button &&
+        widget.tooltip_text == "Browse launch options") as Gtk.Button;
+    assert (browse != null && browse.get_mapped () && browse.sensitive);
+    browse.clicked ();
+    wait_for_layout (() => window.visible_dialog != null && window.visible_dialog.get_mapped ());
+    assert (find_widget (window.visible_dialog, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "DXVK log level") == null);
+    window.visible_dialog.close ();
+    wait_for_layout (() => window.visible_dialog == null);
+
     dxvk.selected = 1;
     assert (dxvk_version.visible);
+    var log_name = find_widget (environment, widget => widget is Gtk.Entry && ((Gtk.Entry) widget).text == "DXVK_LOG_LEVEL");
+    var log_value = find_widget (log_name.get_parent (), widget => widget is Gtk.Entry &&
+        ((Gtk.Entry) widget).placeholder_text == "Value") as Gtk.Entry;
+    log_value.text = "info";
+    environment.expanded = false;
+    assert (browse.get_mapped ());
+    browse.clicked ();
+    wait_for_layout (() => window.visible_dialog != null && window.visible_dialog.get_mapped ());
+    var browser = window.visible_dialog;
+    foreach (var title in new string[] { "Proton debug log", "MangoHud Vulkan environment mode", "WineD3D fallback",
+        "Disable ESync", "Disable FSync", "Steam command placeholder (%command%)", "DirectX 12 renderer" })
+        assert (find_widget (browser, widget => widget is Adw.ActionRow &&
+            ((Adw.ActionRow) widget).title == title) == null);
+    assert (find_widget (browser, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "MangoHud settings") != null);
+    var search = find_widget (browser, widget => widget is Gtk.SearchEntry) as Gtk.SearchEntry;
+    search.text = "PROTON_LOG";
+    wait_for_layout (() => find_widget (browser, widget => widget is Gtk.Label && widget.get_mapped () &&
+        ((Gtk.Label) widget).label == "No matching launch options.") != null);
+    search.text = "DXVK_LOG_LEVEL";
+    var dxvk_log_option = find_widget (browser, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "DXVK log level");
+    wait_for_layout (() => dxvk_log_option != null && dxvk_log_option.get_mapped () &&
+        find_widget (browser, widget => widget is Adw.ActionRow && widget.get_mapped () &&
+            ((Adw.ActionRow) widget).title == "MangoHud settings") == null);
+    assert (dxvk_log_option.activate ());
+    wait_for_layout (() => window.visible_dialog == null && environment.expanded &&
+        window.get_focus ()?.get_ancestor (typeof (Gtk.Entry)) == log_value);
+    assert (log_value.text == "info");
     choice.selected = proton;
     assert (dxvk.visible && !vkd3d.visible && !dxvk_version.visible && environment.visible);
     assert (runtime.visible && libraries.visible && mangohud.visible && gamemode.visible);
+    browse.clicked ();
+    wait_for_layout (() => window.visible_dialog != null && window.visible_dialog.get_mapped ());
+    browser = window.visible_dialog;
+    assert (find_widget (browser, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "WineD3D fallback") == null);
+    search = find_widget (browser, widget => widget is Gtk.SearchEntry) as Gtk.SearchEntry;
+    search.text = "PROTON_LOG";
+    var proton_log_option = find_widget (browser, widget => widget is Adw.ActionRow &&
+        ((Adw.ActionRow) widget).title == "Proton debug log") as Adw.ActionRow;
+    assert (proton_log_option != null);
+    assert (((Gtk.Widget) proton_log_option).activate ());
+    wait_for_layout (() => window.visible_dialog == null && find_widget (environment, widget => widget is Gtk.Entry &&
+        ((Gtk.Entry) widget).text == "PROTON_LOG") != null);
     choice.selected = wine;
     assert (vkd3d.visible && dxvk_version.visible);
     dxvk.selected = 2;
@@ -1291,7 +1343,8 @@ void check_lutris_library_states (string root) throws Error {
     FileUtils.get_contents (config, out updated);
     assert (updated.has_prefix ("# Keep this comment in the game config\nwine:\n  version: \"wine-fixture\"\n  dxvk: false\n"));
     assert (updated.contains ("\"EXISTING\":\"  a=b # literal  \""));
-    assert (updated.contains ("\"DXVK_LOG_LEVEL\":\"none\""));
+    assert (updated.contains ("\"DXVK_LOG_LEVEL\":\"info\""));
+    assert (updated.contains ("\"PROTON_LOG\":\"1\""));
     assert (updated.contains ("\"EXTRA\":\"word=two\""));
 
     if (table != null)

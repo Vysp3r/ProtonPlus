@@ -1,4 +1,5 @@
 namespace ProtonPlus.Widgets.Games {
+    using LaunchOptions;
     using Services;
 
     internal class LutrisOptionsView : Gtk.Box {
@@ -171,15 +172,46 @@ namespace ProtonPlus.Widgets.Games {
                 has_visible_runner_options |= entry.value.visible;
             }
             foreach (var entry in versions.entries) {
-                var toggle = toggles.get (entry.key.component);
-                var enabled = entry.key.enabled;
-                if (toggle != null)
-                    enabled = toggle.selected == 0 ? baseline.get_inherited_toggle (entry.key.component) != "false" :
-                        toggle.selected == 1;
+                var enabled = graphics_enabled (entry.key.component, entry.key.enabled);
                 entry.value.visible = wine && enabled;
                 has_visible_runner_options |= entry.value.visible;
             }
             runner_group.visible = has_visible_runner_options;
+            if (baseline == null || (!wine && !proton)) {
+                environment.set_browser_context (null);
+                return;
+            }
+            // Limit the browser to capabilities known for this Lutris selection.
+            // Build-specific Proton features require a separate tool probe.
+            LaunchOptionCapability[] capabilities = {};
+            if (proton)
+                capabilities += LaunchOptionCapability.PROTON;
+            if ((baseline.system_tools & LutrisSystemTools.MANGOHUD) != 0)
+                capabilities += LaunchOptionCapability.MANGOHUD;
+            var dxvk = graphics_enabled ("dxvk", false);
+            if (dxvk) {
+                capabilities += LaunchOptionCapability.DXVK;
+                capabilities += LaunchOptionCapability.DXVK_LOG_PATH;
+                capabilities += LaunchOptionCapability.DXVK_DEVICE_FILTER;
+                capabilities += LaunchOptionCapability.DXVK_SHADER_CACHE;
+                capabilities += LaunchOptionCapability.DXVK_SHADER_CACHE_PATH;
+            }
+            if (proton ? dxvk : graphics_enabled ("vkd3d", false)) {
+                capabilities += LaunchOptionCapability.VKD3D_PROTON;
+                capabilities += LaunchOptionCapability.VKD3D_DEVICE_FILTER;
+                capabilities += LaunchOptionCapability.VKD3D_DEVICE_INDEX;
+                capabilities += LaunchOptionCapability.VKD3D_LOG_FILE;
+                capabilities += LaunchOptionCapability.VKD3D_FRAME_RATE;
+                capabilities += LaunchOptionCapability.VKD3D_SHADER_CACHE_PATH;
+            }
+            environment.set_browser_context (new LaunchCommandCapabilityContext (capabilities));
+        }
+
+        private bool graphics_enabled (string key, bool fallback) {
+            var toggle = toggles.get (key);
+            if (toggle == null)
+                return fallback;
+            return toggle.selected == 0 ? baseline.get_inherited_toggle (key) != "false" : toggle.selected == 1;
         }
 
         public Gee.Map<string, string?> runner_changes () {

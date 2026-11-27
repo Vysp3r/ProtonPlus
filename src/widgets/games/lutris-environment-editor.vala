@@ -1,4 +1,6 @@
 namespace ProtonPlus.Widgets.Games {
+    using LaunchOptions;
+
     internal class LutrisEnvironmentRow : Adw.PreferencesRow {
         public signal void changed ();
         public signal void remove_requested (LutrisEnvironmentRow row);
@@ -45,18 +47,27 @@ namespace ProtonPlus.Widgets.Games {
             css_classes = { "flat" }, valign = Gtk.Align.CENTER,
             tooltip_text = _("Add variable")
         };
+        private Gtk.Button browse_button = new Gtk.Button.from_icon_name ("edit-find-symbolic") {
+            css_classes = { "flat" }, valign = Gtk.Align.CENTER,
+            tooltip_text = _("Browse launch options"), sensitive = false
+        };
         private Adw.ActionRow dxvk_hint = new Adw.ActionRow () {
             title = _("DXVK log level"),
             subtitle = _("In Lutris, set Output debugging info to Inherit from environment to use this value."),
             visible = false
         };
         private Gee.ArrayList<LutrisEnvironmentRow> rows = new Gee.ArrayList<LutrisEnvironmentRow> ();
+        private LaunchCommandCapabilityContext? browser_context;
+        private uint load_generation;
         public string? validation_error { get; private set; }
         public bool can_clear { get { return visible && !rows.is_empty; } }
 
         public LutrisEnvironmentEditor () {
             Object (title: _("Environment variables"), subtitle: _("Removing an override restores any inherited value."));
             add_row (dxvk_hint);
+            browse_button.update_property (Gtk.AccessibleProperty.LABEL, browse_button.tooltip_text, -1);
+            browse_button.clicked.connect (browse);
+            add_suffix (browse_button);
             add_button.update_property (Gtk.AccessibleProperty.LABEL, add_button.tooltip_text, -1);
             add_button.clicked.connect (() => {
                 var row = append_variable ("", "");
@@ -68,6 +79,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         public void load (string? source, bool preserve_expansion) {
+            load_generation++;
             remove_variables ();
             visible = source != null;
             if (!preserve_expansion)
@@ -79,6 +91,42 @@ namespace ProtonPlus.Widgets.Games {
                 }
             }
             refresh ();
+        }
+
+        public void set_browser_context (LaunchCommandCapabilityContext? context) {
+            browser_context = context;
+            browse_button.sensitive = context != null;
+        }
+
+        private void browse () {
+            if (browser_context == null || !get_mapped ())
+                return;
+            var generation = load_generation;
+            var dialog = new LutrisEnvironmentBrowser (browser_context);
+            weak LutrisEnvironmentBrowser current = dialog;
+            dialog.closed.connect (() => {
+                var key = current.selected_key;
+                var value = current.selected_value;
+                if (key != null) {
+                    Idle.add (() => {
+                        if (load_generation == generation && get_mapped ())
+                            select_variable (key, value);
+                        return Source.REMOVE;
+                    });
+                }
+            });
+            Window.present_dialog_for_controller (dialog, this);
+            dialog.focus_search ();
+        }
+
+        private void select_variable (string key, string value) {
+            var row = rows.first_match ((candidate) => candidate.variable_name.text == key);
+            if (row == null) {
+                row = append_variable (key, value);
+                refresh ();
+            }
+            expanded = true;
+            row.variable_value.grab_focus ();
         }
 
         public void clear_variables () {

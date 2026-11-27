@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: com.vysp3r.ProtonPlus\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-27 09:04-0500\n"
+"POT-Creation-Date: 2026-11-27 09:13-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -166,7 +166,7 @@ msgstr ""
 
 #: src/cli/cli.vala:439 src/cli/cli.vala:482 src/cli/cli.vala:839
 #: src/cli/cli.vala:887 src/cli/cli.vala:1203 src/cli/cli.vala:1211
-#: src/widgets/games/lutris-environment-editor.vala:13
+#: src/widgets/games/lutris-environment-editor.vala:15
 msgid "Name"
 msgstr ""
 
@@ -2432,7 +2432,7 @@ msgid ""
 msgstr ""
 
 #: src/launch-options/launch-option-catalog.vala:1836
-#: src/widgets/games/lutris-environment-editor.vala:49
+#: src/widgets/games/lutris-environment-editor.vala:55
 msgid "DXVK log level"
 msgstr ""
 
@@ -2717,7 +2717,7 @@ msgid "Runner probe failed: %s"
 msgstr ""
 
 #: src/models/games/lutris.vala:144
-#: src/widgets/games/lutris-options-view.vala:144
+#: src/widgets/games/lutris-options-view.vala:145
 #, c-format
 msgid "Inherit Lutris default (%s)"
 msgstr ""
@@ -4397,7 +4397,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:45
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:46
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:58
-#: src/widgets/games/lutris-options-view.vala:107
+#: src/widgets/games/lutris-options-view.vala:108
 msgid "Off"
 msgstr ""
 
@@ -4416,7 +4416,7 @@ msgstr ""
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:45
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:46
 #: src/widgets/games/launch-options-editor/groups/proton-options-group.vala:58
-#: src/widgets/games/lutris-options-view.vala:107
+#: src/widgets/games/lutris-options-view.vala:108
 msgid "On"
 msgstr ""
 
@@ -4604,10 +4604,12 @@ msgid "Remove %s"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:222
+#: src/widgets/games/lutris-environment-browser.vala:5
 msgid "Search launch options"
 msgstr ""
 
 #: src/widgets/games/launch-options-editor/launch-options-editor-box.vala:281
+#: src/widgets/games/lutris-environment-browser.vala:6
 msgid "No matching launch options."
 msgstr ""
 
@@ -4998,141 +5000,146 @@ msgstr ""
 msgid "Add ScopeBuddy arguments"
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:14
+#: src/widgets/games/lutris-environment-browser.vala:18
+#: src/widgets/games/lutris-environment-editor.vala:52
+msgid "Browse launch options"
+msgstr ""
+
+#: src/widgets/games/lutris-environment-editor.vala:16
 msgid "Value"
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:17
+#: src/widgets/games/lutris-environment-editor.vala:19
 msgid "Remove environment variable"
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:46
+#: src/widgets/games/lutris-environment-editor.vala:48
 msgid "Add variable"
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:50
+#: src/widgets/games/lutris-environment-editor.vala:56
 msgid ""
 "In Lutris, set Output debugging info to Inherit from environment to use this "
 "value."
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:58
+#: src/widgets/games/lutris-environment-editor.vala:66
 msgid "Environment variables"
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:58
+#: src/widgets/games/lutris-environment-editor.vala:66
 msgid "Removing an override restores any inherited value."
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:140
+#: src/widgets/games/lutris-environment-editor.vala:188
 msgid "Enter a valid name for each environment variable."
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:142
+#: src/widgets/games/lutris-environment-editor.vala:190
 msgid "Each environment variable needs a unique name."
 msgstr ""
 
-#: src/widgets/games/lutris-environment-editor.vala:144
+#: src/widgets/games/lutris-environment-editor.vala:192
 msgid "Environment variable values must fit on one line."
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:7
+#: src/widgets/games/lutris-options-view.vala:8
 msgid "Runner options"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:8
+#: src/widgets/games/lutris-options-view.vala:9
 msgid "System options"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:10
+#: src/widgets/games/lutris-options-view.vala:11
 msgid "Override command prefix"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:12
+#: src/widgets/games/lutris-options-view.vala:13
 msgid "Command prefix"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:73
+#: src/widgets/games/lutris-options-view.vala:74
 #, c-format
 msgid "Inherited command prefix: %s"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:85
+#: src/widgets/games/lutris-options-view.vala:86
 msgid "Enable DXVK"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:86
+#: src/widgets/games/lutris-options-view.vala:87
 msgid "Enable VKD3D"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:87
+#: src/widgets/games/lutris-options-view.vala:88
 msgid "Enable Esync"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:88
+#: src/widgets/games/lutris-options-view.vala:89
 msgid "Enable Fsync"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:90
+#: src/widgets/games/lutris-options-view.vala:91
 #: src/widgets/preferences/preferences-dialog.vala:449
 msgid "MangoHud"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:94
+#: src/widgets/games/lutris-options-view.vala:95
 msgid "Feral GameMode"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:98
+#: src/widgets/games/lutris-options-view.vala:99
 msgid "Disable Lutris Runtime"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:99
+#: src/widgets/games/lutris-options-view.vala:100
 msgid ""
 "Controls Lutris libraries. umu manages Proton’s Steam Runtime separately."
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:101
+#: src/widgets/games/lutris-options-view.vala:102
 msgid "Prefer system libraries"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:106
+#: src/widgets/games/lutris-options-view.vala:107
 msgid "Inherit"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:106
+#: src/widgets/games/lutris-options-view.vala:107
 msgid "Inherit (On)"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:106
+#: src/widgets/games/lutris-options-view.vala:107
 msgid "Inherit (Off)"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:125
+#: src/widgets/games/lutris-options-view.vala:126
 msgid "Availability could not be checked"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:126
+#: src/widgets/games/lutris-options-view.vala:127
 msgid "Available in this Lutris installation"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:127
+#: src/widgets/games/lutris-options-view.vala:128
 msgid "Unavailable in this Lutris installation"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:143
+#: src/widgets/games/lutris-options-view.vala:144
 msgid "Inherit Lutris default"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:153
+#: src/widgets/games/lutris-options-view.vala:154
 #, c-format
 msgid "%s (Current setting)"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:156
+#: src/widgets/games/lutris-options-view.vala:157
 msgid "DXVK version"
 msgstr ""
 
-#: src/widgets/games/lutris-options-view.vala:156
+#: src/widgets/games/lutris-options-view.vala:157
 msgid "VKD3D version"
 msgstr ""
 
