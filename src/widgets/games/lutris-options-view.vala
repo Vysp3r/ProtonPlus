@@ -2,6 +2,39 @@ namespace ProtonPlus.Widgets.Games {
     using LaunchOptions;
     using Services;
 
+    internal class LutrisGamescopeEntry : Adw.EntryRow {
+        public signal void override_changed ();
+
+        private string inherited;
+        private string draft;
+        private Gtk.Switch custom = new Gtk.Switch () {
+            valign = Gtk.Align.CENTER, tooltip_text = _("Override inherited value")
+        };
+
+        public LutrisGamescopeEntry (string title, string? saved, string? inherited) {
+            Object (title: title);
+            this.inherited = inherited ?? "";
+            draft = saved ?? this.inherited;
+            text = draft;
+            editable = saved != null;
+            custom.active = editable;
+            custom.update_property (Gtk.AccessibleProperty.LABEL, _("%s override").printf (title), -1);
+            add_suffix (custom);
+            changed.connect (() => {
+                if (editable) {
+                    draft = text;
+                    override_changed ();
+                }
+            });
+            custom.notify["active"].connect (() => {
+                editable = false;
+                text = custom.active ? draft : this.inherited;
+                editable = custom.active;
+                override_changed ();
+            });
+        }
+    }
+
     internal class LutrisOptionsView : Gtk.Box {
         public signal void changed ();
 
@@ -13,6 +46,11 @@ namespace ProtonPlus.Widgets.Games {
         private CompatibilityToolRow? version_row;
         private Adw.ActionRow repair_row;
         private Adw.PreferencesGroup system_group = new Adw.PreferencesGroup () { title = _("System options") };
+        private Adw.ExpanderRow gamescope = new Adw.ExpanderRow () { title = "Gamescope", use_markup = false };
+        private Adw.ExpanderRow gamescope_advanced = new Adw.ExpanderRow () { title = _("Advanced") };
+        private Adw.ComboRow? gamescope_window_mode;
+        private Gee.HashMap<string, LutrisGamescopeEntry> gamescope_entries =
+            new Gee.HashMap<string, LutrisGamescopeEntry> ();
         private Adw.ExpanderRow system_advanced = new Adw.ExpanderRow () { title = _("Runtime and command prefix") };
         private Adw.SwitchRow prefix_override = new Adw.SwitchRow () {
             title = _("Override command prefix"), use_markup = false
@@ -21,7 +59,16 @@ namespace ProtonPlus.Widgets.Games {
         private LutrisEnvironmentEditor environment = new LutrisEnvironmentEditor ();
 
         public bool can_clear_environment { get { return environment.can_clear; } }
-        public string? environment_error { get { return environment.visible ? environment.validation_error : null; } }
+        public string? validation_error {
+            owned get {
+                foreach (var entry in gamescope_changes ().entries) {
+                    var error = LutrisConfigurationService.gamescope_setting_error (entry.key, entry.value);
+                    if (error != null)
+                        return error;
+                }
+                return environment.visible ? environment.validation_error : null;
+            }
+        }
 
         public void clear_environment () {
             environment.clear_variables ();
@@ -74,15 +121,30 @@ namespace ProtonPlus.Widgets.Games {
             foreach (var entry in system_toggles.entries) {
                 if (is_runtime_toggle (entry.key))
                     system_advanced.remove (entry.value);
+                else if (entry.key == LutrisGameOptions.GAMESCOPE || entry.key == LutrisGameOptions.GAMESCOPE_HDR)
+                    gamescope.remove (entry.value);
                 else
                     system_group.remove (entry.value);
             }
+            if (gamescope_window_mode != null) {
+                gamescope.remove (gamescope_window_mode);
+                gamescope_window_mode = null;
+            }
+            foreach (var entry in gamescope_entries.entries) {
+                if (entry.key == LutrisGameOptions.GAMESCOPE_FLAGS)
+                    gamescope_advanced.remove (entry.value);
+                else
+                    gamescope.remove (entry.value);
+            }
+            gamescope_entries.clear ();
             if (runner_advanced.get_parent () != null) {
                 runner_group.remove (dxvk_options);
                 runner_group.remove (vkd3d_options);
                 runner_group.remove (runner_advanced);
             }
             if (system_advanced.get_parent () != null) {
+                system_group.remove (gamescope);
+                gamescope.remove (gamescope_advanced);
                 system_group.remove (environment);
                 system_group.remove (system_advanced);
                 system_advanced.remove (prefix_override);
@@ -103,6 +165,8 @@ namespace ProtonPlus.Widgets.Games {
                 vkd3d_options.expanded = false;
                 runner_advanced.expanded = false;
                 system_advanced.expanded = false;
+                gamescope.expanded = false;
+                gamescope_advanced.expanded = false;
             }
             foreach (var key in LutrisGameOptions.toggle_keys ()) {
                 if (baseline.has_toggle (key)) {
@@ -139,9 +203,13 @@ namespace ProtonPlus.Widgets.Games {
                 system_toggles.set (key, row);
                 if (is_runtime_toggle (key))
                     system_advanced.add_row (row);
+                else if (key == LutrisGameOptions.GAMESCOPE || key == LutrisGameOptions.GAMESCOPE_HDR)
+                    gamescope.add_row (row);
                 else
                     system_group.add (row);
             }
+            configure_gamescope ();
+            system_group.add (gamescope);
             system_group.add (environment);
             system_group.add (system_advanced);
             system_advanced.add_row (prefix_override);
@@ -185,6 +253,8 @@ namespace ProtonPlus.Widgets.Games {
                     title = _("Feral GameMode");
                     subtitle = system_tool_status (LutrisSystemTools.GAMEMODE);
                     break;
+                case LutrisGameOptions.GAMESCOPE: title = _("Enable Gamescope"); break;
+                case LutrisGameOptions.GAMESCOPE_HDR: title = _("HDR"); break;
                 case LutrisGameOptions.DISABLE_RUNTIME:
                     title = _("Disable Lutris Runtime");
                     subtitle = _("Controls Lutris libraries. umu manages Proton’s Steam Runtime separately.");
@@ -205,9 +275,101 @@ namespace ProtonPlus.Widgets.Games {
             row.notify["selected"].connect (() => {
                 if (key == LutrisGameOptions.DISABLE_RUNTIME)
                     refresh_runtime_options ();
+                if (key == LutrisGameOptions.GAMESCOPE)
+                    refresh_gamescope ();
                 changed ();
             });
             return row;
+        }
+
+        private const string[] GAMESCOPE_WINDOW_MODES = { "-f", "", "-b" };
+
+        private void configure_gamescope () {
+            if (baseline.has_gamescope_setting (LutrisGameOptions.GAMESCOPE_WINDOW_MODE)) {
+                string[] labels = { _("Fullscreen"), _("Windowed"), _("Borderless") };
+                var inherited = baseline.get_inherited_gamescope_setting (LutrisGameOptions.GAMESCOPE_WINDOW_MODE);
+                var saved = baseline.get_gamescope_setting (LutrisGameOptions.GAMESCOPE_WINDOW_MODE);
+                var inherit_label = _("Inherit");
+                uint selected = 0;
+                for (var i = 0; i < labels.length; i++) {
+                    if (inherited == GAMESCOPE_WINDOW_MODES[i])
+                        inherit_label = _("Inherit (%s)").printf (labels[i]);
+                    if (saved == GAMESCOPE_WINDOW_MODES[i])
+                        selected = i + 1;
+                }
+                var choices = new Gtk.StringList (null);
+                choices.append (inherit_label);
+                foreach (var label in labels)
+                    choices.append (label);
+                gamescope_window_mode = new Adw.ComboRow () {
+                    title = _("Window mode"), model = choices, selected = selected
+                };
+                gamescope_window_mode.notify["selected"].connect (() => changed ());
+                gamescope.add_row (gamescope_window_mode);
+            }
+            add_gamescope_entry (LutrisGameOptions.GAMESCOPE_GAME_RESOLUTION, _("Game resolution"), gamescope);
+            add_gamescope_entry (LutrisGameOptions.GAMESCOPE_OUTPUT_RESOLUTION, _("Output resolution"), gamescope);
+            add_gamescope_entry (LutrisGameOptions.GAMESCOPE_FRAME_LIMIT, _("Frame limit (FPS)"), gamescope);
+            add_gamescope_entry (LutrisGameOptions.GAMESCOPE_FLAGS, _("Additional Gamescope arguments"), gamescope_advanced);
+            gamescope.add_row (gamescope_advanced);
+            refresh_gamescope ();
+        }
+
+        private void add_gamescope_entry (string key, string title, Adw.ExpanderRow group) {
+            if (!baseline.has_gamescope_setting (key))
+                return;
+            var row = new LutrisGamescopeEntry (title, baseline.get_gamescope_setting (key),
+                baseline.get_inherited_gamescope_setting (key));
+            row.override_changed.connect (() => changed ());
+            gamescope_entries[key] = row;
+            group.add_row (row);
+        }
+
+        private bool gamescope_enabled () {
+            return system_toggle_enabled (LutrisGameOptions.GAMESCOPE);
+        }
+
+        private bool system_toggle_enabled (string key) {
+            var toggle = system_toggles.get (key);
+            return toggle != null && toggle.selected != 0 ? toggle.selected == 1 :
+                baseline?.get_inherited_toggle (key) == "true";
+        }
+
+        private void refresh_gamescope () {
+            var enabled = gamescope_enabled ();
+            gamescope.visible = system_toggles.has_key (LutrisGameOptions.GAMESCOPE);
+            var detected = (baseline.system_tools & LutrisSystemTools.GAMESCOPE) != 0;
+            gamescope.subtitle = detected ? (enabled ? _("On") : _("Off")) : system_tool_status (LutrisSystemTools.GAMESCOPE);
+            if (gamescope_window_mode != null)
+                gamescope_window_mode.visible = enabled;
+            foreach (var row in gamescope_entries.values)
+                row.visible = enabled;
+            var hdr = system_toggles.get (LutrisGameOptions.GAMESCOPE_HDR);
+            if (hdr != null)
+                hdr.visible = enabled;
+            gamescope_advanced.visible = enabled && gamescope_entries.has_key (LutrisGameOptions.GAMESCOPE_FLAGS);
+            var overlay = system_toggles.get ("mangohud");
+            if (overlay != null)
+                overlay.subtitle = enabled ? _("Uses MangoApp with Gamescope.") : system_tool_status (LutrisSystemTools.MANGOHUD);
+        }
+
+        private Gee.Map<string, string?> gamescope_changes () {
+            var edits = new Gee.HashMap<string, string?> ();
+            if (baseline == null || !gamescope.visible || !gamescope_enabled ())
+                return edits;
+            if (gamescope_window_mode != null) {
+                var index = gamescope_window_mode.selected;
+                var mode = index > 0 && index <= GAMESCOPE_WINDOW_MODES.length
+                    ? GAMESCOPE_WINDOW_MODES[(int) index - 1] : null;
+                if (mode != baseline.get_gamescope_setting (LutrisGameOptions.GAMESCOPE_WINDOW_MODE))
+                    edits[LutrisGameOptions.GAMESCOPE_WINDOW_MODE] = mode;
+            }
+            foreach (var entry in gamescope_entries.entries) {
+                var value = entry.value.editable ? entry.value.text : null;
+                if (value != baseline.get_gamescope_setting (entry.key))
+                    edits[entry.key] = value;
+            }
+            return edits;
         }
 
         private string system_tool_status (LutrisSystemTools tool) {
@@ -256,7 +418,8 @@ namespace ProtonPlus.Widgets.Games {
             var wine = kind == Models.CompatibilityToolRuntimeKind.WINE;
             var proton = kind == Models.CompatibilityToolRuntimeKind.PROTON;
             var dxvk = graphics_enabled ("dxvk", false);
-            environment.set_runner_context (kind, dxvk);
+            environment.set_runner_context (kind, dxvk, gamescope_enabled (),
+                system_toggle_enabled (LutrisGameOptions.GAMESCOPE_HDR));
             foreach (var entry in toggles.entries) {
                 entry.value.visible = wine || (proton && entry.key != "vkd3d");
             }
@@ -331,7 +494,7 @@ namespace ProtonPlus.Widgets.Games {
         }
 
         public Gee.Map<string, string?> system_changes () {
-            var edits = new Gee.HashMap<string, string?> ();
+            var edits = gamescope_changes ();
             if (baseline == null)
                 return edits;
             collect_toggle_changes (system_toggles, edits);

@@ -657,6 +657,72 @@ namespace AppTests.LutrisTest {
         }
     }
 
+    private void gamescope_options () throws Error {
+        var fixture = new Fixture ();
+        try {
+            fixture.add (7, "Game", "wine", "one");
+            var global = Path.build_filename (fixture.data, "system.yml");
+            FileUtils.set_contents (global, "system: {gamescope: true, gamescope_window_mode: -f, gamescope_fps_limiter: '60'}\n");
+            var defaults = Path.build_filename (fixture.data, "runners", "wine.yml");
+            assert (DirUtils.create_with_parents (Path.get_dirname (defaults), 0700) == 0);
+            FileUtils.set_contents (defaults, "system: {gamescope_window_mode: '', gamescope_game_res: 1280x720}\n");
+            var original = "wine: {version: wine-test}\nsystem: {terminal: true, gamescope_force_grab_cursor: true}\n";
+            FileUtils.set_contents (fixture.profile, original);
+            var launcher = new Launchers.Lutris (Launcher.InstallationTypes.SYSTEM, fixture.service);
+            assert (load (launcher));
+            var game = (Games.Lutris) launcher.games.nth_data (0);
+            assert (choices (game) != null);
+            assert (game.game_options.get_inherited_toggle ("gamescope") == "true");
+            assert (game.game_options.get_inherited_toggle ("gamescope_hdr") == "false");
+            assert (game.game_options.get_inherited_gamescope_setting ("gamescope_window_mode") == "");
+            assert (game.game_options.get_inherited_gamescope_setting ("gamescope_game_res") == "1280x720");
+            assert (game.game_options.get_inherited_gamescope_setting ("gamescope_fps_limiter") == "60");
+            assert (game.game_options.get_gamescope_setting ("gamescope_fps_limiter") == null);
+
+            var settings = new Gee.HashMap<string, string?> ();
+            settings["gamescope"] = "true";
+            settings["gamescope_hdr"] = "true";
+            settings["gamescope_window_mode"] = "-b";
+            settings["gamescope_game_res"] = "0x720";
+            assert (!save_options (game, false, null, settings));
+            settings["gamescope_game_res"] = "1600x900";
+            settings["gamescope_output_res"] = "1920x1080";
+            settings["gamescope_fps_limiter"] = "sixty";
+            assert (!save_options (game, false, null, settings));
+            settings["gamescope_fps_limiter"] = "";
+            settings["gamescope_flags"] = "--filter 'fsr";
+            assert (!save_options (game, false, null, settings));
+            string persisted;
+            FileUtils.get_contents (fixture.profile, out persisted);
+            assert (persisted == original);
+
+            settings["gamescope_flags"] = "--filter 'fsr' --sharpness 5";
+            assert (save_options (game, true, null, settings, "proton-test"));
+            assert (choices (game) != null);
+            assert (game.game_options.get_toggle ("gamescope") == "true");
+            assert (game.game_options.get_toggle ("gamescope_hdr") == "true");
+            assert (game.game_options.get_gamescope_setting ("gamescope_window_mode") == "-b");
+            assert (game.game_options.get_gamescope_setting ("gamescope_game_res") == "1600x900");
+            assert (game.game_options.get_gamescope_setting ("gamescope_output_res") == "1920x1080");
+            assert (game.game_options.get_gamescope_setting ("gamescope_fps_limiter") == "");
+            assert (game.game_options.get_gamescope_setting ("gamescope_flags") == "--filter 'fsr' --sharpness 5");
+            FileUtils.get_contents (fixture.profile, out persisted);
+            assert (persisted.contains ("terminal: true") && persisted.contains ("gamescope_force_grab_cursor: true"));
+
+            settings.clear ();
+            settings["gamescope"] = null;
+            settings["gamescope_fps_limiter"] = null;
+            assert (save_options (game, false, null, settings));
+            assert (choices (game) != null);
+            assert (game.game_options.get_toggle ("gamescope") == null);
+            assert (game.game_options.get_gamescope_setting ("gamescope_fps_limiter") == null);
+            assert (game.game_options.get_inherited_gamescope_setting ("gamescope_fps_limiter") == "60");
+            assert (game.game_options.get_toggle ("gamescope_hdr") == "true");
+        } finally {
+            fixture.close ();
+        }
+    }
+
     private bool validate_repair (Games.Lutris game, string version) {
         var loop = new MainLoop ();
         bool valid = false;
@@ -913,11 +979,11 @@ namespace AppTests.LutrisTest {
                 "class MissingExecutableError(Exception): pass\n");
             var util = Path.build_filename (package_path, "util");
             FileUtils.set_contents (Path.build_filename (util, "system.py"),
-                "def can_find_executable(exe): return exe == 'mangohud'\n");
+                "def can_find_executable(exe): return exe in ('mangohud', 'gamescope')\n");
             FileUtils.set_contents (Path.build_filename (util, "linux.py"),
                 "from types import SimpleNamespace\nLINUX_SYSTEM = SimpleNamespace(gamemode_available=lambda: False)\n");
             assert (new ProbeBackend (fixture.home, true, false).get_system_tools (false) ==
-                (LutrisSystemTools.CHECKED | LutrisSystemTools.MANGOHUD));
+                (LutrisSystemTools.CHECKED | LutrisSystemTools.MANGOHUD | LutrisSystemTools.GAMESCOPE));
             FileUtils.set_contents (Path.build_filename (modules, "proton.py"), """
 import os, re
 from types import SimpleNamespace
@@ -1027,6 +1093,13 @@ def get_wine_path_for_version(version):
         Test.add_func ("/lutris/common-options", () => {
             try {
                 common_options ();
+            } catch (Error error) {
+                GLib.error ("%s", error.message);
+            }
+        });
+        Test.add_func ("/lutris/gamescope-options", () => {
+            try {
+                gamescope_options ();
             } catch (Error error) {
                 GLib.error ("%s", error.message);
             }

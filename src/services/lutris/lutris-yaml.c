@@ -139,6 +139,12 @@ void lutris_yaml_free(LutrisYaml *yaml)
     g_free(yaml);
 }
 
+gboolean lutris_yaml_has_setting(LutrisYaml *yaml, const char *section, const char *key)
+{
+    guint group = lookup(yaml, 2, section);
+    return group && lookup(yaml, group + 1, key);
+}
+
 gboolean lutris_yaml_has_scalar(LutrisYaml *yaml, const char *section, const char *key)
 {
     guint group = lookup(yaml, 2, section);

@@ -77,6 +77,8 @@ namespace ProtonPlus.Widgets.Games {
         private LaunchCommandCapabilityContext? browser_context;
         private Models.CompatibilityToolRuntimeKind runner_kind;
         private bool dxvk_enabled;
+        private bool gamescope_enabled;
+        private bool gamescope_hdr;
         private uint load_generation;
         public string? validation_error { get; private set; }
         public bool can_clear { get { return visible && !rows.is_empty; } }
@@ -140,16 +142,22 @@ namespace ProtonPlus.Widgets.Games {
             add_row (row);
         }
 
-        public void set_runner_context (Models.CompatibilityToolRuntimeKind kind, bool use_dxvk) {
+        public void set_runner_context (Models.CompatibilityToolRuntimeKind kind, bool use_dxvk,
+            bool use_gamescope, bool use_gamescope_hdr) {
             runner_kind = kind;
             dxvk_enabled = use_dxvk;
+            gamescope_enabled = use_gamescope;
+            gamescope_hdr = use_gamescope_hdr;
             foreach (var row in rows)
                 row.set_overlap_note (overlap_note_for (row.variable_name.text));
         }
 
         private string? overlap_note_for (string key) {
             if (key == "MANGOHUD")
-                return _("Setting this to 1 can enable MangoHud for Vulkan even when the MangoHud switch is off.");
+                return gamescope_enabled ? _("Setting this to 1 can interfere with Gamescope. Use the MangoHud setting to enable MangoApp.") :
+                    _("Setting this to 1 can enable MangoHud for Vulkan even when the MangoHud switch is off.");
+            if (key == "DXVK_HDR" && gamescope_enabled && gamescope_hdr)
+                return _("Lutris sets this to 1 when it launches Gamescope with HDR.");
             var proton = runner_kind == Models.CompatibilityToolRuntimeKind.PROTON;
             if (!proton && runner_kind != Models.CompatibilityToolRuntimeKind.WINE)
                 return null;

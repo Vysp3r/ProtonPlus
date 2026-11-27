@@ -161,15 +161,28 @@ namespace ProtonPlus.Services {
         public const string ENVIRONMENT = "env";
         internal const string DISABLE_RUNTIME = "disable_runtime";
         internal const string PREFER_SYSTEM_LIBS = "prefer_system_libs";
+        internal const string GAMESCOPE = "gamescope";
+        internal const string GAMESCOPE_HDR = "gamescope_hdr";
+        internal const string GAMESCOPE_WINDOW_MODE = "gamescope_window_mode";
+        internal const string GAMESCOPE_GAME_RESOLUTION = "gamescope_game_res";
+        internal const string GAMESCOPE_OUTPUT_RESOLUTION = "gamescope_output_res";
+        internal const string GAMESCOPE_FRAME_LIMIT = "gamescope_fps_limiter";
+        internal const string GAMESCOPE_FLAGS = "gamescope_flags";
         internal static string[] toggle_keys () {
             return { "dxvk", "vkd3d", "esync", "fsync" };
         }
         internal static string[] system_toggle_keys () {
-            return { "mangohud", "gamemode", DISABLE_RUNTIME, PREFER_SYSTEM_LIBS };
+            return { "mangohud", "gamemode", DISABLE_RUNTIME, PREFER_SYSTEM_LIBS, GAMESCOPE, GAMESCOPE_HDR };
+        }
+        internal static string[] gamescope_setting_keys () {
+            return { GAMESCOPE_WINDOW_MODE, GAMESCOPE_GAME_RESOLUTION, GAMESCOPE_OUTPUT_RESOLUTION,
+                GAMESCOPE_FRAME_LIMIT, GAMESCOPE_FLAGS };
         }
 
         internal Gee.HashMap<string, string?> toggles = new Gee.HashMap<string, string?> ();
         internal Gee.HashMap<string, string?> inherited_toggles = new Gee.HashMap<string, string?> ();
+        internal Gee.HashMap<string, string?> gamescope_settings = new Gee.HashMap<string, string?> ();
+        internal Gee.HashMap<string, string?> inherited_gamescope_settings = new Gee.HashMap<string, string?> ();
         internal Gee.HashMap<string, LutrisInheritedEnvironmentValue> inherited_environment =
             new Gee.HashMap<string, LutrisInheritedEnvironmentValue> ();
         public string? environment { get; internal set; }
@@ -182,6 +195,9 @@ namespace ProtonPlus.Services {
         public bool has_toggle (string key) { return toggles.has_key (key); }
         public string? get_toggle (string key) { return toggles.get (key); }
         public string? get_inherited_toggle (string key) { return inherited_toggles.get (key); }
+        public bool has_gamescope_setting (string key) { return gamescope_settings.has_key (key); }
+        public string? get_gamescope_setting (string key) { return gamescope_settings.get (key); }
+        public string? get_inherited_gamescope_setting (string key) { return inherited_gamescope_settings.get (key); }
         public LutrisInheritedEnvironmentValue? get_inherited_environment (string key) {
             return inherited_environment.get (key);
         }
@@ -565,6 +581,24 @@ namespace ProtonPlus.Services {
             }
             options.inherited_prefix = record.wine_defaults?.get_setting ("system", LutrisGameOptions.COMMAND_PREFIX) ??
                 defaults?.get_setting ("system", LutrisGameOptions.COMMAND_PREFIX);
+            foreach (var key in LutrisGameOptions.gamescope_setting_keys ()) {
+                if (!yaml.setting_editable ("system", key))
+                    continue;
+                var current = yaml.get ("system", key);
+                // Keep existing values that cannot be represented in these controls.
+                if (current != null && (current.contains ("\n") || current.contains ("\r") ||
+                    (key == LutrisGameOptions.GAMESCOPE_WINDOW_MODE && !(current in new string[] { "-f", "", "-b" }))))
+                    continue;
+                options.gamescope_settings[key] = current;
+                unowned var runner_defaults = record.wine_defaults?.yaml;
+                unowned var system_defaults = defaults?.yaml;
+                if (runner_defaults != null && runner_defaults.has_setting ("system", key))
+                    options.inherited_gamescope_settings[key] = runner_defaults.get ("system", key);
+                else if (system_defaults != null && system_defaults.has_setting ("system", key))
+                    options.inherited_gamescope_settings[key] = system_defaults.get ("system", key);
+                else if (system_defaults_readable && key == LutrisGameOptions.GAMESCOPE_WINDOW_MODE)
+                    options.inherited_gamescope_settings[key] = "-f";
+            }
             options.environment = read_environment (yaml);
             if (probe_tools && options.environment != null)
                 read_inherited_environment (options, record.wine_defaults, defaults, system_defaults_readable);
@@ -589,6 +623,36 @@ namespace ProtonPlus.Services {
 
         internal static bool valid_env_name (string name) {
             return Regex.match_simple ("^[A-Za-z_][A-Za-z0-9_]*\\z", name);
+        }
+
+        internal static string? gamescope_setting_error (string key, string? value) {
+            if (value == null || value == "")
+                return null;
+            if (key == LutrisGameOptions.GAMESCOPE_WINDOW_MODE)
+                return value in new string[] { "-f", "-b" } ? null : _("Choose a Gamescope window mode.");
+            if (key == LutrisGameOptions.GAMESCOPE_FLAGS) {
+                if (value.contains ("\n") || value.contains ("\r"))
+                    return _("Gamescope flags must fit on one line.");
+                try {
+                    string[] arguments;
+                    Shell.parse_argv (value, out arguments);
+                } catch (ShellError.BAD_QUOTING error) {
+                    return _("Check the quotes and escapes in Gamescope flags.");
+                } catch (ShellError error) {
+                    // Whitespace is accepted as an empty argument list.
+                }
+                return null;
+            }
+            if (key == LutrisGameOptions.GAMESCOPE_FRAME_LIMIT)
+                return positive_gamescope_number (value) ? null : _("Enter a positive Gamescope frame limit in FPS.");
+            var dimensions = value.down ().split ("x");
+            return dimensions.length == 2 && positive_gamescope_number (dimensions[0]) &&
+                positive_gamescope_number (dimensions[1]) ? null : _("Enter a Gamescope resolution as width × height, for example 1920x1080.");
+        }
+
+        private static bool positive_gamescope_number (string text) {
+            int number = 0;
+            return Regex.match_simple ("^[0-9]+\\z", text) && int.try_parse (text, out number) && number > 0;
         }
 
         private static void read_inherited_environment (LutrisGameOptions options, LutrisGameConfig? runner,
@@ -894,6 +958,11 @@ namespace ProtonPlus.Services {
                 var value = edits.get (key);
                 if (key in LutrisGameOptions.system_toggle_keys () && options.has_toggle (key)) {
                     updated = patch_setting (updated, "system", key, value, true);
+                } else if (options.has_gamescope_setting (key)) {
+                    var error = gamescope_setting_error (key, value);
+                    if (error != null)
+                        throw new IOError.INVALID_DATA (error);
+                    updated = patch_setting (updated, "system", key, value);
                 } else if (key == LutrisGameOptions.COMMAND_PREFIX && options.command_prefix_editable &&
                     (value == null || (!value.contains ("\n") && !value.contains ("\r")))) {
                     updated = patch_setting (updated, "system", key, value);

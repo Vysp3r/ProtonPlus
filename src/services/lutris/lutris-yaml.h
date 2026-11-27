@@ -7,6 +7,7 @@ typedef struct LutrisYaml LutrisYaml;
 LutrisYaml *lutris_yaml_parse(const char *source);
 void lutris_yaml_free(LutrisYaml *yaml);
 gboolean lutris_yaml_has_scalar(LutrisYaml *yaml, const char *section, const char *key);
+gboolean lutris_yaml_has_setting(LutrisYaml *yaml, const char *section, const char *key);
 const char *lutris_yaml_get(LutrisYaml *yaml, const char *section, const char *key);
 int lutris_yaml_get_toggle(LutrisYaml *yaml, const char *section, const char *setting);
 gboolean lutris_yaml_toggle_editable(LutrisYaml *yaml, const char *section, const char *setting);

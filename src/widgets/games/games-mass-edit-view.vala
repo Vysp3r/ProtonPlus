@@ -427,7 +427,7 @@ namespace ProtonPlus.Widgets.Games {
             var kind = lutris_game?.get_runner_kind (selected_runner == "Default" ? null : selected_runner) ??
                 Models.CompatibilityToolRuntimeKind.UNKNOWN;
             lutris_options.set_runner_kind (kind);
-            var environment_error = lutris_game == null ? null : lutris_options.environment_error;
+            var lutris_options_error = lutris_game == null ? null : lutris_options.validation_error;
             var lutris_options_changed = lutris_game != null &&
                 (!lutris_options.runner_changes ().is_empty || !lutris_options.system_changes ().is_empty);
             string? tool_error = null;
@@ -448,10 +448,10 @@ namespace ProtonPlus.Widgets.Games {
             }
 
             var compatibility_warning = launch_options_editor.visible ? launch_options_editor.compatibility_warning : "";
-            var blocker = tool_error ?? environment_error ?? compatibility_warning;
+            var blocker = tool_error ?? lutris_options_error ?? compatibility_warning;
             if (blocker == "" && launch_options_editor.visible)
                 blocker = launch_options_editor.preview_field.blocking_reason;
-            var incompatibility = tool_error != null || environment_error != null || compatibility_warning != "";
+            var incompatibility = tool_error != null || lutris_options_error != null || compatibility_warning != "";
             var dependency_action = !incompatibility && launch_options_editor.visible
                 ? launch_options_editor.dependency_action_label : "";
             apply_blocker.update (blocker, dependency_action, apply_request == null, incompatibility);
@@ -461,7 +461,7 @@ namespace ProtonPlus.Widgets.Games {
             var launch_options_changed = launch_options_editor.has_changes_to_write
                 || (!launch_options_editor.writing_allowed && launch_options_editor.is_dirty);
             reset_button.sensitive = apply_request == null && (launch_options_changed || tool_enabled || lutris_options_changed);
-            apply_button.sensitive = apply_request == null && tool_error == null && environment_error == null &&
+            apply_button.sensitive = apply_request == null && tool_error == null && lutris_options_error == null &&
                 (runner_only || launch_options_editor.writing_allowed)
                 && (tool_enabled || lutris_options_changed || launch_options_editor.has_changes_to_write);
         }

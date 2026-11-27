@@ -4,7 +4,8 @@ namespace ProtonPlus.Services {
         UNKNOWN = 0,
         CHECKED = 1,
         MANGOHUD = 2,
-        GAMEMODE = 4
+        GAMEMODE = 4,
+        GAMESCOPE = 8
     }
 
     public interface LutrisBackend : Object {
@@ -39,7 +40,8 @@ if len(sys.argv) > 2 and sys.argv[2] == "--system-tools":
     from lutris.util import linux, system
 
     print(1 + 2 * int(bool(system.can_find_executable("mangohud"))) +
-          4 * int(bool(linux.LINUX_SYSTEM.gamemode_available())))
+          4 * int(bool(linux.LINUX_SYSTEM.gamemode_available())) +
+          8 * int(bool(system.can_find_executable("gamescope"))))
     sys.exit(0)
 
 from lutris import settings
@@ -239,7 +241,7 @@ print("closed")
         public LutrisSystemTools get_system_tools (bool flatpak) throws Error {
             var argv = runner_probe_command (flatpak, null, through_host, data_home, config_home, true);
             int tools;
-            if (!int.try_parse (query_runner_probe (argv).strip (), out tools) || tools < 1 || tools > 7 ||
+            if (!int.try_parse (query_runner_probe (argv).strip (), out tools) || tools < 1 || tools > 15 ||
                 (tools & (int) LutrisSystemTools.CHECKED) == 0)
                 throw new IOError.INVALID_DATA (_("Could not query the selected Lutris installation."));
             return (LutrisSystemTools) tools;
